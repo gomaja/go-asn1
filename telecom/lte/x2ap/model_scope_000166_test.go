@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
 )
 
-func eNBENDCX2RemovalReqIEFieldapiMust(v s06.ENBENDCX2RemovalReqIEField, err error) s06.ENBENDCX2RemovalReqIEField {
+func enGNBEUTRANRCellResourceCoordinationReqIEFieldapiMust(v s15.EnGNBEUTRANRCellResourceCoordinationReqIEField, err error) s15.EnGNBEUTRANRCellResourceCoordinationReqIEField {
 	if err != nil {
 		panic(err)
 	}

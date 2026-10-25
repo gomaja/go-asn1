@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
 )
 
-func x2RemovalFailurefreshMust(value s14.X2RemovalFailure, err error) s14.X2RemovalFailure {
+func x2RemovalResponseIEFieldfreshMust(value s07.X2RemovalResponseIEField, err error) s07.X2RemovalResponseIEField {
 	if err != nil {
 		panic(err)
 	}

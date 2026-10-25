@@ -3,17 +3,12 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
 )
 
-// ERABsToBeSetupItemIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABsToBeSetupItemIEValue]].
-type ERABsToBeSetupItemIEFieldValueCodec struct {
-	context s00.X2apInternalCodecContext
-	capture func(s11.ERABsToBeSetupItemIEField, aper.DecodeState) (s11.ERABsToBeSetupItemIEField, aper.Snapshot)
-	compare func(s11.ERABsToBeSetupItemIEField, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
-	path    aper.Path
-	decode  func([]byte, aper.DecodeState) (s11.ERABsToBeSetupItemIEField, error)
-	encode  func(s11.ERABsToBeSetupItemIEField, bool, *aper.DecodeBudget) ([]byte, error)
+func uRIAddressAPERValueapiMust(v s12.URIAddressAPERValue, err error) s12.URIAddressAPERValue {
+	if err != nil {
+		panic(err)
+	}
+	return v
 }

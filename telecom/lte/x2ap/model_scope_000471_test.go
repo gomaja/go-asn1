@@ -7,6 +7,6 @@ import (
 )
 
 // ReceivedForm returns the retained wire representation, if present.
-func (v ERABsAdmittedItemExtIEsExtFieldAPERValue) ReceivedForm() aper.ReceivedForm {
+func (v ERABsToBeSetupItemIEFieldAPERValue) ReceivedForm() aper.ReceivedForm {
 	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }

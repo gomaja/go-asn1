@@ -569,7 +569,7 @@ type ECGI = s05.ECGI
 type ECGIAPERValue = s05.ECGIAPERValue
 
 // ECGICodec binds the complete source value type.
-var ECGICodec func() ECGIValueCodec = s05.ECGICodec
+var ECGICodec func() ECGIValueCodec = s06.ECGICodec
 
 type ECGIExtIETable = s03.ECGIExtIETable
 
@@ -589,7 +589,7 @@ type ECGIExtIEsIEField = s03.ECGIExtIEsIEField
 type ECGIExtIEsValue = s02.ECGIExtIEsValue
 
 // ECGIValueCodec is the concrete ValueCodec[ECGI].
-type ECGIValueCodec = s05.ECGIValueCodec
+type ECGIValueCodec = s06.ECGIValueCodec
 
 // ECIDMeasurementFailureIndication represents the ASN.1 type E-CIDMeasurementFailureIndication (SEQUENCE).
 type ECIDMeasurementFailureIndication = s11.ECIDMeasurementFailureIndication
@@ -678,7 +678,7 @@ type ECIDMeasurementInitiationRequestIEContainer = s21.ECIDMeasurementInitiation
 // ECIDMeasurementInitiationRequestIEField is the concrete ProtocolIEField[ECIDMeasurementInitiationRequestIEValue].
 type ECIDMeasurementInitiationRequestIEField = s21.ECIDMeasurementInitiationRequestIEField
 type ECIDMeasurementInitiationRequestIETable = s21.ECIDMeasurementInitiationRequestIETable
-type ECIDMeasurementInitiationRequestIEValue = s20.ECIDMeasurementInitiationRequestIEValue
+type ECIDMeasurementInitiationRequestIEValue = s21.ECIDMeasurementInitiationRequestIEValue
 
 var ECIDMeasurementInitiationRequestIEs func() ECIDMeasurementInitiationRequestIETable = s21.ECIDMeasurementInitiationRequestIEs
 
@@ -1040,7 +1040,7 @@ var InitiatingReason func(code ProcedureCode) aper.OpaqueReason = s00.Initiating
 type InitiatingValue = s21.InitiatingValue
 
 // InterRATMeasuredResultsValue represents the ASN.1 CHOICE type InterRATMeasuredResultsValue.
-type InterRATMeasuredResultsValue = s19.InterRATMeasuredResultsValue
+type InterRATMeasuredResultsValue = s20.InterRATMeasuredResultsValue
 
 // InterRATMeasuredResultsValueAPERValue is the concrete APERValue[InterRATMeasuredResultsValue].
 type InterRATMeasuredResultsValueAPERValue = s20.InterRATMeasuredResultsValueAPERValue
@@ -1122,10 +1122,10 @@ type InterRATMeasurementQuantitiesValueExtIEsExtContainer = s03.InterRATMeasurem
 type InterRATMeasurementQuantitiesValueExtIEsExtField = s03.InterRATMeasurementQuantitiesValueExtIEsExtField
 
 // InterRATMeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[InterRATMeasurementQuantitiesValueExtIEsValue].
-type InterRATMeasurementQuantitiesValueExtIEsIEContainer = s03.InterRATMeasurementQuantitiesValueExtIEsIEContainer
+type InterRATMeasurementQuantitiesValueExtIEsIEContainer = s04.InterRATMeasurementQuantitiesValueExtIEsIEContainer
 
 // InterRATMeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[InterRATMeasurementQuantitiesValueExtIEsValue].
-type InterRATMeasurementQuantitiesValueExtIEsIEField = s03.InterRATMeasurementQuantitiesValueExtIEsIEField
+type InterRATMeasurementQuantitiesValueExtIEsIEField = s04.InterRATMeasurementQuantitiesValueExtIEsIEField
 type InterRATMeasurementQuantitiesValueExtIEsValue = s02.InterRATMeasurementQuantitiesValueExtIEsValue
 
 const InterRATMeasurementQuantitiesValueGeran = s00.InterRATMeasurementQuantitiesValueGeran
@@ -1466,10 +1466,10 @@ type MeasurementQuantitiesItemIEValueProtocolIESingleContainer = s06.Measurement
 var MeasurementQuantitiesItemIEs func() MeasurementQuantitiesItemIETable = s07.MeasurementQuantitiesItemIEs
 
 // MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding is the concrete IEBinding[MeasurementQuantitiesItem, MeasurementQuantitiesItemIEValue].
-type MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding = s06.MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding
+type MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding = s07.MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding
 
 // MeasurementQuantitiesItemValueCodec is the concrete ValueCodec[MeasurementQuantitiesItem].
-type MeasurementQuantitiesItemValueCodec = s06.MeasurementQuantitiesItemValueCodec
+type MeasurementQuantitiesItemValueCodec = s07.MeasurementQuantitiesItemValueCodec
 
 // MeasurementQuantitiesValue represents the ASN.1 ENUMERATED type MeasurementQuantitiesValue.
 type MeasurementQuantitiesValue = s00.MeasurementQuantitiesValue
@@ -1853,7 +1853,7 @@ var NewOpaqueUnsuccessfulOutcome func(code ProcedureCode, criticality Criticalit
 var NewPRSMutingConfigurationEight func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s11.NewPRSMutingConfigurationEight
 
 // NewPRSMutingConfigurationFiveHundredAndTwelve constructs a checked complete value.
-var NewPRSMutingConfigurationFiveHundredAndTwelve func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s11.NewPRSMutingConfigurationFiveHundredAndTwelve
+var NewPRSMutingConfigurationFiveHundredAndTwelve func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationFiveHundredAndTwelve
 
 // NewPRSMutingConfigurationFour constructs a checked complete value.
 var NewPRSMutingConfigurationFour func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationFour
@@ -2319,7 +2319,7 @@ type OTDOAInformationTypeItemValueCodec = s07.OTDOAInformationTypeItemValueCodec
 type OTDOAInformationTypeOTDOAInformationTypeItemIEBinding = s07.OTDOAInformationTypeOTDOAInformationTypeItemIEBinding
 
 // OTDOAInformationTypeValueCodec is the concrete ValueCodec[OTDOAInformationType].
-type OTDOAInformationTypeValueCodec = s07.OTDOAInformationTypeValueCodec
+type OTDOAInformationTypeValueCodec = s08.OTDOAInformationTypeValueCodec
 
 // OffsetNBChanneltoEARFCN represents the ASN.1 ENUMERATED type OffsetNBChanneltoEARFCN.
 type OffsetNBChanneltoEARFCN = s00.OffsetNBChanneltoEARFCN

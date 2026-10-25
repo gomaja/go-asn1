@@ -1,5 +1,5 @@
 {
-  "package": "// Package x2ap contains generated APER codecs. Complete decoders reject non-zero\n// terminal padding and consume zero padding without retaining its bits or width\n// (ITU-T X.691 (02/2021) §11.1.4). Encoders emit zero terminal padding, and\n// unchanged decoded values can replay their received bytes exactly.\n//\n// An XxxComplete wrapper for a named SEQUENCE OF or SET OF stores the list in\n// its Value field. MarshalAPERXxx and UnmarshalAPERXxx use that wrapper.\n// Its private state records received framing for replay, not non-zero padding.\n// Known open-type values are decoded as complete encodings (X.691 (02/2021)\n// §11.2.1).\n//\n// Each type is an alias of its definition in an internal package, where its\n// methods and fields are documented.\n",
+  "package": "// Package x2ap contains generated APER codecs. Complete decoders reject non-zero\n// terminal padding by default and consume zero padding without retaining its bits or width\n// (ITU-T X.691 (02/2021) §11.1.4). Encoders emit zero terminal padding, and\n// unchanged decoded values can replay their received bytes exactly.\n//\n// An XxxComplete wrapper for a named SEQUENCE OF or SET OF stores the list in\n// its Value field. MarshalAPERXxx and UnmarshalAPERXxx use that wrapper.\n// Its private state records received framing for replay, not non-zero padding.\n// Known open-type values are decoded as complete encodings (X.691 (02/2021)\n// §11.2.1).\n//\n// aper.WithNonzeroTerminalPadding explicitly accepts and records nonzero terminal\n// padding, including the replacement octet of an empty complete encoding.\n// Each occurrence reports its value path, input spans, bits and width; internal\n// alignment remains strict. The option is independent of aper.WithReceiverMode.\n// Unchanged values replay received bytes; edited values and WithoutReplay encode\n// zero padding. See X.691 (02/2021) §§11.1.4 and 11.2.1.\n//\n// Each type is an alias of its definition in an internal package, where its\n// methods and fields are documented.\n",
   "names": {
     "ABSInformation": "// ABSInformation represents the ASN.1 CHOICE type ABSInformation.\n",
     "ABSInformationAPERValue": "// ABSInformationAPERValue is the concrete APERValue[ABSInformation].\n",
@@ -7515,7 +7515,8 @@
     "internal/model/s17/model.go": "// Package s17 implements the x2ap root package.\n",
     "internal/model/s18/model.go": "// Package s18 implements the x2ap root package.\n",
     "internal/model/s19/model.go": "// Package s19 implements the x2ap root package.\n",
-    "internal/model/s20/model.go": "// Package s20 implements the x2ap root package.\n"
+    "internal/model/s20/model.go": "// Package s20 implements the x2ap root package.\n",
+    "internal/model/s21/model.go": "// Package s21 implements the x2ap root package.\n"
   },
   "methods": {
     "ABSInformation.MarshalAPER": "// MarshalAPER encodes a complete value using one per-call semantic plan.\n",

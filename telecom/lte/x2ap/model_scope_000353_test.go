@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func eNDCX2RemovalResponseIEFieldfreshMust(value s07.ENDCX2RemovalResponseIEField, err error) s07.ENDCX2RemovalResponseIEField {
+func sgNBActivityNotificationfreshMust(value s20.SgNBActivityNotification, err error) s20.SgNBActivityNotification {
 	if err != nil {
 		panic(err)
 	}

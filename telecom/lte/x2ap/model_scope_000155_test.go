@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func enGNBENDCX2SetupReqIEFieldapiMust(v s17.EnGNBENDCX2SetupReqIEField, err error) s17.EnGNBENDCX2SetupReqIEField {
+func privateMessageapiMust(v s20.PrivateMessage, err error) s20.PrivateMessage {
 	if err != nil {
 		panic(err)
 	}

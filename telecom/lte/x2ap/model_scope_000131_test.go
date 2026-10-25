@@ -7,8 +7,8 @@ import (
 	errors "errors"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -20,15 +20,15 @@ func TestStrictKnownIEPaddingAndReset(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	body, err := s19.NewErrorIndication(s11.ErrorIndicationIEContainer{field})
+	body, err := s20.NewErrorIndication(s11.ErrorIndicationIEContainer{field})
 	if err != nil {
 		t.Fatal(err)
 	}
-	message, err := s19.ErrorIndicationProcedure().Initiating().Build(body)
+	message, err := s20.ErrorIndicationProcedure().Initiating().Build(body)
 	if err != nil {
 		t.Fatal(err)
 	}
-	pdu, err := s20.NewX2APPDUInitiatingMessage(message)
+	pdu, err := s21.NewX2APPDUInitiatingMessage(message)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -38,11 +38,11 @@ func TestStrictKnownIEPaddingAndReset(t *testing.T) {
 	}
 	malformed := bytes.Clone(wire)
 	malformed[len(malformed)-1] |= 1
-	var reused s19.X2APPDU
+	var reused s20.X2APPDU
 	if _, err := reused.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}
-	for _, receiver := range []*s19.X2APPDU{new(s19.X2APPDU), &reused} {
+	for _, receiver := range []*s20.X2APPDU{new(s20.X2APPDU), &reused} {
 		_, err := receiver.UnmarshalAPER(malformed)
 		var located *aper.DecodeError
 		if !errors.Is(err, aper.ErrSyntax) || !errors.As(err, &located) || located.Location.Path == "" || located.Rule.Clause != "§11.1.4" || !located.Location.HasWireLocation || len(located.Location.Spans) != 1 {
@@ -56,7 +56,7 @@ func TestStrictKnownIEPaddingAndReset(t *testing.T) {
 			t.Fatalf("failed decode retained receiver: %+v", receiver)
 		}
 	}
-	var decoded s19.X2APPDU
+	var decoded s20.X2APPDU
 	if _, err := decoded.UnmarshalAPER(append(bytes.Clone(wire), 0)); !errors.Is(err, aper.ErrSyntax) {
 		t.Fatalf("appended top-level octet accepted: %v", err)
 	}

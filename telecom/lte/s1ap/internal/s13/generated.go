@@ -56,6 +56,158 @@ func BridgeInformationForCECapableUEsExtIEsValueCompareS1APProtocolExtensionCont
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
+func BridgeCancelledCellinTAIItemExtIEsValueCompareS1APProtocolExtensionContainer(v *s07.CancelledCellinTAIItemExtIEsExtContainer, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeCancelledCellinTAIItemExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.End(f, aper.Snapshot{}, false)
+}
+func BridgeCdma2000OneXSRVCCInfoExtIEsValueCaptureS1APProtocolExtensionContainer(v *s07.Cdma2000OneXSRVCCInfoExtIEsExtContainer, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeCdma2000OneXSRVCCInfoExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+	s.End(f, nil, false)
+}
+func BridgeCdma2000OneXSRVCCInfoExtIEsValueCompareS1APProtocolExtensionContainer(v *s07.Cdma2000OneXSRVCCInfoExtIEsExtContainer, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeCdma2000OneXSRVCCInfoExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.End(f, aper.Snapshot{}, false)
+}
+func BridgeCellBasedMDTExtIEsValueCaptureS1APProtocolExtensionContainer(v *s07.CellBasedMDTExtIEsExtContainer, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeCellBasedMDTExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+	s.End(f, nil, false)
+}
+func BridgeCellBasedMDTExtIEsValueCompareS1APProtocolExtensionContainer(v *s07.CellBasedMDTExtIEsExtContainer, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeCellBasedMDTExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.End(f, aper.Snapshot{}, false)
+}
+func BridgeCellBasedQMCExtIEsValueCaptureS1APProtocolExtensionContainer(v *s07.CellBasedQMCExtIEsExtContainer, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeCellBasedQMCExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+	s.End(f, nil, false)
+}
+func BridgeCellBasedQMCExtIEsValueCompareS1APProtocolExtensionContainer(v *s07.CellBasedQMCExtIEsExtContainer, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeCellBasedQMCExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.End(f, aper.Snapshot{}, false)
+}
+func BridgeCellIDBroadcastItemExtIEsValueCaptureS1APProtocolExtensionContainer(v *s07.CellIDBroadcastItemExtIEsExtContainer, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeCellIDBroadcastItemExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+	s.End(f, nil, false)
+}
 func BridgeCellIDBroadcastItemExtIEsValueCompareS1APProtocolExtensionContainer(v *s07.CellIDBroadcastItemExtIEsExtContainer, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
@@ -69,7 +221,7 @@ func BridgeCellIDBroadcastItemExtIEsValueCompareS1APProtocolExtensionContainer(v
 			if s.Err() != nil {
 				break
 			}
-			s12.BridgeCellIDBroadcastItemExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
+			BridgeCellIDBroadcastItemExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
 		}
 		s.End(f, aper.Snapshot{}, false)
 	}
@@ -1443,7 +1595,7 @@ func BridgeERABSetupItemBearerSUResExtIEsValueCompareS1APProtocolExtensionContai
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeERABSetupItemCtxtSUResExtIEsValueCaptureS1APProtocolExtensionContainer(v *s08.ERABSetupItemCtxtSUResExtIEsExtContainer, s *aper.SemanticCapture) {
+func BridgeERABSetupItemCtxtSUResExtIEsValueCaptureS1APProtocolExtensionContainer(v *s09.ERABSetupItemCtxtSUResExtIEsExtContainer, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -1462,7 +1614,7 @@ func BridgeERABSetupItemCtxtSUResExtIEsValueCaptureS1APProtocolExtensionContaine
 	}
 	s.End(f, nil, false)
 }
-func BridgeERABSetupItemCtxtSUResExtIEsValueCompareS1APProtocolExtensionContainer(v *s08.ERABSetupItemCtxtSUResExtIEsExtContainer, s *aper.SemanticComparison) {
+func BridgeERABSetupItemCtxtSUResExtIEsValueCompareS1APProtocolExtensionContainer(v *s09.ERABSetupItemCtxtSUResExtIEsExtContainer, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -2637,7 +2789,7 @@ func BridgeLoggedMBSFNMDTExtIEsValueCompareS1APProtocolExtensionContainer(v *s09
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeM1PeriodicReportingExtIEsValueCaptureS1APProtocolExtensionContainer(v *s09.M1PeriodicReportingExtIEsExtContainer, s *aper.SemanticCapture) {
+func BridgeM1PeriodicReportingExtIEsValueCaptureS1APProtocolExtensionContainer(v *s10.M1PeriodicReportingExtIEsExtContainer, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -2656,7 +2808,7 @@ func BridgeM1PeriodicReportingExtIEsValueCaptureS1APProtocolExtensionContainer(v
 	}
 	s.End(f, nil, false)
 }
-func BridgeM1PeriodicReportingExtIEsValueCompareS1APProtocolExtensionContainer(v *s09.M1PeriodicReportingExtIEsExtContainer, s *aper.SemanticComparison) {
+func BridgeM1PeriodicReportingExtIEsValueCompareS1APProtocolExtensionContainer(v *s10.M1PeriodicReportingExtIEsExtContainer, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -3394,158 +3546,6 @@ func BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionContainer(v *s
 	}
 	s.End(f, nil, false)
 }
-func BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionContainer(v *s10.PC5QoSParametersExtIEsExtContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgePLMNAreaBasedQMCExtIEsValueCaptureS1APProtocolExtensionContainer(v *s10.PLMNAreaBasedQMCExtIEsExtContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgePLMNAreaBasedQMCExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgePLMNAreaBasedQMCExtIEsValueCompareS1APProtocolExtensionContainer(v *s10.PLMNAreaBasedQMCExtIEsExtContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgePLMNAreaBasedQMCExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgePSCellInformationExtIEsValueCaptureS1APProtocolExtensionContainer(v *s10.PSCellInformationExtIEsExtContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgePSCellInformationExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgePSCellInformationExtIEsValueCompareS1APProtocolExtensionContainer(v *s10.PSCellInformationExtIEsExtContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgePSCellInformationExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgePagingAttemptInformationExtIEsValueCaptureS1APProtocolExtensionContainer(v *s10.PagingAttemptInformationExtIEsExtContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgePagingAttemptInformationExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgePagingAttemptInformationExtIEsValueCompareS1APProtocolExtensionContainer(v *s10.PagingAttemptInformationExtIEsExtContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgePagingAttemptInformationExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgePagingEDRXInformationExtIEsValueCaptureS1APProtocolExtensionContainer(v *s10.PagingEDRXInformationExtIEsExtContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgePagingEDRXInformationExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
 func DeactivateTraceIEValueERABIEContainerListCodec(table s00.DeactivateTraceIEValueIETable) s08.DeactivateTraceIEValueERABIEContainerListValueCodec {
 	codec := DeactivateTraceIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s08.BridgeDeactivateTraceIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -3859,6 +3859,291 @@ func NASDeliveryIndicationIEValueERABIEContainerListCodec(table s00.NASDeliveryI
 		*s10.BridgeNASDeliveryIndicationIEValueERABIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ERABIEContainerList[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}()
+		return sealed
+	}()
+
+}
+func CancelledCellinTAIItemExtIEsValueExtensionFieldTableCodec(table s00.CancelledCellinTAIItemExtIEsValueExtensionTable) s07.CancelledCellinTAIItemExtIEsExtFieldValueCodec {
+	if !*s00.BridgeCancelledCellinTAIItemExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.CancelledCellinTAIItemExtIEsExtFieldValueCodec{}
+	}
+	return func() s07.CancelledCellinTAIItemExtIEsExtFieldValueCodec {
+		sealed := s07.CancelledCellinTAIItemExtIEsExtFieldValueCodec{}
+		*s07.BridgeCancelledCellinTAIItemExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CancelledCellinTAIItemExtIEsExtField, error) {
+			var field s07.CancelledCellinTAIItemExtIEsExtField
+			bb := aper.NewCompleteDecodeBuffer(data, options)
+			if err := bb.SetDecodeOptionsAligned(options); err != nil {
+				return field, err
+			}
+			if err := s07.BridgeCancelledCellinTAIItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+				return field, err
+			}
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
+				return field, err
+			}
+			return field, nil
+		}
+		*s07.BridgeCancelledCellinTAIItemExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s07.CancelledCellinTAIItemExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			if err := s07.BridgeCancelledCellinTAIItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		}
+		*s07.BridgeCancelledCellinTAIItemExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s07.CancelledCellinTAIItemExtIEsExtField, options aper.DecodeState) (s07.CancelledCellinTAIItemExtIEsExtField, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			s12.BridgeCancelledCellinTAIItemExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			var root aper.Snapshot
+			s.End(f, &root,
+				false)
+			return v, root
+		}
+		*s07.BridgeCancelledCellinTAIItemExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.CancelledCellinTAIItemExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			BridgeCancelledCellinTAIItemExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
+			s.End(f, root,
+
+				false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s07.BridgeCancelledCellinTAIItemExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}()
+		return sealed
+	}()
+
+}
+func Cdma2000OneXSRVCCInfoExtIEsValueExtensionFieldTableCodec(table s00.Cdma2000OneXSRVCCInfoExtIEsValueExtensionTable) s07.Cdma2000OneXSRVCCInfoExtIEsExtFieldValueCodec {
+	if !*s00.BridgeCdma2000OneXSRVCCInfoExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.Cdma2000OneXSRVCCInfoExtIEsExtFieldValueCodec{}
+	}
+	return func() s07.Cdma2000OneXSRVCCInfoExtIEsExtFieldValueCodec {
+		sealed := s07.Cdma2000OneXSRVCCInfoExtIEsExtFieldValueCodec{}
+		*s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.Cdma2000OneXSRVCCInfoExtIEsExtField, error) {
+			var field s07.Cdma2000OneXSRVCCInfoExtIEsExtField
+			bb := aper.NewCompleteDecodeBuffer(data, options)
+			if err := bb.SetDecodeOptionsAligned(options); err != nil {
+				return field, err
+			}
+			if err := s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+				return field, err
+			}
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
+				return field, err
+			}
+			return field, nil
+		}
+		*s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s07.Cdma2000OneXSRVCCInfoExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			if err := s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		}
+		*s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s07.Cdma2000OneXSRVCCInfoExtIEsExtField, options aper.DecodeState) (s07.Cdma2000OneXSRVCCInfoExtIEsExtField, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			BridgeCdma2000OneXSRVCCInfoExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			var root aper.Snapshot
+			s.End(f, &root,
+				false)
+			return v, root
+		}
+		*s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.Cdma2000OneXSRVCCInfoExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			BridgeCdma2000OneXSRVCCInfoExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
+			s.End(f, root,
+
+				false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}()
+		return sealed
+	}()
+
+}
+func CellBasedMDTExtIEsValueExtensionFieldTableCodec(table s00.CellBasedMDTExtIEsValueExtensionTable) s07.CellBasedMDTExtIEsExtFieldValueCodec {
+	if !*s00.BridgeCellBasedMDTExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.CellBasedMDTExtIEsExtFieldValueCodec{}
+	}
+	return func() s07.CellBasedMDTExtIEsExtFieldValueCodec {
+		sealed := s07.CellBasedMDTExtIEsExtFieldValueCodec{}
+		*s07.BridgeCellBasedMDTExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CellBasedMDTExtIEsExtField, error) {
+			var field s07.CellBasedMDTExtIEsExtField
+			bb := aper.NewCompleteDecodeBuffer(data, options)
+			if err := bb.SetDecodeOptionsAligned(options); err != nil {
+				return field, err
+			}
+			if err := s07.BridgeCellBasedMDTExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+				return field, err
+			}
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
+				return field, err
+			}
+			return field, nil
+		}
+		*s07.BridgeCellBasedMDTExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s07.CellBasedMDTExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			if err := s07.BridgeCellBasedMDTExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		}
+		*s07.BridgeCellBasedMDTExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s07.CellBasedMDTExtIEsExtField, options aper.DecodeState) (s07.CellBasedMDTExtIEsExtField, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			BridgeCellBasedMDTExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			var root aper.Snapshot
+			s.End(f, &root,
+				false)
+			return v, root
+		}
+		*s07.BridgeCellBasedMDTExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.CellBasedMDTExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			BridgeCellBasedMDTExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
+			s.End(f, root,
+
+				false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s07.BridgeCellBasedMDTExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}()
+		return sealed
+	}()
+
+}
+func CellBasedQMCExtIEsValueExtensionFieldTableCodec(table s00.CellBasedQMCExtIEsValueExtensionTable) s07.CellBasedQMCExtIEsExtFieldValueCodec {
+	if !*s00.BridgeCellBasedQMCExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.CellBasedQMCExtIEsExtFieldValueCodec{}
+	}
+	return func() s07.CellBasedQMCExtIEsExtFieldValueCodec {
+		sealed := s07.CellBasedQMCExtIEsExtFieldValueCodec{}
+		*s07.BridgeCellBasedQMCExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CellBasedQMCExtIEsExtField, error) {
+			var field s07.CellBasedQMCExtIEsExtField
+			bb := aper.NewCompleteDecodeBuffer(data, options)
+			if err := bb.SetDecodeOptionsAligned(options); err != nil {
+				return field, err
+			}
+			if err := s07.BridgeCellBasedQMCExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+				return field, err
+			}
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
+				return field, err
+			}
+			return field, nil
+		}
+		*s07.BridgeCellBasedQMCExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s07.CellBasedQMCExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			if err := s07.BridgeCellBasedQMCExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		}
+		*s07.BridgeCellBasedQMCExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s07.CellBasedQMCExtIEsExtField, options aper.DecodeState) (s07.CellBasedQMCExtIEsExtField, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			BridgeCellBasedQMCExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			var root aper.Snapshot
+			s.End(f, &root,
+				false)
+			return v, root
+		}
+		*s07.BridgeCellBasedQMCExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.CellBasedQMCExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			BridgeCellBasedQMCExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
+			s.End(f, root,
+
+				false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s07.BridgeCellBasedQMCExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}()
+		return sealed
+	}()
+
+}
+func CellIDBroadcastItemExtIEsValueExtensionFieldTableCodec(table s00.CellIDBroadcastItemExtIEsValueExtensionTable) s07.CellIDBroadcastItemExtIEsExtFieldValueCodec {
+	if !*s00.BridgeCellIDBroadcastItemExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.CellIDBroadcastItemExtIEsExtFieldValueCodec{}
+	}
+	return func() s07.CellIDBroadcastItemExtIEsExtFieldValueCodec {
+		sealed := s07.CellIDBroadcastItemExtIEsExtFieldValueCodec{}
+		*s07.BridgeCellIDBroadcastItemExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CellIDBroadcastItemExtIEsExtField, error) {
+			var field s07.CellIDBroadcastItemExtIEsExtField
+			bb := aper.NewCompleteDecodeBuffer(data, options)
+			if err := bb.SetDecodeOptionsAligned(options); err != nil {
+				return field, err
+			}
+			if err := s07.BridgeCellIDBroadcastItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+				return field, err
+			}
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
+				return field, err
+			}
+			return field, nil
+		}
+		*s07.BridgeCellIDBroadcastItemExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s07.CellIDBroadcastItemExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			if err := s07.BridgeCellIDBroadcastItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		}
+		*s07.BridgeCellIDBroadcastItemExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s07.CellIDBroadcastItemExtIEsExtField, options aper.DecodeState) (s07.CellIDBroadcastItemExtIEsExtField, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			BridgeCellIDBroadcastItemExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			var root aper.Snapshot
+			s.End(f, &root,
+				false)
+			return v, root
+		}
+		*s07.BridgeCellIDBroadcastItemExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.CellIDBroadcastItemExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			BridgeCellIDBroadcastItemExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
+			s.End(f, root,
+
+				false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s07.BridgeCellIDBroadcastItemExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 			return sealed
 		}()
@@ -5753,13 +6038,13 @@ func ERABSetupItemCtxtSUResExtIEsValueExtensionFieldTableCodec(table s00.ERABSet
 	}
 	return func() s09.ERABSetupItemCtxtSUResExtIEsExtFieldValueCodec {
 		sealed := s09.ERABSetupItemCtxtSUResExtIEsExtFieldValueCodec{}
-		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s08.ERABSetupItemCtxtSUResExtIEsExtField, error) {
-			var field s08.ERABSetupItemCtxtSUResExtIEsExtField
+		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s09.ERABSetupItemCtxtSUResExtIEsExtField, error) {
+			var field s09.ERABSetupItemCtxtSUResExtIEsExtField
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
 				return field, err
 			}
-			if err := s08.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+			if err := s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
 				return field, err
 			}
 			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
@@ -5767,14 +6052,14 @@ func ERABSetupItemCtxtSUResExtIEsValueExtensionFieldTableCodec(table s00.ERABSet
 			}
 			return field, nil
 		}
-		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s08.ERABSetupItemCtxtSUResExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s09.ERABSetupItemCtxtSUResExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
-			if err := s08.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+			if err := s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s08.ERABSetupItemCtxtSUResExtIEsExtField, options aper.DecodeState) (s08.ERABSetupItemCtxtSUResExtIEsExtField, aper.Snapshot,
+		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s09.ERABSetupItemCtxtSUResExtIEsExtField, options aper.DecodeState) (s09.ERABSetupItemCtxtSUResExtIEsExtField, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -5784,7 +6069,7 @@ func ERABSetupItemCtxtSUResExtIEsValueExtensionFieldTableCodec(table s00.ERABSet
 				false)
 			return v, root
 		}
-		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s08.ERABSetupItemCtxtSUResExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s09.ERABSetupItemCtxtSUResExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -7514,19 +7799,19 @@ func LoggedMBSFNMDTExtIEsValueExtensionFieldTableCodec(table s00.LoggedMBSFNMDTE
 	}()
 
 }
-func M1PeriodicReportingExtIEsValueExtensionFieldTableCodec(table s00.M1PeriodicReportingExtIEsValueExtensionTable) s09.M1PeriodicReportingExtIEsExtFieldValueCodec {
+func M1PeriodicReportingExtIEsValueExtensionFieldTableCodec(table s00.M1PeriodicReportingExtIEsValueExtensionTable) s10.M1PeriodicReportingExtIEsExtFieldValueCodec {
 	if !*s00.BridgeM1PeriodicReportingExtIEsValueExtensionTableFieldBound(&table) {
-		return s09.M1PeriodicReportingExtIEsExtFieldValueCodec{}
+		return s10.M1PeriodicReportingExtIEsExtFieldValueCodec{}
 	}
-	return func() s09.M1PeriodicReportingExtIEsExtFieldValueCodec {
-		sealed := s09.M1PeriodicReportingExtIEsExtFieldValueCodec{}
-		*s09.BridgeM1PeriodicReportingExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s09.M1PeriodicReportingExtIEsExtField, error) {
-			var field s09.M1PeriodicReportingExtIEsExtField
+	return func() s10.M1PeriodicReportingExtIEsExtFieldValueCodec {
+		sealed := s10.M1PeriodicReportingExtIEsExtFieldValueCodec{}
+		*s10.BridgeM1PeriodicReportingExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.M1PeriodicReportingExtIEsExtField, error) {
+			var field s10.M1PeriodicReportingExtIEsExtField
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
 				return field, err
 			}
-			if err := s09.BridgeM1PeriodicReportingExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+			if err := s10.BridgeM1PeriodicReportingExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
 				return field, err
 			}
 			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
@@ -7534,14 +7819,14 @@ func M1PeriodicReportingExtIEsValueExtensionFieldTableCodec(table s00.M1Periodic
 			}
 			return field, nil
 		}
-		*s09.BridgeM1PeriodicReportingExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s09.M1PeriodicReportingExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s10.BridgeM1PeriodicReportingExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s10.M1PeriodicReportingExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
-			if err := s09.BridgeM1PeriodicReportingExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+			if err := s10.BridgeM1PeriodicReportingExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s09.BridgeM1PeriodicReportingExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s09.M1PeriodicReportingExtIEsExtField, options aper.DecodeState) (s09.M1PeriodicReportingExtIEsExtField, aper.Snapshot,
+		*s10.BridgeM1PeriodicReportingExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s10.M1PeriodicReportingExtIEsExtField, options aper.DecodeState) (s10.M1PeriodicReportingExtIEsExtField, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -7551,7 +7836,7 @@ func M1PeriodicReportingExtIEsValueExtensionFieldTableCodec(table s00.M1Periodic
 				false)
 			return v, root
 		}
-		*s09.BridgeM1PeriodicReportingExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s09.M1PeriodicReportingExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s10.BridgeM1PeriodicReportingExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s10.M1PeriodicReportingExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -7561,7 +7846,7 @@ func M1PeriodicReportingExtIEsValueExtensionFieldTableCodec(table s00.M1Periodic
 				false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s09.BridgeM1PeriodicReportingExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s10.BridgeM1PeriodicReportingExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -8540,228 +8825,332 @@ func PC5QoSParametersExtIEsValueExtensionFieldTableCodec(table s00.PC5QoSParamet
 	}()
 
 }
-func PLMNAreaBasedQMCExtIEsValueExtensionFieldTableCodec(table s00.PLMNAreaBasedQMCExtIEsValueExtensionTable) s10.PLMNAreaBasedQMCExtIEsExtFieldValueCodec {
-	if !*s00.BridgePLMNAreaBasedQMCExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.PLMNAreaBasedQMCExtIEsExtFieldValueCodec{}
+func CancelledCellinTAIItemExtIEsValueExtensionTableCodec(table s00.CancelledCellinTAIItemExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CancelledCellinTAIItemExtIEsExtContainerValueCodec {
+	if !*s00.BridgeCancelledCellinTAIItemExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.CancelledCellinTAIItemExtIEsExtContainerValueCodec{}
 	}
-	return func() s10.PLMNAreaBasedQMCExtIEsExtFieldValueCodec {
-		sealed := s10.PLMNAreaBasedQMCExtIEsExtFieldValueCodec{}
-		*s10.BridgePLMNAreaBasedQMCExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PLMNAreaBasedQMCExtIEsExtField, error) {
-			var field s10.PLMNAreaBasedQMCExtIEsExtField
+	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
+	return func() s07.CancelledCellinTAIItemExtIEsExtContainerValueCodec {
+		sealed := s07.CancelledCellinTAIItemExtIEsExtContainerValueCodec{}
+		*s07.BridgeCancelledCellinTAIItemExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CancelledCellinTAIItemExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return field, err
+				return nil, err
 			}
-			if err := s10.BridgePLMNAreaBasedQMCExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+			var fields s07.CancelledCellinTAIItemExtIEsExtContainer
+			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
+				for i := int64(0); i < length; i++ {
+					var field s07.CancelledCellinTAIItemExtIEsExtField
+					if err := s07.BridgeCancelledCellinTAIItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+						return err
+					}
+					if next, err := aper.AppendValues(bb, fields, field); err != nil {
+						return err
+					} else {
+						fields = next
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return nil, err
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
+				return nil, err
 			}
-			return field, nil
+			return fields, nil
 		}
-		*s10.BridgePLMNAreaBasedQMCExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s10.PLMNAreaBasedQMCExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s07.BridgeCancelledCellinTAIItemExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s07.CancelledCellinTAIItemExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
-			if err := s10.BridgePLMNAreaBasedQMCExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
+				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
+					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
+				}
+				for _, field := range fields[offset:][:length] {
+					if err := s07.BridgeCancelledCellinTAIItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+						return err
+					}
+				}
+				return nil
+			})
+			if err != nil {
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s10.BridgePLMNAreaBasedQMCExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s10.PLMNAreaBasedQMCExtIEsExtField, options aper.DecodeState) (s10.PLMNAreaBasedQMCExtIEsExtField, aper.Snapshot,
+		*s07.BridgeCancelledCellinTAIItemExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s07.CancelledCellinTAIItemExtIEsExtContainer, options aper.DecodeState) (s07.CancelledCellinTAIItemExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			BridgePLMNAreaBasedQMCExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			s12.BridgeCancelledCellinTAIItemExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+
+			s.End(f, &root, false)
 			return v, root
 		}
-		*s10.BridgePLMNAreaBasedQMCExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s10.PLMNAreaBasedQMCExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s07.BridgeCancelledCellinTAIItemExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s07.CancelledCellinTAIItemExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgePLMNAreaBasedQMCExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
-
-				false)
+			f := s.
+				Begin()
+			BridgeCancelledCellinTAIItemExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s10.BridgePLMNAreaBasedQMCExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s07.BridgeCancelledCellinTAIItemExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
 			return sealed
 		}()
 		return sealed
 	}()
 
 }
-func PSCellInformationExtIEsValueExtensionFieldTableCodec(table s00.PSCellInformationExtIEsValueExtensionTable) s10.PSCellInformationExtIEsExtFieldValueCodec {
-	if !*s00.BridgePSCellInformationExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.PSCellInformationExtIEsExtFieldValueCodec{}
+func Cdma2000OneXSRVCCInfoExtIEsValueExtensionTableCodec(table s00.Cdma2000OneXSRVCCInfoExtIEsValueExtensionTable, bounds aper.ListBounds) s07.Cdma2000OneXSRVCCInfoExtIEsExtContainerValueCodec {
+	if !*s00.BridgeCdma2000OneXSRVCCInfoExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.Cdma2000OneXSRVCCInfoExtIEsExtContainerValueCodec{}
 	}
-	return func() s10.PSCellInformationExtIEsExtFieldValueCodec {
-		sealed := s10.PSCellInformationExtIEsExtFieldValueCodec{}
-		*s10.BridgePSCellInformationExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PSCellInformationExtIEsExtField, error) {
-			var field s10.PSCellInformationExtIEsExtField
+	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
+	return func() s07.Cdma2000OneXSRVCCInfoExtIEsExtContainerValueCodec {
+		sealed := s07.Cdma2000OneXSRVCCInfoExtIEsExtContainerValueCodec{}
+		*s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.Cdma2000OneXSRVCCInfoExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return field, err
+				return nil, err
 			}
-			if err := s10.BridgePSCellInformationExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+			var fields s07.Cdma2000OneXSRVCCInfoExtIEsExtContainer
+			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
+				for i := int64(0); i < length; i++ {
+					var field s07.Cdma2000OneXSRVCCInfoExtIEsExtField
+					if err := s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+						return err
+					}
+					if next, err := aper.AppendValues(bb, fields, field); err != nil {
+						return err
+					} else {
+						fields = next
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return nil, err
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
+				return nil, err
 			}
-			return field, nil
+			return fields, nil
 		}
-		*s10.BridgePSCellInformationExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s10.PSCellInformationExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s07.Cdma2000OneXSRVCCInfoExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
-			if err := s10.BridgePSCellInformationExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
+				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
+					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
+				}
+				for _, field := range fields[offset:][:length] {
+					if err := s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+						return err
+					}
+				}
+				return nil
+			})
+			if err != nil {
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s10.BridgePSCellInformationExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s10.PSCellInformationExtIEsExtField, options aper.DecodeState) (s10.PSCellInformationExtIEsExtField, aper.Snapshot,
+		*s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s07.Cdma2000OneXSRVCCInfoExtIEsExtContainer, options aper.DecodeState) (s07.Cdma2000OneXSRVCCInfoExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			BridgePSCellInformationExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			BridgeCdma2000OneXSRVCCInfoExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+
+			s.End(f, &root, false)
 			return v, root
 		}
-		*s10.BridgePSCellInformationExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s10.PSCellInformationExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s07.Cdma2000OneXSRVCCInfoExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgePSCellInformationExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
-
-				false)
+			f := s.
+				Begin()
+			BridgeCdma2000OneXSRVCCInfoExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s10.BridgePSCellInformationExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
 			return sealed
 		}()
 		return sealed
 	}()
 
 }
-func PagingAttemptInformationExtIEsValueExtensionFieldTableCodec(table s00.PagingAttemptInformationExtIEsValueExtensionTable) s10.PagingAttemptInformationExtIEsExtFieldValueCodec {
-	if !*s00.BridgePagingAttemptInformationExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.PagingAttemptInformationExtIEsExtFieldValueCodec{}
+func CellBasedMDTExtIEsValueExtensionTableCodec(table s00.CellBasedMDTExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CellBasedMDTExtIEsExtContainerValueCodec {
+	if !*s00.BridgeCellBasedMDTExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.CellBasedMDTExtIEsExtContainerValueCodec{}
 	}
-	return func() s10.PagingAttemptInformationExtIEsExtFieldValueCodec {
-		sealed := s10.PagingAttemptInformationExtIEsExtFieldValueCodec{}
-		*s10.BridgePagingAttemptInformationExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PagingAttemptInformationExtIEsExtField, error) {
-			var field s10.PagingAttemptInformationExtIEsExtField
+	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
+	return func() s07.CellBasedMDTExtIEsExtContainerValueCodec {
+		sealed := s07.CellBasedMDTExtIEsExtContainerValueCodec{}
+		*s07.BridgeCellBasedMDTExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CellBasedMDTExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return field, err
+				return nil, err
 			}
-			if err := s10.BridgePagingAttemptInformationExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+			var fields s07.CellBasedMDTExtIEsExtContainer
+			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
+				for i := int64(0); i < length; i++ {
+					var field s07.CellBasedMDTExtIEsExtField
+					if err := s07.BridgeCellBasedMDTExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+						return err
+					}
+					if next, err := aper.AppendValues(bb, fields, field); err != nil {
+						return err
+					} else {
+						fields = next
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return nil, err
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
+				return nil, err
 			}
-			return field, nil
+			return fields, nil
 		}
-		*s10.BridgePagingAttemptInformationExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s10.PagingAttemptInformationExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s07.BridgeCellBasedMDTExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s07.CellBasedMDTExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
-			if err := s10.BridgePagingAttemptInformationExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
+				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
+					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
+				}
+				for _, field := range fields[offset:][:length] {
+					if err := s07.BridgeCellBasedMDTExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+						return err
+					}
+				}
+				return nil
+			})
+			if err != nil {
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s10.BridgePagingAttemptInformationExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s10.PagingAttemptInformationExtIEsExtField, options aper.DecodeState) (s10.PagingAttemptInformationExtIEsExtField, aper.Snapshot,
+		*s07.BridgeCellBasedMDTExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s07.CellBasedMDTExtIEsExtContainer, options aper.DecodeState) (s07.CellBasedMDTExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			BridgePagingAttemptInformationExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			BridgeCellBasedMDTExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+
+			s.End(f, &root, false)
 			return v, root
 		}
-		*s10.BridgePagingAttemptInformationExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s10.PagingAttemptInformationExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s07.BridgeCellBasedMDTExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s07.CellBasedMDTExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgePagingAttemptInformationExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
-
-				false)
+			f := s.
+				Begin()
+			BridgeCellBasedMDTExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s10.BridgePagingAttemptInformationExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s07.BridgeCellBasedMDTExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
 			return sealed
 		}()
 		return sealed
 	}()
 
 }
-func PagingEDRXInformationExtIEsValueExtensionFieldTableCodec(table s00.PagingEDRXInformationExtIEsValueExtensionTable) s10.PagingEDRXInformationExtIEsExtFieldValueCodec {
-	if !*s00.BridgePagingEDRXInformationExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.PagingEDRXInformationExtIEsExtFieldValueCodec{}
+func CellBasedQMCExtIEsValueExtensionTableCodec(table s00.CellBasedQMCExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CellBasedQMCExtIEsExtContainerValueCodec {
+	if !*s00.BridgeCellBasedQMCExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.CellBasedQMCExtIEsExtContainerValueCodec{}
 	}
-	return func() s10.PagingEDRXInformationExtIEsExtFieldValueCodec {
-		sealed := s10.PagingEDRXInformationExtIEsExtFieldValueCodec{}
-		*s10.BridgePagingEDRXInformationExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PagingEDRXInformationExtIEsExtField, error) {
-			var field s10.PagingEDRXInformationExtIEsExtField
+	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
+	return func() s07.CellBasedQMCExtIEsExtContainerValueCodec {
+		sealed := s07.CellBasedQMCExtIEsExtContainerValueCodec{}
+		*s07.BridgeCellBasedQMCExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CellBasedQMCExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return field, err
+				return nil, err
 			}
-			if err := s10.BridgePagingEDRXInformationExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+			var fields s07.CellBasedQMCExtIEsExtContainer
+			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
+				for i := int64(0); i < length; i++ {
+					var field s07.CellBasedQMCExtIEsExtField
+					if err := s07.BridgeCellBasedQMCExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+						return err
+					}
+					if next, err := aper.AppendValues(bb, fields, field); err != nil {
+						return err
+					} else {
+						fields = next
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return nil, err
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
+				return nil, err
 			}
-			return field, nil
+			return fields, nil
 		}
-		*s10.BridgePagingEDRXInformationExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s10.PagingEDRXInformationExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s07.BridgeCellBasedQMCExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s07.CellBasedQMCExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
-			if err := s10.BridgePagingEDRXInformationExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
+				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
+					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
+				}
+				for _, field := range fields[offset:][:length] {
+					if err := s07.BridgeCellBasedQMCExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+						return err
+					}
+				}
+				return nil
+			})
+			if err != nil {
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s10.BridgePagingEDRXInformationExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s10.PagingEDRXInformationExtIEsExtField, options aper.DecodeState) (s10.PagingEDRXInformationExtIEsExtField, aper.Snapshot,
+		*s07.BridgeCellBasedQMCExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s07.CellBasedQMCExtIEsExtContainer, options aper.DecodeState) (s07.CellBasedQMCExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			BridgePagingEDRXInformationExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			BridgeCellBasedQMCExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+
+			s.End(f, &root, false)
 			return v, root
 		}
-		*s10.BridgePagingEDRXInformationExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s10.PagingEDRXInformationExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s07.BridgeCellBasedQMCExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s07.CellBasedQMCExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgePagingEDRXInformationExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
-
-				false)
+			f := s.
+				Begin()
+			BridgeCellBasedQMCExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s10.BridgePagingEDRXInformationExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s07.BridgeCellBasedQMCExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
 			return sealed
 		}()
 		return sealed
@@ -8825,7 +9214,7 @@ func CellIDBroadcastItemExtIEsValueExtensionTableCodec(table s00.CellIDBroadcast
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s12.BridgeCellIDBroadcastItemExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
+			BridgeCellIDBroadcastItemExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
 			var root aper.Snapshot
 
 			s.End(f, &root, false)
@@ -9598,14 +9987,14 @@ func CriticalityDiagnosticsIEItemExtIEsValueExtensionTableCodec(table s00.Critic
 	}()
 
 }
-func DAPSRequestInfoExtIEsValueExtensionTableCodec(table s00.DAPSRequestInfoExtIEsValueExtensionTable, bounds aper.ListBounds) s07.DAPSRequestInfoExtIEsExtContainerValueCodec {
+func DAPSRequestInfoExtIEsValueExtensionTableCodec(table s00.DAPSRequestInfoExtIEsValueExtensionTable, bounds aper.ListBounds) s08.DAPSRequestInfoExtIEsExtContainerValueCodec {
 	if !*s00.BridgeDAPSRequestInfoExtIEsValueExtensionTableFieldBound(&table) {
-		return s07.DAPSRequestInfoExtIEsExtContainerValueCodec{}
+		return s08.DAPSRequestInfoExtIEsExtContainerValueCodec{}
 	}
 	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s07.DAPSRequestInfoExtIEsExtContainerValueCodec {
-		sealed := s07.DAPSRequestInfoExtIEsExtContainerValueCodec{}
-		*s07.BridgeDAPSRequestInfoExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.DAPSRequestInfoExtIEsExtContainer, error) {
+	return func() s08.DAPSRequestInfoExtIEsExtContainerValueCodec {
+		sealed := s08.DAPSRequestInfoExtIEsExtContainerValueCodec{}
+		*s08.BridgeDAPSRequestInfoExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.DAPSRequestInfoExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
 				return nil, err
@@ -9633,7 +10022,7 @@ func DAPSRequestInfoExtIEsValueExtensionTableCodec(table s00.DAPSRequestInfoExtI
 			}
 			return fields, nil
 		}
-		*s07.BridgeDAPSRequestInfoExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s07.DAPSRequestInfoExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s08.BridgeDAPSRequestInfoExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s07.DAPSRequestInfoExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
 			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
 				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
@@ -9651,7 +10040,7 @@ func DAPSRequestInfoExtIEsValueExtensionTableCodec(table s00.DAPSRequestInfoExtI
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s07.BridgeDAPSRequestInfoExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s07.DAPSRequestInfoExtIEsExtContainer, options aper.DecodeState) (s07.DAPSRequestInfoExtIEsExtContainer, aper.Snapshot,
+		*s08.BridgeDAPSRequestInfoExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s07.DAPSRequestInfoExtIEsExtContainer, options aper.DecodeState) (s07.DAPSRequestInfoExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -9661,7 +10050,7 @@ func DAPSRequestInfoExtIEsValueExtensionTableCodec(table s00.DAPSRequestInfoExtI
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s07.BridgeDAPSRequestInfoExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s07.DAPSRequestInfoExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s08.BridgeDAPSRequestInfoExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s07.DAPSRequestInfoExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
@@ -9671,7 +10060,7 @@ func DAPSRequestInfoExtIEsValueExtensionTableCodec(table s00.DAPSRequestInfoExtI
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s07.BridgeDAPSRequestInfoExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s08.BridgeDAPSRequestInfoExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
@@ -11590,23 +11979,23 @@ func ERABSetupItemBearerSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupI
 	}()
 
 }
-func ERABSetupItemCtxtSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupItemCtxtSUResExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABSetupItemCtxtSUResExtIEsExtContainerValueCodec {
+func ERABSetupItemCtxtSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupItemCtxtSUResExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ERABSetupItemCtxtSUResExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABSetupItemCtxtSUResExtIEsValueExtensionTableFieldBound(&table) {
-		return s08.ERABSetupItemCtxtSUResExtIEsExtContainerValueCodec{}
+		return s09.ERABSetupItemCtxtSUResExtIEsExtContainerValueCodec{}
 	}
 	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s08.ERABSetupItemCtxtSUResExtIEsExtContainerValueCodec {
-		sealed := s08.ERABSetupItemCtxtSUResExtIEsExtContainerValueCodec{}
-		*s08.BridgeERABSetupItemCtxtSUResExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s08.ERABSetupItemCtxtSUResExtIEsExtContainer, error) {
+	return func() s09.ERABSetupItemCtxtSUResExtIEsExtContainerValueCodec {
+		sealed := s09.ERABSetupItemCtxtSUResExtIEsExtContainerValueCodec{}
+		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s09.ERABSetupItemCtxtSUResExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
 				return nil, err
 			}
-			var fields s08.ERABSetupItemCtxtSUResExtIEsExtContainer
+			var fields s09.ERABSetupItemCtxtSUResExtIEsExtContainer
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
-					var field s08.ERABSetupItemCtxtSUResExtIEsExtField
-					if err := s08.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+					var field s09.ERABSetupItemCtxtSUResExtIEsExtField
+					if err := s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
 						return err
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
@@ -11625,14 +12014,14 @@ func ERABSetupItemCtxtSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupIte
 			}
 			return fields, nil
 		}
-		*s08.BridgeERABSetupItemCtxtSUResExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s08.ERABSetupItemCtxtSUResExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s09.ERABSetupItemCtxtSUResExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
 			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
 				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
 					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
 				}
 				for _, field := range fields[offset:][:length] {
-					if err := s08.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+					if err := s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
 						return err
 					}
 				}
@@ -11643,7 +12032,7 @@ func ERABSetupItemCtxtSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupIte
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s08.BridgeERABSetupItemCtxtSUResExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s08.ERABSetupItemCtxtSUResExtIEsExtContainer, options aper.DecodeState) (s08.ERABSetupItemCtxtSUResExtIEsExtContainer, aper.Snapshot,
+		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s09.ERABSetupItemCtxtSUResExtIEsExtContainer, options aper.DecodeState) (s09.ERABSetupItemCtxtSUResExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -11653,7 +12042,7 @@ func ERABSetupItemCtxtSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupIte
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s08.BridgeERABSetupItemCtxtSUResExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s08.ERABSetupItemCtxtSUResExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s09.ERABSetupItemCtxtSUResExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
@@ -11663,7 +12052,7 @@ func ERABSetupItemCtxtSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupIte
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s08.BridgeERABSetupItemCtxtSUResExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s09.BridgeERABSetupItemCtxtSUResExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
@@ -14163,23 +14552,23 @@ func LoggedMBSFNMDTExtIEsValueExtensionTableCodec(table s00.LoggedMBSFNMDTExtIEs
 	}()
 
 }
-func M1PeriodicReportingExtIEsValueExtensionTableCodec(table s00.M1PeriodicReportingExtIEsValueExtensionTable, bounds aper.ListBounds) s09.M1PeriodicReportingExtIEsExtContainerValueCodec {
+func M1PeriodicReportingExtIEsValueExtensionTableCodec(table s00.M1PeriodicReportingExtIEsValueExtensionTable, bounds aper.ListBounds) s10.M1PeriodicReportingExtIEsExtContainerValueCodec {
 	if !*s00.BridgeM1PeriodicReportingExtIEsValueExtensionTableFieldBound(&table) {
-		return s09.M1PeriodicReportingExtIEsExtContainerValueCodec{}
+		return s10.M1PeriodicReportingExtIEsExtContainerValueCodec{}
 	}
 	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s09.M1PeriodicReportingExtIEsExtContainerValueCodec {
-		sealed := s09.M1PeriodicReportingExtIEsExtContainerValueCodec{}
-		*s09.BridgeM1PeriodicReportingExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s09.M1PeriodicReportingExtIEsExtContainer, error) {
+	return func() s10.M1PeriodicReportingExtIEsExtContainerValueCodec {
+		sealed := s10.M1PeriodicReportingExtIEsExtContainerValueCodec{}
+		*s10.BridgeM1PeriodicReportingExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.M1PeriodicReportingExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
 				return nil, err
 			}
-			var fields s09.M1PeriodicReportingExtIEsExtContainer
+			var fields s10.M1PeriodicReportingExtIEsExtContainer
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
-					var field s09.M1PeriodicReportingExtIEsExtField
-					if err := s09.BridgeM1PeriodicReportingExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+					var field s10.M1PeriodicReportingExtIEsExtField
+					if err := s10.BridgeM1PeriodicReportingExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
 						return err
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
@@ -14198,14 +14587,14 @@ func M1PeriodicReportingExtIEsValueExtensionTableCodec(table s00.M1PeriodicRepor
 			}
 			return fields, nil
 		}
-		*s09.BridgeM1PeriodicReportingExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s09.M1PeriodicReportingExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s10.BridgeM1PeriodicReportingExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s10.M1PeriodicReportingExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
 			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
 				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
 					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
 				}
 				for _, field := range fields[offset:][:length] {
-					if err := s09.BridgeM1PeriodicReportingExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+					if err := s10.BridgeM1PeriodicReportingExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
 						return err
 					}
 				}
@@ -14216,7 +14605,7 @@ func M1PeriodicReportingExtIEsValueExtensionTableCodec(table s00.M1PeriodicRepor
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s09.BridgeM1PeriodicReportingExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s09.M1PeriodicReportingExtIEsExtContainer, options aper.DecodeState) (s09.M1PeriodicReportingExtIEsExtContainer, aper.Snapshot,
+		*s10.BridgeM1PeriodicReportingExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s10.M1PeriodicReportingExtIEsExtContainer, options aper.DecodeState) (s10.M1PeriodicReportingExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -14226,7 +14615,7 @@ func M1PeriodicReportingExtIEsValueExtensionTableCodec(table s00.M1PeriodicRepor
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s09.BridgeM1PeriodicReportingExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s09.M1PeriodicReportingExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s10.BridgeM1PeriodicReportingExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s10.M1PeriodicReportingExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
@@ -14236,7 +14625,7 @@ func M1PeriodicReportingExtIEsValueExtensionTableCodec(table s00.M1PeriodicRepor
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s09.BridgeM1PeriodicReportingExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s10.BridgeM1PeriodicReportingExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
@@ -15565,338 +15954,6 @@ func PC5QoSFlowItemExtIEsValueExtensionTableCodec(table s00.PC5QoSFlowItemExtIEs
 			return s.Plan(), s.BudgetValue()
 		}
 		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func PC5QoSParametersExtIEsValueExtensionTableCodec(table s00.PC5QoSParametersExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PC5QoSParametersExtIEsExtContainerValueCodec {
-	if !*s00.BridgePC5QoSParametersExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.PC5QoSParametersExtIEsExtContainerValueCodec{}
-	}
-	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s10.PC5QoSParametersExtIEsExtContainerValueCodec {
-		sealed := s10.PC5QoSParametersExtIEsExtContainerValueCodec{}
-		*s10.BridgePC5QoSParametersExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PC5QoSParametersExtIEsExtContainer, error) {
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return nil, err
-			}
-			var fields s10.PC5QoSParametersExtIEsExtContainer
-			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
-				for i := int64(0); i < length; i++ {
-					var field s10.PC5QoSParametersExtIEsExtField
-					if err := s10.BridgePC5QoSParametersExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
-					}
-					if next, err := aper.AppendValues(bb, fields, field); err != nil {
-						return err
-					} else {
-						fields = next
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
-			}
-			return fields, nil
-		}
-		*s10.BridgePC5QoSParametersExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s10.PC5QoSParametersExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
-				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
-					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
-				}
-				for _, field := range fields[offset:][:length] {
-					if err := s10.BridgePC5QoSParametersExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-						return err
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s10.BridgePC5QoSParametersExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s10.PC5QoSParametersExtIEsExtContainer, options aper.DecodeState) (s10.PC5QoSParametersExtIEsExtContainer, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
-			var root aper.Snapshot
-
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s10.BridgePC5QoSParametersExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s10.PC5QoSParametersExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
-			BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s10.BridgePC5QoSParametersExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func PLMNAreaBasedQMCExtIEsValueExtensionTableCodec(table s00.PLMNAreaBasedQMCExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PLMNAreaBasedQMCExtIEsExtContainerValueCodec {
-	if !*s00.BridgePLMNAreaBasedQMCExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.PLMNAreaBasedQMCExtIEsExtContainerValueCodec{}
-	}
-	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s10.PLMNAreaBasedQMCExtIEsExtContainerValueCodec {
-		sealed := s10.PLMNAreaBasedQMCExtIEsExtContainerValueCodec{}
-		*s10.BridgePLMNAreaBasedQMCExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PLMNAreaBasedQMCExtIEsExtContainer, error) {
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return nil, err
-			}
-			var fields s10.PLMNAreaBasedQMCExtIEsExtContainer
-			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
-				for i := int64(0); i < length; i++ {
-					var field s10.PLMNAreaBasedQMCExtIEsExtField
-					if err := s10.BridgePLMNAreaBasedQMCExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
-					}
-					if next, err := aper.AppendValues(bb, fields, field); err != nil {
-						return err
-					} else {
-						fields = next
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
-			}
-			return fields, nil
-		}
-		*s10.BridgePLMNAreaBasedQMCExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s10.PLMNAreaBasedQMCExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
-				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
-					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
-				}
-				for _, field := range fields[offset:][:length] {
-					if err := s10.BridgePLMNAreaBasedQMCExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-						return err
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s10.BridgePLMNAreaBasedQMCExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s10.PLMNAreaBasedQMCExtIEsExtContainer, options aper.DecodeState) (s10.PLMNAreaBasedQMCExtIEsExtContainer, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgePLMNAreaBasedQMCExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
-			var root aper.Snapshot
-
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s10.BridgePLMNAreaBasedQMCExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s10.PLMNAreaBasedQMCExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
-			BridgePLMNAreaBasedQMCExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s10.BridgePLMNAreaBasedQMCExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func PSCellInformationExtIEsValueExtensionTableCodec(table s00.PSCellInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PSCellInformationExtIEsExtContainerValueCodec {
-	if !*s00.BridgePSCellInformationExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.PSCellInformationExtIEsExtContainerValueCodec{}
-	}
-	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s10.PSCellInformationExtIEsExtContainerValueCodec {
-		sealed := s10.PSCellInformationExtIEsExtContainerValueCodec{}
-		*s10.BridgePSCellInformationExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PSCellInformationExtIEsExtContainer, error) {
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return nil, err
-			}
-			var fields s10.PSCellInformationExtIEsExtContainer
-			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
-				for i := int64(0); i < length; i++ {
-					var field s10.PSCellInformationExtIEsExtField
-					if err := s10.BridgePSCellInformationExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
-					}
-					if next, err := aper.AppendValues(bb, fields, field); err != nil {
-						return err
-					} else {
-						fields = next
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
-			}
-			return fields, nil
-		}
-		*s10.BridgePSCellInformationExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s10.PSCellInformationExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
-				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
-					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
-				}
-				for _, field := range fields[offset:][:length] {
-					if err := s10.BridgePSCellInformationExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-						return err
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s10.BridgePSCellInformationExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s10.PSCellInformationExtIEsExtContainer, options aper.DecodeState) (s10.PSCellInformationExtIEsExtContainer, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgePSCellInformationExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
-			var root aper.Snapshot
-
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s10.BridgePSCellInformationExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s10.PSCellInformationExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
-			BridgePSCellInformationExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s10.BridgePSCellInformationExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func PagingAttemptInformationExtIEsValueExtensionTableCodec(table s00.PagingAttemptInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PagingAttemptInformationExtIEsExtContainerValueCodec {
-	if !*s00.BridgePagingAttemptInformationExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.PagingAttemptInformationExtIEsExtContainerValueCodec{}
-	}
-	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s10.PagingAttemptInformationExtIEsExtContainerValueCodec {
-		sealed := s10.PagingAttemptInformationExtIEsExtContainerValueCodec{}
-		*s10.BridgePagingAttemptInformationExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PagingAttemptInformationExtIEsExtContainer, error) {
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return nil, err
-			}
-			var fields s10.PagingAttemptInformationExtIEsExtContainer
-			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
-				for i := int64(0); i < length; i++ {
-					var field s10.PagingAttemptInformationExtIEsExtField
-					if err := s10.BridgePagingAttemptInformationExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
-					}
-					if next, err := aper.AppendValues(bb, fields, field); err != nil {
-						return err
-					} else {
-						fields = next
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
-			}
-			return fields, nil
-		}
-		*s10.BridgePagingAttemptInformationExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s10.PagingAttemptInformationExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
-				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
-					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
-				}
-				for _, field := range fields[offset:][:length] {
-					if err := s10.BridgePagingAttemptInformationExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-						return err
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s10.BridgePagingAttemptInformationExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s10.PagingAttemptInformationExtIEsExtContainer, options aper.DecodeState) (s10.PagingAttemptInformationExtIEsExtContainer, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgePagingAttemptInformationExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
-			var root aper.Snapshot
-
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s10.BridgePagingAttemptInformationExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s10.PagingAttemptInformationExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
-			BridgePagingAttemptInformationExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s10.BridgePagingAttemptInformationExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
@@ -17742,6 +17799,96 @@ func BridgeInformationForCECapableUEsExtIEsValueCompareS1APProtocolExtensionFiel
 	*s = s04.BridgeInformationForCECapableUEsExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s09.BridgeInformationForCECapableUEsExtIEsExtFieldFieldReplay(v), *s09.BridgeInformationForCECapableUEsExtIEsExtFieldFieldWithoutReplay(v))
 }
+func BridgeCancelledCellinTAIItemExtIEsValueCompareS1APProtocolExtensionField(v *s07.CancelledCellinTAIItemExtIEsExtField, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
+	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
+	*s = s03.BridgeCancelledCellinTAIItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s07.BridgeCancelledCellinTAIItemExtIEsExtFieldFieldReplay(v), *s07.BridgeCancelledCellinTAIItemExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeCdma2000OneXSRVCCInfoExtIEsValueCaptureS1APProtocolExtensionField(v *s07.Cdma2000OneXSRVCCInfoExtIEsExtField, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
+	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
+	v.ExtensionValue = s03.BridgeCdma2000OneXSRVCCInfoExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
+	s.End(f, s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldFieldReplay(v), *s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeCdma2000OneXSRVCCInfoExtIEsValueCompareS1APProtocolExtensionField(v *s07.Cdma2000OneXSRVCCInfoExtIEsExtField, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
+	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
+	*s = s03.BridgeCdma2000OneXSRVCCInfoExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldFieldReplay(v), *s07.BridgeCdma2000OneXSRVCCInfoExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeCellBasedMDTExtIEsValueCaptureS1APProtocolExtensionField(v *s07.CellBasedMDTExtIEsExtField, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
+	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
+	v.ExtensionValue = s03.BridgeCellBasedMDTExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
+	s.End(f, s07.BridgeCellBasedMDTExtIEsExtFieldFieldReplay(v), *s07.BridgeCellBasedMDTExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeCellBasedMDTExtIEsValueCompareS1APProtocolExtensionField(v *s07.CellBasedMDTExtIEsExtField, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
+	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
+	*s = s03.BridgeCellBasedMDTExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s07.BridgeCellBasedMDTExtIEsExtFieldFieldReplay(v), *s07.BridgeCellBasedMDTExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeCellBasedQMCExtIEsValueCaptureS1APProtocolExtensionField(v *s07.CellBasedQMCExtIEsExtField, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
+	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
+	v.ExtensionValue = s03.BridgeCellBasedQMCExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
+	s.End(f, s07.BridgeCellBasedQMCExtIEsExtFieldFieldReplay(v), *s07.BridgeCellBasedQMCExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeCellBasedQMCExtIEsValueCompareS1APProtocolExtensionField(v *s07.CellBasedQMCExtIEsExtField, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
+	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
+	*s = s03.BridgeCellBasedQMCExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s07.BridgeCellBasedQMCExtIEsExtFieldFieldReplay(v), *s07.BridgeCellBasedQMCExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeCellIDBroadcastItemExtIEsValueCaptureS1APProtocolExtensionField(v *s07.CellIDBroadcastItemExtIEsExtField, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
+	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
+	v.ExtensionValue = s03.BridgeCellIDBroadcastItemExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
+	s.End(f, s07.BridgeCellIDBroadcastItemExtIEsExtFieldFieldReplay(v), *s07.BridgeCellIDBroadcastItemExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeCellIDBroadcastItemExtIEsValueCompareS1APProtocolExtensionField(v *s07.CellIDBroadcastItemExtIEsExtField, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
+	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
+	*s = s03.BridgeCellIDBroadcastItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s07.BridgeCellIDBroadcastItemExtIEsExtFieldFieldReplay(v), *s07.BridgeCellIDBroadcastItemExtIEsExtFieldFieldWithoutReplay(v))
+}
 func BridgeCellIDCancelledItemExtIEsValueCaptureS1APProtocolExtensionField(v *s07.CellIDCancelledItemExtIEsExtField, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
@@ -18526,7 +18673,7 @@ func BridgeERABSetupItemBearerSUResExtIEsValueCompareS1APProtocolExtensionField(
 	*s = s04.BridgeERABSetupItemBearerSUResExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s08.BridgeERABSetupItemBearerSUResExtIEsExtFieldFieldReplay(v), *s08.BridgeERABSetupItemBearerSUResExtIEsExtFieldFieldWithoutReplay(v))
 }
-func BridgeERABSetupItemCtxtSUResExtIEsValueCaptureS1APProtocolExtensionField(v *s08.ERABSetupItemCtxtSUResExtIEsExtField, s *aper.SemanticCapture) {
+func BridgeERABSetupItemCtxtSUResExtIEsValueCaptureS1APProtocolExtensionField(v *s09.ERABSetupItemCtxtSUResExtIEsExtField, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -18534,9 +18681,9 @@ func BridgeERABSetupItemCtxtSUResExtIEsValueCaptureS1APProtocolExtensionField(v 
 	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
 	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
 	v.ExtensionValue = s04.BridgeERABSetupItemCtxtSUResExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s08.BridgeERABSetupItemCtxtSUResExtIEsExtFieldFieldReplay(v), *s08.BridgeERABSetupItemCtxtSUResExtIEsExtFieldFieldWithoutReplay(v))
+	s.End(f, s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldFieldReplay(v), *s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldFieldWithoutReplay(v))
 }
-func BridgeERABSetupItemCtxtSUResExtIEsValueCompareS1APProtocolExtensionField(v *s08.ERABSetupItemCtxtSUResExtIEsExtField, s *aper.SemanticComparison) {
+func BridgeERABSetupItemCtxtSUResExtIEsValueCompareS1APProtocolExtensionField(v *s09.ERABSetupItemCtxtSUResExtIEsExtField, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -18544,7 +18691,7 @@ func BridgeERABSetupItemCtxtSUResExtIEsValueCompareS1APProtocolExtensionField(v 
 	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
 	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
 	*s = s04.BridgeERABSetupItemCtxtSUResExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s08.BridgeERABSetupItemCtxtSUResExtIEsExtFieldFieldReplay(v), *s08.BridgeERABSetupItemCtxtSUResExtIEsExtFieldFieldWithoutReplay(v))
+	s.End(f, *s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldFieldReplay(v), *s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldFieldWithoutReplay(v))
 }
 func BridgeERABToBeModifiedItemBearerModIndExtIEsValueCaptureS1APProtocolExtensionField(v *s09.ERABToBeModifiedItemBearerModIndExtIEsExtField, s *aper.SemanticCapture) {
 	if s.Err() != nil {
@@ -19326,7 +19473,7 @@ type M1PeriodicReportingExtIEsValueProtocolOpenValueConstraint interface {
 	rule() aper.SourceRule
 }
 
-func BridgeM1PeriodicReportingExtIEsValueCaptureS1APProtocolExtensionField(v *s09.M1PeriodicReportingExtIEsExtField, s *aper.SemanticCapture) {
+func BridgeM1PeriodicReportingExtIEsValueCaptureS1APProtocolExtensionField(v *s10.M1PeriodicReportingExtIEsExtField, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -19334,9 +19481,9 @@ func BridgeM1PeriodicReportingExtIEsValueCaptureS1APProtocolExtensionField(v *s0
 	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
 	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
 	v.ExtensionValue = s04.BridgeM1PeriodicReportingExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s09.BridgeM1PeriodicReportingExtIEsExtFieldFieldReplay(v), *s09.BridgeM1PeriodicReportingExtIEsExtFieldFieldWithoutReplay(v))
+	s.End(f, s10.BridgeM1PeriodicReportingExtIEsExtFieldFieldReplay(v), *s10.BridgeM1PeriodicReportingExtIEsExtFieldFieldWithoutReplay(v))
 }
-func BridgeM1PeriodicReportingExtIEsValueCompareS1APProtocolExtensionField(v *s09.M1PeriodicReportingExtIEsExtField, s *aper.SemanticComparison) {
+func BridgeM1PeriodicReportingExtIEsValueCompareS1APProtocolExtensionField(v *s10.M1PeriodicReportingExtIEsExtField, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -19344,7 +19491,7 @@ func BridgeM1PeriodicReportingExtIEsValueCompareS1APProtocolExtensionField(v *s0
 	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
 	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
 	*s = s04.BridgeM1PeriodicReportingExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s09.BridgeM1PeriodicReportingExtIEsExtFieldFieldReplay(v), *s09.BridgeM1PeriodicReportingExtIEsExtFieldFieldWithoutReplay(v))
+	s.End(f, *s10.BridgeM1PeriodicReportingExtIEsExtFieldFieldReplay(v), *s10.BridgeM1PeriodicReportingExtIEsExtFieldFieldWithoutReplay(v))
 }
 
 // m1ThresholdEventA2ExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[M1ThresholdEventA2ExtIEsValue].
@@ -20030,22 +20177,6 @@ func BridgePC5QoSFlowItemExtIEsValueCompareS1APProtocolExtensionField(v *s10.PC5
 	*s = s05.BridgePC5QoSFlowItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s10.BridgePC5QoSFlowItemExtIEsExtFieldFieldReplay(v), *s10.BridgePC5QoSFlowItemExtIEsExtFieldFieldWithoutReplay(v))
 }
-
-// pC5QoSParametersExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[PC5QoSParametersExtIEsValue].
-type PC5QoSParametersExtIEsValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s05.PC5QoSParametersExtIEsValue
-
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s05.PC5QoSParametersExtIEsValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
 func BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionField(v *s10.PC5QoSParametersExtIEsExtField, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
@@ -20065,134 +20196,6 @@ func BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionField(v *s10.P
 	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
 	*s = s05.BridgePC5QoSParametersExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s10.BridgePC5QoSParametersExtIEsExtFieldFieldReplay(v), *s10.BridgePC5QoSParametersExtIEsExtFieldFieldWithoutReplay(v))
-}
-
-// pLMNAreaBasedQMCExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[PLMNAreaBasedQMCExtIEsValue].
-type PLMNAreaBasedQMCExtIEsValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s05.PLMNAreaBasedQMCExtIEsValue
-
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s05.PLMNAreaBasedQMCExtIEsValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
-func BridgePLMNAreaBasedQMCExtIEsValueCaptureS1APProtocolExtensionField(v *s10.PLMNAreaBasedQMCExtIEsExtField, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
-	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s05.BridgePLMNAreaBasedQMCExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s10.BridgePLMNAreaBasedQMCExtIEsExtFieldFieldReplay(v), *s10.BridgePLMNAreaBasedQMCExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgePLMNAreaBasedQMCExtIEsValueCompareS1APProtocolExtensionField(v *s10.PLMNAreaBasedQMCExtIEsExtField, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
-	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
-	*s = s05.BridgePLMNAreaBasedQMCExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s10.BridgePLMNAreaBasedQMCExtIEsExtFieldFieldReplay(v), *s10.BridgePLMNAreaBasedQMCExtIEsExtFieldFieldWithoutReplay(v))
-}
-
-// pSCellInformationExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[PSCellInformationExtIEsValue].
-type PSCellInformationExtIEsValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s05.PSCellInformationExtIEsValue
-
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s05.PSCellInformationExtIEsValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
-func BridgePSCellInformationExtIEsValueCaptureS1APProtocolExtensionField(v *s10.PSCellInformationExtIEsExtField, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
-	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s05.BridgePSCellInformationExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s10.BridgePSCellInformationExtIEsExtFieldFieldReplay(v), *s10.BridgePSCellInformationExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgePSCellInformationExtIEsValueCompareS1APProtocolExtensionField(v *s10.PSCellInformationExtIEsExtField, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
-	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
-	*s = s05.BridgePSCellInformationExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s10.BridgePSCellInformationExtIEsExtFieldFieldReplay(v), *s10.BridgePSCellInformationExtIEsExtFieldFieldWithoutReplay(v))
-}
-
-// pagingAttemptInformationExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[PagingAttemptInformationExtIEsValue].
-type PagingAttemptInformationExtIEsValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s05.PagingAttemptInformationExtIEsValue
-
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s05.PagingAttemptInformationExtIEsValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
-func BridgePagingAttemptInformationExtIEsValueCaptureS1APProtocolExtensionField(v *s10.PagingAttemptInformationExtIEsExtField, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
-	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s05.BridgePagingAttemptInformationExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s10.BridgePagingAttemptInformationExtIEsExtFieldFieldReplay(v), *s10.BridgePagingAttemptInformationExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgePagingAttemptInformationExtIEsValueCompareS1APProtocolExtensionField(v *s10.PagingAttemptInformationExtIEsExtField, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
-	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
-	*s = s05.BridgePagingAttemptInformationExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s10.BridgePagingAttemptInformationExtIEsExtFieldFieldReplay(v), *s10.BridgePagingAttemptInformationExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgePagingEDRXInformationExtIEsValueCaptureS1APProtocolExtensionField(v *s10.PagingEDRXInformationExtIEsExtField, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
-	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s05.BridgePagingEDRXInformationExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s10.BridgePagingEDRXInformationExtIEsExtFieldFieldReplay(v), *s10.BridgePagingEDRXInformationExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgePagingEDRXInformationExtIEsValueCompareS1APProtocolExtensionField(v *s10.PagingEDRXInformationExtIEsExtField, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
-	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
-	*s = s05.BridgePagingEDRXInformationExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s10.BridgePagingEDRXInformationExtIEsExtFieldFieldReplay(v), *s10.BridgePagingEDRXInformationExtIEsExtFieldFieldWithoutReplay(v))
 }
 func BridgeDeactivateTraceIEValueCaptureS1APERABIEContainerList(v *s08.DeactivateTraceIEValueERABIEContainerList, s *aper.SemanticCapture) {
 	if s.Err() != nil {

@@ -3,8 +3,8 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -21,10 +21,10 @@ func TestPortEmptyUnknownChoiceValidationParity(t *testing.T) {
 		} else {
 			extension = choiceExtensionapiMust(aper.NewChoiceExtension(0, contents))
 		}
-		value := s19.X2APPDU{UnknownExtension: &extension}
+		value := s20.X2APPDU{UnknownExtension: &extension}
 		for _, options := range [][]aper.EncodeOption{nil, {aper.WithoutReplay()}} {
 			_, encodeErr := value.MarshalAPER(options...)
-			report, err := s20.ValidateMessage(&value)
+			report, err := s21.ValidateMessage(&value)
 			if (encodeErr != nil) != (err != nil) {
 				t.Fatalf("unknown contents length %d: encode=%v validate=%v report=%+v", len(contents), encodeErr, err, report)
 			}

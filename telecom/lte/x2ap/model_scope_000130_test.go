@@ -7,14 +7,14 @@ import (
 	s02 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s02"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	testing "testing"
 )
 
 func TestGenericFieldReceivedFormKeepsSourcePath(t *testing.T) {
 	field := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
-	initial := s19.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
-	var received s19.ErrorIndication
+	initial := s20.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
+	var received s20.ErrorIndication
 	if _, err := received.UnmarshalAPER(listByteapiMust(initial.MarshalAPER())); err != nil {
 		t.Fatal(err)
 	}
@@ -29,8 +29,8 @@ func TestGenericFieldReceivedFormKeepsSourcePath(t *testing.T) {
 	if got := next.IEExtensions[0].ReceivedForm().Location().Path; got != "ProtocolExtensionField" {
 		t.Errorf("extension path=%q", got)
 	}
-	private := privateMessageapiMust(s19.NewPrivateMessage(s00.PrivateMessageIEsValuePrivateIEContainer{privateMessageIEsValuePrivateIEFieldapiMust(s00.PrivateMessageIEs().NewOpaque(privateIEIDapiMust(s00.NewPrivateIEIDLocal(1)), s00.CriticalityIgnore, []byte{0}))}))
-	var message s19.PrivateMessage
+	private := privateMessageapiMust(s20.NewPrivateMessage(s00.PrivateMessageIEsValuePrivateIEContainer{privateMessageIEsValuePrivateIEFieldapiMust(s00.PrivateMessageIEs().NewOpaque(privateIEIDapiMust(s00.NewPrivateIEIDLocal(1)), s00.CriticalityIgnore, []byte{0}))}))
+	var message s20.PrivateMessage
 	if _, err := message.UnmarshalAPER(listByteapiMust(private.MarshalAPER())); err != nil {
 		t.Fatal(err)
 	}

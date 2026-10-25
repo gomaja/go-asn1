@@ -645,6 +645,8 @@
   "ABSInformation.UnmarshalAPER.result[0].Observations",
   "ABSInformation.UnmarshalAPER.result[0].Observations.elem.Kind",
   "ABSInformation.UnmarshalAPER.result[0].Observations.elem.Location",
+  "ABSInformation.UnmarshalAPER.result[0].Observations.elem.PaddingBits",
+  "ABSInformation.UnmarshalAPER.result[0].Observations.elem.PaddingCount",
   "ABSInformation.UnmarshalAPER.result[0].Observations.elem.Rule",
   "ABSInformation.WithoutReplay",
   "ABSInformationAPERValue",

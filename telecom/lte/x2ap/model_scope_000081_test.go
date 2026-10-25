@@ -5,7 +5,7 @@ package x2ap
 import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	testing "testing"
 )
 
@@ -23,9 +23,9 @@ func receiverUnknownWire(t *testing.T, count int) []byte {
 			t.Fatal(err)
 		}
 	}
-	body := s19.ErrorIndication{ProtocolIEs: fields}
-	message := s19.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: s19.X2apInternalConstructT15InitiatingValueF4codeF19bodyErrorIndication(s00.IdErrorIndication, &body)}
-	pdu := s19.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &message}
+	body := s20.ErrorIndication{ProtocolIEs: fields}
+	message := s20.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: s20.X2apInternalConstructT15InitiatingValueF4codeF19bodyErrorIndication(s00.IdErrorIndication, &body)}
+	pdu := s20.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &message}
 	wire, err := pdu.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)

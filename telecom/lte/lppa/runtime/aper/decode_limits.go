@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits.go; SHA-256 2fb80b88d87bb9efb33324bdc52f280e0ab39a89b7246c996b108551745b610c.
+// Runtime source: runtime/aper/decode_limits.go; SHA-256 27d7939392da909d9e648f616d41ce8094070c8d3b6b9b06e8adf63b8dd04bfa.
 package aper
 
 import "fmt"
@@ -44,6 +44,7 @@ type DecodeBudget struct {
 	outputLimited                 bool
 	reading                       bool
 	locating                      bool
+	nonzeroTerminalPadding        bool
 	limits                        decodeLimits
 	usage                         DecodeUsage
 	report                        *DecodeUsage

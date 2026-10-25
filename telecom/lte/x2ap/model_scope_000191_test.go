@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
 )
 
-func uEContextReleasefreshMust(value s19.UEContextRelease, err error) s19.UEContextRelease {
+func sNStatusTransferIEFieldfreshMust(value s15.SNStatusTransferIEField, err error) s15.SNStatusTransferIEField {
 	if err != nil {
 		panic(err)
 	}

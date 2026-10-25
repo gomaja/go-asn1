@@ -7,7 +7,7 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s02 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s02"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
 	testing "testing"
 )
@@ -24,9 +24,9 @@ func TestExtensionAndPrivateReceivedForms(t *testing.T) {
 		t.Fatal("extension received form absent")
 	}
 	for _, id := range []s00.PrivateIEID{privateIEIDapiMust(s00.NewPrivateIEIDLocal(1)), privateIEIDapiMust(s00.NewPrivateIEIDGlobal(runtime.MustObjectIdentifier("1.2.3")))} {
-		message := privateMessageapiMust(s19.NewPrivateMessage(s00.PrivateMessageIEsValuePrivateIEContainer{privateMessageIEsValuePrivateIEFieldapiMust(s00.PrivateMessageIEs().NewOpaque(id, s00.CriticalityIgnore, []byte{0}))}))
+		message := privateMessageapiMust(s20.NewPrivateMessage(s00.PrivateMessageIEsValuePrivateIEContainer{privateMessageIEsValuePrivateIEFieldapiMust(s00.PrivateMessageIEs().NewOpaque(id, s00.CriticalityIgnore, []byte{0}))}))
 		wire := listByteapiMust(message.MarshalAPER())
-		var received s19.PrivateMessage
+		var received s20.PrivateMessage
 		if _, err := received.UnmarshalAPER(wire); err != nil {
 			t.Fatal(err)
 		}

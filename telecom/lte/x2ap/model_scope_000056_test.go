@@ -9,7 +9,7 @@ import (
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
 	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
@@ -23,8 +23,8 @@ func TestIEExtensionAndPrivateSelectors(t *testing.T) {
 	if bb.BitPos() != 0 {
 		t.Fatal("emitted IE bits")
 	}
-	body := s19.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
-	r, err := s19.ValidateErrorIndication(&body)
+	body := s20.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
+	r, err := s20.ValidateErrorIndication(&body)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -53,13 +53,13 @@ func TestIEExtensionAndPrivateSelectors(t *testing.T) {
 		if bb.BitPos() != 0 {
 			t.Fatal("emitted private IE bits")
 		}
-		message := s19.PrivateMessage{PrivateIEs: s00.PrivateMessageIEsValuePrivateIEContainer{private}}
-		r, err = s19.ValidatePrivateMessage(&message)
+		message := s20.PrivateMessage{PrivateIEs: s00.PrivateMessageIEsValuePrivateIEContainer{private}}
+		r, err = s20.ValidatePrivateMessage(&message)
 		if err != nil {
 			t.Fatal(err)
 		}
 		apiHas(t, r, s00.ValueIDMismatch)
-		if _, err := s19.NewPrivateMessage(message.PrivateIEs); err == nil {
+		if _, err := s20.NewPrivateMessage(message.PrivateIEs); err == nil {
 			t.Fatal("private builder accepted mismatch")
 		}
 		if _, err := private.Id.UnmarshalAPER(original); err != nil {

@@ -7,7 +7,7 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
 	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
@@ -45,14 +45,14 @@ func TestNestedWithoutReplayCopy(t *testing.T) {
 	}
 	// A nested fresh request must pass through selected IE and procedure unions.
 	field := x2SetupRequestIEFieldapiMust(s17.X2SetupRequestIEs().GlobalENBID().New(parent))
-	body := s19.X2SetupRequest{ProtocolIEs: s17.X2SetupRequestIEContainer{field}}
-	outer := s19.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s19.InitiatingMessage{ProcedureCode: s00.IdX2Setup, Criticality: s00.CriticalityReject, Value: s19.X2apInternalConstructT15InitiatingValueF4codeF18bodyX2SetupRequest(s00.IdX2Setup, &body)}}
+	body := s20.X2SetupRequest{ProtocolIEs: s17.X2SetupRequestIEContainer{field}}
+	outer := s20.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s20.InitiatingMessage{ProcedureCode: s00.IdX2Setup, Criticality: s00.CriticalityReject, Value: s20.X2apInternalConstructT15InitiatingValueF4codeF18bodyX2SetupRequest(s00.IdX2Setup, &body)}}
 	if got, want := listByteapiMust(outer.MarshalAPER()), listByteapiMust(outer.MarshalAPER(aper.WithoutReplay())); !bytes.Equal(got, want) {
 		t.Fatalf("table fresh copy = %x, option = %x", got, want)
 	}
 	body.ProtocolIEs[0] = x2SetupRequestIEFieldapiMust(s17.X2SetupRequestIEs().GlobalENBID().New(s05.GlobalENBID{PLMNIdentity: make([]byte, 3), ENBID: original}))
 	outerWire := listByteapiMust(outer.MarshalAPER())
-	var received s19.X2APPDU
+	var received s20.X2APPDU
 	if _, err := received.UnmarshalAPER(outerWire); err != nil {
 		t.Fatal(err)
 	}

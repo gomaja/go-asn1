@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/options_api.go; SHA-256 cc811b67cc683ffda50ef5c1c7760a463e7775ced88772e59260c8726607b3fe.
+// Runtime source: runtime/aper/options_api.go; SHA-256 14dafa30247bc8c18406c0ebd2a569423cef6becccab8d95566630315252fd4b.
 package aper
 
 import "errors"
@@ -8,13 +8,21 @@ import "errors"
 // DecodeOption carries per-call policy. DecodeReport state is created only
 // when a call starts; TS 36.413 V19.2.0 §9.4 selects aligned BASIC-PER.
 type DecodeOption struct {
-	limits    Limits
-	hasLimits bool
+	limits                 Limits
+	hasLimits              bool
+	nonzeroTerminalPadding bool
 }
 
 // WithReceiverMode selects the TS 36.413 V19.2.0 §10 receiver policy.
-// Its wire tolerance set is empty: both modes enforce X.691 (02/2021).
+// It does not enable wire tolerance; WithNonzeroTerminalPadding is independent.
 func WithReceiverMode() DecodeOption { return DecodeOption{} }
+
+// WithNonzeroTerminalPadding accepts nonzero terminal bits of a complete value,
+// including a nonzero octet for an empty encoding, and records each occurrence.
+// X.691 (02/2021) §11.1.4 requires zero bits; §11.2.1 applies to open types.
+// This policy is independent of WithReceiverMode. Internal alignment stays strict.
+// Unchanged values replay their received octets; fresh and edited values pad with zero.
+func WithNonzeroTerminalPadding() DecodeOption { return DecodeOption{nonzeroTerminalPadding: true} }
 
 // ApplyDecodeOptions creates independent reporting state for one operation.
 func ApplyDecodeOptions(options ...DecodeOption) DecodeState {
@@ -29,6 +37,9 @@ func ApplyDecodeOptions(options ...DecodeOption) DecodeState {
 	budget, err := NewOperationBudget(settings.operationLimits)
 	if err != nil {
 		return DecodeState{failure: err}
+	}
+	for _, option := range options {
+		budget.nonzeroTerminalPadding = budget.nonzeroTerminalPadding || option.nonzeroTerminalPadding
 	}
 	budget.reading = true
 	budget.outputLimited = false
@@ -45,26 +56,34 @@ type DecodeReport struct {
 	Observations []Observation
 }
 
-// Deviation records one innermost fatal wire error. APER accepts no deviations.
+// Deviation records one innermost fatal wire error. Tolerated padding is an observation.
 type Deviation struct {
 	Location Location
 	Rule     SourceRule
 }
 
-// ObservationKind distinguishes legal values outside the pinned schema.
+// ObservationKind distinguishes unknown values and explicitly tolerated wire departures.
 type ObservationKind uint8
 
 const (
 	UnknownProcedure ObservationKind = iota + 1
 	UnknownIE
 	UnknownExtension
+	// NonzeroTerminalPadding marks nonzero completion bits after a nonempty value.
+	NonzeroTerminalPadding
+	// NonzeroEmptyEncoding marks the nonzero octet substituted for a zero-bit value.
+	NonzeroEmptyEncoding
 )
 
-// Observation marks an opaque boundary, without certifying its unknown schema.
+// Observation records an opaque boundary or an explicitly tolerated padding departure.
 type Observation struct {
 	Location Location
 	Rule     SourceRule
 	Kind     ObservationKind
+	// PaddingBits holds right-aligned received bits for a padding observation.
+	PaddingBits uint8 `json:",omitempty"`
+	// PaddingCount is their width (1–7, or 8 for NonzeroEmptyEncoding).
+	PaddingCount uint8 `json:",omitempty"`
 }
 
 // FinishDecode returns the per-call findings, including those before failure.

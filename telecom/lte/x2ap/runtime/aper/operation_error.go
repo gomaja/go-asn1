@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/operation_error.go; SHA-256 ae19cd6fc0445c5ee0e2be2164c46141a81058a86343ac2c67cad79ebdb94215.
+// Runtime source: runtime/aper/operation_error.go; SHA-256 394a00ec14f70ee509edfde5349d36cbbf8c8044e5cc8521402b4ffed75e091d.
 package aper
 
 import "errors"
@@ -16,7 +16,7 @@ func OperationError(err error, path Path) error {
 	}
 	var located *DecodeError
 	if errors.As(err, &located) {
-		if located.Location.Path != "" {
+		if located.Location.Path != "" && located.Location.Path != "open type" && located.Location.Path != "top-level value" {
 			return err
 		}
 		copyError := *located

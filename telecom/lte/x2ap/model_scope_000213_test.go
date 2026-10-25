@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 )
 
-func resourceStatusRequestfreshMust(value s19.ResourceStatusRequest, err error) s19.ResourceStatusRequest {
+func eNBConfigurationUpdateFailureIEFieldfreshMust(value s06.ENBConfigurationUpdateFailureIEField, err error) s06.ENBConfigurationUpdateFailureIEField {
 	if err != nil {
 		panic(err)
 	}

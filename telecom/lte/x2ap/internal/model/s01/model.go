@@ -1713,7 +1713,9 @@ func X2apInternalAdditionalMeasurementTimingConfigurationItemExtIEsExtFieldUnmar
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalAdditionalMeasurementTimingConfigurationItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1829,7 +1831,9 @@ func X2apInternalAdditionalListofForwardingGTPTunnelEndpointItemExtIEsExtFieldUn
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalAdditionalListofForwardingGTPTunnelEndpointItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1945,7 +1949,9 @@ func X2apInternalAdditionalSpecialSubframeInfoExtIEsExtFieldUnmarshalAPERFrom(v 
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalAdditionalSpecialSubframeInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2061,7 +2067,9 @@ func X2apInternalAdditionalSpecialSubframeExtensionInfoExtIEsExtFieldUnmarshalAP
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalAdditionalSpecialSubframeExtensionInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2177,7 +2185,9 @@ func X2apInternalAllocationAndRetentionPriorityExtIEsExtFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalAllocationAndRetentionPriorityExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2293,7 +2303,9 @@ func X2apInternalBPLMNIDInfoEUTRAItemExtIEsExtFieldUnmarshalAPERFrom(v *BPLMNIDI
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalBPLMNIDInfoEUTRAItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2409,7 +2421,9 @@ func X2apInternalBPLMNIDInfoNRItemExtIEsExtFieldUnmarshalAPERFrom(v *BPLMNIDInfo
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalBPLMNIDInfoNRItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2525,7 +2539,9 @@ func X2apInternalBandInfoExtIEsExtFieldUnmarshalAPERFrom(v *BandInfoExtIEsExtFie
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalBandInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2641,7 +2657,9 @@ func X2apInternalBluetoothMeasurementConfigurationExtIEsExtFieldUnmarshalAPERFro
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalBluetoothMeasurementConfigurationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2757,7 +2775,9 @@ func X2apInternalCHOTimeBasedInformationExtIEsExtFieldUnmarshalAPERFrom(v *CHOTi
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCHOTimeBasedInformationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2873,7 +2893,9 @@ func X2apInternalCHOinformationACKExtIEsExtFieldUnmarshalAPERFrom(v *CHOinformat
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCHOinformationACKExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2989,7 +3011,9 @@ func X2apInternalCHOinformationAddReqExtIEsExtFieldUnmarshalAPERFrom(v *CHOinfor
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCHOinformationAddReqExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3105,7 +3129,9 @@ func X2apInternalCHOinformationModReqExtIEsExtFieldUnmarshalAPERFrom(v *CHOinfor
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCHOinformationModReqExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3309,7 +3335,9 @@ func X2apInternalCNTypeRestrictionsItemExtIEsExtFieldUnmarshalAPERFrom(v *CNType
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCNTypeRestrictionsItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3425,7 +3453,9 @@ func X2apInternalCOUNTValueExtendedExtIEsExtFieldUnmarshalAPERFrom(v *COUNTValue
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCOUNTValueExtendedExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3541,7 +3571,9 @@ func X2apInternalCOUNTvalueExtIEsExtFieldUnmarshalAPERFrom(v *COUNTvalueExtIEsEx
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCOUNTvalueExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3657,7 +3689,9 @@ func X2apInternalCOUNTvaluePDCPSNlength18ExtIEsExtFieldUnmarshalAPERFrom(v *COUN
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCOUNTvaluePDCPSNlength18ExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3773,7 +3807,9 @@ func X2apInternalCPACcandidatePSCellsItemExtIEsExtFieldUnmarshalAPERFrom(v *CPAC
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPACcandidatePSCellsItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3889,7 +3925,9 @@ func X2apInternalCPACinformationREQDExtIEsExtFieldUnmarshalAPERFrom(v *CPACinfor
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPACinformationREQDExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4005,7 +4043,9 @@ func X2apInternalCPAinformationMODACKExtIEsExtFieldUnmarshalAPERFrom(v *CPAinfor
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPAinformationMODACKExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4121,7 +4161,9 @@ func X2apInternalCPAinformationMODExtIEsExtFieldUnmarshalAPERFrom(v *CPAinformat
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPAinformationMODExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4237,7 +4279,9 @@ func X2apInternalCPAinformationREQACKExtIEsExtFieldUnmarshalAPERFrom(v *CPAinfor
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPAinformationREQACKExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4353,7 +4397,9 @@ func X2apInternalCPAinformationREQExtIEsExtFieldUnmarshalAPERFrom(v *CPAinformat
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPAinformationREQExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4469,7 +4515,9 @@ func X2apInternalCPCTargetSgNBConfItemExtIEsExtFieldUnmarshalAPERFrom(v *CPCTarg
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPCTargetSgNBConfItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4585,7 +4633,9 @@ func X2apInternalCPCTargetSgNBModItemExtIEsExtFieldUnmarshalAPERFrom(v *CPCTarge
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPCTargetSgNBModItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4701,7 +4751,9 @@ func X2apInternalCPCTargetSgNBReqdItemExtIEsExtFieldUnmarshalAPERFrom(v *CPCTarg
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPCTargetSgNBReqdItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4817,7 +4869,9 @@ func X2apInternalCPCinformationCONFExtIEsExtFieldUnmarshalAPERFrom(v *CPCinforma
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPCinformationCONFExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4933,7 +4987,9 @@ func X2apInternalCPCinformationNOTIFYExtIEsExtFieldUnmarshalAPERFrom(v *CPCinfor
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPCinformationNOTIFYExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5049,7 +5105,9 @@ func X2apInternalCPCinformationREQDExtIEsExtFieldUnmarshalAPERFrom(v *CPCinforma
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPCinformationREQDExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5165,7 +5223,9 @@ func X2apInternalCPCupdateMODExtIEsExtFieldUnmarshalAPERFrom(v *CPCupdateMODExtI
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCPCupdateMODExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5281,7 +5341,9 @@ func X2apInternalCSIRSMTCConfigurationItemExtIEsExtFieldUnmarshalAPERFrom(v *CSI
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCSIRSMTCConfigurationItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5397,7 +5459,9 @@ func X2apInternalCSIRSMTCNeighbourItemExtIEsExtFieldUnmarshalAPERFrom(v *CSIRSMT
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCSIRSMTCNeighbourItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5513,7 +5577,9 @@ func X2apInternalCSIRSNeighbourItemExtIEsExtFieldUnmarshalAPERFrom(v *CSIRSNeigh
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCSIRSNeighbourItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5629,7 +5695,9 @@ func X2apInternalCSIReportListExtIEsExtFieldUnmarshalAPERFrom(v *CSIReportListEx
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCSIReportListExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5745,7 +5813,9 @@ func X2apInternalCSIReportPerCSIProcessExtIEsExtFieldUnmarshalAPERFrom(v *CSIRep
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCSIReportPerCSIProcessExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5861,7 +5931,9 @@ func X2apInternalCSIReportPerCSIProcessItemExtIEsExtFieldUnmarshalAPERFrom(v *CS
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCSIReportPerCSIProcessItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5977,7 +6049,9 @@ func X2apInternalCellBasedMDTExtIEsExtFieldUnmarshalAPERFrom(v *CellBasedMDTExtI
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCellBasedMDTExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6093,7 +6167,9 @@ func X2apInternalCellBasedQMCExtIEsExtFieldUnmarshalAPERFrom(v *CellBasedQMCExtI
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCellBasedQMCExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6209,7 +6285,9 @@ func X2apInternalCellReplacingInfoExtIEsExtFieldUnmarshalAPERFrom(v *CellReplaci
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCellReplacingInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6325,7 +6403,9 @@ func X2apInternalCellTypeExtIEsExtFieldUnmarshalAPERFrom(v *CellTypeExtIEsExtFie
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCellTypeExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6441,7 +6521,9 @@ func X2apInternalCoMPHypothesisSetItemExtIEsExtFieldUnmarshalAPERFrom(v *CoMPHyp
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCoMPHypothesisSetItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6557,7 +6639,9 @@ func X2apInternalCoMPInformationExtIEsExtFieldUnmarshalAPERFrom(v *CoMPInformati
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCoMPInformationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6673,7 +6757,9 @@ func X2apInternalCoMPInformationItemExtIEsExtFieldUnmarshalAPERFrom(v *CoMPInfor
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCoMPInformationItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7053,7 +7139,9 @@ func X2apInternalActivatedCellListItemExtIEsExtFieldUnmarshalAPERFrom(v *Activat
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalActivatedCellListItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7169,7 +7257,9 @@ func X2apInternalActivatedNRCellListItemExtIEsExtFieldUnmarshalAPERFrom(v *Activ
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalActivatedNRCellListItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7285,7 +7375,9 @@ func X2apInternalCellMeasurementResultEUTRAENDCItemExtIEsExtFieldUnmarshalAPERFr
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCellMeasurementResultEUTRAENDCItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7401,7 +7493,9 @@ func X2apInternalCellMeasurementResultNRENDCItemExtIEsExtFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCellMeasurementResultNRENDCItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7517,7 +7611,9 @@ func X2apInternalCellToReportEUTRAENDCItemExtIEsExtFieldUnmarshalAPERFrom(v *Cel
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCellToReportEUTRAENDCItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7633,7 +7729,9 @@ func X2apInternalCellToReportItemExtIEsExtFieldUnmarshalAPERFrom(v *CellToReport
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCellToReportItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7749,7 +7847,9 @@ func X2apInternalCellToReportNRENDCItemExtIEsExtFieldUnmarshalAPERFrom(v *CellTo
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCellToReportNRENDCItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7865,7 +7965,9 @@ func X2apInternalCellandCapacityAssistInfoExtIEsExtFieldUnmarshalAPERFrom(v *Cel
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCellandCapacityAssistInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -11214,7 +11316,9 @@ func X2apInternalActivatedCellListItemExtIEsIEFieldUnmarshalAPERFrom(v *Activate
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalActivatedCellListItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11333,7 +11437,9 @@ func X2apInternalActivatedNRCellListItemExtIEsIEFieldUnmarshalAPERFrom(v *Activa
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalActivatedNRCellListItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11452,7 +11558,9 @@ func X2apInternalAdditionalListofForwardingGTPTunnelEndpointItemExtIEsIEFieldUnm
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalAdditionalListofForwardingGTPTunnelEndpointItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11571,7 +11679,9 @@ func X2apInternalAdditionalMeasurementTimingConfigurationItemExtIEsIEFieldUnmars
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalAdditionalMeasurementTimingConfigurationItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11690,7 +11800,9 @@ func X2apInternalAdditionalSpecialSubframeExtensionInfoExtIEsIEFieldUnmarshalAPE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalAdditionalSpecialSubframeExtensionInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11809,7 +11921,9 @@ func X2apInternalAdditionalSpecialSubframeInfoExtIEsIEFieldUnmarshalAPERFrom(v *
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalAdditionalSpecialSubframeInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11928,7 +12042,9 @@ func X2apInternalAllocationAndRetentionPriorityExtIEsIEFieldUnmarshalAPERFrom(v 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalAllocationAndRetentionPriorityExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12047,7 +12163,9 @@ func X2apInternalBPLMNIDInfoEUTRAItemExtIEsIEFieldUnmarshalAPERFrom(v *BPLMNIDIn
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalBPLMNIDInfoEUTRAItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12166,7 +12284,9 @@ func X2apInternalBPLMNIDInfoNRItemExtIEsIEFieldUnmarshalAPERFrom(v *BPLMNIDInfoN
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalBPLMNIDInfoNRItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12285,7 +12405,9 @@ func X2apInternalBandInfoExtIEsIEFieldUnmarshalAPERFrom(v *BandInfoExtIEsIEField
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalBandInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12404,7 +12526,9 @@ func X2apInternalBluetoothMeasurementConfigurationExtIEsIEFieldUnmarshalAPERFrom
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalBluetoothMeasurementConfigurationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12523,7 +12647,9 @@ func X2apInternalCHOTimeBasedInformationExtIEsIEFieldUnmarshalAPERFrom(v *CHOTim
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCHOTimeBasedInformationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12642,7 +12768,9 @@ func X2apInternalCHOinformationACKExtIEsIEFieldUnmarshalAPERFrom(v *CHOinformati
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCHOinformationACKExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12761,7 +12889,9 @@ func X2apInternalCHOinformationAddReqExtIEsIEFieldUnmarshalAPERFrom(v *CHOinform
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCHOinformationAddReqExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12880,7 +13010,9 @@ func X2apInternalCHOinformationModReqExtIEsIEFieldUnmarshalAPERFrom(v *CHOinform
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCHOinformationModReqExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12999,7 +13131,9 @@ func X2apInternalCNTypeRestrictionsItemExtIEsIEFieldUnmarshalAPERFrom(v *CNTypeR
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCNTypeRestrictionsItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13118,7 +13252,9 @@ func X2apInternalCOUNTValueExtendedExtIEsIEFieldUnmarshalAPERFrom(v *COUNTValueE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCOUNTValueExtendedExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13237,7 +13373,9 @@ func X2apInternalCOUNTvalueExtIEsIEFieldUnmarshalAPERFrom(v *COUNTvalueExtIEsIEF
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCOUNTvalueExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13356,7 +13494,9 @@ func X2apInternalCOUNTvaluePDCPSNlength18ExtIEsIEFieldUnmarshalAPERFrom(v *COUNT
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCOUNTvaluePDCPSNlength18ExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13475,7 +13615,9 @@ func X2apInternalCPACcandidatePSCellsItemExtIEsIEFieldUnmarshalAPERFrom(v *CPACc
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPACcandidatePSCellsItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13594,7 +13736,9 @@ func X2apInternalCPACinformationREQDExtIEsIEFieldUnmarshalAPERFrom(v *CPACinform
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPACinformationREQDExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13713,7 +13857,9 @@ func X2apInternalCPAinformationMODExtIEsIEFieldUnmarshalAPERFrom(v *CPAinformati
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPAinformationMODExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13832,7 +13978,9 @@ func X2apInternalCPAinformationMODACKExtIEsIEFieldUnmarshalAPERFrom(v *CPAinform
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPAinformationMODACKExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13951,7 +14099,9 @@ func X2apInternalCPAinformationREQExtIEsIEFieldUnmarshalAPERFrom(v *CPAinformati
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPAinformationREQExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14070,7 +14220,9 @@ func X2apInternalCPAinformationREQACKExtIEsIEFieldUnmarshalAPERFrom(v *CPAinform
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPAinformationREQACKExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14189,7 +14341,9 @@ func X2apInternalCPCTargetSgNBConfItemExtIEsIEFieldUnmarshalAPERFrom(v *CPCTarge
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPCTargetSgNBConfItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14308,7 +14462,9 @@ func X2apInternalCPCTargetSgNBModItemExtIEsIEFieldUnmarshalAPERFrom(v *CPCTarget
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPCTargetSgNBModItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14427,7 +14583,9 @@ func X2apInternalCPCTargetSgNBReqdItemExtIEsIEFieldUnmarshalAPERFrom(v *CPCTarge
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPCTargetSgNBReqdItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14546,7 +14704,9 @@ func X2apInternalCPCinformationCONFExtIEsIEFieldUnmarshalAPERFrom(v *CPCinformat
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPCinformationCONFExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14665,7 +14825,9 @@ func X2apInternalCPCinformationNOTIFYExtIEsIEFieldUnmarshalAPERFrom(v *CPCinform
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPCinformationNOTIFYExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14784,7 +14946,9 @@ func X2apInternalCPCinformationREQDExtIEsIEFieldUnmarshalAPERFrom(v *CPCinformat
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPCinformationREQDExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14903,7 +15067,9 @@ func X2apInternalCPCupdateMODExtIEsIEFieldUnmarshalAPERFrom(v *CPCupdateMODExtIE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCPCupdateMODExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15022,7 +15188,9 @@ func X2apInternalCSIRSMTCConfigurationItemExtIEsIEFieldUnmarshalAPERFrom(v *CSIR
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCSIRSMTCConfigurationItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15141,7 +15309,9 @@ func X2apInternalCSIRSMTCNeighbourItemExtIEsIEFieldUnmarshalAPERFrom(v *CSIRSMTC
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCSIRSMTCNeighbourItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15260,7 +15430,9 @@ func X2apInternalCSIRSNeighbourItemExtIEsIEFieldUnmarshalAPERFrom(v *CSIRSNeighb
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCSIRSNeighbourItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15379,7 +15551,9 @@ func X2apInternalCSIReportListExtIEsIEFieldUnmarshalAPERFrom(v *CSIReportListExt
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCSIReportListExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15498,7 +15672,9 @@ func X2apInternalCSIReportPerCSIProcessExtIEsIEFieldUnmarshalAPERFrom(v *CSIRepo
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCSIReportPerCSIProcessExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15617,7 +15793,9 @@ func X2apInternalCSIReportPerCSIProcessItemExtIEsIEFieldUnmarshalAPERFrom(v *CSI
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCSIReportPerCSIProcessItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15736,7 +15914,9 @@ func X2apInternalCellBasedMDTExtIEsIEFieldUnmarshalAPERFrom(v *CellBasedMDTExtIE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCellBasedMDTExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15855,7 +16035,9 @@ func X2apInternalCellBasedQMCExtIEsIEFieldUnmarshalAPERFrom(v *CellBasedQMCExtIE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCellBasedQMCExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15974,7 +16156,9 @@ func X2apInternalCellMeasurementResultEUTRAENDCItemExtIEsIEFieldUnmarshalAPERFro
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCellMeasurementResultEUTRAENDCItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -16093,7 +16277,9 @@ func X2apInternalCellMeasurementResultNRENDCItemExtIEsIEFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCellMeasurementResultNRENDCItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -16212,7 +16398,9 @@ func X2apInternalCellReplacingInfoExtIEsIEFieldUnmarshalAPERFrom(v *CellReplacin
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCellReplacingInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -16331,7 +16519,9 @@ func X2apInternalCellToReportEUTRAENDCItemExtIEsIEFieldUnmarshalAPERFrom(v *Cell
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCellToReportEUTRAENDCItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -16450,7 +16640,9 @@ func X2apInternalCellToReportItemExtIEsIEFieldUnmarshalAPERFrom(v *CellToReportI
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCellToReportItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -16569,7 +16761,9 @@ func X2apInternalCellToReportNRENDCItemExtIEsIEFieldUnmarshalAPERFrom(v *CellToR
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCellToReportNRENDCItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -16688,7 +16882,9 @@ func X2apInternalCellTypeExtIEsIEFieldUnmarshalAPERFrom(v *CellTypeExtIEsIEField
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCellTypeExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -16807,7 +17003,9 @@ func X2apInternalCellandCapacityAssistInfoExtIEsIEFieldUnmarshalAPERFrom(v *Cell
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCellandCapacityAssistInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -16926,7 +17124,9 @@ func X2apInternalCoMPHypothesisSetItemExtIEsIEFieldUnmarshalAPERFrom(v *CoMPHypo
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCoMPHypothesisSetItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -17045,7 +17245,9 @@ func X2apInternalCoMPInformationExtIEsIEFieldUnmarshalAPERFrom(v *CoMPInformatio
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCoMPInformationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -17164,7 +17366,9 @@ func X2apInternalCoMPInformationItemExtIEsIEFieldUnmarshalAPERFrom(v *CoMPInform
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCoMPInformationItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -68397,6 +68601,7 @@ func X2apInternalCSIRSMTCNeighbourItemUnmarshalAPERWithOptions(v *CSIRSMTCNeighb
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CSIRSMTCNeighbourItem")
 	}
+	bb.EnterComponent("CSIRSMTCNeighbourItem")
 	if err := X2apInternalCSIRSMTCNeighbourItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "CSIRSMTCNeighbourItem")
 	}
@@ -68431,6 +68636,7 @@ func X2apInternalCSIRSMTCNeighbourItemUnmarshalAPERFrom(v *CSIRSMTCNeighbourItem
 	}
 	v.CsiRSIndex = val_csirsindex
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(CSIRSMTCNeighbourItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -68439,9 +68645,11 @@ func X2apInternalCSIRSMTCNeighbourItemUnmarshalAPERFrom(v *CSIRSMTCNeighbourItem
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem CSIRSMTCNeighbourItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalCSIRSMTCNeighbourItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -68454,6 +68662,7 @@ func X2apInternalCSIRSMTCNeighbourItemUnmarshalAPERFrom(v *CSIRSMTCNeighbourItem
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -68642,6 +68851,7 @@ func X2apInternalAdditionalSpecialSubframeInfoUnmarshalAPERWithOptions(v *Additi
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AdditionalSpecialSubframeInfo")
 	}
+	bb.EnterComponent("AdditionalSpecialSubframeInfo")
 	if err := X2apInternalAdditionalSpecialSubframeInfoUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "AdditionalSpecialSubframeInfo")
 	}
@@ -68686,6 +68896,7 @@ func X2apInternalAdditionalSpecialSubframeInfoUnmarshalAPERFrom(v *AdditionalSpe
 	}
 	v.CyclicPrefixUL = s00.CyclicPrefixUL(val_cyclicprefixul)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(AdditionalSpecialSubframeInfoExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -68694,9 +68905,11 @@ func X2apInternalAdditionalSpecialSubframeInfoUnmarshalAPERFrom(v *AdditionalSpe
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem AdditionalSpecialSubframeInfoExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalAdditionalSpecialSubframeInfoExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -68709,6 +68922,7 @@ func X2apInternalAdditionalSpecialSubframeInfoUnmarshalAPERFrom(v *AdditionalSpe
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -68897,6 +69111,7 @@ func X2apInternalAdditionalSpecialSubframeExtensionInfoUnmarshalAPERWithOptions(
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AdditionalSpecialSubframeExtensionInfo")
 	}
+	bb.EnterComponent("AdditionalSpecialSubframeExtensionInfo")
 	if err := X2apInternalAdditionalSpecialSubframeExtensionInfoUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "AdditionalSpecialSubframeExtensionInfo")
 	}
@@ -68941,6 +69156,7 @@ func X2apInternalAdditionalSpecialSubframeExtensionInfoUnmarshalAPERFrom(v *Addi
 	}
 	v.CyclicPrefixUL = s00.CyclicPrefixUL(val_cyclicprefixul)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(AdditionalSpecialSubframeExtensionInfoExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -68949,9 +69165,11 @@ func X2apInternalAdditionalSpecialSubframeExtensionInfoUnmarshalAPERFrom(v *Addi
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem AdditionalSpecialSubframeExtensionInfoExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalAdditionalSpecialSubframeExtensionInfoExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -68964,6 +69182,7 @@ func X2apInternalAdditionalSpecialSubframeExtensionInfoUnmarshalAPERFrom(v *Addi
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -69152,6 +69371,7 @@ func X2apInternalAllocationAndRetentionPriorityUnmarshalAPERWithOptions(v *Alloc
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AllocationAndRetentionPriority")
 	}
+	bb.EnterComponent("AllocationAndRetentionPriority")
 	if err := X2apInternalAllocationAndRetentionPriorityUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "AllocationAndRetentionPriority")
 	}
@@ -69196,6 +69416,7 @@ func X2apInternalAllocationAndRetentionPriorityUnmarshalAPERFrom(v *AllocationAn
 	}
 	v.PreEmptionVulnerability = s00.PreEmptionVulnerability(val_preemptionvulnerability)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(AllocationAndRetentionPriorityExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -69204,9 +69425,11 @@ func X2apInternalAllocationAndRetentionPriorityUnmarshalAPERFrom(v *AllocationAn
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem AllocationAndRetentionPriorityExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalAllocationAndRetentionPriorityExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -69219,6 +69442,7 @@ func X2apInternalAllocationAndRetentionPriorityUnmarshalAPERFrom(v *AllocationAn
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -69404,6 +69628,7 @@ func X2apInternalASSecurityInformationUnmarshalAPERWithOptions(v *ASSecurityInfo
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ASSecurityInformation")
 	}
+	bb.EnterComponent("ASSecurityInformation")
 	if err := X2apInternalASSecurityInformationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASSecurityInformation")
 	}
@@ -69443,6 +69668,7 @@ func X2apInternalASSecurityInformationUnmarshalAPERFrom(v *ASSecurityInformation
 	}
 	v.NextHopChainingCount = s00.NextHopChainingCount(val_nexthopchainingcount)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s00.ASSecurityInformationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -69451,9 +69677,11 @@ func X2apInternalASSecurityInformationUnmarshalAPERFrom(v *ASSecurityInformation
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s00.ASSecurityInformationExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s00.X2apInternalASSecurityInformationExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -69466,6 +69694,7 @@ func X2apInternalASSecurityInformationUnmarshalAPERFrom(v *ASSecurityInformation
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -69675,6 +69904,7 @@ func X2apInternalBluetoothMeasurementConfigurationUnmarshalAPERWithOptions(v *Bl
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "BluetoothMeasurementConfiguration")
 	}
+	bb.EnterComponent("BluetoothMeasurementConfiguration")
 	if err := X2apInternalBluetoothMeasurementConfigurationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "BluetoothMeasurementConfiguration")
 	}
@@ -69717,6 +69947,7 @@ func X2apInternalBluetoothMeasurementConfigurationUnmarshalAPERFrom(v *Bluetooth
 	}
 	v.BluetoothMeasConfig = s00.BluetoothMeasConfig(val_bluetoothmeasconfig)
 	if opt_bluetoothmeasconfignamelist {
+		toleranceMark_bluetoothmeasconfignamelist := bb.EnterComponent("BluetoothMeasConfigNameList")
 		tmp_bluetoothmeasconfignamelist := make(s00.BluetoothMeasConfigNameList, 0)
 		_, errCollection_bluetoothmeasconfignamelist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_bluetoothmeasconfignamelist, fragmentLength_bluetoothmeasconfignamelist int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
@@ -69740,6 +69971,7 @@ func X2apInternalBluetoothMeasurementConfigurationUnmarshalAPERFrom(v *Bluetooth
 			return runtime.WrapDecodePath(errCollection_bluetoothmeasconfignamelist, "BluetoothMeasConfigNameList")
 		}
 		v.BluetoothMeasConfigNameList = tmp_bluetoothmeasconfignamelist
+		bb.LeaveComponent(toleranceMark_bluetoothmeasconfignamelist)
 	}
 	if opt_btrssi {
 		val_btrssi, err := aper.DecodeEnumeratedAligned(bb, 1, true, aper.EnumerationSource{KnownExtensions: 0, Path: "BtRssi"})
@@ -69753,6 +69985,7 @@ func X2apInternalBluetoothMeasurementConfigurationUnmarshalAPERFrom(v *Bluetooth
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(BluetoothMeasurementConfigurationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -69761,9 +69994,11 @@ func X2apInternalBluetoothMeasurementConfigurationUnmarshalAPERFrom(v *Bluetooth
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem BluetoothMeasurementConfigurationExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalBluetoothMeasurementConfigurationExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -69776,6 +70011,7 @@ func X2apInternalBluetoothMeasurementConfigurationUnmarshalAPERFrom(v *Bluetooth
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -69980,6 +70216,7 @@ func X2apInternalBPLMNIDInfoNRItemUnmarshalAPERWithOptions(v *BPLMNIDInfoNRItem,
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "BPLMNIDInfoNRItem")
 	}
+	bb.EnterComponent("BPLMNIDInfoNRItem")
 	if err := X2apInternalBPLMNIDInfoNRItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "BPLMNIDInfoNRItem")
 	}
@@ -70012,6 +70249,7 @@ func X2apInternalBPLMNIDInfoNRItemUnmarshalAPERFrom(v *BPLMNIDInfoNRItem, bb *ap
 	if err != nil {
 		return err
 	}
+	toleranceMark_broadcastplmns := bb.EnterComponent("BroadcastPLMNs")
 	v.BroadcastPLMNs = make(s00.BroadcastextPLMNs, 0)
 	_, errCollection_broadcastplmns := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, true, func(fragmentOffset_broadcastplmns, fragmentLength_broadcastplmns int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
@@ -70034,6 +70272,7 @@ func X2apInternalBPLMNIDInfoNRItemUnmarshalAPERFrom(v *BPLMNIDInfoNRItem, bb *ap
 	if errCollection_broadcastplmns != nil {
 		return runtime.WrapDecodePath(errCollection_broadcastplmns, "BroadcastPLMNs")
 	}
+	bb.LeaveComponent(toleranceMark_broadcastplmns)
 	if opt_fivegstac {
 		val_fivegstac, err := aper.DecodeOctetStringAligned(bb, 3, 3, true)
 		if err != nil {
@@ -70051,6 +70290,7 @@ func X2apInternalBPLMNIDInfoNRItemUnmarshalAPERFrom(v *BPLMNIDInfoNRItem, bb *ap
 	}
 	v.NrCI = runtime.BitString{Bytes: bsBytes_nrci, BitLength: bsBitLen_nrci}
 	if opt_ieextension {
+		toleranceMark_ieextension := bb.EnterComponent("IEExtension")
 		tmp_ieextension := make(BPLMNIDInfoNRItemExtIEsExtContainer, 0)
 		_, errCollection_ieextension := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextension, fragmentLength_ieextension int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -70059,9 +70299,11 @@ func X2apInternalBPLMNIDInfoNRItemUnmarshalAPERFrom(v *BPLMNIDInfoNRItem, bb *ap
 			}
 			for i := int64(0); i < fragmentLength_ieextension; i++ {
 				var elem BPLMNIDInfoNRItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextension + i)
 				if err := X2apInternalBPLMNIDInfoNRItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtension[%d]", fragmentOffset_ieextension+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextension, elem); err != nil {
 					return err
 				} else {
@@ -70074,6 +70316,7 @@ func X2apInternalBPLMNIDInfoNRItemUnmarshalAPERFrom(v *BPLMNIDInfoNRItem, bb *ap
 			return runtime.WrapDecodePath(errCollection_ieextension, "IEExtension")
 		}
 		v.IEExtension = tmp_ieextension
+		bb.LeaveComponent(toleranceMark_ieextension)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -70264,6 +70507,7 @@ func X2apInternalCPAinformationREQUnmarshalAPERWithOptions(v *CPAinformationREQ,
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CPAinformationREQ")
 	}
+	bb.EnterComponent("CPAinformationREQ")
 	if err := X2apInternalCPAinformationREQUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "CPAinformationREQ")
 	}
@@ -70314,6 +70558,7 @@ func X2apInternalCPAinformationREQUnmarshalAPERFrom(v *CPAinformationREQ, bb *ap
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(CPAinformationREQExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -70322,9 +70567,11 @@ func X2apInternalCPAinformationREQUnmarshalAPERFrom(v *CPAinformationREQ, bb *ap
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem CPAinformationREQExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalCPAinformationREQExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -70337,6 +70584,7 @@ func X2apInternalCPAinformationREQUnmarshalAPERFrom(v *CPAinformationREQ, bb *ap
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -70519,6 +70767,7 @@ func X2apInternalCPCinformationNOTIFYUnmarshalAPERWithOptions(v *CPCinformationN
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CPCinformationNOTIFY")
 	}
+	bb.EnterComponent("CPCinformationNOTIFY")
 	if err := X2apInternalCPCinformationNOTIFYUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "CPCinformationNOTIFY")
 	}
@@ -70553,6 +70802,7 @@ func X2apInternalCPCinformationNOTIFYUnmarshalAPERFrom(v *CPCinformationNOTIFY, 
 	}
 	v.CpcIndicator = s00.CPCdataforwarding(val_cpcindicator)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(CPCinformationNOTIFYExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -70561,9 +70811,11 @@ func X2apInternalCPCinformationNOTIFYUnmarshalAPERFrom(v *CPCinformationNOTIFY, 
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem CPCinformationNOTIFYExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalCPCinformationNOTIFYExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -70576,6 +70828,7 @@ func X2apInternalCPCinformationNOTIFYUnmarshalAPERFrom(v *CPCinformationNOTIFY, 
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -70771,6 +71024,7 @@ func X2apInternalCPAinformationMODUnmarshalAPERWithOptions(v *CPAinformationMOD,
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CPAinformationMOD")
 	}
+	bb.EnterComponent("CPAinformationMOD")
 	if err := X2apInternalCPAinformationMODUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "CPAinformationMOD")
 	}
@@ -70831,6 +71085,7 @@ func X2apInternalCPAinformationMODUnmarshalAPERFrom(v *CPAinformationMOD, bb *ap
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(CPAinformationMODExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -70839,9 +71094,11 @@ func X2apInternalCPAinformationMODUnmarshalAPERFrom(v *CPAinformationMOD, bb *ap
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem CPAinformationMODExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalCPAinformationMODExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -70854,6 +71111,7 @@ func X2apInternalCPAinformationMODUnmarshalAPERFrom(v *CPAinformationMOD, bb *ap
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -71039,6 +71297,7 @@ func X2apInternalCNTypeRestrictionsItemUnmarshalAPERWithOptions(v *CNTypeRestric
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CNTypeRestrictionsItem")
 	}
+	bb.EnterComponent("CNTypeRestrictionsItem")
 	if err := X2apInternalCNTypeRestrictionsItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "CNTypeRestrictionsItem")
 	}
@@ -71078,6 +71337,7 @@ func X2apInternalCNTypeRestrictionsItemUnmarshalAPERFrom(v *CNTypeRestrictionsIt
 	}
 	v.CnType = val_cntype
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(CNTypeRestrictionsItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -71086,9 +71346,11 @@ func X2apInternalCNTypeRestrictionsItemUnmarshalAPERFrom(v *CNTypeRestrictionsIt
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem CNTypeRestrictionsItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalCNTypeRestrictionsItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -71101,6 +71363,7 @@ func X2apInternalCNTypeRestrictionsItemUnmarshalAPERFrom(v *CNTypeRestrictionsIt
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -71286,6 +71549,7 @@ func X2apInternalCOUNTvalueUnmarshalAPERWithOptions(v *COUNTvalue, data []byte, 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "COUNTvalue")
 	}
+	bb.EnterComponent("COUNTvalue")
 	if err := X2apInternalCOUNTvalueUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "COUNTvalue")
 	}
@@ -71325,6 +71589,7 @@ func X2apInternalCOUNTvalueUnmarshalAPERFrom(v *COUNTvalue, bb *aper.BitBuffer) 
 	}
 	v.HFN = s00.HFN(val_hfn)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(COUNTvalueExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -71333,9 +71598,11 @@ func X2apInternalCOUNTvalueUnmarshalAPERFrom(v *COUNTvalue, bb *aper.BitBuffer) 
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem COUNTvalueExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalCOUNTvalueExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -71348,6 +71615,7 @@ func X2apInternalCOUNTvalueUnmarshalAPERFrom(v *COUNTvalue, bb *aper.BitBuffer) 
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -71533,6 +71801,7 @@ func X2apInternalCOUNTValueExtendedUnmarshalAPERWithOptions(v *COUNTValueExtende
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "COUNTValueExtended")
 	}
+	bb.EnterComponent("COUNTValueExtended")
 	if err := X2apInternalCOUNTValueExtendedUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "COUNTValueExtended")
 	}
@@ -71572,6 +71841,7 @@ func X2apInternalCOUNTValueExtendedUnmarshalAPERFrom(v *COUNTValueExtended, bb *
 	}
 	v.HFNModified = s00.HFNModified(val_hfnmodified)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(COUNTValueExtendedExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -71580,9 +71850,11 @@ func X2apInternalCOUNTValueExtendedUnmarshalAPERFrom(v *COUNTValueExtended, bb *
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem COUNTValueExtendedExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalCOUNTValueExtendedExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -71595,6 +71867,7 @@ func X2apInternalCOUNTValueExtendedUnmarshalAPERFrom(v *COUNTValueExtended, bb *
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -71780,6 +72053,7 @@ func X2apInternalCOUNTvaluePDCPSNlength18UnmarshalAPERWithOptions(v *COUNTvalueP
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18")
 	}
+	bb.EnterComponent("COUNTvaluePDCPSNlength18")
 	if err := X2apInternalCOUNTvaluePDCPSNlength18UnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18")
 	}
@@ -71819,6 +72093,7 @@ func X2apInternalCOUNTvaluePDCPSNlength18UnmarshalAPERFrom(v *COUNTvaluePDCPSNle
 	}
 	v.HFNforPDCPSNlength18 = s00.HFNforPDCPSNlength18(val_hfnforpdcpsnlength18)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(COUNTvaluePDCPSNlength18ExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -71827,9 +72102,11 @@ func X2apInternalCOUNTvaluePDCPSNlength18UnmarshalAPERFrom(v *COUNTvaluePDCPSNle
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem COUNTvaluePDCPSNlength18ExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalCOUNTvaluePDCPSNlength18ExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -71842,6 +72119,7 @@ func X2apInternalCOUNTvaluePDCPSNlength18UnmarshalAPERFrom(v *COUNTvaluePDCPSNle
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -72027,6 +72305,7 @@ func X2apInternalCHOTimeBasedInformationUnmarshalAPERWithOptions(v *CHOTimeBased
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CHOTimeBasedInformation")
 	}
+	bb.EnterComponent("CHOTimeBasedInformation")
 	if err := X2apInternalCHOTimeBasedInformationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "CHOTimeBasedInformation")
 	}
@@ -72066,6 +72345,7 @@ func X2apInternalCHOTimeBasedInformationUnmarshalAPERFrom(v *CHOTimeBasedInforma
 	}
 	v.CHOHOWindowDuration = s00.CHOHandoverWindowDuration(val_chohowindowduration)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(CHOTimeBasedInformationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -72074,9 +72354,11 @@ func X2apInternalCHOTimeBasedInformationUnmarshalAPERFrom(v *CHOTimeBasedInforma
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem CHOTimeBasedInformationExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalCHOTimeBasedInformationExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -72089,6 +72371,7 @@ func X2apInternalCHOTimeBasedInformationUnmarshalAPERFrom(v *CHOTimeBasedInforma
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -72279,6 +72562,7 @@ func X2apInternalCHOinformationModReqUnmarshalAPERWithOptions(v *CHOinformationM
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CHOinformationModReq")
 	}
+	bb.EnterComponent("CHOinformationModReq")
 	if err := X2apInternalCHOinformationModReqUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "CHOinformationModReq")
 	}
@@ -72329,6 +72613,7 @@ func X2apInternalCHOinformationModReqUnmarshalAPERFrom(v *CHOinformationModReq, 
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(CHOinformationModReqExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -72337,9 +72622,11 @@ func X2apInternalCHOinformationModReqUnmarshalAPERFrom(v *CHOinformationModReq, 
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem CHOinformationModReqExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalCHOinformationModReqExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -72352,6 +72639,7 @@ func X2apInternalCHOinformationModReqUnmarshalAPERFrom(v *CHOinformationModReq, 
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -72534,6 +72822,7 @@ func X2apInternalBandInfoUnmarshalAPERWithOptions(v *BandInfo, data []byte, opti
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "BandInfo")
 	}
+	bb.EnterComponent("BandInfo")
 	if err := X2apInternalBandInfoUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "BandInfo")
 	}
@@ -72568,6 +72857,7 @@ func X2apInternalBandInfoUnmarshalAPERFrom(v *BandInfo, bb *aper.BitBuffer) erro
 	}
 	v.FreqBandIndicator = val_freqbandindicator
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(BandInfoExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -72576,9 +72866,11 @@ func X2apInternalBandInfoUnmarshalAPERFrom(v *BandInfo, bb *aper.BitBuffer) erro
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem BandInfoExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalBandInfoExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -72591,6 +72883,7 @@ func X2apInternalBandInfoUnmarshalAPERFrom(v *BandInfo, bb *aper.BitBuffer) erro
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)

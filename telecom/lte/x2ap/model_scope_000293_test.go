@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func sgNBModificationRequestRejectIEFieldfreshMust(value s12.SgNBModificationRequestRejectIEField, err error) s12.SgNBModificationRequestRejectIEField {
+func sgNBModificationRequestfreshMust(value s20.SgNBModificationRequest, err error) s20.SgNBModificationRequest {
 	if err != nil {
 		panic(err)
 	}

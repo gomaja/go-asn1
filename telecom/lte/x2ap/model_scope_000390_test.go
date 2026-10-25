@@ -6,7 +6,7 @@ import (
 	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func cPCCancelfreshMust(value s19.CPCCancel, err error) s19.CPCCancel {
+func uERadioCapabilityIDMappingResponsefreshMust(value s19.UERadioCapabilityIDMappingResponse, err error) s19.UERadioCapabilityIDMappingResponse {
 	if err != nil {
 		panic(err)
 	}

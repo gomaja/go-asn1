@@ -99,6 +99,48 @@ func X2apInternalERABsToBeAddedSgNBModAckItemExtIEsValuecompareX2APProtocolExten
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuecaptureX2APProtocolExtensionContainer(v *s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtContainer, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	{
+		f := s.Begin()
+		s.Uint(uint64(len((*v))))
+		s.Elements(uint64(len((*v))))
+		for i := range *v {
+			if s.Failed() {
+				break
+			}
+			X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+	s.End(f, nil, false)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuecompareX2APProtocolExtensionContainer(v *s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtContainer, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	{
+		f := s.Begin()
+		s.Uint(uint64(len((*v))))
+		s.Elements(uint64(len((*v))))
+		for i := range *v {
+			if s.Failed() {
+				break
+			}
+			X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.End(f, aper.Snapshot{}, false)
+}
 func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuecaptureX2APProtocolExtensionContainer(v *s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtContainer, s *aper.SemanticCapture) {
 	f := s.Begin()
 	if s.Failed() {
@@ -4389,7 +4431,7 @@ func X2apInternalSecondaryRATUsageReportItemExtIEsValuecompareX2APProtocolExtens
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func X2apInternalSecurityIndicationExtIEsValuecaptureX2APProtocolExtensionContainer(v *s03.SecurityIndicationExtIEsExtContainer, s *aper.SemanticCapture) {
+func X2apInternalSecurityIndicationExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.SecurityIndicationExtIEsExtContainer, s *aper.SemanticCapture) {
 	f := s.Begin()
 	if s.Failed() {
 		return
@@ -4410,7 +4452,7 @@ func X2apInternalSecurityIndicationExtIEsValuecaptureX2APProtocolExtensionContai
 	}
 	s.End(f, nil, false)
 }
-func X2apInternalSecurityIndicationExtIEsValuecompareX2APProtocolExtensionContainer(v *s03.SecurityIndicationExtIEsExtContainer, s *aper.SemanticComparison) {
+func X2apInternalSecurityIndicationExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.SecurityIndicationExtIEsExtContainer, s *aper.SemanticComparison) {
 	f := s.Begin()
 	if s.Failed() {
 		return
@@ -5072,846 +5114,6 @@ func X2apInternalSupportedSULFreqBandItemExtIEsValuecompareX2APProtocolExtension
 				break
 			}
 			X2apInternalSupportedSULFreqBandItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTABasedMDTExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TABasedMDTExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTABasedMDTExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTABasedMDTExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TABasedMDTExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTABasedMDTExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTABasedQMCExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TABasedQMCExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTABasedQMCExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTABasedQMCExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TABasedQMCExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTABasedQMCExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTAIBasedMDTExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TAIBasedMDTExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTAIBasedMDTExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTAIBasedMDTExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TAIBasedMDTExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTAIBasedMDTExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTAIBasedQMCExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TAIBasedQMCExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTAIBasedQMCExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTAIBasedQMCExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TAIBasedQMCExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTAIBasedQMCExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTAIItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TAIItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTAIItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTAIItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TAIItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTAIItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTNLAFailedToSetupItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TNLAFailedToSetupItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLAFailedToSetupItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTNLAFailedToSetupItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TNLAFailedToSetupItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLAFailedToSetupItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTNLASetupItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TNLASetupItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLASetupItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTNLASetupItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TNLASetupItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLASetupItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTNLAToAddItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TNLAToAddItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLAToAddItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTNLAToAddItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TNLAToAddItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLAToAddItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTNLAToRemoveItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TNLAToRemoveItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLAToRemoveItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTNLAToRemoveItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TNLAToRemoveItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLAToRemoveItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTNLAToUpdateItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TNLAToUpdateItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLAToUpdateItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTNLAToUpdateItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TNLAToUpdateItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLAToUpdateItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTNLCapacityIndicatorExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TNLCapacityIndicatorExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLCapacityIndicatorExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTNLCapacityIndicatorExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TNLCapacityIndicatorExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLCapacityIndicatorExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTNLConfigurationInfoExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TNLConfigurationInfoExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLConfigurationInfoExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTNLConfigurationInfoExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TNLConfigurationInfoExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTNLConfigurationInfoExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TransportUPLayerAddressesInfoToAddItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TransportUPLayerAddressesInfoToAddItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TransportUPLayerAddressesInfoToRemoveItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TransportUPLayerAddressesInfoToRemoveItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalTunnelInformationExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.TunnelInformationExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTunnelInformationExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalTunnelInformationExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.TunnelInformationExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalTunnelInformationExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalUEContextInformationSeNBModReqExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.UEContextInformationSeNBModReqExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalUEContextInformationSeNBModReqExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalUEContextInformationSeNBModReqExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.UEContextInformationSeNBModReqExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalUEContextInformationSeNBModReqExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalUEContextReferenceAtSeNBItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.UEContextReferenceAtSeNBItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalUEContextReferenceAtSeNBItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalUEContextReferenceAtSeNBItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.UEContextReferenceAtSeNBItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalUEContextReferenceAtSeNBItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalUEContextReferenceAtSgNBItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.UEContextReferenceAtSgNBItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalUEContextReferenceAtSgNBItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalUEContextReferenceAtSgNBItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.UEContextReferenceAtSgNBItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalUEContextReferenceAtSgNBItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalUEContextReferenceAtWTItemExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.UEContextReferenceAtWTItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalUEContextReferenceAtWTItemExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalUEContextReferenceAtWTItemExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.UEContextReferenceAtWTItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalUEContextReferenceAtWTItemExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func X2apInternalUESecurityCapabilitiesExtIEsValuecaptureX2APProtocolExtensionContainer(v *s04.UESecurityCapabilitiesExtIEsExtContainer, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalUESecurityCapabilitiesExtIEsValuecaptureX2APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func X2apInternalUESecurityCapabilitiesExtIEsValuecompareX2APProtocolExtensionContainer(v *s04.UESecurityCapabilitiesExtIEsExtContainer, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			X2apInternalUESecurityCapabilitiesExtIEsValuecompareX2APProtocolExtensionField(&(*v)[i], s)
 		}
 		s.End(f, aper.Snapshot{}, false)
 	}
@@ -8813,6 +8015,182 @@ func X2apInternalCPACcandidatePSCellsItemValueCodecEncodeUnplanned(c CPACcandida
 	return out, aper.OperationError(err, c.path)
 }
 func X2apInternalCPACcandidatePSCellsItemValueCodecEncodeChanged(c CPACcandidatePSCellsItemValueCodec, value CPACcandidatePSCellsItem, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec is the concrete ValueCodec[ERABsAdmittedToBeReleasedModAckItemSCGBearer].
+type ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(ERABsAdmittedToBeReleasedModAckItemSCGBearer, aper.DecodeState) (ERABsAdmittedToBeReleasedModAckItemSCGBearer, aper.Snapshot)
+	compare func(ERABsAdmittedToBeReleasedModAckItemSCGBearer, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
+	path    aper.Path
+	decode  func([]byte, aper.DecodeState) (ERABsAdmittedToBeReleasedModAckItemSCGBearer, error)
+	encode  func(ERABsAdmittedToBeReleasedModAckItemSCGBearer, bool, *aper.DecodeBudget) ([]byte, error)
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (c ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec) New(value ERABsAdmittedToBeReleasedModAckItemSCGBearer) (ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue, error) {
+	if c.encode == nil {
+		return ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes one complete APER value and retains its received representation.
+func (c ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil {
+		return ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	value, err := c.decode(data, settings)
+	if err == nil {
+		if c.capture == nil {
+			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
+		} else {
+			value, replay := c.capture(value, settings)
+			report, err := aper.FinishDecode(settings, nil)
+			if err != nil {
+				return ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue{}, report, aper.OperationError(err, c.path)
+			}
+			return ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		}
+	}
+	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
+	return ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue{}, report, aper.OperationError(err, c.path)
+}
+
+// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
+func (c ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec) EncodeAPER(value ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	if !fresh && value.context == c.context && value.replay.Present() {
+		plan := c.compare(value.Value, value.replay, budget)
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := value.received.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, c.path)
+		}
+		return X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodecEncodeChanged(c, value.Value, fresh, plan)
+	}
+	return X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodecEncodeUnplanned(c, value.Value, fresh, budget)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodecEncodeUnplanned(c ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec, value ERABsAdmittedToBeReleasedModAckItemSCGBearer, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodecEncodeChanged(c ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec, value ERABsAdmittedToBeReleasedModAckItemSCGBearer, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec is the concrete ValueCodec[ERABsAdmittedToBeReleasedModAckItemSplitBearer].
+type ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(ERABsAdmittedToBeReleasedModAckItemSplitBearer, aper.DecodeState) (ERABsAdmittedToBeReleasedModAckItemSplitBearer, aper.Snapshot)
+	compare func(ERABsAdmittedToBeReleasedModAckItemSplitBearer, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
+	path    aper.Path
+	decode  func([]byte, aper.DecodeState) (ERABsAdmittedToBeReleasedModAckItemSplitBearer, error)
+	encode  func(ERABsAdmittedToBeReleasedModAckItemSplitBearer, bool, *aper.DecodeBudget) ([]byte, error)
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (c ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec) New(value ERABsAdmittedToBeReleasedModAckItemSplitBearer) (ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue, error) {
+	if c.encode == nil {
+		return ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes one complete APER value and retains its received representation.
+func (c ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil {
+		return ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	value, err := c.decode(data, settings)
+	if err == nil {
+		if c.capture == nil {
+			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
+		} else {
+			value, replay := c.capture(value, settings)
+			report, err := aper.FinishDecode(settings, nil)
+			if err != nil {
+				return ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue{}, report, aper.OperationError(err, c.path)
+			}
+			return ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		}
+	}
+	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
+	return ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue{}, report, aper.OperationError(err, c.path)
+}
+
+// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
+func (c ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec) EncodeAPER(value ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	if !fresh && value.context == c.context && value.replay.Present() {
+		plan := c.compare(value.Value, value.replay, budget)
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := value.received.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, c.path)
+		}
+		return X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodecEncodeChanged(c, value.Value, fresh, plan)
+	}
+	return X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodecEncodeUnplanned(c, value.Value, fresh, budget)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodecEncodeUnplanned(c ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec, value ERABsAdmittedToBeReleasedModAckItemSplitBearer, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodecEncodeChanged(c ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec, value ERABsAdmittedToBeReleasedModAckItemSplitBearer, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
 	budget := plan.EncodingBudget()
 	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
@@ -12517,182 +11895,6 @@ func X2apInternalSubbandCQIItemValueCodecEncodeChanged(c SubbandCQIItemValueCode
 	}
 	return out, aper.OperationError(err, c.path)
 }
-
-// SupportedSULFreqBandItemValueCodec is the concrete ValueCodec[SupportedSULFreqBandItem].
-type SupportedSULFreqBandItemValueCodec struct {
-	context s00.X2apInternalCodecContext
-	capture func(SupportedSULFreqBandItem, aper.DecodeState) (SupportedSULFreqBandItem, aper.Snapshot)
-	compare func(SupportedSULFreqBandItem, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
-	path    aper.Path
-	decode  func([]byte, aper.DecodeState) (SupportedSULFreqBandItem, error)
-	encode  func(SupportedSULFreqBandItem, bool, *aper.DecodeBudget) ([]byte, error)
-}
-
-// New validates the source value and constructs a value without received replay state.
-func (c SupportedSULFreqBandItemValueCodec) New(value SupportedSULFreqBandItem) (SupportedSULFreqBandItemAPERValue, error) {
-	if c.encode == nil {
-		return SupportedSULFreqBandItemAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return SupportedSULFreqBandItemAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return SupportedSULFreqBandItemAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	return SupportedSULFreqBandItemAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes one complete APER value and retains its received representation.
-func (c SupportedSULFreqBandItemValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SupportedSULFreqBandItemAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil {
-		return SupportedSULFreqBandItemAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
-	}
-	data, settings := aper.OwnDecodeOptions(data, options...)
-	value, err := c.decode(data, settings)
-	if err == nil {
-		if c.capture == nil {
-			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
-		} else {
-			value, replay := c.capture(value, settings)
-			report, err := aper.FinishDecode(settings, nil)
-			if err != nil {
-				return SupportedSULFreqBandItemAPERValue{}, report, aper.OperationError(err, c.path)
-			}
-			return SupportedSULFreqBandItemAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-		}
-	}
-	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
-	return SupportedSULFreqBandItemAPERValue{}, report, aper.OperationError(err, c.path)
-}
-
-// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
-func (c SupportedSULFreqBandItemValueCodec) EncodeAPER(value SupportedSULFreqBandItemAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.ErrInvalidValue
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	if !fresh && value.context == c.context && value.replay.Present() {
-		plan := c.compare(value.Value, value.replay, budget)
-		if err := plan.Error(); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := value.received.EncodePlanBytes(plan)
-			return out, aper.OperationError(err, c.path)
-		}
-		return X2apInternalSupportedSULFreqBandItemValueCodecEncodeChanged(c, value.Value, fresh, plan)
-	}
-	return X2apInternalSupportedSULFreqBandItemValueCodecEncodeUnplanned(c, value.Value, fresh, budget)
-}
-func X2apInternalSupportedSULFreqBandItemValueCodecEncodeUnplanned(c SupportedSULFreqBandItemValueCodec, value SupportedSULFreqBandItem, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func X2apInternalSupportedSULFreqBandItemValueCodecEncodeChanged(c SupportedSULFreqBandItemValueCodec, value SupportedSULFreqBandItem, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	budget := plan.EncodingBudget()
-	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// TNLCapacityIndicatorValueCodec is the concrete ValueCodec[TNLCapacityIndicator].
-type TNLCapacityIndicatorValueCodec struct {
-	context s00.X2apInternalCodecContext
-	capture func(TNLCapacityIndicator, aper.DecodeState) (TNLCapacityIndicator, aper.Snapshot)
-	compare func(TNLCapacityIndicator, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
-	path    aper.Path
-	decode  func([]byte, aper.DecodeState) (TNLCapacityIndicator, error)
-	encode  func(TNLCapacityIndicator, bool, *aper.DecodeBudget) ([]byte, error)
-}
-
-// New validates the source value and constructs a value without received replay state.
-func (c TNLCapacityIndicatorValueCodec) New(value TNLCapacityIndicator) (TNLCapacityIndicatorAPERValue, error) {
-	if c.encode == nil {
-		return TNLCapacityIndicatorAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return TNLCapacityIndicatorAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return TNLCapacityIndicatorAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	return TNLCapacityIndicatorAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes one complete APER value and retains its received representation.
-func (c TNLCapacityIndicatorValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TNLCapacityIndicatorAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil {
-		return TNLCapacityIndicatorAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
-	}
-	data, settings := aper.OwnDecodeOptions(data, options...)
-	value, err := c.decode(data, settings)
-	if err == nil {
-		if c.capture == nil {
-			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
-		} else {
-			value, replay := c.capture(value, settings)
-			report, err := aper.FinishDecode(settings, nil)
-			if err != nil {
-				return TNLCapacityIndicatorAPERValue{}, report, aper.OperationError(err, c.path)
-			}
-			return TNLCapacityIndicatorAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-		}
-	}
-	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
-	return TNLCapacityIndicatorAPERValue{}, report, aper.OperationError(err, c.path)
-}
-
-// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
-func (c TNLCapacityIndicatorValueCodec) EncodeAPER(value TNLCapacityIndicatorAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.ErrInvalidValue
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	if !fresh && value.context == c.context && value.replay.Present() {
-		plan := c.compare(value.Value, value.replay, budget)
-		if err := plan.Error(); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := value.received.EncodePlanBytes(plan)
-			return out, aper.OperationError(err, c.path)
-		}
-		return X2apInternalTNLCapacityIndicatorValueCodecEncodeChanged(c, value.Value, fresh, plan)
-	}
-	return X2apInternalTNLCapacityIndicatorValueCodecEncodeUnplanned(c, value.Value, fresh, budget)
-}
-func X2apInternalTNLCapacityIndicatorValueCodecEncodeUnplanned(c TNLCapacityIndicatorValueCodec, value TNLCapacityIndicator, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func X2apInternalTNLCapacityIndicatorValueCodecEncodeChanged(c TNLCapacityIndicatorValueCodec, value TNLCapacityIndicator, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	budget := plan.EncodingBudget()
-	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
 func X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsValuecaptureX2APProtocolExtensionField(v *s02.ERABsToBeAddedSgNBAddReqAckItemExtIEsExtField, s *aper.SemanticCapture) {
 	f := s.Begin()
 	if s.Failed() {
@@ -12740,6 +11942,30 @@ func X2apInternalERABsToBeAddedSgNBModAckItemExtIEsValuecompareX2APProtocolExten
 	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
 	*s = s02.X2apInternalERABsToBeAddedSgNBModAckItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s02.X2apInternalERABsToBeAddedSgNBModAckItemExtIEsExtFieldFieldReplay(v), *s02.X2apInternalERABsToBeAddedSgNBModAckItemExtIEsExtFieldFieldWithoutReplay(v))
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuecaptureX2APProtocolExtensionField(v *s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtField, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
+	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
+	v.ExtensionValue = s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
+	s.End(f, s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtFieldFieldReplay(v), *s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtFieldFieldWithoutReplay(v))
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuecompareX2APProtocolExtensionField(v *s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtField, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
+	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
+	*s = s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValueCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtFieldFieldReplay(v), *s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtFieldFieldWithoutReplay(v))
 }
 func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuecaptureX2APProtocolExtensionField(v *s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField, s *aper.SemanticCapture) {
 	f := s.Begin()
@@ -15237,7 +14463,7 @@ func X2apInternalSecondaryRATUsageReportItemExtIEsValuecompareX2APProtocolExtens
 	*s = s03.X2apInternalSecondaryRATUsageReportItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s03.X2apInternalSecondaryRATUsageReportItemExtIEsExtFieldFieldReplay(v), *s03.X2apInternalSecondaryRATUsageReportItemExtIEsExtFieldFieldWithoutReplay(v))
 }
-func X2apInternalSecurityIndicationExtIEsValuecaptureX2APProtocolExtensionField(v *s03.SecurityIndicationExtIEsExtField, s *aper.SemanticCapture) {
+func X2apInternalSecurityIndicationExtIEsValuecaptureX2APProtocolExtensionField(v *s04.SecurityIndicationExtIEsExtField, s *aper.SemanticCapture) {
 	f := s.Begin()
 	if s.Failed() {
 		return
@@ -15246,10 +14472,10 @@ func X2apInternalSecurityIndicationExtIEsValuecaptureX2APProtocolExtensionField(
 	defer s.LeaveValue()
 	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
 	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s03.X2apInternalSecurityIndicationExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s03.X2apInternalSecurityIndicationExtIEsExtFieldFieldReplay(v), *s03.X2apInternalSecurityIndicationExtIEsExtFieldFieldWithoutReplay(v))
+	v.ExtensionValue = s04.X2apInternalSecurityIndicationExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
+	s.End(f, s04.X2apInternalSecurityIndicationExtIEsExtFieldFieldReplay(v), *s04.X2apInternalSecurityIndicationExtIEsExtFieldFieldWithoutReplay(v))
 }
-func X2apInternalSecurityIndicationExtIEsValuecompareX2APProtocolExtensionField(v *s03.SecurityIndicationExtIEsExtField, s *aper.SemanticComparison) {
+func X2apInternalSecurityIndicationExtIEsValuecompareX2APProtocolExtensionField(v *s04.SecurityIndicationExtIEsExtField, s *aper.SemanticComparison) {
 	f := s.Begin()
 	if s.Failed() {
 		return
@@ -15258,8 +14484,8 @@ func X2apInternalSecurityIndicationExtIEsValuecompareX2APProtocolExtensionField(
 	defer s.LeaveValue()
 	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
 	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s03.X2apInternalSecurityIndicationExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s03.X2apInternalSecurityIndicationExtIEsExtFieldFieldReplay(v), *s03.X2apInternalSecurityIndicationExtIEsExtFieldFieldWithoutReplay(v))
+	*s = s04.X2apInternalSecurityIndicationExtIEsValueCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s04.X2apInternalSecurityIndicationExtIEsExtFieldFieldReplay(v), *s04.X2apInternalSecurityIndicationExtIEsExtFieldFieldWithoutReplay(v))
 }
 func X2apInternalSecurityResultExtIEsValuecaptureX2APProtocolExtensionField(v *s04.SecurityResultExtIEsExtField, s *aper.SemanticCapture) {
 	f := s.Begin()
@@ -15644,486 +14870,6 @@ func X2apInternalSupportedSULFreqBandItemExtIEsValuecompareX2APProtocolExtension
 	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
 	*s = s04.X2apInternalSupportedSULFreqBandItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s04.X2apInternalSupportedSULFreqBandItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalSupportedSULFreqBandItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTABasedMDTExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TABasedMDTExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTABasedMDTExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTABasedMDTExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTABasedMDTExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTABasedMDTExtIEsValuecompareX2APProtocolExtensionField(v *s04.TABasedMDTExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTABasedMDTExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTABasedMDTExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTABasedMDTExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTABasedQMCExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TABasedQMCExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTABasedQMCExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTABasedQMCExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTABasedQMCExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTABasedQMCExtIEsValuecompareX2APProtocolExtensionField(v *s04.TABasedQMCExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTABasedQMCExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTABasedQMCExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTABasedQMCExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTAIBasedMDTExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TAIBasedMDTExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTAIBasedMDTExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTAIBasedMDTExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTAIBasedMDTExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTAIBasedMDTExtIEsValuecompareX2APProtocolExtensionField(v *s04.TAIBasedMDTExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTAIBasedMDTExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTAIBasedMDTExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTAIBasedMDTExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTAIBasedQMCExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TAIBasedQMCExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTAIBasedQMCExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTAIBasedQMCExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTAIBasedQMCExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTAIBasedQMCExtIEsValuecompareX2APProtocolExtensionField(v *s04.TAIBasedQMCExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTAIBasedQMCExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTAIBasedQMCExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTAIBasedQMCExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTAIItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TAIItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTAIItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTAIItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTAIItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTAIItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.TAIItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTAIItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTAIItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTAIItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLAFailedToSetupItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TNLAFailedToSetupItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTNLAFailedToSetupItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTNLAFailedToSetupItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLAFailedToSetupItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLAFailedToSetupItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.TNLAFailedToSetupItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTNLAFailedToSetupItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTNLAFailedToSetupItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLAFailedToSetupItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLASetupItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TNLASetupItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTNLASetupItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTNLASetupItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLASetupItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLASetupItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.TNLASetupItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTNLASetupItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTNLASetupItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLASetupItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLAToAddItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TNLAToAddItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTNLAToAddItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTNLAToAddItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLAToAddItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLAToAddItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.TNLAToAddItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTNLAToAddItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTNLAToAddItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLAToAddItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLAToRemoveItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TNLAToRemoveItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTNLAToRemoveItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTNLAToRemoveItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLAToRemoveItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLAToRemoveItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.TNLAToRemoveItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTNLAToRemoveItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTNLAToRemoveItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLAToRemoveItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLAToUpdateItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TNLAToUpdateItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTNLAToUpdateItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTNLAToUpdateItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLAToUpdateItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLAToUpdateItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.TNLAToUpdateItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTNLAToUpdateItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTNLAToUpdateItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLAToUpdateItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLCapacityIndicatorExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TNLCapacityIndicatorExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTNLCapacityIndicatorExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTNLCapacityIndicatorExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLCapacityIndicatorExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLCapacityIndicatorExtIEsValuecompareX2APProtocolExtensionField(v *s04.TNLCapacityIndicatorExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTNLCapacityIndicatorExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTNLCapacityIndicatorExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLCapacityIndicatorExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLConfigurationInfoExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TNLConfigurationInfoExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTNLConfigurationInfoExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTNLConfigurationInfoExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLConfigurationInfoExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTNLConfigurationInfoExtIEsValuecompareX2APProtocolExtensionField(v *s04.TNLConfigurationInfoExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTNLConfigurationInfoExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTNLConfigurationInfoExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTNLConfigurationInfoExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TransportUPLayerAddressesInfoToAddItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.TransportUPLayerAddressesInfoToAddItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TransportUPLayerAddressesInfoToRemoveItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.TransportUPLayerAddressesInfoToRemoveItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTunnelInformationExtIEsValuecaptureX2APProtocolExtensionField(v *s04.TunnelInformationExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalTunnelInformationExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalTunnelInformationExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTunnelInformationExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalTunnelInformationExtIEsValuecompareX2APProtocolExtensionField(v *s04.TunnelInformationExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalTunnelInformationExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalTunnelInformationExtIEsExtFieldFieldReplay(v), *s04.X2apInternalTunnelInformationExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalUEContextInformationSeNBModReqExtIEsValuecaptureX2APProtocolExtensionField(v *s04.UEContextInformationSeNBModReqExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalUEContextInformationSeNBModReqExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalUEContextInformationSeNBModReqExtIEsExtFieldFieldReplay(v), *s04.X2apInternalUEContextInformationSeNBModReqExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalUEContextInformationSeNBModReqExtIEsValuecompareX2APProtocolExtensionField(v *s04.UEContextInformationSeNBModReqExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalUEContextInformationSeNBModReqExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalUEContextInformationSeNBModReqExtIEsExtFieldFieldReplay(v), *s04.X2apInternalUEContextInformationSeNBModReqExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalUEContextReferenceAtSeNBItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.UEContextReferenceAtSeNBItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalUEContextReferenceAtSeNBItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalUEContextReferenceAtSeNBItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalUEContextReferenceAtSeNBItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalUEContextReferenceAtSeNBItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.UEContextReferenceAtSeNBItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalUEContextReferenceAtSeNBItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalUEContextReferenceAtSeNBItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalUEContextReferenceAtSeNBItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalUEContextReferenceAtSgNBItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.UEContextReferenceAtSgNBItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalUEContextReferenceAtSgNBItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalUEContextReferenceAtSgNBItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalUEContextReferenceAtSgNBItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalUEContextReferenceAtSgNBItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.UEContextReferenceAtSgNBItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalUEContextReferenceAtSgNBItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalUEContextReferenceAtSgNBItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalUEContextReferenceAtSgNBItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalUEContextReferenceAtWTItemExtIEsValuecaptureX2APProtocolExtensionField(v *s04.UEContextReferenceAtWTItemExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalUEContextReferenceAtWTItemExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalUEContextReferenceAtWTItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalUEContextReferenceAtWTItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalUEContextReferenceAtWTItemExtIEsValuecompareX2APProtocolExtensionField(v *s04.UEContextReferenceAtWTItemExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalUEContextReferenceAtWTItemExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalUEContextReferenceAtWTItemExtIEsExtFieldFieldReplay(v), *s04.X2apInternalUEContextReferenceAtWTItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalUESecurityCapabilitiesExtIEsValuecaptureX2APProtocolExtensionField(v *s04.UESecurityCapabilitiesExtIEsExtField, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s04.X2apInternalUESecurityCapabilitiesExtIEsValueCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s04.X2apInternalUESecurityCapabilitiesExtIEsExtFieldFieldReplay(v), *s04.X2apInternalUESecurityCapabilitiesExtIEsExtFieldFieldWithoutReplay(v))
-}
-func X2apInternalUESecurityCapabilitiesExtIEsValuecompareX2APProtocolExtensionField(v *s04.UESecurityCapabilitiesExtIEsExtField, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
-	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
-	*s = s04.X2apInternalUESecurityCapabilitiesExtIEsValueCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.X2apInternalUESecurityCapabilitiesExtIEsExtFieldFieldReplay(v), *s04.X2apInternalUESecurityCapabilitiesExtIEsExtFieldFieldWithoutReplay(v))
 }
 
 // QoSMappingInformationAPERValue is the concrete APERValue[QoSMappingInformation].
@@ -16846,6 +15592,50 @@ func (v CPACcandidatePSCellsItemAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that encodes without received replay state.
 func (v CPACcandidatePSCellsItemAPERValue) WithoutReplay() CPACcandidatePSCellsItemAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue is the concrete APERValue[ERABsAdmittedToBeReleasedModAckItemSCGBearer].
+type ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue struct {
+	context       s00.X2apInternalCodecContext
+	Value         ERABsAdmittedToBeReleasedModAckItemSCGBearer
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire representation, if present.
+func (v ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that encodes without received replay state.
+func (v ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue) WithoutReplay() ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue is the concrete APERValue[ERABsAdmittedToBeReleasedModAckItemSplitBearer].
+type ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue struct {
+	context       s00.X2apInternalCodecContext
+	Value         ERABsAdmittedToBeReleasedModAckItemSplitBearer
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire representation, if present.
+func (v ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that encodes without received replay state.
+func (v ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue) WithoutReplay() ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -17775,50 +16565,6 @@ func (v SubbandCQIItemAPERValue) WithoutReplay() SubbandCQIItemAPERValue {
 	v.withoutReplay = true
 	return v
 }
-
-// SupportedSULFreqBandItemAPERValue is the concrete APERValue[SupportedSULFreqBandItem].
-type SupportedSULFreqBandItemAPERValue struct {
-	context       s00.X2apInternalCodecContext
-	Value         SupportedSULFreqBandItem
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire representation, if present.
-func (v SupportedSULFreqBandItemAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that encodes without received replay state.
-func (v SupportedSULFreqBandItemAPERValue) WithoutReplay() SupportedSULFreqBandItemAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// TNLCapacityIndicatorAPERValue is the concrete APERValue[TNLCapacityIndicator].
-type TNLCapacityIndicatorAPERValue struct {
-	context       s00.X2apInternalCodecContext
-	Value         TNLCapacityIndicator
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire representation, if present.
-func (v TNLCapacityIndicatorAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that encodes without received replay state.
-func (v TNLCapacityIndicatorAPERValue) WithoutReplay() TNLCapacityIndicatorAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
 func X2apInternalCaptureX2APActivatedNRCellListItem(v *ActivatedNRCellListItem, s *aper.SemanticCapture) {
 	f := s.Begin()
 	if s.Failed() {
@@ -17868,6 +16614,58 @@ func X2apInternalCompareX2APCPACcandidatePSCellsItem(v *CPACcandidatePSCellsItem
 	X2apInternalCompareX2APNRCGI(&v.PscellId, s)
 	s.Bool(v.IEExtensions == nil)
 	s01.X2apInternalCPACcandidatePSCellsItemExtIEsValuecompareX2APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire)
+	s.End(f, v.replay, v.withoutReplay)
+}
+func X2apInternalCaptureX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s00.X2apInternalCaptureX2APERABID(&v.ERABID, s)
+	s.Bool(v.IEExtensions == nil)
+	s04.X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValuecaptureX2APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire)
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s00.X2apInternalCompareX2APERABID(&v.ERABID, s)
+	s.Bool(v.IEExtensions == nil)
+	s04.X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValuecompareX2APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire)
+	s.End(f, v.replay, v.withoutReplay)
+}
+func X2apInternalCaptureX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s00.X2apInternalCaptureX2APERABID(&v.ERABID, s)
+	s.Bool(v.IEExtensions == nil)
+	X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuecaptureX2APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire)
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s00.X2apInternalCompareX2APERABID(&v.ERABID, s)
+	s.Bool(v.IEExtensions == nil)
+	X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuecompareX2APProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, v.replay, v.withoutReplay)
 }
@@ -17969,7 +16767,7 @@ func X2apInternalCaptureX2APERABsAdmittedToReleasedModAckItem(v *ERABsAdmittedTo
 			f := s.Begin()
 			s.Bool(v.SCGBearer == nil)
 			if v.SCGBearer != nil {
-				s04.X2apInternalCaptureX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(v.SCGBearer, s)
+				X2apInternalCaptureX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(v.SCGBearer, s)
 			}
 			s.End(f, nil, false)
 		}
@@ -17978,7 +16776,7 @@ func X2apInternalCaptureX2APERABsAdmittedToReleasedModAckItem(v *ERABsAdmittedTo
 			f := s.Begin()
 			s.Bool(v.SplitBearer == nil)
 			if v.SplitBearer != nil {
-				s04.X2apInternalCaptureX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(v.SplitBearer, s)
+				X2apInternalCaptureX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(v.SplitBearer, s)
 			}
 			s.End(f, nil, false)
 		}
@@ -18007,7 +16805,7 @@ func X2apInternalCompareX2APERABsAdmittedToReleasedModAckItem(v *ERABsAdmittedTo
 			f := s.Begin()
 			s.Bool(v.SCGBearer == nil)
 			if v.SCGBearer != nil {
-				s04.X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(v.SCGBearer, s)
+				X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(v.SCGBearer, s)
 			}
 			s.End(f, aper.Snapshot{}, false)
 		}
@@ -18016,7 +16814,7 @@ func X2apInternalCompareX2APERABsAdmittedToReleasedModAckItem(v *ERABsAdmittedTo
 			f := s.Begin()
 			s.Bool(v.SplitBearer == nil)
 			if v.SplitBearer != nil {
-				s04.X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(v.SplitBearer, s)
+				X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(v.SplitBearer, s)
 			}
 			s.End(f, aper.Snapshot{}, false)
 		}
@@ -20715,104 +19513,6 @@ func X2apInternalCompareX2APSubscriptionBasedUEDifferentiationInfo(v *Subscripti
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, v.replay, v.withoutReplay)
 }
-func X2apInternalCaptureX2APSupportedSULFreqBandItem(v *SupportedSULFreqBandItem, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.BigInt(v.FreqBandIndicatorNr)
-		s.End(f, nil, false)
-	}
-	s.Bool(v.IEExtensions == nil)
-	X2apInternalSupportedSULFreqBandItemExtIEsValuecaptureX2APProtocolExtensionContainer(&v.IEExtensions, s)
-	s.ExtensionData(v.extData, v.extWire)
-	s.End(f, &v.replay, v.withoutReplay)
-}
-func X2apInternalCompareX2APSupportedSULFreqBandItem(v *SupportedSULFreqBandItem, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.BigInt(v.FreqBandIndicatorNr)
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.Bool(v.IEExtensions == nil)
-	X2apInternalSupportedSULFreqBandItemExtIEsValuecompareX2APProtocolExtensionContainer(&v.IEExtensions, s)
-	s.ExtensionData(v.extData, v.extWire)
-	s.End(f, v.replay, v.withoutReplay)
-}
-func X2apInternalCaptureX2APTNLCapacityIndicator(v *TNLCapacityIndicator, s *aper.SemanticCapture) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.BigInt(v.DlTNLMaximumOfferedCapacity)
-		s.End(f, nil, false)
-	}
-	{
-		f := s.Begin()
-		s.BigInt(v.DlTNLAvailableCapacity)
-		s.End(f, nil, false)
-	}
-	{
-		f := s.Begin()
-		s.BigInt(v.UlTNLMaximumOfferedCapacity)
-		s.End(f, nil, false)
-	}
-	{
-		f := s.Begin()
-		s.BigInt(v.UlTNLAvailableCapacity)
-		s.End(f, nil, false)
-	}
-	s.Bool(v.IEExtensions == nil)
-	X2apInternalTNLCapacityIndicatorExtIEsValuecaptureX2APProtocolExtensionContainer(&v.IEExtensions, s)
-	s.ExtensionData(v.extData, v.extWire)
-	s.End(f, &v.replay, v.withoutReplay)
-}
-func X2apInternalCompareX2APTNLCapacityIndicator(v *TNLCapacityIndicator, s *aper.SemanticComparison) {
-	f := s.Begin()
-	if s.Failed() {
-		return
-	}
-	s.EnterValue()
-	defer s.LeaveValue()
-	{
-		f := s.Begin()
-		s.BigInt(v.DlTNLMaximumOfferedCapacity)
-		s.End(f, aper.Snapshot{}, false)
-	}
-	{
-		f := s.Begin()
-		s.BigInt(v.DlTNLAvailableCapacity)
-		s.End(f, aper.Snapshot{}, false)
-	}
-	{
-		f := s.Begin()
-		s.BigInt(v.UlTNLMaximumOfferedCapacity)
-		s.End(f, aper.Snapshot{}, false)
-	}
-	{
-		f := s.Begin()
-		s.BigInt(v.UlTNLAvailableCapacity)
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.Bool(v.IEExtensions == nil)
-	X2apInternalTNLCapacityIndicatorExtIEsValuecompareX2APProtocolExtensionContainer(&v.IEExtensions, s)
-	s.ExtensionData(v.extData, v.extWire)
-	s.End(f, v.replay, v.withoutReplay)
-}
 
 // ActivatedNRCellListItemCodec binds the complete source value type.
 func ActivatedNRCellListItemCodec() ActivatedNRCellListItemValueCodec {
@@ -20876,6 +19576,70 @@ func CPACcandidatePSCellsItemCodec() CPACcandidatePSCellsItemValueCodec {
 		s.End(f, root, false)
 		return s.Plan()
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:CPACcandidatePSCellsItem"),
+	}
+}
+
+// ERABsAdmittedToBeReleasedModAckItemSCGBearerCodec binds the complete source value type.
+func ERABsAdmittedToBeReleasedModAckItemSCGBearerCodec() ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec {
+	return ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec{path: "ERABsAdmittedToBeReleasedModAckItemSCGBearer", decode: func(data []byte, options aper.DecodeState) (ERABsAdmittedToBeReleasedModAckItemSCGBearer, error) {
+		var value ERABsAdmittedToBeReleasedModAckItemSCGBearer
+		if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerUnmarshalAPERWithOptions(&value, data, options); err != nil {
+			return ERABsAdmittedToBeReleasedModAckItemSCGBearer{}, err
+		}
+		value.received = true
+		value.receivedAbsolute = true
+		value.receivedBytes = aper.OriginalWire(data)
+		return value, nil
+	}, encode: func(value ERABsAdmittedToBeReleasedModAckItemSCGBearer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERBudget((&value), budget, fresh)
+	}, capture: func(v ERABsAdmittedToBeReleasedModAckItemSCGBearer, options aper.DecodeState) (ERABsAdmittedToBeReleasedModAckItemSCGBearer, aper.Snapshot,
+	) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		X2apInternalCaptureX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(&v, &s)
+		var root aper.Snapshot
+		s.End(f, &root, false)
+		return v, root
+	}, compare: func(v ERABsAdmittedToBeReleasedModAckItemSCGBearer, root aper.Snapshot, budget aper.DecodeBudget,
+	) aper.ReplayPlan {
+		s := aper.NewSemanticComparison(root, budget)
+		f := s.Begin()
+		X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(
+			&v, &s)
+		s.End(f, root, false)
+		return s.Plan()
+	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ERABsAdmittedToBeReleasedModAckItemSCGBearer"),
+	}
+}
+
+// ERABsAdmittedToBeReleasedModAckItemSplitBearerCodec binds the complete source value type.
+func ERABsAdmittedToBeReleasedModAckItemSplitBearerCodec() ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec {
+	return ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec{path: "ERABsAdmittedToBeReleasedModAckItemSplitBearer", decode: func(data []byte, options aper.DecodeState) (ERABsAdmittedToBeReleasedModAckItemSplitBearer, error) {
+		var value ERABsAdmittedToBeReleasedModAckItemSplitBearer
+		if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerUnmarshalAPERWithOptions(&value, data, options); err != nil {
+			return ERABsAdmittedToBeReleasedModAckItemSplitBearer{}, err
+		}
+		value.received = true
+		value.receivedAbsolute = true
+		value.receivedBytes = aper.OriginalWire(data)
+		return value, nil
+	}, encode: func(value ERABsAdmittedToBeReleasedModAckItemSplitBearer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERBudget((&value), budget, fresh)
+	}, capture: func(v ERABsAdmittedToBeReleasedModAckItemSplitBearer, options aper.DecodeState) (ERABsAdmittedToBeReleasedModAckItemSplitBearer, aper.Snapshot) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		X2apInternalCaptureX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(&v, &s)
+		var root aper.Snapshot
+
+		s.End(f, &root, false)
+		return v, root
+	}, compare: func(v ERABsAdmittedToBeReleasedModAckItemSplitBearer, root aper.Snapshot, budget aper.DecodeBudget) aper.ReplayPlan {
+		s := aper.NewSemanticComparison(root, budget)
+		f := s.Begin()
+		X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(&v, &s)
+		s.End(f, root, false)
+		return s.Plan()
+	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ERABsAdmittedToBeReleasedModAckItemSplitBearer"),
 	}
 }
 
@@ -22225,69 +20989,6 @@ func SubbandCQIItemCodec() SubbandCQIItemValueCodec {
 	}
 }
 
-// SupportedSULFreqBandItemCodec binds the complete source value type.
-func SupportedSULFreqBandItemCodec() SupportedSULFreqBandItemValueCodec {
-	return SupportedSULFreqBandItemValueCodec{path: "SupportedSULFreqBandItem", decode: func(data []byte, options aper.DecodeState) (SupportedSULFreqBandItem, error) {
-		var value SupportedSULFreqBandItem
-		if err := X2apInternalSupportedSULFreqBandItemUnmarshalAPERWithOptions(&value, data, options); err != nil {
-			return SupportedSULFreqBandItem{}, err
-		}
-		value.received = true
-		value.receivedAbsolute = true
-		value.receivedBytes = aper.OriginalWire(data)
-		return value, nil
-	}, encode: func(value SupportedSULFreqBandItem, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return X2apInternalSupportedSULFreqBandItemMarshalAPERBudget((&value), budget, fresh)
-	}, capture: func(v SupportedSULFreqBandItem, options aper.DecodeState) (SupportedSULFreqBandItem, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		X2apInternalCaptureX2APSupportedSULFreqBandItem(&v, &s)
-		var root aper.Snapshot
-		s.End(f, &root,
-
-			false)
-		return v, root
-	}, compare: func(v SupportedSULFreqBandItem, root aper.Snapshot, budget aper.DecodeBudget) aper.ReplayPlan {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		X2apInternalCompareX2APSupportedSULFreqBandItem(&v, &s)
-		s.End(f, root, false)
-		return s.Plan()
-	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SupportedSULFreqBandItem"),
-	}
-}
-
-// TNLCapacityIndicatorCodec binds the complete source value type.
-func TNLCapacityIndicatorCodec() TNLCapacityIndicatorValueCodec {
-	return TNLCapacityIndicatorValueCodec{path: "TNLCapacityIndicator", decode: func(data []byte, options aper.DecodeState) (TNLCapacityIndicator, error) {
-		var value TNLCapacityIndicator
-		if err := X2apInternalTNLCapacityIndicatorUnmarshalAPERWithOptions(&value, data, options); err != nil {
-			return TNLCapacityIndicator{}, err
-		}
-		value.received = true
-		value.receivedAbsolute = true
-		value.receivedBytes = aper.OriginalWire(data)
-		return value, nil
-	}, encode: func(value TNLCapacityIndicator, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return X2apInternalTNLCapacityIndicatorMarshalAPERBudget((&value), budget, fresh)
-	}, capture: func(v TNLCapacityIndicator, options aper.DecodeState) (TNLCapacityIndicator, aper.Snapshot,
-	) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		X2apInternalCaptureX2APTNLCapacityIndicator(&v, &s)
-		var root aper.Snapshot
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v TNLCapacityIndicator, root aper.Snapshot, budget aper.DecodeBudget) aper.ReplayPlan {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		X2apInternalCompareX2APTNLCapacityIndicator(&v, &s)
-		s.End(f, root, false)
-		return s.Plan()
-	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:TNLCapacityIndicator"),
-	}
-}
-
 var X2apInternalKnownX2APIEIDs = map[s00.ProtocolIEID]struct{}{
 	0:   {},
 	1:   {},
@@ -23595,7 +22296,7 @@ type SecurityIndication struct {
 	receivedBytes                 aper.WireSpan
 	receivedLocation              aper.Location
 	IntegrityProtectionIndication s00.IntegrityProtectionIndication        `asn1:"tag:0,context,implicit"`
-	IEExtensions                  s03.SecurityIndicationExtIEsExtContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitzero"`
+	IEExtensions                  s04.SecurityIndicationExtIEsExtContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitzero"`
 	iEExtensionsIndef             bool                                     `asn1:"-" json:"-"`
 	extCount                      int64                                    `asn1:"-" json:"-"`
 	extPresent                    []bool                                   `asn1:"-" json:"-"`
@@ -23868,27 +22569,6 @@ type SubbandCQIItem struct {
 	extWire           []aper.WireSpan
 }
 
-// SupportedSULFreqBandItem represents the ASN.1 type SupportedSULFreqBandItem (SEQUENCE).
-type SupportedSULFreqBandItem struct {
-	replay              aper.Snapshot
-	stream              aper.WireSpan
-	received            bool
-	withoutReplay       bool
-	receivedAbsolute    bool
-	receivedBytes       aper.WireSpan
-	receivedLocation    aper.Location
-	FreqBandIndicatorNr *big.Int                                       `asn1:"tag:0,context,implicit"`
-	IEExtensions        s04.SupportedSULFreqBandItemExtIEsExtContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitzero"`
-	iEExtensionsIndef   bool                                           `asn1:"-" json:"-"`
-	extCount            int64                                          `asn1:"-" json:"-"`
-	extPresent          []bool                                         `asn1:"-" json:"-"`
-	extData             [][]byte                                       `asn1:"-" json:"-"`
-	perPadding          aper.FinalPadding                              `asn1:"-" json:"-"`
-	perExtPadding       []aper.CompletePadding                         `asn1:"-" json:"-"`
-	extOrigin           []aper.OpaqueOrigin
-	extWire             []aper.WireSpan
-}
-
 // SFNOffset represents the ASN.1 type SFN-Offset (SEQUENCE).
 type SFNOffset struct {
 	replay            aper.Snapshot
@@ -23908,30 +22588,6 @@ type SFNOffset struct {
 	perExtPadding     []aper.CompletePadding          `asn1:"-" json:"-"`
 	extOrigin         []aper.OpaqueOrigin
 	extWire           []aper.WireSpan
-}
-
-// TNLCapacityIndicator represents the ASN.1 type TNLCapacityIndicator (SEQUENCE).
-type TNLCapacityIndicator struct {
-	replay                      aper.Snapshot
-	stream                      aper.WireSpan
-	received                    bool
-	withoutReplay               bool
-	receivedAbsolute            bool
-	receivedBytes               aper.WireSpan
-	receivedLocation            aper.Location
-	DlTNLMaximumOfferedCapacity *big.Int                                   `asn1:"tag:0,context,implicit"`
-	DlTNLAvailableCapacity      *big.Int                                   `asn1:"tag:1,context,implicit"`
-	UlTNLMaximumOfferedCapacity *big.Int                                   `asn1:"tag:2,context,implicit"`
-	UlTNLAvailableCapacity      *big.Int                                   `asn1:"tag:3,context,implicit"`
-	IEExtensions                s04.TNLCapacityIndicatorExtIEsExtContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitzero"`
-	iEExtensionsIndef           bool                                       `asn1:"-" json:"-"`
-	extCount                    int64                                      `asn1:"-" json:"-"`
-	extPresent                  []bool                                     `asn1:"-" json:"-"`
-	extData                     [][]byte                                   `asn1:"-" json:"-"`
-	perPadding                  aper.FinalPadding                          `asn1:"-" json:"-"`
-	perExtPadding               []aper.CompletePadding                     `asn1:"-" json:"-"`
-	extOrigin                   []aper.OpaqueOrigin
-	extWire                     []aper.WireSpan
 }
 
 // NonAnchorCarrierFrequencylistElem represents the ASN.1 type Non-AnchorCarrierFrequencylist-Elem (SEQUENCE).
@@ -24100,6 +22756,7 @@ func X2apInternalCPACcandidatePSCellsItemUnmarshalAPERWithOptions(v *CPACcandida
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CPACcandidatePSCellsItem")
 	}
+	bb.EnterComponent("CPACcandidatePSCellsItem")
 	if err := X2apInternalCPACcandidatePSCellsItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "CPACcandidatePSCellsItem")
 	}
@@ -24134,6 +22791,7 @@ func X2apInternalCPACcandidatePSCellsItemUnmarshalAPERFrom(v *CPACcandidatePSCel
 	}
 	bb.LeaveComponent(toleranceMark_pscellid)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CPACcandidatePSCellsItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -24142,9 +22800,11 @@ func X2apInternalCPACcandidatePSCellsItemUnmarshalAPERFrom(v *CPACcandidatePSCel
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s01.CPACcandidatePSCellsItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s01.X2apInternalCPACcandidatePSCellsItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -24157,6 +22817,7 @@ func X2apInternalCPACcandidatePSCellsItemUnmarshalAPERFrom(v *CPACcandidatePSCel
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -24350,6 +23011,7 @@ func X2apInternalEnhancedRNTPUnmarshalAPERWithOptions(v *EnhancedRNTP, data []by
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "EnhancedRNTP")
 	}
+	bb.EnterComponent("EnhancedRNTP")
 	if err := X2apInternalEnhancedRNTPUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "EnhancedRNTP")
 	}
@@ -24405,6 +23067,7 @@ func X2apInternalEnhancedRNTPUnmarshalAPERFrom(v *EnhancedRNTP, bb *aper.BitBuff
 		bb.LeaveComponent(toleranceMark_enhancedrntpstarttime)
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.EnhancedRNTPExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -24413,9 +23076,11 @@ func X2apInternalEnhancedRNTPUnmarshalAPERFrom(v *EnhancedRNTP, bb *aper.BitBuff
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.EnhancedRNTPExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalEnhancedRNTPExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -24428,6 +23093,7 @@ func X2apInternalEnhancedRNTPUnmarshalAPERFrom(v *EnhancedRNTP, bb *aper.BitBuff
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -24613,6 +23279,7 @@ func X2apInternalEnhancedRNTPStartTimeUnmarshalAPERWithOptions(v *EnhancedRNTPSt
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "EnhancedRNTPStartTime")
 	}
+	bb.EnterComponent("EnhancedRNTPStartTime")
 	if err := X2apInternalEnhancedRNTPStartTimeUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "EnhancedRNTPStartTime")
 	}
@@ -24652,6 +23319,7 @@ func X2apInternalEnhancedRNTPStartTimeUnmarshalAPERFrom(v *EnhancedRNTPStartTime
 	}
 	v.StartSubframeNumber = val_startsubframenumber
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.EnhancedRNTPStartTimeExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -24660,9 +23328,11 @@ func X2apInternalEnhancedRNTPStartTimeUnmarshalAPERFrom(v *EnhancedRNTPStartTime
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.EnhancedRNTPStartTimeExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalEnhancedRNTPStartTimeExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -24675,6 +23345,7 @@ func X2apInternalEnhancedRNTPStartTimeUnmarshalAPERFrom(v *EnhancedRNTPStartTime
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -24876,6 +23547,7 @@ func X2apInternalERABsSubjectToEarlyStatusTransferItemUnmarshalAPERWithOptions(v
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsSubjectToEarlyStatusTransferItem")
 	}
+	bb.EnterComponent("ERABsSubjectToEarlyStatusTransferItem")
 	if err := X2apInternalERABsSubjectToEarlyStatusTransferItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsSubjectToEarlyStatusTransferItem")
 	}
@@ -24947,6 +23619,7 @@ func X2apInternalERABsSubjectToEarlyStatusTransferItemUnmarshalAPERFrom(v *ERABs
 		bb.LeaveComponent(toleranceMark_firstdlcountvalueforpdcpsnlength18)
 	}
 	if opt_ieextension {
+		toleranceMark_ieextension := bb.EnterComponent("IEExtension")
 		tmp_ieextension := make(s02.ERABsSubjectToEarlyStatusTransferItemExtIEsExtContainer, 0)
 		_, errCollection_ieextension := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextension, fragmentLength_ieextension int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -24955,9 +23628,11 @@ func X2apInternalERABsSubjectToEarlyStatusTransferItemUnmarshalAPERFrom(v *ERABs
 			}
 			for i := int64(0); i < fragmentLength_ieextension; i++ {
 				var elem s02.ERABsSubjectToEarlyStatusTransferItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextension + i)
 				if err := s02.X2apInternalERABsSubjectToEarlyStatusTransferItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtension[%d]", fragmentOffset_ieextension+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextension, elem); err != nil {
 					return err
 				} else {
@@ -24970,6 +23645,7 @@ func X2apInternalERABsSubjectToEarlyStatusTransferItemUnmarshalAPERFrom(v *ERABs
 			return runtime.WrapDecodePath(errCollection_ieextension, "IEExtension")
 		}
 		v.IEExtension = tmp_ieextension
+		bb.LeaveComponent(toleranceMark_ieextension)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -25171,6 +23847,7 @@ func X2apInternalERABsSubjectToDLDiscardingItemUnmarshalAPERWithOptions(v *ERABs
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsSubjectToDLDiscardingItem")
 	}
+	bb.EnterComponent("ERABsSubjectToDLDiscardingItem")
 	if err := X2apInternalERABsSubjectToDLDiscardingItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsSubjectToDLDiscardingItem")
 	}
@@ -25242,6 +23919,7 @@ func X2apInternalERABsSubjectToDLDiscardingItemUnmarshalAPERFrom(v *ERABsSubject
 		bb.LeaveComponent(toleranceMark_discarddlcountvalueforpdcpsnlength18)
 	}
 	if opt_ieextension {
+		toleranceMark_ieextension := bb.EnterComponent("IEExtension")
 		tmp_ieextension := make(s02.ERABsSubjectToDLDiscardingItemExtIEsExtContainer, 0)
 		_, errCollection_ieextension := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextension, fragmentLength_ieextension int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -25250,9 +23928,11 @@ func X2apInternalERABsSubjectToDLDiscardingItemUnmarshalAPERFrom(v *ERABsSubject
 			}
 			for i := int64(0); i < fragmentLength_ieextension; i++ {
 				var elem s02.ERABsSubjectToDLDiscardingItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextension + i)
 				if err := s02.X2apInternalERABsSubjectToDLDiscardingItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtension[%d]", fragmentOffset_ieextension+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextension, elem); err != nil {
 					return err
 				} else {
@@ -25265,6 +23945,7 @@ func X2apInternalERABsSubjectToDLDiscardingItemUnmarshalAPERFrom(v *ERABsSubject
 			return runtime.WrapDecodePath(errCollection_ieextension, "IEExtension")
 		}
 		v.IEExtension = tmp_ieextension
+		bb.LeaveComponent(toleranceMark_ieextension)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -25460,6 +24141,7 @@ func X2apInternalExpectedUEBehaviourUnmarshalAPERWithOptions(v *ExpectedUEBehavi
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ExpectedUEBehaviour")
 	}
+	bb.EnterComponent("ExpectedUEBehaviour")
 	if err := X2apInternalExpectedUEBehaviourUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ExpectedUEBehaviour")
 	}
@@ -25521,6 +24203,7 @@ func X2apInternalExpectedUEBehaviourUnmarshalAPERFrom(v *ExpectedUEBehaviour, bb
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ExpectedUEBehaviourExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -25529,9 +24212,11 @@ func X2apInternalExpectedUEBehaviourUnmarshalAPERFrom(v *ExpectedUEBehaviour, bb
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ExpectedUEBehaviourExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalExpectedUEBehaviourExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -25544,6 +24229,7 @@ func X2apInternalExpectedUEBehaviourUnmarshalAPERFrom(v *ExpectedUEBehaviour, bb
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -25747,6 +24433,7 @@ func X2apInternalExpectedUEActivityBehaviourUnmarshalAPERWithOptions(v *Expected
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ExpectedUEActivityBehaviour")
 	}
+	bb.EnterComponent("ExpectedUEActivityBehaviour")
 	if err := X2apInternalExpectedUEActivityBehaviourUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ExpectedUEActivityBehaviour")
 	}
@@ -25814,6 +24501,7 @@ func X2apInternalExpectedUEActivityBehaviourUnmarshalAPERFrom(v *ExpectedUEActiv
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ExpectedUEActivityBehaviourExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -25822,9 +24510,11 @@ func X2apInternalExpectedUEActivityBehaviourUnmarshalAPERFrom(v *ExpectedUEActiv
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ExpectedUEActivityBehaviourExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalExpectedUEActivityBehaviourExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -25837,6 +24527,7 @@ func X2apInternalExpectedUEActivityBehaviourUnmarshalAPERFrom(v *ExpectedUEActiv
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -26033,6 +24724,7 @@ func X2apInternalForbiddenLAsItemUnmarshalAPERWithOptions(v *ForbiddenLAsItem, d
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ForbiddenLAsItem")
 	}
+	bb.EnterComponent("ForbiddenLAsItem")
 	if err := X2apInternalForbiddenLAsItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ForbiddenLAsItem")
 	}
@@ -26066,6 +24758,7 @@ func X2apInternalForbiddenLAsItemUnmarshalAPERFrom(v *ForbiddenLAsItem, bb *aper
 		return runtime.WrapDecodePath(err, "PLMNIdentity")
 	}
 	v.PLMNIdentity = s00.PLMNIdentity(val_plmnidentity)
+	toleranceMark_forbiddenlacs := bb.EnterComponent("ForbiddenLACs")
 	v.ForbiddenLACs = make(s00.ForbiddenLACs, 0)
 	_, errCollection_forbiddenlacs := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_forbiddenlacs, fragmentLength_forbiddenlacs int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
@@ -26088,7 +24781,9 @@ func X2apInternalForbiddenLAsItemUnmarshalAPERFrom(v *ForbiddenLAsItem, bb *aper
 	if errCollection_forbiddenlacs != nil {
 		return runtime.WrapDecodePath(errCollection_forbiddenlacs, "ForbiddenLACs")
 	}
+	bb.LeaveComponent(toleranceMark_forbiddenlacs)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.ForbiddenLAsItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -26097,9 +24792,11 @@ func X2apInternalForbiddenLAsItemUnmarshalAPERFrom(v *ForbiddenLAsItem, bb *aper
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.ForbiddenLAsItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalForbiddenLAsItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -26112,6 +24809,7 @@ func X2apInternalForbiddenLAsItemUnmarshalAPERFrom(v *ForbiddenLAsItem, bb *aper
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -26297,6 +24995,7 @@ func X2apInternalGlobalENBIDUnmarshalAPERWithOptions(v *GlobalENBID, data []byte
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "GlobalENBID")
 	}
+	bb.EnterComponent("GlobalENBID")
 	if err := X2apInternalGlobalENBIDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "GlobalENBID")
 	}
@@ -26330,10 +25029,13 @@ func X2apInternalGlobalENBIDUnmarshalAPERFrom(v *GlobalENBID, bb *aper.BitBuffer
 		return runtime.WrapDecodePath(err, "PLMNIdentity")
 	}
 	v.PLMNIdentity = s00.PLMNIdentity(val_plmnidentity)
+	toleranceMark_enbid := bb.EnterComponent("ENBID")
 	if err := s00.X2apInternalENBIDUnmarshalAPERFrom(&v.ENBID, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBID")
 	}
+	bb.LeaveComponent(toleranceMark_enbid)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.GlobalENBIDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -26342,9 +25044,11 @@ func X2apInternalGlobalENBIDUnmarshalAPERFrom(v *GlobalENBID, bb *aper.BitBuffer
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.GlobalENBIDExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalGlobalENBIDExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -26357,6 +25061,7 @@ func X2apInternalGlobalENBIDUnmarshalAPERFrom(v *GlobalENBID, bb *aper.BitBuffer
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -26542,6 +25247,7 @@ func X2apInternalGlobalGNBIDUnmarshalAPERWithOptions(v *GlobalGNBID, data []byte
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "GlobalGNBID")
 	}
+	bb.EnterComponent("GlobalGNBID")
 	if err := X2apInternalGlobalGNBIDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "GlobalGNBID")
 	}
@@ -26575,10 +25281,13 @@ func X2apInternalGlobalGNBIDUnmarshalAPERFrom(v *GlobalGNBID, bb *aper.BitBuffer
 		return runtime.WrapDecodePath(err, "PLMNIdentity")
 	}
 	v.PLMNIdentity = s00.PLMNIdentity(val_plmnidentity)
+	toleranceMark_gnbid := bb.EnterComponent("GNBID")
 	if err := s00.X2apInternalGNBIDUnmarshalAPERFrom(&v.GNBID, bb); err != nil {
 		return runtime.WrapDecodePath(err, "GNBID")
 	}
+	bb.LeaveComponent(toleranceMark_gnbid)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.GlobalGNBIDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -26587,9 +25296,11 @@ func X2apInternalGlobalGNBIDUnmarshalAPERFrom(v *GlobalGNBID, bb *aper.BitBuffer
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.GlobalGNBIDExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalGlobalGNBIDExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -26602,6 +25313,7 @@ func X2apInternalGlobalGNBIDUnmarshalAPERFrom(v *GlobalGNBID, bb *aper.BitBuffer
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -26736,6 +25448,7 @@ func X2apInternalGlobalRANNODEIDUnmarshalAPERWithOptions(v *GlobalRANNODEID, dat
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "GlobalRANNODEID")
 	}
+	bb.EnterComponent("GlobalRANNODEID")
 	if err := X2apInternalGlobalRANNODEIDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "GlobalRANNODEID")
 	}
@@ -26776,6 +25489,7 @@ func X2apInternalGlobalRANNODEIDUnmarshalAPERFrom(v *GlobalRANNODEID, bb *aper.B
 		v.GNB = &dec_gnb
 		bb.LeaveComponent(toleranceMark_gnb)
 	case s00.GlobalRANNODEIDChoiceChoiceExtension:
+		toleranceMark_choiceextension := bb.EnterComponent("ChoiceExtension")
 		var dec_choiceextension s03.GlobalRANNODEIDExtIEValueProtocolIESingleContainer
 		if err := s03.X2apInternalGlobalRANNODEIDExtIEFieldUnmarshalAPERFrom(&dec_choiceextension, bb); err != nil {
 			return runtime.WrapDecodePath(err, "ChoiceExtension")
@@ -26784,6 +25498,7 @@ func X2apInternalGlobalRANNODEIDUnmarshalAPERFrom(v *GlobalRANNODEID, bb *aper.B
 			return err
 		}
 		v.ChoiceExtension = &dec_choiceextension
+		bb.LeaveComponent(toleranceMark_choiceextension)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 
@@ -26916,6 +25631,7 @@ func X2apInternalGUGroupIDUnmarshalAPERWithOptions(v *GUGroupID, data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "GUGroupID")
 	}
+	bb.EnterComponent("GUGroupID")
 	if err := X2apInternalGUGroupIDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "GUGroupID")
 	}
@@ -26955,6 +25671,7 @@ func X2apInternalGUGroupIDUnmarshalAPERFrom(v *GUGroupID, bb *aper.BitBuffer) er
 	}
 	v.MMEGroupID = s00.MMEGroupID(val_mmegroupid)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.GUGroupIDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -26963,9 +25680,11 @@ func X2apInternalGUGroupIDUnmarshalAPERFrom(v *GUGroupID, bb *aper.BitBuffer) er
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.GUGroupIDExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalGUGroupIDExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -26978,6 +25697,7 @@ func X2apInternalGUGroupIDUnmarshalAPERFrom(v *GUGroupID, bb *aper.BitBuffer) er
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -27163,6 +25883,7 @@ func X2apInternalGUMMEIUnmarshalAPERWithOptions(v *GUMMEI, data []byte, options 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "GUMMEI")
 	}
+	bb.EnterComponent("GUMMEI")
 	if err := X2apInternalGUMMEIUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "GUMMEI")
 	}
@@ -27202,6 +25923,7 @@ func X2apInternalGUMMEIUnmarshalAPERFrom(v *GUMMEI, bb *aper.BitBuffer) error {
 	}
 	v.MMECode = s00.MMECode(val_mmecode)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.GUMMEIExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -27210,9 +25932,11 @@ func X2apInternalGUMMEIUnmarshalAPERFrom(v *GUMMEI, bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.GUMMEIExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalGUMMEIExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -27225,6 +25949,7 @@ func X2apInternalGUMMEIUnmarshalAPERFrom(v *GUMMEI, bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -27410,6 +26135,7 @@ func X2apInternalHWLoadIndicatorUnmarshalAPERWithOptions(v *HWLoadIndicator, dat
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "HWLoadIndicator")
 	}
+	bb.EnterComponent("HWLoadIndicator")
 	if err := X2apInternalHWLoadIndicatorUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "HWLoadIndicator")
 	}
@@ -27449,6 +26175,7 @@ func X2apInternalHWLoadIndicatorUnmarshalAPERFrom(v *HWLoadIndicator, bb *aper.B
 	}
 	v.ULHWLoadIndicator = s00.LoadIndicator(val_ulhwloadindicator)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.HWLoadIndicatorExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -27457,9 +26184,11 @@ func X2apInternalHWLoadIndicatorUnmarshalAPERFrom(v *HWLoadIndicator, bb *aper.B
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.HWLoadIndicatorExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalHWLoadIndicatorExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -27472,6 +26201,7 @@ func X2apInternalHWLoadIndicatorUnmarshalAPERFrom(v *HWLoadIndicator, bb *aper.B
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -27654,6 +26384,7 @@ func X2apInternalLocationInformationSgNBUnmarshalAPERWithOptions(v *LocationInfo
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "LocationInformationSgNB")
 	}
+	bb.EnterComponent("LocationInformationSgNB")
 	if err := X2apInternalLocationInformationSgNBUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "LocationInformationSgNB")
 	}
@@ -27688,6 +26419,7 @@ func X2apInternalLocationInformationSgNBUnmarshalAPERFrom(v *LocationInformation
 	}
 	bb.LeaveComponent(toleranceMark_pscellid)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.LocationInformationSgNBExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -27696,9 +26428,11 @@ func X2apInternalLocationInformationSgNBUnmarshalAPERFrom(v *LocationInformation
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.LocationInformationSgNBExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalLocationInformationSgNBExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -27711,6 +26445,7 @@ func X2apInternalLocationInformationSgNBUnmarshalAPERFrom(v *LocationInformation
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -27896,6 +26631,7 @@ func X2apInternalM1PeriodicReportingUnmarshalAPERWithOptions(v *M1PeriodicReport
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "M1PeriodicReporting")
 	}
+	bb.EnterComponent("M1PeriodicReporting")
 	if err := X2apInternalM1PeriodicReportingUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "M1PeriodicReporting")
 	}
@@ -27935,6 +26671,7 @@ func X2apInternalM1PeriodicReportingUnmarshalAPERFrom(v *M1PeriodicReporting, bb
 	}
 	v.ReportAmount = s00.ReportAmountMDT(val_reportamount)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.M1PeriodicReportingExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -27943,9 +26680,11 @@ func X2apInternalM1PeriodicReportingUnmarshalAPERFrom(v *M1PeriodicReporting, bb
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.M1PeriodicReportingExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalM1PeriodicReportingExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -27958,6 +26697,7 @@ func X2apInternalM1PeriodicReportingUnmarshalAPERFrom(v *M1PeriodicReporting, bb
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -28140,6 +26880,7 @@ func X2apInternalM3ConfigurationUnmarshalAPERWithOptions(v *M3Configuration, dat
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "M3Configuration")
 	}
+	bb.EnterComponent("M3Configuration")
 	if err := X2apInternalM3ConfigurationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "M3Configuration")
 	}
@@ -28174,6 +26915,7 @@ func X2apInternalM3ConfigurationUnmarshalAPERFrom(v *M3Configuration, bb *aper.B
 	}
 	v.M3period = s00.M3period(val_m3period)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.M3ConfigurationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -28182,9 +26924,11 @@ func X2apInternalM3ConfigurationUnmarshalAPERFrom(v *M3Configuration, bb *aper.B
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.M3ConfigurationExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalM3ConfigurationExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -28197,6 +26941,7 @@ func X2apInternalM3ConfigurationUnmarshalAPERFrom(v *M3Configuration, bb *aper.B
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -28379,6 +27124,7 @@ func X2apInternalMessageOversizeNotificationUnmarshalAPERWithOptions(v *MessageO
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "MessageOversizeNotification")
 	}
+	bb.EnterComponent("MessageOversizeNotification")
 	if err := X2apInternalMessageOversizeNotificationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "MessageOversizeNotification")
 	}
@@ -28413,6 +27159,7 @@ func X2apInternalMessageOversizeNotificationUnmarshalAPERFrom(v *MessageOversize
 	}
 	v.MaximumCellListSize = val_maximumcelllistsize
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.MessageOversizeNotificationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -28421,9 +27168,11 @@ func X2apInternalMessageOversizeNotificationUnmarshalAPERFrom(v *MessageOversize
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.MessageOversizeNotificationExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalMessageOversizeNotificationExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -28436,6 +27185,7 @@ func X2apInternalMessageOversizeNotificationUnmarshalAPERFrom(v *MessageOversize
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -28624,6 +27374,7 @@ func X2apInternalNRCarrierItemUnmarshalAPERWithOptions(v *NRCarrierItem, data []
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "NRCarrierItem")
 	}
+	bb.EnterComponent("NRCarrierItem")
 	if err := X2apInternalNRCarrierItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRCarrierItem")
 	}
@@ -28668,6 +27419,7 @@ func X2apInternalNRCarrierItemUnmarshalAPERFrom(v *NRCarrierItem, bb *aper.BitBu
 	}
 	v.CarrierBandwidth = val_carrierbandwidth
 	if opt_ieextension {
+		toleranceMark_ieextension := bb.EnterComponent("IEExtension")
 		tmp_ieextension := make(s03.NRCarrierItemExtIEsExtContainer, 0)
 		_, errCollection_ieextension := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextension, fragmentLength_ieextension int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -28676,9 +27428,11 @@ func X2apInternalNRCarrierItemUnmarshalAPERFrom(v *NRCarrierItem, bb *aper.BitBu
 			}
 			for i := int64(0); i < fragmentLength_ieextension; i++ {
 				var elem s03.NRCarrierItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextension + i)
 				if err := s03.X2apInternalNRCarrierItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtension[%d]", fragmentOffset_ieextension+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextension, elem); err != nil {
 					return err
 				} else {
@@ -28691,6 +27445,7 @@ func X2apInternalNRCarrierItemUnmarshalAPERFrom(v *NRCarrierItem, bb *aper.BitBu
 			return runtime.WrapDecodePath(errCollection_ieextension, "IEExtension")
 		}
 		v.IEExtension = tmp_ieextension
+		bb.LeaveComponent(toleranceMark_ieextension)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -28876,6 +27631,7 @@ func X2apInternalNRCGIUnmarshalAPERWithOptions(v *NRCGI, data []byte, options ap
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "NRCGI")
 	}
+	bb.EnterComponent("NRCGI")
 	if err := X2apInternalNRCGIUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRCGI")
 	}
@@ -28915,6 +27671,7 @@ func X2apInternalNRCGIUnmarshalAPERFrom(v *NRCGI, bb *aper.BitBuffer) error {
 	}
 	v.NRcellIdentifier = runtime.BitString{Bytes: bsBytes_nrcellidentifier, BitLength: bsBitLen_nrcellidentifier}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.NRCGIExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -28923,9 +27680,11 @@ func X2apInternalNRCGIUnmarshalAPERFrom(v *NRCGI, bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.NRCGIExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalNRCGIExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -28938,6 +27697,7 @@ func X2apInternalNRCGIUnmarshalAPERFrom(v *NRCGI, bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -29163,6 +27923,7 @@ func X2apInternalNPRACHConfigurationFDDUnmarshalAPERWithOptions(v *NPRACHConfigu
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "NPRACHConfigurationFDD")
 	}
+	bb.EnterComponent("NPRACHConfigurationFDD")
 	if err := X2apInternalNPRACHConfigurationFDDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "NPRACHConfigurationFDD")
 	}
@@ -29262,6 +28023,7 @@ func X2apInternalNPRACHConfigurationFDDUnmarshalAPERFrom(v *NPRACHConfigurationF
 		v.NonAnchorCarrierFormat2NPRACHConfig = tmp_nonanchorcarrierformat2nprachconfig
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.NPRACHConfigurationFDDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -29270,9 +28032,11 @@ func X2apInternalNPRACHConfigurationFDDUnmarshalAPERFrom(v *NPRACHConfigurationF
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.NPRACHConfigurationFDDExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalNPRACHConfigurationFDDExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -29285,6 +28049,7 @@ func X2apInternalNPRACHConfigurationFDDUnmarshalAPERFrom(v *NPRACHConfigurationF
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -29470,6 +28235,7 @@ func X2apInternalNRTxBWUnmarshalAPERWithOptions(v *NRTxBW, data []byte, options 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "NRTxBW")
 	}
+	bb.EnterComponent("NRTxBW")
 	if err := X2apInternalNRTxBWUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRTxBW")
 	}
@@ -29509,6 +28275,7 @@ func X2apInternalNRTxBWUnmarshalAPERFrom(v *NRTxBW, bb *aper.BitBuffer) error {
 	}
 	v.NRNRB = s00.NRNRB(val_nrnrb)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.NRTxBWExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -29517,9 +28284,11 @@ func X2apInternalNRTxBWUnmarshalAPERFrom(v *NRTxBW, bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.NRTxBWExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalNRTxBWExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -29532,6 +28301,7 @@ func X2apInternalNRTxBWUnmarshalAPERFrom(v *NRTxBW, bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -29714,6 +28484,7 @@ func X2apInternalNRUESidelinkAggregateMaximumBitRateUnmarshalAPERWithOptions(v *
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "NRUESidelinkAggregateMaximumBitRate")
 	}
+	bb.EnterComponent("NRUESidelinkAggregateMaximumBitRate")
 	if err := X2apInternalNRUESidelinkAggregateMaximumBitRateUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRUESidelinkAggregateMaximumBitRate")
 	}
@@ -29748,6 +28519,7 @@ func X2apInternalNRUESidelinkAggregateMaximumBitRateUnmarshalAPERFrom(v *NRUESid
 	}
 	v.UESidelinkAggregateMaximumBitRate = s00.BitRate(val_uesidelinkaggregatemaximumbitrate)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.NRUESidelinkAggregateMaximumBitRateExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -29756,9 +28528,11 @@ func X2apInternalNRUESidelinkAggregateMaximumBitRateUnmarshalAPERFrom(v *NRUESid
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.NRUESidelinkAggregateMaximumBitRateExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalNRUESidelinkAggregateMaximumBitRateExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -29771,6 +28545,7 @@ func X2apInternalNRUESidelinkAggregateMaximumBitRateUnmarshalAPERFrom(v *NRUESid
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -29956,6 +28731,7 @@ func X2apInternalNRUESecurityCapabilitiesUnmarshalAPERWithOptions(v *NRUESecurit
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "NRUESecurityCapabilities")
 	}
+	bb.EnterComponent("NRUESecurityCapabilities")
 	if err := X2apInternalNRUESecurityCapabilitiesUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRUESecurityCapabilities")
 	}
@@ -29995,6 +28771,7 @@ func X2apInternalNRUESecurityCapabilitiesUnmarshalAPERFrom(v *NRUESecurityCapabi
 	}
 	v.NRintegrityProtectionAlgorithms = runtime.BitString{Bytes: bsBytes_nrintegrityprotectionalgorithms, BitLength: bsBitLen_nrintegrityprotectionalgorithms}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.NRUESecurityCapabilitiesExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -30003,9 +28780,11 @@ func X2apInternalNRUESecurityCapabilitiesUnmarshalAPERFrom(v *NRUESecurityCapabi
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.NRUESecurityCapabilitiesExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalNRUESecurityCapabilitiesExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -30018,6 +28797,7 @@ func X2apInternalNRUESecurityCapabilitiesUnmarshalAPERFrom(v *NRUESecurityCapabi
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -30213,6 +28993,7 @@ func X2apInternalNRV2XServicesAuthorizedUnmarshalAPERWithOptions(v *NRV2XService
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "NRV2XServicesAuthorized")
 	}
+	bb.EnterComponent("NRV2XServicesAuthorized")
 	if err := X2apInternalNRV2XServicesAuthorizedUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRV2XServicesAuthorized")
 	}
@@ -30274,6 +29055,7 @@ func X2apInternalNRV2XServicesAuthorizedUnmarshalAPERFrom(v *NRV2XServicesAuthor
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.NRV2XServicesAuthorizedExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -30282,9 +29064,11 @@ func X2apInternalNRV2XServicesAuthorizedUnmarshalAPERFrom(v *NRV2XServicesAuthor
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.NRV2XServicesAuthorizedExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalNRV2XServicesAuthorizedExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -30297,6 +29081,7 @@ func X2apInternalNRV2XServicesAuthorizedUnmarshalAPERFrom(v *NRV2XServicesAuthor
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -30495,6 +29280,7 @@ func X2apInternalPC5QoSFlowItemUnmarshalAPERWithOptions(v *PC5QoSFlowItem, data 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PC5QoSFlowItem")
 	}
+	bb.EnterComponent("PC5QoSFlowItem")
 	if err := X2apInternalPC5QoSFlowItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "PC5QoSFlowItem")
 	}
@@ -30561,6 +29347,7 @@ func X2apInternalPC5QoSFlowItemUnmarshalAPERFrom(v *PC5QoSFlowItem, bb *aper.Bit
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.PC5QoSFlowItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -30569,9 +29356,11 @@ func X2apInternalPC5QoSFlowItemUnmarshalAPERFrom(v *PC5QoSFlowItem, bb *aper.Bit
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.PC5QoSFlowItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalPC5QoSFlowItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -30584,6 +29373,7 @@ func X2apInternalPC5QoSFlowItemUnmarshalAPERFrom(v *PC5QoSFlowItem, bb *aper.Bit
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -30769,6 +29559,7 @@ func X2apInternalPC5FlowBitRatesUnmarshalAPERWithOptions(v *PC5FlowBitRates, dat
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PC5FlowBitRates")
 	}
+	bb.EnterComponent("PC5FlowBitRates")
 	if err := X2apInternalPC5FlowBitRatesUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "PC5FlowBitRates")
 	}
@@ -30808,6 +29599,7 @@ func X2apInternalPC5FlowBitRatesUnmarshalAPERFrom(v *PC5FlowBitRates, bb *aper.B
 	}
 	v.MaximumFlowBitRate = s00.BitRate(val_maximumflowbitrate)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.PC5FlowBitRatesExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -30816,9 +29608,11 @@ func X2apInternalPC5FlowBitRatesUnmarshalAPERFrom(v *PC5FlowBitRates, bb *aper.B
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.PC5FlowBitRatesExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalPC5FlowBitRatesExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -30831,6 +29625,7 @@ func X2apInternalPC5FlowBitRatesUnmarshalAPERFrom(v *PC5FlowBitRates, bb *aper.B
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -31030,6 +29825,7 @@ func X2apInternalPRACHConfigurationUnmarshalAPERWithOptions(v *PRACHConfiguratio
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PRACHConfiguration")
 	}
+	bb.EnterComponent("PRACHConfiguration")
 	if err := X2apInternalPRACHConfigurationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "PRACHConfiguration")
 	}
@@ -31094,6 +29890,7 @@ func X2apInternalPRACHConfigurationUnmarshalAPERFrom(v *PRACHConfiguration, bb *
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.PRACHConfigurationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -31102,9 +29899,11 @@ func X2apInternalPRACHConfigurationUnmarshalAPERFrom(v *PRACHConfiguration, bb *
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.PRACHConfigurationExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalPRACHConfigurationExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -31117,6 +29916,7 @@ func X2apInternalPRACHConfigurationUnmarshalAPERFrom(v *PRACHConfiguration, bb *
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -31310,6 +30110,7 @@ func X2apInternalPLMNAreaBasedQMCUnmarshalAPERWithOptions(v *PLMNAreaBasedQMC, d
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PLMNAreaBasedQMC")
 	}
+	bb.EnterComponent("PLMNAreaBasedQMC")
 	if err := X2apInternalPLMNAreaBasedQMCUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "PLMNAreaBasedQMC")
 	}
@@ -31338,6 +30139,7 @@ func X2apInternalPLMNAreaBasedQMCUnmarshalAPERFrom(v *PLMNAreaBasedQMC, bb *aper
 	if err != nil {
 		return err
 	}
+	toleranceMark_plmnlistforqmc := bb.EnterComponent("PlmnListforQMC")
 	v.PlmnListforQMC = make(s00.PLMNListforQMC, 0)
 	_, errCollection_plmnlistforqmc := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_plmnlistforqmc, fragmentLength_plmnlistforqmc int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
@@ -31360,7 +30162,9 @@ func X2apInternalPLMNAreaBasedQMCUnmarshalAPERFrom(v *PLMNAreaBasedQMC, bb *aper
 	if errCollection_plmnlistforqmc != nil {
 		return runtime.WrapDecodePath(errCollection_plmnlistforqmc, "PlmnListforQMC")
 	}
+	bb.LeaveComponent(toleranceMark_plmnlistforqmc)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.PLMNAreaBasedQMCExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -31369,9 +30173,11 @@ func X2apInternalPLMNAreaBasedQMCUnmarshalAPERFrom(v *PLMNAreaBasedQMC, bb *aper
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.PLMNAreaBasedQMCExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalPLMNAreaBasedQMCExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -31384,6 +30190,7 @@ func X2apInternalPLMNAreaBasedQMCUnmarshalAPERFrom(v *PLMNAreaBasedQMC, bb *aper
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -31569,6 +30376,7 @@ func X2apInternalProtectedFootprintTimePatternUnmarshalAPERWithOptions(v *Protec
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtectedFootprintTimePattern")
 	}
+	bb.EnterComponent("ProtectedFootprintTimePattern")
 	if err := X2apInternalProtectedFootprintTimePatternUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtectedFootprintTimePattern")
 	}
@@ -31608,6 +30416,7 @@ func X2apInternalProtectedFootprintTimePatternUnmarshalAPERFrom(v *ProtectedFoot
 	}
 	v.ProtectedFootprintStartTime = val_protectedfootprintstarttime
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.ProtectedFootprintTimePatternExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -31616,9 +30425,11 @@ func X2apInternalProtectedFootprintTimePatternUnmarshalAPERFrom(v *ProtectedFoot
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.ProtectedFootprintTimePatternExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalProtectedFootprintTimePatternExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -31631,6 +30442,7 @@ func X2apInternalProtectedFootprintTimePatternUnmarshalAPERFrom(v *ProtectedFoot
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -31822,6 +30634,7 @@ func X2apInternalProtectedResourceListItemUnmarshalAPERWithOptions(v *ProtectedR
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtectedResourceListItem")
 	}
+	bb.EnterComponent("ProtectedResourceListItem")
 	if err := X2apInternalProtectedResourceListItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtectedResourceListItem")
 	}
@@ -31871,6 +30684,7 @@ func X2apInternalProtectedResourceListItemUnmarshalAPERFrom(v *ProtectedResource
 	}
 	bb.LeaveComponent(toleranceMark_protectedfootprinttimepattern)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.ProtectedResourceListItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -31879,9 +30693,11 @@ func X2apInternalProtectedResourceListItemUnmarshalAPERFrom(v *ProtectedResource
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.ProtectedResourceListItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalProtectedResourceListItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -31894,6 +30710,7 @@ func X2apInternalProtectedResourceListItemUnmarshalAPERFrom(v *ProtectedResource
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -32089,6 +30906,7 @@ func X2apInternalQoSMappingInformationUnmarshalAPERWithOptions(v *QoSMappingInfo
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "QoSMappingInformation")
 	}
+	bb.EnterComponent("QoSMappingInformation")
 	if err := X2apInternalQoSMappingInformationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "QoSMappingInformation")
 	}
@@ -32148,6 +30966,7 @@ func X2apInternalQoSMappingInformationUnmarshalAPERFrom(v *QoSMappingInformation
 		v.FlowLabel = &tmp_flowlabel
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.QoSMappingInformationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -32156,9 +30975,11 @@ func X2apInternalQoSMappingInformationUnmarshalAPERFrom(v *QoSMappingInformation
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.QoSMappingInformationExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalQoSMappingInformationExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -32171,6 +30992,7 @@ func X2apInternalQoSMappingInformationUnmarshalAPERFrom(v *QoSMappingInformation
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -32356,6 +31178,7 @@ func X2apInternalRATRestrictionsItemUnmarshalAPERWithOptions(v *RATRestrictionsI
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RATRestrictionsItem")
 	}
+	bb.EnterComponent("RATRestrictionsItem")
 	if err := X2apInternalRATRestrictionsItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "RATRestrictionsItem")
 	}
@@ -32395,6 +31218,7 @@ func X2apInternalRATRestrictionsItemUnmarshalAPERFrom(v *RATRestrictionsItem, bb
 	}
 	v.RATRestrictionInformation = runtime.BitString{Bytes: bsBytes_ratrestrictioninformation, BitLength: bsBitLen_ratrestrictioninformation}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.RATRestrictionsItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -32403,9 +31227,11 @@ func X2apInternalRATRestrictionsItemUnmarshalAPERFrom(v *RATRestrictionsItem, bb
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.RATRestrictionsItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalRATRestrictionsItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -32418,6 +31244,7 @@ func X2apInternalRATRestrictionsItemUnmarshalAPERFrom(v *RATRestrictionsItem, bb
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -32606,6 +31433,7 @@ func X2apInternalReservedSubframePatternUnmarshalAPERWithOptions(v *ReservedSubf
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ReservedSubframePattern")
 	}
+	bb.EnterComponent("ReservedSubframePattern")
 	if err := X2apInternalReservedSubframePatternUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ReservedSubframePattern")
 	}
@@ -32650,6 +31478,7 @@ func X2apInternalReservedSubframePatternUnmarshalAPERFrom(v *ReservedSubframePat
 	}
 	v.MBSFNControlRegionLength = val_mbsfncontrolregionlength
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.ReservedSubframePatternExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -32658,9 +31487,11 @@ func X2apInternalReservedSubframePatternUnmarshalAPERFrom(v *ReservedSubframePat
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.ReservedSubframePatternExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalReservedSubframePatternExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -32673,6 +31504,7 @@ func X2apInternalReservedSubframePatternUnmarshalAPERFrom(v *ReservedSubframePat
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -32855,6 +31687,7 @@ func X2apInternalRLCStatusUnmarshalAPERWithOptions(v *RLCStatus, data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RLCStatus")
 	}
+	bb.EnterComponent("RLCStatus")
 	if err := X2apInternalRLCStatusUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "RLCStatus")
 	}
@@ -32889,6 +31722,7 @@ func X2apInternalRLCStatusUnmarshalAPERFrom(v *RLCStatus, bb *aper.BitBuffer) er
 	}
 	v.ReestablishmentIndication = s00.ReestablishmentIndication(val_reestablishmentindication)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.RLCStatusExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -32897,9 +31731,11 @@ func X2apInternalRLCStatusUnmarshalAPERFrom(v *RLCStatus, bb *aper.BitBuffer) er
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.RLCStatusExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalRLCStatusExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -32912,6 +31748,7 @@ func X2apInternalRLCStatusUnmarshalAPERFrom(v *RLCStatus, bb *aper.BitBuffer) er
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -33097,6 +31934,7 @@ func X2apInternalS1TNLLoadIndicatorUnmarshalAPERWithOptions(v *S1TNLLoadIndicato
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "S1TNLLoadIndicator")
 	}
+	bb.EnterComponent("S1TNLLoadIndicator")
 	if err := X2apInternalS1TNLLoadIndicatorUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1TNLLoadIndicator")
 	}
@@ -33136,6 +31974,7 @@ func X2apInternalS1TNLLoadIndicatorUnmarshalAPERFrom(v *S1TNLLoadIndicator, bb *
 	}
 	v.ULS1TNLLoadIndicator = s00.LoadIndicator(val_uls1tnlloadindicator)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.S1TNLLoadIndicatorExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -33144,9 +31983,11 @@ func X2apInternalS1TNLLoadIndicatorUnmarshalAPERFrom(v *S1TNLLoadIndicator, bb *
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.S1TNLLoadIndicatorExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalS1TNLLoadIndicatorExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -33159,6 +32000,7 @@ func X2apInternalS1TNLLoadIndicatorUnmarshalAPERFrom(v *S1TNLLoadIndicator, bb *
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -33277,7 +32119,7 @@ func X2apInternalSecurityIndicationMarshalAPERTo(v *SecurityIndication, bb *aper
 				return fmt.Errorf("collection fragment outside value")
 			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
-				if err := s03.X2apInternalSecurityIndicationExtIEsExtFieldMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+				if err := s04.X2apInternalSecurityIndicationExtIEsExtFieldMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
 				}
 			}
@@ -33341,6 +32183,7 @@ func X2apInternalSecurityIndicationUnmarshalAPERWithOptions(v *SecurityIndicatio
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SecurityIndication")
 	}
+	bb.EnterComponent("SecurityIndication")
 	if err := X2apInternalSecurityIndicationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SecurityIndication")
 	}
@@ -33375,17 +32218,20 @@ func X2apInternalSecurityIndicationUnmarshalAPERFrom(v *SecurityIndication, bb *
 	}
 	v.IntegrityProtectionIndication = s00.IntegrityProtectionIndication(val_integrityprotectionindication)
 	if opt_ieextensions {
-		tmp_ieextensions := make(s03.SecurityIndicationExtIEsExtContainer, 0)
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
+		tmp_ieextensions := make(s04.SecurityIndicationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
-				var elem s03.SecurityIndicationExtIEsExtField
-				if err := s03.X2apInternalSecurityIndicationExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
+				var elem s04.SecurityIndicationExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
+				if err := s04.X2apInternalSecurityIndicationExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -33398,6 +32244,7 @@ func X2apInternalSecurityIndicationUnmarshalAPERFrom(v *SecurityIndication, bb *
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -33580,6 +32427,7 @@ func X2apInternalSecurityResultUnmarshalAPERWithOptions(v *SecurityResult, data 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SecurityResult")
 	}
+	bb.EnterComponent("SecurityResult")
 	if err := X2apInternalSecurityResultUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SecurityResult")
 	}
@@ -33614,6 +32462,7 @@ func X2apInternalSecurityResultUnmarshalAPERFrom(v *SecurityResult, bb *aper.Bit
 	}
 	v.IntegrityProtectionResult = s00.IntegrityProtectionResult(val_integrityprotectionresult)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.SecurityResultExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -33622,9 +32471,11 @@ func X2apInternalSecurityResultUnmarshalAPERFrom(v *SecurityResult, bb *aper.Bit
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.SecurityResultExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.X2apInternalSecurityResultExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -33637,6 +32488,7 @@ func X2apInternalSecurityResultUnmarshalAPERFrom(v *SecurityResult, bb *aper.Bit
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -33819,6 +32671,7 @@ func X2apInternalSensorMeasConfigNameItemUnmarshalAPERWithOptions(v *SensorMeasC
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SensorMeasConfigNameItem")
 	}
+	bb.EnterComponent("SensorMeasConfigNameItem")
 	if err := X2apInternalSensorMeasConfigNameItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SensorMeasConfigNameItem")
 	}
@@ -33847,10 +32700,13 @@ func X2apInternalSensorMeasConfigNameItemUnmarshalAPERFrom(v *SensorMeasConfigNa
 	if err != nil {
 		return err
 	}
+	toleranceMark_sensornameconfig := bb.EnterComponent("SensorNameConfig")
 	if err := X2apInternalSensorNameConfigUnmarshalAPERFrom(&v.SensorNameConfig, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SensorNameConfig")
 	}
+	bb.LeaveComponent(toleranceMark_sensornameconfig)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.SensorMeasConfigNameItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -33859,9 +32715,11 @@ func X2apInternalSensorMeasConfigNameItemUnmarshalAPERFrom(v *SensorMeasConfigNa
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.SensorMeasConfigNameItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.X2apInternalSensorMeasConfigNameItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -33874,6 +32732,7 @@ func X2apInternalSensorMeasConfigNameItemUnmarshalAPERFrom(v *SensorMeasConfigNa
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -34008,6 +32867,7 @@ func X2apInternalSensorNameConfigUnmarshalAPERWithOptions(v *SensorNameConfig, d
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SensorNameConfig")
 	}
+	bb.EnterComponent("SensorNameConfig")
 	if err := X2apInternalSensorNameConfigUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SensorNameConfig")
 	}
@@ -34047,6 +32907,7 @@ func X2apInternalSensorNameConfigUnmarshalAPERFrom(v *SensorNameConfig, bb *aper
 		v.UncompensatedBarometricConfig = (*int64)(bb.OwnInt64(int64(val_uncompensatedbarometricconfig)))
 
 	case s00.SensorNameConfigChoiceChoiceExtension:
+		toleranceMark_choiceextension := bb.EnterComponent("ChoiceExtension")
 		var dec_choiceextension s04.SensorNameConfigExtIEValueProtocolIESingleContainer
 		if err := s04.X2apInternalSensorNameConfigExtIEFieldUnmarshalAPERFrom(&dec_choiceextension, bb); err != nil {
 			return runtime.WrapDecodePath(err, "ChoiceExtension")
@@ -34055,6 +32916,7 @@ func X2apInternalSensorNameConfigUnmarshalAPERFrom(v *SensorNameConfig, bb *aper
 			return err
 		}
 		v.ChoiceExtension = &dec_choiceextension
+		bb.LeaveComponent(toleranceMark_choiceextension)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 
@@ -34192,6 +33054,7 @@ func X2apInternalServedCellSpecificInfoReqNRItemUnmarshalAPERWithOptions(v *Serv
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ServedCellSpecificInfoReqNRItem")
 	}
+	bb.EnterComponent("ServedCellSpecificInfoReqNRItem")
 	if err := X2apInternalServedCellSpecificInfoReqNRItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ServedCellSpecificInfoReqNRItem")
 	}
@@ -34241,6 +33104,7 @@ func X2apInternalServedCellSpecificInfoReqNRItemUnmarshalAPERFrom(v *ServedCellS
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.ServedCellSpecificInfoReqNRItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -34249,9 +33113,11 @@ func X2apInternalServedCellSpecificInfoReqNRItemUnmarshalAPERFrom(v *ServedCellS
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.ServedCellSpecificInfoReqNRItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.X2apInternalServedCellSpecificInfoReqNRItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -34264,6 +33130,7 @@ func X2apInternalServedCellSpecificInfoReqNRItemUnmarshalAPERFrom(v *ServedCellS
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -34452,6 +33319,7 @@ func X2apInternalSpecialSubframeInfoUnmarshalAPERWithOptions(v *SpecialSubframeI
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SpecialSubframeInfo")
 	}
+	bb.EnterComponent("SpecialSubframeInfo")
 	if err := X2apInternalSpecialSubframeInfoUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SpecialSubframeInfo")
 	}
@@ -34496,6 +33364,7 @@ func X2apInternalSpecialSubframeInfoUnmarshalAPERFrom(v *SpecialSubframeInfo, bb
 	}
 	v.CyclicPrefixUL = s00.CyclicPrefixUL(val_cyclicprefixul)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.SpecialSubframeInfoExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -34504,9 +33373,11 @@ func X2apInternalSpecialSubframeInfoUnmarshalAPERFrom(v *SpecialSubframeInfo, bb
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.SpecialSubframeInfoExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.X2apInternalSpecialSubframeInfoExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -34519,6 +33390,7 @@ func X2apInternalSpecialSubframeInfoUnmarshalAPERFrom(v *SpecialSubframeInfo, bb
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -34709,6 +33581,7 @@ func X2apInternalSubbandCQIUnmarshalAPERWithOptions(v *SubbandCQI, data []byte, 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SubbandCQI")
 	}
+	bb.EnterComponent("SubbandCQI")
 	if err := X2apInternalSubbandCQIUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SubbandCQI")
 	}
@@ -34741,10 +33614,13 @@ func X2apInternalSubbandCQIUnmarshalAPERFrom(v *SubbandCQI, bb *aper.BitBuffer) 
 	if err != nil {
 		return err
 	}
+	toleranceMark_subbandcqicodeword0 := bb.EnterComponent("SubbandCQICodeword0")
 	if err := s00.X2apInternalSubbandCQICodeword0UnmarshalAPERFrom(&v.SubbandCQICodeword0, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SubbandCQICodeword0")
 	}
+	bb.LeaveComponent(toleranceMark_subbandcqicodeword0)
 	if opt_subbandcqicodeword1 {
+		toleranceMark_subbandcqicodeword1 := bb.EnterComponent("SubbandCQICodeword1")
 		var dec_subbandcqicodeword1 s00.SubbandCQICodeword1
 		if err := s00.X2apInternalSubbandCQICodeword1UnmarshalAPERFrom(&dec_subbandcqicodeword1, bb); err != nil {
 			return runtime.WrapDecodePath(err, "SubbandCQICodeword1")
@@ -34753,8 +33629,10 @@ func X2apInternalSubbandCQIUnmarshalAPERFrom(v *SubbandCQI, bb *aper.BitBuffer) 
 			return err
 		}
 		v.SubbandCQICodeword1 = &dec_subbandcqicodeword1
+		bb.LeaveComponent(toleranceMark_subbandcqicodeword1)
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.SubbandCQIExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -34763,9 +33641,11 @@ func X2apInternalSubbandCQIUnmarshalAPERFrom(v *SubbandCQI, bb *aper.BitBuffer) 
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.SubbandCQIExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.X2apInternalSubbandCQIExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -34778,6 +33658,7 @@ func X2apInternalSubbandCQIUnmarshalAPERFrom(v *SubbandCQI, bb *aper.BitBuffer) 
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -35005,6 +33886,7 @@ func X2apInternalSubscriptionBasedUEDifferentiationInfoUnmarshalAPERWithOptions(
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SubscriptionBasedUEDifferentiationInfo")
 	}
+	bb.EnterComponent("SubscriptionBasedUEDifferentiationInfo")
 	if err := X2apInternalSubscriptionBasedUEDifferentiationInfoUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SubscriptionBasedUEDifferentiationInfo")
 	}
@@ -35121,6 +34003,7 @@ func X2apInternalSubscriptionBasedUEDifferentiationInfoUnmarshalAPERFrom(v *Subs
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -35129,9 +34012,11 @@ func X2apInternalSubscriptionBasedUEDifferentiationInfoUnmarshalAPERFrom(v *Subs
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.SubscriptionBasedUEDifferentiationInfoExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.X2apInternalSubscriptionBasedUEDifferentiationInfoExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -35144,6 +34029,7 @@ func X2apInternalSubscriptionBasedUEDifferentiationInfoUnmarshalAPERFrom(v *Subs
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -35347,6 +34233,7 @@ func X2apInternalScheduledCommunicationTimeUnmarshalAPERWithOptions(v *Scheduled
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ScheduledCommunicationTime")
 	}
+	bb.EnterComponent("ScheduledCommunicationTime")
 	if err := X2apInternalScheduledCommunicationTimeUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ScheduledCommunicationTime")
 	}
@@ -35413,6 +34300,7 @@ func X2apInternalScheduledCommunicationTimeUnmarshalAPERFrom(v *ScheduledCommuni
 		v.TimeofDayEnd = val_timeofdayend
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.ScheduledCommunicationTimeExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -35421,9 +34309,11 @@ func X2apInternalScheduledCommunicationTimeUnmarshalAPERFrom(v *ScheduledCommuni
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.ScheduledCommunicationTimeExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalScheduledCommunicationTimeExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -35436,6 +34326,7 @@ func X2apInternalScheduledCommunicationTimeUnmarshalAPERFrom(v *ScheduledCommuni
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -35584,6 +34475,7 @@ func X2apInternalSSBPositionsInBurstUnmarshalAPERWithOptions(v *SSBPositionsInBu
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SSBPositionsInBurst")
 	}
+	bb.EnterComponent("SSBPositionsInBurst")
 	if err := X2apInternalSSBPositionsInBurstUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SSBPositionsInBurst")
 	}
@@ -35643,6 +34535,7 @@ func X2apInternalSSBPositionsInBurstUnmarshalAPERFrom(v *SSBPositionsInBurst, bb
 		}
 		v.LongBitmap = &tmp_longbitmap
 	case s00.SSBPositionsInBurstChoiceChoiceExtension:
+		toleranceMark_choiceextension := bb.EnterComponent("ChoiceExtension")
 		var dec_choiceextension s03.SSBPositionsInBurstExtIEValueProtocolIESingleContainer
 		if err := s03.X2apInternalSSBPositionsInBurstExtIEFieldUnmarshalAPERFrom(&dec_choiceextension, bb); err != nil {
 			return runtime.WrapDecodePath(err, "ChoiceExtension")
@@ -35651,6 +34544,7 @@ func X2apInternalSSBPositionsInBurstUnmarshalAPERFrom(v *SSBPositionsInBurst, bb
 			return err
 		}
 		v.ChoiceExtension = &dec_choiceextension
+		bb.LeaveComponent(toleranceMark_choiceextension)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 
@@ -35783,6 +34677,7 @@ func X2apInternalSubbandCQIItemUnmarshalAPERWithOptions(v *SubbandCQIItem, data 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SubbandCQIItem")
 	}
+	bb.EnterComponent("SubbandCQIItem")
 	if err := X2apInternalSubbandCQIItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SubbandCQIItem")
 	}
@@ -35822,6 +34717,7 @@ func X2apInternalSubbandCQIItemUnmarshalAPERFrom(v *SubbandCQIItem, bb *aper.Bit
 	}
 	v.SubbandIndex = val_subbandindex
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.SubbandCQIItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -35830,9 +34726,11 @@ func X2apInternalSubbandCQIItemUnmarshalAPERFrom(v *SubbandCQIItem, bb *aper.Bit
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.SubbandCQIItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.X2apInternalSubbandCQIItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -35845,245 +34743,7 @@ func X2apInternalSubbandCQIItemUnmarshalAPERFrom(v *SubbandCQIItem, bb *aper.Bit
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
-		if err != nil {
-			return runtime.WrapDecodePath(err, "ExtData_")
-		}
-		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
-		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return fmt.Errorf("extension count out of range")
-		}
-		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
-			return err
-		}
-		v.extData = make([][]byte, len(extPresent))
-		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
-			return err
-		}
-		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
-		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
-			return err
-		}
-		v.extWire = make([]aper.WireSpan, len(v.extData))
-		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
-		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return fmt.Errorf("extension count out of range")
-		}
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
-				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.5"})
-				if err != nil {
-					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
-				}
-				opaque = opaque.WithPath("Extensions")
-				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
-					return err
-				}
-				var retained aper.WireSpan
-				opaque.RetainContents(&retained)
-				v.extWire[i] = retained
-				v.extOrigin[i] = opaque.CaptureOrigin()
-			}
-		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-			v.extWire = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
-	}
-	v.stream = bb.CaptureWireSpan(replayStart)
-
-	return nil
-}
-
-// MarshalAPER encodes SupportedSULFreqBandItem to APER format.
-func X2apInternalSupportedSULFreqBandItemMarshalAPERLegacy(v *SupportedSULFreqBandItem) ([]byte, error) {
-	bb := aper.NewBitBuffer()
-	if err := X2apInternalSupportedSULFreqBandItemMarshalAPERTo(v, bb); err != nil {
-		return nil, err
-	}
-	return bb.CompleteBytesWithFinalPadding(v.perPadding)
-}
-func X2apInternalSupportedSULFreqBandItemMarshalAPERTo(v *SupportedSULFreqBandItem, bb *aper.BitBuffer, fresh ...bool) error {
-	if v.withoutReplay {
-		fresh = []bool{true}
-	}
-	if len(fresh) > 0 && fresh[0] {
-		previous := bb.SuspendReplayPlan()
-		defer bb.
-			RestoreReplayPlan(
-				previous)
-	}
-	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
-		if ok, err := v.stream.
-			ReplayTo(bb); ok || err != nil {
-			return err
-		}
-	}
-
-	extensionCount := v.extCount
-	if len(fresh) != 0 && fresh[0] {
-		extensionCount, _ = s00.X2apInternalPreferredSequenceTail(v.extPresent, v.extData)
-	}
-	if err := bb.EnterDecodeValue(); err != nil {
-		return err
-	}
-	defer bb.LeaveDecodeValue()
-
-	recoveryStart := bb.BitsWritten()
-	hasExtensions := false
-	for _, present := range v.extPresent {
-		hasExtensions = hasExtensions || present
-	}
-	for _, data := range v.extData {
-		hasExtensions = hasExtensions || data != nil
-	}
-	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := aper.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := aper.EncodeIntegerBigBoundsAligned(bb, v.FreqBandIndicatorNr, s00.X2apInternalAsn1IntegerBound2, s00.X2apInternalAsn1IntegerBound6, true); err != nil {
-		return fmt.Errorf("encoding freqBandIndicatorNr: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := aper.EncodeCollection(bb, int64(len(v.IEExtensions)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
-			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
-				return fmt.Errorf("collection fragment outside value")
-			}
-			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
-				if err := s04.X2apInternalSupportedSULFreqBandItemExtIEsExtFieldMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
-					return fmt.Errorf("encoding iE-Extensions element: %w", err)
-				}
-			}
-			return nil
-		}); err != nil {
-			return fmt.Errorf("encoding iE-Extensions: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount := extensionCount
-		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
-		if extCount < 0 || extCount >= 16383 {
-			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
-		}
-		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
-			return err
-		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
-		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return fmt.Errorf("extension count out of range")
-		}
-		for i := int64(0); i <= extCount; i++ {
-			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil)
-			if err := aper.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
-		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return fmt.Errorf("extension count out of range")
-		}
-		for i := int64(0); i <= extCount; i++ {
-			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil) {
-				var data []byte
-				if i < int64(len(v.extData)) {
-					data = v.extData[i]
-				}
-				if err := aper.EncodeExtensionContents(bb, data, v.extWire, i); err != nil {
-					return err
-				}
-			}
-		}
-	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
-	return nil
-}
-
-// UnmarshalAPER decodes SupportedSULFreqBandItem from APER format.
-func X2apInternalSupportedSULFreqBandItemUnmarshalAPERLegacy(v *SupportedSULFreqBandItem, data []byte) error {
-	return X2apInternalSupportedSULFreqBandItemUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
-}
-
-// UnmarshalAPERWithOptions decodes SupportedSULFreqBandItem with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
-func X2apInternalSupportedSULFreqBandItemUnmarshalAPERWithOptions(v *SupportedSULFreqBandItem, data []byte, options aper.DecodeState) error {
-	bb := aper.NewCompleteDecodeBuffer(data, options)
-	if err := bb.SetDecodeOptionsAligned(options); err != nil {
-		return runtime.WrapDecodePath(err, "SupportedSULFreqBandItem")
-	}
-	if err := X2apInternalSupportedSULFreqBandItemUnmarshalAPERFrom(v, bb); err != nil {
-		return runtime.WrapDecodePath(err, "SupportedSULFreqBandItem")
-	}
-	padding, err := aper.CaptureFinalBits(bb, "SupportedSULFreqBandItem")
-	if err != nil {
-		return runtime.WrapDecodePath(err, "SupportedSULFreqBandItem")
-	}
-	v.perPadding = padding.WithRecords(v.perPadding)
-	return nil
-}
-func X2apInternalSupportedSULFreqBandItemUnmarshalAPERFrom(v *SupportedSULFreqBandItem, bb *aper.BitBuffer) error {
-	replayStart := bb.BitPos()
-
-	if err := bb.EnterDecodeValue(); err != nil {
-		return err
-	}
-	defer bb.LeaveDecodeValue()
-	*v = SupportedSULFreqBandItem{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
-	hasExtensions, err := aper.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := aper.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_freqbandindicatornr, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.X2apInternalAsn1IntegerBound2, s00.X2apInternalAsn1IntegerBound6, true)
-	if err != nil {
-		return runtime.WrapDecodePath(err, "FreqBandIndicatorNr")
-	}
-	v.FreqBandIndicatorNr = val_freqbandindicatornr
-	if opt_ieextensions {
-		tmp_ieextensions := make(s04.SupportedSULFreqBandItemExtIEsExtContainer, 0)
-		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
-			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
-				return fmt.Errorf("collection fragment count out of range")
-			}
-			for i := int64(0); i < fragmentLength_ieextensions; i++ {
-				var elem s04.SupportedSULFreqBandItemExtIEsExtField
-				if err := s04.X2apInternalSupportedSULFreqBandItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
-				}
-				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
-					return err
-				} else {
-					tmp_ieextensions = next
-				}
-			}
-			return nil
-		})
-		if errCollection_ieextensions != nil {
-			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
-		}
-		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -36266,6 +34926,7 @@ func X2apInternalSFNOffsetUnmarshalAPERWithOptions(v *SFNOffset, data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SFNOffset")
 	}
+	bb.EnterComponent("SFNOffset")
 	if err := X2apInternalSFNOffsetUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SFNOffset")
 	}
@@ -36300,6 +34961,7 @@ func X2apInternalSFNOffsetUnmarshalAPERFrom(v *SFNOffset, bb *aper.BitBuffer) er
 	}
 	v.SFNTimeOffset = runtime.BitString{Bytes: bsBytes_sfntimeoffset, BitLength: bsBitLen_sfntimeoffset}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.SFNOffsetExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -36308,9 +34970,11 @@ func X2apInternalSFNOffsetUnmarshalAPERFrom(v *SFNOffset, bb *aper.BitBuffer) er
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.SFNOffsetExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalSFNOffsetExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -36323,269 +34987,7 @@ func X2apInternalSFNOffsetUnmarshalAPERFrom(v *SFNOffset, bb *aper.BitBuffer) er
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
-	}
-	if hasExtensions {
-		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
-		if err != nil {
-			return runtime.WrapDecodePath(err, "ExtData_")
-		}
-		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
-		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return fmt.Errorf("extension count out of range")
-		}
-		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
-			return err
-		}
-		v.extData = make([][]byte, len(extPresent))
-		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
-			return err
-		}
-		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
-		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
-			return err
-		}
-		v.extWire = make([]aper.WireSpan, len(v.extData))
-		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
-		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return fmt.Errorf("extension count out of range")
-		}
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
-				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.5"})
-				if err != nil {
-					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
-				}
-				opaque = opaque.WithPath("Extensions")
-				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
-					return err
-				}
-				var retained aper.WireSpan
-				opaque.RetainContents(&retained)
-				v.extWire[i] = retained
-				v.extOrigin[i] = opaque.CaptureOrigin()
-			}
-		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-			v.extWire = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
-	}
-	v.stream = bb.CaptureWireSpan(replayStart)
-
-	return nil
-}
-
-// MarshalAPER encodes TNLCapacityIndicator to APER format.
-func X2apInternalTNLCapacityIndicatorMarshalAPERLegacy(v *TNLCapacityIndicator) ([]byte, error) {
-	bb := aper.NewBitBuffer()
-	if err := X2apInternalTNLCapacityIndicatorMarshalAPERTo(v, bb); err != nil {
-		return nil, err
-	}
-	return bb.CompleteBytesWithFinalPadding(v.perPadding)
-}
-func X2apInternalTNLCapacityIndicatorMarshalAPERTo(v *TNLCapacityIndicator, bb *aper.BitBuffer, fresh ...bool) error {
-	if v.withoutReplay {
-		fresh = []bool{true}
-	}
-	if len(fresh) > 0 && fresh[0] {
-		previous := bb.SuspendReplayPlan()
-		defer bb.
-			RestoreReplayPlan(
-				previous)
-	}
-	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
-		if ok, err := v.stream.
-			ReplayTo(bb); ok || err != nil {
-			return err
-		}
-	}
-
-	extensionCount := v.extCount
-	if len(fresh) != 0 && fresh[0] {
-		extensionCount, _ = s00.X2apInternalPreferredSequenceTail(v.extPresent, v.extData)
-	}
-	if err := bb.EnterDecodeValue(); err != nil {
-		return err
-	}
-	defer bb.LeaveDecodeValue()
-
-	recoveryStart := bb.BitsWritten()
-	hasExtensions := false
-	for _, present := range v.extPresent {
-		hasExtensions = hasExtensions || present
-	}
-	for _, data := range v.extData {
-		hasExtensions = hasExtensions || data != nil
-	}
-	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := aper.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
-		return err
-	}
-	if err := aper.EncodeIntegerBigBoundsAligned(bb, v.DlTNLMaximumOfferedCapacity, s00.X2apInternalAsn1IntegerBound2, s00.X2apInternalAsn1IntegerBound10, true); err != nil {
-		return fmt.Errorf("encoding dlTNLMaximumOfferedCapacity: %w", err)
-	}
-	if err := aper.EncodeIntegerBigBoundsAligned(bb, v.DlTNLAvailableCapacity, s00.X2apInternalAsn1IntegerBound1, s00.X2apInternalAsn1IntegerBound3, true); err != nil {
-		return fmt.Errorf("encoding dlTNLAvailableCapacity: %w", err)
-	}
-	if err := aper.EncodeIntegerBigBoundsAligned(bb, v.UlTNLMaximumOfferedCapacity, s00.X2apInternalAsn1IntegerBound2, s00.X2apInternalAsn1IntegerBound10, true); err != nil {
-		return fmt.Errorf("encoding ulTNLMaximumOfferedCapacity: %w", err)
-	}
-	if err := aper.EncodeIntegerBigBoundsAligned(bb, v.UlTNLAvailableCapacity, s00.X2apInternalAsn1IntegerBound1, s00.X2apInternalAsn1IntegerBound3, true); err != nil {
-		return fmt.Errorf("encoding ulTNLAvailableCapacity: %w", err)
-	}
-	if v.IEExtensions != nil {
-		if err := aper.EncodeCollection(bb, int64(len(v.IEExtensions)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
-			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
-				return fmt.Errorf("collection fragment outside value")
-			}
-			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
-				if err := s04.X2apInternalTNLCapacityIndicatorExtIEsExtFieldMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
-					return fmt.Errorf("encoding iE-Extensions element: %w", err)
-				}
-			}
-			return nil
-		}); err != nil {
-			return fmt.Errorf("encoding iE-Extensions: %w", err)
-		}
-	}
-	if hasExtensions {
-		extCount := extensionCount
-		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
-		if extCount < 0 || extCount >= 16383 {
-			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
-		}
-		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
-			return err
-		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
-		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return fmt.Errorf("extension count out of range")
-		}
-		for i := int64(0); i <= extCount; i++ {
-			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil)
-			if err := aper.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
-		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return fmt.Errorf("extension count out of range")
-		}
-		for i := int64(0); i <= extCount; i++ {
-			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil) {
-				var data []byte
-				if i < int64(len(v.extData)) {
-					data = v.extData[i]
-				}
-				if err := aper.EncodeExtensionContents(bb, data, v.extWire, i); err != nil {
-					return err
-				}
-			}
-		}
-	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
-	return nil
-}
-
-// UnmarshalAPER decodes TNLCapacityIndicator from APER format.
-func X2apInternalTNLCapacityIndicatorUnmarshalAPERLegacy(v *TNLCapacityIndicator, data []byte) error {
-	return X2apInternalTNLCapacityIndicatorUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
-}
-
-// UnmarshalAPERWithOptions decodes TNLCapacityIndicator with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
-func X2apInternalTNLCapacityIndicatorUnmarshalAPERWithOptions(v *TNLCapacityIndicator, data []byte, options aper.DecodeState) error {
-	bb := aper.NewCompleteDecodeBuffer(data, options)
-	if err := bb.SetDecodeOptionsAligned(options); err != nil {
-		return runtime.WrapDecodePath(err, "TNLCapacityIndicator")
-	}
-	if err := X2apInternalTNLCapacityIndicatorUnmarshalAPERFrom(v, bb); err != nil {
-		return runtime.WrapDecodePath(err, "TNLCapacityIndicator")
-	}
-	padding, err := aper.CaptureFinalBits(bb, "TNLCapacityIndicator")
-	if err != nil {
-		return runtime.WrapDecodePath(err, "TNLCapacityIndicator")
-	}
-	v.perPadding = padding.WithRecords(v.perPadding)
-	return nil
-}
-func X2apInternalTNLCapacityIndicatorUnmarshalAPERFrom(v *TNLCapacityIndicator, bb *aper.BitBuffer) error {
-	replayStart := bb.BitPos()
-
-	if err := bb.EnterDecodeValue(); err != nil {
-		return err
-	}
-	defer bb.LeaveDecodeValue()
-	*v = TNLCapacityIndicator{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
-	hasExtensions, err := aper.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := aper.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_dltnlmaximumofferedcapacity, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.X2apInternalAsn1IntegerBound2, s00.X2apInternalAsn1IntegerBound10, true)
-	if err != nil {
-		return runtime.WrapDecodePath(err, "DlTNLMaximumOfferedCapacity")
-	}
-	v.DlTNLMaximumOfferedCapacity = val_dltnlmaximumofferedcapacity
-	val_dltnlavailablecapacity, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.X2apInternalAsn1IntegerBound1, s00.X2apInternalAsn1IntegerBound3, true)
-	if err != nil {
-		return runtime.WrapDecodePath(err, "DlTNLAvailableCapacity")
-	}
-	v.DlTNLAvailableCapacity = val_dltnlavailablecapacity
-	val_ultnlmaximumofferedcapacity, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.X2apInternalAsn1IntegerBound2, s00.X2apInternalAsn1IntegerBound10, true)
-	if err != nil {
-		return runtime.WrapDecodePath(err, "UlTNLMaximumOfferedCapacity")
-	}
-	v.UlTNLMaximumOfferedCapacity = val_ultnlmaximumofferedcapacity
-	val_ultnlavailablecapacity, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.X2apInternalAsn1IntegerBound1, s00.X2apInternalAsn1IntegerBound3, true)
-	if err != nil {
-		return runtime.WrapDecodePath(err, "UlTNLAvailableCapacity")
-	}
-	v.UlTNLAvailableCapacity = val_ultnlavailablecapacity
-	if opt_ieextensions {
-		tmp_ieextensions := make(s04.TNLCapacityIndicatorExtIEsExtContainer, 0)
-		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
-			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
-				return fmt.Errorf("collection fragment count out of range")
-			}
-			for i := int64(0); i < fragmentLength_ieextensions; i++ {
-				var elem s04.TNLCapacityIndicatorExtIEsExtField
-				if err := s04.X2apInternalTNLCapacityIndicatorExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
-				}
-				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
-					return err
-				} else {
-					tmp_ieextensions = next
-				}
-			}
-			return nil
-		})
-		if errCollection_ieextensions != nil {
-			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
-		}
-		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -36768,6 +35170,7 @@ func X2apInternalNonAnchorCarrierFrequencylistElemUnmarshalAPERWithOptions(v *No
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "NonAnchorCarrierFrequencylistElem")
 	}
+	bb.EnterComponent("NonAnchorCarrierFrequencylistElem")
 	if err := X2apInternalNonAnchorCarrierFrequencylistElemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "NonAnchorCarrierFrequencylistElem")
 	}
@@ -36802,6 +35205,7 @@ func X2apInternalNonAnchorCarrierFrequencylistElemUnmarshalAPERFrom(v *NonAnchor
 	}
 	v.NonAnchorCarrioerFrquency = val_nonanchorcarrioerfrquency
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.NonAnchorCarrierFrequencylistExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -36810,9 +35214,11 @@ func X2apInternalNonAnchorCarrierFrequencylistElemUnmarshalAPERFrom(v *NonAnchor
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.NonAnchorCarrierFrequencylistExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalNonAnchorCarrierFrequencylistExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -36825,6 +35231,7 @@ func X2apInternalNonAnchorCarrierFrequencylistElemUnmarshalAPERFrom(v *NonAnchor
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -37010,6 +35417,7 @@ func X2apInternalRSRPMeasurementResultElemUnmarshalAPERWithOptions(v *RSRPMeasur
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RSRPMeasurementResultElem")
 	}
+	bb.EnterComponent("RSRPMeasurementResultElem")
 	if err := X2apInternalRSRPMeasurementResultElemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "RSRPMeasurementResultElem")
 	}
@@ -37049,6 +35457,7 @@ func X2apInternalRSRPMeasurementResultElemUnmarshalAPERFrom(v *RSRPMeasurementRe
 	}
 	v.RSRPMeasured = val_rsrpmeasured
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.RSRPMeasurementResultExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -37057,9 +35466,11 @@ func X2apInternalRSRPMeasurementResultElemUnmarshalAPERFrom(v *RSRPMeasurementRe
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.RSRPMeasurementResultExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalRSRPMeasurementResultExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -37072,6 +35483,7 @@ func X2apInternalRSRPMeasurementResultElemUnmarshalAPERFrom(v *RSRPMeasurementRe
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -38323,54 +36735,6 @@ func (v SubscriptionBasedUEDifferentiationInfo) WithoutReplay() SubscriptionBase
 	v.receivedBytes = aper.WireSpan{}
 	v.receivedLocation = aper.Location{}
 	var zero SubscriptionBasedUEDifferentiationInfo
-	v.perPadding = zero.perPadding
-	v.perExtPadding = nil
-	return v
-}
-
-// ReceivedForm returns an owned view of the complete value's original bytes.
-func (v *SupportedSULFreqBandItem) ReceivedForm() aper.ReceivedForm {
-	if v == nil {
-		return aper.ReceivedForm{}
-	}
-	if v.receivedLocation.HasWireLocation {
-		return s00.X2apInternalReceivedFormAt(v.received, v.receivedBytes, "SupportedSULFreqBandItem", v.receivedLocation, v.perPadding)
-	}
-	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "SupportedSULFreqBandItem", v.receivedAbsolute, v.perPadding)
-}
-
-// WithoutReplay clears private received framing for a fresh complete encoding.
-func (v SupportedSULFreqBandItem) WithoutReplay() SupportedSULFreqBandItem {
-	v.withoutReplay = true
-	v.received = false
-	v.receivedAbsolute = false
-	v.receivedBytes = aper.WireSpan{}
-	v.receivedLocation = aper.Location{}
-	var zero SupportedSULFreqBandItem
-	v.perPadding = zero.perPadding
-	v.perExtPadding = nil
-	return v
-}
-
-// ReceivedForm returns an owned view of the complete value's original bytes.
-func (v *TNLCapacityIndicator) ReceivedForm() aper.ReceivedForm {
-	if v == nil {
-		return aper.ReceivedForm{}
-	}
-	if v.receivedLocation.HasWireLocation {
-		return s00.X2apInternalReceivedFormAt(v.received, v.receivedBytes, "TNLCapacityIndicator", v.receivedLocation, v.perPadding)
-	}
-	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "TNLCapacityIndicator", v.receivedAbsolute, v.perPadding)
-}
-
-// WithoutReplay clears private received framing for a fresh complete encoding.
-func (v TNLCapacityIndicator) WithoutReplay() TNLCapacityIndicator {
-	v.withoutReplay = true
-	v.received = false
-	v.receivedAbsolute = false
-	v.receivedBytes = aper.WireSpan{}
-	v.receivedLocation = aper.Location{}
-	var zero TNLCapacityIndicator
 	v.perPadding = zero.perPadding
 	v.perExtPadding = nil
 	return v
@@ -40201,84 +38565,6 @@ func (v *SubscriptionBasedUEDifferentiationInfo) RemoveExtension(index uint64) e
 	}
 	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
 		return runtime.WrapDecodePath(err, fmt.Sprintf("SubscriptionBasedUEDifferentiationInfo.Extensions[%d]", index))
-	}
-	if index < uint64(len(v.extWire)) {
-		v.extWire[index] = aper.WireSpan{}
-	}
-	v.perExtPadding = nil
-	return nil
-}
-
-// Extensions returns owned unknown sequence additions.
-func (v *SupportedSULFreqBandItem) Extensions() []aper.SequenceExtension {
-	if v == nil {
-		return nil
-	}
-	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
-	return views
-}
-
-// SetExtension stores an owned unknown sequence addition.
-func (v *SupportedSULFreqBandItem) SetExtension(index uint64, contents []byte) error {
-	if v == nil {
-		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("SupportedSULFreqBandItem.Extensions[%d]", index))
-	}
-	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
-		return runtime.WrapDecodePath(err, fmt.Sprintf("SupportedSULFreqBandItem.Extensions[%d]", index))
-	}
-	if index < uint64(len(v.extWire)) {
-		v.extWire[index] = aper.WireSpan{}
-	}
-	v.perExtPadding = nil
-	return nil
-}
-
-// RemoveExtension removes one unknown sequence addition.
-func (v *SupportedSULFreqBandItem) RemoveExtension(index uint64) error {
-	if v == nil {
-		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("SupportedSULFreqBandItem.Extensions[%d]", index))
-	}
-	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
-		return runtime.WrapDecodePath(err, fmt.Sprintf("SupportedSULFreqBandItem.Extensions[%d]", index))
-	}
-	if index < uint64(len(v.extWire)) {
-		v.extWire[index] = aper.WireSpan{}
-	}
-	v.perExtPadding = nil
-	return nil
-}
-
-// Extensions returns owned unknown sequence additions.
-func (v *TNLCapacityIndicator) Extensions() []aper.SequenceExtension {
-	if v == nil {
-		return nil
-	}
-	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
-	return views
-}
-
-// SetExtension stores an owned unknown sequence addition.
-func (v *TNLCapacityIndicator) SetExtension(index uint64, contents []byte) error {
-	if v == nil {
-		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("TNLCapacityIndicator.Extensions[%d]", index))
-	}
-	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
-		return runtime.WrapDecodePath(err, fmt.Sprintf("TNLCapacityIndicator.Extensions[%d]", index))
-	}
-	if index < uint64(len(v.extWire)) {
-		v.extWire[index] = aper.WireSpan{}
-	}
-	v.perExtPadding = nil
-	return nil
-}
-
-// RemoveExtension removes one unknown sequence addition.
-func (v *TNLCapacityIndicator) RemoveExtension(index uint64) error {
-	if v == nil {
-		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("TNLCapacityIndicator.Extensions[%d]", index))
-	}
-	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
-		return runtime.WrapDecodePath(err, fmt.Sprintf("TNLCapacityIndicator.Extensions[%d]", index))
 	}
 	if index < uint64(len(v.extWire)) {
 		v.extWire[index] = aper.WireSpan{}
@@ -44887,190 +43173,6 @@ func X2apInternalSubscriptionBasedUEDifferentiationInfoMarshalAPERPlanned(v *Sub
 	return out, nil
 }
 
-// MarshalAPER encodes a complete value using one per-call semantic plan.
-func (v *SupportedSULFreqBandItem) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
-	if v == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, "SupportedSULFreqBandItem")
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, "SupportedSULFreqBandItem")
-	}
-	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if !fresh && v.replay.Present() {
-		s := aper.NewSemanticComparison(v.replay, budget)
-		X2apInternalCompareX2APSupportedSULFreqBandItem(v, &s)
-		plan := s.Plan()
-		if err := plan.Error(); err != nil {
-			return nil, aper.OperationError(err, "SupportedSULFreqBandItem")
-		}
-		if plan.Unchanged(v.replay) && v.received {
-			out, err := v.receivedBytes.EncodePlanBytes(plan)
-			return out, aper.OperationError(err, "SupportedSULFreqBandItem")
-		}
-		return X2apInternalSupportedSULFreqBandItemMarshalAPERWithPlan(v, fresh, plan)
-	}
-	return X2apInternalSupportedSULFreqBandItemMarshalAPERUnplanned(v, fresh, budget)
-}
-func X2apInternalSupportedSULFreqBandItemMarshalAPERWithPlan(v *SupportedSULFreqBandItem, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	budget := plan.EncodingBudget()
-	bb := aper.NewBudgetBuffer(&budget)
-	bb.SetReplayPlan(&plan)
-	out, err := X2apInternalSupportedSULFreqBandItemMarshalAPERPlanned(v, &budget, fresh)
-	if failure := bb.CheckOutput(uint64(len(out))); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, "SupportedSULFreqBandItem")
-}
-func X2apInternalSupportedSULFreqBandItemMarshalAPERUnplanned(v *SupportedSULFreqBandItem, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := X2apInternalSupportedSULFreqBandItemMarshalAPERPlanned(v, &budget, fresh)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, "SupportedSULFreqBandItem")
-}
-func X2apInternalSupportedSULFreqBandItemMarshalAPERBudget(v *SupportedSULFreqBandItem, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
-	if v == nil {
-		return nil, aper.ErrInvalidValue
-	}
-	fresh = fresh || v.withoutReplay
-	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
-	if !fresh && v.replay.Present() && plan == nil {
-		s := aper.NewSemanticComparison(v.replay, *budget)
-		X2apInternalCompareX2APSupportedSULFreqBandItem(v, &s)
-		decisions := s.Plan()
-		if err := decisions.CommitBudget(budget); err != nil {
-			return nil, err
-		}
-		if decisions.Unchanged(v.replay) && v.received {
-			return v.receivedBytes.EncodeBytes(budget)
-		}
-		return X2apInternalSupportedSULFreqBandItemMarshalAPERChanged(v, budget, fresh, decisions)
-	}
-	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
-		return v.receivedBytes.EncodeBytes(budget)
-	}
-	return X2apInternalSupportedSULFreqBandItemMarshalAPERPlanned(v, budget, fresh)
-}
-func X2apInternalSupportedSULFreqBandItemMarshalAPERChanged(v *SupportedSULFreqBandItem, budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	bb := aper.NewBudgetBuffer(budget)
-	previous := bb.ReplayPlan()
-	bb.SetReplayPlan(&plan)
-	defer bb.SetReplayPlan(previous)
-	return X2apInternalSupportedSULFreqBandItemMarshalAPERPlanned(v, budget, fresh)
-}
-func X2apInternalSupportedSULFreqBandItemMarshalAPERPlanned(v *SupportedSULFreqBandItem, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
-	bb := aper.NewBudgetBuffer(budget)
-	value := v
-	if fresh {
-		copyValue := v.WithoutReplay()
-		value = &copyValue
-	}
-	if err := X2apInternalSupportedSULFreqBandItemMarshalAPERTo(value, bb, fresh); err != nil {
-		return nil, err
-	}
-	out, err := bb.CompleteBytesWithFinalPadding(value.perPadding)
-	if err != nil {
-		return nil, err
-	}
-	if err := bb.CheckOutput(uint64(len(out))); err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// MarshalAPER encodes a complete value using one per-call semantic plan.
-func (v *TNLCapacityIndicator) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
-	if v == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, "TNLCapacityIndicator")
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, "TNLCapacityIndicator")
-	}
-	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if !fresh && v.replay.Present() {
-		s := aper.NewSemanticComparison(v.replay, budget)
-		X2apInternalCompareX2APTNLCapacityIndicator(v, &s)
-		plan := s.Plan()
-		if err := plan.Error(); err != nil {
-			return nil, aper.OperationError(err, "TNLCapacityIndicator")
-		}
-		if plan.Unchanged(v.replay) && v.received {
-			out, err := v.receivedBytes.EncodePlanBytes(plan)
-			return out, aper.OperationError(err, "TNLCapacityIndicator")
-		}
-		return X2apInternalTNLCapacityIndicatorMarshalAPERWithPlan(v, fresh, plan)
-	}
-	return X2apInternalTNLCapacityIndicatorMarshalAPERUnplanned(v, fresh, budget)
-}
-func X2apInternalTNLCapacityIndicatorMarshalAPERWithPlan(v *TNLCapacityIndicator, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	budget := plan.EncodingBudget()
-	bb := aper.NewBudgetBuffer(&budget)
-	bb.SetReplayPlan(&plan)
-	out, err := X2apInternalTNLCapacityIndicatorMarshalAPERPlanned(v, &budget, fresh)
-	if failure := bb.CheckOutput(uint64(len(out))); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, "TNLCapacityIndicator")
-}
-func X2apInternalTNLCapacityIndicatorMarshalAPERUnplanned(v *TNLCapacityIndicator, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := X2apInternalTNLCapacityIndicatorMarshalAPERPlanned(v, &budget, fresh)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, "TNLCapacityIndicator")
-}
-func X2apInternalTNLCapacityIndicatorMarshalAPERBudget(v *TNLCapacityIndicator, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
-	if v == nil {
-		return nil, aper.ErrInvalidValue
-	}
-	fresh = fresh || v.withoutReplay
-	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
-	if !fresh && v.replay.Present() && plan == nil {
-		s := aper.NewSemanticComparison(v.replay, *budget)
-		X2apInternalCompareX2APTNLCapacityIndicator(v, &s)
-		decisions := s.Plan()
-		if err := decisions.CommitBudget(budget); err != nil {
-			return nil, err
-		}
-		if decisions.Unchanged(v.replay) && v.received {
-			return v.receivedBytes.EncodeBytes(budget)
-		}
-		return X2apInternalTNLCapacityIndicatorMarshalAPERChanged(v, budget, fresh, decisions)
-	}
-	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
-		return v.receivedBytes.EncodeBytes(budget)
-	}
-	return X2apInternalTNLCapacityIndicatorMarshalAPERPlanned(v, budget, fresh)
-}
-func X2apInternalTNLCapacityIndicatorMarshalAPERChanged(v *TNLCapacityIndicator, budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	bb := aper.NewBudgetBuffer(budget)
-	previous := bb.ReplayPlan()
-	bb.SetReplayPlan(&plan)
-	defer bb.SetReplayPlan(previous)
-	return X2apInternalTNLCapacityIndicatorMarshalAPERPlanned(v, budget, fresh)
-}
-func X2apInternalTNLCapacityIndicatorMarshalAPERPlanned(v *TNLCapacityIndicator, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
-	bb := aper.NewBudgetBuffer(budget)
-	value := v
-	if fresh {
-		copyValue := v.WithoutReplay()
-		value = &copyValue
-	}
-	if err := X2apInternalTNLCapacityIndicatorMarshalAPERTo(value, bb, fresh); err != nil {
-		return nil, err
-	}
-	out, err := bb.CompleteBytesWithFinalPadding(value.perPadding)
-	if err != nil {
-		return nil, err
-	}
-	if err := bb.CheckOutput(uint64(len(out))); err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UnmarshalAPER decodes atomically into one immutable wire owner.
 func (v *CPACcandidatePSCellsItem) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
@@ -46271,54 +44373,6 @@ func (v *SubscriptionBasedUEDifferentiationInfo) UnmarshalAPER(data []byte, opti
 	return report, aper.OperationError(nil, "SubscriptionBasedUEDifferentiationInfo")
 }
 
-// UnmarshalAPER decodes atomically into one immutable wire owner.
-func (v *SupportedSULFreqBandItem) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
-	if v == nil {
-		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "SupportedSULFreqBandItem")
-	}
-	data, settings := aper.OwnDecodeOptions(data, options...)
-	var decoded SupportedSULFreqBandItem
-	err := X2apInternalSupportedSULFreqBandItemUnmarshalAPERWithOptions(&decoded, data, settings)
-	if err == nil {
-		decoded.received = true
-		decoded.receivedAbsolute = true
-		decoded.receivedBytes = aper.OriginalWire(data)
-		s := aper.SemanticCaptureFor(settings)
-		X2apInternalCaptureX2APSupportedSULFreqBandItem(&decoded, &s)
-	}
-	report, err := aper.FinishDecode(settings, err)
-	if err != nil {
-		*v = SupportedSULFreqBandItem{}
-		return report, aper.OperationError(err, "SupportedSULFreqBandItem")
-	}
-	*v = decoded
-	return report, aper.OperationError(nil, "SupportedSULFreqBandItem")
-}
-
-// UnmarshalAPER decodes atomically into one immutable wire owner.
-func (v *TNLCapacityIndicator) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
-	if v == nil {
-		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "TNLCapacityIndicator")
-	}
-	data, settings := aper.OwnDecodeOptions(data, options...)
-	var decoded TNLCapacityIndicator
-	err := X2apInternalTNLCapacityIndicatorUnmarshalAPERWithOptions(&decoded, data, settings)
-	if err == nil {
-		decoded.received = true
-		decoded.receivedAbsolute = true
-		decoded.receivedBytes = aper.OriginalWire(data)
-		s := aper.SemanticCaptureFor(settings)
-		X2apInternalCaptureX2APTNLCapacityIndicator(&decoded, &s)
-	}
-	report, err := aper.FinishDecode(settings, err)
-	if err != nil {
-		*v = TNLCapacityIndicator{}
-		return report, aper.OperationError(err, "TNLCapacityIndicator")
-	}
-	*v = decoded
-	return report, aper.OperationError(nil, "TNLCapacityIndicator")
-}
-
 // NewABSInformationFdd constructs a checked complete value.
 func NewABSInformationFdd(v s00.ABSInformationFDD, options ...aper.BuildOption) (s00.ABSInformation, error) {
 	budget, err := aper.BuildBudget(options...)
@@ -46617,15 +44671,15 @@ type ERABsAdmittedToReleasedModAckItem struct {
 	receivedBytes      aper.WireSpan
 	receivedLocation   aper.Location
 	Choice             int
-	perPadding         aper.CompletePadding                                `json:"-"`
-	perOpenTypePadding aper.CompletePadding                                `json:"-"`
-	UnknownExtension   *aper.ChoiceExtension                               `json:"UnknownExtension,omitempty"`
-	SCGBearer          *s04.ERABsAdmittedToBeReleasedModAckItemSCGBearer   `json:"SCGBearer,omitempty"`
-	SplitBearer        *s04.ERABsAdmittedToBeReleasedModAckItemSplitBearer `json:"SplitBearer,omitempty"`
+	perPadding         aper.CompletePadding                            `json:"-"`
+	perOpenTypePadding aper.CompletePadding                            `json:"-"`
+	UnknownExtension   *aper.ChoiceExtension                           `json:"UnknownExtension,omitempty"`
+	SCGBearer          *ERABsAdmittedToBeReleasedModAckItemSCGBearer   `json:"SCGBearer,omitempty"`
+	SplitBearer        *ERABsAdmittedToBeReleasedModAckItemSplitBearer `json:"SplitBearer,omitempty"`
 }
 
 // NewERABsAdmittedToReleasedModAckItemSCGBearer creates a ERABsAdmittedToReleasedModAckItem with the sCG-Bearer alternative.
-func X2apInternalNewERABsAdmittedToReleasedModAckItemSCGBearerLegacy(v s04.ERABsAdmittedToBeReleasedModAckItemSCGBearer) ERABsAdmittedToReleasedModAckItem {
+func X2apInternalNewERABsAdmittedToReleasedModAckItemSCGBearerLegacy(v ERABsAdmittedToBeReleasedModAckItemSCGBearer) ERABsAdmittedToReleasedModAckItem {
 	return ERABsAdmittedToReleasedModAckItem{
 		Choice:    s00.ERABsAdmittedToReleasedModAckItemChoiceSCGBearer,
 		SCGBearer: &v,
@@ -46633,11 +44687,53 @@ func X2apInternalNewERABsAdmittedToReleasedModAckItemSCGBearerLegacy(v s04.ERABs
 }
 
 // NewERABsAdmittedToReleasedModAckItemSplitBearer creates a ERABsAdmittedToReleasedModAckItem with the split-Bearer alternative.
-func X2apInternalNewERABsAdmittedToReleasedModAckItemSplitBearerLegacy(v s04.ERABsAdmittedToBeReleasedModAckItemSplitBearer) ERABsAdmittedToReleasedModAckItem {
+func X2apInternalNewERABsAdmittedToReleasedModAckItemSplitBearerLegacy(v ERABsAdmittedToBeReleasedModAckItemSplitBearer) ERABsAdmittedToReleasedModAckItem {
 	return ERABsAdmittedToReleasedModAckItem{
 		Choice:      s00.ERABsAdmittedToReleasedModAckItemChoiceSplitBearer,
 		SplitBearer: &v,
 	}
+}
+
+// ERABsAdmittedToBeReleasedModAckItemSCGBearer represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-Bearer (SEQUENCE).
+type ERABsAdmittedToBeReleasedModAckItemSCGBearer struct {
+	replay            aper.Snapshot
+	stream            aper.WireSpan
+	received          bool
+	withoutReplay     bool
+	receivedAbsolute  bool
+	receivedBytes     aper.WireSpan
+	receivedLocation  aper.Location
+	ERABID            s00.ERABID                                                         `asn1:"tag:0,context,implicit"`
+	IEExtensions      s02.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsExtContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitzero"`
+	iEExtensionsIndef bool                                                               `asn1:"-" json:"-"`
+	extCount          int64                                                              `asn1:"-" json:"-"`
+	extPresent        []bool                                                             `asn1:"-" json:"-"`
+	extData           [][]byte                                                           `asn1:"-" json:"-"`
+	perPadding        aper.FinalPadding                                                  `asn1:"-" json:"-"`
+	perExtPadding     []aper.CompletePadding                                             `asn1:"-" json:"-"`
+	extOrigin         []aper.OpaqueOrigin
+	extWire           []aper.WireSpan
+}
+
+// ERABsAdmittedToBeReleasedModAckItemSplitBearer represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckItem-Split-Bearer (SEQUENCE).
+type ERABsAdmittedToBeReleasedModAckItemSplitBearer struct {
+	replay            aper.Snapshot
+	stream            aper.WireSpan
+	received          bool
+	withoutReplay     bool
+	receivedAbsolute  bool
+	receivedBytes     aper.WireSpan
+	receivedLocation  aper.Location
+	ERABID            s00.ERABID                                                           `asn1:"tag:0,context,implicit"`
+	IEExtensions      s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitzero"`
+	iEExtensionsIndef bool                                                                 `asn1:"-" json:"-"`
+	extCount          int64                                                                `asn1:"-" json:"-"`
+	extPresent        []bool                                                               `asn1:"-" json:"-"`
+	extData           [][]byte                                                             `asn1:"-" json:"-"`
+	perPadding        aper.FinalPadding                                                    `asn1:"-" json:"-"`
+	perExtPadding     []aper.CompletePadding                                               `asn1:"-" json:"-"`
+	extOrigin         []aper.OpaqueOrigin
+	extWire           []aper.WireSpan
 }
 
 // ERABsToBeReleasedModReqdItem represents the ASN.1 type E-RABs-ToBeReleased-ModReqdItem (SEQUENCE).
@@ -47187,6 +45283,7 @@ func X2apInternalServedCellsToActivateItemUnmarshalAPERWithOptions(v *ServedCell
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ServedCellsToActivateItem")
 	}
+	bb.EnterComponent("ServedCellsToActivateItem")
 	if err := X2apInternalServedCellsToActivateItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ServedCellsToActivateItem")
 	}
@@ -47221,6 +45318,7 @@ func X2apInternalServedCellsToActivateItemUnmarshalAPERFrom(v *ServedCellsToActi
 	}
 	bb.LeaveComponent(toleranceMark_ecgi)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.ServedCellsToActivateItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -47229,9 +45327,11 @@ func X2apInternalServedCellsToActivateItemUnmarshalAPERFrom(v *ServedCellsToActi
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.ServedCellsToActivateItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.X2apInternalServedCellsToActivateItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -47244,6 +45344,7 @@ func X2apInternalServedCellsToActivateItemUnmarshalAPERFrom(v *ServedCellsToActi
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -47432,6 +45533,7 @@ func X2apInternalRNLHeaderUnmarshalAPERWithOptions(v *RNLHeader, data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RNLHeader")
 	}
+	bb.EnterComponent("RNLHeader")
 	if err := X2apInternalRNLHeaderUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "RNLHeader")
 	}
@@ -47482,6 +45584,7 @@ func X2apInternalRNLHeaderUnmarshalAPERFrom(v *RNLHeader, bb *aper.BitBuffer) er
 		bb.LeaveComponent(toleranceMark_targetglobalenbid)
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.RNLHeaderItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -47490,9 +45593,11 @@ func X2apInternalRNLHeaderUnmarshalAPERFrom(v *RNLHeader, bb *aper.BitBuffer) er
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.RNLHeaderItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalRNLHeaderItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -47505,6 +45610,7 @@ func X2apInternalRNLHeaderUnmarshalAPERFrom(v *RNLHeader, bb *aper.BitBuffer) er
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -47659,6 +45765,7 @@ func X2apInternalResponseInformationSeNBReconfCompUnmarshalAPERWithOptions(v *Re
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSeNBReconfComp")
 	}
+	bb.EnterComponent("ResponseInformationSeNBReconfComp")
 	if err := X2apInternalResponseInformationSeNBReconfCompUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSeNBReconfComp")
 	}
@@ -47862,6 +45969,7 @@ func X2apInternalResponseInformationSeNBReconfCompSuccessItemUnmarshalAPERWithOp
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSeNBReconfCompSuccessItem")
 	}
+	bb.EnterComponent("ResponseInformationSeNBReconfCompSuccessItem")
 	if err := X2apInternalResponseInformationSeNBReconfCompSuccessItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSeNBReconfCompSuccessItem")
 	}
@@ -47906,6 +46014,7 @@ func X2apInternalResponseInformationSeNBReconfCompSuccessItemUnmarshalAPERFrom(v
 		v.MeNBtoSeNBContainer = &tmp_menbtosenbcontainer
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.ResponseInformationSeNBReconfCompSuccessItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -47914,9 +46023,11 @@ func X2apInternalResponseInformationSeNBReconfCompSuccessItemUnmarshalAPERFrom(v
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.ResponseInformationSeNBReconfCompSuccessItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalResponseInformationSeNBReconfCompSuccessItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -47929,6 +46040,7 @@ func X2apInternalResponseInformationSeNBReconfCompSuccessItemUnmarshalAPERFrom(v
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -48117,6 +46229,7 @@ func X2apInternalResponseInformationSeNBReconfCompRejectByMeNBItemUnmarshalAPERW
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSeNBReconfCompRejectByMeNBItem")
 	}
+	bb.EnterComponent("ResponseInformationSeNBReconfCompRejectByMeNBItem")
 	if err := X2apInternalResponseInformationSeNBReconfCompRejectByMeNBItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSeNBReconfCompRejectByMeNBItem")
 	}
@@ -48149,9 +46262,11 @@ func X2apInternalResponseInformationSeNBReconfCompRejectByMeNBItemUnmarshalAPERF
 	if err != nil {
 		return err
 	}
+	toleranceMark_cause := bb.EnterComponent("Cause")
 	if err := s00.X2apInternalCauseUnmarshalAPERFrom(&v.Cause, bb); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
+	bb.LeaveComponent(toleranceMark_cause)
 	if opt_menbtosenbcontainer {
 		val_menbtosenbcontainer, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 		if err != nil {
@@ -48164,6 +46279,7 @@ func X2apInternalResponseInformationSeNBReconfCompRejectByMeNBItemUnmarshalAPERF
 		v.MeNBtoSeNBContainer = &tmp_menbtosenbcontainer
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.ResponseInformationSeNBReconfCompRejectByMeNBItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -48172,9 +46288,11 @@ func X2apInternalResponseInformationSeNBReconfCompRejectByMeNBItemUnmarshalAPERF
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.ResponseInformationSeNBReconfCompRejectByMeNBItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalResponseInformationSeNBReconfCompRejectByMeNBItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -48187,6 +46305,7 @@ func X2apInternalResponseInformationSeNBReconfCompRejectByMeNBItemUnmarshalAPERF
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -48311,14 +46430,14 @@ func X2apInternalERABsAdmittedToReleasedModAckItemMarshalAPERTo(v *ERABsAdmitted
 		if v.SCGBearer == nil {
 			return fmt.Errorf("choice alternative sCG-Bearer is nil")
 		}
-		if err := s04.X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERTo(v.SCGBearer, bb, len(fresh) != 0 && fresh[0]); err != nil {
+		if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERTo(v.SCGBearer, bb, len(fresh) != 0 && fresh[0]); err != nil {
 			return fmt.Errorf("encoding sCG-Bearer: %w", err)
 		}
 	case s00.ERABsAdmittedToReleasedModAckItemChoiceSplitBearer:
 		if v.SplitBearer == nil {
 			return fmt.Errorf("choice alternative split-Bearer is nil")
 		}
-		if err := s04.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERTo(v.SplitBearer, bb, len(fresh) != 0 && fresh[0]); err != nil {
+		if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERTo(v.SplitBearer, bb, len(fresh) != 0 && fresh[0]); err != nil {
 			return fmt.Errorf("encoding split-Bearer: %w", err)
 		}
 	default:
@@ -48341,6 +46460,7 @@ func X2apInternalERABsAdmittedToReleasedModAckItemUnmarshalAPERWithOptions(v *ER
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToReleasedModAckItem")
 	}
+	bb.EnterComponent("ERABsAdmittedToReleasedModAckItem")
 	if err := X2apInternalERABsAdmittedToReleasedModAckItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToReleasedModAckItem")
 	}
@@ -48392,8 +46512,8 @@ func X2apInternalERABsAdmittedToReleasedModAckItemUnmarshalAPERFrom(v *ERABsAdmi
 	switch v.Choice {
 	case s00.ERABsAdmittedToReleasedModAckItemChoiceSCGBearer:
 		toleranceMark_scgbearer := bb.EnterComponent("SCGBearer")
-		var dec_scgbearer s04.ERABsAdmittedToBeReleasedModAckItemSCGBearer
-		if err := s04.X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerUnmarshalAPERFrom(&dec_scgbearer, bb); err != nil {
+		var dec_scgbearer ERABsAdmittedToBeReleasedModAckItemSCGBearer
+		if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerUnmarshalAPERFrom(&dec_scgbearer, bb); err != nil {
 			return runtime.WrapDecodePath(err, "SCGBearer")
 		}
 		if err := aper.ChargeValue(bb, dec_scgbearer); err != nil {
@@ -48403,8 +46523,8 @@ func X2apInternalERABsAdmittedToReleasedModAckItemUnmarshalAPERFrom(v *ERABsAdmi
 		bb.LeaveComponent(toleranceMark_scgbearer)
 	case s00.ERABsAdmittedToReleasedModAckItemChoiceSplitBearer:
 		toleranceMark_splitbearer := bb.EnterComponent("SplitBearer")
-		var dec_splitbearer s04.ERABsAdmittedToBeReleasedModAckItemSplitBearer
-		if err := s04.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerUnmarshalAPERFrom(&dec_splitbearer, bb); err != nil {
+		var dec_splitbearer ERABsAdmittedToBeReleasedModAckItemSplitBearer
+		if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerUnmarshalAPERFrom(&dec_splitbearer, bb); err != nil {
 			return runtime.WrapDecodePath(err, "SplitBearer")
 		}
 		if err := aper.ChargeValue(bb, dec_splitbearer); err != nil {
@@ -48412,6 +46532,490 @@ func X2apInternalERABsAdmittedToReleasedModAckItemUnmarshalAPERFrom(v *ERABsAdmi
 		}
 		v.SplitBearer = &dec_splitbearer
 		bb.LeaveComponent(toleranceMark_splitbearer)
+	}
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// MarshalAPER encodes ERABsAdmittedToBeReleasedModAckItemSCGBearer to APER format.
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERLegacy(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERTo(v, bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithFinalPadding(v.perPadding)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERTo(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, bb *aper.BitBuffer, fresh ...bool) error {
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.
+			RestoreReplayPlan(previous)
+	}
+	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err != nil {
+			return err
+		}
+	}
+
+	extensionCount := v.extCount
+	if len(fresh) != 0 && fresh[0] {
+		extensionCount, _ = s00.X2apInternalPreferredSequenceTail(v.extPresent, v.extData)
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	recoveryStart := bb.BitsWritten()
+	hasExtensions := false
+	for _, present := range v.extPresent {
+		hasExtensions = hasExtensions || present
+	}
+	for _, data := range v.extData {
+		hasExtensions = hasExtensions || data != nil
+	}
+	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := aper.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := aper.EncodeIntegerBigBoundsAligned(bb, v.ERABID, s00.X2apInternalAsn1IntegerBound1, s00.X2apInternalAsn1IntegerBound7, true); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := aper.EncodeCollection(bb, int64(len(v.IEExtensions)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsExtFieldMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount := extensionCount
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		if extCount < 0 || extCount >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
+		}
+		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
+			return err
+		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil)
+			if err := aper.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil) {
+				var data []byte
+				if i < int64(len(v.extData)) {
+					data = v.extData[i]
+				}
+				if err := aper.EncodeExtensionContents(bb, data, v.extWire, i); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
+	aper.AppendTruncatedExtension(bb, v.perPadding)
+	return nil
+}
+
+// UnmarshalAPER decodes ERABsAdmittedToBeReleasedModAckItemSCGBearer from APER format.
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerUnmarshalAPERLegacy(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, data []byte) error {
+	return X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
+}
+
+// UnmarshalAPERWithOptions decodes ERABsAdmittedToBeReleasedModAckItemSCGBearer with explicit receiver options:
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerUnmarshalAPERWithOptions(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+	}
+	bb.EnterComponent("ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+	if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerUnmarshalAPERFrom(v, bb); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+	}
+	v.perPadding = padding.WithRecords(v.perPadding)
+	return nil
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerUnmarshalAPERFrom(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = ERABsAdmittedToBeReleasedModAckItemSCGBearer{}
+	extAdditions := aper.BeginExtensionAdditions(bb)
+	hasExtensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.X2apInternalAsn1IntegerBound1, s00.X2apInternalAsn1IntegerBound7, true)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABID")
+	}
+	v.ERABID = val_erabid
+	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
+		tmp_ieextensions := make(s02.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsExtContainer, 0)
+		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem s02.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
+				if err := s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
+				}
+				bb.LeaveComponent(elementMark)
+				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
+					return err
+				} else {
+					tmp_ieextensions = next
+				}
+			}
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
+		}
+		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
+	}
+	if hasExtensions {
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "ExtData_")
+		}
+		v.extCount = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
+			return err
+		}
+		v.extData = make([][]byte, len(extPresent))
+		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
+		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extWire = make([]aper.WireSpan, len(v.extData))
+		v.extPresent = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] && extAdditions.Received(bb, i) {
+				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4"})
+				if err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
+				}
+				opaque = opaque.WithPath("Extensions")
+				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
+					return err
+				}
+				var retained aper.WireSpan
+				opaque.RetainContents(&retained)
+				v.extWire[i] = retained
+				v.extOrigin[i] = opaque.CaptureOrigin()
+			}
+		}
+		if extAdditions.Emptied() {
+			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
+			v.extOrigin = nil
+			v.extWire = nil
+		}
+	}
+
+	{
+		v.perPadding = extAdditions.Record(v.perPadding)
+	}
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// MarshalAPER encodes ERABsAdmittedToBeReleasedModAckItemSplitBearer to APER format.
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERLegacy(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERTo(v, bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithFinalPadding(v.perPadding)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERTo(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, bb *aper.BitBuffer, fresh ...bool) error {
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.
+			RestoreReplayPlan(previous)
+	}
+	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err != nil {
+			return err
+		}
+	}
+
+	extensionCount := v.extCount
+	if len(fresh) != 0 && fresh[0] {
+		extensionCount, _ = s00.X2apInternalPreferredSequenceTail(v.extPresent, v.extData)
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	recoveryStart := bb.BitsWritten()
+	hasExtensions := false
+	for _, present := range v.extPresent {
+		hasExtensions = hasExtensions || present
+	}
+	for _, data := range v.extData {
+		hasExtensions = hasExtensions || data != nil
+	}
+	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := aper.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := aper.EncodeIntegerBigBoundsAligned(bb, v.ERABID, s00.X2apInternalAsn1IntegerBound1, s00.X2apInternalAsn1IntegerBound7, true); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := aper.EncodeCollection(bb, int64(len(v.IEExtensions)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtFieldMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount := extensionCount
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		if extCount < 0 || extCount >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
+		}
+		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
+			return err
+		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil)
+			if err := aper.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil) {
+				var data []byte
+				if i < int64(len(v.extData)) {
+					data = v.extData[i]
+				}
+				if err := aper.EncodeExtensionContents(bb, data, v.extWire, i); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
+	aper.AppendTruncatedExtension(bb, v.perPadding)
+	return nil
+}
+
+// UnmarshalAPER decodes ERABsAdmittedToBeReleasedModAckItemSplitBearer from APER format.
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerUnmarshalAPERLegacy(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, data []byte) error {
+	return X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
+}
+
+// UnmarshalAPERWithOptions decodes ERABsAdmittedToBeReleasedModAckItemSplitBearer with explicit receiver options:
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerUnmarshalAPERWithOptions(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+	}
+	bb.EnterComponent("ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+	if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerUnmarshalAPERFrom(v, bb); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+	}
+	v.perPadding = padding.WithRecords(v.perPadding)
+	return nil
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerUnmarshalAPERFrom(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = ERABsAdmittedToBeReleasedModAckItemSplitBearer{}
+	extAdditions := aper.BeginExtensionAdditions(bb)
+	hasExtensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.X2apInternalAsn1IntegerBound1, s00.X2apInternalAsn1IntegerBound7, true)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABID")
+	}
+	v.ERABID = val_erabid
+	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
+		tmp_ieextensions := make(s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtContainer, 0)
+		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
+				if err := s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
+				}
+				bb.LeaveComponent(elementMark)
+				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
+					return err
+				} else {
+					tmp_ieextensions = next
+				}
+			}
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
+		}
+		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
+	}
+	if hasExtensions {
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "ExtData_")
+		}
+		v.extCount = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
+			return err
+		}
+		v.extData = make([][]byte, len(extPresent))
+		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
+		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extWire = make([]aper.WireSpan, len(v.extData))
+		v.extPresent = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] && extAdditions.Received(bb, i) {
+				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4"})
+				if err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
+				}
+				opaque = opaque.WithPath("Extensions")
+				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
+					return err
+				}
+				var retained aper.WireSpan
+				opaque.RetainContents(&retained)
+				v.extWire[i] = retained
+				v.extOrigin[i] = opaque.CaptureOrigin()
+			}
+		}
+		if extAdditions.Emptied() {
+			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
+			v.extOrigin = nil
+			v.extWire = nil
+		}
+	}
+
+	{
+		v.perPadding = extAdditions.Record(v.perPadding)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 
@@ -48542,6 +47146,7 @@ func X2apInternalERABsToBeReleasedModReqdItemUnmarshalAPERWithOptions(v *ERABsTo
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedModReqdItem")
 	}
+	bb.EnterComponent("ERABsToBeReleasedModReqdItem")
 	if err := X2apInternalERABsToBeReleasedModReqdItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedModReqdItem")
 	}
@@ -48575,10 +47180,13 @@ func X2apInternalERABsToBeReleasedModReqdItemUnmarshalAPERFrom(v *ERABsToBeRelea
 		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
+	toleranceMark_cause := bb.EnterComponent("Cause")
 	if err := s00.X2apInternalCauseUnmarshalAPERFrom(&v.Cause, bb); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
+	bb.LeaveComponent(toleranceMark_cause)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsToBeReleasedModReqdItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -48587,9 +47195,11 @@ func X2apInternalERABsToBeReleasedModReqdItemUnmarshalAPERFrom(v *ERABsToBeRelea
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsToBeReleasedModReqdItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsToBeReleasedModReqdItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -48602,6 +47212,7 @@ func X2apInternalERABsToBeReleasedModReqdItemUnmarshalAPERFrom(v *ERABsToBeRelea
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -48788,6 +47399,7 @@ func X2apInternalERABsSubjectToCounterCheckItemUnmarshalAPERWithOptions(v *ERABs
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsSubjectToCounterCheckItem")
 	}
+	bb.EnterComponent("ERABsSubjectToCounterCheckItem")
 	if err := X2apInternalERABsSubjectToCounterCheckItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsSubjectToCounterCheckItem")
 	}
@@ -48832,6 +47444,7 @@ func X2apInternalERABsSubjectToCounterCheckItemUnmarshalAPERFrom(v *ERABsSubject
 	}
 	v.DLCount = val_dlcount
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsSubjectToCounterCheckItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -48840,9 +47453,11 @@ func X2apInternalERABsSubjectToCounterCheckItemUnmarshalAPERFrom(v *ERABsSubject
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsSubjectToCounterCheckItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsSubjectToCounterCheckItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -48855,6 +47470,7 @@ func X2apInternalERABsSubjectToCounterCheckItemUnmarshalAPERFrom(v *ERABsSubject
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -49009,6 +47625,7 @@ func X2apInternalResponseInformationSgNBReconfCompUnmarshalAPERWithOptions(v *Re
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSgNBReconfComp")
 	}
+	bb.EnterComponent("ResponseInformationSgNBReconfComp")
 	if err := X2apInternalResponseInformationSgNBReconfCompUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSgNBReconfComp")
 	}
@@ -49212,6 +47829,7 @@ func X2apInternalResponseInformationSgNBReconfCompSuccessItemUnmarshalAPERWithOp
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSgNBReconfCompSuccessItem")
 	}
+	bb.EnterComponent("ResponseInformationSgNBReconfCompSuccessItem")
 	if err := X2apInternalResponseInformationSgNBReconfCompSuccessItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSgNBReconfCompSuccessItem")
 	}
@@ -49256,6 +47874,7 @@ func X2apInternalResponseInformationSgNBReconfCompSuccessItemUnmarshalAPERFrom(v
 		v.MeNBtoSgNBContainer = &tmp_menbtosgnbcontainer
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.ResponseInformationSgNBReconfCompSuccessItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -49264,9 +47883,11 @@ func X2apInternalResponseInformationSgNBReconfCompSuccessItemUnmarshalAPERFrom(v
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.ResponseInformationSgNBReconfCompSuccessItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalResponseInformationSgNBReconfCompSuccessItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -49279,6 +47900,7 @@ func X2apInternalResponseInformationSgNBReconfCompSuccessItemUnmarshalAPERFrom(v
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -49459,6 +48081,7 @@ func X2apInternalResponseInformationSgNBReconfCompRejectByMeNBItemUnmarshalAPERW
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSgNBReconfCompRejectByMeNBItem")
 	}
+	bb.EnterComponent("ResponseInformationSgNBReconfCompRejectByMeNBItem")
 	if err := X2apInternalResponseInformationSgNBReconfCompRejectByMeNBItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResponseInformationSgNBReconfCompRejectByMeNBItem")
 	}
@@ -49487,10 +48110,13 @@ func X2apInternalResponseInformationSgNBReconfCompRejectByMeNBItemUnmarshalAPERF
 	if err != nil {
 		return err
 	}
+	toleranceMark_cause := bb.EnterComponent("Cause")
 	if err := s00.X2apInternalCauseUnmarshalAPERFrom(&v.Cause, bb); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
+	bb.LeaveComponent(toleranceMark_cause)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.ResponseInformationSgNBReconfCompRejectByMeNBItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -49499,9 +48125,11 @@ func X2apInternalResponseInformationSgNBReconfCompRejectByMeNBItemUnmarshalAPERF
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.ResponseInformationSgNBReconfCompRejectByMeNBItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalResponseInformationSgNBReconfCompRejectByMeNBItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -49514,6 +48142,7 @@ func X2apInternalResponseInformationSgNBReconfCompRejectByMeNBItemUnmarshalAPERF
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -49691,6 +48320,7 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentUnmarshalAPERW
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent")
 	}
+	bb.EnterComponent("ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent")
 	if err := X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent")
 	}
@@ -49720,6 +48350,7 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentUnmarshalAPERF
 		return err
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -49728,9 +48359,11 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentUnmarshalAPERF
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -49743,6 +48376,7 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentUnmarshalAPERF
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -49929,6 +48563,7 @@ func X2apInternalERABsAdmittedToReleasedSgNBModAckItemUnmarshalAPERWithOptions(v
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToReleasedSgNBModAckItem")
 	}
+	bb.EnterComponent("ERABsAdmittedToReleasedSgNBModAckItem")
 	if err := X2apInternalERABsAdmittedToReleasedSgNBModAckItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToReleasedSgNBModAckItem")
 	}
@@ -49973,6 +48608,7 @@ func X2apInternalERABsAdmittedToReleasedSgNBModAckItemUnmarshalAPERFrom(v *ERABs
 	}
 	bb.LeaveComponent(toleranceMark_resourceconfiguration)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsToBeReleasedSgNBModAckItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -49981,9 +48617,11 @@ func X2apInternalERABsAdmittedToReleasedSgNBModAckItemUnmarshalAPERFrom(v *ERABs
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsToBeReleasedSgNBModAckItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -49996,6 +48634,7 @@ func X2apInternalERABsAdmittedToReleasedSgNBModAckItemUnmarshalAPERFrom(v *ERABs
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -50173,6 +48812,7 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentUnmarshal
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent")
 	}
+	bb.EnterComponent("ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent")
 	if err := X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent")
 	}
@@ -50202,6 +48842,7 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentUnmarshal
 		return err
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -50210,9 +48851,11 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentUnmarshal
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -50225,6 +48868,7 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentUnmarshal
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -50402,6 +49046,7 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentUnmars
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent")
 	}
+	bb.EnterComponent("ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent")
 	if err := X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent")
 	}
@@ -50431,6 +49076,7 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentUnmars
 		return err
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -50439,9 +49085,11 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentUnmars
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -50454,6 +49102,7 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentUnmars
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -50631,6 +49280,7 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentUnmarshalAPERW
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent")
 	}
+	bb.EnterComponent("ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent")
 	if err := X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent")
 	}
@@ -50660,6 +49310,7 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentUnmarshalAPERF
 		return err
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -50668,9 +49319,11 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentUnmarshalAPERF
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -50683,6 +49336,7 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentUnmarshalAPERF
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -50866,6 +49520,7 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemUnmarshalAPERWithOpti
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedSgNBRelReqAckItem")
 	}
+	bb.EnterComponent("ERABsAdmittedToBeReleasedSgNBRelReqAckItem")
 	if err := X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeReleasedSgNBRelReqAckItem")
 	}
@@ -50905,6 +49560,7 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemUnmarshalAPERFrom(v *
 	}
 	v.RlcModeTransferred = s00.RLCMode(val_rlcmodetransferred)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -50913,9 +49569,11 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemUnmarshalAPERFrom(v *
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -50928,6 +49586,7 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemUnmarshalAPERFrom(v *
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -51111,6 +49770,7 @@ func X2apInternalERABsToBeReleasedSgNBRelReqdItemUnmarshalAPERWithOptions(v *ERA
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBRelReqdItem")
 	}
+	bb.EnterComponent("ERABsToBeReleasedSgNBRelReqdItem")
 	if err := X2apInternalERABsToBeReleasedSgNBRelReqdItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBRelReqdItem")
 	}
@@ -51150,6 +49810,7 @@ func X2apInternalERABsToBeReleasedSgNBRelReqdItemUnmarshalAPERFrom(v *ERABsToBeR
 	}
 	v.RlcModeTransferred = s00.RLCMode(val_rlcmodetransferred)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsToBeReleasedSgNBRelReqdItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -51158,9 +49819,11 @@ func X2apInternalERABsToBeReleasedSgNBRelReqdItemUnmarshalAPERFrom(v *ERABsToBeR
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsToBeReleasedSgNBRelReqdItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsToBeReleasedSgNBRelReqdItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -51173,6 +49836,7 @@ func X2apInternalERABsToBeReleasedSgNBRelReqdItemUnmarshalAPERFrom(v *ERABsToBeR
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -51350,6 +50014,7 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentUnmarshalAPER
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent")
 	}
+	bb.EnterComponent("ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent")
 	if err := X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent")
 	}
@@ -51379,6 +50044,7 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentUnmarshalAPER
 		return err
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -51387,9 +50053,11 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentUnmarshalAPER
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -51402,6 +50070,7 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentUnmarshalAPER
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -51588,6 +50257,7 @@ func X2apInternalERABsSubjectToSgNBCounterCheckItemUnmarshalAPERWithOptions(v *E
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsSubjectToSgNBCounterCheckItem")
 	}
+	bb.EnterComponent("ERABsSubjectToSgNBCounterCheckItem")
 	if err := X2apInternalERABsSubjectToSgNBCounterCheckItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsSubjectToSgNBCounterCheckItem")
 	}
@@ -51632,6 +50302,7 @@ func X2apInternalERABsSubjectToSgNBCounterCheckItemUnmarshalAPERFrom(v *ERABsSub
 	}
 	v.DLCount = val_dlcount
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsSubjectToSgNBCounterCheckItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -51640,9 +50311,11 @@ func X2apInternalERABsSubjectToSgNBCounterCheckItemUnmarshalAPERFrom(v *ERABsSub
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsSubjectToSgNBCounterCheckItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsSubjectToSgNBCounterCheckItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -51655,6 +50328,7 @@ func X2apInternalERABsSubjectToSgNBCounterCheckItemUnmarshalAPERFrom(v *ERABsSub
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -51832,6 +50506,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentUnmarshalAPER
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent")
 	}
+	bb.EnterComponent("ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent")
 	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent")
 	}
@@ -51861,6 +50536,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentUnmarshalAPER
 		return err
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -51869,9 +50545,11 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentUnmarshalAPER
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s02.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s02.X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -51884,6 +50562,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentUnmarshalAPER
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -52064,6 +50743,7 @@ func X2apInternalServedNRCellsToActivateItemUnmarshalAPERWithOptions(v *ServedNR
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ServedNRCellsToActivateItem")
 	}
+	bb.EnterComponent("ServedNRCellsToActivateItem")
 	if err := X2apInternalServedNRCellsToActivateItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ServedNRCellsToActivateItem")
 	}
@@ -52098,6 +50778,7 @@ func X2apInternalServedNRCellsToActivateItemUnmarshalAPERFrom(v *ServedNRCellsTo
 	}
 	bb.LeaveComponent(toleranceMark_nrcellid)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.ServedNRCellsToActivateItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -52106,9 +50787,11 @@ func X2apInternalServedNRCellsToActivateItemUnmarshalAPERFrom(v *ServedNRCellsTo
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.ServedNRCellsToActivateItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.X2apInternalServedNRCellsToActivateItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -52121,6 +50804,7 @@ func X2apInternalServedNRCellsToActivateItemUnmarshalAPERFrom(v *ServedNRCellsTo
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -52301,6 +50985,7 @@ func X2apInternalActivatedNRCellListItemUnmarshalAPERWithOptions(v *ActivatedNRC
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ActivatedNRCellListItem")
 	}
+	bb.EnterComponent("ActivatedNRCellListItem")
 	if err := X2apInternalActivatedNRCellListItemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ActivatedNRCellListItem")
 	}
@@ -52335,6 +51020,7 @@ func X2apInternalActivatedNRCellListItemUnmarshalAPERFrom(v *ActivatedNRCellList
 	}
 	bb.LeaveComponent(toleranceMark_nrcellid)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.ActivatedNRCellListItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -52343,9 +51029,11 @@ func X2apInternalActivatedNRCellListItemUnmarshalAPERFrom(v *ActivatedNRCellList
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s01.ActivatedNRCellListItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s01.X2apInternalActivatedNRCellListItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -52358,6 +51046,7 @@ func X2apInternalActivatedNRCellListItemUnmarshalAPERFrom(v *ActivatedNRCellList
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -52512,6 +51201,7 @@ func X2apInternalERABsAdmittedToReleasedSgNBModAckItemResourceConfigurationUnmar
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration")
 	}
+	bb.EnterComponent("ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration")
 	if err := X2apInternalERABsAdmittedToReleasedSgNBModAckItemResourceConfigurationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration")
 	}
@@ -52710,6 +51400,7 @@ func X2apInternalLimitedListElemUnmarshalAPERWithOptions(v *LimitedListElem, dat
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "LimitedListElem")
 	}
+	bb.EnterComponent("LimitedListElem")
 	if err := X2apInternalLimitedListElemUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "LimitedListElem")
 	}
@@ -52744,6 +51435,7 @@ func X2apInternalLimitedListElemUnmarshalAPERFrom(v *LimitedListElem, bb *aper.B
 	}
 	bb.LeaveComponent(toleranceMark_nrcellid)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.LimitedListExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -52752,9 +51444,11 @@ func X2apInternalLimitedListElemUnmarshalAPERFrom(v *LimitedListElem, bb *aper.B
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.LimitedListExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.X2apInternalLimitedListExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -52767,6 +51461,7 @@ func X2apInternalLimitedListElemUnmarshalAPERFrom(v *LimitedListElem, bb *aper.B
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -52845,6 +51540,54 @@ func (v ActivatedNRCellListItem) WithoutReplay() ActivatedNRCellListItem {
 	v.receivedBytes = aper.WireSpan{}
 	v.receivedLocation = aper.Location{}
 	var zero ActivatedNRCellListItem
+	v.perPadding = zero.perPadding
+	v.perExtPadding = nil
+	return v
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s00.X2apInternalReceivedFormAt(v.received, v.receivedBytes, "ERABsAdmittedToBeReleasedModAckItemSCGBearer", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "ERABsAdmittedToBeReleasedModAckItemSCGBearer", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v ERABsAdmittedToBeReleasedModAckItemSCGBearer) WithoutReplay() ERABsAdmittedToBeReleasedModAckItemSCGBearer {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero ERABsAdmittedToBeReleasedModAckItemSCGBearer
+	v.perPadding = zero.perPadding
+	v.perExtPadding = nil
+	return v
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s00.X2apInternalReceivedFormAt(v.received, v.receivedBytes, "ERABsAdmittedToBeReleasedModAckItemSplitBearer", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "ERABsAdmittedToBeReleasedModAckItemSplitBearer", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v ERABsAdmittedToBeReleasedModAckItemSplitBearer) WithoutReplay() ERABsAdmittedToBeReleasedModAckItemSplitBearer {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero ERABsAdmittedToBeReleasedModAckItemSplitBearer
 	v.perPadding = zero.perPadding
 	v.perExtPadding = nil
 	return v
@@ -53453,6 +52196,84 @@ func (v *ActivatedNRCellListItem) RemoveExtension(index uint64) error {
 	}
 	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
 		return runtime.WrapDecodePath(err, fmt.Sprintf("ActivatedNRCellListItem.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// Extensions returns owned unknown sequence additions.
+func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) Extensions() []aper.SequenceExtension {
+	if v == nil {
+		return nil
+	}
+	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
+	return views
+}
+
+// SetExtension stores an owned unknown sequence addition.
+func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) SetExtension(index uint64, contents []byte) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("ERABsAdmittedToBeReleasedModAckItemSCGBearer.Extensions[%d]", index))
+	}
+	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("ERABsAdmittedToBeReleasedModAckItemSCGBearer.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// RemoveExtension removes one unknown sequence addition.
+func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) RemoveExtension(index uint64) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("ERABsAdmittedToBeReleasedModAckItemSCGBearer.Extensions[%d]", index))
+	}
+	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("ERABsAdmittedToBeReleasedModAckItemSCGBearer.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// Extensions returns owned unknown sequence additions.
+func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) Extensions() []aper.SequenceExtension {
+	if v == nil {
+		return nil
+	}
+	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
+	return views
+}
+
+// SetExtension stores an owned unknown sequence addition.
+func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) SetExtension(index uint64, contents []byte) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("ERABsAdmittedToBeReleasedModAckItemSplitBearer.Extensions[%d]", index))
+	}
+	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("ERABsAdmittedToBeReleasedModAckItemSplitBearer.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// RemoveExtension removes one unknown sequence addition.
+func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) RemoveExtension(index uint64) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("ERABsAdmittedToBeReleasedModAckItemSplitBearer.Extensions[%d]", index))
+	}
+	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("ERABsAdmittedToBeReleasedModAckItemSplitBearer.Extensions[%d]", index))
 	}
 	if index < uint64(len(v.extWire)) {
 		v.extWire[index] = aper.WireSpan{}
@@ -54321,6 +53142,190 @@ func X2apInternalActivatedNRCellListItemMarshalAPERPlanned(v *ActivatedNRCellLis
 		value = &copyValue
 	}
 	if err := X2apInternalActivatedNRCellListItemMarshalAPERTo(value, bb, fresh); err != nil {
+		return nil, err
+	}
+	out, err := bb.CompleteBytesWithFinalPadding(value.perPadding)
+	if err != nil {
+		return nil, err
+	}
+	if err := bb.CheckOutput(uint64(len(out))); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MarshalAPER encodes a complete value using one per-call semantic plan.
+func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+	}
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(v, &s)
+		plan := s.Plan()
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+		}
+		if plan.Unchanged(v.replay) && v.received {
+			out, err := v.receivedBytes.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+		}
+		return X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERWithPlan(v, fresh, plan)
+	}
+	return X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERUnplanned(v, fresh, budget)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERWithPlan(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	bb := aper.NewBudgetBuffer(&budget)
+	bb.SetReplayPlan(&plan)
+	out, err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERPlanned(v, &budget, fresh)
+	if failure := bb.CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERUnplanned(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERPlanned(v, &budget, fresh)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERBudget(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(v, &s)
+		decisions := s.Plan()
+		if err := decisions.CommitBudget(budget); err != nil {
+			return nil, err
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return v.receivedBytes.EncodeBytes(budget)
+		}
+		return X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERChanged(v, budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return v.receivedBytes.EncodeBytes(budget)
+	}
+	return X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERChanged(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	previous := bb.ReplayPlan()
+	bb.SetReplayPlan(&plan)
+	defer bb.SetReplayPlan(previous)
+	return X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERPlanned(v *ERABsAdmittedToBeReleasedModAckItemSCGBearer, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	value := v
+	if fresh {
+		copyValue := v.WithoutReplay()
+		value = &copyValue
+	}
+	if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerMarshalAPERTo(value, bb, fresh); err != nil {
+		return nil, err
+	}
+	out, err := bb.CompleteBytesWithFinalPadding(value.perPadding)
+	if err != nil {
+		return nil, err
+	}
+	if err := bb.CheckOutput(uint64(len(out))); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MarshalAPER encodes a complete value using one per-call semantic plan.
+func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+	}
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(v, &s)
+		plan := s.Plan()
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+		}
+		if plan.Unchanged(v.replay) && v.received {
+			out, err := v.receivedBytes.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+		}
+		return X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERWithPlan(v, fresh, plan)
+	}
+	return X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERUnplanned(v, fresh, budget)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERWithPlan(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	bb := aper.NewBudgetBuffer(&budget)
+	bb.SetReplayPlan(&plan)
+	out, err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERPlanned(v, &budget, fresh)
+	if failure := bb.CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERUnplanned(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERPlanned(v, &budget, fresh)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERBudget(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		X2apInternalCompareX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(v, &s)
+		decisions := s.Plan()
+		if err := decisions.CommitBudget(budget); err != nil {
+			return nil, err
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return v.receivedBytes.EncodeBytes(budget)
+		}
+		return X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERChanged(v, budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return v.receivedBytes.EncodeBytes(budget)
+	}
+	return X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERChanged(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	previous := bb.ReplayPlan()
+	bb.SetReplayPlan(&plan)
+	defer bb.SetReplayPlan(previous)
+	return X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERPlanned(v *ERABsAdmittedToBeReleasedModAckItemSplitBearer, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	value := v
+	if fresh {
+		copyValue := v.WithoutReplay()
+		value = &copyValue
+	}
+	if err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerMarshalAPERTo(value, bb, fresh); err != nil {
 		return nil, err
 	}
 	out, err := bb.CompleteBytesWithFinalPadding(value.perPadding)
@@ -56566,6 +55571,54 @@ func (v *ActivatedNRCellListItem) UnmarshalAPER(data []byte, options ...aper.Dec
 }
 
 // UnmarshalAPER decodes atomically into one immutable wire owner.
+func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	var decoded ERABsAdmittedToBeReleasedModAckItemSCGBearer
+	err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerUnmarshalAPERWithOptions(&decoded, data, settings)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
+		X2apInternalCaptureX2APERABsAdmittedToBeReleasedModAckItemSCGBearer(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(settings, err)
+	if err != nil {
+		*v = ERABsAdmittedToBeReleasedModAckItemSCGBearer{}
+		return report, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "ERABsAdmittedToBeReleasedModAckItemSCGBearer")
+}
+
+// UnmarshalAPER decodes atomically into one immutable wire owner.
+func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	var decoded ERABsAdmittedToBeReleasedModAckItemSplitBearer
+	err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerUnmarshalAPERWithOptions(&decoded, data, settings)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
+		X2apInternalCaptureX2APERABsAdmittedToBeReleasedModAckItemSplitBearer(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(settings, err)
+	if err != nil {
+		*v = ERABsAdmittedToBeReleasedModAckItemSplitBearer{}
+		return report, aper.OperationError(err, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "ERABsAdmittedToBeReleasedModAckItemSplitBearer")
+}
+
+// UnmarshalAPER decodes atomically into one immutable wire owner.
 func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
 		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent")
@@ -57168,7 +56221,7 @@ func NewResponseInformationSeNBReconfCompRejectByMeNB(v ResponseInformationSeNBR
 }
 
 // NewERABsAdmittedToReleasedModAckItemSCGBearer constructs a checked complete value.
-func NewERABsAdmittedToReleasedModAckItemSCGBearer(v s04.ERABsAdmittedToBeReleasedModAckItemSCGBearer, options ...aper.BuildOption) (ERABsAdmittedToReleasedModAckItem, error) {
+func NewERABsAdmittedToReleasedModAckItemSCGBearer(v ERABsAdmittedToBeReleasedModAckItemSCGBearer, options ...aper.BuildOption) (ERABsAdmittedToReleasedModAckItem, error) {
 	budget, err := aper.BuildBudget(options...)
 	if err != nil {
 		return ERABsAdmittedToReleasedModAckItem{}, aper.OperationError(err, "ERABsAdmittedToReleasedModAckItemSCGBearer")
@@ -57181,7 +56234,7 @@ func NewERABsAdmittedToReleasedModAckItemSCGBearer(v s04.ERABsAdmittedToBeReleas
 }
 
 // NewERABsAdmittedToReleasedModAckItemSplitBearer constructs a checked complete value.
-func NewERABsAdmittedToReleasedModAckItemSplitBearer(v s04.ERABsAdmittedToBeReleasedModAckItemSplitBearer, options ...aper.BuildOption) (ERABsAdmittedToReleasedModAckItem, error) {
+func NewERABsAdmittedToReleasedModAckItemSplitBearer(v ERABsAdmittedToBeReleasedModAckItemSplitBearer, options ...aper.BuildOption) (ERABsAdmittedToReleasedModAckItem, error) {
 	budget, err := aper.BuildBudget(options...)
 	if err != nil {
 		return ERABsAdmittedToReleasedModAckItem{}, aper.OperationError(err, "ERABsAdmittedToReleasedModAckItemSplitBearer")

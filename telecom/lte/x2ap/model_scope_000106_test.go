@@ -8,6 +8,7 @@ import (
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
 func replayBoundMakeOps(r replayBoundInput, raw []byte) (replayBoundOps, []byte) {
@@ -29,9 +30,9 @@ func replayBoundMakeOps(r replayBoundInput, raw []byte) (replayBoundOps, []byte)
 	}
 	switch r.Type {
 	case "X2APPDU":
-		var v s19.X2APPDU
+		var v s20.X2APPDU
 		_, _ = v.UnmarshalAPER(raw)
-		return replayBoundOps{decode: func() error { var v s19.X2APPDU; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}, raw
+		return replayBoundOps{decode: func() error { var v s20.X2APPDU; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}, raw
 	case "ProtocolIEField":
 		return errorIndicationIEFieldreplayBoundCodecOps(errorIndicationIEValuereplayBoundFieldCodec(), raw), raw
 	case "GlobalGNBID":
@@ -41,9 +42,9 @@ func replayBoundMakeOps(r replayBoundInput, raw []byte) (replayBoundOps, []byte)
 	case "ERABsAdmittedItem":
 		return eRABsAdmittedItemreplayBoundCodecOps(s09.ERABsAdmittedItemCodec(), raw), raw
 	case "AccessAndMobilityIndication":
-		return accessAndMobilityIndicationreplayBoundCodecOps(s19.AccessAndMobilityIndicationCodec(), raw), raw
+		return accessAndMobilityIndicationreplayBoundCodecOps(s20.AccessAndMobilityIndicationCodec(), raw), raw
 	case "SuccessfulOutcome":
-		return successfulOutcomereplayBoundCodecOps(s18.SuccessfulOutcomeCodec(), raw), raw
+		return successfulOutcomereplayBoundCodecOps(s19.SuccessfulOutcomeCodec(), raw), raw
 	}
 	panic(r.Type)
 }

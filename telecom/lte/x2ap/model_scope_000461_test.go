@@ -3,29 +3,17 @@
 package x2ap
 
 import (
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
-func (c ErrorIndicationIEFieldValueCodec) EncodeAPER(value ErrorIndicationIEFieldAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.ErrInvalidValue
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	if !fresh && value.context == c.context && value.replay.Present() {
-		plan := c.compare(value.Value, value.replay, budget)
-		if err := plan.Error(); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := value.received.EncodePlanBytes(plan)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, plan)
-	}
-	return c.encodeUnplanned(value.Value, fresh, budget)
+// ErrorIndicationIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ErrorIndicationIEValue]].
+type ErrorIndicationIEFieldValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(s11.ErrorIndicationIEField, aper.DecodeState) (s11.ErrorIndicationIEField, aper.Snapshot)
+	compare func(s11.ErrorIndicationIEField, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
+	path    aper.Path
+	decode  func([]byte, aper.DecodeState) (s11.ErrorIndicationIEField, error)
+	encode  func(s11.ErrorIndicationIEField, bool, *aper.DecodeBudget) ([]byte, error)
 }

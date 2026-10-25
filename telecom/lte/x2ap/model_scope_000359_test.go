@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func gNBStatusIndicationIEFieldfreshMust(value s07.GNBStatusIndicationIEField, err error) s07.GNBStatusIndicationIEField {
+func eNDCX2RemovalFailurefreshMust(value s14.ENDCX2RemovalFailure, err error) s14.ENDCX2RemovalFailure {
 	if err != nil {
 		panic(err)
 	}

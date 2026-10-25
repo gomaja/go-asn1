@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s03 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s03"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 )
 
-func sSBPositionsInBurstExtIEFieldapiMust(v s03.SSBPositionsInBurstExtIEField, err error) s03.SSBPositionsInBurstExtIEField {
+func eNBENDCX2RemovalReqAckIEFieldapiMust(v s06.ENBENDCX2RemovalReqAckIEField, err error) s06.ENBENDCX2RemovalReqAckIEField {
 	if err != nil {
 		panic(err)
 	}

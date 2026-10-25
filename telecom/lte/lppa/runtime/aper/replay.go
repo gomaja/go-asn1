@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/replay.go; SHA-256 3658d87ec8d38cb65140640fa627e0948c714bbce45d5efc2fd5f7bac4f1fe9f.
+// Runtime source: runtime/aper/replay.go; SHA-256 61436b8c7f64110640046030244e1ded74db504599039944df13584f0bb16705.
 package aper
 
 import (
@@ -232,6 +232,17 @@ func (p *ReplayPlan) markChanged(node int) {
 	if node < 0 || p.root.owner == nil || node >= p.root.owner.nodes {
 		return
 	}
+	// A semantic edit after tolerated padding requests canonical padding throughout
+	// the known value tree (X.691 (02/2021) §§11.1.4, 11.2.1). The negative node
+	// belongs only to this plan; the immutable received snapshot is unchanged.
+	if p.root.owner.budget.nonzeroTerminalPadding && len(p.root.owner.buffers) > 0 {
+		trace := p.root.owner.buffers[0].trace
+		if trace != nil && trace.nonzeroPadding {
+			p.root.node = -1
+			return
+		}
+	}
+
 	index := node / 8
 	mask := uint8(1) << uint(node%8)
 	if index < len(p.states) {
@@ -253,7 +264,7 @@ func (p *ReplayPlan) markChanged(node int) {
 	p.extra[index-len(p.states)] |= mask
 }
 func (p *ReplayPlan) Unchanged(node Snapshot) bool {
-	if p == nil || node.owner == nil || node.owner != p.root.owner || node.node < 0 || node.node >= node.owner.nodes {
+	if p == nil || p.root.node < 0 || node.owner == nil || node.owner != p.root.owner || node.node < 0 || node.node >= node.owner.nodes {
 		return false
 	}
 	index := node.node / 8
@@ -692,6 +703,9 @@ func OwnDecodeInputOptions(data []byte, options ...DecodeOption) ([]byte, Decode
 	var budget DecodeBudget
 	if err := initOperationBudget(&budget, limits); err != nil {
 		return nil, DecodeState{failure: err}
+	}
+	for _, option := range options {
+		budget.nonzeroTerminalPadding = budget.nonzeroTerminalPadding || option.nonzeroTerminalPadding
 	}
 	budget.reading = true
 	budget.outputLimited = false

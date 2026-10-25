@@ -2,7 +2,7 @@
 
 package x2ap
 
-func eRABsAdmittedItemExtIEsExtFieldreplayBoundCodecOps(c ERABsAdmittedItemExtIEsExtFieldValueCodec, raw []byte) replayBoundOps {
+func eRABsToBeSetupItemIEFieldreplayBoundCodecOps(c ERABsToBeSetupItemIEFieldValueCodec, raw []byte) replayBoundOps {
 	v, _, _ := c.DecodeAPER(raw)
 	return replayBoundOps{decode: func() error { _, _, err := c.DecodeAPER(raw); return err }, encode: func() ([]byte, error) { return c.EncodeAPER(v) }}
 }

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
 )
 
-func uRIAddressAPERValueapiMust(v s12.URIAddressAPERValue, err error) s12.URIAddressAPERValue {
+func transportLayerAddressAPERValueapiMust(v s09.TransportLayerAddressAPERValue, err error) s09.TransportLayerAddressAPERValue {
 	if err != nil {
 		panic(err)
 	}

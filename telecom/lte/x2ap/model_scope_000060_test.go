@@ -6,7 +6,7 @@ import (
 	bytes "bytes"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -25,7 +25,7 @@ func TestReceivedFieldsPreserveSiblingFraming(t *testing.T) {
 	}
 	wire := append([]byte{0, 0, 2}, field...)
 	wire = append(wire, bb.CompleteBytes()...)
-	var body s19.ErrorIndication
+	var body s20.ErrorIndication
 	if _, err := body.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}

@@ -6,7 +6,7 @@ import (
 	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func eNDCPartialResetConfirmfreshMust(value s18.ENDCPartialResetConfirm, err error) s18.ENDCPartialResetConfirm {
+func eNDCPartialResetRequiredIEFieldfreshMust(value s18.ENDCPartialResetRequiredIEField, err error) s18.ENDCPartialResetRequiredIEField {
 	if err != nil {
 		panic(err)
 	}

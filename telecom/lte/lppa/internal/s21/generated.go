@@ -9,7 +9,6 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s01"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s02"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
-	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
@@ -79,7 +78,7 @@ type ECIDMeasurementInitiationRequestIEField struct {
 	stream        aper.WireSpan
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
-	Value         s20.ECIDMeasurementInitiationRequestIEValue
+	Value         ECIDMeasurementInitiationRequestIEValue
 
 	received aper.CompletePadding
 }
@@ -125,7 +124,7 @@ func (v *ECIDMeasurementInitiationRequestIEField) marshalAPERTo(bb *aper.BitBuff
 		return fmt.Errorf("nil ProtocolIEField")
 	}
 	// TS 36.455 V19.0.0 §9.3.8 binds the table-selected value to @id.
-	if !s20.BridgeECIDMeasurementInitiationRequestIEValueMethodMatchesID(v.Value, v.Id, bb.Budget()) {
+	if !v.Value.matchesID(v.Id, bb.Budget()) {
 		return runtime.WrapDecodePath(fmt.Errorf("%w: field id %d does not match its value selector", aper.ErrInvalidValue, v.Id), "ProtocolIEField.Id")
 	}
 	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), s03.BridgeInt64Ptr(0), s03.BridgeInt64Ptr(65535), false); err != nil {
@@ -134,7 +133,7 @@ func (v *ECIDMeasurementInitiationRequestIEField) marshalAPERTo(bb *aper.BitBuff
 	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
-	data, err := s20.BridgeECIDMeasurementInitiationRequestIEValueMethodEncodeFresh(v.Value, len(fresh) != 0 && fresh[0],
+	data, err := v.Value.encodeFresh(len(fresh) != 0 && fresh[0],
 
 		bb.Budget())
 	if err != nil {
@@ -167,14 +166,16 @@ func (v *ECIDMeasurementInitiationRequestIEField) unmarshalAPERFrom(bb *aper.Bit
 		return runtime.WrapDecodePath(err, "Criticality")
 	}
 	v.Criticality = s00.Criticality(criticality)
-	var zero s20.ECIDMeasurementInitiationRequestIEValue
+	var zero ECIDMeasurementInitiationRequestIEValue
 
-	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, s20.BridgeECIDMeasurementInitiationRequestIEValueMethodReason(zero, v.Id), s20.BridgeECIDMeasurementInitiationRequestIEValueMethodRule(zero))
+	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, zero.reason(v.Id), zero.rule())
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
-	value, err := s20.BridgeECIDMeasurementInitiationRequestIEValueMethodDecode(zero, v.Id, raw)
+	paddingMark := bb.EnterComponent("Value")
+	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1111,40 +1112,6 @@ func BridgeECIDMeasurementInitiationRequestIEValueCompareLPPaProtocolIEContainer
 		s.End(f, aper.Snapshot{}, false)
 	}
 }
-func BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionContainer(v *s04.WLANMeasurementResultItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	if s.Failed() {
-		return
-	}
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-}
-func BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionContainer(v *s04.WLANMeasurementResultItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	if s.Failed() {
-		return
-	}
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-}
 
 // ECIDMeasurementInitiationRequestMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementInitiationRequestIEValue].
 type ECIDMeasurementInitiationRequestMeasurementIDIEBinding struct {
@@ -1152,9 +1119,9 @@ type ECIDMeasurementInitiationRequestMeasurementIDIEBinding struct {
 	codec  s00.MeasurementIDValueCodec
 	inject func(s00.MeasurementID,
 
-	) s20.ECIDMeasurementInitiationRequestIEValue
+	) ECIDMeasurementInitiationRequestIEValue
 
-	get func(*s20.ECIDMeasurementInitiationRequestIEValue,
+	get func(*ECIDMeasurementInitiationRequestIEValue,
 
 	) (*s00.MeasurementID,
 
@@ -1205,9 +1172,9 @@ type ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding struct {
 	codec  s01.ReportCharacteristicsValueCodec
 	inject func(s00.ReportCharacteristics,
 
-	) s20.ECIDMeasurementInitiationRequestIEValue
+	) ECIDMeasurementInitiationRequestIEValue
 
-	get func(*s20.ECIDMeasurementInitiationRequestIEValue,
+	get func(*ECIDMeasurementInitiationRequestIEValue,
 
 	) (*s00.ReportCharacteristics,
 
@@ -1260,9 +1227,9 @@ type ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding struct {
 	codec  s00.MeasurementPeriodicityValueCodec
 	inject func(s00.MeasurementPeriodicity,
 
-	) s20.ECIDMeasurementInitiationRequestIEValue
+	) ECIDMeasurementInitiationRequestIEValue
 
-	get func(*s20.ECIDMeasurementInitiationRequestIEValue,
+	get func(*ECIDMeasurementInitiationRequestIEValue,
 
 	) (*s00.MeasurementPeriodicity,
 
@@ -1315,9 +1282,9 @@ type ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding struct {
 	codec  s06.MeasurementQuantitiesConcreteValueCodec
 	inject func(s06.MeasurementQuantities,
 
-	) s20.ECIDMeasurementInitiationRequestIEValue
+	) ECIDMeasurementInitiationRequestIEValue
 
-	get func(*s20.ECIDMeasurementInitiationRequestIEValue,
+	get func(*ECIDMeasurementInitiationRequestIEValue,
 
 	) (*s06.MeasurementQuantities,
 
@@ -1370,9 +1337,9 @@ type ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding stru
 	codec  s06.InterRATMeasurementQuantitiesConcreteValueCodec
 	inject func(s06.InterRATMeasurementQuantities,
 
-	) s20.ECIDMeasurementInitiationRequestIEValue
+	) ECIDMeasurementInitiationRequestIEValue
 
-	get func(*s20.ECIDMeasurementInitiationRequestIEValue,
+	get func(*ECIDMeasurementInitiationRequestIEValue,
 
 	) (*s06.InterRATMeasurementQuantities,
 
@@ -1425,9 +1392,9 @@ type ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding struct {
 	codec  s20.WLANMeasurementQuantitiesConcreteValueCodec
 	inject func(s20.WLANMeasurementQuantities,
 
-	) s20.ECIDMeasurementInitiationRequestIEValue
+	) ECIDMeasurementInitiationRequestIEValue
 
-	get func(*s20.ECIDMeasurementInitiationRequestIEValue,
+	get func(*ECIDMeasurementInitiationRequestIEValue,
 
 	) (*s20.WLANMeasurementQuantities,
 
@@ -1706,13 +1673,13 @@ func BridgeECIDMeasurementInitiationRequestIEValueValidateLPPaIEContainer(fields
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
-		if !s20.BridgeECIDMeasurementInitiationRequestIEValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := s20.BridgeECIDMeasurementInitiationRequestIEValueMethodRule(field.Value)
+		if !field.Value.matchesID(field.Id, budget) {
+			rule := field.Value.rule()
 			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -1720,35 +1687,35 @@ func BridgeECIDMeasurementInitiationRequestIEValueValidateLPPaIEContainer(fields
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -1759,121 +1726,16 @@ func BridgeECIDMeasurementInitiationRequestIEValueValidateLPPaIEContainer(fields
 		}
 	}
 	return report
-}
-
-// TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func BridgeWLANMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(fields s20.WLANMeasurementQuantitiesItemIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s09.ValidationReport {
-	report := func() s09.ValidationReport {
-		sealed := s09.ValidationReport{Complete: true}
-		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
-		return sealed
-	}()
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s09.BridgeValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s09.BridgeValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s09.BridgeValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
-		if !s20.BridgeWLANMeasurementQuantitiesItemIEValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := s20.BridgeWLANMeasurementQuantitiesItemIEValueMethodRule(field.Value)
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
-				sealed := s00.TableID{}
-				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
-				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
-			// including repetition of unknown selectors.
-			counts, field.Id)
-		if counts[field.Id] > 1 {
-			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
-			if allowed {
-				row = rows[rank]
-				related = append(related, row.Rule)
-			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s09.BridgeValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields s04.WLANMeasurementQuantitiesValueExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s09.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s04.WLANMeasurementQuantitiesValueExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return func() s09.ValidationReport {
-			sealed := s09.ValidationReport{}
-			*s09.BridgeValidationReportFieldErr(&sealed) = err
-			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
-			return sealed
-		}()
-	}
-	asIE := make(s04.WLANMeasurementQuantitiesValueExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaIEContainer(asIE, rows, path, budget)
 }
 
 // eCIDMeasurementInitiationRequestIEValueProtocolOpenValue is the concrete protocolOpenValue[ECIDMeasurementInitiationRequestIEValue].
 type ECIDMeasurementInitiationRequestIEValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s20.ECIDMeasurementInitiationRequestIEValue
+	captureSemantics(aper.SemanticCapture) ECIDMeasurementInitiationRequestIEValue
 
 	captureFraming() uint64
 	captureSnapshot() aper.Snapshot
 	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s20.ECIDMeasurementInitiationRequestIEValue,
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (ECIDMeasurementInitiationRequestIEValue,
 
 		error)
 	encode() ([]byte, error)
@@ -1892,9 +1754,9 @@ func BridgeECIDMeasurementInitiationRequestIEValueCaptureLPPaProtocolIEField(v *
 	s.Stream(v.stream)
 	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
 	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
-	s.OpenBytes(s20.BridgeECIDMeasurementInitiationRequestIEValueMethodCaptureFraming(v.Value))
-	v.Value = s20.BridgeECIDMeasurementInitiationRequestIEValueMethodCaptureSemantics(v.Value, *s)
-	s.Child(s20.BridgeECIDMeasurementInitiationRequestIEValueMethodCaptureSnapshot(v.Value))
+	s.OpenBytes(v.Value.captureFraming())
+	v.Value = v.Value.captureSemantics(*s)
+	s.Child(v.Value.captureSnapshot())
 	s.End(f, &v.replay, v.withoutReplay)
 }
 func BridgeECIDMeasurementInitiationRequestIEValueCompareLPPaProtocolIEField(v *ECIDMeasurementInitiationRequestIEField, s *aper.SemanticComparison) {
@@ -1906,7 +1768,7 @@ func BridgeECIDMeasurementInitiationRequestIEValueCompareLPPaProtocolIEField(v *
 	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
 	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
 
-	*s = s20.BridgeECIDMeasurementInitiationRequestIEValueMethodCompareSemantics(v.Value, *s)
+	*s = v.Value.compareSemantics(*s)
 	s.End(f, v.replay, v.withoutReplay)
 }
 
@@ -1925,50 +1787,6 @@ type WLANMeasurementQuantitiesItemIEValueProtocolOpenValueConstraint interface {
 	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
 	reason(s00.ProtocolIEID) aper.OpaqueReason
 	rule() aper.SourceRule
-}
-
-// wLANMeasurementQuantitiesValueExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[WLANMeasurementQuantitiesValueExtIEsValue].
-type WLANMeasurementQuantitiesValueExtIEsValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s03.WLANMeasurementQuantitiesValueExtIEsValue
-
-	captureFraming() uint64
-	captureSnapshot() aper.Snapshot
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s03.WLANMeasurementQuantitiesValueExtIEsValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
-func BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionField(v *s04.WLANMeasurementResultItemExtIEsExtField, s *aper.SemanticCapture) {
-	if s.Failed() {
-		return
-	}
-	f := s.Begin()
-	s.Value()
-	s.Stream(*s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldStream(v))
-	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
-	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
-	s.OpenBytes(s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCaptureFraming(v.ExtensionValue))
-	v.ExtensionValue = s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.Child(s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCaptureSnapshot(v.ExtensionValue))
-	s.End(f, s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldReplay(v), *s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionField(v *s04.WLANMeasurementResultItemExtIEsExtField, s *aper.SemanticComparison) {
-	if s.Failed() {
-		return
-	}
-	f := s.Begin()
-	s.Value()
-	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
-	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
-
-	*s = s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldReplay(v), *s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldWithoutReplay(v))
 }
 
 // ECIDMeasurementInitiationRequestAPERValue is the concrete APERValue[ECIDMeasurementInitiationRequest].
@@ -2015,93 +1833,6 @@ func (v InitiatingMessageAPERValue) WithoutReplay() InitiatingMessageAPERValue {
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
-}
-
-// TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaIEContainer(fields s04.WLANMeasurementQuantitiesValueExtIEsIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s09.ValidationReport {
-	report := func() s09.ValidationReport {
-		sealed := s09.ValidationReport{Complete: true}
-		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
-		return sealed
-	}()
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s09.BridgeValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s09.BridgeValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s09.BridgeValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
-		if !s03.BridgeWLANMeasurementQuantitiesValueExtIEsValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := s03.BridgeWLANMeasurementQuantitiesValueExtIEsValueMethodRule(field.Value)
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
-				sealed := s00.TableID{}
-				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
-				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
-			// including repetition of unknown selectors.
-			counts, field.Id)
-		if counts[field.Id] > 1 {
-			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
-			if allowed {
-				row = rows[rank]
-				related = append(related, row.Rule)
-			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s09.BridgeValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
 }
 
 // MarshalAPERWLANMeasurementQuantities encodes a WLANMeasurementQuantities list to APER.
@@ -2271,6 +2002,7 @@ func (v *ECIDMeasurementInitiationRequest) unmarshalAPERWithOptions(data []byte,
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationRequest")
 	}
+	bb.EnterComponent("ECIDMeasurementInitiationRequest")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationRequest")
 	}
@@ -2295,6 +2027,7 @@ func (v *ECIDMeasurementInitiationRequest) unmarshalAPERFrom(bb *aper.BitBuffer)
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(ECIDMeasurementInitiationRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2303,9 +2036,11 @@ func (v *ECIDMeasurementInitiationRequest) unmarshalAPERFrom(bb *aper.BitBuffer)
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ECIDMeasurementInitiationRequestIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -2317,6 +2052,7 @@ func (v *ECIDMeasurementInitiationRequest) unmarshalAPERFrom(bb *aper.BitBuffer)
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -2632,6 +2368,7 @@ func (v *InitiatingMessage) unmarshalAPERWithOptions(data []byte, options aper.D
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
+	bb.EnterComponent("InitiatingMessage")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
@@ -2666,6 +2403,7 @@ func (v *InitiatingMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "LppatransactionID")
 	}
 	v.LppatransactionID = s00.LPPATransactionID(val_lppatransactionid)
+	toleranceMark_value := bb.EnterComponent("Value")
 	opaque_value, err := aper.DecodeOpaqueOpenTypeAligned(bb, s00.InitiatingReason(v.ProcedureCode), aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "Initiating"}})
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
@@ -2676,6 +2414,7 @@ func (v *InitiatingMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
 	}
 	v.Value = decoded_value
+	bb.LeaveComponent(toleranceMark_value)
 	v.stream = bb.CaptureWireSpan(replayStart)
 	v.stream.RecordUsage(replayUsage,
 
@@ -3390,6 +3129,183 @@ func BridgeCompareLPPaECIDMeasurementInitiationRequest(v *ECIDMeasurementInitiat
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, v.replay, v.withoutReplay)
 }
+func BridgeCaptureLPPaECIDMeasurementInitiationRequestIEValue(v *ECIDMeasurementInitiationRequestIEValue, s *aper.SemanticCapture) {
+	if s.Failed() {
+		return
+	}
+	f := s.Begin()
+	s.Stream(v.received)
+	s00.BridgeCaptureLPPaProtocolIEID(&v.id, s)
+	if v.isOpaque {
+		{
+			f := s.Begin()
+			s.Bool(v.opaque == nil)
+			if v.opaque != nil {
+				s.Opaque((*v.opaque))
+			}
+			s.End(f, nil, false)
+		}
+	}
+	s.Bool(v.isOpaque)
+	if !(v.isOpaque) {
+		switch v.id {
+		case s00.ProtocolIEID(2):
+			{
+				f := s.Begin()
+				s.Bool(v.rowESMLCUEMeasurementID == nil)
+				if v.rowESMLCUEMeasurementID != nil {
+					s00.BridgeCaptureLPPaMeasurementID(v.rowESMLCUEMeasurementID, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(3):
+			{
+				f := s.Begin()
+				s.Bool(v.rowReportCharacteristics == nil)
+				if v.rowReportCharacteristics != nil {
+					s00.BridgeCaptureLPPaReportCharacteristics(v.rowReportCharacteristics, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(4):
+			{
+				f := s.Begin()
+				s.Bool(v.rowMeasurementPeriodicity == nil)
+				if v.rowMeasurementPeriodicity != nil {
+					s00.BridgeCaptureLPPaMeasurementPeriodicity(v.rowMeasurementPeriodicity, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(5):
+			{
+				f := s.Begin()
+				s.Bool(v.rowMeasurementQuantities == nil)
+				if v.rowMeasurementQuantities != nil {
+					s11.BridgeCaptureLPPaMeasurementQuantities(v.rowMeasurementQuantities, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(15):
+			{
+				f := s.Begin()
+				s.Bool(v.rowInterRATMeasurementQuantities == nil)
+				if v.rowInterRATMeasurementQuantities != nil {
+					s11.BridgeCaptureLPPaInterRATMeasurementQuantities(v.rowInterRATMeasurementQuantities, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(19):
+			{
+				f := s.Begin()
+				s.Bool(v.rowWLANMeasurementQuantities == nil)
+				if v.rowWLANMeasurementQuantities != nil {
+					s20.BridgeCaptureLPPaWLANMeasurementQuantities(v.rowWLANMeasurementQuantities, s)
+				}
+				s.End(f, nil, false)
+			}
+		}
+	}
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func (v ECIDMeasurementInitiationRequestIEValue) captureSnapshot() aper.Snapshot { return v.replay }
+func (v ECIDMeasurementInitiationRequestIEValue) captureFraming() uint64 {
+	if v.isOpaque && v.opaque != nil {
+		return v.opaque.ContentLength()
+	}
+	return v.received.ByteLength()
+}
+func (v ECIDMeasurementInitiationRequestIEValue) captureSemantics(s aper.SemanticCapture) ECIDMeasurementInitiationRequestIEValue {
+	BridgeCaptureLPPaECIDMeasurementInitiationRequestIEValue(&v, &s)
+	return v
+}
+func BridgeCompareLPPaECIDMeasurementInitiationRequestIEValue(v *ECIDMeasurementInitiationRequestIEValue, s *aper.SemanticComparison) {
+	if s.Failed() {
+		return
+	}
+	f := s.Begin()
+	s02.BridgeCompareLPPaProtocolIEID(&v.id, s)
+	if v.isOpaque {
+		{
+			f := s.Begin()
+			s.Bool(v.opaque == nil)
+			if v.opaque != nil {
+				s.Opaque((*v.opaque))
+			}
+			s.End(f, aper.Snapshot{}, false)
+		}
+	}
+	s.Bool(v.isOpaque)
+	if !(v.isOpaque) {
+		switch v.id {
+		case s00.ProtocolIEID(2):
+			{
+				f := s.Begin()
+				s.Bool(v.rowESMLCUEMeasurementID == nil)
+				if v.rowESMLCUEMeasurementID != nil {
+					s02.BridgeCompareLPPaMeasurementID(v.rowESMLCUEMeasurementID, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(3):
+			{
+				f := s.Begin()
+				s.Bool(v.rowReportCharacteristics == nil)
+				if v.rowReportCharacteristics != nil {
+					s03.BridgeCompareLPPaReportCharacteristics(v.rowReportCharacteristics, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(4):
+			{
+				f := s.Begin()
+				s.Bool(v.rowMeasurementPeriodicity == nil)
+				if v.rowMeasurementPeriodicity != nil {
+					s02.BridgeCompareLPPaMeasurementPeriodicity(v.rowMeasurementPeriodicity, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(5):
+			{
+				f := s.Begin()
+				s.Bool(v.rowMeasurementQuantities == nil)
+				if v.rowMeasurementQuantities != nil {
+					s11.BridgeCompareLPPaMeasurementQuantities(v.rowMeasurementQuantities, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(15):
+			{
+				f := s.Begin()
+				s.Bool(v.rowInterRATMeasurementQuantities == nil)
+				if v.rowInterRATMeasurementQuantities != nil {
+					s11.BridgeCompareLPPaInterRATMeasurementQuantities(v.rowInterRATMeasurementQuantities, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(19):
+			{
+				f := s.Begin()
+				s.Bool(v.rowWLANMeasurementQuantities == nil)
+				if v.rowWLANMeasurementQuantities != nil {
+					s20.BridgeCompareLPPaWLANMeasurementQuantities(v.rowWLANMeasurementQuantities, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		}
+	}
+	s.End(f, v.replay, v.withoutReplay)
+}
+func (v ECIDMeasurementInitiationRequestIEValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
+	BridgeCompareLPPaECIDMeasurementInitiationRequestIEValue(&v, &s)
+	return s
+}
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
+func (v ECIDMeasurementInitiationRequestIEValue) WithoutReplay() ECIDMeasurementInitiationRequestIEValue {
+	v.withoutReplay = true
+	v.replay = aper.Snapshot{}
+	return v
+}
 func BridgeCaptureLPPaInitiatingMessage(v *InitiatingMessage, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
@@ -3684,6 +3600,425 @@ func (v InitiatingValue) WithoutReplay() InitiatingValue {
 	return v
 }
 
+type ECIDMeasurementInitiationRequestIEValue struct {
+	id                               s00.ProtocolIEID
+	withoutReplay                    bool
+	received                         aper.WireSpan
+	replay                           aper.Snapshot
+	opaque                           *aper.OpaqueOpenType
+	isOpaque                         bool
+	rowESMLCUEMeasurementID          *s00.MeasurementID
+	rowReportCharacteristics         *s00.ReportCharacteristics
+	rowMeasurementPeriodicity        *s00.MeasurementPeriodicity
+	rowMeasurementQuantities         *s06.MeasurementQuantities
+	rowInterRATMeasurementQuantities *s06.InterRATMeasurementQuantities
+	rowWLANMeasurementQuantities     *s20.WLANMeasurementQuantities
+}
+
+func (v ECIDMeasurementInitiationRequestIEValue) matchesID(id s00.ProtocolIEID, _ *aper.DecodeBudget) bool {
+	if v.id != id {
+		return false
+	}
+	if v.isOpaque {
+		return v.opaque != nil
+	}
+	switch id {
+	case s00.ProtocolIEID(2):
+		return v.rowESMLCUEMeasurementID != nil
+	case s00.ProtocolIEID(3):
+		return v.rowReportCharacteristics != nil
+	case s00.ProtocolIEID(4):
+		return v.rowMeasurementPeriodicity != nil
+	case s00.ProtocolIEID(5):
+		return v.rowMeasurementQuantities != nil
+	case s00.ProtocolIEID(15):
+		return v.rowInterRATMeasurementQuantities != nil
+	case s00.ProtocolIEID(19):
+		return v.rowWLANMeasurementQuantities != nil
+	default:
+		return false
+	}
+}
+
+// Opaque returns the retained opaque open value and reports whether an opaque alternative is selected.
+func (v *ECIDMeasurementInitiationRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
+	if v == nil || !v.isOpaque || v.opaque == nil {
+		return aper.OpaqueOpenType{}, false
+	}
+	return *v.opaque, true
+}
+func (ECIDMeasurementInitiationRequestIEValue) rule() aper.SourceRule {
+	return aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Contents", Assignment: "E-CIDMeasurementInitiationRequest-IEs"}}
+}
+func (ECIDMeasurementInitiationRequestIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
+	switch id {
+	case s00.ProtocolIEID(2):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(3):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(4):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(5):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(15):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(19):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(0):
+		return aper.NotInTable
+	case s00.ProtocolIEID(1):
+		return aper.NotInTable
+	case s00.ProtocolIEID(6):
+		return aper.NotInTable
+	case s00.ProtocolIEID(7):
+		return aper.NotInTable
+	case s00.ProtocolIEID(8):
+		return aper.NotInTable
+	case s00.ProtocolIEID(9):
+		return aper.NotInTable
+	case s00.ProtocolIEID(10):
+		return aper.NotInTable
+	case s00.ProtocolIEID(11):
+		return aper.NotInTable
+	case s00.ProtocolIEID(12):
+		return aper.NotInTable
+	case s00.ProtocolIEID(13):
+		return aper.NotInTable
+	case s00.ProtocolIEID(14):
+		return aper.NotInTable
+	case s00.ProtocolIEID(16):
+		return aper.NotInTable
+	case s00.ProtocolIEID(17):
+		return aper.NotInTable
+	case s00.ProtocolIEID(18):
+		return aper.NotInTable
+	case s00.ProtocolIEID(20):
+		return aper.NotInTable
+	case s00.ProtocolIEID(21):
+		return aper.NotInTable
+	case s00.ProtocolIEID(22):
+		return aper.NotInTable
+	case s00.ProtocolIEID(23):
+		return aper.NotInTable
+	case s00.ProtocolIEID(24):
+		return aper.NotInTable
+	case s00.ProtocolIEID(25):
+		return aper.NotInTable
+	case s00.ProtocolIEID(27):
+		return aper.NotInTable
+	default:
+		return aper.UnknownSelector
+	}
+}
+
+// AsESMLCUEMeasurementID returns the selected ESMLCUEMeasurementID value and reports whether that alternative is active.
+func (v *ECIDMeasurementInitiationRequestIEValue) AsESMLCUEMeasurementID() (*s00.MeasurementID, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowESMLCUEMeasurementID == nil {
+		return nil, false
+	}
+	return v.rowESMLCUEMeasurementID, true
+}
+
+// AsReportCharacteristics returns the selected ReportCharacteristics value and reports whether that alternative is active.
+func (v *ECIDMeasurementInitiationRequestIEValue) AsReportCharacteristics() (*s00.ReportCharacteristics, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(3) || v.rowReportCharacteristics == nil {
+		return nil, false
+	}
+	return v.rowReportCharacteristics, true
+}
+
+// AsMeasurementPeriodicity returns the selected MeasurementPeriodicity value and reports whether that alternative is active.
+func (v *ECIDMeasurementInitiationRequestIEValue) AsMeasurementPeriodicity() (*s00.MeasurementPeriodicity, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(4) || v.rowMeasurementPeriodicity == nil {
+		return nil, false
+	}
+	return v.rowMeasurementPeriodicity, true
+}
+
+// AsMeasurementQuantities returns the selected MeasurementQuantities value and reports whether that alternative is active.
+func (v *ECIDMeasurementInitiationRequestIEValue) AsMeasurementQuantities() (*s06.MeasurementQuantities, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowMeasurementQuantities == nil {
+		return nil, false
+	}
+	return v.rowMeasurementQuantities, true
+}
+
+// AsInterRATMeasurementQuantities returns the selected InterRATMeasurementQuantities value and reports whether that alternative is active.
+func (v *ECIDMeasurementInitiationRequestIEValue) AsInterRATMeasurementQuantities() (*s06.InterRATMeasurementQuantities, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(15) || v.rowInterRATMeasurementQuantities == nil {
+		return nil, false
+	}
+	return v.rowInterRATMeasurementQuantities, true
+}
+
+// AsWLANMeasurementQuantities returns the selected WLANMeasurementQuantities value and reports whether that alternative is active.
+func (v *ECIDMeasurementInitiationRequestIEValue) AsWLANMeasurementQuantities() (*s20.WLANMeasurementQuantities, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(19) || v.rowWLANMeasurementQuantities == nil {
+		return nil, false
+	}
+	return v.rowWLANMeasurementQuantities, true
+}
+func (v ECIDMeasurementInitiationRequestIEValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (ECIDMeasurementInitiationRequestIEValue, error) {
+	out := ECIDMeasurementInitiationRequestIEValue{id: id}
+	var scope *aper.BitBuffer
+	switch id {
+	case 2, 3, 4, 5, 15, 19:
+		scope = raw.BudgetBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+	}
+	switch id {
+	case s00.ProtocolIEID(2):
+		replayUsage := scope.Usage()
+		bb := raw.ChildDecodeBuffer()
+		decoded, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.BridgeAsn1IntegerBound2, s00.BridgeAsn1IntegerBound7, true)
+		value := s00.MeasurementID(decoded)
+		if err != nil {
+			return out, fmt.Errorf("%s %w", "ESMLCUEMeasurementID:", err)
+		}
+		if _, err := aper.CaptureOpenTypePadding(bb); err != nil {
+			return out, err
+		}
+		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
+			return out, err
+		}
+		out.rowESMLCUEMeasurementID = &value
+		raw.RetainContents(&out.received)
+		out.received.RecordUsage(replayUsage, scope)
+	case s00.ProtocolIEID(3):
+		replayUsage := scope.Usage()
+		bb := raw.ChildDecodeBuffer()
+		decoded, err := aper.DecodeEnumeratedAligned(bb, 2, true, aper.EnumerationSource{KnownExtensions: 0, Path: "ReportCharacteristics"})
+		value := s00.ReportCharacteristics(decoded)
+		if err != nil {
+			return out, fmt.Errorf("%s %w", "ReportCharacteristics:", err)
+		}
+		if _, err := aper.CaptureOpenTypePadding(bb); err != nil {
+			return out, err
+		}
+		out.rowReportCharacteristics = (*s00.ReportCharacteristics)(scope.OwnInt64(int64(value)))
+		raw.RetainContents(&out.received)
+		out.received.RecordUsage(replayUsage, scope)
+	case s00.ProtocolIEID(4):
+		replayUsage := scope.Usage()
+		bb := raw.ChildDecodeBuffer()
+		decoded, err := aper.DecodeEnumeratedAligned(bb, 13, true, aper.EnumerationSource{KnownExtensions: 0, Path: "MeasurementPeriodicity"})
+		value := s00.MeasurementPeriodicity(decoded)
+		if err != nil {
+			return out, fmt.Errorf("%s %w", "MeasurementPeriodicity:", err)
+		}
+		if _, err := aper.CaptureOpenTypePadding(bb); err != nil {
+			return out, err
+		}
+		out.rowMeasurementPeriodicity = (*s00.MeasurementPeriodicity)(scope.OwnInt64(int64(value)))
+		raw.RetainContents(&out.received)
+		out.received.RecordUsage(replayUsage, scope)
+	case s00.ProtocolIEID(5):
+		replayUsage := scope.Usage()
+		child := raw.ChildDecodeBuffer()
+		list, err := s18.BridgeUnmarshalAPERMeasurementQuantitiesFrom(child)
+		if err != nil {
+			return out, fmt.Errorf("%s %w", "MeasurementQuantities:", err)
+		}
+		padding, err := aper.CaptureOpenTypePadding(child)
+		if err != nil {
+			return out, err
+		}
+		complete := func() s18.MeasurementQuantitiesComplete {
+			sealed := s18.MeasurementQuantitiesComplete{Value: list}
+			*s18.BridgeMeasurementQuantitiesCompleteFieldPerPadding(&sealed) = padding
+			return sealed
+		}()
+		value := complete.Value
+		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
+			return out, err
+		}
+		out.rowMeasurementQuantities = &value
+		raw.RetainContents(&out.received)
+		out.received.RecordUsage(replayUsage, scope)
+	case s00.ProtocolIEID(15):
+		replayUsage := scope.Usage()
+		child := raw.ChildDecodeBuffer()
+		list, err := s17.BridgeUnmarshalAPERInterRATMeasurementQuantitiesFrom(child)
+		if err != nil {
+			return out, fmt.Errorf("%s %w", "InterRATMeasurementQuantities:", err)
+		}
+		padding, err := aper.CaptureOpenTypePadding(child)
+		if err != nil {
+			return out, err
+		}
+		complete := func() s17.InterRATMeasurementQuantitiesComplete {
+			sealed := s17.InterRATMeasurementQuantitiesComplete{Value: list}
+			*s17.BridgeInterRATMeasurementQuantitiesCompleteFieldPerPadding(&sealed) = padding
+			return sealed
+		}()
+		value := complete.Value
+		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
+			return out, err
+		}
+		out.rowInterRATMeasurementQuantities = &value
+		raw.RetainContents(&out.received)
+		out.received.RecordUsage(replayUsage, scope)
+	case s00.ProtocolIEID(19):
+		replayUsage := scope.Usage()
+		child := raw.ChildDecodeBuffer()
+		list, err := s20.BridgeUnmarshalAPERWLANMeasurementQuantitiesFrom(child)
+		if err != nil {
+			return out, fmt.Errorf("%s %w", "WLANMeasurementQuantities:", err)
+		}
+		padding, err := aper.CaptureOpenTypePadding(child)
+		if err != nil {
+			return out, err
+		}
+		complete := func() s20.WLANMeasurementQuantitiesComplete {
+			sealed := s20.WLANMeasurementQuantitiesComplete{Value: list}
+			*s20.BridgeWLANMeasurementQuantitiesCompleteFieldPerPadding(&sealed) = padding
+			return sealed
+		}()
+		value := complete.Value
+		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
+			return out, err
+		}
+		out.rowWLANMeasurementQuantities = &value
+		raw.RetainContents(&out.received)
+		out.received.RecordUsage(replayUsage, scope)
+	default:
+		if err := raw.Observe(aper.UnknownIE); err != nil {
+			return out, err
+		}
+		retained, err := raw.Retained()
+		if err != nil {
+			return out, err
+		}
+		out.opaque = retained
+		out.isOpaque = true
+	}
+	return out, nil
+}
+func (v ECIDMeasurementInitiationRequestIEValue) encode() ([]byte, error) {
+	budget, err := aper.EncodeBudget()
+	if err != nil {
+		return nil, err
+	}
+	return v.encodeFresh(false, budget)
+}
+func (v ECIDMeasurementInitiationRequestIEValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+	fresh = fresh || v.withoutReplay
+	if fresh {
+		bb := aper.NewBudgetBuffer(budget)
+		previous := bb.SuspendReplayPlan()
+		defer bb.RestoreReplayPlan(previous)
+	}
+	if v.isOpaque {
+		if v.opaque == nil {
+			return nil, aper.ErrInvalidValue
+		}
+		return v.opaque.EncodeBytes(budget)
+	}
+	switch v.id {
+	case s00.ProtocolIEID(2):
+		if v.rowESMLCUEMeasurementID == nil {
+			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-E-SMLC-UE-Measurement-ID:")
+		}
+		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
+			if err := v.replay.ApplyReplay(budget); err != nil {
+				return nil, err
+			}
+			return v.received.ReplayBytes(budget)
+		}
+		encodeBB := aper.NewBudgetBuffer(budget)
+		if err := aper.EncodeIntegerBigBoundsAligned(encodeBB, *v.rowESMLCUEMeasurementID, s00.BridgeAsn1IntegerBound2, s00.BridgeAsn1IntegerBound7, true); err != nil {
+			return nil, err
+		}
+		candidate := encodeBB.CompleteBytes()
+		return candidate, nil
+	case s00.ProtocolIEID(3):
+		if v.rowReportCharacteristics == nil {
+			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-ReportCharacteristics:")
+		}
+		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
+			if err := v.replay.ApplyReplay(budget); err != nil {
+				return nil, err
+			}
+			return v.received.ReplayBytes(budget)
+		}
+		encodeBB := aper.NewBudgetBuffer(budget)
+		if err := aper.EncodeEnumeratedAligned(encodeBB, int64(*v.rowReportCharacteristics), 2, true); err != nil {
+			return nil, err
+		}
+		candidate := encodeBB.CompleteBytes()
+		return candidate, nil
+	case s00.ProtocolIEID(4):
+		if v.rowMeasurementPeriodicity == nil {
+			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-MeasurementPeriodicity:")
+		}
+		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
+			if err := v.replay.ApplyReplay(budget); err != nil {
+				return nil, err
+			}
+			return v.received.ReplayBytes(budget)
+		}
+		encodeBB := aper.NewBudgetBuffer(budget)
+		if err := aper.EncodeEnumeratedAligned(encodeBB, int64(*v.rowMeasurementPeriodicity), 13, true); err != nil {
+			return nil, err
+		}
+		candidate := encodeBB.CompleteBytes()
+		return candidate, nil
+	case s00.ProtocolIEID(5):
+		if v.rowMeasurementQuantities == nil {
+			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-MeasurementQuantities:")
+		}
+		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
+			if err := v.replay.ApplyReplay(budget); err != nil {
+				return nil, err
+			}
+			return v.received.ReplayBytes(budget)
+		}
+		complete := s18.MeasurementQuantitiesComplete{Value: *v.rowMeasurementQuantities}
+		candidate, err := s18.BridgeMeasurementQuantitiesCompleteMethodMarshalAPERBudget(&complete, budget, fresh)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	case s00.ProtocolIEID(15):
+		if v.rowInterRATMeasurementQuantities == nil {
+			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-InterRATMeasurementQuantities:")
+		}
+		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
+			if err := v.replay.ApplyReplay(budget); err != nil {
+				return nil, err
+			}
+			return v.received.ReplayBytes(budget)
+		}
+		complete := s17.InterRATMeasurementQuantitiesComplete{Value: *v.rowInterRATMeasurementQuantities}
+		candidate, err := s17.BridgeInterRATMeasurementQuantitiesCompleteMethodMarshalAPERBudget(&complete, budget, fresh)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	case s00.ProtocolIEID(19):
+		if v.rowWLANMeasurementQuantities == nil {
+			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-WLANMeasurementQuantities:")
+		}
+		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
+			if err := v.replay.ApplyReplay(budget); err != nil {
+				return nil, err
+			}
+			return v.received.ReplayBytes(budget)
+		}
+		complete := s20.WLANMeasurementQuantitiesComplete{Value: *v.rowWLANMeasurementQuantities}
+		candidate, err := s20.BridgeWLANMeasurementQuantitiesCompleteMethodMarshalAPERBudget(&complete, budget, fresh)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	default:
+		return nil, fmt.Errorf("%s id %d has no value", "ECIDMeasurementInitiationRequestIEValue:", v.id)
+	}
+}
+
 type PrivateMessageDescriptor struct{}
 
 func PrivateMessageProcedure() PrivateMessageDescriptor { return PrivateMessageDescriptor{} }
@@ -3726,8 +4061,9 @@ func (t ECIDMeasurementInitiationRequestIETable) ESMLCUEMeasurementID() ECIDMeas
 				var empty s00.MeasurementID
 				return empty, err
 			}
-			var zero s20.ECIDMeasurementInitiationRequestIEValue
-			decoded, err := s20.BridgeECIDMeasurementInitiationRequestIEValueMethodDecode(zero, s00.ProtocolIEID(2), raw)
+			raw.BudgetBuffer().EnterComponent("MeasurementID")
+			var zero ECIDMeasurementInitiationRequestIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
 				var empty s00.MeasurementID
 				return empty, err
@@ -3740,12 +4076,7 @@ func (t ECIDMeasurementInitiationRequestIETable) ESMLCUEMeasurementID() ECIDMeas
 			return *value, nil
 		}
 		*s00.BridgeMeasurementIDValueCodecFieldEncode(&sealed) = func(value s00.MeasurementID, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s20.BridgeECIDMeasurementInitiationRequestIEValueMethodEncodeFresh((func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(2)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowESMLCUEMeasurementID(&sealed) = &value
-				return sealed
-			}()), fresh, budget)
+			return (ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(2), rowESMLCUEMeasurementID: &value}).encodeFresh(fresh, budget)
 		}
 		*s00.BridgeMeasurementIDValueCodecFieldCapture(&sealed) = func(v s00.MeasurementID, options aper.DecodeState) (s00.MeasurementID, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
@@ -3770,14 +4101,9 @@ func (t ECIDMeasurementInitiationRequestIETable) ESMLCUEMeasurementID() ECIDMeas
 		}()
 		return sealed
 	}(),
-		inject: func(value s00.MeasurementID) s20.ECIDMeasurementInitiationRequestIEValue {
-			return func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(2)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowESMLCUEMeasurementID(&sealed) = &value
-				return sealed
-			}()
-		}, get: func(value *s20.ECIDMeasurementInitiationRequestIEValue) (*s00.MeasurementID, bool) {
+		inject: func(value s00.MeasurementID) ECIDMeasurementInitiationRequestIEValue {
+			return ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(2), rowESMLCUEMeasurementID: &value}
+		}, get: func(value *ECIDMeasurementInitiationRequestIEValue) (*s00.MeasurementID, bool) {
 			return value.AsESMLCUEMeasurementID()
 		}}
 }
@@ -3800,8 +4126,9 @@ func (t ECIDMeasurementInitiationRequestIETable) ReportCharacteristics() ECIDMea
 				var empty s00.ReportCharacteristics
 				return empty, err
 			}
-			var zero s20.ECIDMeasurementInitiationRequestIEValue
-			decoded, err := s20.BridgeECIDMeasurementInitiationRequestIEValueMethodDecode(zero, s00.ProtocolIEID(3), raw)
+			raw.BudgetBuffer().EnterComponent("ReportCharacteristics")
+			var zero ECIDMeasurementInitiationRequestIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(3), raw)
 			if err != nil {
 				var empty s00.ReportCharacteristics
 				return empty, err
@@ -3814,12 +4141,7 @@ func (t ECIDMeasurementInitiationRequestIETable) ReportCharacteristics() ECIDMea
 			return *value, nil
 		}
 		*s01.BridgeReportCharacteristicsValueCodecFieldEncode(&sealed) = func(value s00.ReportCharacteristics, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s20.BridgeECIDMeasurementInitiationRequestIEValueMethodEncodeFresh((func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(3)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowReportCharacteristics(&sealed) = &value
-				return sealed
-			}()), fresh, budget)
+			return (ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(3), rowReportCharacteristics: &value}).encodeFresh(fresh, budget)
 		}
 		*s01.BridgeReportCharacteristicsValueCodecFieldCapture(&sealed) = func(v s00.ReportCharacteristics, options aper.DecodeState) (s00.ReportCharacteristics, aper.Snapshot,
 		) {
@@ -3846,14 +4168,9 @@ func (t ECIDMeasurementInitiationRequestIETable) ReportCharacteristics() ECIDMea
 		}()
 		return sealed
 	}(),
-		inject: func(value s00.ReportCharacteristics) s20.ECIDMeasurementInitiationRequestIEValue {
-			return func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(3)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowReportCharacteristics(&sealed) = &value
-				return sealed
-			}()
-		}, get: func(value *s20.ECIDMeasurementInitiationRequestIEValue) (*s00.ReportCharacteristics, bool) {
+		inject: func(value s00.ReportCharacteristics) ECIDMeasurementInitiationRequestIEValue {
+			return ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(3), rowReportCharacteristics: &value}
+		}, get: func(value *ECIDMeasurementInitiationRequestIEValue) (*s00.ReportCharacteristics, bool) {
 			return value.AsReportCharacteristics()
 		}}
 }
@@ -3876,8 +4193,9 @@ func (t ECIDMeasurementInitiationRequestIETable) MeasurementPeriodicity() ECIDMe
 				var empty s00.MeasurementPeriodicity
 				return empty, err
 			}
-			var zero s20.ECIDMeasurementInitiationRequestIEValue
-			decoded, err := s20.BridgeECIDMeasurementInitiationRequestIEValueMethodDecode(zero, s00.ProtocolIEID(4), raw)
+			raw.BudgetBuffer().EnterComponent("MeasurementPeriodicity")
+			var zero ECIDMeasurementInitiationRequestIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(4), raw)
 			if err != nil {
 				var empty s00.MeasurementPeriodicity
 				return empty, err
@@ -3890,12 +4208,7 @@ func (t ECIDMeasurementInitiationRequestIETable) MeasurementPeriodicity() ECIDMe
 			return *value, nil
 		}
 		*s00.BridgeMeasurementPeriodicityValueCodecFieldEncode(&sealed) = func(value s00.MeasurementPeriodicity, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s20.BridgeECIDMeasurementInitiationRequestIEValueMethodEncodeFresh((func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(4)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowMeasurementPeriodicity(&sealed) = &value
-				return sealed
-			}()), fresh, budget)
+			return (ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(4), rowMeasurementPeriodicity: &value}).encodeFresh(fresh, budget)
 		}
 		*s00.BridgeMeasurementPeriodicityValueCodecFieldCapture(&sealed) = func(v s00.MeasurementPeriodicity, options aper.DecodeState) (s00.MeasurementPeriodicity, aper.Snapshot,
 
@@ -3922,14 +4235,9 @@ func (t ECIDMeasurementInitiationRequestIETable) MeasurementPeriodicity() ECIDMe
 		}()
 		return sealed
 	}(),
-		inject: func(value s00.MeasurementPeriodicity) s20.ECIDMeasurementInitiationRequestIEValue {
-			return func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(4)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowMeasurementPeriodicity(&sealed) = &value
-				return sealed
-			}()
-		}, get: func(value *s20.ECIDMeasurementInitiationRequestIEValue) (*s00.MeasurementPeriodicity, bool) {
+		inject: func(value s00.MeasurementPeriodicity) ECIDMeasurementInitiationRequestIEValue {
+			return ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(4), rowMeasurementPeriodicity: &value}
+		}, get: func(value *ECIDMeasurementInitiationRequestIEValue) (*s00.MeasurementPeriodicity, bool) {
 			return value.AsMeasurementPeriodicity()
 		}}
 }
@@ -3952,8 +4260,9 @@ func (t ECIDMeasurementInitiationRequestIETable) MeasurementQuantities() ECIDMea
 				var empty s06.MeasurementQuantities
 				return empty, err
 			}
-			var zero s20.ECIDMeasurementInitiationRequestIEValue
-			decoded, err := s20.BridgeECIDMeasurementInitiationRequestIEValueMethodDecode(zero, s00.ProtocolIEID(5), raw)
+			raw.BudgetBuffer().EnterComponent("MeasurementQuantities")
+			var zero ECIDMeasurementInitiationRequestIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(5), raw)
 			if err != nil {
 				var empty s06.MeasurementQuantities
 				return empty, err
@@ -3966,12 +4275,7 @@ func (t ECIDMeasurementInitiationRequestIETable) MeasurementQuantities() ECIDMea
 			return *value, nil
 		}
 		*s06.BridgeMeasurementQuantitiesConcreteValueCodecFieldEncode(&sealed) = func(value s06.MeasurementQuantities, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s20.BridgeECIDMeasurementInitiationRequestIEValueMethodEncodeFresh((func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(5)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowMeasurementQuantities(&sealed) = &value
-				return sealed
-			}()), fresh, budget)
+			return (ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(5), rowMeasurementQuantities: &value}).encodeFresh(fresh, budget)
 		}
 		*s06.BridgeMeasurementQuantitiesConcreteValueCodecFieldCapture(&sealed) = func(v s06.MeasurementQuantities, options aper.DecodeState) (s06.MeasurementQuantities, aper.Snapshot,
 		) {
@@ -3998,14 +4302,9 @@ func (t ECIDMeasurementInitiationRequestIETable) MeasurementQuantities() ECIDMea
 		}()
 		return sealed
 	}(),
-		inject: func(value s06.MeasurementQuantities) s20.ECIDMeasurementInitiationRequestIEValue {
-			return func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(5)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowMeasurementQuantities(&sealed) = &value
-				return sealed
-			}()
-		}, get: func(value *s20.ECIDMeasurementInitiationRequestIEValue) (*s06.MeasurementQuantities, bool) {
+		inject: func(value s06.MeasurementQuantities) ECIDMeasurementInitiationRequestIEValue {
+			return ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(5), rowMeasurementQuantities: &value}
+		}, get: func(value *ECIDMeasurementInitiationRequestIEValue) (*s06.MeasurementQuantities, bool) {
 			return value.AsMeasurementQuantities()
 		}}
 }
@@ -4028,8 +4327,9 @@ func (t ECIDMeasurementInitiationRequestIETable) InterRATMeasurementQuantities()
 				var empty s06.InterRATMeasurementQuantities
 				return empty, err
 			}
-			var zero s20.ECIDMeasurementInitiationRequestIEValue
-			decoded, err := s20.BridgeECIDMeasurementInitiationRequestIEValueMethodDecode(zero, s00.ProtocolIEID(15), raw)
+			raw.BudgetBuffer().EnterComponent("InterRATMeasurementQuantities")
+			var zero ECIDMeasurementInitiationRequestIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(15), raw)
 			if err != nil {
 				var empty s06.InterRATMeasurementQuantities
 				return empty, err
@@ -4042,12 +4342,7 @@ func (t ECIDMeasurementInitiationRequestIETable) InterRATMeasurementQuantities()
 			return *value, nil
 		}
 		*s06.BridgeInterRATMeasurementQuantitiesConcreteValueCodecFieldEncode(&sealed) = func(value s06.InterRATMeasurementQuantities, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s20.BridgeECIDMeasurementInitiationRequestIEValueMethodEncodeFresh((func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(15)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowInterRATMeasurementQuantities(&sealed) = &value
-				return sealed
-			}()), fresh, budget)
+			return (ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(15), rowInterRATMeasurementQuantities: &value}).encodeFresh(fresh, budget)
 		}
 		*s06.BridgeInterRATMeasurementQuantitiesConcreteValueCodecFieldCapture(&sealed) = func(v s06.InterRATMeasurementQuantities, options aper.DecodeState) (s06.InterRATMeasurementQuantities, aper.Snapshot,
 
@@ -4078,14 +4373,9 @@ func (t ECIDMeasurementInitiationRequestIETable) InterRATMeasurementQuantities()
 		}()
 		return sealed
 	}(),
-		inject: func(value s06.InterRATMeasurementQuantities) s20.ECIDMeasurementInitiationRequestIEValue {
-			return func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(15)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowInterRATMeasurementQuantities(&sealed) = &value
-				return sealed
-			}()
-		}, get: func(value *s20.ECIDMeasurementInitiationRequestIEValue) (*s06.InterRATMeasurementQuantities, bool) {
+		inject: func(value s06.InterRATMeasurementQuantities) ECIDMeasurementInitiationRequestIEValue {
+			return ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(15), rowInterRATMeasurementQuantities: &value}
+		}, get: func(value *ECIDMeasurementInitiationRequestIEValue) (*s06.InterRATMeasurementQuantities, bool) {
 			return value.AsInterRATMeasurementQuantities()
 		}}
 }
@@ -4108,8 +4398,9 @@ func (t ECIDMeasurementInitiationRequestIETable) WLANMeasurementQuantities() ECI
 				var empty s20.WLANMeasurementQuantities
 				return empty, err
 			}
-			var zero s20.ECIDMeasurementInitiationRequestIEValue
-			decoded, err := s20.BridgeECIDMeasurementInitiationRequestIEValueMethodDecode(zero, s00.ProtocolIEID(19), raw)
+			raw.BudgetBuffer().EnterComponent("WLANMeasurementQuantities")
+			var zero ECIDMeasurementInitiationRequestIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(19), raw)
 			if err != nil {
 				var empty s20.WLANMeasurementQuantities
 				return empty, err
@@ -4122,12 +4413,7 @@ func (t ECIDMeasurementInitiationRequestIETable) WLANMeasurementQuantities() ECI
 			return *value, nil
 		}
 		*s20.BridgeWLANMeasurementQuantitiesConcreteValueCodecFieldEncode(&sealed) = func(value s20.WLANMeasurementQuantities, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s20.BridgeECIDMeasurementInitiationRequestIEValueMethodEncodeFresh((func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(19)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowWLANMeasurementQuantities(&sealed) = &value
-				return sealed
-			}()), fresh, budget)
+			return (ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(19), rowWLANMeasurementQuantities: &value}).encodeFresh(fresh, budget)
 		}
 		*s20.BridgeWLANMeasurementQuantitiesConcreteValueCodecFieldCapture(&sealed) = func(v s20.WLANMeasurementQuantities, options aper.DecodeState) (s20.WLANMeasurementQuantities, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
@@ -4153,14 +4439,9 @@ func (t ECIDMeasurementInitiationRequestIETable) WLANMeasurementQuantities() ECI
 		}()
 		return sealed
 	}(),
-		inject: func(value s20.WLANMeasurementQuantities) s20.ECIDMeasurementInitiationRequestIEValue {
-			return func() s20.ECIDMeasurementInitiationRequestIEValue {
-				sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(19)
-				*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldRowWLANMeasurementQuantities(&sealed) = &value
-				return sealed
-			}()
-		}, get: func(value *s20.ECIDMeasurementInitiationRequestIEValue) (*s20.WLANMeasurementQuantities, bool) {
+		inject: func(value s20.WLANMeasurementQuantities) ECIDMeasurementInitiationRequestIEValue {
+			return ECIDMeasurementInitiationRequestIEValue{id: s00.ProtocolIEID(19), rowWLANMeasurementQuantities: &value}
+		}, get: func(value *ECIDMeasurementInitiationRequestIEValue) (*s20.WLANMeasurementQuantities, bool) {
 			return value.AsWLANMeasurementQuantities()
 		}}
 }
@@ -4196,13 +4477,7 @@ func (t ECIDMeasurementInitiationRequestIETable) NewOpaque(id s00.ProtocolIEID, 
 		if err != nil {
 			return ECIDMeasurementInitiationRequestIEField{}, aper.OperationError(err, "Opaque")
 		}
-		return ECIDMeasurementInitiationRequestIEField{Id: id, Criticality: criticality, Value: func() s20.ECIDMeasurementInitiationRequestIEValue {
-			sealed := s20.ECIDMeasurementInitiationRequestIEValue{}
-			*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = id
-			*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldOpaque(&sealed) = retained
-			*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldIsOpaque(&sealed) = true
-			return sealed
-		}()}, aper.OperationError(nil, "Opaque")
+		return ECIDMeasurementInitiationRequestIEField{Id: id, Criticality: criticality, Value: ECIDMeasurementInitiationRequestIEValue{id: id, opaque: retained, isOpaque: true}}, aper.OperationError(nil, "Opaque")
 	}
 }
 
@@ -4430,6 +4705,72 @@ func BridgeECIDMeasurementInitiationRequestIETableMethodInfoReportCharacteristic
 func BridgeECIDMeasurementInitiationRequestIETableMethodInfoWLANMeasurementQuantities(v ECIDMeasurementInitiationRequestIETable) s00.FieldInfo {
 	return v.infoWLANMeasurementQuantities()
 }
+func BridgeECIDMeasurementInitiationRequestIEValueFieldId(v *ECIDMeasurementInitiationRequestIEValue) *s00.ProtocolIEID {
+	return &v.id
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldIsOpaque(v *ECIDMeasurementInitiationRequestIEValue) *bool {
+	return &v.isOpaque
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldOpaque(v *ECIDMeasurementInitiationRequestIEValue) **aper.OpaqueOpenType {
+	return &v.opaque
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldReceived(v *ECIDMeasurementInitiationRequestIEValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldReplay(v *ECIDMeasurementInitiationRequestIEValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldRowESMLCUEMeasurementID(v *ECIDMeasurementInitiationRequestIEValue) **s00.MeasurementID {
+	return &v.rowESMLCUEMeasurementID
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldRowInterRATMeasurementQuantities(v *ECIDMeasurementInitiationRequestIEValue) **s06.InterRATMeasurementQuantities {
+	return &v.rowInterRATMeasurementQuantities
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldRowMeasurementPeriodicity(v *ECIDMeasurementInitiationRequestIEValue) **s00.MeasurementPeriodicity {
+	return &v.rowMeasurementPeriodicity
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldRowMeasurementQuantities(v *ECIDMeasurementInitiationRequestIEValue) **s06.MeasurementQuantities {
+	return &v.rowMeasurementQuantities
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldRowReportCharacteristics(v *ECIDMeasurementInitiationRequestIEValue) **s00.ReportCharacteristics {
+	return &v.rowReportCharacteristics
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldRowWLANMeasurementQuantities(v *ECIDMeasurementInitiationRequestIEValue) **s20.WLANMeasurementQuantities {
+	return &v.rowWLANMeasurementQuantities
+}
+func BridgeECIDMeasurementInitiationRequestIEValueFieldWithoutReplay(v *ECIDMeasurementInitiationRequestIEValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeECIDMeasurementInitiationRequestIEValueMethodCaptureFraming(v ECIDMeasurementInitiationRequestIEValue) uint64 {
+	return v.captureFraming()
+}
+func BridgeECIDMeasurementInitiationRequestIEValueMethodCaptureSemantics(v ECIDMeasurementInitiationRequestIEValue, a0 aper.SemanticCapture) ECIDMeasurementInitiationRequestIEValue {
+	return v.captureSemantics(a0)
+}
+func BridgeECIDMeasurementInitiationRequestIEValueMethodCaptureSnapshot(v ECIDMeasurementInitiationRequestIEValue) aper.Snapshot {
+	return v.captureSnapshot()
+}
+func BridgeECIDMeasurementInitiationRequestIEValueMethodCompareSemantics(v ECIDMeasurementInitiationRequestIEValue, a0 aper.SemanticComparison) aper.SemanticComparison {
+	return v.compareSemantics(a0)
+}
+func BridgeECIDMeasurementInitiationRequestIEValueMethodDecode(v ECIDMeasurementInitiationRequestIEValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (ECIDMeasurementInitiationRequestIEValue, error) {
+	return v.decode(a0, a1)
+}
+func BridgeECIDMeasurementInitiationRequestIEValueMethodEncode(v ECIDMeasurementInitiationRequestIEValue) ([]byte, error) {
+	return v.encode()
+}
+func BridgeECIDMeasurementInitiationRequestIEValueMethodEncodeFresh(v ECIDMeasurementInitiationRequestIEValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
+	return v.encodeFresh(a0, a1)
+}
+func BridgeECIDMeasurementInitiationRequestIEValueMethodMatchesID(v ECIDMeasurementInitiationRequestIEValue, a0 s00.ProtocolIEID, a1 *aper.DecodeBudget) bool {
+	return v.matchesID(a0, a1)
+}
+func BridgeECIDMeasurementInitiationRequestIEValueMethodReason(v ECIDMeasurementInitiationRequestIEValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
+	return v.reason(a0)
+}
+func BridgeECIDMeasurementInitiationRequestIEValueMethodRule(v ECIDMeasurementInitiationRequestIEValue) aper.SourceRule {
+	return v.rule()
+}
 func BridgeECIDMeasurementInitiationRequestInitiatingBindingFieldCapture(v *ECIDMeasurementInitiationRequestInitiatingBinding) *func(ECIDMeasurementInitiationRequest, aper.DecodeState) (ECIDMeasurementInitiationRequest, aper.Snapshot) {
 	return &v.capture
 }
@@ -4457,49 +4798,49 @@ func BridgeECIDMeasurementInitiationRequestInitiatingBindingFieldValidate(v *ECI
 func BridgeECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBindingFieldCodec(v *ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding) *s06.InterRATMeasurementQuantitiesConcreteValueCodec {
 	return &v.codec
 }
-func BridgeECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBindingFieldGet(v *ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding) *func(*s20.ECIDMeasurementInitiationRequestIEValue) (*s06.InterRATMeasurementQuantities, bool) {
+func BridgeECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBindingFieldGet(v *ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding) *func(*ECIDMeasurementInitiationRequestIEValue) (*s06.InterRATMeasurementQuantities, bool) {
 	return &v.get
 }
 func BridgeECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBindingFieldInfo(v *ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBindingFieldInject(v *ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding) *func(s06.InterRATMeasurementQuantities) s20.ECIDMeasurementInitiationRequestIEValue {
+func BridgeECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBindingFieldInject(v *ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding) *func(s06.InterRATMeasurementQuantities) ECIDMeasurementInitiationRequestIEValue {
 	return &v.inject
 }
 func BridgeECIDMeasurementInitiationRequestMeasurementIDIEBindingFieldCodec(v *ECIDMeasurementInitiationRequestMeasurementIDIEBinding) *s00.MeasurementIDValueCodec {
 	return &v.codec
 }
-func BridgeECIDMeasurementInitiationRequestMeasurementIDIEBindingFieldGet(v *ECIDMeasurementInitiationRequestMeasurementIDIEBinding) *func(*s20.ECIDMeasurementInitiationRequestIEValue) (*s00.MeasurementID, bool) {
+func BridgeECIDMeasurementInitiationRequestMeasurementIDIEBindingFieldGet(v *ECIDMeasurementInitiationRequestMeasurementIDIEBinding) *func(*ECIDMeasurementInitiationRequestIEValue) (*s00.MeasurementID, bool) {
 	return &v.get
 }
 func BridgeECIDMeasurementInitiationRequestMeasurementIDIEBindingFieldInfo(v *ECIDMeasurementInitiationRequestMeasurementIDIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeECIDMeasurementInitiationRequestMeasurementIDIEBindingFieldInject(v *ECIDMeasurementInitiationRequestMeasurementIDIEBinding) *func(s00.MeasurementID) s20.ECIDMeasurementInitiationRequestIEValue {
+func BridgeECIDMeasurementInitiationRequestMeasurementIDIEBindingFieldInject(v *ECIDMeasurementInitiationRequestMeasurementIDIEBinding) *func(s00.MeasurementID) ECIDMeasurementInitiationRequestIEValue {
 	return &v.inject
 }
 func BridgeECIDMeasurementInitiationRequestMeasurementPeriodicityIEBindingFieldCodec(v *ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding) *s00.MeasurementPeriodicityValueCodec {
 	return &v.codec
 }
-func BridgeECIDMeasurementInitiationRequestMeasurementPeriodicityIEBindingFieldGet(v *ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding) *func(*s20.ECIDMeasurementInitiationRequestIEValue) (*s00.MeasurementPeriodicity, bool) {
+func BridgeECIDMeasurementInitiationRequestMeasurementPeriodicityIEBindingFieldGet(v *ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding) *func(*ECIDMeasurementInitiationRequestIEValue) (*s00.MeasurementPeriodicity, bool) {
 	return &v.get
 }
 func BridgeECIDMeasurementInitiationRequestMeasurementPeriodicityIEBindingFieldInfo(v *ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeECIDMeasurementInitiationRequestMeasurementPeriodicityIEBindingFieldInject(v *ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding) *func(s00.MeasurementPeriodicity) s20.ECIDMeasurementInitiationRequestIEValue {
+func BridgeECIDMeasurementInitiationRequestMeasurementPeriodicityIEBindingFieldInject(v *ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding) *func(s00.MeasurementPeriodicity) ECIDMeasurementInitiationRequestIEValue {
 	return &v.inject
 }
 func BridgeECIDMeasurementInitiationRequestMeasurementQuantitiesIEBindingFieldCodec(v *ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding) *s06.MeasurementQuantitiesConcreteValueCodec {
 	return &v.codec
 }
-func BridgeECIDMeasurementInitiationRequestMeasurementQuantitiesIEBindingFieldGet(v *ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding) *func(*s20.ECIDMeasurementInitiationRequestIEValue) (*s06.MeasurementQuantities, bool) {
+func BridgeECIDMeasurementInitiationRequestMeasurementQuantitiesIEBindingFieldGet(v *ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding) *func(*ECIDMeasurementInitiationRequestIEValue) (*s06.MeasurementQuantities, bool) {
 	return &v.get
 }
 func BridgeECIDMeasurementInitiationRequestMeasurementQuantitiesIEBindingFieldInfo(v *ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeECIDMeasurementInitiationRequestMeasurementQuantitiesIEBindingFieldInject(v *ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding) *func(s06.MeasurementQuantities) s20.ECIDMeasurementInitiationRequestIEValue {
+func BridgeECIDMeasurementInitiationRequestMeasurementQuantitiesIEBindingFieldInject(v *ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding) *func(s06.MeasurementQuantities) ECIDMeasurementInitiationRequestIEValue {
 	return &v.inject
 }
 func BridgeECIDMeasurementInitiationRequestMethodMarshalAPERBudget(v *ECIDMeasurementInitiationRequest, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
@@ -4535,13 +4876,13 @@ func BridgeECIDMeasurementInitiationRequestMethodUnmarshalAPERWithOptions(v *ECI
 func BridgeECIDMeasurementInitiationRequestReportCharacteristicsIEBindingFieldCodec(v *ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding) *s01.ReportCharacteristicsValueCodec {
 	return &v.codec
 }
-func BridgeECIDMeasurementInitiationRequestReportCharacteristicsIEBindingFieldGet(v *ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding) *func(*s20.ECIDMeasurementInitiationRequestIEValue) (*s00.ReportCharacteristics, bool) {
+func BridgeECIDMeasurementInitiationRequestReportCharacteristicsIEBindingFieldGet(v *ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding) *func(*ECIDMeasurementInitiationRequestIEValue) (*s00.ReportCharacteristics, bool) {
 	return &v.get
 }
 func BridgeECIDMeasurementInitiationRequestReportCharacteristicsIEBindingFieldInfo(v *ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeECIDMeasurementInitiationRequestReportCharacteristicsIEBindingFieldInject(v *ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding) *func(s00.ReportCharacteristics) s20.ECIDMeasurementInitiationRequestIEValue {
+func BridgeECIDMeasurementInitiationRequestReportCharacteristicsIEBindingFieldInject(v *ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding) *func(s00.ReportCharacteristics) ECIDMeasurementInitiationRequestIEValue {
 	return &v.inject
 }
 func BridgeECIDMeasurementInitiationRequestValueCodecFieldCapture(v *ECIDMeasurementInitiationRequestValueCodec) *func(ECIDMeasurementInitiationRequest, aper.DecodeState) (ECIDMeasurementInitiationRequest, aper.Snapshot) {
@@ -4571,13 +4912,13 @@ func BridgeECIDMeasurementInitiationRequestValueCodecMethodEncodeChanged(v ECIDM
 func BridgeECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBindingFieldCodec(v *ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding) *s20.WLANMeasurementQuantitiesConcreteValueCodec {
 	return &v.codec
 }
-func BridgeECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBindingFieldGet(v *ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding) *func(*s20.ECIDMeasurementInitiationRequestIEValue) (*s20.WLANMeasurementQuantities, bool) {
+func BridgeECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBindingFieldGet(v *ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding) *func(*ECIDMeasurementInitiationRequestIEValue) (*s20.WLANMeasurementQuantities, bool) {
 	return &v.get
 }
 func BridgeECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBindingFieldInfo(v *ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBindingFieldInject(v *ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding) *func(s20.WLANMeasurementQuantities) s20.ECIDMeasurementInitiationRequestIEValue {
+func BridgeECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBindingFieldInject(v *ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding) *func(s20.WLANMeasurementQuantities) ECIDMeasurementInitiationRequestIEValue {
 	return &v.inject
 }
 func BridgeECIDMeasurementReportInitiatingBindingFieldCapture(v *ECIDMeasurementReportInitiatingBinding) *func(s13.ECIDMeasurementReport, aper.DecodeState) (s13.ECIDMeasurementReport, aper.Snapshot) {

@@ -2,11 +2,13 @@
 
 package x2ap
 
-func listBytefreshMust(value []byte,
+import (
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+)
 
-	err error) []byte {
+func x2APPDUapiMust(v s20.X2APPDU, err error) s20.X2APPDU {
 	if err != nil {
 		panic(err)
 	}
-	return value
+	return v
 }

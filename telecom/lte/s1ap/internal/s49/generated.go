@@ -1667,7 +1667,9 @@ func (v *PagingIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -4453,7 +4455,7 @@ func BridgeCompareS1APPagingIEValue(v *PagingIEValue, s *aper.SemanticComparison
 				f := s.Begin()
 				s.Bool(v.rowCSGIdList == nil)
 				if v.rowCSGIdList != nil {
-					s21.BridgeCompareS1APCSGIdList(v.rowCSGIdList, s)
+					s22.BridgeCompareS1APCSGIdList(v.rowCSGIdList, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -4733,6 +4735,7 @@ func (v *Paging) unmarshalAPERWithOptions(data []byte, options aper.DecodeState)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "Paging")
 	}
+	bb.EnterComponent("Paging")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Paging")
 	}
@@ -4756,6 +4759,7 @@ func (v *Paging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(PagingIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -4764,9 +4768,11 @@ func (v *Paging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem PagingIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -4778,6 +4784,7 @@ func (v *Paging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -6664,6 +6671,7 @@ func (t PagingIETable) UEIdentityIndexValue() PagingUEIdentityIndexValueIEBindin
 				var empty s00.UEIdentityIndexValue
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UEIdentityIndexValue")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(80), raw)
 			if err != nil {
@@ -6729,6 +6737,7 @@ func (t PagingIETable) UEPagingID() PagingUEPagingIDIEBinding {
 				var empty s28.UEPagingID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UEPagingID")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(43), raw)
 			if err != nil {
@@ -6794,6 +6803,7 @@ func (t PagingIETable) PagingDRX() PagingPagingDRXIEBinding {
 				var empty s00.PagingDRX
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("PagingDRX")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(44), raw)
 			if err != nil {
@@ -6859,6 +6869,7 @@ func (t PagingIETable) CNDomain() PagingCNDomainIEBinding {
 				var empty s00.CNDomain
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CNDomain")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(109), raw)
 			if err != nil {
@@ -6923,6 +6934,7 @@ func (t PagingIETable) TAIList() PagingTAIListIEBinding {
 				var empty s33.TAIList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TAIList")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(46), raw)
 			if err != nil {
@@ -6988,6 +7000,7 @@ func (t PagingIETable) CSGIdList() PagingCSGIdListIEBinding {
 				var empty s14.CSGIdList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CSGIdList")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(128), raw)
 			if err != nil {
@@ -7018,7 +7031,7 @@ func (t PagingIETable) CSGIdList() PagingCSGIdListIEBinding {
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
-			s21.BridgeCompareS1APCSGIdList(&v, &s)
+			s22.BridgeCompareS1APCSGIdList(&v, &s)
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -7053,6 +7066,7 @@ func (t PagingIETable) PagingPriority() PagingPagingPriorityIEBinding {
 				var empty s00.PagingPriority
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("PagingPriority")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(151), raw)
 			if err != nil {
@@ -7115,6 +7129,7 @@ func (t PagingIETable) UERadioCapabilityForPaging() PagingUERadioCapabilityForPa
 				var empty s00.UERadioCapabilityForPaging
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UERadioCapabilityForPaging")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(198), raw)
 			if err != nil {
@@ -7185,6 +7200,7 @@ func (t PagingIETable) AssistanceDataForPaging() PagingAssistanceDataForPagingIE
 				var empty s26.AssistanceDataForPaging
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("AssistanceDataForPaging")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(211), raw)
 			if err != nil {
@@ -7256,6 +7272,7 @@ func (t PagingIETable) PagingEDRXInformation() PagingPagingEDRXInformationIEBind
 				var empty s20.PagingEDRXInformation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("PagingEDRXInformation")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(227), raw)
 			if err != nil {
@@ -7323,6 +7340,7 @@ func (t PagingIETable) ExtendedUEIdentityIndexValue() PagingExtendedUEIdentityIn
 				var empty s00.ExtendedUEIdentityIndexValue
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ExtendedUEIdentityIndexValue")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(231), raw)
 			if err != nil {
@@ -7392,6 +7410,7 @@ func (t PagingIETable) NBIoTPagingEDRXInformation() PagingNBIoTPagingEDRXInforma
 				var empty s19.NBIoTPagingEDRXInformation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NBIoTPagingEDRXInformation")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(239), raw)
 			if err != nil {
@@ -7462,6 +7481,7 @@ func (t PagingIETable) NBIoTUEIdentityIndexValue() PagingNBIoTUEIdentityIndexVal
 				var empty s00.NBIoTUEIdentityIndexValue
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NBIoTUEIdentityIndexValue")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(244), raw)
 			if err != nil {
@@ -7532,6 +7552,7 @@ func (t PagingIETable) EnhancedCoverageRestricted() PagingEnhancedCoverageRestri
 				var empty s00.EnhancedCoverageRestricted
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("EnhancedCoverageRestricted")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(251), raw)
 			if err != nil {
@@ -7602,6 +7623,7 @@ func (t PagingIETable) CEModeBRestricted() PagingCEModeBRestrictedIEBinding {
 				var empty s00.CEModeBRestricted
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CEModeBRestricted")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(271), raw)
 			if err != nil {
@@ -7667,6 +7689,7 @@ func (t PagingIETable) DataSize() PagingDataSizeIEBinding {
 				var empty s00.DataSize
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("DataSize")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(304), raw)
 			if err != nil {
@@ -7729,6 +7752,7 @@ func (t PagingIETable) WUSAssistanceInformation() PagingWUSAssistanceInformation
 				var empty s48.WUSAssistanceInformation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("WUSAssistanceInformation")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(323), raw)
 			if err != nil {
@@ -7795,6 +7819,7 @@ func (t PagingIETable) NBIoTPagingDRX() PagingNBIoTPagingDRXIEBinding {
 				var empty s00.NBIoTPagingDRX
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NBIoTPagingDRX")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(324), raw)
 			if err != nil {
@@ -7857,6 +7882,7 @@ func (t PagingIETable) PagingCause() PagingPagingCauseIEBinding {
 				var empty s00.PagingCause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("PagingCause")
 			var zero PagingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(331), raw)
 			if err != nil {
@@ -8390,7 +8416,7 @@ func BridgeValidateMMEStatusTransferBudget(v *s25.MMEStatusTransfer, budget *ape
 			return sealed
 		}(), fmt.Errorf("nil MMEStatusTransfer")
 	}
-	rows := []s00.FieldInfo{s21.MMEStatusTransferIEs().MMEUES1APID().Info(), s21.MMEStatusTransferIEs().ENBUES1APID().Info(), s21.MMEStatusTransferIEs().ENBStatusTransferTransparentContainer().Info()}
+	rows := []s00.FieldInfo{s22.MMEStatusTransferIEs().MMEUES1APID().Info(), s22.MMEStatusTransferIEs().ENBUES1APID().Info(), s22.MMEStatusTransferIEs().ENBStatusTransferTransparentContainer().Info()}
 	report := s27.BridgeMMEStatusTransferIEValueValidateS1APIEContainer(v.ProtocolIEs, rows, "MMEStatusTransfer.protocolIEs", budget)
 	BridgeWalkValidationMMEStatusTransfer(v, &report, "MMEStatusTransfer", true)
 	return report, nil
@@ -8420,7 +8446,7 @@ func BridgeValidateTraceFailureIndicationBudget(v *s34.TraceFailureIndication, b
 			return sealed
 		}(), fmt.Errorf("nil TraceFailureIndication")
 	}
-	rows := []s00.FieldInfo{s20.TraceFailureIndicationIEs().MMEUES1APID().Info(), s20.TraceFailureIndicationIEs().ENBUES1APID().Info(), s20.TraceFailureIndicationIEs().EUTRANTraceID().Info(), s20.TraceFailureIndicationIEs().Cause().Info()}
+	rows := []s00.FieldInfo{s21.TraceFailureIndicationIEs().MMEUES1APID().Info(), s21.TraceFailureIndicationIEs().ENBUES1APID().Info(), s21.TraceFailureIndicationIEs().EUTRANTraceID().Info(), s21.TraceFailureIndicationIEs().Cause().Info()}
 	report := s34.BridgeTraceFailureIndicationIEValueValidateS1APIEContainer(v.ProtocolIEs, rows, "TraceFailureIndication.protocolIEs", budget)
 	BridgeWalkValidationTraceFailureIndication(v, &report, "TraceFailureIndication", true)
 	return report, nil
@@ -8540,7 +8566,7 @@ func BridgeValidateLocationReportingFailureIndicationBudget(v *s25.LocationRepor
 			return sealed
 		}(), fmt.Errorf("nil LocationReportingFailureIndication")
 	}
-	rows := []s00.FieldInfo{s18.LocationReportingFailureIndicationIEs().MMEUES1APID().Info(), s18.LocationReportingFailureIndicationIEs().ENBUES1APID().Info(), s18.LocationReportingFailureIndicationIEs().Cause().Info()}
+	rows := []s00.FieldInfo{s19.LocationReportingFailureIndicationIEs().MMEUES1APID().Info(), s19.LocationReportingFailureIndicationIEs().ENBUES1APID().Info(), s19.LocationReportingFailureIndicationIEs().Cause().Info()}
 	report := s27.BridgeLocationReportingFailureIndicationIEValueValidateS1APIEContainer(v.ProtocolIEs, rows, "LocationReportingFailureIndication.protocolIEs", budget)
 	BridgeWalkValidationLocationReportingFailureIndication(v, &report, "LocationReportingFailureIndication", true)
 	return report, nil
@@ -8690,7 +8716,7 @@ func BridgeValidatePWSRestartIndicationBudget(v *s44.PWSRestartIndication, budge
 			return sealed
 		}(), fmt.Errorf("nil PWSRestartIndication")
 	}
-	rows := []s00.FieldInfo{s43.PWSRestartIndicationIEs().ECGIListForRestart().Info(), s43.PWSRestartIndicationIEs().GlobalENBID().Info(), s43.PWSRestartIndicationIEs().TAIListForRestart().Info(), s43.PWSRestartIndicationIEs().EmergencyAreaIDListForRestart().Info()}
+	rows := []s00.FieldInfo{s44.PWSRestartIndicationIEs().ECGIListForRestart().Info(), s44.PWSRestartIndicationIEs().GlobalENBID().Info(), s44.PWSRestartIndicationIEs().TAIListForRestart().Info(), s44.PWSRestartIndicationIEs().EmergencyAreaIDListForRestart().Info()}
 	report := s44.BridgePWSRestartIndicationIEValueValidateS1APIEContainer(v.ProtocolIEs, rows, "PWSRestartIndication.protocolIEs", budget)
 	BridgeWalkValidationPWSRestartIndication(v, &report, "PWSRestartIndication", true)
 	return report, nil
@@ -9145,22 +9171,6 @@ func ValidateInitialUEMessage(v *s35.InitialUEMessage, options ...aper.Validatio
 	*s21.BridgeValidationReportFieldBudget(&report) = nil
 	*s21.BridgeValidationReportFieldErr(&report) = nil
 	return report, aper.OperationError(err, "InitialUEMessage")
-}
-func ValidateReset(v *s36.Reset, options ...aper.ValidationOption) (s21.ValidationReport, error) {
-	budget, err := aper.ValidationBudget(options...)
-	if err != nil {
-		return s21.ValidationReport{}, aper.OperationError(err, "Reset")
-	}
-	report, err := BridgeValidateResetBudget(v, budget)
-	if err == nil && !s47.BridgeValidationHasValueMismatch(report) {
-		_, err = s36.BridgeResetMethodMarshalAPERBudget(v, budget, false)
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		err = *s21.BridgeValidationReportFieldErr(&report)
-	}
-	*s21.BridgeValidationReportFieldBudget(&report) = nil
-	*s21.BridgeValidationReportFieldErr(&report) = nil
-	return report, aper.OperationError(err, "Reset")
 }
 func ValidateErrorIndication(v *s28.ErrorIndication, options ...aper.ValidationOption) (s21.ValidationReport, error) {
 	budget, err := aper.ValidationBudget(options...)
@@ -10225,8 +10235,8 @@ func BridgeWalkValidationBearersSubjectToEarlyStatusTransferList(v *s15.BearersS
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s00.FieldInfo{s15.BearersSubjectToEarlyStatusTransferItemIEs().BearersSubjectToEarlyStatusTransferItem().Info()}
-		s25.BridgeMergeNestedValidation(report, s26.BridgeBearersSubjectToEarlyStatusTransferItemIEValueValidateS1APIEContainer(s14.BearersSubjectToEarlyStatusTransferItemIEContainer{field}, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
-		fields := s14.BearersSubjectToEarlyStatusTransferItemIEContainer{field}
+		s25.BridgeMergeNestedValidation(report, s26.BridgeBearersSubjectToEarlyStatusTransferItemIEValueValidateS1APIEContainer(s15.BearersSubjectToEarlyStatusTransferItemIEContainer{field}, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
+		fields := s15.BearersSubjectToEarlyStatusTransferItemIEContainer{field}
 		for i := range fields {
 			if *s21.BridgeValidationReportFieldErr(report) != nil {
 				return
@@ -10994,7 +11004,7 @@ func BridgeWalkValidationCellBasedMDT(v *s22.CellBasedMDT, report *s21.Validatio
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s00.FieldInfo{}
-				s25.BridgeMergeNestedValidation(report, s26.BridgeCellBasedMDTExtIEsValueValidateS1APExtensionContainer(fields, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
+				s25.BridgeMergeNestedValidation(report, s27.BridgeCellBasedMDTExtIEsValueValidateS1APExtensionContainer(fields, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s21.BridgeValidationReportFieldErr(report) != nil {
@@ -12952,7 +12962,7 @@ func BridgeWalkValidationERABFailedToResumeItemResumeRes(v *s15.ERABFailedToResu
 		return
 	}
 }
-func BridgeWalkValidationERABFailedToResumeListResumeReq(v *s15.ERABFailedToResumeListResumeReq, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationERABFailedToResumeListResumeReq(v *s16.ERABFailedToResumeListResumeReq, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -12984,7 +12994,7 @@ func BridgeWalkValidationERABFailedToResumeListResumeReq(v *s15.ERABFailedToResu
 		}
 	}
 }
-func BridgeWalkValidationERABFailedToResumeListResumeRes(v *s15.ERABFailedToResumeListResumeRes, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationERABFailedToResumeListResumeRes(v *s16.ERABFailedToResumeListResumeRes, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -13000,7 +13010,7 @@ func BridgeWalkValidationERABFailedToResumeListResumeRes(v *s15.ERABFailedToResu
 		}
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s00.FieldInfo{s15.ERABFailedToResumeItemResumeResIEs().ERABFailedToResumeItemResumeRes().Info()}
+		rows := []s00.FieldInfo{s16.ERABFailedToResumeItemResumeResIEs().ERABFailedToResumeItemResumeRes().Info()}
 		s25.BridgeMergeNestedValidation(report, s27.BridgeERABFailedToResumeItemResumeResIEValueValidateS1APIEContainer(s15.ERABFailedToResumeItemResumeResIEContainer{field}, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
 		fields := s15.ERABFailedToResumeItemResumeResIEContainer{field}
 		for i := range fields {
@@ -13816,7 +13826,7 @@ func BridgeWalkValidationERABSetupItemCtxtSURes(v *s16.ERABSetupItemCtxtSURes, r
 		return
 	}
 }
-func BridgeWalkValidationERABSetupListBearerSURes(v *s16.ERABSetupListBearerSURes, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationERABSetupListBearerSURes(v *s17.ERABSetupListBearerSURes, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -13848,7 +13858,7 @@ func BridgeWalkValidationERABSetupListBearerSURes(v *s16.ERABSetupListBearerSURe
 		}
 	}
 }
-func BridgeWalkValidationERABSetupListCtxtSURes(v *s16.ERABSetupListCtxtSURes, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationERABSetupListCtxtSURes(v *s17.ERABSetupListCtxtSURes, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -13864,7 +13874,7 @@ func BridgeWalkValidationERABSetupListCtxtSURes(v *s16.ERABSetupListCtxtSURes, r
 		}
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s00.FieldInfo{s16.ERABSetupItemCtxtSUResIEs().ERABSetupItemCtxtSURes().Info()}
+		rows := []s00.FieldInfo{s17.ERABSetupItemCtxtSUResIEs().ERABSetupItemCtxtSURes().Info()}
 		s25.BridgeMergeNestedValidation(report, s27.BridgeERABSetupItemCtxtSUResIEValueValidateS1APIEContainer(s16.ERABSetupItemCtxtSUResIEContainer{field}, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
 		fields := s16.ERABSetupItemCtxtSUResIEContainer{field}
 		for i := range fields {
@@ -13917,7 +13927,7 @@ func BridgeWalkValidationERABSetupRequest(v *s40.ERABSetupRequest, report *s21.V
 		return
 	}
 }
-func BridgeWalkValidationERABSubjecttoDataForwardingList(v *s16.ERABSubjecttoDataForwardingList, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationERABSubjecttoDataForwardingList(v *s17.ERABSubjecttoDataForwardingList, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -14312,7 +14322,7 @@ func BridgeWalkValidationERABToBeSetupListCtxtSUReq(v *s29.ERABToBeSetupListCtxt
 		}
 	}
 }
-func BridgeWalkValidationERABToBeSetupListHOReq(v *s29.ERABToBeSetupListHOReq, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationERABToBeSetupListHOReq(v *s30.ERABToBeSetupListHOReq, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -14328,7 +14338,7 @@ func BridgeWalkValidationERABToBeSetupListHOReq(v *s29.ERABToBeSetupListHOReq, r
 		}
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s00.FieldInfo{s29.ERABToBeSetupItemHOReqIEs().ERABToBeSetupItemHOReq().Info()}
+		rows := []s00.FieldInfo{s30.ERABToBeSetupItemHOReqIEs().ERABToBeSetupItemHOReq().Info()}
 		s25.BridgeMergeNestedValidation(report, s30.BridgeERABToBeSetupItemHOReqIEValueValidateS1APIEContainer(s29.ERABToBeSetupItemHOReqIEContainer{field}, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
 		fields := s29.ERABToBeSetupItemHOReqIEContainer{field}
 		for i := range fields {
@@ -14936,7 +14946,7 @@ func BridgeWalkValidationEventTrigger(v *s19.EventTrigger, report *s21.Validatio
 		BridgeWalkValidationEventL1LoggedMDTConfig(v.EventL1LoggedMDTConfig, report, path+".eventL1LoggedMDTConfig", false)
 	}
 }
-func BridgeWalkValidationEventTriggeredCellLoadReportingRequest(v *s17.EventTriggeredCellLoadReportingRequest, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationEventTriggeredCellLoadReportingRequest(v *s18.EventTriggeredCellLoadReportingRequest, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -16740,7 +16750,7 @@ func BridgeWalkValidationLocationReportingFailureIndication(v *s25.LocationRepor
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []s00.FieldInfo{s18.LocationReportingFailureIndicationIEs().MMEUES1APID().Info(), s18.LocationReportingFailureIndicationIEs().ENBUES1APID().Info(), s18.LocationReportingFailureIndicationIEs().Cause().Info()}
+			rows := []s00.FieldInfo{s19.LocationReportingFailureIndicationIEs().MMEUES1APID().Info(), s19.LocationReportingFailureIndicationIEs().ENBUES1APID().Info(), s19.LocationReportingFailureIndicationIEs().Cause().Info()}
 			s25.BridgeMergeNestedValidation(report, s27.BridgeLocationReportingFailureIndicationIEValueValidateS1APIEContainer(fields, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
@@ -16816,7 +16826,7 @@ func BridgeWalkValidationLoggedMDTTrigger(v *s19.LoggedMDTTrigger, report *s21.V
 		BridgeWalkValidationEventTrigger(v.EventTrigger, report, path+".eventTrigger", false)
 	}
 }
-func BridgeWalkValidationM1PeriodicReporting(v *s18.M1PeriodicReporting, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationM1PeriodicReporting(v *s19.M1PeriodicReporting, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -17391,7 +17401,7 @@ func BridgeWalkValidationMMEStatusTransfer(v *s25.MMEStatusTransfer, report *s21
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []s00.FieldInfo{s21.MMEStatusTransferIEs().MMEUES1APID().Info(), s21.MMEStatusTransferIEs().ENBUES1APID().Info(), s21.MMEStatusTransferIEs().ENBStatusTransferTransparentContainer().Info()}
+			rows := []s00.FieldInfo{s22.MMEStatusTransferIEs().MMEUES1APID().Info(), s22.MMEStatusTransferIEs().ENBUES1APID().Info(), s22.MMEStatusTransferIEs().ENBStatusTransferTransparentContainer().Info()}
 			s25.BridgeMergeNestedValidation(report, s27.BridgeMMEStatusTransferIEValueValidateS1APIEContainer(fields, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
@@ -17831,7 +17841,7 @@ func BridgeWalkValidationNotificationCellListItem(v *s19.NotificationCellListIte
 		return
 	}
 }
-func BridgeWalkValidationOverloadResponse(v *s19.OverloadResponse, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationOverloadResponse(v *s20.OverloadResponse, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -17912,7 +17922,7 @@ func BridgeWalkValidationOverloadStop(v *s41.OverloadStop, report *s21.Validatio
 		return
 	}
 }
-func BridgeWalkValidationPC5FlowBitRates(v *s19.PC5FlowBitRates, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationPC5FlowBitRates(v *s20.PC5FlowBitRates, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -18179,7 +18189,7 @@ func BridgeWalkValidationPWSRestartIndication(v *s44.PWSRestartIndication, repor
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []s00.FieldInfo{s43.PWSRestartIndicationIEs().ECGIListForRestart().Info(), s43.PWSRestartIndicationIEs().GlobalENBID().Info(), s43.PWSRestartIndicationIEs().TAIListForRestart().Info(), s43.PWSRestartIndicationIEs().EmergencyAreaIDListForRestart().Info()}
+			rows := []s00.FieldInfo{s44.PWSRestartIndicationIEs().ECGIListForRestart().Info(), s44.PWSRestartIndicationIEs().GlobalENBID().Info(), s44.PWSRestartIndicationIEs().TAIListForRestart().Info(), s44.PWSRestartIndicationIEs().EmergencyAreaIDListForRestart().Info()}
 			s25.BridgeMergeNestedValidation(report, s44.BridgePWSRestartIndicationIEValueValidateS1APIEContainer(fields, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
@@ -20793,7 +20803,7 @@ func BridgeWalkValidationTimeSynchronisationInfo(v *s34.TimeSynchronisationInfo,
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []s00.FieldInfo{s00.FieldInfo(s11.TimeSynchronisationInfoExtIEs().MutingAvailabilityIndication().Info())}
+				rows := []s00.FieldInfo{s00.FieldInfo(s12.TimeSynchronisationInfoExtIEs().MutingAvailabilityIndication().Info())}
 				s25.BridgeMergeNestedValidation(report, s34.BridgeTimeSynchronisationInfoExtIEsValueValidateS1APExtensionContainer(fields, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
@@ -20840,7 +20850,7 @@ func BridgeWalkValidationTraceFailureIndication(v *s34.TraceFailureIndication, r
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []s00.FieldInfo{s20.TraceFailureIndicationIEs().MMEUES1APID().Info(), s20.TraceFailureIndicationIEs().ENBUES1APID().Info(), s20.TraceFailureIndicationIEs().EUTRANTraceID().Info(), s20.TraceFailureIndicationIEs().Cause().Info()}
+			rows := []s00.FieldInfo{s21.TraceFailureIndicationIEs().MMEUES1APID().Info(), s21.TraceFailureIndicationIEs().ENBUES1APID().Info(), s21.TraceFailureIndicationIEs().EUTRANTraceID().Info(), s21.TraceFailureIndicationIEs().Cause().Info()}
 			s25.BridgeMergeNestedValidation(report, s34.BridgeTraceFailureIndicationIEValueValidateS1APIEContainer(fields, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
@@ -20859,7 +20869,7 @@ func BridgeWalkValidationTraceFailureIndication(v *s34.TraceFailureIndication, r
 		return
 	}
 }
-func BridgeWalkValidationTransportInformation(v *s20.TransportInformation, report *s21.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationTransportInformation(v *s21.TransportInformation, report *s21.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -21044,38 +21054,6 @@ func BridgeWalkValidationUEAssociatedLogicalS1ConnectionListRes(v *s35.UEAssocia
 		rows := []s00.FieldInfo{s35.UEAssociatedLogicalS1ConnectionItemRes().UEAssociatedLogicalS1ConnectionItem().Info()}
 		s25.BridgeMergeNestedValidation(report, s36.BridgeUEAssociatedLogicalS1ConnectionItemResIEValueValidateS1APIEContainer(s35.UEAssociatedLogicalS1ConnectionItemResIEContainer{field}, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
 		fields := s35.UEAssociatedLogicalS1ConnectionItemResIEContainer{field}
-		for i := range fields {
-			if *s21.BridgeValidationReportFieldErr(report) != nil {
-				return
-			}
-			switch fields[i].Id {
-			case s00.ProtocolIEID(91):
-				if value, ok := fields[i].Value.AsUEAssociatedLogicalS1ConnectionItem(); ok {
-					BridgeWalkValidationUEAssociatedLogicalS1ConnectionItem(value, report, fmt.Sprintf("%s[%d]{id=91}", nestedPath, i), false)
-				}
-			}
-		}
-	}
-}
-func BridgeWalkValidationUEAssociatedLogicalS1ConnectionListResAck(v *s35.UEAssociatedLogicalS1ConnectionListResAck, report *s21.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *s21.BridgeValidationReportFieldErr(report) != nil {
-		return
-	}
-	bb := aper.NewBudgetBuffer(*s21.BridgeValidationReportFieldBudget(report))
-	if err := bb.EnterDecodeValue(); err != nil {
-		*s21.BridgeValidationReportFieldErr(report) = err
-		return
-	}
-	defer bb.LeaveDecodeValue()
-	for i := range *v {
-		if *s21.BridgeValidationReportFieldErr(report) != nil {
-			return
-		}
-		field := (*v)[i]
-		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s00.FieldInfo{s35.UEAssociatedLogicalS1ConnectionItemResAck().UEAssociatedLogicalS1ConnectionItem().Info()}
-		s25.BridgeMergeNestedValidation(report, s35.BridgeUEAssociatedLogicalS1ConnectionItemResAckIEValueValidateS1APIEContainer(s35.UEAssociatedLogicalS1ConnectionItemResAckIEContainer{field}, rows, nestedPath, *s21.BridgeValidationReportFieldBudget(report)))
-		fields := s35.UEAssociatedLogicalS1ConnectionItemResAckIEContainer{field}
 		for i := range fields {
 			if *s21.BridgeValidationReportFieldErr(report) != nil {
 				return

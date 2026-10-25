@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/options_api.go; SHA-256 98ea99e1453c584d888508c288218fa63ca38e7fffcf05cdd4166acb32f7c163.
+// Runtime source: runtime/aper/options_api.go; SHA-256 fbd3d8252cd11c355d1fb471ba9bd489642649a9ed57fde6a8a606e4b37f460e.
 package aper
 
 import "errors"
@@ -8,13 +8,21 @@ import "errors"
 // DecodeOption carries per-call policy. DecodeReport state is created only
 // when a call starts; TS 36.423 V19.1.0 §9.4 selects aligned BASIC-PER.
 type DecodeOption struct {
-	limits    Limits
-	hasLimits bool
+	limits                 Limits
+	hasLimits              bool
+	nonzeroTerminalPadding bool
 }
 
 // WithReceiverMode selects the TS 36.423 V19.1.0 §10 receiver policy.
-// Its wire tolerance set is empty: both modes enforce X.691 (02/2021).
+// It does not enable wire tolerance; WithNonzeroTerminalPadding is independent.
 func WithReceiverMode() DecodeOption { return DecodeOption{} }
+
+// WithNonzeroTerminalPadding accepts nonzero terminal bits of a complete value,
+// including a nonzero octet for an empty encoding, and records each occurrence.
+// X.691 (02/2021) §11.1.4 requires zero bits; §11.2.1 applies to open types.
+// This policy is independent of WithReceiverMode. Internal alignment stays strict.
+// Unchanged values replay their received octets; fresh and edited values pad with zero.
+func WithNonzeroTerminalPadding() DecodeOption { return DecodeOption{nonzeroTerminalPadding: true} }
 
 // ApplyDecodeOptions creates independent reporting state for one operation.
 func ApplyDecodeOptions(options ...DecodeOption) DecodeState {
@@ -29,6 +37,9 @@ func ApplyDecodeOptions(options ...DecodeOption) DecodeState {
 	budget, err := NewOperationBudget(settings.operationLimits)
 	if err != nil {
 		return DecodeState{failure: err}
+	}
+	for _, option := range options {
+		budget.nonzeroTerminalPadding = budget.nonzeroTerminalPadding || option.nonzeroTerminalPadding
 	}
 	budget.reading = true
 	budget.outputLimited = false
@@ -45,26 +56,34 @@ type DecodeReport struct {
 	Observations []Observation
 }
 
-// Deviation records one innermost fatal wire error. APER accepts no deviations.
+// Deviation records one innermost fatal wire error. Tolerated padding is an observation.
 type Deviation struct {
 	Location Location
 	Rule     SourceRule
 }
 
-// ObservationKind distinguishes legal values outside the pinned schema.
+// ObservationKind distinguishes unknown values and explicitly tolerated wire departures.
 type ObservationKind uint8
 
 const (
 	UnknownProcedure ObservationKind = iota + 1
 	UnknownIE
 	UnknownExtension
+	// NonzeroTerminalPadding marks nonzero completion bits after a nonempty value.
+	NonzeroTerminalPadding
+	// NonzeroEmptyEncoding marks the nonzero octet substituted for a zero-bit value.
+	NonzeroEmptyEncoding
 )
 
-// Observation marks an opaque boundary, without certifying its unknown schema.
+// Observation records an opaque boundary or an explicitly tolerated padding departure.
 type Observation struct {
 	Location Location
 	Rule     SourceRule
 	Kind     ObservationKind
+	// PaddingBits holds right-aligned received bits for a padding observation.
+	PaddingBits uint8 `json:",omitempty"`
+	// PaddingCount is their width (1–7, or 8 for NonzeroEmptyEncoding).
+	PaddingCount uint8 `json:",omitempty"`
 }
 
 // FinishDecode returns the per-call findings, including those before failure.
@@ -220,7 +239,13 @@ func OwnDecodeOptions(data []byte, options ...DecodeOption) ([]byte, DecodeState
 		}
 	}
 	state.settings.operationLimits.MaxOutputBytes = 0
-	return OwnDecodeInput(data, state)
+	data, state = OwnDecodeInput(data, state)
+	if state.settings.operation != nil {
+		for _, option := range options {
+			state.settings.operation.nonzeroTerminalPadding = state.settings.operation.nonzeroTerminalPadding || option.nonzeroTerminalPadding
+		}
+	}
+	return data, state
 }
 
 // OwnDecodeInput starts the complete decode's single immutable wire lifetime.

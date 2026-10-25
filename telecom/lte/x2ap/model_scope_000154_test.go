@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
+	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
 )
 
-func eNBENDCX2SetupReqIEFieldapiMust(v s17.ENBENDCX2SetupReqIEField, err error) s17.ENBENDCX2SetupReqIEField {
+func globalRANNODEIDapiMust(v s05.GlobalRANNODEID, err error) s05.GlobalRANNODEID {
 	if err != nil {
 		panic(err)
 	}

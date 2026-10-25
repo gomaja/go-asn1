@@ -253,7 +253,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		locationReportingControlIEValueRequireZeroIDSelection(t, locationReportingControlIEFieldFreshMust(s26.LocationReportingControlIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), locationReportingControlIEFieldFreshMust(s26.LocationReportingControlIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("LocationReportingFailureIndicationIEs", func(t *testing.T) {
-		locationReportingFailureIndicationIEValueRequireZeroIDSelection(t, locationReportingFailureIndicationIEFieldFreshMust(s18.LocationReportingFailureIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), locationReportingFailureIndicationIEFieldFreshMust(s18.LocationReportingFailureIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		locationReportingFailureIndicationIEValueRequireZeroIDSelection(t, locationReportingFailureIndicationIEFieldFreshMust(s19.LocationReportingFailureIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), locationReportingFailureIndicationIEFieldFreshMust(s19.LocationReportingFailureIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("MMECPRelocationIndicationIEs", func(t *testing.T) {
 		mMECPRelocationIndicationIEValueRequireZeroIDSelection(t, mMECPRelocationIndicationIEFieldFreshMust(s10.MMECPRelocationIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), mMECPRelocationIndicationIEFieldFreshMust(s10.MMECPRelocationIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -262,7 +262,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		mMEEarlyStatusTransferIEValueRequireZeroIDSelection(t, mMEEarlyStatusTransferIEFieldFreshMust(s37.MMEEarlyStatusTransferIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), mMEEarlyStatusTransferIEFieldFreshMust(s37.MMEEarlyStatusTransferIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("MMEStatusTransferIEs", func(t *testing.T) {
-		mMEStatusTransferIEValueRequireZeroIDSelection(t, mMEStatusTransferIEFieldFreshMust(s21.MMEStatusTransferIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), mMEStatusTransferIEFieldFreshMust(s21.MMEStatusTransferIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		mMEStatusTransferIEValueRequireZeroIDSelection(t, mMEStatusTransferIEFieldFreshMust(s22.MMEStatusTransferIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), mMEStatusTransferIEFieldFreshMust(s22.MMEStatusTransferIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("NASDeliveryIndicationIEs", func(t *testing.T) {
 		nASDeliveryIndicationIEValueRequireZeroIDSelection(t, nASDeliveryIndicationIEFieldFreshMust(s10.NASDeliveryIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), nASDeliveryIndicationIEFieldFreshMust(s10.NASDeliveryIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -283,7 +283,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		secondaryRATDataUsageReportIEValueRequireZeroIDSelection(t, secondaryRATDataUsageReportIEFieldFreshMust(s45.SecondaryRATDataUsageReportIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), secondaryRATDataUsageReportIEFieldFreshMust(s45.SecondaryRATDataUsageReportIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("TraceFailureIndicationIEs", func(t *testing.T) {
-		traceFailureIndicationIEValueRequireZeroIDSelection(t, traceFailureIndicationIEFieldFreshMust(s20.TraceFailureIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), traceFailureIndicationIEFieldFreshMust(s20.TraceFailureIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		traceFailureIndicationIEValueRequireZeroIDSelection(t, traceFailureIndicationIEFieldFreshMust(s21.TraceFailureIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), traceFailureIndicationIEFieldFreshMust(s21.TraceFailureIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("TraceStartIEs", func(t *testing.T) {
 		traceStartIEValueRequireZeroIDSelection(t, traceStartIEFieldFreshMust(s48.TraceStartIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), traceStartIEFieldFreshMust(s48.TraceStartIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))

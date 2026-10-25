@@ -3,13 +3,13 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	testing "testing"
 )
 
 func FuzzAPERX2APPDU(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("002e0002bbcc"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		_, _, _ = s19.X2APPDUCodec().DecodeAPER(input)
+		_, _, _ = s20.X2APPDUCodec().DecodeAPER(input)
 	})
 }

@@ -3,8 +3,12 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
 )
 
-// Info returns the source metadata for this binding.
-func (b ErrorIndicationSuccessfulBinding) Info() s00.ProcedureInfo { return b.info }
+func eRABsAdmittedItemIEFieldapiMust(v s09.ERABsAdmittedItemIEField, err error) s09.ERABsAdmittedItemIEField {
+	if err != nil {
+		panic(err)
+	}
+	return v
+}

@@ -7,7 +7,7 @@ import (
 )
 
 // WithoutReplay returns a copy that encodes without received replay state.
-func (v ErrorIndicationIEFieldAPERValue) WithoutReplay() ErrorIndicationIEFieldAPERValue {
+func (v ERABsAdmittedItemExtIEsExtFieldAPERValue) WithoutReplay() ERABsAdmittedItemExtIEsExtFieldAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true

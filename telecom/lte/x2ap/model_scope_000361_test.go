@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func eNDCConfigurationTransferfreshMust(value s19.ENDCConfigurationTransfer, err error) s19.ENDCConfigurationTransfer {
+func dataForwardingAddressIndicationfreshMust(value s20.DataForwardingAddressIndication, err error) s20.DataForwardingAddressIndication {
 	if err != nil {
 		panic(err)
 	}

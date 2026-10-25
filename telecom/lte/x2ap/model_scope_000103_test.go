@@ -9,7 +9,7 @@ import (
 	hex "encoding/hex"
 	json "encoding/json"
 	fmt "fmt"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	os "os"
 	testing "testing"
 )
@@ -53,7 +53,7 @@ func TestReplayCaptureAllocationBounds(t *testing.T) {
 			replayBoundNeed(replayBoundCaptureDecode(wire))
 		}
 	})
-	values := make([]s19.X2APPDU, len(inputs))
+	values := make([]s20.X2APPDU, len(inputs))
 	for i, wire := range inputs {
 		replayBoundNeed(replayBoundEnvelopeDecode(&values[i], wire))
 	}

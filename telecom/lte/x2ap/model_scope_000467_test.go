@@ -4,14 +4,14 @@ package x2ap
 
 import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// ERABsToBeSetupItemIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABsToBeSetupItemIEValue]].
-type ERABsToBeSetupItemIEFieldAPERValue struct {
-	context       s00.X2apInternalCodecContext
-	Value         s11.ERABsToBeSetupItemIEField
+// Int64APERValue is the concrete APERValue[int64].
+type Int64APERValue struct {
+	context s00.X2apInternalCodecContext
+	Value   int64
+
 	received      aper.WireSpan
 	replay        aper.Snapshot
 	withoutReplay bool

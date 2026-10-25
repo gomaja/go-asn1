@@ -7,7 +7,7 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -34,12 +34,12 @@ func TestEditedLeafIEAndListWorkGrowsLinearly(t *testing.T) {
 						fields[i] = errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().Cause().New(apiCause()))
 					}
 				}
-				body := s19.ErrorIndication{ProtocolIEs: fields}
-				original := s19.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s19.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: s19.X2apInternalConstructT15InitiatingValueF4codeF19bodyErrorIndication(s00.IdErrorIndication, &body)}}
+				body := s20.ErrorIndication{ProtocolIEs: fields}
+				original := s20.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s20.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: s20.X2apInternalConstructT15InitiatingValueF4codeF19bodyErrorIndication(s00.IdErrorIndication, &body)}}
 				wire := listByteapiMust(original.MarshalAPER())
 				var usage aper.DecodeUsage
 				allocations := testing.AllocsPerRun(10, func() {
-					var value s19.X2APPDU
+					var value s20.X2APPDU
 					if _, err := value.UnmarshalAPER(wire); err != nil {
 						panic(err)
 					}
@@ -59,7 +59,7 @@ func TestEditedLeafIEAndListWorkGrowsLinearly(t *testing.T) {
 					if err != nil {
 						panic(err)
 					}
-					budgeted, err := s19.X2apInternalX2APPDUMarshalAPERBudget(&value, &budget, false)
+					budgeted, err := s20.X2apInternalX2APPDUMarshalAPERBudget(&value, &budget, false)
 					if err != nil || !bytes.Equal(out, budgeted) {
 						panic("budgeted encoding differs from public encoding")
 					}

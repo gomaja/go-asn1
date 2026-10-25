@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 )
 
-func x2SetupFailureapiMust(v s14.X2SetupFailure, err error) s14.X2SetupFailure {
+func causeapiMust(v s00.Cause, err error) s00.Cause {
 	if err != nil {
 		panic(err)
 	}

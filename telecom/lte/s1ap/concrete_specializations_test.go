@@ -417,9 +417,9 @@ func eRABToBeSwitchedDLItemIEFieldFreshMust(v s30.ERABToBeSwitchedDLItemIEField,
 	}
 	return v
 }
-func pathSwitchRequestAcknowledgeFreshMust(v s46.PathSwitchRequestAcknowledge,
+func pathSwitchRequestAcknowledgeFreshMust(v s47.PathSwitchRequestAcknowledge,
 
-	err error) s46.PathSwitchRequestAcknowledge {
+	err error) s47.PathSwitchRequestAcknowledge {
 	if err != nil {
 		panic(err)
 	}
@@ -465,9 +465,9 @@ func eRABToBeSetupItemBearerSUReqIEFieldFreshMust(v s29.ERABToBeSetupItemBearerS
 	}
 	return v
 }
-func eRABSetupResponseFreshMust(v s45.ERABSetupResponse,
+func eRABSetupResponseFreshMust(v s46.ERABSetupResponse,
 
-	err error) s45.ERABSetupResponse {
+	err error) s46.ERABSetupResponse {
 	if err != nil {
 		panic(err)
 	}
@@ -533,15 +533,15 @@ func eRABItemIEFieldFreshMust(v s16.ERABItemIEField, err error) s16.ERABItemIEFi
 	}
 	return v
 }
-func eRABReleaseResponseFreshMust(v s45.ERABReleaseResponse,
+func eRABReleaseResponseFreshMust(v s46.ERABReleaseResponse,
 
-	err error) s45.ERABReleaseResponse {
+	err error) s46.ERABReleaseResponse {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABReleaseResponseIEFieldFreshMust(v s44.ERABReleaseResponseIEField, err error) s44.ERABReleaseResponseIEField {
+func eRABReleaseResponseIEFieldFreshMust(v s45.ERABReleaseResponseIEField, err error) s45.ERABReleaseResponseIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -729,9 +729,9 @@ func s1SetupFailureIEFieldFreshMust(v s23.S1SetupFailureIEField, err error) s23.
 	}
 	return v
 }
-func uEContextModificationRequestFreshMust(v s46.UEContextModificationRequest,
+func uEContextModificationRequestFreshMust(v s47.UEContextModificationRequest,
 
-	err error) s46.UEContextModificationRequest {
+	err error) s47.UEContextModificationRequest {
 	if err != nil {
 		panic(err)
 	}
@@ -1211,9 +1211,9 @@ func overloadStartIEFieldFreshMust(v s41.OverloadStartIEField, err error) s41.Ov
 	}
 	return v
 }
-func overloadResponseFreshMust(v s19.OverloadResponse,
+func overloadResponseFreshMust(v s20.OverloadResponse,
 
-	err error) s19.OverloadResponse {
+	err error) s20.OverloadResponse {
 	if err != nil {
 		panic(err)
 	}
@@ -1747,7 +1747,7 @@ func eNBEarlyStatusTransferIEFieldFreshMust(v s37.ENBEarlyStatusTransferIEField,
 	}
 	return v
 }
-func bearersSubjectToEarlyStatusTransferItemIEFieldFreshMust(v s14.BearersSubjectToEarlyStatusTransferItemIEField, err error) s14.BearersSubjectToEarlyStatusTransferItemIEField {
+func bearersSubjectToEarlyStatusTransferItemIEFieldFreshMust(v s15.BearersSubjectToEarlyStatusTransferItemIEField, err error) s15.BearersSubjectToEarlyStatusTransferItemIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -2589,10 +2589,10 @@ func eRABReleaseIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, 
 		}
 	}
 }
-func eRABReleaseResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s44.ERABReleaseResponseIEField) {
+func eRABReleaseResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s45.ERABReleaseResponseIEField) {
 	t.Helper()
-	zero := s44.ERABReleaseResponseIEField{Id: 0, Criticality: selected.Criticality}
-	report := s45.BridgeERABReleaseResponseIEValueValidateS1APIEContainer(s44.ERABReleaseResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s45.ERABReleaseResponseIEField{Id: 0, Criticality: selected.Criticality}
+	report := s46.BridgeERABReleaseResponseIEValueValidateS1APIEContainer(s45.ERABReleaseResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2601,16 +2601,16 @@ func eRABReleaseResponseIEValueRequireZeroIDSelection(t *testing.T, selected, op
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s44.BridgeERABReleaseResponseIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s45.BridgeERABReleaseResponseIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s44.ERABReleaseResponseIEField{selected, opaque} {
-		if !s44.BridgeERABReleaseResponseIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s45.ERABReleaseResponseIEField{selected, opaque} {
+		if !s45.BridgeERABReleaseResponseIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s44.BridgeERABReleaseResponseIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s45.BridgeERABReleaseResponseIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -3294,7 +3294,7 @@ func nASNonDeliveryIndicationIEValueRequireZeroIDSelection(t *testing.T, selecte
 func pathSwitchRequestAcknowledgeIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s46.PathSwitchRequestAcknowledgeIEField) {
 	t.Helper()
 	zero := s46.PathSwitchRequestAcknowledgeIEField{Id: 0, Criticality: selected.Criticality}
-	report := s46.BridgePathSwitchRequestAcknowledgeIEValueValidateS1APIEContainer(s46.PathSwitchRequestAcknowledgeIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s47.BridgePathSwitchRequestAcknowledgeIEValueValidateS1APIEContainer(s46.PathSwitchRequestAcknowledgeIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch

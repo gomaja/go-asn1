@@ -117,7 +117,9 @@ func X2apInternalPrivateMessageIEsValuePrivateIEFieldUnmarshalAPERFrom(v *Privat
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("PrivateIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalPrivateMessageIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -443,7 +445,9 @@ func X2apInternalABSStatusExtIEsExtFieldUnmarshalAPERFrom(v *ABSStatusExtIEsExtF
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalABSStatusExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -559,7 +563,9 @@ func X2apInternalABSInformationFDDExtIEsExtFieldUnmarshalAPERFrom(v *ABSInformat
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalABSInformationFDDExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -675,7 +681,9 @@ func X2apInternalABSInformationTDDExtIEsExtFieldUnmarshalAPERFrom(v *ABSInformat
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalABSInformationTDDExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -791,7 +799,9 @@ func X2apInternalASSecurityInformationExtIEsExtFieldUnmarshalAPERFrom(v *ASSecur
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalASSecurityInformationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -29812,7 +29822,9 @@ func X2apInternalABSInformationFDDExtIEsIEFieldUnmarshalAPERFrom(v *ABSInformati
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalABSInformationFDDExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -29931,7 +29943,9 @@ func X2apInternalABSInformationTDDExtIEsIEFieldUnmarshalAPERFrom(v *ABSInformati
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalABSInformationTDDExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -30050,7 +30064,9 @@ func X2apInternalABSStatusExtIEsIEFieldUnmarshalAPERFrom(v *ABSStatusExtIEsIEFie
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalABSStatusExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -30169,7 +30185,9 @@ func X2apInternalASSecurityInformationExtIEsIEFieldUnmarshalAPERFrom(v *ASSecuri
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalASSecurityInformationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -45784,6 +45802,7 @@ func X2apInternalPrivateIEIDUnmarshalAPERWithOptions(v *PrivateIEID, data []byte
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEID")
 	}
+	bb.EnterComponent("PrivateIEID")
 	if err := X2apInternalPrivateIEIDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEID")
 	}
@@ -52320,6 +52339,7 @@ func X2apInternalABSInformationUnmarshalAPERWithOptions(v *ABSInformation, data 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ABSInformation")
 	}
+	bb.EnterComponent("ABSInformation")
 	if err := X2apInternalABSInformationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ABSInformation")
 	}
@@ -52528,6 +52548,7 @@ func X2apInternalABSInformationFDDUnmarshalAPERWithOptions(v *ABSInformationFDD,
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ABSInformationFDD")
 	}
+	bb.EnterComponent("ABSInformationFDD")
 	if err := X2apInternalABSInformationFDDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ABSInformationFDD")
 	}
@@ -52572,6 +52593,7 @@ func X2apInternalABSInformationFDDUnmarshalAPERFrom(v *ABSInformationFDD, bb *ap
 	}
 	v.MeasurementSubset = runtime.BitString{Bytes: bsBytes_measurementsubset, BitLength: bsBitLen_measurementsubset}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(ABSInformationFDDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -52580,9 +52602,11 @@ func X2apInternalABSInformationFDDUnmarshalAPERFrom(v *ABSInformationFDD, bb *ap
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ABSInformationFDDExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalABSInformationFDDExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -52595,6 +52619,7 @@ func X2apInternalABSInformationFDDUnmarshalAPERFrom(v *ABSInformationFDD, bb *ap
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -52783,6 +52808,7 @@ func X2apInternalABSInformationTDDUnmarshalAPERWithOptions(v *ABSInformationTDD,
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ABSInformationTDD")
 	}
+	bb.EnterComponent("ABSInformationTDD")
 	if err := X2apInternalABSInformationTDDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ABSInformationTDD")
 	}
@@ -52827,6 +52853,7 @@ func X2apInternalABSInformationTDDUnmarshalAPERFrom(v *ABSInformationTDD, bb *ap
 	}
 	v.MeasurementSubset = runtime.BitString{Bytes: bsBytes_measurementsubset, BitLength: bsBitLen_measurementsubset}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(ABSInformationTDDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -52835,9 +52862,11 @@ func X2apInternalABSInformationTDDUnmarshalAPERFrom(v *ABSInformationTDD, bb *ap
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ABSInformationTDDExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := X2apInternalABSInformationTDDExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -52850,6 +52879,7 @@ func X2apInternalABSInformationTDDUnmarshalAPERFrom(v *ABSInformationTDD, bb *ap
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -53011,6 +53041,7 @@ func X2apInternalCauseUnmarshalAPERWithOptions(v *Cause, data []byte, options ap
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
+	bb.EnterComponent("Cause")
 	if err := X2apInternalCauseUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
@@ -53192,6 +53223,7 @@ func X2apInternalDLResourcesULandDLSharingUnmarshalAPERWithOptions(v *DLResource
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "DLResourcesULandDLSharing")
 	}
+	bb.EnterComponent("DLResourcesULandDLSharing")
 	if err := X2apInternalDLResourcesULandDLSharingUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLResourcesULandDLSharing")
 	}
@@ -53392,6 +53424,7 @@ func X2apInternalENBIDUnmarshalAPERWithOptions(v *ENBID, data []byte, options ap
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ENBID")
 	}
+	bb.EnterComponent("ENBID")
 	if err := X2apInternalENBIDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBID")
 	}
@@ -53467,7 +53500,9 @@ func X2apInternalENBIDUnmarshalAPERFrom(v *ENBID, bb *aper.BitBuffer) error {
 			}
 			v.LongMacroENBID = &tmp_longmacroenbid
 		}
+		paddingMark := inner.EnterComponent(extensionPath)
 		padding, err := aper.CaptureOpenTypePadding(inner)
+		inner.LeaveComponent(paddingMark)
 		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
@@ -53586,6 +53621,7 @@ func X2apInternalGNBIDUnmarshalAPERWithOptions(v *GNBID, data []byte, options ap
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "GNBID")
 	}
+	bb.EnterComponent("GNBID")
 	if err := X2apInternalGNBIDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "GNBID")
 	}
@@ -53711,6 +53747,7 @@ func X2apInternalLastVisitedGERANCellInformationUnmarshalAPERWithOptions(v *Last
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "LastVisitedGERANCellInformation")
 	}
+	bb.EnterComponent("LastVisitedGERANCellInformation")
 	if err := X2apInternalLastVisitedGERANCellInformationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "LastVisitedGERANCellInformation")
 	}
@@ -53866,6 +53903,7 @@ func X2apInternalMobilityParametersModificationRangeUnmarshalAPERWithOptions(v *
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "MobilityParametersModificationRange")
 	}
+	bb.EnterComponent("MobilityParametersModificationRange")
 	if err := X2apInternalMobilityParametersModificationRangeUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "MobilityParametersModificationRange")
 	}
@@ -54060,6 +54098,7 @@ func X2apInternalMobilityParametersInformationUnmarshalAPERWithOptions(v *Mobili
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "MobilityParametersInformation")
 	}
+	bb.EnterComponent("MobilityParametersInformation")
 	if err := X2apInternalMobilityParametersInformationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "MobilityParametersInformation")
 	}
@@ -54234,6 +54273,7 @@ func X2apInternalResumeIDUnmarshalAPERWithOptions(v *ResumeID, data []byte, opti
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ResumeID")
 	}
+	bb.EnterComponent("ResumeID")
 	if err := X2apInternalResumeIDUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResumeID")
 	}
@@ -54395,6 +54435,7 @@ func X2apInternalSubbandCQICodeword0UnmarshalAPERWithOptions(v *SubbandCQICodewo
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SubbandCQICodeword0")
 	}
+	bb.EnterComponent("SubbandCQICodeword0")
 	if err := X2apInternalSubbandCQICodeword0UnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SubbandCQICodeword0")
 	}
@@ -54558,6 +54599,7 @@ func X2apInternalSubbandCQICodeword1UnmarshalAPERWithOptions(v *SubbandCQICodewo
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SubbandCQICodeword1")
 	}
+	bb.EnterComponent("SubbandCQICodeword1")
 	if err := X2apInternalSubbandCQICodeword1UnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SubbandCQICodeword1")
 	}
@@ -54725,6 +54767,7 @@ func X2apInternalSubframeAllocationUnmarshalAPERWithOptions(v *SubframeAllocatio
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SubframeAllocation")
 	}
+	bb.EnterComponent("SubframeAllocation")
 	if err := X2apInternalSubframeAllocationUnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "SubframeAllocation")
 	}
@@ -54882,6 +54925,7 @@ func X2apInternalWidebandCQICodeword1UnmarshalAPERWithOptions(v *WidebandCQICode
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "WidebandCQICodeword1")
 	}
+	bb.EnterComponent("WidebandCQICodeword1")
 	if err := X2apInternalWidebandCQICodeword1UnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "WidebandCQICodeword1")
 	}
@@ -55055,6 +55099,7 @@ func X2apInternalWTIDType1UnmarshalAPERWithOptions(v *WTIDType1, data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "WTIDType1")
 	}
+	bb.EnterComponent("WTIDType1")
 	if err := X2apInternalWTIDType1UnmarshalAPERFrom(v, bb); err != nil {
 		return runtime.WrapDecodePath(err, "WTIDType1")
 	}

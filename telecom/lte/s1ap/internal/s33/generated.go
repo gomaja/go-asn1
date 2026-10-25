@@ -133,7 +133,9 @@ func (v *WriteReplaceWarningRequestIEField) unmarshalAPERFrom(bb *aper.BitBuffer
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -248,7 +250,9 @@ func (v *ENBDirectInformationTransferIEField) unmarshalAPERFrom(bb *aper.BitBuff
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -363,7 +367,9 @@ func (v *MMEDirectInformationTransferIEField) unmarshalAPERFrom(bb *aper.BitBuff
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1199,7 +1205,9 @@ func (v *TAIItemIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -5156,29 +5164,6 @@ func (v RIMRoutingAddressAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v RIMRoutingAddressAPERValue) WithoutReplay() RIMRoutingAddressAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// RIMTransferAPERValue is the concrete APERValue[RIMTransfer].
-type RIMTransferAPERValue struct {
-	context s00.BridgeCodecContext
-	Value   RIMTransfer
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v RIMTransferAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v RIMTransferAPERValue) WithoutReplay() RIMTransferAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -9696,6 +9681,7 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) unmarshalAPERWithOptions
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InformationOnRecommendedCellsAndENBsForPaging")
 	}
+	bb.EnterComponent("InformationOnRecommendedCellsAndENBsForPaging")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InformationOnRecommendedCellsAndENBsForPaging")
 	}
@@ -9735,6 +9721,7 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) unmarshalAPERFrom(bb *ap
 	}
 	bb.LeaveComponent(toleranceMark_recommendenbsforpaging)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s09.InformationOnRecommendedCellsAndENBsForPagingExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -9743,9 +9730,11 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) unmarshalAPERFrom(bb *ap
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s09.InformationOnRecommendedCellsAndENBsForPagingExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s09.BridgeInformationOnRecommendedCellsAndENBsForPagingExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -9758,6 +9747,7 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) unmarshalAPERFrom(bb *ap
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -9966,6 +9956,7 @@ func (v *RecommendedENBsForPaging) unmarshalAPERWithOptions(data []byte, options
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedENBsForPaging")
 	}
+	bb.EnterComponent("RecommendedENBsForPaging")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedENBsForPaging")
 	}
@@ -9994,6 +9985,7 @@ func (v *RecommendedENBsForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_recommendedenblist := bb.EnterComponent("RecommendedENBList")
 	v.RecommendedENBList = make(s32.RecommendedENBList, 0)
 	_, errCollection_recommendedenblist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_recommendedenblist, fragmentLength_recommendedenblist int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10002,9 +9994,11 @@ func (v *RecommendedENBsForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_recommendedenblist; i++ {
 			var elem s32.RecommendedENBItemIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_recommendedenblist + i)
 			if err := s32.BridgeRecommendedENBItemIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("RecommendedENBList[%d]", fragmentOffset_recommendedenblist+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.RecommendedENBList, elem); err != nil {
 				return err
 			} else {
@@ -10016,7 +10010,9 @@ func (v *RecommendedENBsForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_recommendedenblist != nil {
 		return runtime.WrapDecodePath(errCollection_recommendedenblist, "RecommendedENBList")
 	}
+	bb.LeaveComponent(toleranceMark_recommendedenblist)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s11.RecommendedENBsForPagingExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10025,9 +10021,11 @@ func (v *RecommendedENBsForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s11.RecommendedENBsForPagingExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s11.BridgeRecommendedENBsForPagingExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -10040,6 +10038,7 @@ func (v *RecommendedENBsForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -10270,6 +10269,7 @@ func (v *RIMTransfer) unmarshalAPERWithOptions(data []byte, options aper.DecodeS
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RIMTransfer")
 	}
+	bb.EnterComponent("RIMTransfer")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RIMTransfer")
 	}
@@ -10320,6 +10320,7 @@ func (v *RIMTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		bb.LeaveComponent(toleranceMark_rimroutingaddress)
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s10.RIMTransferExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10328,9 +10329,11 @@ func (v *RIMTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s10.RIMTransferExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s10.BridgeRIMTransferExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -10343,6 +10346,7 @@ func (v *RIMTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -10518,6 +10522,7 @@ func (v *RIMRoutingAddress) unmarshalAPERWithOptions(data []byte, options aper.D
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RIMRoutingAddress")
 	}
+	bb.EnterComponent("RIMRoutingAddress")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RIMRoutingAddress")
 	}
@@ -10572,7 +10577,7 @@ func (v *RIMRoutingAddress) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		switch v.Choice {
 		case s00.RIMRoutingAddressChoiceTargetRNCID:
 			extensionPath = "TargetRNCID"
-			recoveryMark_targetrncid := inner.RecoveryComponent("TargetRNCID")
+			toleranceMark_targetrncid := inner.EnterComponent("TargetRNCID")
 			var dec_targetrncid TargetRNCID
 			if err := dec_targetrncid.unmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "TargetRNCID")
@@ -10581,7 +10586,7 @@ func (v *RIMRoutingAddress) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 				return err
 			}
 			v.TargetRNCID = &dec_targetrncid
-			inner.LeaveComponent(recoveryMark_targetrncid)
+			inner.LeaveComponent(toleranceMark_targetrncid)
 		case s00.RIMRoutingAddressChoiceEHRPDSectorID:
 			extensionPath = "EHRPDSectorID"
 			val_ehrpdsectorid, err := aper.DecodeOctetStringAligned(inner, 16, 16, true)
@@ -10591,7 +10596,9 @@ func (v *RIMRoutingAddress) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			tmp_ehrpdsectorid := val_ehrpdsectorid
 			v.EHRPDSectorID = tmp_ehrpdsectorid
 		}
+		paddingMark := inner.EnterComponent(extensionPath)
 		padding, err := aper.CaptureOpenTypePadding(inner)
+		inner.LeaveComponent(paddingMark)
 		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
@@ -10901,6 +10908,7 @@ func (v *TargetRNCID) unmarshalAPERWithOptions(data []byte, options aper.DecodeS
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "TargetRNCID")
 	}
+	bb.EnterComponent("TargetRNCID")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TargetRNCID")
 	}
@@ -10971,6 +10979,7 @@ func (v *TargetRNCID) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s11.TargetRNCIDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10979,9 +10988,11 @@ func (v *TargetRNCID) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s11.TargetRNCIDExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s11.BridgeTargetRNCIDExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -10994,6 +11005,7 @@ func (v *TargetRNCID) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -11194,6 +11206,7 @@ func (v *TargetNgRanNodeID) unmarshalAPERWithOptions(data []byte, options aper.D
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "TargetNgRanNodeID")
 	}
+	bb.EnterComponent("TargetNgRanNodeID")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TargetNgRanNodeID")
 	}
@@ -11233,6 +11246,7 @@ func (v *TargetNgRanNodeID) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	bb.LeaveComponent(toleranceMark_selectedtai)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s11.TargetNgRanNodeIDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -11241,9 +11255,11 @@ func (v *TargetNgRanNodeID) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s11.TargetNgRanNodeIDExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s11.BridgeTargetNgRanNodeIDExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -11256,6 +11272,7 @@ func (v *TargetNgRanNodeID) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -12933,6 +12950,7 @@ func (v *TAIItem) unmarshalAPERWithOptions(data []byte, options aper.DecodeState
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "TAIItem")
 	}
+	bb.EnterComponent("TAIItem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TAIItem")
 	}
@@ -12967,6 +12985,7 @@ func (v *TAIItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	bb.LeaveComponent(toleranceMark_tai)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s11.TAIItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -12975,9 +12994,11 @@ func (v *TAIItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s11.TAIItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s11.BridgeTAIItemExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -12990,6 +13011,7 @@ func (v *TAIItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -13178,6 +13200,7 @@ func (v *LocationReport) unmarshalAPERWithOptions(data []byte, options aper.Deco
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "LocationReport")
 	}
+	bb.EnterComponent("LocationReport")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LocationReport")
 	}
@@ -13201,6 +13224,7 @@ func (v *LocationReport) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s31.LocationReportIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -13209,9 +13233,11 @@ func (v *LocationReport) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s31.LocationReportIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s31.BridgeLocationReportIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -13223,6 +13249,7 @@ func (v *LocationReport) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -13364,6 +13391,7 @@ func (v *InterSystemInformationTransferType) unmarshalAPERWithOptions(data []byt
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InterSystemInformationTransferType")
 	}
+	bb.EnterComponent("InterSystemInformationTransferType")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterSystemInformationTransferType")
 	}
@@ -13551,6 +13579,7 @@ func (v *KillRequest) unmarshalAPERWithOptions(data []byte, options aper.DecodeS
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "KillRequest")
 	}
+	bb.EnterComponent("KillRequest")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "KillRequest")
 	}
@@ -13574,6 +13603,7 @@ func (v *KillRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s32.KillRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -13582,9 +13612,11 @@ func (v *KillRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s32.KillRequestIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s32.BridgeKillRequestIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -13596,6 +13628,7 @@ func (v *KillRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -13783,6 +13816,7 @@ func (v *KillResponse) unmarshalAPERWithOptions(data []byte, options aper.Decode
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "KillResponse")
 	}
+	bb.EnterComponent("KillResponse")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "KillResponse")
 	}
@@ -13806,6 +13840,7 @@ func (v *KillResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s32.KillResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -13814,9 +13849,11 @@ func (v *KillResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s32.KillResponseIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s32.BridgeKillResponseIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -13828,6 +13865,7 @@ func (v *KillResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -14689,26 +14727,6 @@ func (v *TAIItem) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper
 	}
 	*v = decoded
 	return report, aper.OperationError(nil, "TAIItem")
-}
-
-// NewInterSystemInformationTransferTypeUnknownExtension builds a checked, owned unknown CHOICE alternative.
-func NewInterSystemInformationTransferTypeUnknownExtension(index uint64, contents []byte, options ...aper.BuildOption) (InterSystemInformationTransferType, error) {
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InterSystemInformationTransferType{}, aper.OperationError(err, "InterSystemInformationTransferTypeUnknownExtension")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), aper.ChoiceExtension{}); err != nil {
-		return InterSystemInformationTransferType{}, aper.OperationError(err, "InterSystemInformationTransferTypeUnknownExtension")
-	}
-	extension, err := aper.BuildChoiceExtension(index, contents, budget)
-	if err != nil {
-		return InterSystemInformationTransferType{}, aper.OperationError(err, "InterSystemInformationTransferTypeUnknownExtension")
-	}
-	value := InterSystemInformationTransferType{UnknownExtension: &extension}
-	if _, err := value.marshalAPERBudget(budget, false); err != nil {
-		return InterSystemInformationTransferType{}, aper.OperationError(err, "InterSystemInformationTransferTypeUnknownExtension")
-	}
-	return value, aper.OperationError(nil, "InterSystemInformationTransferTypeUnknownExtension")
 }
 
 type ENBDirectInformationTransferIEValue struct {
@@ -18429,6 +18447,7 @@ func (t ENBDirectInformationTransferIETable) InterSystemInformationTransferTypeE
 				var empty InterSystemInformationTransferType
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("InterSystemInformationTransferType")
 			var zero ENBDirectInformationTransferIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(121), raw)
 			if err != nil {
@@ -18533,6 +18552,7 @@ func (t MMEDirectInformationTransferIETable) InterSystemInformationTransferTypeM
 				var empty InterSystemInformationTransferType
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("InterSystemInformationTransferType")
 			var zero MMEDirectInformationTransferIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(122), raw)
 			if err != nil {
@@ -18635,6 +18655,7 @@ func (t TAIItemIETable) TAIItem() TAIItemTAIItemIEBinding {
 				var empty TAIItem
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TAIItem")
 			var zero TAIItemIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(47), raw)
 			if err != nil {
@@ -18740,6 +18761,7 @@ func (t WriteReplaceWarningRequestIETable) MessageIdentifier() WriteReplaceWarni
 				var empty s00.MessageIdentifier
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MessageIdentifier")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(111), raw)
 			if err != nil {
@@ -18807,6 +18829,7 @@ func (t WriteReplaceWarningRequestIETable) SerialNumber() WriteReplaceWarningReq
 				var empty s00.SerialNumber
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SerialNumber")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(112), raw)
 			if err != nil {
@@ -18873,6 +18896,7 @@ func (t WriteReplaceWarningRequestIETable) WarningAreaList() WriteReplaceWarning
 				var empty s32.WarningAreaList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("WarningAreaList")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(113), raw)
 			if err != nil {
@@ -18938,6 +18962,7 @@ func (t WriteReplaceWarningRequestIETable) RepetitionPeriod() WriteReplaceWarnin
 				var empty s00.RepetitionPeriod
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("RepetitionPeriod")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(114), raw)
 			if err != nil {
@@ -19004,6 +19029,7 @@ func (t WriteReplaceWarningRequestIETable) ExtendedRepetitionPeriod() WriteRepla
 				var empty s00.ExtendedRepetitionPeriod
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ExtendedRepetitionPeriod")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(144), raw)
 			if err != nil {
@@ -19075,6 +19101,7 @@ func (t WriteReplaceWarningRequestIETable) NumberofBroadcastRequest() WriteRepla
 				var empty s00.NumberofBroadcastRequest
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NumberofBroadcastRequest")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(115), raw)
 			if err != nil {
@@ -19146,6 +19173,7 @@ func (t WriteReplaceWarningRequestIETable) WarningType() WriteReplaceWarningRequ
 				var empty s00.WarningType
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("WarningType")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(116), raw)
 			if err != nil {
@@ -19210,6 +19238,7 @@ func (t WriteReplaceWarningRequestIETable) WarningSecurityInfo() WriteReplaceWar
 				var empty s00.WarningSecurityInfo
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("WarningSecurityInfo")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(117), raw)
 			if err != nil {
@@ -19276,6 +19305,7 @@ func (t WriteReplaceWarningRequestIETable) DataCodingScheme() WriteReplaceWarnin
 				var empty s00.DataCodingScheme
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("DataCodingScheme")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(118), raw)
 			if err != nil {
@@ -19342,6 +19372,7 @@ func (t WriteReplaceWarningRequestIETable) WarningMessageContents() WriteReplace
 				var empty s00.WarningMessageContents
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("WarningMessageContents")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(119), raw)
 			if err != nil {
@@ -19410,6 +19441,7 @@ func (t WriteReplaceWarningRequestIETable) ConcurrentWarningMessageIndicator() W
 				var empty s00.ConcurrentWarningMessageIndicator
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ConcurrentWarningMessageIndicator")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(142), raw)
 			if err != nil {
@@ -19480,6 +19512,7 @@ func (t WriteReplaceWarningRequestIETable) WarningAreaCoordinates() WriteReplace
 				var empty s00.WarningAreaCoordinates
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("WarningAreaCoordinates")
 			var zero WriteReplaceWarningRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(286), raw)
 			if err != nil {
@@ -20808,16 +20841,6 @@ func BridgeRIMRoutingAddressValueCodecMethodEncodeBudgetValue(v RIMRoutingAddres
 }
 func BridgeRIMRoutingAddressValueCodecMethodEncodeChanged(v RIMRoutingAddressValueCodec, a0 RIMRoutingAddress, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeRIMTransferAPERValueFieldContext(v *RIMTransferAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeRIMTransferAPERValueFieldReceived(v *RIMTransferAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeRIMTransferAPERValueFieldReplay(v *RIMTransferAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeRIMTransferAPERValueFieldWithoutReplay(v *RIMTransferAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeRIMTransferFieldExtCount(v *RIMTransfer) *int64                { return &v.extCount }
 func BridgeRIMTransferFieldExtData(v *RIMTransfer) *[][]byte              { return &v.extData }

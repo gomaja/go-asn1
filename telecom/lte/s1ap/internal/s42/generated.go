@@ -17,6 +17,7 @@ import (
 	s19 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s20"
 	s21 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s21"
+	s22 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s22"
 	s24 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s24"
 	s25 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s25"
 	s26 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s26"
@@ -136,7 +137,9 @@ func (v *DownlinkNASTransportIEField) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -251,7 +254,9 @@ func (v *UEContextReleaseRequestIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -366,7 +371,9 @@ func (v *PWSFailureIndicationIEField) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -633,7 +640,9 @@ func (v *HandoverRestrictionListExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBu
 		return runtime.WrapDecodePath(fmt.Errorf("extension %d: %w", v.Id, err), "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("extension %d: %w", v.Id, err), "ExtensionValue")
 	}
@@ -4177,7 +4186,9 @@ func (v *HandoverRestrictionListExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuf
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -7080,7 +7091,7 @@ func BridgeCompareS1APHandoverRestrictionListExtIEsValue(v *HandoverRestrictionL
 				f := s.Begin()
 				s.Bool(v.rowCNTypeRestrictions == nil)
 				if v.rowCNTypeRestrictions != nil {
-					s21.BridgeCompareS1APCNTypeRestrictions(v.rowCNTypeRestrictions, s)
+					s22.BridgeCompareS1APCNTypeRestrictions(v.rowCNTypeRestrictions, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -7119,6 +7130,22 @@ func BridgeCompareS1APHandoverRestrictionListExtIEsValue(v *HandoverRestrictionL
 func (v HandoverRestrictionListExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
 	BridgeCompareS1APHandoverRestrictionListExtIEsValue(&v, &s)
 	return s
+}
+func BridgeCaptureS1APMultiCellLoadReportingResponseComplete(v *MultiCellLoadReportingResponseComplete, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s21.BridgeCaptureS1APMultiCellLoadReportingResponse(&v.Value, s)
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func BridgeCompareS1APMultiCellLoadReportingResponseComplete(v *MultiCellLoadReportingResponseComplete, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s24.BridgeCompareS1APMultiCellLoadReportingResponse(&v.Value, s)
+	s.End(f, v.replay, v.withoutReplay)
 }
 func BridgeCaptureS1APNotificationCellListComplete(v *NotificationCellListComplete, s *aper.SemanticCapture) {
 	if s.Err() != nil {
@@ -7376,38 +7403,6 @@ func BridgeCompareS1APSecondaryRATDataUsageReportListComplete(v *SecondaryRATDat
 	s28.BridgeCompareS1APSecondaryRATDataUsageReportList(&v.Value, s)
 	s.End(f, v.replay, v.withoutReplay)
 }
-func BridgeCaptureS1APSensorMeasConfigNameListComplete(v *SensorMeasConfigNameListComplete, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s30.BridgeCaptureS1APSensorMeasConfigNameList(&v.Value, s)
-	s.End(f, &v.replay, v.withoutReplay)
-}
-func BridgeCompareS1APSensorMeasConfigNameListComplete(v *SensorMeasConfigNameListComplete, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s30.BridgeCompareS1APSensorMeasConfigNameList(&v.Value, s)
-	s.End(f, v.replay, v.withoutReplay)
-}
-func BridgeCaptureS1APServedDCNsComplete(v *ServedDCNsComplete, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s30.BridgeCaptureS1APServedDCNs(&v.Value, s)
-	s.End(f, &v.replay, v.withoutReplay)
-}
-func BridgeCompareS1APServedDCNsComplete(v *ServedDCNsComplete, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s30.BridgeCompareS1APServedDCNs(&v.Value, s)
-	s.End(f, v.replay, v.withoutReplay)
-}
 func BridgeCaptureS1APUEContextReleaseRequest(v *UEContextReleaseRequest, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
@@ -7587,110 +7582,6 @@ type HandoverRestrictionList struct {
 	extWire              []aper.WireSpan
 }
 
-// ServedDCNsComplete carries a complete ServedDCNs encoding, including observed terminal bits.
-// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type ServedDCNsComplete struct {
-	replay           aper.Snapshot
-	stream           aper.WireSpan
-	received         bool
-	withoutReplay    bool
-	receivedAbsolute bool
-	receivedBytes    aper.WireSpan
-	receivedLocation aper.Location
-	Value            s30.ServedDCNs
-	perPadding       aper.CompletePadding `json:"-"`
-}
-
-func (v *ServedDCNsComplete) marshalAPERLegacy() ([]byte, error) {
-	bb := aper.NewBitBuffer()
-	if err := s30.BridgeMarshalAPERServedDCNsTo(v.Value, bb); err != nil {
-		return nil, err
-	}
-	return bb.CompleteBytesWithPadding(v.perPadding)
-}
-
-// UnmarshalAPER decodes ServedDCNs from APER format.
-func (v *ServedDCNsComplete) unmarshalAPERLegacy(data []byte) error {
-	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
-}
-
-// UnmarshalAPERWithOptions decodes ServedDCNs with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
-func (v *ServedDCNsComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
-	bb := aper.NewCompleteDecodeBuffer(data, options)
-	if err := bb.SetDecodeOptionsAligned(options); err != nil {
-		return runtime.WrapDecodePath(err, "ServedDCNs")
-	}
-	value, err := BridgeUnmarshalAPERServedDCNsFrom(bb)
-	if err != nil {
-		return runtime.WrapDecodePath(err, "ServedDCNs")
-	}
-	padding, err := aper.CaptureFinalBits(bb, "ServedDCNs")
-	if err != nil {
-		return runtime.WrapDecodePath(err, "ServedDCNs")
-	}
-	v.Value, v.perPadding = value, padding.Padding()
-	return nil
-}
-
-// MarshalAPERServedDCNs encodes a ServedDCNs list to APER.
-func BridgeMarshalAPERServedDCNs(list ServedDCNsComplete) ([]byte, error) {
-	return list.marshalAPERLegacy()
-}
-
-// UnmarshalAPERServedDCNs decodes a ServedDCNs list from APER.
-func BridgeUnmarshalAPERServedDCNs(data []byte) (ServedDCNsComplete, error) {
-	var value ServedDCNsComplete
-	if err := value.unmarshalAPERLegacy(data); err != nil {
-		return value, err
-	}
-	return value, nil
-}
-
-// UnmarshalAPERServedDCNsFrom decodes a ServedDCNs list from bb.
-func BridgeUnmarshalAPERServedDCNsFrom(bb *aper.BitBuffer) (s30.ServedDCNs, error) {
-	if err := bb.EnterDecodeValue(); err != nil {
-		return nil, err
-	}
-	defer bb.LeaveDecodeValue()
-	var v s30.BridgeAsn1cAPERServedDCNsListValue
-	if err := BridgeUnmarshalAPERServedDCNsInto(&v, bb); err != nil {
-		return nil, err
-	}
-	return v.Value, nil
-}
-func BridgeUnmarshalAPERServedDCNsInto(v *s30.BridgeAsn1cAPERServedDCNsListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
-	v.Value = make(s30.ServedDCNs, 0)
-	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
-		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
-			return fmt.Errorf("collection fragment count out of range")
-		}
-		for i := int64(0); i < fragmentLength_value; i++ {
-			var elem s30.ServedDCNsItem
-			elementMark := bb.EnterIndex(fragmentOffset_value + i)
-			if err := s30.BridgeServedDCNsItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
-			}
-			bb.LeaveComponent(elementMark)
-			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
-				return err
-			} else {
-				v.Value = next
-			}
-		}
-		return nil
-	})
-	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
-	}
-	bb.LeaveComponent(toleranceMark_value)
-	return nil
-}
-
 // PWSfailedECGIListComplete carries a complete PWSfailedECGIList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type PWSfailedECGIListComplete struct {
@@ -7727,6 +7618,7 @@ func (v *PWSfailedECGIListComplete) unmarshalAPERWithOptions(data []byte, option
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PWSfailedECGIList")
 	}
+	bb.EnterComponent("PWSfailedECGIList")
 	value, err := BridgeUnmarshalAPERPWSfailedECGIListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PWSfailedECGIList")
@@ -7998,6 +7890,7 @@ func (v *HandoverRestrictionList) unmarshalAPERWithOptions(data []byte, options 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRestrictionList")
 	}
+	bb.EnterComponent("HandoverRestrictionList")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRestrictionList")
 	}
@@ -8048,6 +7941,7 @@ func (v *HandoverRestrictionList) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	v.ServingPLMN = s00.PLMNidentity(val_servingplmn)
 	if opt_equivalentplmns {
+		toleranceMark_equivalentplmns := bb.EnterComponent("EquivalentPLMNs")
 		tmp_equivalentplmns := make(s00.EPLMNs, 0)
 		_, errCollection_equivalentplmns := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, true, func(fragmentOffset_equivalentplmns, fragmentLength_equivalentplmns int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1191
@@ -8071,6 +7965,7 @@ func (v *HandoverRestrictionList) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_equivalentplmns, "EquivalentPLMNs")
 		}
 		v.EquivalentPLMNs = tmp_equivalentplmns
+		bb.LeaveComponent(toleranceMark_equivalentplmns)
 	}
 	if opt_forbiddentas {
 		toleranceMark_forbiddentas := bb.EnterComponent("ForbiddenTAs")
@@ -8143,6 +8038,7 @@ func (v *HandoverRestrictionList) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(HandoverRestrictionListExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -8151,9 +8047,11 @@ func (v *HandoverRestrictionList) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem HandoverRestrictionListExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := elem.unmarshalAPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -8166,6 +8064,7 @@ func (v *HandoverRestrictionList) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -8261,6 +8160,7 @@ func (v *PC5QoSFlowListComplete) unmarshalAPERWithOptions(data []byte, options a
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PC5QoSFlowList")
 	}
+	bb.EnterComponent("PC5QoSFlowList")
 	value, err := BridgeUnmarshalAPERPC5QoSFlowListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PC5QoSFlowList")
@@ -8365,6 +8265,7 @@ func (v *PLMNListforQMCComplete) unmarshalAPERWithOptions(data []byte, options a
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PLMNListforQMC")
 	}
+	bb.EnterComponent("PLMNListforQMC")
 	value, err := BridgeUnmarshalAPERPLMNListforQMCFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PLMNListforQMC")
@@ -8404,6 +8305,7 @@ func BridgeUnmarshalAPERPLMNListforQMCFrom(bb *aper.BitBuffer) (s00.PLMNListforQ
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERPLMNListforQMCInto(v *s00.BridgeAsn1cAPERPLMNListforQMCListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s00.PLMNListforQMC, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1191
@@ -8426,6 +8328,7 @@ func BridgeUnmarshalAPERPLMNListforQMCInto(v *s00.BridgeAsn1cAPERPLMNListforQMCL
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -8465,6 +8368,7 @@ func (v *RecommendedCellListComplete) unmarshalAPERWithOptions(data []byte, opti
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedCellList")
 	}
+	bb.EnterComponent("RecommendedCellList")
 	value, err := BridgeUnmarshalAPERRecommendedCellListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedCellList")
@@ -8504,6 +8408,7 @@ func BridgeUnmarshalAPERRecommendedCellListFrom(bb *aper.BitBuffer) (s26.Recomme
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERRecommendedCellListInto(v *s26.BridgeAsn1cAPERRecommendedCellListListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s26.RecommendedCellList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -8512,9 +8417,11 @@ func BridgeUnmarshalAPERRecommendedCellListInto(v *s26.BridgeAsn1cAPERRecommende
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s26.RecommendedCellItemIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s26.BridgeRecommendedCellItemIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -8526,6 +8433,7 @@ func BridgeUnmarshalAPERRecommendedCellListInto(v *s26.BridgeAsn1cAPERRecommende
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -8565,6 +8473,7 @@ func (v *RecommendedENBListComplete) unmarshalAPERWithOptions(data []byte, optio
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedENBList")
 	}
+	bb.EnterComponent("RecommendedENBList")
 	value, err := BridgeUnmarshalAPERRecommendedENBListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedENBList")
@@ -8604,6 +8513,7 @@ func BridgeUnmarshalAPERRecommendedENBListFrom(bb *aper.BitBuffer) (s32.Recommen
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERRecommendedENBListInto(v *s32.BridgeAsn1cAPERRecommendedENBListListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s32.RecommendedENBList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -8612,9 +8522,11 @@ func BridgeUnmarshalAPERRecommendedENBListInto(v *s32.BridgeAsn1cAPERRecommended
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s32.RecommendedENBItemIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s32.BridgeRecommendedENBItemIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -8626,6 +8538,7 @@ func BridgeUnmarshalAPERRecommendedENBListInto(v *s32.BridgeAsn1cAPERRecommended
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -8665,6 +8578,7 @@ func (v *RATRestrictionsComplete) unmarshalAPERWithOptions(data []byte, options 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RATRestrictions")
 	}
+	bb.EnterComponent("RATRestrictions")
 	value, err := BridgeUnmarshalAPERRATRestrictionsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "RATRestrictions")
@@ -8769,6 +8683,7 @@ func (v *SecondaryRATDataUsageReportListComplete) unmarshalAPERWithOptions(data 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportList")
 	}
+	bb.EnterComponent("SecondaryRATDataUsageReportList")
 	value, err := BridgeUnmarshalAPERSecondaryRATDataUsageReportListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportList")
@@ -8808,6 +8723,7 @@ func BridgeUnmarshalAPERSecondaryRATDataUsageReportListFrom(bb *aper.BitBuffer) 
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERSecondaryRATDataUsageReportListInto(v *s28.BridgeAsn1cAPERSecondaryRATDataUsageReportListListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s28.SecondaryRATDataUsageReportList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -8816,9 +8732,11 @@ func BridgeUnmarshalAPERSecondaryRATDataUsageReportListInto(v *s28.BridgeAsn1cAP
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s28.SecondaryRATDataUsageReportItemIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s28.BridgeSecondaryRATDataUsageReportItemIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -8830,69 +8748,8 @@ func BridgeUnmarshalAPERSecondaryRATDataUsageReportListInto(v *s28.BridgeAsn1cAP
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
-}
-
-// SensorMeasConfigNameListComplete carries a complete SensorMeasConfigNameList encoding, including observed terminal bits.
-// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type SensorMeasConfigNameListComplete struct {
-	replay           aper.Snapshot
-	stream           aper.WireSpan
-	received         bool
-	withoutReplay    bool
-	receivedAbsolute bool
-	receivedBytes    aper.WireSpan
-	receivedLocation aper.Location
-	Value            s30.SensorMeasConfigNameList
-	perPadding       aper.CompletePadding `json:"-"`
-}
-
-func (v *SensorMeasConfigNameListComplete) marshalAPERLegacy() ([]byte, error) {
-	bb := aper.NewBitBuffer()
-	if err := s30.BridgeMarshalAPERSensorMeasConfigNameListTo(v.Value, bb); err != nil {
-		return nil, err
-	}
-	return bb.CompleteBytesWithPadding(v.perPadding)
-}
-
-// UnmarshalAPER decodes SensorMeasConfigNameList from APER format.
-func (v *SensorMeasConfigNameListComplete) unmarshalAPERLegacy(data []byte) error {
-	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
-}
-
-// UnmarshalAPERWithOptions decodes SensorMeasConfigNameList with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
-func (v *SensorMeasConfigNameListComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
-	bb := aper.NewCompleteDecodeBuffer(data, options)
-	if err := bb.SetDecodeOptionsAligned(options); err != nil {
-		return runtime.WrapDecodePath(err, "SensorMeasConfigNameList")
-	}
-	value, err := BridgeUnmarshalAPERSensorMeasConfigNameListFrom(bb)
-	if err != nil {
-		return runtime.WrapDecodePath(err, "SensorMeasConfigNameList")
-	}
-	padding, err := aper.CaptureFinalBits(bb, "SensorMeasConfigNameList")
-	if err != nil {
-		return runtime.WrapDecodePath(err, "SensorMeasConfigNameList")
-	}
-	v.Value, v.perPadding = value, padding.Padding()
-	return nil
-}
-
-// MarshalAPERSensorMeasConfigNameList encodes a SensorMeasConfigNameList list to APER.
-func BridgeMarshalAPERSensorMeasConfigNameList(list SensorMeasConfigNameListComplete) ([]byte, error) {
-	return list.marshalAPERLegacy()
-}
-
-// UnmarshalAPERSensorMeasConfigNameList decodes a SensorMeasConfigNameList list from APER.
-func BridgeUnmarshalAPERSensorMeasConfigNameList(data []byte) (SensorMeasConfigNameListComplete, error) {
-	var value SensorMeasConfigNameListComplete
-	if err := value.unmarshalAPERLegacy(data); err != nil {
-		return value, err
-	}
-	return value, nil
 }
 
 // UnmarshalAPERSensorMeasConfigNameListFrom decodes a SensorMeasConfigNameList list from bb.
@@ -9118,52 +8975,6 @@ func (v SecondaryRATDataUsageReportListComplete) WithoutReplay() SecondaryRATDat
 	v.receivedBytes = aper.WireSpan{}
 	v.receivedLocation = aper.Location{}
 	var zero SecondaryRATDataUsageReportListComplete
-	v.perPadding = zero.perPadding
-	return v
-}
-
-// ReceivedForm returns an owned view of the complete value's original bytes.
-func (v *SensorMeasConfigNameListComplete) ReceivedForm() aper.ReceivedForm {
-	if v == nil {
-		return aper.ReceivedForm{}
-	}
-	if v.receivedLocation.HasWireLocation {
-		return s14.BridgeReceivedFormAt(v.received, v.receivedBytes, "SensorMeasConfigNameListComplete", v.receivedLocation, v.perPadding)
-	}
-	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "SensorMeasConfigNameListComplete", v.receivedAbsolute, v.perPadding)
-}
-
-// WithoutReplay clears private received framing for a fresh complete encoding.
-func (v SensorMeasConfigNameListComplete) WithoutReplay() SensorMeasConfigNameListComplete {
-	v.withoutReplay = true
-	v.received = false
-	v.receivedAbsolute = false
-	v.receivedBytes = aper.WireSpan{}
-	v.receivedLocation = aper.Location{}
-	var zero SensorMeasConfigNameListComplete
-	v.perPadding = zero.perPadding
-	return v
-}
-
-// ReceivedForm returns an owned view of the complete value's original bytes.
-func (v *ServedDCNsComplete) ReceivedForm() aper.ReceivedForm {
-	if v == nil {
-		return aper.ReceivedForm{}
-	}
-	if v.receivedLocation.HasWireLocation {
-		return s14.BridgeReceivedFormAt(v.received, v.receivedBytes, "ServedDCNsComplete", v.receivedLocation, v.perPadding)
-	}
-	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "ServedDCNsComplete", v.receivedAbsolute, v.perPadding)
-}
-
-// WithoutReplay clears private received framing for a fresh complete encoding.
-func (v ServedDCNsComplete) WithoutReplay() ServedDCNsComplete {
-	v.withoutReplay = true
-	v.received = false
-	v.receivedAbsolute = false
-	v.receivedBytes = aper.WireSpan{}
-	v.receivedLocation = aper.Location{}
-	var zero ServedDCNsComplete
 	v.perPadding = zero.perPadding
 	return v
 }
@@ -9863,170 +9674,6 @@ func (v *SecondaryRATDataUsageReportListComplete) marshalAPERPlanned(budget *ape
 	return bb.CompleteBytesWithPadding(v.perPadding)
 }
 
-// MarshalAPER encodes a complete value using one per-call change plan.
-func (v *SensorMeasConfigNameListComplete) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, "SensorMeasConfigNameListComplete")
-	}
-	return v.marshalAPERBudgetValue(budget, aper.EncodeWithoutReplay(options...))
-}
-func (v *SensorMeasConfigNameListComplete) marshalAPERBudgetValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
-	if v == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, "SensorMeasConfigNameListComplete")
-	}
-	fresh = fresh || v.withoutReplay
-	if !fresh && v.replay.Present() {
-		s := aper.NewSemanticComparison(v.replay, budget)
-		BridgeCompareS1APSensorMeasConfigNameListComplete(v, &s)
-		budget = s.BudgetValue()
-		decisions := s.Plan()
-		if s.Err() != nil {
-			return nil, aper.OperationError(s.Err(), "SensorMeasConfigNameListComplete")
-		}
-		if decisions.Unchanged(v.replay) && v.received {
-			out, err := aper.CopyReplay(v.receivedBytes, &budget)
-			return out, aper.OperationError(err, "SensorMeasConfigNameListComplete")
-		}
-		return v.marshalAPERChangedValue(budget, fresh, decisions)
-	}
-	return v.marshalAPERNewValue(budget, fresh)
-}
-func (v *SensorMeasConfigNameListComplete) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	out, err := v.marshalAPERPlanned(&budget, fresh, &plan)
-	return out, aper.OperationError(err, "SensorMeasConfigNameListComplete")
-}
-func (v *SensorMeasConfigNameListComplete) marshalAPERNewValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
-	out, err := v.marshalAPERPlanned(&budget, fresh, nil)
-	return out, aper.OperationError(err, "SensorMeasConfigNameListComplete")
-}
-func (v *SensorMeasConfigNameListComplete) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
-	if v == nil {
-		return nil, aper.ErrInvalidValue
-	}
-	fresh = fresh || v.withoutReplay
-	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
-	if !fresh && v.replay.Present() && plan == nil {
-		s := aper.NewSemanticComparison(v.replay, *budget)
-		BridgeCompareS1APSensorMeasConfigNameListComplete(v, &s)
-		decisions := s.Plan()
-		*budget = s.BudgetValue()
-		if s.Err() != nil {
-			return nil, s.Err()
-		}
-		if decisions.Unchanged(v.replay) && v.received {
-			return aper.CopyReplay(v.receivedBytes, budget)
-		}
-		return v.marshalAPERChanged(budget, fresh, decisions)
-	}
-	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
-		return aper.CopyReplay(v.receivedBytes, budget)
-	}
-	return v.marshalAPERPlanned(budget, fresh, plan)
-}
-func (v *SensorMeasConfigNameListComplete) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	return v.marshalAPERPlanned(budget, fresh, &plan)
-}
-func (v *SensorMeasConfigNameListComplete) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool, plan *aper.ReplayPlan) ([]byte, error) {
-	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
-	budget.SetReplayPlan(plan)
-	defer budget.SetReplayPlan(previous)
-	if fresh {
-		budget.SetReplayPlan(nil)
-	}
-	bb := aper.NewBudgetBuffer(budget)
-	if fresh {
-		copy := v.WithoutReplay()
-		v = &copy
-	}
-	if err := s30.BridgeMarshalAPERSensorMeasConfigNameListTo(v.Value, bb, fresh); err != nil {
-		return nil, err
-	}
-	return bb.CompleteBytesWithPadding(v.perPadding)
-}
-
-// MarshalAPER encodes a complete value using one per-call change plan.
-func (v *ServedDCNsComplete) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, "ServedDCNsComplete")
-	}
-	return v.marshalAPERBudgetValue(budget, aper.EncodeWithoutReplay(options...))
-}
-func (v *ServedDCNsComplete) marshalAPERBudgetValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
-	if v == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, "ServedDCNsComplete")
-	}
-	fresh = fresh || v.withoutReplay
-	if !fresh && v.replay.Present() {
-		s := aper.NewSemanticComparison(v.replay, budget)
-		BridgeCompareS1APServedDCNsComplete(v, &s)
-		budget = s.BudgetValue()
-		decisions := s.Plan()
-		if s.Err() != nil {
-			return nil, aper.OperationError(s.Err(), "ServedDCNsComplete")
-		}
-		if decisions.Unchanged(v.replay) && v.received {
-			out, err := aper.CopyReplay(v.receivedBytes, &budget)
-			return out, aper.OperationError(err, "ServedDCNsComplete")
-		}
-		return v.marshalAPERChangedValue(budget, fresh, decisions)
-	}
-	return v.marshalAPERNewValue(budget, fresh)
-}
-func (v *ServedDCNsComplete) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	out, err := v.marshalAPERPlanned(&budget, fresh, &plan)
-	return out, aper.OperationError(err, "ServedDCNsComplete")
-}
-func (v *ServedDCNsComplete) marshalAPERNewValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
-	out, err := v.marshalAPERPlanned(&budget, fresh, nil)
-	return out, aper.OperationError(err, "ServedDCNsComplete")
-}
-func (v *ServedDCNsComplete) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
-	if v == nil {
-		return nil, aper.ErrInvalidValue
-	}
-	fresh = fresh || v.withoutReplay
-	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
-	if !fresh && v.replay.Present() && plan == nil {
-		s := aper.NewSemanticComparison(v.replay, *budget)
-		BridgeCompareS1APServedDCNsComplete(v, &s)
-		decisions := s.Plan()
-		*budget = s.BudgetValue()
-		if s.Err() != nil {
-			return nil, s.Err()
-		}
-		if decisions.Unchanged(v.replay) && v.received {
-			return aper.CopyReplay(v.receivedBytes, budget)
-		}
-		return v.marshalAPERChanged(budget, fresh, decisions)
-	}
-	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
-		return aper.CopyReplay(v.receivedBytes, budget)
-	}
-	return v.marshalAPERPlanned(budget, fresh, plan)
-}
-func (v *ServedDCNsComplete) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	return v.marshalAPERPlanned(budget, fresh, &plan)
-}
-func (v *ServedDCNsComplete) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool, plan *aper.ReplayPlan) ([]byte, error) {
-	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
-	budget.SetReplayPlan(plan)
-	defer budget.SetReplayPlan(previous)
-	if fresh {
-		budget.SetReplayPlan(nil)
-	}
-	bb := aper.NewBudgetBuffer(budget)
-	if fresh {
-		copy := v.WithoutReplay()
-		v = &copy
-	}
-	if err := s30.BridgeMarshalAPERServedDCNsTo(v.Value, bb, fresh); err != nil {
-		return nil, err
-	}
-	return bb.CompleteBytesWithPadding(v.perPadding)
-}
-
 // UnmarshalAPER decodes one complete value and returns its report.
 func (v *HandoverRestrictionList) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
@@ -10219,59 +9866,6 @@ func (v *SecondaryRATDataUsageReportListComplete) UnmarshalAPER(data []byte, opt
 	return report, aper.OperationError(nil, "SecondaryRATDataUsageReportListComplete")
 }
 
-// UnmarshalAPER decodes one complete value and returns its report.
-func (v *SensorMeasConfigNameListComplete) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
-	if v == nil {
-		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "SensorMeasConfigNameListComplete")
-	}
-	data, state := aper.StartDecode(data, options...)
-	var decoded SensorMeasConfigNameListComplete
-	err := decoded.unmarshalAPERWithOptions(data, state)
-	if err == nil {
-		decoded.received = true
-		decoded.receivedAbsolute = true
-		decoded.receivedBytes = aper.OriginalWire(data)
-		s := aper.SemanticCaptureFor(state)
-		BridgeCaptureS1APSensorMeasConfigNameListComplete(&decoded, &s)
-	}
-	report, err := aper.FinishDecode(state, err)
-	if err != nil {
-		*v = SensorMeasConfigNameListComplete{}
-		return report, aper.OperationError(err, "SensorMeasConfigNameListComplete")
-	}
-	*v = decoded
-	return report, aper.OperationError(nil, "SensorMeasConfigNameListComplete")
-}
-
-// UnmarshalAPER decodes one complete value and returns its report.
-func (v *ServedDCNsComplete) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
-	if v == nil {
-		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "ServedDCNsComplete")
-	}
-	data, state := aper.StartDecode(data, options...)
-	var decoded ServedDCNsComplete
-	err := decoded.unmarshalAPERWithOptions(data, state)
-	if err == nil {
-		decoded.received = true
-		decoded.receivedAbsolute = true
-		decoded.receivedBytes = aper.OriginalWire(data)
-		s := aper.SemanticCaptureFor(state)
-		BridgeCaptureS1APServedDCNsComplete(&decoded, &s)
-	}
-	report, err := aper.FinishDecode(state, err)
-	if err != nil {
-		*v = ServedDCNsComplete{}
-		return report, aper.OperationError(err, "ServedDCNsComplete")
-	}
-	*v = decoded
-	return report, aper.OperationError(nil, "ServedDCNsComplete")
-}
-
-// MarshalAPERServedDCNs encodes a complete named list.
-func MarshalAPERServedDCNs(v ServedDCNsComplete, options ...aper.EncodeOption) ([]byte, error) {
-	return v.MarshalAPER(options...)
-}
-
 // MarshalAPERPWSfailedECGIList encodes a complete named list.
 func MarshalAPERPWSfailedECGIList(v PWSfailedECGIListComplete, options ...aper.EncodeOption) ([]byte, error) {
 	return v.MarshalAPER(options...)
@@ -10305,18 +9899,6 @@ func MarshalAPERRATRestrictions(v RATRestrictionsComplete, options ...aper.Encod
 // MarshalAPERSecondaryRATDataUsageReportList encodes a complete named list.
 func MarshalAPERSecondaryRATDataUsageReportList(v SecondaryRATDataUsageReportListComplete, options ...aper.EncodeOption) ([]byte, error) {
 	return v.MarshalAPER(options...)
-}
-
-// MarshalAPERSensorMeasConfigNameList encodes a complete named list.
-func MarshalAPERSensorMeasConfigNameList(v SensorMeasConfigNameListComplete, options ...aper.EncodeOption) ([]byte, error) {
-	return v.MarshalAPER(options...)
-}
-
-// UnmarshalAPERServedDCNs decodes a complete named list.
-func UnmarshalAPERServedDCNs(data []byte, options ...aper.DecodeOption) (ServedDCNsComplete, aper.DecodeReport, error) {
-	var v ServedDCNsComplete
-	report, err := v.UnmarshalAPER(data, options...)
-	return v, report, err
 }
 
 // UnmarshalAPERPWSfailedECGIList decodes a complete named list.
@@ -10364,13 +9946,6 @@ func UnmarshalAPERRATRestrictions(data []byte, options ...aper.DecodeOption) (RA
 // UnmarshalAPERSecondaryRATDataUsageReportList decodes a complete named list.
 func UnmarshalAPERSecondaryRATDataUsageReportList(data []byte, options ...aper.DecodeOption) (SecondaryRATDataUsageReportListComplete, aper.DecodeReport, error) {
 	var v SecondaryRATDataUsageReportListComplete
-	report, err := v.UnmarshalAPER(data, options...)
-	return v, report, err
-}
-
-// UnmarshalAPERSensorMeasConfigNameList decodes a complete named list.
-func UnmarshalAPERSensorMeasConfigNameList(data []byte, options ...aper.DecodeOption) (SensorMeasConfigNameListComplete, aper.DecodeReport, error) {
-	var v SensorMeasConfigNameListComplete
 	report, err := v.UnmarshalAPER(data, options...)
 	return v, report, err
 }
@@ -10564,6 +10139,7 @@ func (v *UEContextReleaseRequest) unmarshalAPERWithOptions(data []byte, options 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextReleaseRequest")
 	}
+	bb.EnterComponent("UEContextReleaseRequest")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextReleaseRequest")
 	}
@@ -10587,6 +10163,7 @@ func (v *UEContextReleaseRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(UEContextReleaseRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10595,9 +10172,11 @@ func (v *UEContextReleaseRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem UEContextReleaseRequestIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -10609,6 +10188,7 @@ func (v *UEContextReleaseRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -10796,6 +10376,7 @@ func (v *DownlinkNASTransport) unmarshalAPERWithOptions(data []byte, options ape
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkNASTransport")
 	}
+	bb.EnterComponent("DownlinkNASTransport")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkNASTransport")
 	}
@@ -10819,6 +10400,7 @@ func (v *DownlinkNASTransport) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(DownlinkNASTransportIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10827,9 +10409,11 @@ func (v *DownlinkNASTransport) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem DownlinkNASTransportIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -10841,6 +10425,7 @@ func (v *DownlinkNASTransport) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -11028,6 +10613,7 @@ func (v *PWSFailureIndication) unmarshalAPERWithOptions(data []byte, options ape
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PWSFailureIndication")
 	}
+	bb.EnterComponent("PWSFailureIndication")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PWSFailureIndication")
 	}
@@ -11051,6 +10637,7 @@ func (v *PWSFailureIndication) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(PWSFailureIndicationIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -11059,9 +10646,11 @@ func (v *PWSFailureIndication) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem PWSFailureIndicationIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -11073,6 +10662,7 @@ func (v *PWSFailureIndication) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -11674,6 +11264,7 @@ func (v *RequestedCellListComplete) unmarshalAPERWithOptions(data []byte, option
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RequestedCellList")
 	}
+	bb.EnterComponent("RequestedCellList")
 	value, err := BridgeUnmarshalAPERRequestedCellListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "RequestedCellList")
@@ -11713,6 +11304,7 @@ func BridgeUnmarshalAPERRequestedCellListFrom(bb *aper.BitBuffer) (s20.Requested
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERRequestedCellListInto(v *s21.BridgeAsn1cAPERRequestedCellListListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s20.RequestedCellList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -11721,9 +11313,11 @@ func BridgeUnmarshalAPERRequestedCellListInto(v *s21.BridgeAsn1cAPERRequestedCel
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s18.IRATCellID
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s18.BridgeIRATCellIDMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -11735,6 +11329,7 @@ func BridgeUnmarshalAPERRequestedCellListInto(v *s21.BridgeAsn1cAPERRequestedCel
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -11774,6 +11369,7 @@ func (v *ReportingCellListComplete) unmarshalAPERWithOptions(data []byte, option
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ReportingCellList")
 	}
+	bb.EnterComponent("ReportingCellList")
 	value, err := BridgeUnmarshalAPERReportingCellListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ReportingCellList")
@@ -11842,6 +11438,69 @@ func BridgeUnmarshalAPERReportingCellListInto(v *s21.BridgeAsn1cAPERReportingCel
 	return nil
 }
 
+// MultiCellLoadReportingResponseComplete carries a complete MultiCellLoadReportingResponse encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type MultiCellLoadReportingResponseComplete struct {
+	replay           aper.Snapshot
+	stream           aper.WireSpan
+	received         bool
+	withoutReplay    bool
+	receivedAbsolute bool
+	receivedBytes    aper.WireSpan
+	receivedLocation aper.Location
+	Value            s19.MultiCellLoadReportingResponse
+	perPadding       aper.CompletePadding `json:"-"`
+}
+
+func (v *MultiCellLoadReportingResponseComplete) marshalAPERLegacy() ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := s25.BridgeMarshalAPERMultiCellLoadReportingResponseTo(v.Value, bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithPadding(v.perPadding)
+}
+
+// UnmarshalAPER decodes MultiCellLoadReportingResponse from APER format.
+func (v *MultiCellLoadReportingResponseComplete) unmarshalAPERLegacy(data []byte) error {
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
+}
+
+// UnmarshalAPERWithOptions decodes MultiCellLoadReportingResponse with explicit receiver options:
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *MultiCellLoadReportingResponseComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "MultiCellLoadReportingResponse")
+	}
+	bb.EnterComponent("MultiCellLoadReportingResponse")
+	value, err := s41.BridgeUnmarshalAPERMultiCellLoadReportingResponseFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MultiCellLoadReportingResponse")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "MultiCellLoadReportingResponse")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MultiCellLoadReportingResponse")
+	}
+	v.Value, v.perPadding = value, padding.Padding()
+	return nil
+}
+
+// MarshalAPERMultiCellLoadReportingResponse encodes a MultiCellLoadReportingResponse list to APER.
+func BridgeMarshalAPERMultiCellLoadReportingResponse(list MultiCellLoadReportingResponseComplete) ([]byte, error) {
+	return list.marshalAPERLegacy()
+}
+
+// UnmarshalAPERMultiCellLoadReportingResponse decodes a MultiCellLoadReportingResponse list from APER.
+func BridgeUnmarshalAPERMultiCellLoadReportingResponse(data []byte) (MultiCellLoadReportingResponseComplete, error) {
+	var value MultiCellLoadReportingResponseComplete
+	if err := value.unmarshalAPERLegacy(data); err != nil {
+		return value, err
+	}
+	return value, nil
+}
+
 // NotificationCellListComplete carries a complete NotificationCellList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type NotificationCellListComplete struct {
@@ -11878,6 +11537,7 @@ func (v *NotificationCellListComplete) unmarshalAPERWithOptions(data []byte, opt
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "NotificationCellList")
 	}
+	bb.EnterComponent("NotificationCellList")
 	value, err := BridgeUnmarshalAPERNotificationCellListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NotificationCellList")
@@ -11911,10 +11571,62 @@ func BridgeUnmarshalAPERNotificationCellListFrom(bb *aper.BitBuffer) (s19.Notifi
 	}
 	defer bb.LeaveDecodeValue()
 	var v s21.BridgeAsn1cAPERNotificationCellListListValue
-	if err := s41.BridgeUnmarshalAPERNotificationCellListInto(&v, bb); err != nil {
+	if err := BridgeUnmarshalAPERNotificationCellListInto(&v, bb); err != nil {
 		return nil, err
 	}
 	return v.Value, nil
+}
+func BridgeUnmarshalAPERNotificationCellListInto(v *s21.BridgeAsn1cAPERNotificationCellListListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
+	v.Value = make(s19.NotificationCellList, 0)
+	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem s19.NotificationCellListItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
+			if err := s19.BridgeNotificationCellListItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+			}
+			bb.LeaveComponent(elementMark)
+			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
+				return err
+			} else {
+				v.Value = next
+			}
+		}
+		return nil
+	})
+	if errCollection_value != nil {
+		return runtime.WrapDecodePath(errCollection_value, "Value")
+	}
+	bb.LeaveComponent(toleranceMark_value)
+	return nil
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *MultiCellLoadReportingResponseComplete) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s14.BridgeReceivedFormAt(v.received, v.receivedBytes, "MultiCellLoadReportingResponseComplete", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "MultiCellLoadReportingResponseComplete", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v MultiCellLoadReportingResponseComplete) WithoutReplay() MultiCellLoadReportingResponseComplete {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero MultiCellLoadReportingResponseComplete
+	v.perPadding = zero.perPadding
+	return v
 }
 
 // ReceivedForm returns an owned view of the complete value's original bytes.
@@ -11984,6 +11696,88 @@ func (v RequestedCellListComplete) WithoutReplay() RequestedCellListComplete {
 	var zero RequestedCellListComplete
 	v.perPadding = zero.perPadding
 	return v
+}
+
+// MarshalAPER encodes a complete value using one per-call change plan.
+func (v *MultiCellLoadReportingResponseComplete) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "MultiCellLoadReportingResponseComplete")
+	}
+	return v.marshalAPERBudgetValue(budget, aper.EncodeWithoutReplay(options...))
+}
+func (v *MultiCellLoadReportingResponseComplete) marshalAPERBudgetValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "MultiCellLoadReportingResponseComplete")
+	}
+	fresh = fresh || v.withoutReplay
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		BridgeCompareS1APMultiCellLoadReportingResponseComplete(v, &s)
+		budget = s.BudgetValue()
+		decisions := s.Plan()
+		if s.Err() != nil {
+			return nil, aper.OperationError(s.Err(), "MultiCellLoadReportingResponseComplete")
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			out, err := aper.CopyReplay(v.receivedBytes, &budget)
+			return out, aper.OperationError(err, "MultiCellLoadReportingResponseComplete")
+		}
+		return v.marshalAPERChangedValue(budget, fresh, decisions)
+	}
+	return v.marshalAPERNewValue(budget, fresh)
+}
+func (v *MultiCellLoadReportingResponseComplete) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	out, err := v.marshalAPERPlanned(&budget, fresh, &plan)
+	return out, aper.OperationError(err, "MultiCellLoadReportingResponseComplete")
+}
+func (v *MultiCellLoadReportingResponseComplete) marshalAPERNewValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
+	out, err := v.marshalAPERPlanned(&budget, fresh, nil)
+	return out, aper.OperationError(err, "MultiCellLoadReportingResponseComplete")
+}
+func (v *MultiCellLoadReportingResponseComplete) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		BridgeCompareS1APMultiCellLoadReportingResponseComplete(v, &s)
+		decisions := s.Plan()
+		*budget = s.BudgetValue()
+		if s.Err() != nil {
+			return nil, s.Err()
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return aper.CopyReplay(v.receivedBytes, budget)
+		}
+		return v.marshalAPERChanged(budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return aper.CopyReplay(v.receivedBytes, budget)
+	}
+	return v.marshalAPERPlanned(budget, fresh, plan)
+}
+func (v *MultiCellLoadReportingResponseComplete) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERPlanned(budget, fresh, &plan)
+}
+func (v *MultiCellLoadReportingResponseComplete) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool, plan *aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
+	budget.SetReplayPlan(plan)
+	defer budget.SetReplayPlan(previous)
+	if fresh {
+		budget.SetReplayPlan(nil)
+	}
+	bb := aper.NewBudgetBuffer(budget)
+	if fresh {
+		copy := v.WithoutReplay()
+		v = &copy
+	}
+	if err := s25.BridgeMarshalAPERMultiCellLoadReportingResponseTo(v.Value, bb, fresh); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithPadding(v.perPadding)
 }
 
 // MarshalAPER encodes a complete value using one per-call change plan.
@@ -12233,6 +12027,30 @@ func (v *RequestedCellListComplete) marshalAPERPlanned(budget *aper.DecodeBudget
 }
 
 // UnmarshalAPER decodes one complete value and returns its report.
+func (v *MultiCellLoadReportingResponseComplete) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "MultiCellLoadReportingResponseComplete")
+	}
+	data, state := aper.StartDecode(data, options...)
+	var decoded MultiCellLoadReportingResponseComplete
+	err := decoded.unmarshalAPERWithOptions(data, state)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(state)
+		BridgeCaptureS1APMultiCellLoadReportingResponseComplete(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(state, err)
+	if err != nil {
+		*v = MultiCellLoadReportingResponseComplete{}
+		return report, aper.OperationError(err, "MultiCellLoadReportingResponseComplete")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "MultiCellLoadReportingResponseComplete")
+}
+
+// UnmarshalAPER decodes one complete value and returns its report.
 func (v *NotificationCellListComplete) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
 		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "NotificationCellListComplete")
@@ -12314,6 +12132,11 @@ func MarshalAPERReportingCellList(v ReportingCellListComplete, options ...aper.E
 	return v.MarshalAPER(options...)
 }
 
+// MarshalAPERMultiCellLoadReportingResponse encodes a complete named list.
+func MarshalAPERMultiCellLoadReportingResponse(v MultiCellLoadReportingResponseComplete, options ...aper.EncodeOption) ([]byte, error) {
+	return v.MarshalAPER(options...)
+}
+
 // MarshalAPERNotificationCellList encodes a complete named list.
 func MarshalAPERNotificationCellList(v NotificationCellListComplete, options ...aper.EncodeOption) ([]byte, error) {
 	return v.MarshalAPER(options...)
@@ -12329,6 +12152,13 @@ func UnmarshalAPERRequestedCellList(data []byte, options ...aper.DecodeOption) (
 // UnmarshalAPERReportingCellList decodes a complete named list.
 func UnmarshalAPERReportingCellList(data []byte, options ...aper.DecodeOption) (ReportingCellListComplete, aper.DecodeReport, error) {
 	var v ReportingCellListComplete
+	report, err := v.UnmarshalAPER(data, options...)
+	return v, report, err
+}
+
+// UnmarshalAPERMultiCellLoadReportingResponse decodes a complete named list.
+func UnmarshalAPERMultiCellLoadReportingResponse(data []byte, options ...aper.DecodeOption) (MultiCellLoadReportingResponseComplete, aper.DecodeReport, error) {
+	var v MultiCellLoadReportingResponseComplete
 	report, err := v.UnmarshalAPER(data, options...)
 	return v, report, err
 }
@@ -16768,6 +16598,7 @@ func (t HandoverRestrictionListExtIETable) NRrestrictioninEPSasSecondaryRAT() Ha
 				var empty s00.NRrestrictioninEPSasSecondaryRAT
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NRrestrictioninEPSasSecondaryRAT")
 			var zero HandoverRestrictionListExtIEsValue
 			decoded, err := zero.decode(s00.ProtocolIEID(261), raw)
 			if err != nil {
@@ -16837,6 +16668,7 @@ func (t HandoverRestrictionListExtIETable) UnlicensedSpectrumRestriction() Hando
 				var empty s00.UnlicensedSpectrumRestriction
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UnlicensedSpectrumRestriction")
 			var zero HandoverRestrictionListExtIEsValue
 			decoded, err := zero.decode(s00.ProtocolIEID(270), raw)
 			if err != nil {
@@ -16907,6 +16739,7 @@ func (t HandoverRestrictionListExtIETable) CNTypeRestrictions() HandoverRestrict
 				var empty s14.CNTypeRestrictions
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CNTypeRestrictions")
 			var zero HandoverRestrictionListExtIEsValue
 			decoded, err := zero.decode(s00.ProtocolIEID(282), raw)
 			if err != nil {
@@ -16937,7 +16770,7 @@ func (t HandoverRestrictionListExtIETable) CNTypeRestrictions() HandoverRestrict
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
-			s21.BridgeCompareS1APCNTypeRestrictions(&v, &s)
+			s22.BridgeCompareS1APCNTypeRestrictions(&v, &s)
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -16974,6 +16807,7 @@ func (t HandoverRestrictionListExtIETable) NRrestrictionin5GS() HandoverRestrict
 				var empty s00.NRrestrictionin5GS
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NRrestrictionin5GS")
 			var zero HandoverRestrictionListExtIEsValue
 			decoded, err := zero.decode(s00.ProtocolIEID(287), raw)
 			if err != nil {
@@ -17041,6 +16875,7 @@ func (t HandoverRestrictionListExtIETable) LastNGRANPLMNIdentity() HandoverRestr
 				var empty s00.PLMNidentity
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("PLMNidentity")
 			var zero HandoverRestrictionListExtIEsValue
 			decoded, err := zero.decode(s00.ProtocolIEID(290), raw)
 			if err != nil {
@@ -17107,6 +16942,7 @@ func (t HandoverRestrictionListExtIETable) RATRestrictions() HandoverRestriction
 				var empty s20.RATRestrictions
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("RATRestrictions")
 			var zero HandoverRestrictionListExtIEsValue
 			decoded, err := zero.decode(s00.ProtocolIEID(336), raw)
 			if err != nil {
@@ -17225,6 +17061,7 @@ func (t DownlinkNASTransportIETable) MMEUES1APID() DownlinkNASTransportMMEUES1AP
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -17289,6 +17126,7 @@ func (t DownlinkNASTransportIETable) ENBUES1APID() DownlinkNASTransportENBUES1AP
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -17353,6 +17191,7 @@ func (t DownlinkNASTransportIETable) NASPDU() DownlinkNASTransportNASPDUIEBindin
 				var empty s00.NASPDU
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NASPDU")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(26), raw)
 			if err != nil {
@@ -17415,6 +17254,7 @@ func (t DownlinkNASTransportIETable) HandoverRestrictionList() DownlinkNASTransp
 				var empty HandoverRestrictionList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("HandoverRestrictionList")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(41), raw)
 			if err != nil {
@@ -17481,6 +17321,7 @@ func (t DownlinkNASTransportIETable) SubscriberProfileIDforRFP() DownlinkNASTran
 				var empty s00.SubscriberProfileIDforRFP
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SubscriberProfileIDforRFP")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(106), raw)
 			if err != nil {
@@ -17551,6 +17392,7 @@ func (t DownlinkNASTransportIETable) SRVCCOperationPossible() DownlinkNASTranspo
 				var empty s00.SRVCCOperationPossible
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SRVCCOperationPossible")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(124), raw)
 			if err != nil {
@@ -17619,6 +17461,7 @@ func (t DownlinkNASTransportIETable) UERadioCapability() DownlinkNASTransportUER
 				var empty s00.UERadioCapability
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UERadioCapability")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(74), raw)
 			if err != nil {
@@ -17686,6 +17529,7 @@ func (t DownlinkNASTransportIETable) DLNASPDUDeliveryAckRequest() DownlinkNASTra
 				var empty s00.DLNASPDUDeliveryAckRequest
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("DLNASPDUDeliveryAckRequest")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(249), raw)
 			if err != nil {
@@ -17756,6 +17600,7 @@ func (t DownlinkNASTransportIETable) EnhancedCoverageRestricted() DownlinkNASTra
 				var empty s00.EnhancedCoverageRestricted
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("EnhancedCoverageRestricted")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(251), raw)
 			if err != nil {
@@ -17826,6 +17671,7 @@ func (t DownlinkNASTransportIETable) NRUESecurityCapabilities() DownlinkNASTrans
 				var empty s19.NRUESecurityCapabilities
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NRUESecurityCapabilities")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(269), raw)
 			if err != nil {
@@ -17897,6 +17743,7 @@ func (t DownlinkNASTransportIETable) CEModeBRestricted() DownlinkNASTransportCEM
 				var empty s00.CEModeBRestricted
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CEModeBRestricted")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(271), raw)
 			if err != nil {
@@ -17964,6 +17811,7 @@ func (t DownlinkNASTransportIETable) UECapabilityInfoRequest() DownlinkNASTransp
 				var empty s00.UECapabilityInfoRequest
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UECapabilityInfoRequest")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(275), raw)
 			if err != nil {
@@ -18035,6 +17883,7 @@ func (t DownlinkNASTransportIETable) EndIndication() DownlinkNASTransportEndIndi
 				var empty s00.EndIndication
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("EndIndication")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(280), raw)
 			if err != nil {
@@ -18099,6 +17948,7 @@ func (t DownlinkNASTransportIETable) PendingDataIndication() DownlinkNASTranspor
 				var empty s00.PendingDataIndication
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("PendingDataIndication")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(283), raw)
 			if err != nil {
@@ -18168,6 +18018,7 @@ func (t DownlinkNASTransportIETable) SubscriptionBasedUEDifferentiationInfo() Do
 				var empty s30.SubscriptionBasedUEDifferentiationInfo
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SubscriptionBasedUEDifferentiationInfo")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(278), raw)
 			if err != nil {
@@ -18236,6 +18087,7 @@ func (t DownlinkNASTransportIETable) AdditionalRRMPriorityIndex() DownlinkNASTra
 				var empty s00.AdditionalRRMPriorityIndex
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("AdditionalRRMPriorityIndex")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(299), raw)
 			if err != nil {
@@ -18306,6 +18158,7 @@ func (t DownlinkNASTransportIETable) UERadioCapabilityID() DownlinkNASTransportU
 				var empty s00.UERadioCapabilityID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UERadioCapabilityID")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(314), raw)
 			if err != nil {
@@ -18372,6 +18225,7 @@ func (t DownlinkNASTransportIETable) MaskedIMEISV() DownlinkNASTransportMaskedIM
 				var empty s00.MaskedIMEISV
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MaskedIMEISV")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(192), raw)
 			if err != nil {
@@ -18436,6 +18290,7 @@ func (t DownlinkNASTransportIETable) CoarseUELocation() DownlinkNASTransportCoar
 				var empty s00.CoarseUELocation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CoarseUELocation")
 			var zero DownlinkNASTransportIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(354), raw)
 			if err != nil {
@@ -18581,6 +18436,7 @@ func (t PWSFailureIndicationIETable) PWSfailedECGIList() PWSFailureIndicationPWS
 				var empty s20.PWSfailedECGIList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("PWSfailedECGIList")
 			var zero PWSFailureIndicationIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(222), raw)
 			if err != nil {
@@ -18648,6 +18504,7 @@ func (t PWSFailureIndicationIETable) GlobalENBID() PWSFailureIndicationGlobalENB
 				var empty s18.GlobalENBID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("GlobalENBID")
 			var zero PWSFailureIndicationIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(59), raw)
 			if err != nil {
@@ -18759,6 +18616,7 @@ func (t UEContextReleaseRequestIETable) MMEUES1APID() UEContextReleaseRequestMME
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero UEContextReleaseRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -18823,6 +18681,7 @@ func (t UEContextReleaseRequestIETable) ENBUES1APID() UEContextReleaseRequestENB
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero UEContextReleaseRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -18887,6 +18746,7 @@ func (t UEContextReleaseRequestIETable) Cause() UEContextReleaseRequestCauseIEBi
 				var empty s14.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero UEContextReleaseRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -18951,6 +18811,7 @@ func (t UEContextReleaseRequestIETable) GWContextReleaseIndication() UEContextRe
 				var empty s00.GWContextReleaseIndication
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("GWContextReleaseIndication")
 			var zero UEContextReleaseRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(164), raw)
 			if err != nil {
@@ -19021,6 +18882,7 @@ func (t UEContextReleaseRequestIETable) SecondaryRATDataUsageReportList() UECont
 				var empty s28.SecondaryRATDataUsageReportList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SecondaryRATDataUsageReportList")
 			var zero UEContextReleaseRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(264), raw)
 			if err != nil {
@@ -19123,6 +18985,53 @@ func GlobalENBIDCodec() s18.GlobalENBIDValueCodec {
 // HandoverRestrictionListCodec binds the complete APER value type.
 func HandoverRestrictionListCodec() HandoverRestrictionListValueCodec {
 	return DownlinkNASTransportIEs().HandoverRestrictionList().Codec()
+}
+
+// MultiCellLoadReportingResponseCodec binds the complete source value type.
+func MultiCellLoadReportingResponseCodec() s19.MultiCellLoadReportingResponseValueCodec {
+	return func() s19.MultiCellLoadReportingResponseValueCodec {
+		sealed := s19.MultiCellLoadReportingResponseValueCodec{}
+		*s19.BridgeMultiCellLoadReportingResponseValueCodecFieldPath(&sealed) = "MultiCellLoadReportingResponse"
+		*s19.BridgeMultiCellLoadReportingResponseValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s19.MultiCellLoadReportingResponse, error) {
+			var complete MultiCellLoadReportingResponseComplete
+			if err := complete.unmarshalAPERWithOptions(data, options); err != nil {
+				var zero s19.MultiCellLoadReportingResponse
+				return zero, err
+			}
+			return complete.Value, nil
+		}
+		*s19.BridgeMultiCellLoadReportingResponseValueCodecFieldEncode(&sealed) = func(value s19.MultiCellLoadReportingResponse, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			complete := MultiCellLoadReportingResponseComplete{Value: value}
+			return complete.marshalAPERBudget(budget, fresh)
+		}
+		*s19.BridgeMultiCellLoadReportingResponseValueCodecFieldCapture(&sealed) = func(v s19.MultiCellLoadReportingResponse, options aper.DecodeState) (s19.MultiCellLoadReportingResponse, aper.Snapshot) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			s21.BridgeCaptureS1APMultiCellLoadReportingResponse(&v, &s)
+			var root aper.Snapshot
+
+			s.End(f, &root, false)
+			return v, root
+		}
+		*s19.BridgeMultiCellLoadReportingResponseValueCodecFieldCompare(&sealed) = func(v s19.MultiCellLoadReportingResponse, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f :=
+				s.Begin()
+			s24.BridgeCompareS1APMultiCellLoadReportingResponse(&v, &s)
+			s.
+				End(f, root, false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s19.BridgeMultiCellLoadReportingResponseValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:MultiCellLoadReportingResponse"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}()
+		return sealed
+	}()
+
 }
 
 // NASPDUCodec binds the complete APER value type.
@@ -19481,56 +19390,6 @@ func RequestedCellListCodec() s20.RequestedCellListValueCodec {
 // SRVCCOperationPossibleCodec binds the complete APER value type.
 func SRVCCOperationPossibleCodec() s01.SRVCCOperationPossibleValueCodec {
 	return DownlinkNASTransportIEs().SRVCCOperationPossible().Codec()
-}
-
-// SensorMeasConfigNameListCodec binds the complete source value type.
-func SensorMeasConfigNameListCodec() s30.SensorMeasConfigNameListValueCodec {
-	return func() s30.SensorMeasConfigNameListValueCodec {
-		sealed := s30.SensorMeasConfigNameListValueCodec{}
-		*s30.BridgeSensorMeasConfigNameListValueCodecFieldPath(&sealed) = "SensorMeasConfigNameList"
-		*s30.BridgeSensorMeasConfigNameListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s30.SensorMeasConfigNameList, error) {
-			var complete SensorMeasConfigNameListComplete
-			if err := complete.unmarshalAPERWithOptions(data, options); err != nil {
-				var zero s30.SensorMeasConfigNameList
-				return zero, err
-			}
-			return complete.Value, nil
-		}
-		*s30.BridgeSensorMeasConfigNameListValueCodecFieldEncode(&sealed) = func(value s30.SensorMeasConfigNameList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			complete := SensorMeasConfigNameListComplete{Value: value}
-			return complete.marshalAPERBudget(budget, fresh)
-		}
-		*s30.BridgeSensorMeasConfigNameListValueCodecFieldCapture(&sealed) = func(v s30.SensorMeasConfigNameList, options aper.DecodeState) (s30.SensorMeasConfigNameList, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s30.BridgeCaptureS1APSensorMeasConfigNameList(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root,
-
-				false)
-			return v, root
-		}
-		*s30.BridgeSensorMeasConfigNameListValueCodecFieldCompare(&sealed) = func(v s30.SensorMeasConfigNameList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s30.BridgeCompareS1APSensorMeasConfigNameList(&v, &s)
-			s.End(f, root,
-
-				false,
-			)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s30.BridgeSensorMeasConfigNameListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:SensorMeasConfigNameList"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
 }
 
 // SubscriberProfileIDforRFPCodec binds the complete APER value type.
@@ -20604,6 +20463,57 @@ func BridgeHandoverRestrictionListValueCodecMethodEncodeBudgetValue(v HandoverRe
 func BridgeHandoverRestrictionListValueCodecMethodEncodeChanged(v HandoverRestrictionListValueCodec, a0 HandoverRestrictionList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
+func BridgeMultiCellLoadReportingResponseCompleteFieldPerPadding(v *MultiCellLoadReportingResponseComplete) *aper.CompletePadding {
+	return &v.perPadding
+}
+func BridgeMultiCellLoadReportingResponseCompleteFieldReceived(v *MultiCellLoadReportingResponseComplete) *bool {
+	return &v.received
+}
+func BridgeMultiCellLoadReportingResponseCompleteFieldReceivedAbsolute(v *MultiCellLoadReportingResponseComplete) *bool {
+	return &v.receivedAbsolute
+}
+func BridgeMultiCellLoadReportingResponseCompleteFieldReceivedBytes(v *MultiCellLoadReportingResponseComplete) *aper.WireSpan {
+	return &v.receivedBytes
+}
+func BridgeMultiCellLoadReportingResponseCompleteFieldReceivedLocation(v *MultiCellLoadReportingResponseComplete) *aper.Location {
+	return &v.receivedLocation
+}
+func BridgeMultiCellLoadReportingResponseCompleteFieldReplay(v *MultiCellLoadReportingResponseComplete) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeMultiCellLoadReportingResponseCompleteFieldStream(v *MultiCellLoadReportingResponseComplete) *aper.WireSpan {
+	return &v.stream
+}
+func BridgeMultiCellLoadReportingResponseCompleteFieldWithoutReplay(v *MultiCellLoadReportingResponseComplete) *bool {
+	return &v.withoutReplay
+}
+func BridgeMultiCellLoadReportingResponseCompleteMethodMarshalAPERBudget(v *MultiCellLoadReportingResponseComplete, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERBudget(a0, a1)
+}
+func BridgeMultiCellLoadReportingResponseCompleteMethodMarshalAPERBudgetValue(v *MultiCellLoadReportingResponseComplete, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERBudgetValue(a0, a1)
+}
+func BridgeMultiCellLoadReportingResponseCompleteMethodMarshalAPERChanged(v *MultiCellLoadReportingResponseComplete, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChanged(a0, a1, a2)
+}
+func BridgeMultiCellLoadReportingResponseCompleteMethodMarshalAPERChangedValue(v *MultiCellLoadReportingResponseComplete, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChangedValue(a0, a1, a2)
+}
+func BridgeMultiCellLoadReportingResponseCompleteMethodMarshalAPERLegacy(v *MultiCellLoadReportingResponseComplete) ([]byte, error) {
+	return v.marshalAPERLegacy()
+}
+func BridgeMultiCellLoadReportingResponseCompleteMethodMarshalAPERNewValue(v *MultiCellLoadReportingResponseComplete, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERNewValue(a0, a1)
+}
+func BridgeMultiCellLoadReportingResponseCompleteMethodMarshalAPERPlanned(v *MultiCellLoadReportingResponseComplete, a0 *aper.DecodeBudget, a1 bool, a2 *aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERPlanned(a0, a1, a2)
+}
+func BridgeMultiCellLoadReportingResponseCompleteMethodUnmarshalAPERLegacy(v *MultiCellLoadReportingResponseComplete, a0 []byte) error {
+	return v.unmarshalAPERLegacy(a0)
+}
+func BridgeMultiCellLoadReportingResponseCompleteMethodUnmarshalAPERWithOptions(v *MultiCellLoadReportingResponseComplete, a0 []byte, a1 aper.DecodeState) error {
+	return v.unmarshalAPERWithOptions(a0, a1)
+}
 func BridgeNotificationCellListCompleteFieldPerPadding(v *NotificationCellListComplete) *aper.CompletePadding {
 	return &v.perPadding
 }
@@ -21481,100 +21391,6 @@ func BridgeSecondaryRATDataUsageReportListCompleteMethodUnmarshalAPERLegacy(v *S
 	return v.unmarshalAPERLegacy(a0)
 }
 func BridgeSecondaryRATDataUsageReportListCompleteMethodUnmarshalAPERWithOptions(v *SecondaryRATDataUsageReportListComplete, a0 []byte, a1 aper.DecodeState) error {
-	return v.unmarshalAPERWithOptions(a0, a1)
-}
-func BridgeSensorMeasConfigNameListCompleteFieldPerPadding(v *SensorMeasConfigNameListComplete) *aper.CompletePadding {
-	return &v.perPadding
-}
-func BridgeSensorMeasConfigNameListCompleteFieldReceived(v *SensorMeasConfigNameListComplete) *bool {
-	return &v.received
-}
-func BridgeSensorMeasConfigNameListCompleteFieldReceivedAbsolute(v *SensorMeasConfigNameListComplete) *bool {
-	return &v.receivedAbsolute
-}
-func BridgeSensorMeasConfigNameListCompleteFieldReceivedBytes(v *SensorMeasConfigNameListComplete) *aper.WireSpan {
-	return &v.receivedBytes
-}
-func BridgeSensorMeasConfigNameListCompleteFieldReceivedLocation(v *SensorMeasConfigNameListComplete) *aper.Location {
-	return &v.receivedLocation
-}
-func BridgeSensorMeasConfigNameListCompleteFieldReplay(v *SensorMeasConfigNameListComplete) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeSensorMeasConfigNameListCompleteFieldStream(v *SensorMeasConfigNameListComplete) *aper.WireSpan {
-	return &v.stream
-}
-func BridgeSensorMeasConfigNameListCompleteFieldWithoutReplay(v *SensorMeasConfigNameListComplete) *bool {
-	return &v.withoutReplay
-}
-func BridgeSensorMeasConfigNameListCompleteMethodMarshalAPERBudget(v *SensorMeasConfigNameListComplete, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
-	return v.marshalAPERBudget(a0, a1)
-}
-func BridgeSensorMeasConfigNameListCompleteMethodMarshalAPERBudgetValue(v *SensorMeasConfigNameListComplete, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
-	return v.marshalAPERBudgetValue(a0, a1)
-}
-func BridgeSensorMeasConfigNameListCompleteMethodMarshalAPERChanged(v *SensorMeasConfigNameListComplete, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
-	return v.marshalAPERChanged(a0, a1, a2)
-}
-func BridgeSensorMeasConfigNameListCompleteMethodMarshalAPERChangedValue(v *SensorMeasConfigNameListComplete, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
-	return v.marshalAPERChangedValue(a0, a1, a2)
-}
-func BridgeSensorMeasConfigNameListCompleteMethodMarshalAPERLegacy(v *SensorMeasConfigNameListComplete) ([]byte, error) {
-	return v.marshalAPERLegacy()
-}
-func BridgeSensorMeasConfigNameListCompleteMethodMarshalAPERNewValue(v *SensorMeasConfigNameListComplete, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
-	return v.marshalAPERNewValue(a0, a1)
-}
-func BridgeSensorMeasConfigNameListCompleteMethodMarshalAPERPlanned(v *SensorMeasConfigNameListComplete, a0 *aper.DecodeBudget, a1 bool, a2 *aper.ReplayPlan) ([]byte, error) {
-	return v.marshalAPERPlanned(a0, a1, a2)
-}
-func BridgeSensorMeasConfigNameListCompleteMethodUnmarshalAPERLegacy(v *SensorMeasConfigNameListComplete, a0 []byte) error {
-	return v.unmarshalAPERLegacy(a0)
-}
-func BridgeSensorMeasConfigNameListCompleteMethodUnmarshalAPERWithOptions(v *SensorMeasConfigNameListComplete, a0 []byte, a1 aper.DecodeState) error {
-	return v.unmarshalAPERWithOptions(a0, a1)
-}
-func BridgeServedDCNsCompleteFieldPerPadding(v *ServedDCNsComplete) *aper.CompletePadding {
-	return &v.perPadding
-}
-func BridgeServedDCNsCompleteFieldReceived(v *ServedDCNsComplete) *bool { return &v.received }
-func BridgeServedDCNsCompleteFieldReceivedAbsolute(v *ServedDCNsComplete) *bool {
-	return &v.receivedAbsolute
-}
-func BridgeServedDCNsCompleteFieldReceivedBytes(v *ServedDCNsComplete) *aper.WireSpan {
-	return &v.receivedBytes
-}
-func BridgeServedDCNsCompleteFieldReceivedLocation(v *ServedDCNsComplete) *aper.Location {
-	return &v.receivedLocation
-}
-func BridgeServedDCNsCompleteFieldReplay(v *ServedDCNsComplete) *aper.Snapshot { return &v.replay }
-func BridgeServedDCNsCompleteFieldStream(v *ServedDCNsComplete) *aper.WireSpan { return &v.stream }
-func BridgeServedDCNsCompleteFieldWithoutReplay(v *ServedDCNsComplete) *bool   { return &v.withoutReplay }
-func BridgeServedDCNsCompleteMethodMarshalAPERBudget(v *ServedDCNsComplete, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
-	return v.marshalAPERBudget(a0, a1)
-}
-func BridgeServedDCNsCompleteMethodMarshalAPERBudgetValue(v *ServedDCNsComplete, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
-	return v.marshalAPERBudgetValue(a0, a1)
-}
-func BridgeServedDCNsCompleteMethodMarshalAPERChanged(v *ServedDCNsComplete, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
-	return v.marshalAPERChanged(a0, a1, a2)
-}
-func BridgeServedDCNsCompleteMethodMarshalAPERChangedValue(v *ServedDCNsComplete, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
-	return v.marshalAPERChangedValue(a0, a1, a2)
-}
-func BridgeServedDCNsCompleteMethodMarshalAPERLegacy(v *ServedDCNsComplete) ([]byte, error) {
-	return v.marshalAPERLegacy()
-}
-func BridgeServedDCNsCompleteMethodMarshalAPERNewValue(v *ServedDCNsComplete, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
-	return v.marshalAPERNewValue(a0, a1)
-}
-func BridgeServedDCNsCompleteMethodMarshalAPERPlanned(v *ServedDCNsComplete, a0 *aper.DecodeBudget, a1 bool, a2 *aper.ReplayPlan) ([]byte, error) {
-	return v.marshalAPERPlanned(a0, a1, a2)
-}
-func BridgeServedDCNsCompleteMethodUnmarshalAPERLegacy(v *ServedDCNsComplete, a0 []byte) error {
-	return v.unmarshalAPERLegacy(a0)
-}
-func BridgeServedDCNsCompleteMethodUnmarshalAPERWithOptions(v *ServedDCNsComplete, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
 }
 func BridgeUEContextReleaseRequestAPERValueFieldContext(v *UEContextReleaseRequestAPERValue) *s00.BridgeCodecContext {

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 )
 
-func f1CTrafficTransferfreshMust(value s19.F1CTrafficTransfer, err error) s19.F1CTrafficTransfer {
+func cellTrafficTraceIEFieldfreshMust(value s11.CellTrafficTraceIEField, err error) s11.CellTrafficTraceIEField {
 	if err != nil {
 		panic(err)
 	}

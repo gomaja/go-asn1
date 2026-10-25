@@ -11,7 +11,6 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
-	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s08"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s10"
@@ -19,8 +18,6 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s12"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s14"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s15"
-	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s17"
-	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s18"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s19"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
@@ -359,7 +356,9 @@ func (v *WLANMeasurementQuantitiesItemIEField) unmarshalAPERFrom(bb *aper.BitBuf
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -573,25 +572,25 @@ func (c InterRATMeasurementResultValueCodec) encodeChanged(value InterRATMeasure
 // InterRATMeasuredResultsValueValueCodec is the concrete ValueCodec[InterRATMeasuredResultsValue].
 type InterRATMeasuredResultsValueValueCodec struct {
 	context s00.BridgeCodecContext
-	capture func(s19.InterRATMeasuredResultsValue, aper.DecodeState,
+	capture func(InterRATMeasuredResultsValue, aper.DecodeState,
 
-	) (s19.InterRATMeasuredResultsValue, aper.Snapshot,
+	) (InterRATMeasuredResultsValue, aper.Snapshot,
 
 	)
-	compare func(s19.InterRATMeasuredResultsValue, aper.Snapshot, aper.ComparisonLimits,
+	compare func(InterRATMeasuredResultsValue, aper.Snapshot, aper.ComparisonLimits,
 
 	) aper.ReplayPlan
 	path   aper.Path
-	decode func([]byte, aper.DecodeState) (s19.InterRATMeasuredResultsValue,
+	decode func([]byte, aper.DecodeState) (InterRATMeasuredResultsValue,
 
 		error)
-	encode func(s19.InterRATMeasuredResultsValue,
+	encode func(InterRATMeasuredResultsValue,
 
 		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
 // New validates value and returns a complete APER value.
-func (c InterRATMeasuredResultsValueValueCodec) New(value s19.InterRATMeasuredResultsValue,
+func (c InterRATMeasuredResultsValueValueCodec) New(value InterRATMeasuredResultsValue,
 
 ) (InterRATMeasuredResultsValueAPERValue, error) {
 	if c.encode == nil {
@@ -657,12 +656,12 @@ func (c InterRATMeasuredResultsValueValueCodec) EncodeAPER(value InterRATMeasure
 	out, err := c.encodeBudget(value.Value, fresh, budget)
 	return out, aper.OperationError(err, c.path)
 }
-func (c InterRATMeasuredResultsValueValueCodec) encodeBudget(value s19.InterRATMeasuredResultsValue,
+func (c InterRATMeasuredResultsValueValueCodec) encodeBudget(value InterRATMeasuredResultsValue,
 
 	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c InterRATMeasuredResultsValueValueCodec) encodeChanged(value s19.InterRATMeasuredResultsValue,
+func (c InterRATMeasuredResultsValueValueCodec) encodeChanged(value InterRATMeasuredResultsValue,
 
 	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -833,7 +832,7 @@ func (v InterRATMeasurementResultAPERValue) WithoutReplay() InterRATMeasurementR
 // InterRATMeasuredResultsValueAPERValue is the concrete APERValue[InterRATMeasuredResultsValue].
 type InterRATMeasuredResultsValueAPERValue struct {
 	context s00.BridgeCodecContext
-	Value   s19.InterRATMeasuredResultsValue
+	Value   InterRATMeasuredResultsValue
 
 	received      aper.WireSpan
 	replay        aper.Snapshot
@@ -891,7 +890,7 @@ func BridgeResultNRItemExtIEsValueValidateLPPaIEContainer(fields s19.ResultNRIte
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -899,35 +898,35 @@ func BridgeResultNRItemExtIEsValueValidateLPPaIEContainer(fields s19.ResultNRIte
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -940,27 +939,44 @@ func BridgeResultNRItemExtIEsValueValidateLPPaIEContainer(fields s19.ResultNRIte
 	return report
 }
 
-type InterRATMeasurementResult = []s19.InterRATMeasuredResultsValue
+type InterRATMeasurementResult = []InterRATMeasuredResultsValue
+
+// InterRATMeasuredResultsValue represents the ASN.1 CHOICE type InterRATMeasuredResultsValue.
+type InterRATMeasuredResultsValue struct {
+	knownOpenBytes     uint64
+	replay             aper.Snapshot
+	stream             aper.WireSpan
+	withoutReplay      bool
+	received           bool
+	receivedBytes      aper.WireSpan
+	Choice             int
+	perPadding         aper.CompletePadding  `json:"-"`
+	perOpenTypePadding aper.CompletePadding  `json:"-"`
+	UnknownExtension   *aper.ChoiceExtension `json:"UnknownExtension,omitempty"`
+	ResultGERAN        s12.ResultGERAN       `json:"ResultGERAN,omitzero"`
+	ResultUTRAN        s14.ResultUTRAN       `json:"ResultUTRAN,omitzero"`
+	ResultNR           s19.ResultNR          `json:"ResultNR,omitzero"`
+}
 
 // NewInterRATMeasuredResultsValueResultGERAN creates a InterRATMeasuredResultsValue with the resultGERAN alternative.
-func BridgeNewInterRATMeasuredResultsValueResultGERANLegacy(v s12.ResultGERAN) s19.InterRATMeasuredResultsValue {
-	return s19.InterRATMeasuredResultsValue{
+func BridgeNewInterRATMeasuredResultsValueResultGERANLegacy(v s12.ResultGERAN) InterRATMeasuredResultsValue {
+	return InterRATMeasuredResultsValue{
 		Choice:      s00.InterRATMeasuredResultsValueChoiceResultGERAN,
 		ResultGERAN: v,
 	}
 }
 
 // NewInterRATMeasuredResultsValueResultUTRAN creates a InterRATMeasuredResultsValue with the resultUTRAN alternative.
-func BridgeNewInterRATMeasuredResultsValueResultUTRANLegacy(v s14.ResultUTRAN) s19.InterRATMeasuredResultsValue {
-	return s19.InterRATMeasuredResultsValue{
+func BridgeNewInterRATMeasuredResultsValueResultUTRANLegacy(v s14.ResultUTRAN) InterRATMeasuredResultsValue {
+	return InterRATMeasuredResultsValue{
 		Choice:      s00.InterRATMeasuredResultsValueChoiceResultUTRAN,
 		ResultUTRAN: v,
 	}
 }
 
 // NewInterRATMeasuredResultsValueResultNR creates a InterRATMeasuredResultsValue with the resultNR alternative.
-func BridgeNewInterRATMeasuredResultsValueResultNRLegacy(v s19.ResultNR) s19.InterRATMeasuredResultsValue {
-	return s19.InterRATMeasuredResultsValue{
+func BridgeNewInterRATMeasuredResultsValueResultNRLegacy(v s19.ResultNR) InterRATMeasuredResultsValue {
+	return InterRATMeasuredResultsValue{
 		Choice:   s00.InterRATMeasuredResultsValueChoiceResultNR,
 		ResultNR: v,
 	}
@@ -1022,6 +1038,7 @@ func (v *InterRATMeasurementResultComplete) unmarshalAPERWithOptions(data []byte
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementResult")
 	}
+	bb.EnterComponent("InterRATMeasurementResult")
 	value, err := BridgeUnmarshalAPERInterRATMeasurementResultFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementResult")
@@ -1053,7 +1070,7 @@ func BridgeMarshalAPERInterRATMeasurementResultTo(list InterRATMeasurementResult
 			return fmt.Errorf("collection fragment outside value")
 		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
-			if err := s19.BridgeInterRATMeasuredResultsValueMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			if err := elem.marshalAPERTo(bb, len(fresh) != 0 && fresh[0]); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
 			}
 		}
@@ -1094,9 +1111,9 @@ func BridgeUnmarshalAPERInterRATMeasurementResultInto(v *BridgeAsn1cAPERInterRAT
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
-			var elem s19.InterRATMeasuredResultsValue
+			var elem InterRATMeasuredResultsValue
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
-			if err := s19.BridgeInterRATMeasuredResultsValueMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
@@ -1112,6 +1129,336 @@ func BridgeUnmarshalAPERInterRATMeasurementResultInto(v *BridgeAsn1cAPERInterRAT
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	bb.LeaveComponent(toleranceMark_value)
+	return nil
+}
+
+// MarshalAPER encodes InterRATMeasuredResultsValue to APER format.
+func (v *InterRATMeasuredResultsValue) marshalAPERLegacy() ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := v.marshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithPadding(v.perPadding)
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.
+			RestoreReplayPlan(
+				previous)
+	}
+	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.replay.
+			ReplayTo(v.stream, bb); ok ||
+			err != nil {
+			return err
+		}
+	}
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	if v.UnknownExtension != nil {
+		if v.Choice != 0 {
+			return fmt.Errorf("%s known choice %d and unknown extension are both selected", "InterRATMeasuredResultsValue:", v.Choice)
+		}
+		if v.UnknownExtension.Index() < 0 {
+			return fmt.Errorf("%s extension index %d must be non-negative", "InterRATMeasuredResultsValue:", v.UnknownExtension.Index())
+		}
+		if v.UnknownExtension.Index() < 1 {
+			return fmt.Errorf("%s extension index %d is known to this schema", "InterRATMeasuredResultsValue:", v.UnknownExtension.Index())
+		}
+		if err := aper.EncodeBoolean(bb, true); err != nil {
+			return err
+		}
+		if err := aper.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index()); err != nil {
+			return err
+		}
+		return v.UnknownExtension.EncodeTo(bb)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("%s choice %d must be positive", "InterRATMeasuredResultsValue:", v.Choice)
+	}
+	isExtension := v.Choice > 2
+	if err := aper.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		// arithmetic pattern APER_CHOICE_EXT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:117
+		if v.Choice <= 2 {
+			return fmt.Errorf("extension choice index outside root")
+		}
+		if err := aper.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-2-1)); err != nil {
+			return err
+		}
+		inner := aper.NewBudgetBuffer(bb.Budget())
+		switch v.Choice {
+		case s00.InterRATMeasuredResultsValueChoiceResultNR:
+			if err := aper.EncodeCollection(inner, int64(len(v.ResultNR)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_resultnr, fragmentLength_resultnr int64) error {
+				// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+				if fragmentOffset_resultnr < 0 || fragmentOffset_resultnr > int64(len(v.ResultNR)) || fragmentLength_resultnr < 0 || fragmentLength_resultnr > int64(len(v.ResultNR[fragmentOffset_resultnr:])) {
+					return fmt.Errorf("collection fragment outside value")
+				}
+				for _, elem := range v.ResultNR[fragmentOffset_resultnr : fragmentOffset_resultnr+fragmentLength_resultnr] {
+					if err := s19.BridgeResultNRItemMethodMarshalAPERTo(&elem, inner, len(fresh) != 0 && fresh[0]); err != nil {
+						return fmt.Errorf("encoding resultNR element: %w", err)
+					}
+				}
+				return nil
+			}); err != nil {
+				return fmt.Errorf("encoding resultNR: %w", err)
+			}
+		default:
+			return fmt.Errorf("unknown InterRATMeasuredResultsValue extension choice %d", v.Choice)
+		}
+		openBytes, err := inner.CompleteBytesWithPadding(v.perOpenTypePadding)
+		if err != nil {
+			return err
+		}
+		if err := aper.EncodeOpenTypeAligned(bb, openBytes); err != nil {
+			return err
+		}
+		return nil
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
+	if err := aper.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case s00.InterRATMeasuredResultsValueChoiceResultGERAN:
+		if err := aper.EncodeCollection(bb, int64(len(v.ResultGERAN)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_resultgeran, fragmentLength_resultgeran int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_resultgeran < 0 || fragmentOffset_resultgeran > int64(len(v.ResultGERAN)) || fragmentLength_resultgeran < 0 || fragmentLength_resultgeran > int64(len(v.ResultGERAN[fragmentOffset_resultgeran:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
+			for _, elem := range v.ResultGERAN[fragmentOffset_resultgeran : fragmentOffset_resultgeran+fragmentLength_resultgeran] {
+				if err := s12.BridgeResultGERANItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding resultGERAN element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding resultGERAN: %w", err)
+		}
+	case s00.InterRATMeasuredResultsValueChoiceResultUTRAN:
+		if err := aper.EncodeCollection(bb, int64(len(v.ResultUTRAN)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_resultutran, fragmentLength_resultutran int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_resultutran < 0 || fragmentOffset_resultutran > int64(len(v.ResultUTRAN)) || fragmentLength_resultutran < 0 || fragmentLength_resultutran > int64(len(v.ResultUTRAN[fragmentOffset_resultutran:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
+			for _, elem := range v.ResultUTRAN[fragmentOffset_resultutran : fragmentOffset_resultutran+fragmentLength_resultutran] {
+				if err := s14.BridgeResultUTRANItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding resultUTRAN element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding resultUTRAN: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown InterRATMeasuredResultsValue choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InterRATMeasuredResultsValue from APER format.
+func (v *InterRATMeasuredResultsValue) unmarshalAPERLegacy(data []byte) error {
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
+}
+
+// UnmarshalAPERWithOptions decodes InterRATMeasuredResultsValue with explicit receiver options:
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *InterRATMeasuredResultsValue) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATMeasuredResultsValue")
+	}
+	bb.EnterComponent("InterRATMeasuredResultsValue")
+	if err := v.unmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATMeasuredResultsValue")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "InterRATMeasuredResultsValue")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "InterRATMeasuredResultsValue")
+	}
+	v.perPadding = padding.Padding()
+	return nil
+}
+func (v *InterRATMeasuredResultsValue) unmarshalAPERFrom(bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+	replayUsage := bb.Usage()
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = InterRATMeasuredResultsValue{}
+	isExtension, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := aper.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "UnknownExtension")
+		}
+		openExtension, err := aper.DecodeChoiceExtensionAligned(bb, extIdx, 1)
+		if extIdx < 1 {
+			v.knownOpenBytes = max(v.knownOpenBytes, openExtension.ContentLength())
+		}
+		if err != nil {
+			return runtime.WrapDecodePath(err, "UnknownExtension")
+		}
+		if extIdx >= 1 {
+			v.UnknownExtension = &openExtension
+			v.stream = bb.CaptureWireSpan(replayStart)
+			v.
+				stream.RecordUsage(replayUsage,
+
+				bb)
+
+			return nil
+		}
+		inner := openExtension.ChildDecodeBuffer(bb)
+		if err := inner.EnterOpenType(); err != nil {
+			return err
+		}
+		defer inner.LeaveOpenType()
+		// arithmetic pattern APER_CHOICE_EXT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:206
+		if extIdx < 0 || extIdx >= int64(^uint(0)>>1)-int64(2) {
+			return fmt.Errorf("extension choice index exceeds host int")
+		}
+		v.Choice = int(extIdx) + 2 + 1
+		extensionPath := "UnknownExtension"
+		switch v.Choice {
+		case s00.InterRATMeasuredResultsValueChoiceResultNR:
+			extensionPath = "ResultNR"
+			toleranceMark_resultnr := inner.EnterComponent("ResultNR")
+			tmp_resultnr := make(s19.ResultNR, 0)
+			_, errCollection_resultnr := aper.DecodeCollection(inner, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_resultnr, fragmentLength_resultnr int64) error {
+				// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+				if fragmentOffset_resultnr < 0 || fragmentLength_resultnr < 0 || fragmentLength_resultnr > int64(^uint(0)>>1) || fragmentOffset_resultnr > int64(^uint(0)>>1)-fragmentLength_resultnr {
+					return fmt.Errorf("collection fragment count out of range")
+				}
+				for i := int64(0); i < fragmentLength_resultnr; i++ {
+					var elem s19.ResultNRItem
+					elementMark := inner.EnterIndex(fragmentOffset_resultnr + i)
+					if err := s19.BridgeResultNRItemMethodUnmarshalAPERFrom(&elem, inner); err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("ResultNR[%d]", fragmentOffset_resultnr+i))
+					}
+					inner.LeaveComponent(elementMark)
+					if next, err := aper.AppendValues(inner, tmp_resultnr, elem); err != nil {
+						return err
+					} else {
+						tmp_resultnr = next
+					}
+				}
+				return nil
+			})
+			if errCollection_resultnr != nil {
+				return runtime.WrapDecodePath(errCollection_resultnr, "ResultNR")
+			}
+			v.ResultNR = tmp_resultnr
+			inner.LeaveComponent(toleranceMark_resultnr)
+		}
+		paddingMark := inner.EnterComponent(extensionPath)
+		padding, err := aper.CaptureOpenTypePadding(inner)
+		inner.LeaveComponent(paddingMark)
+		if err != nil {
+			return runtime.WrapDecodePath(err, extensionPath)
+		}
+		v.perOpenTypePadding = padding
+		v.stream = bb.CaptureWireSpan(replayStart)
+		v.
+			stream.RecordUsage(replayUsage,
+
+			bb)
+
+		return nil
+	}
+	idx, err := aper.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:236
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case s00.InterRATMeasuredResultsValueChoiceResultGERAN:
+		toleranceMark_resultgeran := bb.EnterComponent("ResultGERAN")
+		tmp_resultgeran := make(s12.ResultGERAN, 0)
+		_, errCollection_resultgeran := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_resultgeran, fragmentLength_resultgeran int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			if fragmentOffset_resultgeran < 0 || fragmentLength_resultgeran < 0 || fragmentLength_resultgeran > int64(^uint(0)>>1) || fragmentOffset_resultgeran > int64(^uint(0)>>1)-fragmentLength_resultgeran {
+				return fmt.Errorf("collection fragment count out of range")
+			}
+			for i := int64(0); i < fragmentLength_resultgeran; i++ {
+				var elem s12.ResultGERANItem
+				elementMark := bb.EnterIndex(fragmentOffset_resultgeran + i)
+				if err := s12.BridgeResultGERANItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ResultGERAN[%d]", fragmentOffset_resultgeran+i))
+				}
+				bb.LeaveComponent(elementMark)
+				if next, err := aper.AppendValues(bb, tmp_resultgeran, elem); err != nil {
+					return err
+				} else {
+					tmp_resultgeran = next
+				}
+			}
+			return nil
+		})
+		if errCollection_resultgeran != nil {
+			return runtime.WrapDecodePath(errCollection_resultgeran, "ResultGERAN")
+		}
+		v.ResultGERAN = tmp_resultgeran
+		bb.LeaveComponent(toleranceMark_resultgeran)
+	case s00.InterRATMeasuredResultsValueChoiceResultUTRAN:
+		toleranceMark_resultutran := bb.EnterComponent("ResultUTRAN")
+		tmp_resultutran := make(s14.ResultUTRAN, 0)
+		_, errCollection_resultutran := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_resultutran, fragmentLength_resultutran int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			if fragmentOffset_resultutran < 0 || fragmentLength_resultutran < 0 || fragmentLength_resultutran > int64(^uint(0)>>1) || fragmentOffset_resultutran > int64(^uint(0)>>1)-fragmentLength_resultutran {
+				return fmt.Errorf("collection fragment count out of range")
+			}
+			for i := int64(0); i < fragmentLength_resultutran; i++ {
+				var elem s14.ResultUTRANItem
+				elementMark := bb.EnterIndex(fragmentOffset_resultutran + i)
+				if err := s14.BridgeResultUTRANItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ResultUTRAN[%d]", fragmentOffset_resultutran+i))
+				}
+				bb.LeaveComponent(elementMark)
+				if next, err := aper.AppendValues(bb, tmp_resultutran, elem); err != nil {
+					return err
+				} else {
+					tmp_resultutran = next
+				}
+			}
+			return nil
+		})
+		if errCollection_resultutran != nil {
+			return runtime.WrapDecodePath(errCollection_resultutran, "ResultUTRAN")
+		}
+		v.ResultUTRAN = tmp_resultutran
+		bb.LeaveComponent(toleranceMark_resultutran)
+	}
+	v.stream = bb.CaptureWireSpan(replayStart)
+	v.
+		stream.RecordUsage(replayUsage,
+
+		bb)
+
 	return nil
 }
 
@@ -1149,6 +1496,7 @@ func (v *ResultNRComplete) unmarshalAPERWithOptions(data []byte, options aper.De
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ResultNR")
 	}
+	bb.EnterComponent("ResultNR")
 	value, err := BridgeUnmarshalAPERResultNRFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultNR")
@@ -1285,6 +1633,7 @@ func (v *SRSConfigurationForAllCellsComplete) unmarshalAPERWithOptions(data []by
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SRSConfigurationForAllCells")
 	}
+	bb.EnterComponent("SRSConfigurationForAllCells")
 	value, err := BridgeUnmarshalAPERSRSConfigurationForAllCellsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SRSConfigurationForAllCells")
@@ -1387,6 +1736,7 @@ func (v *SystemInformationComplete) unmarshalAPERWithOptions(data []byte, option
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SystemInformation")
 	}
+	bb.EnterComponent("SystemInformation")
 	value, err := BridgeUnmarshalAPERSystemInformationFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SystemInformation")
@@ -1491,6 +1841,7 @@ func (v *WLANMeasurementQuantitiesComplete) unmarshalAPERWithOptions(data []byte
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementQuantities")
 	}
+	bb.EnterComponent("WLANMeasurementQuantities")
 	value, err := BridgeUnmarshalAPERWLANMeasurementQuantitiesFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementQuantities")
@@ -1541,6 +1892,7 @@ func BridgeUnmarshalAPERWLANMeasurementQuantitiesFrom(bb *aper.BitBuffer) (WLANM
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERWLANMeasurementQuantitiesInto(v *BridgeAsn1cAPERWLANMeasurementQuantitiesListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(WLANMeasurementQuantities, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1549,9 +1901,11 @@ func BridgeUnmarshalAPERWLANMeasurementQuantitiesInto(v *BridgeAsn1cAPERWLANMeas
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem WLANMeasurementQuantitiesItemIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -1563,6 +1917,7 @@ func BridgeUnmarshalAPERWLANMeasurementQuantitiesInto(v *BridgeAsn1cAPERWLANMeas
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1697,6 +2052,7 @@ func (v *WLANMeasurementQuantitiesItem) unmarshalAPERWithOptions(data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementQuantitiesItem")
 	}
+	bb.EnterComponent("WLANMeasurementQuantitiesItem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementQuantitiesItem")
 	}
@@ -1732,6 +2088,7 @@ func (v *WLANMeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	}
 	v.WLANMeasurementQuantitiesValue = s00.WLANMeasurementQuantitiesValue(val_wlanmeasurementquantitiesvalue)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.WLANMeasurementQuantitiesValueExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1740,9 +2097,11 @@ func (v *WLANMeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer) er
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.WLANMeasurementQuantitiesValueExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.BridgeWLANMeasurementQuantitiesValueExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -1755,6 +2114,7 @@ func (v *WLANMeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer) er
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -1831,7 +2191,7 @@ type WLANChannelListComplete struct {
 
 func (v *WLANChannelListComplete) marshalAPERLegacy() ([]byte, error) {
 	bb := aper.NewBitBuffer()
-	if err := s04.BridgeMarshalAPERWLANChannelListTo(v.Value, bb); err != nil {
+	if err := s05.BridgeMarshalAPERWLANChannelListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.perPadding)
@@ -1851,6 +2211,7 @@ func (v *WLANChannelListComplete) unmarshalAPERWithOptions(data []byte, options 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "WLANChannelList")
 	}
+	bb.EnterComponent("WLANChannelList")
 	value, err := BridgeUnmarshalAPERWLANChannelListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANChannelList")
@@ -1890,6 +2251,7 @@ func BridgeUnmarshalAPERWLANChannelListFrom(bb *aper.BitBuffer) (s00.WLANChannel
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERWLANChannelListInto(v *s00.BridgeAsn1cAPERWLANChannelListListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s00.WLANChannelList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1136
@@ -1912,7 +2274,26 @@ func BridgeUnmarshalAPERWLANChannelListInto(v *s00.BridgeAsn1cAPERWLANChannelLis
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *InterRATMeasuredResultsValue) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	return s05.BridgeReceivedFormAt(v.received, v.receivedBytes, "InterRATMeasuredResultsValue", v.receivedBytes.ContentLocation(), v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v InterRATMeasuredResultsValue) WithoutReplay() InterRATMeasuredResultsValue {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedBytes = aper.WireSpan{}
+	var zero InterRATMeasuredResultsValue
+	v.perPadding = zero.perPadding
+	return v
 }
 
 // ReceivedForm returns an owned view of the complete value's original bytes.
@@ -2079,6 +2460,98 @@ func (v *WLANMeasurementQuantitiesItem) RemoveExtension(index uint64) error {
 	}
 	v.perExtPadding = nil
 	return nil
+}
+
+// MarshalAPER encodes the complete value, replaying unchanged received bytes unless fresh encoding is requested.
+func (v *InterRATMeasuredResultsValue) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "InterRATMeasuredResultsValue")
+	}
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, "InterRATMeasuredResultsValue")
+	}
+	if !fresh && v.replay.Present() {
+
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(&budget))
+		BridgeCompareLPPaInterRATMeasuredResultsValue(v, &s)
+		if err := s.ChargeComparison(&budget); err != nil {
+			return nil, aper.OperationError(err, "InterRATMeasuredResultsValue")
+		}
+		if s.Unchanged(v.replay) && v.received {
+			if err := v.replay.ApplyReplay(&budget); err != nil {
+				return nil, aper.OperationError(err, "InterRATMeasuredResultsValue")
+			}
+			out, err := v.receivedBytes.ReplayBytes(&budget)
+			return out, aper.OperationError(err, "InterRATMeasuredResultsValue")
+		}
+		out, err := v.marshalAPERChangedValue(budget, fresh, s.Plan())
+		return out, aper.OperationError(err, "InterRATMeasuredResultsValue")
+	}
+	out, err := v.marshalAPERFreshValue(budget, fresh)
+	return out, aper.OperationError(err, "InterRATMeasuredResultsValue")
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChanged(&budget, fresh, plan)
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERFreshValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
+	return v.marshalAPERBudget(&budget, fresh)
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	bb := aper.NewBudgetBuffer(budget)
+	if !fresh && v.replay.Present() && bb.ReplayPlan() == nil {
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(budget))
+		BridgeCompareLPPaInterRATMeasuredResultsValue(v, &s)
+		if err := s.ChargeComparison(budget); err != nil {
+			return nil, err
+		}
+		if s.Unchanged(v.replay) && v.received {
+			if err := v.replay.ApplyReplay(budget); err != nil {
+				return nil, err
+			}
+			return v.receivedBytes.ReplayBytes(budget)
+		}
+		return v.marshalAPERChanged(budget, fresh, s.Plan())
+	}
+	if !fresh && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && v.received {
+		if err := v.replay.ApplyReplay(budget); err != nil {
+			return nil, err
+		}
+		return v.receivedBytes.ReplayBytes(budget)
+	}
+	return v.marshalAPERPlanned(budget, fresh)
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
+	budget.SetReplayPlan(&plan)
+	defer budget.SetReplayPlan(previous)
+	return v.marshalAPERPlanned(budget, fresh)
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	value := v
+	if fresh {
+		previous := bb.SuspendReplayPlan()
+		defer bb.RestoreReplayPlan(previous)
+		copyValue := v.WithoutReplay()
+		value = &copyValue
+	}
+	if err := value.marshalAPERTo(bb, fresh); err != nil {
+		return nil, err
+	}
+	out, err := bb.CompleteBytesWithPadding(value.perPadding)
+	if err != nil {
+		return nil, err
+	}
+	if err := bb.CheckOutput(uint64(len(out))); err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 // MarshalAPER encodes the complete value, replaying unchanged received bytes unless fresh encoding is requested.
@@ -2528,7 +3001,7 @@ func (v *WLANChannelListComplete) marshalAPERPlanned(budget *aper.DecodeBudget, 
 		copyValue := v.WithoutReplay()
 		value = &copyValue
 	}
-	if err := s04.BridgeMarshalAPERWLANChannelListTo(value.Value, bb, fresh); err != nil {
+	if err := s05.BridgeMarshalAPERWLANChannelListTo(value.Value, bb, fresh); err != nil {
 		return nil, err
 	}
 	out, err := bb.CompleteBytesWithPadding(value.perPadding)
@@ -2726,6 +3199,29 @@ func (v *WLANMeasurementQuantitiesItem) marshalAPERPlanned(budget *aper.DecodeBu
 }
 
 // UnmarshalAPER decodes one complete value and returns a per-call report.
+func (v *InterRATMeasuredResultsValue) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "InterRATMeasuredResultsValue")
+	}
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
+	var decoded InterRATMeasuredResultsValue
+	err := decoded.unmarshalAPERWithOptions(data, settings)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
+		BridgeCaptureLPPaInterRATMeasuredResultsValue(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(settings, err)
+	if err != nil {
+		*v = InterRATMeasuredResultsValue{}
+		return report, aper.OperationError(err, "InterRATMeasuredResultsValue")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "InterRATMeasuredResultsValue")
+}
+
+// UnmarshalAPER decodes one complete value and returns a per-call report.
 func (v *InterRATMeasurementResultComplete) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
 		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "InterRATMeasurementResultComplete")
@@ -2887,57 +3383,57 @@ func (v *WLANMeasurementQuantitiesItem) UnmarshalAPER(data []byte, options ...ap
 }
 
 // NewInterRATMeasuredResultsValueResultGERAN constructs a checked complete value.
-func NewInterRATMeasuredResultsValueResultGERAN(v s12.ResultGERAN, options ...aper.BuildOption) (s19.InterRATMeasuredResultsValue, error) {
+func NewInterRATMeasuredResultsValueResultGERAN(v s12.ResultGERAN, options ...aper.BuildOption) (InterRATMeasuredResultsValue, error) {
 	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return s19.InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultGERAN")
+		return InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultGERAN")
 	}
 	value := BridgeNewInterRATMeasuredResultsValueResultGERANLegacy(v)
-	if _, err := s19.BridgeInterRATMeasuredResultsValueMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return s19.InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultGERAN")
+	if _, err := (&value).marshalAPERBudget(budget, false); err != nil {
+		return InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultGERAN")
 	}
 	return value, aper.OperationError(nil, "InterRATMeasuredResultsValueResultGERAN")
 }
 
 // NewInterRATMeasuredResultsValueResultUTRAN constructs a checked complete value.
-func NewInterRATMeasuredResultsValueResultUTRAN(v s14.ResultUTRAN, options ...aper.BuildOption) (s19.InterRATMeasuredResultsValue, error) {
+func NewInterRATMeasuredResultsValueResultUTRAN(v s14.ResultUTRAN, options ...aper.BuildOption) (InterRATMeasuredResultsValue, error) {
 	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return s19.InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultUTRAN")
+		return InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultUTRAN")
 	}
 	value := BridgeNewInterRATMeasuredResultsValueResultUTRANLegacy(v)
-	if _, err := s19.BridgeInterRATMeasuredResultsValueMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return s19.InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultUTRAN")
+	if _, err := (&value).marshalAPERBudget(budget, false); err != nil {
+		return InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultUTRAN")
 	}
 	return value, aper.OperationError(nil, "InterRATMeasuredResultsValueResultUTRAN")
 }
 
 // NewInterRATMeasuredResultsValueResultNR constructs a checked complete value.
-func NewInterRATMeasuredResultsValueResultNR(v s19.ResultNR, options ...aper.BuildOption) (s19.InterRATMeasuredResultsValue, error) {
+func NewInterRATMeasuredResultsValueResultNR(v s19.ResultNR, options ...aper.BuildOption) (InterRATMeasuredResultsValue, error) {
 	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return s19.InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultNR")
+		return InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultNR")
 	}
 	value := BridgeNewInterRATMeasuredResultsValueResultNRLegacy(v)
-	if _, err := s19.BridgeInterRATMeasuredResultsValueMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return s19.InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultNR")
+	if _, err := (&value).marshalAPERBudget(budget, false); err != nil {
+		return InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueResultNR")
 	}
 	return value, aper.OperationError(nil, "InterRATMeasuredResultsValueResultNR")
 }
 
 // NewInterRATMeasuredResultsValueUnknownExtension builds a checked, owned unknown CHOICE alternative.
-func NewInterRATMeasuredResultsValueUnknownExtension(index uint64, contents []byte, options ...aper.BuildOption) (s19.InterRATMeasuredResultsValue, error) {
+func NewInterRATMeasuredResultsValueUnknownExtension(index uint64, contents []byte, options ...aper.BuildOption) (InterRATMeasuredResultsValue, error) {
 	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return s19.InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueUnknownExtension")
+		return InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueUnknownExtension")
 	}
 	extension, err := aper.BuildChoiceExtension(index, contents, budget)
 	if err != nil {
-		return s19.InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueUnknownExtension")
+		return InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueUnknownExtension")
 	}
-	value := s19.InterRATMeasuredResultsValue{UnknownExtension: &extension}
-	if _, err := s19.BridgeInterRATMeasuredResultsValueMethodMarshalAPERBudget(&value, budget, false); err != nil {
-		return s19.InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueUnknownExtension")
+	value := InterRATMeasuredResultsValue{UnknownExtension: &extension}
+	if _, err := value.marshalAPERBudget(budget, false); err != nil {
+		return InterRATMeasuredResultsValue{}, aper.OperationError(err, "InterRATMeasuredResultsValueUnknownExtension")
 	}
 	return value, aper.OperationError(nil, "InterRATMeasuredResultsValueUnknownExtension")
 }
@@ -3001,182 +3497,58 @@ func UnmarshalAPERWLANChannelList(data []byte, options ...aper.DecodeOption) (WL
 	report, err := v.UnmarshalAPER(data, options...)
 	return v, report, err
 }
-func BridgeCaptureLPPaECIDMeasurementInitiationRequestIEValue(v *ECIDMeasurementInitiationRequestIEValue, s *aper.SemanticCapture) {
+func BridgeCaptureLPPaInterRATMeasuredResultsValue(v *InterRATMeasuredResultsValue, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
-	s.Stream(v.received)
-	s00.BridgeCaptureLPPaProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		{
-			f := s.Begin()
-			s.Bool(v.opaque == nil)
-			if v.opaque != nil {
-				s.Opaque((*v.opaque))
-			}
-			s.End(f, nil, false)
+	s.Value()
+	s.OpenBytes(v.knownOpenBytes)
+	s.Stream(v.stream)
+	s.Int(int64(v.Choice))
+	{
+		f := s.Begin()
+		s.Bool(v.UnknownExtension == nil)
+		if v.UnknownExtension != nil {
+			s.ChoiceExtension(v.UnknownExtension)
 		}
+		s.End(f, nil, false)
 	}
-	s.Bool(v.isOpaque)
-	if !(v.isOpaque) {
-		switch v.id {
-		case s00.ProtocolIEID(2):
-			{
-				f := s.Begin()
-				s.Bool(v.rowESMLCUEMeasurementID == nil)
-				if v.rowESMLCUEMeasurementID != nil {
-					s00.BridgeCaptureLPPaMeasurementID(v.rowESMLCUEMeasurementID, s)
-				}
-				s.End(f, nil, false)
-			}
-		case s00.ProtocolIEID(3):
-			{
-				f := s.Begin()
-				s.Bool(v.rowReportCharacteristics == nil)
-				if v.rowReportCharacteristics != nil {
-					s00.BridgeCaptureLPPaReportCharacteristics(v.rowReportCharacteristics, s)
-				}
-				s.End(f, nil, false)
-			}
-		case s00.ProtocolIEID(4):
-			{
-				f := s.Begin()
-				s.Bool(v.rowMeasurementPeriodicity == nil)
-				if v.rowMeasurementPeriodicity != nil {
-					s00.BridgeCaptureLPPaMeasurementPeriodicity(v.rowMeasurementPeriodicity, s)
-				}
-				s.End(f, nil, false)
-			}
-		case s00.ProtocolIEID(5):
-			{
-				f := s.Begin()
-				s.Bool(v.rowMeasurementQuantities == nil)
-				if v.rowMeasurementQuantities != nil {
-					s11.BridgeCaptureLPPaMeasurementQuantities(v.rowMeasurementQuantities, s)
-				}
-				s.End(f, nil, false)
-			}
-		case s00.ProtocolIEID(15):
-			{
-				f := s.Begin()
-				s.Bool(v.rowInterRATMeasurementQuantities == nil)
-				if v.rowInterRATMeasurementQuantities != nil {
-					s11.BridgeCaptureLPPaInterRATMeasurementQuantities(v.rowInterRATMeasurementQuantities, s)
-				}
-				s.End(f, nil, false)
-			}
-		case s00.ProtocolIEID(19):
-			{
-				f := s.Begin()
-				s.Bool(v.rowWLANMeasurementQuantities == nil)
-				if v.rowWLANMeasurementQuantities != nil {
-					BridgeCaptureLPPaWLANMeasurementQuantities(v.rowWLANMeasurementQuantities, s)
-				}
-				s.End(f, nil, false)
-			}
-		}
+	switch v.Choice {
+	case s00.InterRATMeasuredResultsValueChoiceResultGERAN:
+		s12.BridgeCaptureLPPaResultGERAN(&v.ResultGERAN, s)
+	case s00.InterRATMeasuredResultsValueChoiceResultUTRAN:
+		s14.BridgeCaptureLPPaResultUTRAN(&v.ResultUTRAN, s)
+	case s00.InterRATMeasuredResultsValueChoiceResultNR:
+		s19.BridgeCaptureLPPaResultNR(&v.ResultNR, s)
 	}
 	s.End(f, &v.replay, v.withoutReplay)
 }
-func (v ECIDMeasurementInitiationRequestIEValue) captureSnapshot() aper.Snapshot { return v.replay }
-func (v ECIDMeasurementInitiationRequestIEValue) captureFraming() uint64 {
-	if v.isOpaque && v.opaque != nil {
-		return v.opaque.ContentLength()
-	}
-	return v.received.ByteLength()
-}
-func (v ECIDMeasurementInitiationRequestIEValue) captureSemantics(s aper.SemanticCapture) ECIDMeasurementInitiationRequestIEValue {
-	BridgeCaptureLPPaECIDMeasurementInitiationRequestIEValue(&v, &s)
-	return v
-}
-func BridgeCompareLPPaECIDMeasurementInitiationRequestIEValue(v *ECIDMeasurementInitiationRequestIEValue, s *aper.SemanticComparison) {
+func BridgeCompareLPPaInterRATMeasuredResultsValue(v *InterRATMeasuredResultsValue, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
-	s02.BridgeCompareLPPaProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		{
-			f := s.Begin()
-			s.Bool(v.opaque == nil)
-			if v.opaque != nil {
-				s.Opaque((*v.opaque))
-			}
-			s.End(f, aper.Snapshot{}, false)
+	s.Value()
+
+	s.Int(int64(v.Choice))
+	{
+		f := s.Begin()
+		s.Bool(v.UnknownExtension == nil)
+		if v.UnknownExtension != nil {
+			s.ChoiceExtension(v.UnknownExtension)
 		}
+		s.End(f, aper.Snapshot{}, false)
 	}
-	s.Bool(v.isOpaque)
-	if !(v.isOpaque) {
-		switch v.id {
-		case s00.ProtocolIEID(2):
-			{
-				f := s.Begin()
-				s.Bool(v.rowESMLCUEMeasurementID == nil)
-				if v.rowESMLCUEMeasurementID != nil {
-					s02.BridgeCompareLPPaMeasurementID(v.rowESMLCUEMeasurementID, s)
-				}
-				s.End(f, aper.Snapshot{}, false)
-			}
-		case s00.ProtocolIEID(3):
-			{
-				f := s.Begin()
-				s.Bool(v.rowReportCharacteristics == nil)
-				if v.rowReportCharacteristics != nil {
-					s03.BridgeCompareLPPaReportCharacteristics(v.rowReportCharacteristics, s)
-				}
-				s.End(f, aper.Snapshot{}, false)
-			}
-		case s00.ProtocolIEID(4):
-			{
-				f := s.Begin()
-				s.Bool(v.rowMeasurementPeriodicity == nil)
-				if v.rowMeasurementPeriodicity != nil {
-					s02.BridgeCompareLPPaMeasurementPeriodicity(v.rowMeasurementPeriodicity, s)
-				}
-				s.End(f, aper.Snapshot{}, false)
-			}
-		case s00.ProtocolIEID(5):
-			{
-				f := s.Begin()
-				s.Bool(v.rowMeasurementQuantities == nil)
-				if v.rowMeasurementQuantities != nil {
-					s11.BridgeCompareLPPaMeasurementQuantities(v.rowMeasurementQuantities, s)
-				}
-				s.End(f, aper.Snapshot{}, false)
-			}
-		case s00.ProtocolIEID(15):
-			{
-				f := s.Begin()
-				s.Bool(v.rowInterRATMeasurementQuantities == nil)
-				if v.rowInterRATMeasurementQuantities != nil {
-					s11.BridgeCompareLPPaInterRATMeasurementQuantities(v.rowInterRATMeasurementQuantities, s)
-				}
-				s.End(f, aper.Snapshot{}, false)
-			}
-		case s00.ProtocolIEID(19):
-			{
-				f := s.Begin()
-				s.Bool(v.rowWLANMeasurementQuantities == nil)
-				if v.rowWLANMeasurementQuantities != nil {
-					BridgeCompareLPPaWLANMeasurementQuantities(v.rowWLANMeasurementQuantities, s)
-				}
-				s.End(f, aper.Snapshot{}, false)
-			}
-		}
+	switch v.Choice {
+	case s00.InterRATMeasuredResultsValueChoiceResultGERAN:
+		s12.BridgeCompareLPPaResultGERAN(&v.ResultGERAN, s)
+	case s00.InterRATMeasuredResultsValueChoiceResultUTRAN:
+		s14.BridgeCompareLPPaResultUTRAN(&v.ResultUTRAN, s)
+	case s00.InterRATMeasuredResultsValueChoiceResultNR:
+		s19.BridgeCompareLPPaResultNR(&v.ResultNR, s)
 	}
 	s.End(f, v.replay, v.withoutReplay)
-}
-func (v ECIDMeasurementInitiationRequestIEValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareLPPaECIDMeasurementInitiationRequestIEValue(&v, &s)
-	return s
-}
-
-// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
-func (v ECIDMeasurementInitiationRequestIEValue) WithoutReplay() ECIDMeasurementInitiationRequestIEValue {
-	v.withoutReplay = true
-	v.replay = aper.Snapshot{}
-	return v
 }
 func BridgeCaptureLPPaInterRATMeasurementResult(v *InterRATMeasurementResult, s *aper.SemanticCapture) {
 	if s.Failed() {
@@ -3192,7 +3564,7 @@ func BridgeCaptureLPPaInterRATMeasurementResult(v *InterRATMeasurementResult, s 
 			if s.Failed() {
 				break
 			}
-			s19.BridgeCaptureLPPaInterRATMeasuredResultsValue(&(*v)[i], s)
+			BridgeCaptureLPPaInterRATMeasuredResultsValue(&(*v)[i], s)
 		}
 		s.End(f, nil, false)
 	}
@@ -3212,7 +3584,7 @@ func BridgeCompareLPPaInterRATMeasurementResult(v *InterRATMeasurementResult, s 
 			if s.Failed() {
 				break
 			}
-			s19.BridgeCompareLPPaInterRATMeasuredResultsValue(&(*v)[i], s)
+			BridgeCompareLPPaInterRATMeasuredResultsValue(&(*v)[i], s)
 		}
 		s.End(f, aper.Snapshot{}, false)
 	}
@@ -3662,421 +4034,6 @@ func (v WLANMeasurementQuantitiesItemIEValue) encodeFresh(fresh bool, budget *ap
 	}
 }
 
-type ECIDMeasurementInitiationRequestIEValue struct {
-	id                               s00.ProtocolIEID
-	withoutReplay                    bool
-	received                         aper.WireSpan
-	replay                           aper.Snapshot
-	opaque                           *aper.OpaqueOpenType
-	isOpaque                         bool
-	rowESMLCUEMeasurementID          *s00.MeasurementID
-	rowReportCharacteristics         *s00.ReportCharacteristics
-	rowMeasurementPeriodicity        *s00.MeasurementPeriodicity
-	rowMeasurementQuantities         *s06.MeasurementQuantities
-	rowInterRATMeasurementQuantities *s06.InterRATMeasurementQuantities
-	rowWLANMeasurementQuantities     *WLANMeasurementQuantities
-}
-
-func (v ECIDMeasurementInitiationRequestIEValue) matchesID(id s00.ProtocolIEID, _ *aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return v.opaque != nil
-	}
-	switch id {
-	case s00.ProtocolIEID(2):
-		return v.rowESMLCUEMeasurementID != nil
-	case s00.ProtocolIEID(3):
-		return v.rowReportCharacteristics != nil
-	case s00.ProtocolIEID(4):
-		return v.rowMeasurementPeriodicity != nil
-	case s00.ProtocolIEID(5):
-		return v.rowMeasurementQuantities != nil
-	case s00.ProtocolIEID(15):
-		return v.rowInterRATMeasurementQuantities != nil
-	case s00.ProtocolIEID(19):
-		return v.rowWLANMeasurementQuantities != nil
-	default:
-		return false
-	}
-}
-
-// Opaque returns the retained opaque open value and reports whether an opaque alternative is selected.
-func (v *ECIDMeasurementInitiationRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque || v.opaque == nil {
-		return aper.OpaqueOpenType{}, false
-	}
-	return *v.opaque, true
-}
-func (ECIDMeasurementInitiationRequestIEValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Contents", Assignment: "E-CIDMeasurementInitiationRequest-IEs"}}
-}
-func (ECIDMeasurementInitiationRequestIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(2):
-		return aper.UnknownSelector
-	case s00.ProtocolIEID(3):
-		return aper.UnknownSelector
-	case s00.ProtocolIEID(4):
-		return aper.UnknownSelector
-	case s00.ProtocolIEID(5):
-		return aper.UnknownSelector
-	case s00.ProtocolIEID(15):
-		return aper.UnknownSelector
-	case s00.ProtocolIEID(19):
-		return aper.UnknownSelector
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(6):
-		return aper.NotInTable
-	case s00.ProtocolIEID(7):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(9):
-		return aper.NotInTable
-	case s00.ProtocolIEID(10):
-		return aper.NotInTable
-	case s00.ProtocolIEID(11):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-
-// AsESMLCUEMeasurementID returns the selected ESMLCUEMeasurementID value and reports whether that alternative is active.
-func (v *ECIDMeasurementInitiationRequestIEValue) AsESMLCUEMeasurementID() (*s00.MeasurementID, bool) {
-	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowESMLCUEMeasurementID == nil {
-		return nil, false
-	}
-	return v.rowESMLCUEMeasurementID, true
-}
-
-// AsReportCharacteristics returns the selected ReportCharacteristics value and reports whether that alternative is active.
-func (v *ECIDMeasurementInitiationRequestIEValue) AsReportCharacteristics() (*s00.ReportCharacteristics, bool) {
-	if v == nil || v.id != s00.ProtocolIEID(3) || v.rowReportCharacteristics == nil {
-		return nil, false
-	}
-	return v.rowReportCharacteristics, true
-}
-
-// AsMeasurementPeriodicity returns the selected MeasurementPeriodicity value and reports whether that alternative is active.
-func (v *ECIDMeasurementInitiationRequestIEValue) AsMeasurementPeriodicity() (*s00.MeasurementPeriodicity, bool) {
-	if v == nil || v.id != s00.ProtocolIEID(4) || v.rowMeasurementPeriodicity == nil {
-		return nil, false
-	}
-	return v.rowMeasurementPeriodicity, true
-}
-
-// AsMeasurementQuantities returns the selected MeasurementQuantities value and reports whether that alternative is active.
-func (v *ECIDMeasurementInitiationRequestIEValue) AsMeasurementQuantities() (*s06.MeasurementQuantities, bool) {
-	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowMeasurementQuantities == nil {
-		return nil, false
-	}
-	return v.rowMeasurementQuantities, true
-}
-
-// AsInterRATMeasurementQuantities returns the selected InterRATMeasurementQuantities value and reports whether that alternative is active.
-func (v *ECIDMeasurementInitiationRequestIEValue) AsInterRATMeasurementQuantities() (*s06.InterRATMeasurementQuantities, bool) {
-	if v == nil || v.id != s00.ProtocolIEID(15) || v.rowInterRATMeasurementQuantities == nil {
-		return nil, false
-	}
-	return v.rowInterRATMeasurementQuantities, true
-}
-
-// AsWLANMeasurementQuantities returns the selected WLANMeasurementQuantities value and reports whether that alternative is active.
-func (v *ECIDMeasurementInitiationRequestIEValue) AsWLANMeasurementQuantities() (*WLANMeasurementQuantities, bool) {
-	if v == nil || v.id != s00.ProtocolIEID(19) || v.rowWLANMeasurementQuantities == nil {
-		return nil, false
-	}
-	return v.rowWLANMeasurementQuantities, true
-}
-func (v ECIDMeasurementInitiationRequestIEValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (ECIDMeasurementInitiationRequestIEValue, error) {
-	out := ECIDMeasurementInitiationRequestIEValue{id: id}
-	var scope *aper.BitBuffer
-	switch id {
-	case 2, 3, 4, 5, 15, 19:
-		scope = raw.BudgetBuffer()
-		if err := scope.EnterOpenType(); err != nil {
-			return out, err
-		}
-		defer scope.LeaveOpenType()
-	}
-	switch id {
-	case s00.ProtocolIEID(2):
-		replayUsage := scope.Usage()
-		bb := raw.ChildDecodeBuffer()
-		decoded, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.BridgeAsn1IntegerBound2, s00.BridgeAsn1IntegerBound7, true)
-		value := s00.MeasurementID(decoded)
-		if err != nil {
-			return out, fmt.Errorf("%s %w", "ESMLCUEMeasurementID:", err)
-		}
-		if _, err := aper.CaptureOpenTypePadding(bb); err != nil {
-			return out, err
-		}
-		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
-			return out, err
-		}
-		out.rowESMLCUEMeasurementID = &value
-		raw.RetainContents(&out.received)
-		out.received.RecordUsage(replayUsage, scope)
-	case s00.ProtocolIEID(3):
-		replayUsage := scope.Usage()
-		bb := raw.ChildDecodeBuffer()
-		decoded, err := aper.DecodeEnumeratedAligned(bb, 2, true, aper.EnumerationSource{KnownExtensions: 0, Path: "ReportCharacteristics"})
-		value := s00.ReportCharacteristics(decoded)
-		if err != nil {
-			return out, fmt.Errorf("%s %w", "ReportCharacteristics:", err)
-		}
-		if _, err := aper.CaptureOpenTypePadding(bb); err != nil {
-			return out, err
-		}
-		out.rowReportCharacteristics = (*s00.ReportCharacteristics)(scope.OwnInt64(int64(value)))
-		raw.RetainContents(&out.received)
-		out.received.RecordUsage(replayUsage, scope)
-	case s00.ProtocolIEID(4):
-		replayUsage := scope.Usage()
-		bb := raw.ChildDecodeBuffer()
-		decoded, err := aper.DecodeEnumeratedAligned(bb, 13, true, aper.EnumerationSource{KnownExtensions: 0, Path: "MeasurementPeriodicity"})
-		value := s00.MeasurementPeriodicity(decoded)
-		if err != nil {
-			return out, fmt.Errorf("%s %w", "MeasurementPeriodicity:", err)
-		}
-		if _, err := aper.CaptureOpenTypePadding(bb); err != nil {
-			return out, err
-		}
-		out.rowMeasurementPeriodicity = (*s00.MeasurementPeriodicity)(scope.OwnInt64(int64(value)))
-		raw.RetainContents(&out.received)
-		out.received.RecordUsage(replayUsage, scope)
-	case s00.ProtocolIEID(5):
-		replayUsage := scope.Usage()
-		child := raw.ChildDecodeBuffer()
-		list, err := s18.BridgeUnmarshalAPERMeasurementQuantitiesFrom(child)
-		if err != nil {
-			return out, fmt.Errorf("%s %w", "MeasurementQuantities:", err)
-		}
-		padding, err := aper.CaptureOpenTypePadding(child)
-		if err != nil {
-			return out, err
-		}
-		complete := func() s18.MeasurementQuantitiesComplete {
-			sealed := s18.MeasurementQuantitiesComplete{Value: list}
-			*s18.BridgeMeasurementQuantitiesCompleteFieldPerPadding(&sealed) = padding
-			return sealed
-		}()
-		value := complete.Value
-		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
-			return out, err
-		}
-		out.rowMeasurementQuantities = &value
-		raw.RetainContents(&out.received)
-		out.received.RecordUsage(replayUsage, scope)
-	case s00.ProtocolIEID(15):
-		replayUsage := scope.Usage()
-		child := raw.ChildDecodeBuffer()
-		list, err := s17.BridgeUnmarshalAPERInterRATMeasurementQuantitiesFrom(child)
-		if err != nil {
-			return out, fmt.Errorf("%s %w", "InterRATMeasurementQuantities:", err)
-		}
-		padding, err := aper.CaptureOpenTypePadding(child)
-		if err != nil {
-			return out, err
-		}
-		complete := func() s17.InterRATMeasurementQuantitiesComplete {
-			sealed := s17.InterRATMeasurementQuantitiesComplete{Value: list}
-			*s17.BridgeInterRATMeasurementQuantitiesCompleteFieldPerPadding(&sealed) = padding
-			return sealed
-		}()
-		value := complete.Value
-		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
-			return out, err
-		}
-		out.rowInterRATMeasurementQuantities = &value
-		raw.RetainContents(&out.received)
-		out.received.RecordUsage(replayUsage, scope)
-	case s00.ProtocolIEID(19):
-		replayUsage := scope.Usage()
-		child := raw.ChildDecodeBuffer()
-		list, err := BridgeUnmarshalAPERWLANMeasurementQuantitiesFrom(child)
-		if err != nil {
-			return out, fmt.Errorf("%s %w", "WLANMeasurementQuantities:", err)
-		}
-		padding, err := aper.CaptureOpenTypePadding(child)
-		if err != nil {
-			return out, err
-		}
-		complete := WLANMeasurementQuantitiesComplete{Value: list, perPadding: padding}
-		value := complete.Value
-		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
-			return out, err
-		}
-		out.rowWLANMeasurementQuantities = &value
-		raw.RetainContents(&out.received)
-		out.received.RecordUsage(replayUsage, scope)
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		retained, err := raw.Retained()
-		if err != nil {
-			return out, err
-		}
-		out.opaque = retained
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v ECIDMeasurementInitiationRequestIEValue) encode() ([]byte, error) {
-	budget, err := aper.EncodeBudget()
-	if err != nil {
-		return nil, err
-	}
-	return v.encodeFresh(false, budget)
-}
-func (v ECIDMeasurementInitiationRequestIEValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	fresh = fresh || v.withoutReplay
-	if fresh {
-		bb := aper.NewBudgetBuffer(budget)
-		previous := bb.SuspendReplayPlan()
-		defer bb.RestoreReplayPlan(previous)
-	}
-	if v.isOpaque {
-		if v.opaque == nil {
-			return nil, aper.ErrInvalidValue
-		}
-		return v.opaque.EncodeBytes(budget)
-	}
-	switch v.id {
-	case s00.ProtocolIEID(2):
-		if v.rowESMLCUEMeasurementID == nil {
-			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-E-SMLC-UE-Measurement-ID:")
-		}
-		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
-			if err := v.replay.ApplyReplay(budget); err != nil {
-				return nil, err
-			}
-			return v.received.ReplayBytes(budget)
-		}
-		encodeBB := aper.NewBudgetBuffer(budget)
-		if err := aper.EncodeIntegerBigBoundsAligned(encodeBB, *v.rowESMLCUEMeasurementID, s00.BridgeAsn1IntegerBound2, s00.BridgeAsn1IntegerBound7, true); err != nil {
-			return nil, err
-		}
-		candidate := encodeBB.CompleteBytes()
-		return candidate, nil
-	case s00.ProtocolIEID(3):
-		if v.rowReportCharacteristics == nil {
-			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-ReportCharacteristics:")
-		}
-		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
-			if err := v.replay.ApplyReplay(budget); err != nil {
-				return nil, err
-			}
-			return v.received.ReplayBytes(budget)
-		}
-		encodeBB := aper.NewBudgetBuffer(budget)
-		if err := aper.EncodeEnumeratedAligned(encodeBB, int64(*v.rowReportCharacteristics), 2, true); err != nil {
-			return nil, err
-		}
-		candidate := encodeBB.CompleteBytes()
-		return candidate, nil
-	case s00.ProtocolIEID(4):
-		if v.rowMeasurementPeriodicity == nil {
-			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-MeasurementPeriodicity:")
-		}
-		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
-			if err := v.replay.ApplyReplay(budget); err != nil {
-				return nil, err
-			}
-			return v.received.ReplayBytes(budget)
-		}
-		encodeBB := aper.NewBudgetBuffer(budget)
-		if err := aper.EncodeEnumeratedAligned(encodeBB, int64(*v.rowMeasurementPeriodicity), 13, true); err != nil {
-			return nil, err
-		}
-		candidate := encodeBB.CompleteBytes()
-		return candidate, nil
-	case s00.ProtocolIEID(5):
-		if v.rowMeasurementQuantities == nil {
-			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-MeasurementQuantities:")
-		}
-		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
-			if err := v.replay.ApplyReplay(budget); err != nil {
-				return nil, err
-			}
-			return v.received.ReplayBytes(budget)
-		}
-		complete := s18.MeasurementQuantitiesComplete{Value: *v.rowMeasurementQuantities}
-		candidate, err := s18.BridgeMeasurementQuantitiesCompleteMethodMarshalAPERBudget(&complete, budget, fresh)
-		if err != nil {
-			return nil, err
-		}
-		return candidate, nil
-	case s00.ProtocolIEID(15):
-		if v.rowInterRATMeasurementQuantities == nil {
-			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-InterRATMeasurementQuantities:")
-		}
-		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
-			if err := v.replay.ApplyReplay(budget); err != nil {
-				return nil, err
-			}
-			return v.received.ReplayBytes(budget)
-		}
-		complete := s17.InterRATMeasurementQuantitiesComplete{Value: *v.rowInterRATMeasurementQuantities}
-		candidate, err := s17.BridgeInterRATMeasurementQuantitiesCompleteMethodMarshalAPERBudget(&complete, budget, fresh)
-		if err != nil {
-			return nil, err
-		}
-		return candidate, nil
-	case s00.ProtocolIEID(19):
-		if v.rowWLANMeasurementQuantities == nil {
-			return nil, fmt.Errorf("%s missing value", "E-CIDMeasurementInitiationRequest-IEs.id-WLANMeasurementQuantities:")
-		}
-		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
-			if err := v.replay.ApplyReplay(budget); err != nil {
-				return nil, err
-			}
-			return v.received.ReplayBytes(budget)
-		}
-		complete := WLANMeasurementQuantitiesComplete{Value: *v.rowWLANMeasurementQuantities}
-		candidate, err := complete.marshalAPERBudget(budget, fresh)
-		if err != nil {
-			return nil, err
-		}
-		return candidate, nil
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "ECIDMeasurementInitiationRequestIEValue:", v.id)
-	}
-}
-
 type WLANMeasurementQuantitiesItemIETable struct{}
 
 func WLANMeasurementQuantitiesItemIEs() WLANMeasurementQuantitiesItemIETable {
@@ -4108,6 +4065,7 @@ func (t WLANMeasurementQuantitiesItemIETable) WLANMeasurementQuantitiesItem() WL
 				var empty WLANMeasurementQuantitiesItem
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("WLANMeasurementQuantitiesItem")
 			var zero WLANMeasurementQuantitiesItemIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(20), raw)
 			if err != nil {
@@ -4182,31 +4140,31 @@ func (t WLANMeasurementQuantitiesItemIETable) NewOpaque(id s00.ProtocolIEID, cri
 
 // InterRATMeasuredResultsValueCodec binds the complete source value type.
 func InterRATMeasuredResultsValueCodec() InterRATMeasuredResultsValueValueCodec {
-	return InterRATMeasuredResultsValueValueCodec{path: "InterRATMeasuredResultsValue", decode: func(data []byte, options aper.DecodeState) (s19.InterRATMeasuredResultsValue, error) {
-		var value s19.InterRATMeasuredResultsValue
-		if err := s19.BridgeInterRATMeasuredResultsValueMethodUnmarshalAPERWithOptions(&value, data, options); err != nil {
-			return s19.InterRATMeasuredResultsValue{}, err
+	return InterRATMeasuredResultsValueValueCodec{path: "InterRATMeasuredResultsValue", decode: func(data []byte, options aper.DecodeState) (InterRATMeasuredResultsValue, error) {
+		var value InterRATMeasuredResultsValue
+		if err := value.unmarshalAPERWithOptions(data, options); err != nil {
+			return InterRATMeasuredResultsValue{}, err
 		}
-		*s19.BridgeInterRATMeasuredResultsValueFieldReceived(&value) = true
-		*s19.BridgeInterRATMeasuredResultsValueFieldReceivedBytes(&value) = aper.OriginalWire(data)
+		value.received = true
+		value.receivedBytes = aper.OriginalWire(data)
 		return value, nil
-	}, encode: func(value s19.InterRATMeasuredResultsValue, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s19.BridgeInterRATMeasuredResultsValueMethodMarshalAPERBudget((&value), budget, fresh)
-	}, capture: func(v s19.InterRATMeasuredResultsValue, options aper.DecodeState) (s19.InterRATMeasuredResultsValue, aper.Snapshot,
+	}, encode: func(value InterRATMeasuredResultsValue, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return (&value).marshalAPERBudget(budget, fresh)
+	}, capture: func(v InterRATMeasuredResultsValue, options aper.DecodeState) (InterRATMeasuredResultsValue, aper.Snapshot,
 	) {
 		s := aper.SemanticCaptureFor(options)
 		f := s.Begin()
-		s19.BridgeCaptureLPPaInterRATMeasuredResultsValue(&v, &s)
+		BridgeCaptureLPPaInterRATMeasuredResultsValue(&v, &s)
 		var root aper.Snapshot
 
 		s.OperationCounts()
 		s.End(f, &root, false)
 		return v, root
 
-	}, compare: func(v s19.InterRATMeasuredResultsValue, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+	}, compare: func(v InterRATMeasuredResultsValue, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
 		s := aper.NewSemanticComparison(root, limits)
 		f := s.Begin()
-		s19.BridgeCompareLPPaInterRATMeasuredResultsValue(&v, &s)
+		BridgeCompareLPPaInterRATMeasuredResultsValue(&v, &s)
 		s.End(f, root, false)
 		return s.Plan()
 	}, context: func() s00.BridgeCodecContext {
@@ -4431,7 +4389,7 @@ func BridgeValidatePrivateMessageBudget(v *s12.PrivateMessage, budget *aper.Deco
 		}
 		if !s08.BridgePrivateMessageIEsValueMethodMatchesID(field.Value, field.Id, budget) {
 			id := field.Id
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("PrivateMessage.privateIEs[%d].id", i))}, PrivateID: &id, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{s08.BridgePrivateMessageIEsValueMethodRule(field.Value)}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("PrivateMessage.privateIEs[%d].id", i))}, PrivateID: &id, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{s08.BridgePrivateMessageIEsValueMethodRule(field.Value)}})
 		}
 	}
 	return report, nil
@@ -4452,72 +4410,6 @@ func ValidatePrivateMessage(v *s12.PrivateMessage, options ...aper.ValidationOpt
 	*s09.BridgeValidationReportFieldErr(&report) = nil
 	return report, aper.OperationError(err, "PrivateMessage")
 }
-func BridgeECIDMeasurementInitiationRequestIEValueFieldId(v *ECIDMeasurementInitiationRequestIEValue) *s00.ProtocolIEID {
-	return &v.id
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldIsOpaque(v *ECIDMeasurementInitiationRequestIEValue) *bool {
-	return &v.isOpaque
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldOpaque(v *ECIDMeasurementInitiationRequestIEValue) **aper.OpaqueOpenType {
-	return &v.opaque
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldReceived(v *ECIDMeasurementInitiationRequestIEValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldReplay(v *ECIDMeasurementInitiationRequestIEValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldRowESMLCUEMeasurementID(v *ECIDMeasurementInitiationRequestIEValue) **s00.MeasurementID {
-	return &v.rowESMLCUEMeasurementID
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldRowInterRATMeasurementQuantities(v *ECIDMeasurementInitiationRequestIEValue) **s06.InterRATMeasurementQuantities {
-	return &v.rowInterRATMeasurementQuantities
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldRowMeasurementPeriodicity(v *ECIDMeasurementInitiationRequestIEValue) **s00.MeasurementPeriodicity {
-	return &v.rowMeasurementPeriodicity
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldRowMeasurementQuantities(v *ECIDMeasurementInitiationRequestIEValue) **s06.MeasurementQuantities {
-	return &v.rowMeasurementQuantities
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldRowReportCharacteristics(v *ECIDMeasurementInitiationRequestIEValue) **s00.ReportCharacteristics {
-	return &v.rowReportCharacteristics
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldRowWLANMeasurementQuantities(v *ECIDMeasurementInitiationRequestIEValue) **WLANMeasurementQuantities {
-	return &v.rowWLANMeasurementQuantities
-}
-func BridgeECIDMeasurementInitiationRequestIEValueFieldWithoutReplay(v *ECIDMeasurementInitiationRequestIEValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeECIDMeasurementInitiationRequestIEValueMethodCaptureFraming(v ECIDMeasurementInitiationRequestIEValue) uint64 {
-	return v.captureFraming()
-}
-func BridgeECIDMeasurementInitiationRequestIEValueMethodCaptureSemantics(v ECIDMeasurementInitiationRequestIEValue, a0 aper.SemanticCapture) ECIDMeasurementInitiationRequestIEValue {
-	return v.captureSemantics(a0)
-}
-func BridgeECIDMeasurementInitiationRequestIEValueMethodCaptureSnapshot(v ECIDMeasurementInitiationRequestIEValue) aper.Snapshot {
-	return v.captureSnapshot()
-}
-func BridgeECIDMeasurementInitiationRequestIEValueMethodCompareSemantics(v ECIDMeasurementInitiationRequestIEValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
-}
-func BridgeECIDMeasurementInitiationRequestIEValueMethodDecode(v ECIDMeasurementInitiationRequestIEValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (ECIDMeasurementInitiationRequestIEValue, error) {
-	return v.decode(a0, a1)
-}
-func BridgeECIDMeasurementInitiationRequestIEValueMethodEncode(v ECIDMeasurementInitiationRequestIEValue) ([]byte, error) {
-	return v.encode()
-}
-func BridgeECIDMeasurementInitiationRequestIEValueMethodEncodeFresh(v ECIDMeasurementInitiationRequestIEValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
-}
-func BridgeECIDMeasurementInitiationRequestIEValueMethodMatchesID(v ECIDMeasurementInitiationRequestIEValue, a0 s00.ProtocolIEID, a1 *aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1)
-}
-func BridgeECIDMeasurementInitiationRequestIEValueMethodReason(v ECIDMeasurementInitiationRequestIEValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
-}
-func BridgeECIDMeasurementInitiationRequestIEValueMethodRule(v ECIDMeasurementInitiationRequestIEValue) aper.SourceRule {
-	return v.rule()
-}
 func BridgeInterRATMeasuredResultsValueAPERValueFieldContext(v *InterRATMeasuredResultsValueAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
@@ -4530,28 +4422,82 @@ func BridgeInterRATMeasuredResultsValueAPERValueFieldReplay(v *InterRATMeasuredR
 func BridgeInterRATMeasuredResultsValueAPERValueFieldWithoutReplay(v *InterRATMeasuredResultsValueAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeInterRATMeasuredResultsValueValueCodecFieldCapture(v *InterRATMeasuredResultsValueValueCodec) *func(s19.InterRATMeasuredResultsValue, aper.DecodeState) (s19.InterRATMeasuredResultsValue, aper.Snapshot) {
+func BridgeInterRATMeasuredResultsValueFieldKnownOpenBytes(v *InterRATMeasuredResultsValue) *uint64 {
+	return &v.knownOpenBytes
+}
+func BridgeInterRATMeasuredResultsValueFieldPerOpenTypePadding(v *InterRATMeasuredResultsValue) *aper.CompletePadding {
+	return &v.perOpenTypePadding
+}
+func BridgeInterRATMeasuredResultsValueFieldPerPadding(v *InterRATMeasuredResultsValue) *aper.CompletePadding {
+	return &v.perPadding
+}
+func BridgeInterRATMeasuredResultsValueFieldReceived(v *InterRATMeasuredResultsValue) *bool {
+	return &v.received
+}
+func BridgeInterRATMeasuredResultsValueFieldReceivedBytes(v *InterRATMeasuredResultsValue) *aper.WireSpan {
+	return &v.receivedBytes
+}
+func BridgeInterRATMeasuredResultsValueFieldReplay(v *InterRATMeasuredResultsValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeInterRATMeasuredResultsValueFieldStream(v *InterRATMeasuredResultsValue) *aper.WireSpan {
+	return &v.stream
+}
+func BridgeInterRATMeasuredResultsValueFieldWithoutReplay(v *InterRATMeasuredResultsValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERBudget(v *InterRATMeasuredResultsValue, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERBudget(a0, a1)
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERChanged(v *InterRATMeasuredResultsValue, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChanged(a0, a1, a2)
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERChangedValue(v *InterRATMeasuredResultsValue, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChangedValue(a0, a1, a2)
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERFreshValue(v *InterRATMeasuredResultsValue, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERFreshValue(a0, a1)
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERLegacy(v *InterRATMeasuredResultsValue) ([]byte, error) {
+	return v.marshalAPERLegacy()
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERPlanned(v *InterRATMeasuredResultsValue, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERPlanned(a0, a1)
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERTo(v *InterRATMeasuredResultsValue, a0 *aper.BitBuffer, a1 ...bool) error {
+	return v.marshalAPERTo(a0, a1...)
+}
+func BridgeInterRATMeasuredResultsValueMethodUnmarshalAPERFrom(v *InterRATMeasuredResultsValue, a0 *aper.BitBuffer) error {
+	return v.unmarshalAPERFrom(a0)
+}
+func BridgeInterRATMeasuredResultsValueMethodUnmarshalAPERLegacy(v *InterRATMeasuredResultsValue, a0 []byte) error {
+	return v.unmarshalAPERLegacy(a0)
+}
+func BridgeInterRATMeasuredResultsValueMethodUnmarshalAPERWithOptions(v *InterRATMeasuredResultsValue, a0 []byte, a1 aper.DecodeState) error {
+	return v.unmarshalAPERWithOptions(a0, a1)
+}
+func BridgeInterRATMeasuredResultsValueValueCodecFieldCapture(v *InterRATMeasuredResultsValueValueCodec) *func(InterRATMeasuredResultsValue, aper.DecodeState) (InterRATMeasuredResultsValue, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeInterRATMeasuredResultsValueValueCodecFieldCompare(v *InterRATMeasuredResultsValueValueCodec) *func(s19.InterRATMeasuredResultsValue, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
+func BridgeInterRATMeasuredResultsValueValueCodecFieldCompare(v *InterRATMeasuredResultsValueValueCodec) *func(InterRATMeasuredResultsValue, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
 func BridgeInterRATMeasuredResultsValueValueCodecFieldContext(v *InterRATMeasuredResultsValueValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeInterRATMeasuredResultsValueValueCodecFieldDecode(v *InterRATMeasuredResultsValueValueCodec) *func([]byte, aper.DecodeState) (s19.InterRATMeasuredResultsValue, error) {
+func BridgeInterRATMeasuredResultsValueValueCodecFieldDecode(v *InterRATMeasuredResultsValueValueCodec) *func([]byte, aper.DecodeState) (InterRATMeasuredResultsValue, error) {
 	return &v.decode
 }
-func BridgeInterRATMeasuredResultsValueValueCodecFieldEncode(v *InterRATMeasuredResultsValueValueCodec) *func(s19.InterRATMeasuredResultsValue, bool, *aper.DecodeBudget) ([]byte, error) {
+func BridgeInterRATMeasuredResultsValueValueCodecFieldEncode(v *InterRATMeasuredResultsValueValueCodec) *func(InterRATMeasuredResultsValue, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
 func BridgeInterRATMeasuredResultsValueValueCodecFieldPath(v *InterRATMeasuredResultsValueValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeInterRATMeasuredResultsValueValueCodecMethodEncodeBudget(v InterRATMeasuredResultsValueValueCodec, a0 s19.InterRATMeasuredResultsValue, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+func BridgeInterRATMeasuredResultsValueValueCodecMethodEncodeBudget(v InterRATMeasuredResultsValueValueCodec, a0 InterRATMeasuredResultsValue, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeInterRATMeasuredResultsValueValueCodecMethodEncodeChanged(v InterRATMeasuredResultsValueValueCodec, a0 s19.InterRATMeasuredResultsValue, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
+func BridgeInterRATMeasuredResultsValueValueCodecMethodEncodeChanged(v InterRATMeasuredResultsValueValueCodec, a0 InterRATMeasuredResultsValue, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeInterRATMeasurementResultAPERValueFieldContext(v *InterRATMeasurementResultAPERValue) *s00.BridgeCodecContext {

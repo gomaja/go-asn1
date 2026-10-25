@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func sgNBAdditionRequestAcknowledgeIEFieldfreshMust(value s15.SgNBAdditionRequestAcknowledgeIEField, err error) s15.SgNBAdditionRequestAcknowledgeIEField {
+func retrieveUEContextFailurefreshMust(value s14.RetrieveUEContextFailure, err error) s14.RetrieveUEContextFailure {
 	if err != nil {
 		panic(err)
 	}

@@ -117,7 +117,9 @@ func (v *ECIDMeasurementTerminationCommandIEField) unmarshalAPERFrom(bb *aper.Bi
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := s02.BridgeECIDMeasurementTerminationCommandIEValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -254,7 +256,9 @@ func (v *AssistanceInformationExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuff
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := s02.BridgeAssistanceInformationExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -367,7 +371,9 @@ func (v *AssistanceInformationMetaDataExtIEsExtField) unmarshalAPERFrom(bb *aper
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := s02.BridgeAssistanceInformationMetaDataExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -480,7 +486,9 @@ func (v *CriticalityDiagnosticsExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuf
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := s02.BridgeCriticalityDiagnosticsExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -593,7 +601,9 @@ func (v *ECGIExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := s02.BridgeECGIExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -706,7 +716,9 @@ func (v *InterRATMeasurementQuantitiesValueExtIEsExtField) unmarshalAPERFrom(bb 
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := s02.BridgeInterRATMeasurementQuantitiesValueExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -819,7 +831,9 @@ func (v *AddOTDOACellsExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := s02.BridgeAddOTDOACellsExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -932,7 +946,9 @@ func (v *AssistanceInformationFailureListExtIEsExtField) unmarshalAPERFrom(bb *a
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := s02.BridgeAssistanceInformationFailureListExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1045,7 +1061,9 @@ func (v *CriticalityDiagnosticsIEListExtIEsExtField) unmarshalAPERFrom(bb *aper.
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := s02.BridgeCriticalityDiagnosticsIEListExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1347,7 +1365,9 @@ func (v *AddOTDOACellsExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := s02.BridgeAddOTDOACellsExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1463,7 +1483,9 @@ func (v *AssistanceInformationExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffe
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := s02.BridgeAssistanceInformationExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1579,7 +1601,9 @@ func (v *AssistanceInformationFailureListExtIEsIEField) unmarshalAPERFrom(bb *ap
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := s02.BridgeAssistanceInformationFailureListExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1695,7 +1719,9 @@ func (v *AssistanceInformationMetaDataExtIEsIEField) unmarshalAPERFrom(bb *aper.
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := s02.BridgeAssistanceInformationMetaDataExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1811,7 +1837,9 @@ func (v *CriticalityDiagnosticsExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuff
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := s02.BridgeCriticalityDiagnosticsExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1927,7 +1955,9 @@ func (v *CriticalityDiagnosticsIEListExtIEsIEField) unmarshalAPERFrom(bb *aper.B
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := s02.BridgeCriticalityDiagnosticsIEListExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -2043,7 +2073,9 @@ func (v *ECGIExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := s02.BridgeECGIExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -2056,122 +2088,6 @@ func (v *ECGIExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 
 // ECGIExtIEsIEContainer is the concrete ProtocolIEContainer[ECGIExtIEsValue].
 type ECGIExtIEsIEContainer []ECGIExtIEsIEField
-
-// InterRATMeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[InterRATMeasurementQuantitiesValueExtIEsValue].
-type InterRATMeasurementQuantitiesValueExtIEsIEField struct {
-	withoutReplay bool
-	replay        aper.Snapshot
-	stream        aper.WireSpan
-	Id            s00.ProtocolIEID
-	Criticality   s00.Criticality
-	Value         s02.InterRATMeasurementQuantitiesValueExtIEsValue
-
-	received aper.CompletePadding
-}
-
-// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
-func (v InterRATMeasurementQuantitiesValueExtIEsIEField) WithoutReplay() InterRATMeasurementQuantitiesValueExtIEsIEField {
-	v.withoutReplay = true
-	v.stream = aper.WireSpan{}
-	return v
-}
-
-// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
-func (v *InterRATMeasurementQuantitiesValueExtIEsIEField) ReceivedForm() aper.ReceivedForm {
-	if v == nil || v.withoutReplay {
-		return aper.ReceivedForm{}
-	}
-	return aper.NewReceivedSpanForm(v.stream.Present(), v.stream, v.stream.ContentLocation(), nil)
-}
-func (v *InterRATMeasurementQuantitiesValueExtIEsIEField) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
-	if v != nil && v.withoutReplay {
-		fresh = []bool{true}
-	}
-	if len(fresh) > 0 && fresh[0] {
-		previous := bb.SuspendReplayPlan()
-		defer bb.RestoreReplayPlan(previous)
-	}
-	if v !=
-		nil && bb.
-		ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
-		if ok, err := v.replay.ReplayTo(v.stream,
-			bb); ok || err !=
-			nil {
-			return err
-		}
-	}
-
-	if err := bb.EnterDecodeValue(); err != nil {
-		return err
-	}
-	defer bb.LeaveDecodeValue()
-
-	if v == nil {
-		return fmt.Errorf("nil ProtocolIEField")
-	}
-	// TS 36.455 V19.0.0 §9.3.8 binds the table-selected value to @id.
-	if !s02.BridgeInterRATMeasurementQuantitiesValueExtIEsValueMethodMatchesID(v.Value, v.Id, bb.Budget()) {
-		return runtime.WrapDecodePath(fmt.Errorf("%w: field id %d does not match its value selector", aper.ErrInvalidValue, v.Id), "ProtocolIEField.Id")
-	}
-	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), BridgeInt64Ptr(0), BridgeInt64Ptr(65535), false); err != nil {
-		return fmt.Errorf("encoding id: %w", err)
-	}
-	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
-		return fmt.Errorf("encoding criticality: %w", err)
-	}
-	data, err := s02.BridgeInterRATMeasurementQuantitiesValueExtIEsValueMethodEncodeFresh(v.Value, len(fresh) != 0 && fresh[0],
-
-		bb.Budget())
-	if err != nil {
-		return fmt.Errorf("encoding value: %w", err)
-	}
-	if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
-		return fmt.Errorf("encoding value: %w", err)
-	}
-	return nil
-}
-func (v *InterRATMeasurementQuantitiesValueExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
-	replayStart := bb.BitPos()
-	replayUsage := bb.Usage()
-
-	if v == nil {
-		return fmt.Errorf("nil ProtocolIEField")
-	}
-	if err := bb.EnterDecodeValue(); err != nil {
-		return err
-	}
-	defer bb.LeaveDecodeValue()
-	*v = InterRATMeasurementQuantitiesValueExtIEsIEField{}
-	id, err := aper.DecodeIntegerAligned(bb, BridgeInt64Ptr(0), BridgeInt64Ptr(65535), false)
-	if err != nil {
-		return runtime.WrapDecodePath(err, "Id")
-	}
-	v.Id = s00.ProtocolIEID(id)
-	criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
-	if err != nil {
-		return runtime.WrapDecodePath(err, "Criticality")
-	}
-	v.Criticality = s00.Criticality(criticality)
-	var zero s02.InterRATMeasurementQuantitiesValueExtIEsValue
-
-	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, s02.BridgeInterRATMeasurementQuantitiesValueExtIEsValueMethodReason(zero, v.Id), s02.BridgeInterRATMeasurementQuantitiesValueExtIEsValueMethodRule(zero))
-	if err != nil {
-		return runtime.WrapDecodePath(err, "Value")
-	}
-	raw = raw.WithPath("ProtocolIEField.Value")
-	value, err := s02.BridgeInterRATMeasurementQuantitiesValueExtIEsValueMethodDecode(zero, v.Id, raw)
-	if err != nil {
-		return runtime.WrapDecodePath(err, "Value")
-	}
-	v.Value = value
-	v.stream = bb.CaptureWireSpan(replayStart)
-	v.stream.RecordUsage(replayUsage, bb)
-
-	return nil
-}
-
-// InterRATMeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[InterRATMeasurementQuantitiesValueExtIEsValue].
-type InterRATMeasurementQuantitiesValueExtIEsIEContainer []InterRATMeasurementQuantitiesValueExtIEsIEField
 
 func BridgeEffectivePayloadLimits(l s00.PayloadLimits) s00.PayloadLimits {
 	if l.MaxInputBytes == 0 {
@@ -4726,6 +4642,7 @@ func (t ECIDMeasurementTerminationCommandIETable) ESMLCUEMeasurementID() ECIDMea
 				var empty s00.MeasurementID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MeasurementID")
 			var zero s02.ECIDMeasurementTerminationCommandIEValue
 			decoded, err := s02.BridgeECIDMeasurementTerminationCommandIEValueMethodDecode(zero, s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -4800,6 +4717,7 @@ func (t ECIDMeasurementTerminationCommandIETable) ENBUEMeasurementID() ECIDMeasu
 				var empty s00.MeasurementID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MeasurementID")
 			var zero s02.ECIDMeasurementTerminationCommandIEValue
 			decoded, err := s02.BridgeECIDMeasurementTerminationCommandIEValueMethodDecode(zero, s00.ProtocolIEID(6), raw)
 			if err != nil {
@@ -6160,24 +6078,6 @@ func BridgeInterRATMeasurementQuantitiesValueExtIEsExtFieldMethodMarshalAPERTo(v
 	return v.marshalAPERTo(a0, a1...)
 }
 func BridgeInterRATMeasurementQuantitiesValueExtIEsExtFieldMethodUnmarshalAPERFrom(v *InterRATMeasurementQuantitiesValueExtIEsExtField, a0 *aper.BitBuffer) error {
-	return v.unmarshalAPERFrom(a0)
-}
-func BridgeInterRATMeasurementQuantitiesValueExtIEsIEFieldFieldReceived(v *InterRATMeasurementQuantitiesValueExtIEsIEField) *aper.CompletePadding {
-	return &v.received
-}
-func BridgeInterRATMeasurementQuantitiesValueExtIEsIEFieldFieldReplay(v *InterRATMeasurementQuantitiesValueExtIEsIEField) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeInterRATMeasurementQuantitiesValueExtIEsIEFieldFieldStream(v *InterRATMeasurementQuantitiesValueExtIEsIEField) *aper.WireSpan {
-	return &v.stream
-}
-func BridgeInterRATMeasurementQuantitiesValueExtIEsIEFieldFieldWithoutReplay(v *InterRATMeasurementQuantitiesValueExtIEsIEField) *bool {
-	return &v.withoutReplay
-}
-func BridgeInterRATMeasurementQuantitiesValueExtIEsIEFieldMethodMarshalAPERTo(v *InterRATMeasurementQuantitiesValueExtIEsIEField, a0 *aper.BitBuffer, a1 ...bool) error {
-	return v.marshalAPERTo(a0, a1...)
-}
-func BridgeInterRATMeasurementQuantitiesValueExtIEsIEFieldMethodUnmarshalAPERFrom(v *InterRATMeasurementQuantitiesValueExtIEsIEField, a0 *aper.BitBuffer) error {
 	return v.unmarshalAPERFrom(a0)
 }
 func BridgePosSIBsExtIEsValueFieldId(v *PosSIBsExtIEsValue) *s00.ProtocolIEID { return &v.id }

@@ -3,12 +3,15 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func cellCapacityClassValueAPERValueapiMust(v s00.CellCapacityClassValueAPERValue, err error) s00.CellCapacityClassValueAPERValue {
-	if err != nil {
-		panic(err)
+func (c Int64ValueCodec) encodeUnplanned(value int64,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
 	}
-	return v
+	return out, aper.OperationError(err, c.path)
 }

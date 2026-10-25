@@ -10,6 +10,7 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s07"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 	"math/big"
@@ -115,7 +116,9 @@ func (v *PrivateMessageIEsValuePrivateIEField) unmarshalAPERFrom(bb *aper.BitBuf
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("PrivateIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -124,6 +127,112 @@ func (v *PrivateMessageIEsValuePrivateIEField) unmarshalAPERFrom(bb *aper.BitBuf
 	v.stream.RecordUsage(replayUsage, bb)
 
 	return nil
+}
+
+// OTDOAInformationTypeValueCodec is the concrete ValueCodec[OTDOAInformationType].
+type OTDOAInformationTypeValueCodec struct {
+	context s00.BridgeCodecContext
+	capture func(s07.OTDOAInformationType, aper.DecodeState,
+
+	) (s07.OTDOAInformationType, aper.Snapshot,
+
+	)
+	compare func(s07.OTDOAInformationType, aper.Snapshot, aper.ComparisonLimits,
+
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s07.OTDOAInformationType,
+
+		error)
+	encode func(s07.OTDOAInformationType,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+}
+
+// New validates value and returns a complete APER value.
+func (c OTDOAInformationTypeValueCodec) New(value s07.OTDOAInformationType,
+
+) (s07.OTDOAInformationTypeAPERValue, error) {
+	if c.encode == nil {
+		return s07.OTDOAInformationTypeAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return s07.OTDOAInformationTypeAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return s07.OTDOAInformationTypeAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return s07.OTDOAInformationTypeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c OTDOAInformationTypeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (s07.OTDOAInformationTypeAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil {
+		return s07.OTDOAInformationTypeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+	}
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
+	value, err := c.decode(data, settings)
+	if err != nil {
+		report, err := aper.FinishDecode(settings, err)
+		return s07.OTDOAInformationTypeAPERValue{}, report, aper.OperationError(err, c.path)
+	}
+	if c.capture == nil {
+		return s07.OTDOAInformationTypeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
+	}
+	value, replay := c.capture(value, settings)
+	report, err := aper.FinishDecode(settings, nil)
+	if err != nil {
+		return s07.OTDOAInformationTypeAPERValue{}, report, aper.OperationError(err, c.path)
+	}
+	return func() s07.OTDOAInformationTypeAPERValue {
+		sealed := s07.OTDOAInformationTypeAPERValue{Value: value}
+		*s07.BridgeOTDOAInformationTypeAPERValueFieldReceived(&sealed) = aper.OriginalWire(data)
+		*s07.BridgeOTDOAInformationTypeAPERValueFieldReplay(&sealed) = replay
+		*s07.BridgeOTDOAInformationTypeAPERValueFieldContext(&sealed) = c.context
+		return sealed
+	}(), report, nil
+}
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c OTDOAInformationTypeValueCodec) EncodeAPER(value s07.OTDOAInformationTypeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+	}
+	fresh := *s07.BridgeOTDOAInformationTypeAPERValueFieldWithoutReplay(&value) || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	if !fresh && *s07.BridgeOTDOAInformationTypeAPERValueFieldContext(&value) == c.context && (*s07.BridgeOTDOAInformationTypeAPERValueFieldReplay(&value)).Present() {
+
+		plan := c.compare(value.Value, *s07.BridgeOTDOAInformationTypeAPERValueFieldReplay(&value), aper.ComparisonBudget(&budget))
+		if err := plan.ChargeComparison(&budget); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(*s07.BridgeOTDOAInformationTypeAPERValueFieldReplay(&value)) {
+			if err := (*s07.BridgeOTDOAInformationTypeAPERValueFieldReplay(&value)).ApplyReplay(&budget); err != nil {
+				return nil, aper.OperationError(err, c.path)
+			}
+			out, err := (*s07.BridgeOTDOAInformationTypeAPERValueFieldReceived(&value)).ReplayBytes(&budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, false, plan, budget)
+	}
+	out, err := c.encodeBudget(value.Value, fresh, budget)
+	return out, aper.OperationError(err, c.path)
+}
+func (c OTDOAInformationTypeValueCodec) encodeBudget(value s07.OTDOAInformationType,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	return c.encode(value, fresh, &budget)
+}
+func (c OTDOAInformationTypeValueCodec) encodeChanged(value s07.OTDOAInformationType,
+
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	return out, aper.OperationError(err, c.path)
 }
 
 // RequestedSRSTransmissionCharacteristicsValueCodec is the concrete ValueCodec[RequestedSRSTransmissionCharacteristics].
@@ -1067,6 +1176,7 @@ func (v *PrivateIEID) unmarshalAPERWithOptions(data []byte, options aper.DecodeS
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEID")
 	}
+	bb.EnterComponent("PrivateIEID")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEID")
 	}
@@ -1521,6 +1631,7 @@ func (v *PRSMutingConfiguration) unmarshalAPERWithOptions(data []byte, options a
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PRSMutingConfiguration")
 	}
+	bb.EnterComponent("PRSMutingConfiguration")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PRSMutingConfiguration")
 	}
@@ -1645,7 +1756,9 @@ func (v *PRSMutingConfiguration) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			v.OneThousandAndTwentyFour = &tmp_onethousandandtwentyfour
 		}
+		paddingMark := inner.EnterComponent(extensionPath)
 		padding, err := aper.CaptureOpenTypePadding(inner)
+		inner.LeaveComponent(paddingMark)
 		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
@@ -1863,6 +1976,7 @@ func (v *PRSFrequencyHoppingConfiguration) unmarshalAPERWithOptions(data []byte,
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PRSFrequencyHoppingConfiguration")
 	}
+	bb.EnterComponent("PRSFrequencyHoppingConfiguration")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PRSFrequencyHoppingConfiguration")
 	}
@@ -1897,6 +2011,7 @@ func (v *PRSFrequencyHoppingConfiguration) unmarshalAPERFrom(bb *aper.BitBuffer)
 		return runtime.WrapDecodePath(err, "NoOfFreqHoppingBands")
 	}
 	v.NoOfFreqHoppingBands = s00.NumberOfFrequencyHoppingBands(val_nooffreqhoppingbands)
+	toleranceMark_bandpositions := bb.EnterComponent("BandPositions")
 	v.BandPositions = make(s00.PRSFrequencyHoppingConfigurationBandPositions, 0)
 	_, errCollection_bandpositions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, true, func(fragmentOffset_bandpositions, fragmentLength_bandpositions int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1136
@@ -1919,7 +2034,9 @@ func (v *PRSFrequencyHoppingConfiguration) unmarshalAPERFrom(bb *aper.BitBuffer)
 	if errCollection_bandpositions != nil {
 		return runtime.WrapDecodePath(errCollection_bandpositions, "BandPositions")
 	}
+	bb.LeaveComponent(toleranceMark_bandpositions)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.PRSFrequencyHoppingConfigurationItemIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1928,9 +2045,11 @@ func (v *PRSFrequencyHoppingConfiguration) unmarshalAPERFrom(bb *aper.BitBuffer)
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.PRSFrequencyHoppingConfigurationItemIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.BridgePRSFrequencyHoppingConfigurationItemIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -1943,6 +2062,7 @@ func (v *PRSFrequencyHoppingConfiguration) unmarshalAPERFrom(bb *aper.BitBuffer)
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -2119,6 +2239,7 @@ func (v *RequestedSRSTransmissionCharacteristics) unmarshalAPERWithOptions(data 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RequestedSRSTransmissionCharacteristics")
 	}
+	bb.EnterComponent("RequestedSRSTransmissionCharacteristics")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RequestedSRSTransmissionCharacteristics")
 	}
@@ -2345,6 +2466,7 @@ func (v *PosSIBSegmentsElem) unmarshalAPERWithOptions(data []byte, options aper.
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBSegmentsElem")
 	}
+	bb.EnterComponent("PosSIBSegmentsElem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBSegmentsElem")
 	}
@@ -2380,6 +2502,7 @@ func (v *PosSIBSegmentsElem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	v.AssistanceDataSIBelement = val_assistancedatasibelement
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.PosSIBSegmentsExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2388,9 +2511,11 @@ func (v *PosSIBSegmentsElem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.PosSIBSegmentsExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.BridgePosSIBSegmentsExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -2403,6 +2528,7 @@ func (v *PosSIBSegmentsElem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -2525,6 +2651,7 @@ func (v *ResultUTRANItemPhysCellIDUTRAN) unmarshalAPERWithOptions(data []byte, o
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ResultUTRANItemPhysCellIDUTRAN")
 	}
+	bb.EnterComponent("ResultUTRANItemPhysCellIDUTRAN")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResultUTRANItemPhysCellIDUTRAN")
 	}
@@ -4131,6 +4258,30 @@ func ResultUTRANItemPhysCellIDUTRANCodec() ResultUTRANItemPhysCellIDUTRANValueCo
 		return sealed
 	}(),
 	}
+}
+func BridgeOTDOAInformationTypeValueCodecFieldCapture(v *OTDOAInformationTypeValueCodec) *func(s07.OTDOAInformationType, aper.DecodeState) (s07.OTDOAInformationType, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeOTDOAInformationTypeValueCodecFieldCompare(v *OTDOAInformationTypeValueCodec) *func(s07.OTDOAInformationType, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
+	return &v.compare
+}
+func BridgeOTDOAInformationTypeValueCodecFieldContext(v *OTDOAInformationTypeValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeOTDOAInformationTypeValueCodecFieldDecode(v *OTDOAInformationTypeValueCodec) *func([]byte, aper.DecodeState) (s07.OTDOAInformationType, error) {
+	return &v.decode
+}
+func BridgeOTDOAInformationTypeValueCodecFieldEncode(v *OTDOAInformationTypeValueCodec) *func(s07.OTDOAInformationType, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeOTDOAInformationTypeValueCodecFieldPath(v *OTDOAInformationTypeValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeOTDOAInformationTypeValueCodecMethodEncodeBudget(v OTDOAInformationTypeValueCodec, a0 s07.OTDOAInformationType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudget(a0, a1, a2)
+}
+func BridgeOTDOAInformationTypeValueCodecMethodEncodeChanged(v OTDOAInformationTypeValueCodec, a0 s07.OTDOAInformationType, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgePRSFrequencyHoppingConfigurationAPERValueFieldContext(v *PRSFrequencyHoppingConfigurationAPERValue) *s00.BridgeCodecContext {
 	return &v.context

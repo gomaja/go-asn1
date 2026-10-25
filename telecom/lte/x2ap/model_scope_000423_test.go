@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
 )
 
-func accessAndMobilityIndicationreplayBoundCodecOps(c s19.AccessAndMobilityIndicationValueCodec, raw []byte) replayBoundOps {
+func globalGNBIDreplayBoundCodecOps(c s05.GlobalGNBIDValueCodec, raw []byte) replayBoundOps {
 	v, _, _ := c.DecodeAPER(raw)
 	return replayBoundOps{decode: func() error { _, _, err := c.DecodeAPER(raw); return err }, encode: func() ([]byte, error) { return c.EncodeAPER(v) }}
 }

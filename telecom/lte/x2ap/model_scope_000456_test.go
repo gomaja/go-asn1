@@ -3,14 +3,22 @@
 package x2ap
 
 import (
+	fmt "fmt"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func (c ERABsAdmittedItemExtIEsExtFieldValueCodec) encodeUnplanned(value s06.ERABsAdmittedItemExtIEsExtField, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
-		err = failure
+// New validates the source value and constructs a value without received replay state.
+func (c ERABsAdmittedItemExtIEsExtFieldValueCodec) New(value s06.ERABsAdmittedItemExtIEsExtField) (ERABsAdmittedItemExtIEsExtFieldAPERValue, error) {
+	if c.encode == nil {
+		return ERABsAdmittedItemExtIEsExtFieldAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	return out, aper.OperationError(err, c.path)
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABsAdmittedItemExtIEsExtFieldAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABsAdmittedItemExtIEsExtFieldAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return ERABsAdmittedItemExtIEsExtFieldAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }

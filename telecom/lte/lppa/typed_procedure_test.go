@@ -4,7 +4,6 @@ import (
 	"bytes"
 	stdhex "encoding/hex"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
-	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s23"
 
@@ -100,7 +99,7 @@ func TestWithoutReplayReencodesNestedKnownValues(t *testing.T) {
 			if !ok || len(body.ProtocolIEs) == 0 {
 				t.Fatal("missing typed IE")
 			}
-			*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldReceived(&body.ProtocolIEs[0].Value) = aper.OriginalWire([]byte{0xff})
+			*s21.BridgeECIDMeasurementInitiationRequestIEValueFieldReceived(&body.ProtocolIEs[0].Value) = aper.OriginalWire([]byte{0xff})
 		}},
 		{"list item", "000200000717000003000200010000030001000005000600000b000100", func(t *testing.T, pdu *LPPAPDU) {
 			body, ok := pdu.InitiatingMessage.Value.AsECIDMeasurementInitiationRequest()

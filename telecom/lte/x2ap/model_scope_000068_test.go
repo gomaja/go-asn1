@@ -9,8 +9,8 @@ import (
 	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
@@ -19,18 +19,18 @@ import (
 func TestTableSelectedOpenTypeDepth(t *testing.T) {
 	cause := causeapiMust(s00.NewCauseMisc(s00.CauseMiscUnspecified))
 	body := x2SetupFailureapiMust(s14.NewX2SetupFailure(s07.X2SetupFailureIEContainer{x2SetupFailureIEFieldapiMust(s07.X2SetupFailureIEs().Cause().New(cause))}))
-	message := unsuccessfulOutcomeapiMust(s20.X2SetupProcedure().Unsuccessful().Build(body))
-	pdu := x2APPDUapiMust(s20.NewX2APPDUUnsuccessfulOutcome(message))
+	message := unsuccessfulOutcomeapiMust(s21.X2SetupProcedure().Unsuccessful().Build(body))
+	pdu := x2APPDUapiMust(s21.NewX2APPDUUnsuccessfulOutcome(message))
 	wire := listByteapiMust(pdu.MarshalAPER())
 	state := aper.ApplyDecodeOptions()
-	var shallow s19.X2APPDU
-	if err := s19.X2apInternalX2APPDUUnmarshalAPERWithOptions(&shallow, wire, state); err != nil {
+	var shallow s20.X2APPDU
+	if err := s20.X2apInternalX2APPDUUnmarshalAPERWithOptions(&shallow, wire, state); err != nil {
 		t.Fatal(err)
 	}
 	if usage := state.Usage(); usage.MaxOpenTypeDepth != 2 {
 		t.Fatalf("table-selected scopes=%+v", usage)
 	}
-	var limited s19.X2APPDU
+	var limited s20.X2APPDU
 	if _, err := limited.UnmarshalAPER(wire, aper.WithLimits(aper.Limits{MaxDepth: 1})); !errors.Is(err, aper.ErrLimit) {
 		t.Fatalf("depth limit: %v", err)
 	}
@@ -40,12 +40,12 @@ func TestTableSelectedOpenTypeDepth(t *testing.T) {
 	enb := eNBIDapiMust(s00.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18}))
 	global := s05.GlobalENBID{PLMNIdentity: make([]byte, 3), ENBID: enb}
 	field := x2SetupRequestIEFieldapiMust(s17.X2SetupRequestIEs().GlobalENBID().New(global))
-	request := s19.X2SetupRequest{ProtocolIEs: s17.X2SetupRequestIEContainer{field}}
-	outer := s19.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s19.InitiatingMessage{ProcedureCode: s00.IdX2Setup, Criticality: s00.CriticalityReject, Value: s19.X2apInternalConstructT15InitiatingValueF4codeF18bodyX2SetupRequest(s00.IdX2Setup, &request)}}
+	request := s20.X2SetupRequest{ProtocolIEs: s17.X2SetupRequestIEContainer{field}}
+	outer := s20.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s20.InitiatingMessage{ProcedureCode: s00.IdX2Setup, Criticality: s00.CriticalityReject, Value: s20.X2apInternalConstructT15InitiatingValueF4codeF18bodyX2SetupRequest(s00.IdX2Setup, &request)}}
 	deeper := listByteapiMust(outer.MarshalAPER())
 	state = aper.ApplyDecodeOptions()
-	var nested s19.X2APPDU
-	if err := s19.X2apInternalX2APPDUUnmarshalAPERWithOptions(&nested, deeper, state); err != nil {
+	var nested s20.X2APPDU
+	if err := s20.X2apInternalX2APPDUUnmarshalAPERWithOptions(&nested, deeper, state); err != nil {
 		t.Fatal(err)
 	}
 	if usage := state.Usage(); usage.MaxOpenTypeDepth != 3 {

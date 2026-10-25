@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func replayBoundEnvelopeDecode(v *s19.X2APPDU, raw []byte) error {
+func replayBoundEnvelopeDecode(v *s20.X2APPDU, raw []byte) error {
 	_, err := v.UnmarshalAPER(raw)
 	return err
 }

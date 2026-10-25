@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 )
 
-func x2SetupFailureIEFieldapiMust(v s07.X2SetupFailureIEField, err error) s07.X2SetupFailureIEField {
+func errorIndicationIEFieldapiMust(v s11.ErrorIndicationIEField, err error) s11.ErrorIndicationIEField {
 	if err != nil {
 		panic(err)
 	}

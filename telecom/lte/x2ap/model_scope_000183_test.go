@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func handoverRequestAcknowledgefreshMust(value s18.HandoverRequestAcknowledge, err error) s18.HandoverRequestAcknowledge {
+func initiatingMessagefreshMust(value s20.InitiatingMessage, err error) s20.InitiatingMessage {
 	if err != nil {
 		panic(err)
 	}

@@ -4,18 +4,18 @@ package x2ap
 
 import (
 	errors "errors"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
 func TestDescriptorBuildFailuresHaveOwnedIdentity(t *testing.T) {
-	body, err := s19.NewErrorIndication(nil)
+	body, err := s20.NewErrorIndication(nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	for _, run := range []func() error{
-		func() error { _, err := (s19.ErrorIndicationInitiatingBinding{}).Build(body); return err },
+		func() error { _, err := (s20.ErrorIndicationInitiatingBinding{}).Build(body); return err },
 		func() error { _, err := (ErrorIndicationSuccessfulBinding{}).Build(body); return err },
 		func() error { _, err := (ErrorIndicationUnsuccessfulBinding{}).Build(body); return err },
 	} {

@@ -12,7 +12,7 @@ import (
 	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
 	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	testing "testing"
 )
 
@@ -38,13 +38,13 @@ func TestTypedStructuralValidation(t *testing.T) {
 		{"not allowed", s11.ErrorIndicationIEContainer{errorIndicationIEFieldapiMust(table.NewOpaque(405, s00.CriticalityIgnore, []byte{0}))}, s00.NotAllowed},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
-			body := s19.ErrorIndication{ProtocolIEs: tc.fields}
-			report, err := s19.ValidateErrorIndication(&body)
+			body := s20.ErrorIndication{ProtocolIEs: tc.fields}
+			report, err := s20.ValidateErrorIndication(&body)
 			if err != nil {
 				t.Fatal(err)
 			}
 			apiHas(t, report, tc.code)
-			_, err = s19.NewErrorIndication(tc.fields)
+			_, err = s20.NewErrorIndication(tc.fields)
 			var build *s12.BuildError
 			if !errors.As(err, &build) {
 				t.Fatalf("builder accepted invalid message: %v", err)
@@ -53,7 +53,7 @@ func TestTypedStructuralValidation(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			var received s19.ErrorIndication
+			var received s20.ErrorIndication
 			if _, err = received.UnmarshalAPER(wire); err != nil {
 				t.Fatal(err)
 			}
@@ -73,8 +73,8 @@ func TestTypedStructuralValidation(t *testing.T) {
 		t.Fatal("builder invented missing mandatory IE")
 	}
 	unknown := errorIndicationIEFieldapiMust(table.NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
-	body := s19.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{cause, unknown, diagnostics}}
-	report, err = s19.ValidateErrorIndication(&body)
+	body := s20.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{cause, unknown, diagnostics}}
+	report, err = s20.ValidateErrorIndication(&body)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -83,7 +83,7 @@ func TestTypedStructuralValidation(t *testing.T) {
 			t.Errorf("unknown affected order: %+v", issue)
 		}
 	}
-	if _, err := s19.NewErrorIndication(body.ProtocolIEs); err != nil {
+	if _, err := s20.NewErrorIndication(body.ProtocolIEs); err != nil {
 		t.Fatal(err)
 	}
 	// A known extension ID is known even when absent from this empty extension table.

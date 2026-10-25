@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/bitbuffer.go; SHA-256 5f7da2ebaf91401d995b35a49ca814ddd2eb4b4b60da5721f882e0d58e198c7a.
+// Runtime source: runtime/aper/bitbuffer.go; SHA-256 392d8389c3316a3f1418204c4621225f5964a4678a1812a54c336fce6bc5f950.
 package aper
 
 import (
@@ -110,6 +110,11 @@ func (bb *BitBuffer) zeroWidthCharacterLimit() int64 {
 func (bb *BitBuffer) setDecodeSettings(options decodeSettings) error {
 	if options.operation != nil {
 		bb.budget = options.operation
+		if bb.budget.nonzeroTerminalPadding {
+			if err := bb.startPaddingTrace(); err != nil {
+				return err
+			}
+		}
 		if bb.budget.err != nil {
 			return bb.budget.err
 		}
@@ -237,6 +242,9 @@ func StartDecode(data []byte, options ...DecodeOption) ([]byte, DecodeState) {
 	}
 	owner := newSemanticOwner(data)
 	owner.budget = DecodeBudget{owner: owner, origin: &owner.origin, callReport: &owner.report, reading: true, allocated: metadata + n, usage: DecodeUsage{Work: metadata + n}, operational: effective, limits: decodeLimits{MaxDepth: int(effective.MaxDepth), MaxElements: int(effective.MaxElements), MaxOpenTypeDepth: int(effective.MaxDepth), MaxWork: int(effective.MaxWork)}}
+	for _, option := range options {
+		owner.budget.nonzeroTerminalPadding = owner.budget.nonzeroTerminalPadding || option.nonzeroTerminalPadding
+	}
 	return owner.original, DecodeState{settings: decodeSettings{owner: owner, operation: &owner.budget, callReport: &owner.report}}
 }
 
@@ -478,7 +486,7 @@ type CompleteValue[T any] struct {
 // padding and no trailing data, then wraps value with zero padding state
 // (X.691 (02/2021) §§11.1.4, 11.2.1).
 func CompleteOpenTypeValue[T any](bb *BitBuffer, value T) (*CompleteValue[T], error) {
-	padding, err := CaptureOpenTypePadding(bb)
+	padding, err := capturePrimitivePadding[T](bb)
 	if err != nil {
 		return nil, err
 	}
@@ -570,6 +578,10 @@ func ValidateFinalPadding(bb *BitBuffer) error {
 }
 
 func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, error) {
+	return captureNamedPadding(bb, context, context)
+}
+
+func captureNamedPadding(bb *BitBuffer, context, path string) (CompletePadding, error) {
 	if bb.invalidLength {
 		return CompletePadding{}, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
 	}
@@ -591,7 +603,15 @@ func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, err
 		return CompletePadding{}, err
 	}
 	if padding != 0 {
-		return CompletePadding{}, bb.syntaxError(start, "§11.1.4", context+" has non-zero terminal padding", ErrInvalidValue)
+		if bb.budget != nil && bb.budget.nonzeroTerminalPadding {
+			if err := bb.observeTerminalPadding(start, remaining, uint8(padding), path, context == "open type" || bb.nested); err != nil {
+				return CompletePadding{}, err
+			}
+			return CompletePadding{}, nil
+		}
+		failure := bb.syntaxError(start, "§11.1.4", context+" has non-zero terminal padding", ErrInvalidValue).(*DecodeError)
+		failure.Location.Path = Path(path)
+		return CompletePadding{}, failure
 	}
 	return CompletePadding{}, nil
 }

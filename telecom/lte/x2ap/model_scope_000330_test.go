@@ -6,7 +6,7 @@ import (
 	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func eNDCConfigurationUpdateAcknowledgefreshMust(value s18.ENDCConfigurationUpdateAcknowledge, err error) s18.ENDCConfigurationUpdateAcknowledge {
+func eNDCConfigurationUpdateIEFieldfreshMust(value s18.ENDCConfigurationUpdateIEField, err error) s18.ENDCConfigurationUpdateIEField {
 	if err != nil {
 		panic(err)
 	}

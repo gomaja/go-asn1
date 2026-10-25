@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func privateIEIDfreshMust(value s00.PrivateIEID, err error) s00.PrivateIEID {
+func rLFIndicationfreshMust(value s20.RLFIndication, err error) s20.RLFIndication {
 	if err != nil {
 		panic(err)
 	}

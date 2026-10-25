@@ -3,36 +3,17 @@
 package x2ap
 
 import (
-	fmt "fmt"
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func IntDecodePayload(data []byte, codec IntPayloadCodec, limits s00.PayloadLimits) (int, s00.PayloadReport,
+// Codec returns the complete APER codec for the bound source value.
+func (b ErrorIndicationUnsuccessfulBinding) Codec() s20.ErrorIndicationValueCodec {
+	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
+		return s20.ErrorIndicationValueCodec{}
+	}
+	return s20.X2apInternalConstructT25ErrorIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context(aper.Path(b.info.Rule.Assignment.Assignment), b.decode, func(value s20.ErrorIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return b.encode(&value, fresh, budget)
+	}, b.capture, b.compare, b.context)
 
-	error) {
-	var zero int
-
-	if codec.decode == nil || codec.encode == nil {
-		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload binding: zero codec", aper.ErrInvalidValue), "Payload.binding")
-	}
-	limits = s00.X2apInternalEffectivePayloadLimits(limits)
-	if uint64(len(data)) > limits.MaxInputBytes {
-		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload input: %d bytes exceed limit %d", aper.ErrLimit, len(data), limits.MaxInputBytes), "Payload.input")
-	}
-	if uint64(len(data)) > limits.MaxAllocatedBytes {
-		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload input copy: %d bytes exceed allocation limit %d", aper.ErrLimit, len(data), limits.MaxAllocatedBytes), "Payload.input")
-	}
-	if uint64(len(data)) > limits.MaxWork {
-		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload input copy work", aper.ErrLimit), "Payload.input")
-	}
-	owned := append([]byte(nil), data...)
-	value, report, err := codec.decode(owned, limits)
-	if err != nil {
-		return zero, report, fmt.Errorf("payload decode: %w", err)
-	}
-	if uint64(len(report.Deviations)) > limits.MaxReports {
-		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload report: %d deviations exceed limit %d", aper.ErrLimit, len(report.Deviations), limits.MaxReports), "Payload.report")
-	}
-	return value, report, nil
 }

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func deactivateTracefreshMust(value s19.DeactivateTrace, err error) s19.DeactivateTrace {
+func gNBStatusIndicationfreshMust(value s20.GNBStatusIndication, err error) s20.GNBStatusIndication {
 	if err != nil {
 		panic(err)
 	}

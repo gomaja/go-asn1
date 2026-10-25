@@ -665,12 +665,24 @@ earlier decode-then-dispatch interface.
   `DecodeSuccessfulOutcomeValue`, `DecodeUnsuccessfulOutcomeValue`,
   `DecodeIEFieldValue`, `DecodeExtensionFieldValue` and the
   `Decode…Recursive` helpers.
-- **Strict decoding.** Decoding refuses encodings that ITU-T X.691 (02/2021)
-  forbids, including non-zero terminal padding in a complete value (§11.1.4),
-  which the earlier package accepted.
+- **Strict decoding.** By default, decoding refuses encodings that ITU-T X.691
+  (02/2021) forbids, including non-zero terminal padding in a complete value
+  (§11.1.4), which the earlier package accepted.
   - `aper.WithReceiverMode()` names the receiver policy of TS 36.455 §10. Its
     wire tolerance set is empty, so it accepts exactly what default decoding
     accepts, and both report the same observations, such as an unknown IE.
+  - `aper.WithNonzeroTerminalPadding()` accepts what §11.1.4 refuses: a
+    complete value or open type (§11.2.1) whose terminal padding bits are not
+    zero, and a one-octet empty encoding whose octet is not zero. The typed
+    value is kept, and each occurrence is reported as an observation of kind
+    `aper.NonzeroTerminalPadding` or `aper.NonzeroEmptyEncoding`, with the
+    value's path, the padding's input bit spans where they are known
+    (`Location.HasWireLocation`), and its `PaddingBits` and `PaddingCount`.
+    Inside a known CHOICE extension alternative the spans are not reported
+    yet. A value decoded with such padding encodes to its received octets
+    while it is unchanged; after any edit the whole value encodes afresh with
+    zero padding, as `WithoutReplay()` and a new value do. Without the option
+    both modes refuse such input and name the value.
   - `aper.WithLimits(aper.Limits{…})` bounds the input, nesting, element
     counts, work and allocation of each call; `aper.DefaultLimits()` returns
     the defaults.
@@ -742,12 +754,24 @@ earlier decode-then-dispatch interface, with the same package layout as LPPa.
   `DecodeSuccessfulOutcomeValue`, `DecodeUnsuccessfulOutcomeValue`,
   `DecodeIEFieldValue`, `DecodeExtensionFieldValue` and the
   `Decode…Recursive` helpers.
-- **Strict decoding.** Decoding refuses encodings that ITU-T X.691 (02/2021)
-  forbids, including non-zero terminal padding in a complete value (§11.1.4),
-  which the earlier package accepted.
+- **Strict decoding.** By default, decoding refuses encodings that ITU-T X.691
+  (02/2021) forbids, including non-zero terminal padding in a complete value
+  (§11.1.4), which the earlier package accepted.
   - `aper.WithReceiverMode()` names the receiver policy of TS 36.423 §10. Its
     wire tolerance set is empty, so it accepts exactly what default decoding
     accepts, and both report the same observations, such as an unknown IE.
+  - `aper.WithNonzeroTerminalPadding()` accepts what §11.1.4 refuses: a
+    complete value or open type (§11.2.1) whose terminal padding bits are not
+    zero, and a one-octet empty encoding whose octet is not zero. The typed
+    value is kept, and each occurrence is reported as an observation of kind
+    `aper.NonzeroTerminalPadding` or `aper.NonzeroEmptyEncoding`, with the
+    value's path, the padding's input bit spans where they are known
+    (`Location.HasWireLocation`), and its `PaddingBits` and `PaddingCount`.
+    Inside a known CHOICE extension alternative the spans are not reported
+    yet. A value decoded with such padding encodes to its received octets
+    while it is unchanged; after any edit the whole value encodes afresh with
+    zero padding, as `WithoutReplay()` and a new value do. Without the option
+    both modes refuse such input and name the value.
   - `aper.WithLimits(aper.Limits{…})` bounds the input, nesting, element
     counts, work and allocation of each call; `aper.DefaultLimits()` returns
     the defaults.
@@ -826,12 +850,24 @@ and X2AP.
   `DecodeSuccessfulOutcomeValue`, `DecodeUnsuccessfulOutcomeValue`,
   `DecodeIEFieldValue`, `DecodeExtensionFieldValue` and the
   `Decode…Recursive` helpers.
-- **Strict decoding.** Decoding refuses encodings that ITU-T X.691 (02/2021)
-  forbids, including non-zero terminal padding in a complete value (§11.1.4),
-  which the earlier package accepted.
+- **Strict decoding.** By default, decoding refuses encodings that ITU-T X.691
+  (02/2021) forbids, including non-zero terminal padding in a complete value
+  (§11.1.4), which the earlier package accepted.
   - `aper.WithReceiverMode()` names the receiver policy of TS 36.413 §10. Its
     wire tolerance set is empty, so it accepts exactly what default decoding
     accepts, and both report the same observations, such as an unknown IE.
+  - `aper.WithNonzeroTerminalPadding()` accepts what §11.1.4 refuses: a
+    complete value or open type (§11.2.1) whose terminal padding bits are not
+    zero, and a one-octet empty encoding whose octet is not zero. The typed
+    value is kept, and each occurrence is reported as an observation of kind
+    `aper.NonzeroTerminalPadding` or `aper.NonzeroEmptyEncoding`, with the
+    value's path, the padding's input bit spans where they are known
+    (`Location.HasWireLocation`), and its `PaddingBits` and `PaddingCount`.
+    Inside a known CHOICE extension alternative the spans are not reported
+    yet. A value decoded with such padding encodes to its received octets
+    while it is unchanged; after any edit the whole value encodes afresh with
+    zero padding, as `WithoutReplay()` and a new value do. Without the option
+    both modes refuse such input and name the value.
   - `aper.WithLimits(aper.Limits{…})` bounds the input, nesting, element
     counts, work and allocation of each call; `aper.DefaultLimits()` returns
     the defaults.
@@ -1058,7 +1094,8 @@ is unchanged.
   §§19.2–19.4 require.
 
 Each field takes its own log, or the same log, to collect the records
-together.
+together. The APER packages accept and report the same two departures under
+`aper.WithNonzeroTerminalPadding()` (see their "Strict decoding" bullets).
 
 ### Truncated extension additions
 
@@ -1091,11 +1128,11 @@ contents, after the extension bitmap was read in full:
   leave the option off for them: they arrived with their full length.
 - One record is logged per cut, as `per.ToleratedTruncatedExtension`. Its
   path is the path of the strict decode error, ending in the addition's
-  `ExtData_[k]`. `Offset` is the first bit of the cut open type (in APER,
-  of its alignment padding) and `Bits` holds the bits that arrived from
-  there. `Missing` is the length the determinant declared minus the bits
-  that arrived, or -1 when the input ends inside the determinant; for a
-  fragmented open type it counts the fragment that was cut.
+  `ExtData_[k]`. `Offset` is the first bit of the cut open type and `Bits`
+  holds the bits that arrived from there. `Missing` is the length the
+  determinant declared minus the bits that arrived, or -1 when the input ends
+  inside the determinant; for a fragmented open type it counts the fragment
+  that was cut.
 
 An unchanged decoded value re-encodes to the received octets, cut addition
 included. Any edit before the cut, in the value or in a value enclosing it,
@@ -1119,15 +1156,10 @@ for _, cut := range cuts.Snapshot() {
 replay, err := message.MarshalUPER() // equal to wire
 ```
 
-`UnmarshalAPERWithOptions`, new on every APER SEQUENCE, SET, CHOICE and
-`<List>Complete`, takes the option too; `UnmarshalAPER` calls it with no
-options. APER decoders accept `TruncatedExtensionTolerance`,
-`ExtensionRecoveryTolerance` and `MaxZeroWidthCharacters`, and reject
-`TrailingBitsTolerance` and a
-`ContainedDecoding` other than `per.Eager` rather than ignore them. Every
-extensible APER SEQUENCE or SET now keeps its final bits in a
-`per.FinalPadding`, which can hold the record of a cut, instead of a
-`per.CompletePadding`.
+This option and `ExtensionRecoveryTolerance` (below) are UPER options. The
+APER packages take only the options of their typed APIs, listed in their
+sections above, so an APER decode refuses a cut extension addition whatever
+options it is given.
 
 A decode without the option allocates nothing more. With it, a decode
 allocates its trace and field path, as with the other tolerance options. A
@@ -1150,7 +1182,7 @@ exactly; edits omit the failed addition. Recovery re-reads are bounded and
 
 ### Editing decoded PER values
 
-A decoded UPER or APER value can be edited and encoded again. Each complete
+A decoded UPER value can be edited and encoded again. Each complete
 encoding decides for itself what it keeps: the top-level value, a value
 inside an `OCTET STRING` or `BIT STRING (CONTAINING ...)`, and each open
 type. Its kept bits are reproduced only while they still belong to its new
@@ -1160,20 +1192,21 @@ encoding:
   `BIT STRING (CONTAINING ...)`, is reproduced only after the value encoding
   it followed, bit for bit. An edit of that value drops it: the value is
   encoded as a new one would be, with zero padding after a complete encoding
-  (X.691 (02/2021) §§11.1.3.1, 11.1.4) and nothing after a value inside a
+  (X.691 (02/2021) §11.1.3.1) and nothing after a value inside a
   `BIT STRING` (§11.1.3.2).
 - Nonzero padding is kept while it still fills the final octet exactly;
   otherwise the edited value gets zero padding. Nonzero padding comes only
-  from a non-conformant sender, since §§11.1.3.1 and 11.1.4 require zero
-  bits. Only its width is kept, so an edit that leaves the bit length
-  unchanged, or changes it by a multiple of eight, keeps it. Padding carries
-  no value, so it does not affect decoding.
-- In APER the contents of a `BIT STRING (CONTAINING ...)` are a complete
-  encoding padded to a multiple of eight bits (§§11.1.1 b), 11.1.4). Their
-  padding is kept in the contained value's own `PERPadding_`, as for an
-  `OCTET STRING (CONTAINING ...)`, under the same rule, and contents of
-  another bit length are rejected. No APER release package has such a
-  component.
+  from a non-conformant sender, since §11.1.3.1 requires zero bits. Only its
+  width is kept, so an edit that leaves the bit length unchanged, or changes
+  it by a multiple of eight, keeps it. Padding carries no value, so it does
+  not affect decoding.
+
+The APER packages (LPPa, X2AP, S1AP) follow the replay rules of their typed
+APIs instead (see "Encoding and replay" in their sections above), and none of
+them has a `CONTAINING` component. Nonzero padding reaches them only under
+`aper.WithNonzeroTerminalPadding()`: an unchanged value encodes it again, and
+after any edit the whole decoded value encodes afresh with zero padding
+(§§11.1.4, 11.2.1), as `WithoutReplay()` and a new value do.
 
 ```go
 var value rrc.RRCConnectionSetupCompleteV8a0IEs
@@ -1333,9 +1366,8 @@ shell, and its raw state is not in the document. JSON is therefore not a
 wire-preserving format; the deferral log and `Deferred()` carry the raw
 contents.
 
-Deferral is UPER only. The APER packages decode contained values eagerly, and
-their `UnmarshalAPERWithOptions` rejects the deferring modes; none of them has
-a contained value.
+Deferral is UPER only: the APER packages take no contained-decoding option,
+and none of them has a contained value.
 
 ### Present empty values
 
@@ -1381,11 +1413,7 @@ lone extension addition that holds its default is left out.
 
 This applies to 35 components in 31 LTE RRC types, 173 components in 90 UMTS
 RRC types and 2 LPP components. S1AP, X2AP and LPPa have no DEFAULT
-components. In APER, a SEQUENCE or SET carries its `PERPadding_` as the
-pointer-wide `per.FinalPadding` when it has such a component, to hold the
-record described below, or when it is extensible, to hold the record of a
-cut extension addition. Other APER types keep the two-byte
-`per.CompletePadding`.
+components.
 
 Decoders accept a DEFAULT component of a simple type that carries its
 default value explicitly, as some senders do although §19.5 forbids it. The

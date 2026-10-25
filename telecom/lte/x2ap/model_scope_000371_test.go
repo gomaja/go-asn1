@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 )
 
-func conditionalHandoverCancelfreshMust(value s19.ConditionalHandoverCancel, err error) s19.ConditionalHandoverCancel {
+func earlyStatusTransferIEFieldfreshMust(value s11.EarlyStatusTransferIEField, err error) s11.EarlyStatusTransferIEField {
 	if err != nil {
 		panic(err)
 	}
