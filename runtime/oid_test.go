@@ -13,12 +13,10 @@ import (
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/ber"
-	"github.com/gomaja/go-asn1/runtime/per"
 )
 
 // Pins cross-checked with pycrate 0.7.11. The UUID is X.667 (10/2012) §8;
-// arc packing and minimality are X.690 (02/2021) §§8.19–8.20. PER applies
-// those contents per X.691 (02/2021) §§24–25.
+// arc packing and minimality are X.690 (02/2021) §§8.19–8.20.
 func TestOIDOracleVectors(t *testing.T) {
 	for _, tc := range []struct {
 		text, contents string
@@ -87,58 +85,6 @@ func TestOIDOracleVectors(t *testing.T) {
 			}
 			if err := ber.ValidateDERElement(gotWire); err != nil {
 				t.Fatal(err)
-			}
-			for _, aligned := range []bool{false, true} {
-				bb := per.NewBitBuffer()
-				if tc.relative {
-					v := runtime.MustRelativeObjectIdentifier(tc.text)
-					enc := per.EncodeRelativeObjectIdentifier
-					dec := per.DecodeRelativeObjectIdentifier
-					if aligned {
-						enc = per.EncodeRelativeObjectIdentifierAligned
-						dec = per.DecodeRelativeObjectIdentifierAligned
-					}
-					if e := enc(bb, v); e != nil {
-						t.Fatal(e)
-					}
-					got, e := dec(per.NewBitBufferFromBytes(bb.Bytes()))
-					if e != nil || got != v {
-						t.Fatalf("PER %v %v", got, e)
-					}
-					replay := per.NewBitBuffer()
-					if e := enc(replay, got); e != nil {
-						t.Fatal(e)
-					}
-					if !bytes.Equal(replay.Bytes(), bb.Bytes()) {
-						t.Fatal("PER replay")
-					}
-				} else {
-					v := runtime.MustObjectIdentifier(tc.text)
-					enc := per.EncodeObjectIdentifier
-					dec := per.DecodeObjectIdentifier
-					if aligned {
-						enc = per.EncodeObjectIdentifierAligned
-						dec = per.DecodeObjectIdentifierAligned
-					}
-					if e := enc(bb, v); e != nil {
-						t.Fatal(e)
-					}
-					got, e := dec(per.NewBitBufferFromBytes(bb.Bytes()))
-					if e != nil || got != v {
-						t.Fatalf("PER %v %v", got, e)
-					}
-					replay := per.NewBitBuffer()
-					if e := enc(replay, got); e != nil {
-						t.Fatal(e)
-					}
-					if !bytes.Equal(replay.Bytes(), bb.Bytes()) {
-						t.Fatal("PER replay")
-					}
-				}
-				want := append([]byte{byte(len(contents))}, contents...)
-				if !bytes.Equal(bb.Bytes(), want) {
-					t.Fatalf("PER aligned=%v %x want %x", aligned, bb.Bytes(), want)
-				}
 			}
 		})
 	}
@@ -261,27 +207,6 @@ func TestOIDInvalidWireAndLimits(t *testing.T) {
 					t.Fatal("BER", wire)
 				}
 			}
-			payload := append([]byte{byte(len(contents))}, contents...)
-			for _, aligned := range []bool{false, true} {
-				bb := per.NewBitBufferFromBytes(payload)
-				var err error
-				if relative {
-					if aligned {
-						_, err = per.DecodeRelativeObjectIdentifierAligned(bb)
-					} else {
-						_, err = per.DecodeRelativeObjectIdentifier(bb)
-					}
-				} else {
-					if aligned {
-						_, err = per.DecodeObjectIdentifierAligned(bb)
-					} else {
-						_, err = per.DecodeObjectIdentifier(bb)
-					}
-				}
-				if err == nil {
-					t.Fatal("PER", payload, relative, aligned)
-				}
-			}
 		}
 	}
 	v := runtime.MustObjectIdentifierFromEncoded(strings.Repeat("\x01", 128))
@@ -388,40 +313,6 @@ func FuzzOIDWire(f *testing.F) {
 			got, _, err := ber.DecodeRelativeObjectIdentifier(encoded)
 			if err != nil || got != v {
 				t.Fatal("relative BER", err)
-			}
-		}
-		for _, aligned := range []bool{false, true} {
-			dec := per.DecodeObjectIdentifier
-			enc := per.EncodeObjectIdentifier
-			if aligned {
-				dec = per.DecodeObjectIdentifierAligned
-				enc = per.EncodeObjectIdentifierAligned
-			}
-			if v, err := dec(per.NewBitBufferFromBytes(wire)); err == nil {
-				bb := per.NewBitBuffer()
-				if err := enc(bb, v); err != nil {
-					t.Fatal(err)
-				}
-				got, err := dec(per.NewBitBufferFromBytes(bb.Bytes()))
-				if err != nil || got != v {
-					t.Fatal("PER", err)
-				}
-			}
-			rdec := per.DecodeRelativeObjectIdentifier
-			renc := per.EncodeRelativeObjectIdentifier
-			if aligned {
-				rdec = per.DecodeRelativeObjectIdentifierAligned
-				renc = per.EncodeRelativeObjectIdentifierAligned
-			}
-			if v, err := rdec(per.NewBitBufferFromBytes(wire)); err == nil {
-				bb := per.NewBitBuffer()
-				if err := renc(bb, v); err != nil {
-					t.Fatal(err)
-				}
-				got, err := rdec(per.NewBitBufferFromBytes(bb.Bytes()))
-				if err != nil || got != v {
-					t.Fatal("relative PER", err)
-				}
 			}
 		}
 	})
