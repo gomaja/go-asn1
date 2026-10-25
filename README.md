@@ -1086,15 +1086,17 @@ is unchanged.
 - **Cut final bitmaps (#207, LTE RRC only).**
   `InlineBitmapRecoveryTolerance *uper.ToleranceLog` accepts an input that
   ends inside the presence bitmap of a final inline `nonCriticalExtension`,
-  when at least one bitmap bit arrived and every received bit is zero. The
-  extension must be a non-extensible SEQUENCE of OPTIONAL components only, and
+  or exactly where it begins, when every received bitmap bit is zero: the
+  parent's presence bit proves the extension present, so none of its bitmap
+  bits need to arrive (#224). The extension must be a non-extensible
+  SEQUENCE of OPTIONAL components only, and
   nothing may follow it: no later component, list element or length
   fragment, and no open type or contained value around it. Its components are
   absent, and `PERPadding_.InferredInlineBitmap()` reports that they were
   inferred. The `ToleratedIncompleteInlineBitmap` record holds the input's end
-  offset, the received bits and the number inferred. An unchanged value
-  replays the received octets; an edited one encodes the complete bitmap that
-  §§19.2–19.4 require.
+  offset, the received bits, if any, and the number inferred. An unchanged
+  value replays the received octets; an edited one encodes the complete
+  bitmap that §§19.2–19.4 require.
 
 Each field takes its own log, or the same log, to collect the records
 together. The APER packages accept and report the same two departures under
