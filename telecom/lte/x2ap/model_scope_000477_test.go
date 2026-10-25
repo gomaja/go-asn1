@@ -3,10 +3,16 @@
 package x2ap
 
 import (
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// ReceivedForm returns the retained wire representation, if present.
-func (v ErrorIndicationIEFieldAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+// ErrorIndicationIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ErrorIndicationIEValue]].
+type ErrorIndicationIEFieldAPERValue struct {
+	context       s00.X2apInternalCodecContext
+	Value         s11.ErrorIndicationIEField
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
 }

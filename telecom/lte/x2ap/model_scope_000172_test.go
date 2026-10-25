@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 )
 
-func enGNBENDCX2RemovalReqAckIEFieldapiMust(v s07.EnGNBENDCX2RemovalReqAckIEField, err error) s07.EnGNBENDCX2RemovalReqAckIEField {
+func eNBENDCX2RemovalReqAckIEFieldapiMust(v s06.ENBENDCX2RemovalReqAckIEField, err error) s06.ENBENDCX2RemovalReqAckIEField {
 	if err != nil {
 		panic(err)
 	}

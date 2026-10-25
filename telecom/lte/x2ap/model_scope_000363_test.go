@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
 )
 
-func gNBStatusIndicationfreshMust(value s20.GNBStatusIndication, err error) s20.GNBStatusIndication {
+func gNBStatusIndicationIEFieldfreshMust(value s07.GNBStatusIndicationIEField, err error) s07.GNBStatusIndicationIEField {
 	if err != nil {
 		panic(err)
 	}

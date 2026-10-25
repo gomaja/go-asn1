@@ -2,11 +2,9 @@
 
 package x2ap
 
-import (
-	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
-)
+func listBytefreshMust(value []byte,
 
-func handoverRequestIEFieldfreshMust(value s18.HandoverRequestIEField, err error) s18.HandoverRequestIEField {
+	err error) []byte {
 	if err != nil {
 		panic(err)
 	}

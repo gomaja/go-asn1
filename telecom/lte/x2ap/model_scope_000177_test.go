@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
 )
 
-func x2APPDUapiMust(v s20.X2APPDU, err error) s20.X2APPDU {
+func lastVisitedEUTRANCellInformationExtIEsExtFieldapiMust(v s16.LastVisitedEUTRANCellInformationExtIEsExtField, err error) s16.LastVisitedEUTRANCellInformationExtIEsExtField {
 	if err != nil {
 		panic(err)
 	}

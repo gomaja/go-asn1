@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s03 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s03"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func procedureStageChoiceExtIEFieldapiMust(v s03.ProcedureStageChoiceExtIEField, err error) s03.ProcedureStageChoiceExtIEField {
+func privateMessageapiMust(v s20.PrivateMessage, err error) s20.PrivateMessage {
 	if err != nil {
 		panic(err)
 	}

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func seNBReleaseRequestIEFieldfreshMust(value s15.SeNBReleaseRequestIEField, err error) s15.SeNBReleaseRequestIEField {
+func seNBModificationRefusefreshMust(value s14.SeNBModificationRefuse, err error) s14.SeNBModificationRefuse {
 	if err != nil {
 		panic(err)
 	}

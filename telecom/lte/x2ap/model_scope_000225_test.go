@@ -6,7 +6,7 @@ import (
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func privateMessagefreshMust(value s20.PrivateMessage, err error) s20.PrivateMessage {
+func rLFIndicationfreshMust(value s20.RLFIndication, err error) s20.RLFIndication {
 	if err != nil {
 		panic(err)
 	}

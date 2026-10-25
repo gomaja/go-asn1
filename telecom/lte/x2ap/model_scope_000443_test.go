@@ -3,12 +3,17 @@
 package x2ap
 
 import (
-	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func transportLayerAddressAPERValueapiMust(v s09.TransportLayerAddressAPERValue, err error) s09.TransportLayerAddressAPERValue {
-	if err != nil {
-		panic(err)
+func (c Int64ValueCodec) encodeChanged(value int64,
+
+	fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
 	}
-	return v
+	return out, aper.OperationError(err, c.path)
 }

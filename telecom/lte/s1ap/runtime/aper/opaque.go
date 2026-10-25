@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/opaque.go; SHA-256 4bbddfa435714a37e63e5cd2b72d480d58be1f89678963f4409eaa2c71169427.
+// Runtime source: runtime/aper/opaque.go; SHA-256 4a2cc56b18bfff569d00bfb90fc8212f2767b18aede2171a5ab77e9e63cb5553.
 package aper
 
 import (
@@ -144,10 +144,47 @@ func originalContiguousRange(bb *BitBuffer, start, end uint64) (BitSpan, bool) {
 }
 
 func (v OpaqueOpenType) Bytes() []byte {
+	if v.parent != nil && v.parent.trace != nil && v.parent.trace.terminalPadding {
+		return v.copyWithPaddingLocation()
+	}
 	if v.image.Present() {
 		return v.image.Bytes()
 	}
 	return append([]byte(nil), v.bytes...)
+}
+
+// copyWithPaddingLocation preserves the origin of an accessor copy used by a
+// nested known-value decoder. X.691 (02/2021) §§11.2.1 and 11.9.3.8 delimit
+// the complete contents independently of their intervening length octets.
+// The default Bytes path retains its original copy and allocation behavior.
+func (v OpaqueOpenType) copyWithPaddingLocation() []byte {
+	data := v.copyPaddingContents()
+	if v.parent.decodeBudget().err != nil {
+		return nil
+	}
+	child := NewNestedDecodeBuffer(data, v.parent)
+	if err := child.MapOriginalLocation(data, v.ContentLocation()); err != nil {
+		child.decodeBudget().err = err
+		return nil
+	}
+	return data
+}
+func (v OpaqueOpenType) copyPaddingContents() []byte {
+	if v.image.Present() {
+		if v.parent != nil {
+			if err := v.parent.ChargeAllocation(uint64(v.image.Len()), 1); err != nil {
+				return nil
+			}
+		}
+		return v.image.Bytes()
+	}
+	if v.parent != nil {
+		if err := v.parent.ChargeAllocation(uint64(len(v.bytes)), 1); err != nil {
+			return nil
+		}
+	}
+	return append([]byte(nil), v.bytes...)
+
 }
 
 // RetainContents attaches an immutable complete open form to generated private
@@ -574,4 +611,27 @@ func (v OpaqueOpenType) ObserveIndexed(kind ObservationKind, index int64) error 
 	}
 	v.origin.Location.Path = Path(fmt.Sprintf("%s[%d]", v.origin.Location.Path, index))
 	return v.Observe(kind)
+}
+
+// The mapped-copy route keeps the complete-open-type refusal's source rule.
+// X.691 (02/2021) §11.2.1 still forbids a zero-octet complete encoding.
+func decodeOpenTypeWithPaddingLocation(bb *BitBuffer) (data []byte, err error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, "§11.2.1", &err)
+	// A caller-supplied nested copy may share the input owner without a
+	// source mapping. Decode its contents normally; provenance is optional.
+	if bb.nested {
+		if _, contiguous := originalContiguousRange(bb, 0, 0); !contiguous {
+			origin := bb.decodeBudget().origin
+			if origin == nil || (len(origin.segments[bb]) == 0 && len(origin.dataSegments[originDataKey(bb.data)]) == 0) {
+				return decodeOpenTypeAlignedObserved(bb, nil)
+			}
+		}
+	}
+	raw, err := DecodeOpaqueOpenTypeAligned(bb, UnknownSelector, SourceRule{})
+	if err != nil {
+		return nil, err
+	}
+	data = raw.Bytes()
+	return data, bb.decodeBudget().err
 }

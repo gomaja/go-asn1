@@ -3,30 +3,15 @@
 package x2ap
 
 import (
-	fmt "fmt"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func IntEncodePayload(value int,
+// IntPayloadCodec is the concrete PayloadCodec[int].
+type IntPayloadCodec struct {
+	decode func([]byte, s00.PayloadLimits) (int, s00.PayloadReport,
 
-	codec IntPayloadCodec, limits s00.PayloadLimits) ([]byte, error) {
-	if codec.decode == nil || codec.encode == nil {
-		return nil, aper.OperationError(fmt.Errorf("%w: payload binding: zero codec", aper.ErrInvalidValue), "Payload.binding")
-	}
-	limits = s00.X2apInternalEffectivePayloadLimits(limits)
-	wire, err := codec.encode(value, limits)
-	if err != nil {
-		return nil, fmt.Errorf("payload encode: %w", err)
-	}
-	if uint64(len(wire)) > limits.MaxOutputBytes {
-		return nil, aper.OperationError(fmt.Errorf("%w: payload output: %d bytes exceed limit %d", aper.ErrLimit, len(wire), limits.MaxOutputBytes), "Payload.output")
-	}
-	if uint64(len(wire)) > limits.MaxAllocatedBytes {
-		return nil, aper.OperationError(fmt.Errorf("%w: payload output copy: %d bytes exceed allocation limit %d", aper.ErrLimit, len(wire), limits.MaxAllocatedBytes), "Payload.output")
-	}
-	if uint64(len(wire)) > limits.MaxWork {
-		return nil, aper.OperationError(fmt.Errorf("%w: payload output copy work", aper.ErrLimit), "Payload.output")
-	}
-	return append([]byte(nil), wire...), nil
+		error)
+	encode func(int, s00.PayloadLimits,
+
+	) ([]byte, error)
 }

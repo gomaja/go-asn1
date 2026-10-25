@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/aper.go; SHA-256 4e3bf1539254d936365c97a1c6f509643102fb2519e83a730d879e0320553570.
+// Runtime source: runtime/aper/aper.go; SHA-256 7d4b4da8e95235643dc0ec9d0f8213e39a878109fa1de3a9ad321ab4dd1685b0.
 package aper
 
 import (
@@ -780,6 +780,11 @@ func EncodeOpenTypeAligned(bb *BitBuffer, data []byte) error {
 
 // DecodeOpenTypeAligned decodes an open type's complete encoding (APER).
 func DecodeOpenTypeAligned(bb *BitBuffer) ([]byte, error) {
+	if bb.trace != nil && bb.trace.terminalPadding {
+		// X.691 (02/2021) §§11.2.1, 11.9.3.8 and 23.8: a copied
+		// CHOICE payload retains its physical spans across length octets.
+		return decodeOpenTypeWithPaddingLocation(bb)
+	}
 	return decodeOpenTypeAlignedObserved(bb, nil)
 }
 

@@ -7,25 +7,19 @@ import (
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// DecodeAPER decodes one complete APER value and retains its received representation.
-func (c Int64ValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (Int64APERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil {
-		return Int64APERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+// New validates the source value and constructs a value without received replay state.
+func (c Int64ValueCodec) New(value int64,
+
+) (Int64APERValue, error) {
+	if c.encode == nil {
+		return Int64APERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	data, settings := aper.OwnDecodeOptions(data, options...)
-	value, err := c.decode(data, settings)
-	if err == nil {
-		if c.capture == nil {
-			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
-		} else {
-			value, replay := c.capture(value, settings)
-			report, err := aper.FinishDecode(settings, nil)
-			if err != nil {
-				return Int64APERValue{}, report, aper.OperationError(err, c.path)
-			}
-			return Int64APERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-		}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return Int64APERValue{}, aper.OperationError(err, "Value.New")
 	}
-	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
-	return Int64APERValue{}, report, aper.OperationError(err, c.path)
+	if _, err := c.encode(value, false, budget); err != nil {
+		return Int64APERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return Int64APERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }

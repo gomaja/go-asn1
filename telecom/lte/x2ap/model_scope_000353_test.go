@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func sgNBActivityNotificationfreshMust(value s20.SgNBActivityNotification, err error) s20.SgNBActivityNotification {
+func sgNBActivityNotificationIEFieldfreshMust(value s14.SgNBActivityNotificationIEField, err error) s14.SgNBActivityNotificationIEField {
 	if err != nil {
 		panic(err)
 	}

@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/aper.go; SHA-256 acb402e609f3648415ee296cb660b5563c246c181ca7149cb870fea36fd59183.
+// Runtime source: runtime/aper/aper.go; SHA-256 db531ded9eb93807f4f1ce4073f2286bf37394dc5e7fa99d61fd8c3c7b1dd9c2.
 package aper
 
 import (
@@ -781,6 +781,11 @@ func EncodeOpenTypeAligned(bb *BitBuffer, data []byte) error {
 
 // DecodeOpenTypeAligned decodes an open type's complete encoding (APER).
 func DecodeOpenTypeAligned(bb *BitBuffer) ([]byte, error) {
+	if bb.trace != nil && bb.trace.terminalPadding {
+		// X.691 (02/2021) §§11.2.1, 11.9.3.8 and 23.8: a copied
+		// CHOICE payload retains its physical spans across length octets.
+		return decodeOpenTypeWithPaddingLocation(bb)
+	}
 	return decodeOpenTypeAlignedObserved(bb, nil)
 }
 

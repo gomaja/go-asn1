@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 )
 
-func handoverReportfreshMust(value s20.HandoverReport, err error) s20.HandoverReport {
+func handoverReportIEFieldfreshMust(value s11.HandoverReportIEField, err error) s11.HandoverReportIEField {
 	if err != nil {
 		panic(err)
 	}

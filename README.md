@@ -677,12 +677,11 @@ earlier decode-then-dispatch interface.
     value is kept, and each occurrence is reported as an observation of kind
     `aper.NonzeroTerminalPadding` or `aper.NonzeroEmptyEncoding`, with the
     value's path, the padding's input bit spans where they are known
-    (`Location.HasWireLocation`), and its `PaddingBits` and `PaddingCount`.
-    Inside a known CHOICE extension alternative the spans are not reported
-    yet. A value decoded with such padding encodes to its received octets
-    while it is unchanged; after any edit the whole value encodes afresh with
-    zero padding, as `WithoutReplay()` and a new value do. Without the option
-    both modes refuse such input and name the value.
+    (`Location.HasWireLocation`), and its `PaddingBits` and `PaddingCount`. A
+    value decoded with such padding encodes to its received octets while it
+    is unchanged; after any edit the whole value encodes afresh with zero
+    padding, as `WithoutReplay()` and a new value do. Without the option both
+    modes refuse such input and name the value.
   - `aper.WithLimits(aper.Limits{…})` bounds the input, nesting, element
     counts, work and allocation of each call; `aper.DefaultLimits()` returns
     the defaults.
@@ -766,12 +765,11 @@ earlier decode-then-dispatch interface, with the same package layout as LPPa.
     value is kept, and each occurrence is reported as an observation of kind
     `aper.NonzeroTerminalPadding` or `aper.NonzeroEmptyEncoding`, with the
     value's path, the padding's input bit spans where they are known
-    (`Location.HasWireLocation`), and its `PaddingBits` and `PaddingCount`.
-    Inside a known CHOICE extension alternative the spans are not reported
-    yet. A value decoded with such padding encodes to its received octets
-    while it is unchanged; after any edit the whole value encodes afresh with
-    zero padding, as `WithoutReplay()` and a new value do. Without the option
-    both modes refuse such input and name the value.
+    (`Location.HasWireLocation`), and its `PaddingBits` and `PaddingCount`. A
+    value decoded with such padding encodes to its received octets while it
+    is unchanged; after any edit the whole value encodes afresh with zero
+    padding, as `WithoutReplay()` and a new value do. Without the option both
+    modes refuse such input and name the value.
   - `aper.WithLimits(aper.Limits{…})` bounds the input, nesting, element
     counts, work and allocation of each call; `aper.DefaultLimits()` returns
     the defaults.
@@ -862,12 +860,11 @@ and X2AP.
     value is kept, and each occurrence is reported as an observation of kind
     `aper.NonzeroTerminalPadding` or `aper.NonzeroEmptyEncoding`, with the
     value's path, the padding's input bit spans where they are known
-    (`Location.HasWireLocation`), and its `PaddingBits` and `PaddingCount`.
-    Inside a known CHOICE extension alternative the spans are not reported
-    yet. A value decoded with such padding encodes to its received octets
-    while it is unchanged; after any edit the whole value encodes afresh with
-    zero padding, as `WithoutReplay()` and a new value do. Without the option
-    both modes refuse such input and name the value.
+    (`Location.HasWireLocation`), and its `PaddingBits` and `PaddingCount`. A
+    value decoded with such padding encodes to its received octets while it
+    is unchanged; after any edit the whole value encodes afresh with zero
+    padding, as `WithoutReplay()` and a new value do. Without the option both
+    modes refuse such input and name the value.
   - `aper.WithLimits(aper.Limits{…})` bounds the input, nesting, element
     counts, work and allocation of each call; `aper.DefaultLimits()` returns
     the defaults.

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
 )
 
-func sNStatusTransferfreshMust(value s20.SNStatusTransfer, err error) s20.SNStatusTransfer {
+func sNStatusTransferIEFieldfreshMust(value s15.SNStatusTransferIEField, err error) s15.SNStatusTransferIEField {
 	if err != nil {
 		panic(err)
 	}

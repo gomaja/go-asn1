@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func lastVisitedEUTRANCellInformationExtIEsExtFieldapiMust(v s16.LastVisitedEUTRANCellInformationExtIEsExtField, err error) s16.LastVisitedEUTRANCellInformationExtIEsExtField {
+func choiceExtensionapiMust(v aper.ChoiceExtension, err error) aper.ChoiceExtension {
 	if err != nil {
 		panic(err)
 	}

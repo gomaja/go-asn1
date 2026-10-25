@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s02 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s02"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func eNBENDCConfigUpdateAckIEFieldapiMust(v s02.ENBENDCConfigUpdateAckIEField, err error) s02.ENBENDCConfigUpdateAckIEField {
+func enGNBENDCConfigUpdateIEFieldapiMust(v s18.EnGNBENDCConfigUpdateIEField, err error) s18.EnGNBENDCConfigUpdateIEField {
 	if err != nil {
 		panic(err)
 	}

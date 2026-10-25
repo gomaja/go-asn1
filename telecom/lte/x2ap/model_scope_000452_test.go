@@ -3,29 +3,29 @@
 package x2ap
 
 import (
+	fmt "fmt"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
-func (c ERABsToBeSetupItemIEFieldValueCodec) EncodeAPER(value ERABsToBeSetupItemIEFieldAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.ErrInvalidValue
+// DecodeAPER decodes one complete APER value and retains its received representation.
+func (c ERABsToBeSetupItemIEFieldValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABsToBeSetupItemIEFieldAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil {
+		return ERABsToBeSetupItemIEFieldAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	if !fresh && value.context == c.context && value.replay.Present() {
-		plan := c.compare(value.Value, value.replay, budget)
-		if err := plan.Error(); err != nil {
-			return nil, aper.OperationError(err, c.path)
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	value, err := c.decode(data, settings)
+	if err == nil {
+		if c.capture == nil {
+			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
+		} else {
+			value, replay := c.capture(value, settings)
+			report, err := aper.FinishDecode(settings, nil)
+			if err != nil {
+				return ERABsToBeSetupItemIEFieldAPERValue{}, report, aper.OperationError(err, c.path)
+			}
+			return ERABsToBeSetupItemIEFieldAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 		}
-		if plan.Unchanged(value.replay) {
-			out, err := value.received.EncodePlanBytes(plan)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, plan)
 	}
-	return c.encodeUnplanned(value.Value, fresh, budget)
+	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
+	return ERABsToBeSetupItemIEFieldAPERValue{}, report, aper.OperationError(err, c.path)
 }

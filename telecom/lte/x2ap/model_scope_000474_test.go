@@ -3,10 +3,16 @@
 package x2ap
 
 import (
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// ReceivedForm returns the retained wire representation, if present.
-func (v ERABsAdmittedItemExtIEsExtFieldAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+// ERABsAdmittedItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[ERABsAdmittedItemExtIEsValue]].
+type ERABsAdmittedItemExtIEsExtFieldAPERValue struct {
+	context       s00.X2apInternalCodecContext
+	Value         s06.ERABsAdmittedItemExtIEsExtField
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
 }

@@ -4,22 +4,22 @@ package x2ap
 
 import (
 	bytes "bytes"
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
 // The callback counter separates semantic capture from encoding, including
 // after caller input reuse and edit/restore (X.691 (02/2021) §§11.1–11.2).
-func uRIAddresssemanticEditRestore(t *testing.T, c s12.URIAddressValueCodec, initial s12.URIAddress, edit, restore func(*s12.URIAddress)) {
+func expectedActivityPeriodsemanticEditRestore(t *testing.T, c s00.ExpectedActivityPeriodValueCodec, initial s00.ExpectedActivityPeriod, edit, restore func(*s00.ExpectedActivityPeriod)) {
 	t.Helper()
-	encoder := *s12.X2apInternalURIAddressValueCodecFieldEncode(&c)
+	encoder := *s00.X2apInternalExpectedActivityPeriodValueCodecFieldEncode(&c)
 	calls := 0
-	*s12.X2apInternalURIAddressValueCodecFieldEncode(&c) = func(v s12.URIAddress, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+	*s00.X2apInternalExpectedActivityPeriodValueCodecFieldEncode(&c) = func(v s00.ExpectedActivityPeriod, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		calls++
 		return encoder(v, fresh, budget)
 	}
-	wire := listByteapiMust(c.EncodeAPER(uRIAddressAPERValueapiMust(c.New(initial))))
+	wire := listByteapiMust(c.EncodeAPER(expectedActivityPeriodAPERValueapiMust(c.New(initial))))
 	original := bytes.Clone(wire)
 	calls = 0
 	v, _, err := c.DecodeAPER(wire)

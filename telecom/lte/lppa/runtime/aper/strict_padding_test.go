@@ -1,10 +1,11 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/strict_padding_test.go; SHA-256 131aba4a5916f8584eac02ccf6b425f3c21e468e75d233fdc3dc3b3aec8bb5d8.
+// Runtime source: runtime/aper/strict_padding_test.go; SHA-256 709a3e94e1611ce772cedc040f1f453574372a8320d7d74b37b192d1bac93d3b.
 package aper
 
 import (
 	"errors"
+	"reflect"
 	"testing"
 )
 
@@ -110,5 +111,204 @@ func TestCallerOwnedChildMapsCompleteContentLocation(t *testing.T) {
 		if !errors.As(err, &located) || !located.Location.HasWireLocation || len(located.Location.Spans) != 1 || located.Location.Spans[0] != (BitSpan{Start: uint64(len(wire)-1)*8 + 1, End: uint64(len(wire)) * 8}) {
 			t.Fatalf("size=%d err=%v location=%+v", size, err, located)
 		}
+	}
+}
+
+// X.691 (02/2021) §§11.1.4, 11.2.1, 11.9.3.8 and 23.8.
+func TestCopiedChoicePaddingLocation(t *testing.T) {
+	for _, size := range []int{1, 16385} {
+		for _, empty := range []bool{false, true} {
+			if empty && size != 1 {
+				continue
+			}
+			payload := make([]byte, size)
+			payload[size-1] = 255
+			writer := NewBitBuffer()
+			if err := EncodeOpenTypeAligned(writer, payload); err != nil {
+				t.Fatal(err)
+			}
+			wire := writer.CompleteBytes()
+			state := ApplyDecodeOptions(WithNonzeroTerminalPadding())
+			var budget DecodeBudget
+			parent := NewDecodeBuffer(wire, &budget)
+			if err := parent.SetDecodeOptionsAligned(state); err != nil {
+				t.Fatal(err)
+			}
+			data, err := DecodeOpenTypeAligned(parent)
+			if err != nil {
+				t.Fatal(err)
+			}
+			child := NewNestedDecodeBuffer(data, parent)
+			consumed := (size - 1) * 8
+			if !empty {
+				consumed++
+			}
+			if err := skipChoiceBits(child, consumed); err != nil {
+				t.Fatal(err)
+			}
+			if _, err := CaptureOpenTypePadding(child); err != nil {
+				t.Fatal(err)
+			}
+			report, err := FinishDecode(state, nil)
+			if err != nil {
+				t.Fatal(err)
+			}
+			width := uint8(7)
+			kind := NonzeroTerminalPadding
+			value := uint8(127)
+			if empty {
+				width = 8
+				kind = NonzeroEmptyEncoding
+				value = 255
+			}
+			end := uint64(len(wire)) * 8
+			want := DecodeReport{Observations: []Observation{{Kind: kind, PaddingBits: value, PaddingCount: width, Rule: SourceRule{Document: "ITU-T X.691", Edition: "02/2021", Clause: "§11.2.1"}, Location: Location{Path: "open type", Spans: []BitSpan{{Start: end - uint64(width), End: end}}, HasWireLocation: true}}}}
+			if !reflect.DeepEqual(report, want) {
+				t.Fatalf("size=%d empty=%v report=%+v want=%+v", size, empty, report, want)
+			}
+		}
+	}
+}
+func skipChoiceBits(bb *BitBuffer, n int) error {
+	for n > 0 {
+		width := n
+		if width > 64 {
+			width = 64
+		}
+		if _, err := bb.ReadBits(width); err != nil {
+			return err
+		}
+		n -= width
+	}
+	return nil
+}
+
+// A known source alternative read without a complete-value owner still has
+// received provenance. X.691 (02/2021) §§11.2.1 and 23.8.
+func TestKnownChoicePaddingWithoutOwner(t *testing.T) {
+	for _, size := range []int{1, 16385} {
+		payload := make([]byte, size)
+		payload[size-1] = 255
+		writer := NewBitBuffer()
+		if err := EncodeOpenTypeAligned(writer, payload); err != nil {
+			t.Fatal(err)
+		}
+		wire := writer.CompleteBytes()
+		state := ApplyDecodeOptions(WithNonzeroTerminalPadding())
+		parent := NewBitBufferFromBytes(wire)
+		if err := parent.SetDecodeOptionsAligned(state); err != nil {
+			t.Fatal(err)
+		}
+		extension, err := DecodeChoiceExtensionAligned(parent, 0, 1)
+		if err != nil {
+			t.Fatal(err)
+		}
+		child := extension.ChildDecodeBuffer(parent)
+		if err := skipChoiceBits(child, (size-1)*8+1); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := CaptureOpenTypePadding(child); err != nil {
+			t.Fatal(err)
+		}
+		report, err := FinishDecode(state, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		end := uint64(len(wire)) * 8
+		want := DecodeReport{Observations: []Observation{{Kind: NonzeroTerminalPadding, PaddingBits: 127, PaddingCount: 7, Rule: SourceRule{Document: "ITU-T X.691", Edition: "02/2021", Clause: "§11.2.1"}, Location: Location{Path: "open type", Spans: []BitSpan{{Start: end - 7, End: end}}, HasWireLocation: true}}}}
+		if !reflect.DeepEqual(report, want) {
+			t.Fatalf("size=%d report=%+v want=%+v", size, report, want)
+		}
+	}
+}
+
+func TestOpaqueCopyPaddingLocation(t *testing.T) {
+	for _, size := range []int{1, 16385} {
+		for _, empty := range []bool{false, true} {
+			if empty && size != 1 {
+				continue
+			}
+			payload := make([]byte, size)
+			payload[size-1] = 255
+			writer := NewBitBuffer()
+			if err := EncodeOpenTypeAligned(writer, payload); err != nil {
+				t.Fatal(err)
+			}
+			wire := writer.CompleteBytes()
+			state := ApplyDecodeOptions(WithNonzeroTerminalPadding())
+			var budget DecodeBudget
+			parent := NewDecodeBuffer(wire, &budget)
+			if err := parent.SetDecodeOptionsAligned(state); err != nil {
+				t.Fatal(err)
+			}
+			raw, err := DecodeOpaqueOpenTypeAligned(parent, UnknownSelector, SourceRule{})
+			data := raw.Bytes()
+			if err != nil {
+				t.Fatal(err)
+			}
+			child := NewNestedDecodeBuffer(data, parent)
+			consumed := (size - 1) * 8
+			if !empty {
+				consumed++
+			}
+			if err := skipChoiceBits(child, consumed); err != nil {
+				t.Fatal(err)
+			}
+			if _, err := CaptureOpenTypePadding(child); err != nil {
+				t.Fatal(err)
+			}
+			report, err := FinishDecode(state, nil)
+			if err != nil {
+				t.Fatal(err)
+			}
+			width := uint8(7)
+			kind := NonzeroTerminalPadding
+			value := uint8(127)
+			if empty {
+				width = 8
+				kind = NonzeroEmptyEncoding
+				value = 255
+			}
+			end := uint64(len(wire)) * 8
+			want := DecodeReport{Observations: []Observation{{Kind: kind, PaddingBits: value, PaddingCount: width, Rule: SourceRule{Document: "ITU-T X.691", Edition: "02/2021", Clause: "§11.2.1"}, Location: Location{Path: "open type", Spans: []BitSpan{{Start: end - uint64(width), End: end}}, HasWireLocation: true}}}}
+			if !reflect.DeepEqual(report, want) {
+				t.Fatalf("size=%d empty=%v report=%+v want=%+v", size, empty, report, want)
+			}
+		}
+	}
+}
+
+func TestOpaquePaddingCopyPreservesAllocationFailure(t *testing.T) {
+	state := ApplyDecodeOptions(WithNonzeroTerminalPadding())
+	parent := NewBitBufferFromBytes([]byte{1, 255})
+	if err := parent.SetDecodeOptionsAligned(state); err != nil {
+		t.Fatal(err)
+	}
+	raw, err := DecodeOpaqueOpenTypeAligned(parent, UnknownSelector, SourceRule{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	// Exhaust the remaining allocation allowance only after the received payload
+	// and its provenance exist, so the accessor copy exercises its own charge.
+	budget := parent.decodeBudget()
+	budget.operational.MaxAllocatedBytes = budget.allocated
+	if data := raw.Bytes(); data != nil {
+		t.Fatalf("copy succeeded after exhausting allocation budget: %x", data)
+	}
+	if !errors.Is(budget.err, ErrLimit) {
+		t.Fatalf("copy replaced allocation failure: %v", budget.err)
+	}
+}
+
+func TestMappedOpenTypeFramingFailureKeepsRule(t *testing.T) {
+	wire, state := OwnDecodeInputOptions([]byte{0}, WithNonzeroTerminalPadding())
+	bb := NewCompleteDecodeBuffer(wire, state)
+	if err := bb.SetDecodeOptionsAligned(state); err != nil {
+		t.Fatal(err)
+	}
+	_, err := DecodeOpenTypeAligned(bb)
+	var located *DecodeError
+	if !errors.Is(err, ErrInvalidValue) || !errors.As(err, &located) || located.Rule.Clause != "§11.2.1" || !located.Location.HasWireLocation {
+		t.Fatalf("framing failure lost rule or source: %v %+v", err, located)
 	}
 }
