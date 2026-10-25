@@ -1543,13 +1543,11 @@ func (v *DLDCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return err
 	}
 	if opt_integritycheckinfo {
-		paddingMark_integritycheckinfo := bb.PaddingComponent("IntegrityCheckInfo")
 		var dec_integritycheckinfo IntegrityCheckInfo
 		if err := dec_integritycheckinfo.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "IntegrityCheckInfo")
 		}
 		v.IntegrityCheckInfo = &dec_integritycheckinfo
-		bb.LeaveComponent(paddingMark_integritycheckinfo)
 	}
 	toleranceMark_message := bb.EnterComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
@@ -1844,29 +1842,23 @@ func (v *DLDCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case DLDCCHMessageTypeChoiceActiveSetUpdate:
-		paddingMark_activesetupdate := bb.PaddingComponent("ActiveSetUpdate")
 		var dec_activesetupdate ActiveSetUpdate
 		if err := dec_activesetupdate.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ActiveSetUpdate")
 		}
 		v.ActiveSetUpdate = &dec_activesetupdate
-		bb.LeaveComponent(paddingMark_activesetupdate)
 	case DLDCCHMessageTypeChoiceAssistanceDataDelivery:
-		paddingMark_assistancedatadelivery := bb.PaddingComponent("AssistanceDataDelivery")
 		var dec_assistancedatadelivery AssistanceDataDelivery
 		if err := dec_assistancedatadelivery.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "AssistanceDataDelivery")
 		}
 		v.AssistanceDataDelivery = &dec_assistancedatadelivery
-		bb.LeaveComponent(paddingMark_assistancedatadelivery)
 	case DLDCCHMessageTypeChoiceCellChangeOrderFromUTRAN:
-		paddingMark_cellchangeorderfromutran := bb.PaddingComponent("CellChangeOrderFromUTRAN")
 		var dec_cellchangeorderfromutran CellChangeOrderFromUTRAN
 		if err := dec_cellchangeorderfromutran.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellChangeOrderFromUTRAN")
 		}
 		v.CellChangeOrderFromUTRAN = &dec_cellchangeorderfromutran
-		bb.LeaveComponent(paddingMark_cellchangeorderfromutran)
 	case DLDCCHMessageTypeChoiceCellUpdateConfirm:
 		toleranceMark_cellupdateconfirm := bb.EnterComponent("CellUpdateConfirm")
 		var dec_cellupdateconfirm CellUpdateConfirm
@@ -1876,85 +1868,65 @@ func (v *DLDCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.CellUpdateConfirm = &dec_cellupdateconfirm
 		bb.LeaveComponent(toleranceMark_cellupdateconfirm)
 	case DLDCCHMessageTypeChoiceCounterCheck:
-		paddingMark_countercheck := bb.PaddingComponent("CounterCheck")
 		var dec_countercheck CounterCheck
 		if err := dec_countercheck.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CounterCheck")
 		}
 		v.CounterCheck = &dec_countercheck
-		bb.LeaveComponent(paddingMark_countercheck)
 	case DLDCCHMessageTypeChoiceDownlinkDirectTransfer:
-		paddingMark_downlinkdirecttransfer := bb.PaddingComponent("DownlinkDirectTransfer")
 		var dec_downlinkdirecttransfer DownlinkDirectTransfer
 		if err := dec_downlinkdirecttransfer.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "DownlinkDirectTransfer")
 		}
 		v.DownlinkDirectTransfer = &dec_downlinkdirecttransfer
-		bb.LeaveComponent(paddingMark_downlinkdirecttransfer)
 	case DLDCCHMessageTypeChoiceHandoverFromUTRANCommandGSM:
-		paddingMark_handoverfromutrancommandgsm := bb.PaddingComponent("HandoverFromUTRANCommandGSM")
 		var dec_handoverfromutrancommandgsm HandoverFromUTRANCommandGSM
 		if err := dec_handoverfromutrancommandgsm.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HandoverFromUTRANCommandGSM")
 		}
 		v.HandoverFromUTRANCommandGSM = &dec_handoverfromutrancommandgsm
-		bb.LeaveComponent(paddingMark_handoverfromutrancommandgsm)
 	case DLDCCHMessageTypeChoiceHandoverFromUTRANCommandCDMA2000:
-		paddingMark_handoverfromutrancommandcdma2000 := bb.PaddingComponent("HandoverFromUTRANCommandCDMA2000")
 		var dec_handoverfromutrancommandcdma2000 HandoverFromUTRANCommandCDMA2000
 		if err := dec_handoverfromutrancommandcdma2000.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HandoverFromUTRANCommandCDMA2000")
 		}
 		v.HandoverFromUTRANCommandCDMA2000 = &dec_handoverfromutrancommandcdma2000
-		bb.LeaveComponent(paddingMark_handoverfromutrancommandcdma2000)
 	case DLDCCHMessageTypeChoiceMeasurementControl:
-		paddingMark_measurementcontrol := bb.PaddingComponent("MeasurementControl")
 		var dec_measurementcontrol MeasurementControl
 		if err := dec_measurementcontrol.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MeasurementControl")
 		}
 		v.MeasurementControl = &dec_measurementcontrol
-		bb.LeaveComponent(paddingMark_measurementcontrol)
 	case DLDCCHMessageTypeChoicePagingType2:
-		paddingMark_pagingtype2 := bb.PaddingComponent("PagingType2")
 		var dec_pagingtype2 PagingType2
 		if err := dec_pagingtype2.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PagingType2")
 		}
 		v.PagingType2 = &dec_pagingtype2
-		bb.LeaveComponent(paddingMark_pagingtype2)
 	case DLDCCHMessageTypeChoicePhysicalChannelReconfiguration:
-		paddingMark_physicalchannelreconfiguration := bb.PaddingComponent("PhysicalChannelReconfiguration")
 		var dec_physicalchannelreconfiguration PhysicalChannelReconfiguration
 		if err := dec_physicalchannelreconfiguration.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PhysicalChannelReconfiguration")
 		}
 		v.PhysicalChannelReconfiguration = &dec_physicalchannelreconfiguration
-		bb.LeaveComponent(paddingMark_physicalchannelreconfiguration)
 	case DLDCCHMessageTypeChoicePhysicalSharedChannelAllocation:
-		paddingMark_physicalsharedchannelallocation := bb.PaddingComponent("PhysicalSharedChannelAllocation")
 		var dec_physicalsharedchannelallocation PhysicalSharedChannelAllocation
 		if err := dec_physicalsharedchannelallocation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PhysicalSharedChannelAllocation")
 		}
 		v.PhysicalSharedChannelAllocation = &dec_physicalsharedchannelallocation
-		bb.LeaveComponent(paddingMark_physicalsharedchannelallocation)
 	case DLDCCHMessageTypeChoiceRadioBearerReconfiguration:
-		paddingMark_radiobearerreconfiguration := bb.PaddingComponent("RadioBearerReconfiguration")
 		var dec_radiobearerreconfiguration RadioBearerReconfiguration
 		if err := dec_radiobearerreconfiguration.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RadioBearerReconfiguration")
 		}
 		v.RadioBearerReconfiguration = &dec_radiobearerreconfiguration
-		bb.LeaveComponent(paddingMark_radiobearerreconfiguration)
 	case DLDCCHMessageTypeChoiceRadioBearerRelease:
-		paddingMark_radiobearerrelease := bb.PaddingComponent("RadioBearerRelease")
 		var dec_radiobearerrelease RadioBearerRelease
 		if err := dec_radiobearerrelease.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RadioBearerRelease")
 		}
 		v.RadioBearerRelease = &dec_radiobearerrelease
-		bb.LeaveComponent(paddingMark_radiobearerrelease)
 	case DLDCCHMessageTypeChoiceRadioBearerSetup:
 		toleranceMark_radiobearersetup := bb.EnterComponent("RadioBearerSetup")
 		var dec_radiobearersetup RadioBearerSetup
@@ -1964,133 +1936,101 @@ func (v *DLDCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.RadioBearerSetup = &dec_radiobearersetup
 		bb.LeaveComponent(toleranceMark_radiobearersetup)
 	case DLDCCHMessageTypeChoiceRrcConnectionRelease:
-		paddingMark_rrcconnectionrelease := bb.PaddingComponent("RrcConnectionRelease")
 		var dec_rrcconnectionrelease RRCConnectionRelease
 		if err := dec_rrcconnectionrelease.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RrcConnectionRelease")
 		}
 		v.RrcConnectionRelease = &dec_rrcconnectionrelease
-		bb.LeaveComponent(paddingMark_rrcconnectionrelease)
 	case DLDCCHMessageTypeChoiceSecurityModeCommand:
-		paddingMark_securitymodecommand := bb.PaddingComponent("SecurityModeCommand")
 		var dec_securitymodecommand SecurityModeCommand
 		if err := dec_securitymodecommand.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SecurityModeCommand")
 		}
 		v.SecurityModeCommand = &dec_securitymodecommand
-		bb.LeaveComponent(paddingMark_securitymodecommand)
 	case DLDCCHMessageTypeChoiceSignallingConnectionRelease:
-		paddingMark_signallingconnectionrelease := bb.PaddingComponent("SignallingConnectionRelease")
 		var dec_signallingconnectionrelease SignallingConnectionRelease
 		if err := dec_signallingconnectionrelease.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SignallingConnectionRelease")
 		}
 		v.SignallingConnectionRelease = &dec_signallingconnectionrelease
-		bb.LeaveComponent(paddingMark_signallingconnectionrelease)
 	case DLDCCHMessageTypeChoiceTransportChannelReconfiguration:
-		paddingMark_transportchannelreconfiguration := bb.PaddingComponent("TransportChannelReconfiguration")
 		var dec_transportchannelreconfiguration TransportChannelReconfiguration
 		if err := dec_transportchannelreconfiguration.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "TransportChannelReconfiguration")
 		}
 		v.TransportChannelReconfiguration = &dec_transportchannelreconfiguration
-		bb.LeaveComponent(paddingMark_transportchannelreconfiguration)
 	case DLDCCHMessageTypeChoiceTransportFormatCombinationControl:
-		paddingMark_transportformatcombinationcontrol := bb.PaddingComponent("TransportFormatCombinationControl")
 		var dec_transportformatcombinationcontrol TransportFormatCombinationControl
 		if err := dec_transportformatcombinationcontrol.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "TransportFormatCombinationControl")
 		}
 		v.TransportFormatCombinationControl = &dec_transportformatcombinationcontrol
-		bb.LeaveComponent(paddingMark_transportformatcombinationcontrol)
 	case DLDCCHMessageTypeChoiceUeCapabilityEnquiry:
-		paddingMark_uecapabilityenquiry := bb.PaddingComponent("UeCapabilityEnquiry")
 		var dec_uecapabilityenquiry UECapabilityEnquiry
 		if err := dec_uecapabilityenquiry.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UeCapabilityEnquiry")
 		}
 		v.UeCapabilityEnquiry = &dec_uecapabilityenquiry
-		bb.LeaveComponent(paddingMark_uecapabilityenquiry)
 	case DLDCCHMessageTypeChoiceUeCapabilityInformationConfirm:
-		paddingMark_uecapabilityinformationconfirm := bb.PaddingComponent("UeCapabilityInformationConfirm")
 		var dec_uecapabilityinformationconfirm UECapabilityInformationConfirm
 		if err := dec_uecapabilityinformationconfirm.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UeCapabilityInformationConfirm")
 		}
 		v.UeCapabilityInformationConfirm = &dec_uecapabilityinformationconfirm
-		bb.LeaveComponent(paddingMark_uecapabilityinformationconfirm)
 	case DLDCCHMessageTypeChoiceUplinkPhysicalChannelControl:
-		paddingMark_uplinkphysicalchannelcontrol := bb.PaddingComponent("UplinkPhysicalChannelControl")
 		var dec_uplinkphysicalchannelcontrol UplinkPhysicalChannelControl
 		if err := dec_uplinkphysicalchannelcontrol.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UplinkPhysicalChannelControl")
 		}
 		v.UplinkPhysicalChannelControl = &dec_uplinkphysicalchannelcontrol
-		bb.LeaveComponent(paddingMark_uplinkphysicalchannelcontrol)
 	case DLDCCHMessageTypeChoiceUraUpdateConfirm:
-		paddingMark_uraupdateconfirm := bb.PaddingComponent("UraUpdateConfirm")
 		var dec_uraupdateconfirm URAUpdateConfirm
 		if err := dec_uraupdateconfirm.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UraUpdateConfirm")
 		}
 		v.UraUpdateConfirm = &dec_uraupdateconfirm
-		bb.LeaveComponent(paddingMark_uraupdateconfirm)
 	case DLDCCHMessageTypeChoiceUtranMobilityInformation:
-		paddingMark_utranmobilityinformation := bb.PaddingComponent("UtranMobilityInformation")
 		var dec_utranmobilityinformation UTRANMobilityInformation
 		if err := dec_utranmobilityinformation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UtranMobilityInformation")
 		}
 		v.UtranMobilityInformation = &dec_utranmobilityinformation
-		bb.LeaveComponent(paddingMark_utranmobilityinformation)
 	case DLDCCHMessageTypeChoiceHandoverFromUTRANCommandGERANIu:
-		paddingMark_handoverfromutrancommandgeraniu := bb.PaddingComponent("HandoverFromUTRANCommandGERANIu")
 		var dec_handoverfromutrancommandgeraniu HandoverFromUTRANCommandGERANIu
 		if err := dec_handoverfromutrancommandgeraniu.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HandoverFromUTRANCommandGERANIu")
 		}
 		v.HandoverFromUTRANCommandGERANIu = &dec_handoverfromutrancommandgeraniu
-		bb.LeaveComponent(paddingMark_handoverfromutrancommandgeraniu)
 	case DLDCCHMessageTypeChoiceMbmsModifiedServicesInformation:
-		paddingMark_mbmsmodifiedservicesinformation := bb.PaddingComponent("MbmsModifiedServicesInformation")
 		var dec_mbmsmodifiedservicesinformation MBMSModifiedServicesInformation
 		if err := dec_mbmsmodifiedservicesinformation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MbmsModifiedServicesInformation")
 		}
 		v.MbmsModifiedServicesInformation = &dec_mbmsmodifiedservicesinformation
-		bb.LeaveComponent(paddingMark_mbmsmodifiedservicesinformation)
 	case DLDCCHMessageTypeChoiceEtwsPrimaryNotificationWithSecurity:
-		paddingMark_etwsprimarynotificationwithsecurity := bb.PaddingComponent("EtwsPrimaryNotificationWithSecurity")
 		var dec_etwsprimarynotificationwithsecurity ETWSPrimaryNotificationWithSecurity
 		if err := dec_etwsprimarynotificationwithsecurity.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "EtwsPrimaryNotificationWithSecurity")
 		}
 		v.EtwsPrimaryNotificationWithSecurity = &dec_etwsprimarynotificationwithsecurity
-		bb.LeaveComponent(paddingMark_etwsprimarynotificationwithsecurity)
 	case DLDCCHMessageTypeChoiceHandoverFromUTRANCommandEUTRA:
-		paddingMark_handoverfromutrancommandeutra := bb.PaddingComponent("HandoverFromUTRANCommandEUTRA")
 		var dec_handoverfromutrancommandeutra HandoverFromUTRANCommandEUTRA
 		if err := dec_handoverfromutrancommandeutra.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HandoverFromUTRANCommandEUTRA")
 		}
 		v.HandoverFromUTRANCommandEUTRA = &dec_handoverfromutrancommandeutra
-		bb.LeaveComponent(paddingMark_handoverfromutrancommandeutra)
 	case DLDCCHMessageTypeChoiceUeInformationRequest:
-		paddingMark_ueinformationrequest := bb.PaddingComponent("UeInformationRequest")
 		var dec_ueinformationrequest UEInformationRequest
 		if err := dec_ueinformationrequest.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UeInformationRequest")
 		}
 		v.UeInformationRequest = &dec_ueinformationrequest
-		bb.LeaveComponent(paddingMark_ueinformationrequest)
 	case DLDCCHMessageTypeChoiceLoggingMeasurementConfiguration:
-		paddingMark_loggingmeasurementconfiguration := bb.PaddingComponent("LoggingMeasurementConfiguration")
 		var dec_loggingmeasurementconfiguration LoggingMeasurementConfiguration
 		if err := dec_loggingmeasurementconfiguration.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "LoggingMeasurementConfiguration")
 		}
 		v.LoggingMeasurementConfiguration = &dec_loggingmeasurementconfiguration
-		bb.LeaveComponent(paddingMark_loggingmeasurementconfiguration)
 	case DLDCCHMessageTypeChoiceSpare1:
 		v.Spare1 = new(struct{})
 	}
@@ -2157,13 +2097,11 @@ func (v *ULDCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return err
 	}
 	if opt_integritycheckinfo {
-		paddingMark_integritycheckinfo := bb.PaddingComponent("IntegrityCheckInfo")
 		var dec_integritycheckinfo IntegrityCheckInfo
 		if err := dec_integritycheckinfo.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "IntegrityCheckInfo")
 		}
 		v.IntegrityCheckInfo = &dec_integritycheckinfo
-		bb.LeaveComponent(paddingMark_integritycheckinfo)
 	}
 	toleranceMark_message := bb.EnterComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
@@ -2464,45 +2402,35 @@ func (v *ULDCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case ULDCCHMessageTypeChoiceActiveSetUpdateComplete:
-		paddingMark_activesetupdatecomplete := bb.PaddingComponent("ActiveSetUpdateComplete")
 		var dec_activesetupdatecomplete ActiveSetUpdateComplete
 		if err := dec_activesetupdatecomplete.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ActiveSetUpdateComplete")
 		}
 		v.ActiveSetUpdateComplete = &dec_activesetupdatecomplete
-		bb.LeaveComponent(paddingMark_activesetupdatecomplete)
 	case ULDCCHMessageTypeChoiceActiveSetUpdateFailure:
-		paddingMark_activesetupdatefailure := bb.PaddingComponent("ActiveSetUpdateFailure")
 		var dec_activesetupdatefailure ActiveSetUpdateFailure
 		if err := dec_activesetupdatefailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ActiveSetUpdateFailure")
 		}
 		v.ActiveSetUpdateFailure = &dec_activesetupdatefailure
-		bb.LeaveComponent(paddingMark_activesetupdatefailure)
 	case ULDCCHMessageTypeChoiceCellChangeOrderFromUTRANFailure:
-		paddingMark_cellchangeorderfromutranfailure := bb.PaddingComponent("CellChangeOrderFromUTRANFailure")
 		var dec_cellchangeorderfromutranfailure CellChangeOrderFromUTRANFailure
 		if err := dec_cellchangeorderfromutranfailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellChangeOrderFromUTRANFailure")
 		}
 		v.CellChangeOrderFromUTRANFailure = &dec_cellchangeorderfromutranfailure
-		bb.LeaveComponent(paddingMark_cellchangeorderfromutranfailure)
 	case ULDCCHMessageTypeChoiceCounterCheckResponse:
-		paddingMark_countercheckresponse := bb.PaddingComponent("CounterCheckResponse")
 		var dec_countercheckresponse CounterCheckResponse
 		if err := dec_countercheckresponse.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CounterCheckResponse")
 		}
 		v.CounterCheckResponse = &dec_countercheckresponse
-		bb.LeaveComponent(paddingMark_countercheckresponse)
 	case ULDCCHMessageTypeChoiceHandoverToUTRANComplete:
-		paddingMark_handovertoutrancomplete := bb.PaddingComponent("HandoverToUTRANComplete")
 		var dec_handovertoutrancomplete HandoverToUTRANComplete
 		if err := dec_handovertoutrancomplete.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HandoverToUTRANComplete")
 		}
 		v.HandoverToUTRANComplete = &dec_handovertoutrancomplete
-		bb.LeaveComponent(paddingMark_handovertoutrancomplete)
 	case ULDCCHMessageTypeChoiceInitialDirectTransfer:
 		toleranceMark_initialdirecttransfer := bb.EnterComponent("InitialDirectTransfer")
 		var dec_initialdirecttransfer InitialDirectTransfer
@@ -2512,101 +2440,77 @@ func (v *ULDCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.InitialDirectTransfer = &dec_initialdirecttransfer
 		bb.LeaveComponent(toleranceMark_initialdirecttransfer)
 	case ULDCCHMessageTypeChoiceHandoverFromUTRANFailure:
-		paddingMark_handoverfromutranfailure := bb.PaddingComponent("HandoverFromUTRANFailure")
 		var dec_handoverfromutranfailure HandoverFromUTRANFailure
 		if err := dec_handoverfromutranfailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HandoverFromUTRANFailure")
 		}
 		v.HandoverFromUTRANFailure = &dec_handoverfromutranfailure
-		bb.LeaveComponent(paddingMark_handoverfromutranfailure)
 	case ULDCCHMessageTypeChoiceMeasurementControlFailure:
-		paddingMark_measurementcontrolfailure := bb.PaddingComponent("MeasurementControlFailure")
 		var dec_measurementcontrolfailure MeasurementControlFailure
 		if err := dec_measurementcontrolfailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MeasurementControlFailure")
 		}
 		v.MeasurementControlFailure = &dec_measurementcontrolfailure
-		bb.LeaveComponent(paddingMark_measurementcontrolfailure)
 	case ULDCCHMessageTypeChoiceMeasurementReport:
-		paddingMark_measurementreport := bb.PaddingComponent("MeasurementReport")
 		var dec_measurementreport MeasurementReport
 		if err := dec_measurementreport.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MeasurementReport")
 		}
 		v.MeasurementReport = &dec_measurementreport
-		bb.LeaveComponent(paddingMark_measurementreport)
 	case ULDCCHMessageTypeChoicePhysicalChannelReconfigurationComplete:
-		paddingMark_physicalchannelreconfigurationcomplete := bb.PaddingComponent("PhysicalChannelReconfigurationComplete")
 		var dec_physicalchannelreconfigurationcomplete PhysicalChannelReconfigurationComplete
 		if err := dec_physicalchannelreconfigurationcomplete.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PhysicalChannelReconfigurationComplete")
 		}
 		v.PhysicalChannelReconfigurationComplete = &dec_physicalchannelreconfigurationcomplete
-		bb.LeaveComponent(paddingMark_physicalchannelreconfigurationcomplete)
 	case ULDCCHMessageTypeChoicePhysicalChannelReconfigurationFailure:
-		paddingMark_physicalchannelreconfigurationfailure := bb.PaddingComponent("PhysicalChannelReconfigurationFailure")
 		var dec_physicalchannelreconfigurationfailure PhysicalChannelReconfigurationFailure
 		if err := dec_physicalchannelreconfigurationfailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PhysicalChannelReconfigurationFailure")
 		}
 		v.PhysicalChannelReconfigurationFailure = &dec_physicalchannelreconfigurationfailure
-		bb.LeaveComponent(paddingMark_physicalchannelreconfigurationfailure)
 	case ULDCCHMessageTypeChoiceRadioBearerReconfigurationComplete:
-		paddingMark_radiobearerreconfigurationcomplete := bb.PaddingComponent("RadioBearerReconfigurationComplete")
 		var dec_radiobearerreconfigurationcomplete RadioBearerReconfigurationComplete
 		if err := dec_radiobearerreconfigurationcomplete.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RadioBearerReconfigurationComplete")
 		}
 		v.RadioBearerReconfigurationComplete = &dec_radiobearerreconfigurationcomplete
-		bb.LeaveComponent(paddingMark_radiobearerreconfigurationcomplete)
 	case ULDCCHMessageTypeChoiceRadioBearerReconfigurationFailure:
-		paddingMark_radiobearerreconfigurationfailure := bb.PaddingComponent("RadioBearerReconfigurationFailure")
 		var dec_radiobearerreconfigurationfailure RadioBearerReconfigurationFailure
 		if err := dec_radiobearerreconfigurationfailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RadioBearerReconfigurationFailure")
 		}
 		v.RadioBearerReconfigurationFailure = &dec_radiobearerreconfigurationfailure
-		bb.LeaveComponent(paddingMark_radiobearerreconfigurationfailure)
 	case ULDCCHMessageTypeChoiceRadioBearerReleaseComplete:
-		paddingMark_radiobearerreleasecomplete := bb.PaddingComponent("RadioBearerReleaseComplete")
 		var dec_radiobearerreleasecomplete RadioBearerReleaseComplete
 		if err := dec_radiobearerreleasecomplete.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RadioBearerReleaseComplete")
 		}
 		v.RadioBearerReleaseComplete = &dec_radiobearerreleasecomplete
-		bb.LeaveComponent(paddingMark_radiobearerreleasecomplete)
 	case ULDCCHMessageTypeChoiceRadioBearerReleaseFailure:
-		paddingMark_radiobearerreleasefailure := bb.PaddingComponent("RadioBearerReleaseFailure")
 		var dec_radiobearerreleasefailure RadioBearerReleaseFailure
 		if err := dec_radiobearerreleasefailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RadioBearerReleaseFailure")
 		}
 		v.RadioBearerReleaseFailure = &dec_radiobearerreleasefailure
-		bb.LeaveComponent(paddingMark_radiobearerreleasefailure)
 	case ULDCCHMessageTypeChoiceRadioBearerSetupComplete:
-		paddingMark_radiobearersetupcomplete := bb.PaddingComponent("RadioBearerSetupComplete")
 		var dec_radiobearersetupcomplete RadioBearerSetupComplete
 		if err := dec_radiobearersetupcomplete.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RadioBearerSetupComplete")
 		}
 		v.RadioBearerSetupComplete = &dec_radiobearersetupcomplete
-		bb.LeaveComponent(paddingMark_radiobearersetupcomplete)
 	case ULDCCHMessageTypeChoiceRadioBearerSetupFailure:
-		paddingMark_radiobearersetupfailure := bb.PaddingComponent("RadioBearerSetupFailure")
 		var dec_radiobearersetupfailure RadioBearerSetupFailure
 		if err := dec_radiobearersetupfailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RadioBearerSetupFailure")
 		}
 		v.RadioBearerSetupFailure = &dec_radiobearersetupfailure
-		bb.LeaveComponent(paddingMark_radiobearersetupfailure)
 	case ULDCCHMessageTypeChoiceRrcConnectionReleaseComplete:
-		paddingMark_rrcconnectionreleasecomplete := bb.PaddingComponent("RrcConnectionReleaseComplete")
 		var dec_rrcconnectionreleasecomplete RRCConnectionReleaseComplete
 		if err := dec_rrcconnectionreleasecomplete.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RrcConnectionReleaseComplete")
 		}
 		v.RrcConnectionReleaseComplete = &dec_rrcconnectionreleasecomplete
-		bb.LeaveComponent(paddingMark_rrcconnectionreleasecomplete)
 	case ULDCCHMessageTypeChoiceRrcConnectionSetupComplete:
 		toleranceMark_rrcconnectionsetupcomplete := bb.EnterComponent("RrcConnectionSetupComplete")
 		var dec_rrcconnectionsetupcomplete RRCConnectionSetupComplete
@@ -2616,61 +2520,47 @@ func (v *ULDCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.RrcConnectionSetupComplete = &dec_rrcconnectionsetupcomplete
 		bb.LeaveComponent(toleranceMark_rrcconnectionsetupcomplete)
 	case ULDCCHMessageTypeChoiceRrcStatus:
-		paddingMark_rrcstatus := bb.PaddingComponent("RrcStatus")
 		var dec_rrcstatus RRCStatus
 		if err := dec_rrcstatus.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RrcStatus")
 		}
 		v.RrcStatus = &dec_rrcstatus
-		bb.LeaveComponent(paddingMark_rrcstatus)
 	case ULDCCHMessageTypeChoiceSecurityModeComplete:
-		paddingMark_securitymodecomplete := bb.PaddingComponent("SecurityModeComplete")
 		var dec_securitymodecomplete SecurityModeComplete
 		if err := dec_securitymodecomplete.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SecurityModeComplete")
 		}
 		v.SecurityModeComplete = &dec_securitymodecomplete
-		bb.LeaveComponent(paddingMark_securitymodecomplete)
 	case ULDCCHMessageTypeChoiceSecurityModeFailure:
-		paddingMark_securitymodefailure := bb.PaddingComponent("SecurityModeFailure")
 		var dec_securitymodefailure SecurityModeFailure
 		if err := dec_securitymodefailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SecurityModeFailure")
 		}
 		v.SecurityModeFailure = &dec_securitymodefailure
-		bb.LeaveComponent(paddingMark_securitymodefailure)
 	case ULDCCHMessageTypeChoiceSignallingConnectionReleaseIndication:
-		paddingMark_signallingconnectionreleaseindication := bb.PaddingComponent("SignallingConnectionReleaseIndication")
 		var dec_signallingconnectionreleaseindication SignallingConnectionReleaseIndication
 		if err := dec_signallingconnectionreleaseindication.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SignallingConnectionReleaseIndication")
 		}
 		v.SignallingConnectionReleaseIndication = &dec_signallingconnectionreleaseindication
-		bb.LeaveComponent(paddingMark_signallingconnectionreleaseindication)
 	case ULDCCHMessageTypeChoiceTransportChannelReconfigurationComplete:
-		paddingMark_transportchannelreconfigurationcomplete := bb.PaddingComponent("TransportChannelReconfigurationComplete")
 		var dec_transportchannelreconfigurationcomplete TransportChannelReconfigurationComplete
 		if err := dec_transportchannelreconfigurationcomplete.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "TransportChannelReconfigurationComplete")
 		}
 		v.TransportChannelReconfigurationComplete = &dec_transportchannelreconfigurationcomplete
-		bb.LeaveComponent(paddingMark_transportchannelreconfigurationcomplete)
 	case ULDCCHMessageTypeChoiceTransportChannelReconfigurationFailure:
-		paddingMark_transportchannelreconfigurationfailure := bb.PaddingComponent("TransportChannelReconfigurationFailure")
 		var dec_transportchannelreconfigurationfailure TransportChannelReconfigurationFailure
 		if err := dec_transportchannelreconfigurationfailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "TransportChannelReconfigurationFailure")
 		}
 		v.TransportChannelReconfigurationFailure = &dec_transportchannelreconfigurationfailure
-		bb.LeaveComponent(paddingMark_transportchannelreconfigurationfailure)
 	case ULDCCHMessageTypeChoiceTransportFormatCombinationControlFailure:
-		paddingMark_transportformatcombinationcontrolfailure := bb.PaddingComponent("TransportFormatCombinationControlFailure")
 		var dec_transportformatcombinationcontrolfailure TransportFormatCombinationControlFailure
 		if err := dec_transportformatcombinationcontrolfailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "TransportFormatCombinationControlFailure")
 		}
 		v.TransportFormatCombinationControlFailure = &dec_transportformatcombinationcontrolfailure
-		bb.LeaveComponent(paddingMark_transportformatcombinationcontrolfailure)
 	case ULDCCHMessageTypeChoiceUeCapabilityInformation:
 		toleranceMark_uecapabilityinformation := bb.EnterComponent("UeCapabilityInformation")
 		var dec_uecapabilityinformation UECapabilityInformation
@@ -2680,45 +2570,35 @@ func (v *ULDCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.UeCapabilityInformation = &dec_uecapabilityinformation
 		bb.LeaveComponent(toleranceMark_uecapabilityinformation)
 	case ULDCCHMessageTypeChoiceUplinkDirectTransfer:
-		paddingMark_uplinkdirecttransfer := bb.PaddingComponent("UplinkDirectTransfer")
 		var dec_uplinkdirecttransfer UplinkDirectTransfer
 		if err := dec_uplinkdirecttransfer.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UplinkDirectTransfer")
 		}
 		v.UplinkDirectTransfer = &dec_uplinkdirecttransfer
-		bb.LeaveComponent(paddingMark_uplinkdirecttransfer)
 	case ULDCCHMessageTypeChoiceUtranMobilityInformationConfirm:
-		paddingMark_utranmobilityinformationconfirm := bb.PaddingComponent("UtranMobilityInformationConfirm")
 		var dec_utranmobilityinformationconfirm UTRANMobilityInformationConfirm
 		if err := dec_utranmobilityinformationconfirm.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UtranMobilityInformationConfirm")
 		}
 		v.UtranMobilityInformationConfirm = &dec_utranmobilityinformationconfirm
-		bb.LeaveComponent(paddingMark_utranmobilityinformationconfirm)
 	case ULDCCHMessageTypeChoiceUtranMobilityInformationFailure:
-		paddingMark_utranmobilityinformationfailure := bb.PaddingComponent("UtranMobilityInformationFailure")
 		var dec_utranmobilityinformationfailure UTRANMobilityInformationFailure
 		if err := dec_utranmobilityinformationfailure.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UtranMobilityInformationFailure")
 		}
 		v.UtranMobilityInformationFailure = &dec_utranmobilityinformationfailure
-		bb.LeaveComponent(paddingMark_utranmobilityinformationfailure)
 	case ULDCCHMessageTypeChoiceMbmsModificationRequest:
-		paddingMark_mbmsmodificationrequest := bb.PaddingComponent("MbmsModificationRequest")
 		var dec_mbmsmodificationrequest MBMSModificationRequest
 		if err := dec_mbmsmodificationrequest.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MbmsModificationRequest")
 		}
 		v.MbmsModificationRequest = &dec_mbmsmodificationrequest
-		bb.LeaveComponent(paddingMark_mbmsmodificationrequest)
 	case ULDCCHMessageTypeChoiceUlDCCHMessageTypeExt:
-		paddingMark_uldcchmessagetypeext := bb.PaddingComponent("UlDCCHMessageTypeExt")
 		var dec_uldcchmessagetypeext ULDCCHMessageTypeExt
 		if err := dec_uldcchmessagetypeext.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UlDCCHMessageTypeExt")
 		}
 		v.UlDCCHMessageTypeExt = &dec_uldcchmessagetypeext
-		bb.LeaveComponent(paddingMark_uldcchmessagetypeext)
 	}
 	return nil
 }
@@ -2812,13 +2692,11 @@ func (v *ULDCCHMessageTypeExt) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case ULDCCHMessageTypeExtChoiceUeInformationResponse:
-		paddingMark_ueinformationresponse := bb.PaddingComponent("UeInformationResponse")
 		var dec_ueinformationresponse UEInformationResponse
 		if err := dec_ueinformationresponse.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UeInformationResponse")
 		}
 		v.UeInformationResponse = &dec_ueinformationresponse
-		bb.LeaveComponent(paddingMark_ueinformationresponse)
 	case ULDCCHMessageTypeExtChoiceSpare15:
 		v.Spare15 = new(struct{})
 	case ULDCCHMessageTypeExtChoiceSpare14:
@@ -2913,13 +2791,11 @@ func (v *DLCCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return err
 	}
 	if opt_integritycheckinfo {
-		paddingMark_integritycheckinfo := bb.PaddingComponent("IntegrityCheckInfo")
 		var dec_integritycheckinfo IntegrityCheckInfo
 		if err := dec_integritycheckinfo.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "IntegrityCheckInfo")
 		}
 		v.IntegrityCheckInfo = &dec_integritycheckinfo
-		bb.LeaveComponent(paddingMark_integritycheckinfo)
 	}
 	toleranceMark_message := bb.EnterComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
@@ -3048,45 +2924,35 @@ func (v *DLCCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.CellUpdateConfirm = &dec_cellupdateconfirm
 		bb.LeaveComponent(toleranceMark_cellupdateconfirm)
 	case DLCCCHMessageTypeChoiceRrcConnectionReject:
-		paddingMark_rrcconnectionreject := bb.PaddingComponent("RrcConnectionReject")
 		var dec_rrcconnectionreject RRCConnectionReject
 		if err := dec_rrcconnectionreject.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RrcConnectionReject")
 		}
 		v.RrcConnectionReject = &dec_rrcconnectionreject
-		bb.LeaveComponent(paddingMark_rrcconnectionreject)
 	case DLCCCHMessageTypeChoiceRrcConnectionRelease:
-		paddingMark_rrcconnectionrelease := bb.PaddingComponent("RrcConnectionRelease")
 		var dec_rrcconnectionrelease RRCConnectionReleaseCCCH
 		if err := dec_rrcconnectionrelease.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RrcConnectionRelease")
 		}
 		v.RrcConnectionRelease = &dec_rrcconnectionrelease
-		bb.LeaveComponent(paddingMark_rrcconnectionrelease)
 	case DLCCCHMessageTypeChoiceRrcConnectionSetup:
-		paddingMark_rrcconnectionsetup := bb.PaddingComponent("RrcConnectionSetup")
 		var dec_rrcconnectionsetup RRCConnectionSetup
 		if err := dec_rrcconnectionsetup.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RrcConnectionSetup")
 		}
 		v.RrcConnectionSetup = &dec_rrcconnectionsetup
-		bb.LeaveComponent(paddingMark_rrcconnectionsetup)
 	case DLCCCHMessageTypeChoiceUraUpdateConfirm:
-		paddingMark_uraupdateconfirm := bb.PaddingComponent("UraUpdateConfirm")
 		var dec_uraupdateconfirm URAUpdateConfirmCCCH
 		if err := dec_uraupdateconfirm.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UraUpdateConfirm")
 		}
 		v.UraUpdateConfirm = &dec_uraupdateconfirm
-		bb.LeaveComponent(paddingMark_uraupdateconfirm)
 	case DLCCCHMessageTypeChoiceDummy:
-		paddingMark_dummy := bb.PaddingComponent("Dummy")
 		var dec_dummy ETWSPrimaryNotificationWithSecurity
 		if err := dec_dummy.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Dummy")
 		}
 		v.Dummy = &dec_dummy
-		bb.LeaveComponent(paddingMark_dummy)
 	case DLCCCHMessageTypeChoiceSpare2:
 		v.Spare2 = new(struct{})
 	case DLCCCHMessageTypeChoiceSpare1:
@@ -3155,13 +3021,11 @@ func (v *ULCCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return err
 	}
 	if opt_integritycheckinfo {
-		paddingMark_integritycheckinfo := bb.PaddingComponent("IntegrityCheckInfo")
 		var dec_integritycheckinfo IntegrityCheckInfo
 		if err := dec_integritycheckinfo.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "IntegrityCheckInfo")
 		}
 		v.IntegrityCheckInfo = &dec_integritycheckinfo
-		bb.LeaveComponent(paddingMark_integritycheckinfo)
 	}
 	toleranceMark_message := bb.EnterComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
@@ -3274,13 +3138,11 @@ func (v *ULCCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.CellUpdate = &dec_cellupdate
 		bb.LeaveComponent(toleranceMark_cellupdate)
 	case ULCCCHMessageTypeChoiceRrcConnectionRequest:
-		paddingMark_rrcconnectionrequest := bb.PaddingComponent("RrcConnectionRequest")
 		var dec_rrcconnectionrequest RRCConnectionRequest
 		if err := dec_rrcconnectionrequest.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RrcConnectionRequest")
 		}
 		v.RrcConnectionRequest = &dec_rrcconnectionrequest
-		bb.LeaveComponent(paddingMark_rrcconnectionrequest)
 	case ULCCCHMessageTypeChoiceUraUpdate:
 		toleranceMark_uraupdate := bb.EnterComponent("UraUpdate")
 		var dec_uraupdate URAUpdate
@@ -3290,13 +3152,11 @@ func (v *ULCCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.UraUpdate = &dec_uraupdate
 		bb.LeaveComponent(toleranceMark_uraupdate)
 	case ULCCCHMessageTypeChoiceULCCCHMessageTypeR11:
-		paddingMark_ulccchmessagetyper11 := bb.PaddingComponent("ULCCCHMessageTypeR11")
 		var dec_ulccchmessagetyper11 ULCCCHMessageTypeR11
 		if err := dec_ulccchmessagetyper11.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ULCCCHMessageTypeR11")
 		}
 		v.ULCCCHMessageTypeR11 = &dec_ulccchmessagetyper11
-		bb.LeaveComponent(paddingMark_ulccchmessagetyper11)
 	}
 	return nil
 }
@@ -3378,13 +3238,11 @@ func (v *ULCCCHMessageTypeR11) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case ULCCCHMessageTypeR11ChoiceCellUpdate:
-		paddingMark_cellupdate := bb.PaddingComponent("CellUpdate")
 		var dec_cellupdate CellUpdateFDDR11
 		if err := dec_cellupdate.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellUpdate")
 		}
 		v.CellUpdate = &dec_cellupdate
-		bb.LeaveComponent(paddingMark_cellupdate)
 	case ULCCCHMessageTypeR11ChoiceSpare3:
 		v.Spare3 = new(struct{})
 	case ULCCCHMessageTypeR11ChoiceSpare2:
@@ -3440,11 +3298,9 @@ func (v *PCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = PCCHMessage{}
-	paddingMark_message := bb.PaddingComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
-	bb.LeaveComponent(paddingMark_message)
 	return nil
 }
 
@@ -3523,13 +3379,11 @@ func (v *PCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case PCCHMessageTypeChoicePagingType1:
-		paddingMark_pagingtype1 := bb.PaddingComponent("PagingType1")
 		var dec_pagingtype1 PagingType1
 		if err := dec_pagingtype1.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PagingType1")
 		}
 		v.PagingType1 = &dec_pagingtype1
-		bb.LeaveComponent(paddingMark_pagingtype1)
 	case PCCHMessageTypeChoiceSpare:
 		v.Spare = new(struct{})
 	}
@@ -3581,11 +3435,9 @@ func (v *DLSHCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = DLSHCCHMessage{}
-	paddingMark_message := bb.PaddingComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
-	bb.LeaveComponent(paddingMark_message)
 	return nil
 }
 
@@ -3664,13 +3516,11 @@ func (v *DLSHCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case DLSHCCHMessageTypeChoicePhysicalSharedChannelAllocation:
-		paddingMark_physicalsharedchannelallocation := bb.PaddingComponent("PhysicalSharedChannelAllocation")
 		var dec_physicalsharedchannelallocation PhysicalSharedChannelAllocation
 		if err := dec_physicalsharedchannelallocation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PhysicalSharedChannelAllocation")
 		}
 		v.PhysicalSharedChannelAllocation = &dec_physicalsharedchannelallocation
-		bb.LeaveComponent(paddingMark_physicalsharedchannelallocation)
 	case DLSHCCHMessageTypeChoiceSpare:
 		v.Spare = new(struct{})
 	}
@@ -3722,11 +3572,9 @@ func (v *ULSHCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ULSHCCHMessage{}
-	paddingMark_message := bb.PaddingComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
-	bb.LeaveComponent(paddingMark_message)
 	return nil
 }
 
@@ -3805,13 +3653,11 @@ func (v *ULSHCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case ULSHCCHMessageTypeChoicePuschCapacityRequest:
-		paddingMark_puschcapacityrequest := bb.PaddingComponent("PuschCapacityRequest")
 		var dec_puschcapacityrequest PUSCHCapacityRequest
 		if err := dec_puschcapacityrequest.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PuschCapacityRequest")
 		}
 		v.PuschCapacityRequest = &dec_puschcapacityrequest
-		bb.LeaveComponent(paddingMark_puschcapacityrequest)
 	case ULSHCCHMessageTypeChoiceSpare:
 		v.Spare = new(struct{})
 	}
@@ -3863,11 +3709,9 @@ func (v *BCCHFACHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = BCCHFACHMessage{}
-	paddingMark_message := bb.PaddingComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
-	bb.LeaveComponent(paddingMark_message)
 	return nil
 }
 
@@ -3954,21 +3798,17 @@ func (v *BCCHFACHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case BCCHFACHMessageTypeChoiceDummy:
-		paddingMark_dummy := bb.PaddingComponent("Dummy")
 		var dec_dummy SystemInformationFACH
 		if err := dec_dummy.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Dummy")
 		}
 		v.Dummy = &dec_dummy
-		bb.LeaveComponent(paddingMark_dummy)
 	case BCCHFACHMessageTypeChoiceSystemInformationChangeIndication:
-		paddingMark_systeminformationchangeindication := bb.PaddingComponent("SystemInformationChangeIndication")
 		var dec_systeminformationchangeindication SystemInformationChangeIndication
 		if err := dec_systeminformationchangeindication.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SystemInformationChangeIndication")
 		}
 		v.SystemInformationChangeIndication = &dec_systeminformationchangeindication
-		bb.LeaveComponent(paddingMark_systeminformationchangeindication)
 	case BCCHFACHMessageTypeChoiceSpare2:
 		v.Spare2 = new(struct{})
 	case BCCHFACHMessageTypeChoiceSpare1:
@@ -4022,11 +3862,9 @@ func (v *BCCHBCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = BCCHBCHMessage{}
-	paddingMark_message := bb.PaddingComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
-	bb.LeaveComponent(paddingMark_message)
 	return nil
 }
 
@@ -4075,11 +3913,9 @@ func (v *BCCHBCH2Message) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = BCCHBCH2Message{}
-	paddingMark_message := bb.PaddingComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
-	bb.LeaveComponent(paddingMark_message)
 	return nil
 }
 
@@ -4128,11 +3964,9 @@ func (v *MCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = MCCHMessage{}
-	paddingMark_message := bb.PaddingComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
-	bb.LeaveComponent(paddingMark_message)
 	return nil
 }
 
@@ -4261,61 +4095,47 @@ func (v *MCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MCCHMessageTypeChoiceMbmsAccessInformation:
-		paddingMark_mbmsaccessinformation := bb.PaddingComponent("MbmsAccessInformation")
 		var dec_mbmsaccessinformation MBMSAccessInformation
 		if err := dec_mbmsaccessinformation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MbmsAccessInformation")
 		}
 		v.MbmsAccessInformation = &dec_mbmsaccessinformation
-		bb.LeaveComponent(paddingMark_mbmsaccessinformation)
 	case MCCHMessageTypeChoiceMbmsCommonPTMRBInformation:
-		paddingMark_mbmscommonptmrbinformation := bb.PaddingComponent("MbmsCommonPTMRBInformation")
 		var dec_mbmscommonptmrbinformation MBMSCommonPTMRBInformation
 		if err := dec_mbmscommonptmrbinformation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MbmsCommonPTMRBInformation")
 		}
 		v.MbmsCommonPTMRBInformation = &dec_mbmscommonptmrbinformation
-		bb.LeaveComponent(paddingMark_mbmscommonptmrbinformation)
 	case MCCHMessageTypeChoiceMbmsCurrentCellPTMRBInformation:
-		paddingMark_mbmscurrentcellptmrbinformation := bb.PaddingComponent("MbmsCurrentCellPTMRBInformation")
 		var dec_mbmscurrentcellptmrbinformation MBMSCurrentCellPTMRBInformation
 		if err := dec_mbmscurrentcellptmrbinformation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MbmsCurrentCellPTMRBInformation")
 		}
 		v.MbmsCurrentCellPTMRBInformation = &dec_mbmscurrentcellptmrbinformation
-		bb.LeaveComponent(paddingMark_mbmscurrentcellptmrbinformation)
 	case MCCHMessageTypeChoiceMbmsGeneralInformation:
-		paddingMark_mbmsgeneralinformation := bb.PaddingComponent("MbmsGeneralInformation")
 		var dec_mbmsgeneralinformation MBMSGeneralInformation
 		if err := dec_mbmsgeneralinformation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MbmsGeneralInformation")
 		}
 		v.MbmsGeneralInformation = &dec_mbmsgeneralinformation
-		bb.LeaveComponent(paddingMark_mbmsgeneralinformation)
 	case MCCHMessageTypeChoiceMbmsModifiedServicesInformation:
-		paddingMark_mbmsmodifiedservicesinformation := bb.PaddingComponent("MbmsModifiedServicesInformation")
 		var dec_mbmsmodifiedservicesinformation MBMSModifiedServicesInformation
 		if err := dec_mbmsmodifiedservicesinformation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MbmsModifiedServicesInformation")
 		}
 		v.MbmsModifiedServicesInformation = &dec_mbmsmodifiedservicesinformation
-		bb.LeaveComponent(paddingMark_mbmsmodifiedservicesinformation)
 	case MCCHMessageTypeChoiceMbmsNeighbouringCellPTMRBInformation:
-		paddingMark_mbmsneighbouringcellptmrbinformation := bb.PaddingComponent("MbmsNeighbouringCellPTMRBInformation")
 		var dec_mbmsneighbouringcellptmrbinformation MBMSNeighbouringCellPTMRBInformation
 		if err := dec_mbmsneighbouringcellptmrbinformation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MbmsNeighbouringCellPTMRBInformation")
 		}
 		v.MbmsNeighbouringCellPTMRBInformation = &dec_mbmsneighbouringcellptmrbinformation
-		bb.LeaveComponent(paddingMark_mbmsneighbouringcellptmrbinformation)
 	case MCCHMessageTypeChoiceMbmsUnmodifiedServicesInformation:
-		paddingMark_mbmsunmodifiedservicesinformation := bb.PaddingComponent("MbmsUnmodifiedServicesInformation")
 		var dec_mbmsunmodifiedservicesinformation MBMSUnmodifiedServicesInformation
 		if err := dec_mbmsunmodifiedservicesinformation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MbmsUnmodifiedServicesInformation")
 		}
 		v.MbmsUnmodifiedServicesInformation = &dec_mbmsunmodifiedservicesinformation
-		bb.LeaveComponent(paddingMark_mbmsunmodifiedservicesinformation)
 	case MCCHMessageTypeChoiceSpare9:
 		v.Spare9 = new(struct{})
 	case MCCHMessageTypeChoiceSpare8:
@@ -4383,11 +4203,9 @@ func (v *MSCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = MSCHMessage{}
-	paddingMark_message := bb.PaddingComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
-	bb.LeaveComponent(paddingMark_message)
 	return nil
 }
 
@@ -4468,13 +4286,11 @@ func (v *MSCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MSCHMessageTypeChoiceMbmsSchedulingInformation:
-		paddingMark_mbmsschedulinginformation := bb.PaddingComponent("MbmsSchedulingInformation")
 		var dec_mbmsschedulinginformation MBMSSchedulingInformation
 		if err := dec_mbmsschedulinginformation.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MbmsSchedulingInformation")
 		}
 		v.MbmsSchedulingInformation = &dec_mbmsschedulinginformation
-		bb.LeaveComponent(paddingMark_mbmsschedulinginformation)
 	case MSCHMessageTypeChoiceSpare3:
 		v.Spare3 = new(struct{})
 	case MSCHMessageTypeChoiceSpare2:

@@ -17519,13 +17519,11 @@ func (v *LPPMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.SequenceNumber = &tmp_sequencenumber
 	}
 	if opt_acknowledgement {
-		paddingMark_acknowledgement := bb.PaddingComponent("Acknowledgement")
 		var dec_acknowledgement Acknowledgement
 		if err := dec_acknowledgement.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Acknowledgement")
 		}
 		v.Acknowledgement = &dec_acknowledgement
-		bb.LeaveComponent(paddingMark_acknowledgement)
 	}
 	if opt_lppmessagebody {
 		toleranceMark_lppmessagebody := bb.EnterComponent("LppMessageBody")
@@ -17703,13 +17701,11 @@ func (v *LPPMessageBody) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.C1 = &dec_c1
 		bb.LeaveComponent(toleranceMark_c1)
 	case LPPMessageBodyChoiceMessageClassExtension:
-		paddingMark_messageclassextension := bb.PaddingComponent("MessageClassExtension")
 		var dec_messageclassextension LPPMessageBodyMessageClassExtension
 		if err := dec_messageclassextension.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "MessageClassExtension")
 		}
 		v.MessageClassExtension = &dec_messageclassextension
-		bb.LeaveComponent(paddingMark_messageclassextension)
 	}
 	return nil
 }
@@ -23295,13 +23291,11 @@ func (v *AbortR9IEs) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return err
 	}
 	if opt_commoniesabort {
-		paddingMark_commoniesabort := bb.PaddingComponent("CommonIEsAbort")
 		var dec_commoniesabort CommonIEsAbort
 		if err := dec_commoniesabort.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CommonIEsAbort")
 		}
 		v.CommonIEsAbort = &dec_commoniesabort
-		bb.LeaveComponent(paddingMark_commoniesabort)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -23535,13 +23529,11 @@ func (v *Error) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.ErrorR9 = &dec_errorr9
 		bb.LeaveComponent(toleranceMark_errorr9)
 	case ErrorChoiceCriticalExtensionsFuture:
-		paddingMark_criticalextensionsfuture := bb.PaddingComponent("CriticalExtensionsFuture")
 		var dec_criticalextensionsfuture ErrorCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
-		bb.LeaveComponent(paddingMark_criticalextensionsfuture)
 	}
 	return nil
 }
@@ -23704,13 +23696,11 @@ func (v *ErrorR9IEs) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return err
 	}
 	if opt_commonieserror {
-		paddingMark_commonieserror := bb.PaddingComponent("CommonIEsError")
 		var dec_commonieserror CommonIEsError
 		if err := dec_commonieserror.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CommonIEsError")
 		}
 		v.CommonIEsError = &dec_commonieserror
-		bb.LeaveComponent(paddingMark_commonieserror)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -24270,16 +24260,12 @@ func (v *CellGlobalIdEUTRAAndUTRA) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	paddingMark_plmnidentity := bb.PaddingComponent("PlmnIdentity")
 	if err := v.PlmnIdentity.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PlmnIdentity")
 	}
-	bb.LeaveComponent(paddingMark_plmnidentity)
-	paddingMark_cellidentity := bb.PaddingComponent("CellIdentity")
 	if err := v.CellIdentity.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellIdentity")
 	}
-	bb.LeaveComponent(paddingMark_cellidentity)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -24427,11 +24413,9 @@ func (v *CellGlobalIdGERAN) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	paddingMark_plmnidentity := bb.PaddingComponent("PlmnIdentity")
 	if err := v.PlmnIdentity.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PlmnIdentity")
 	}
-	bb.LeaveComponent(paddingMark_plmnidentity)
 	bsBytes_locationareacode, bsBitLen_locationareacode, err := uper.DecodeBitStringExt(bb, 16, 16, true, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "LocationAreaCode")
@@ -24563,7 +24547,6 @@ func (v *ECGI) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ECGI{}
-	paddingMark_mcc := bb.PaddingComponent("Mcc")
 	v.Mcc = make(ECGIMcc, 0)
 	_, errCollection_mcc := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_mcc, fragmentLength_mcc int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -24582,8 +24565,6 @@ func (v *ECGI) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if errCollection_mcc != nil {
 		return runtime.WrapDecodePath(errCollection_mcc, "Mcc")
 	}
-	bb.LeaveComponent(paddingMark_mcc)
-	paddingMark_mnc := bb.PaddingComponent("Mnc")
 	v.Mnc = make(ECGIMnc, 0)
 	_, errCollection_mnc := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_mnc, fragmentLength_mnc int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -24602,7 +24583,6 @@ func (v *ECGI) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if errCollection_mnc != nil {
 		return runtime.WrapDecodePath(errCollection_mnc, "Mnc")
 	}
-	bb.LeaveComponent(paddingMark_mnc)
 	bsBytes_cellidentity, bsBitLen_cellidentity, err := uper.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Cellidentity")
@@ -27186,7 +27166,6 @@ func (v *NCGIR15) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = NCGIR15{}
-	paddingMark_mccr15 := bb.PaddingComponent("MccR15")
 	v.MccR15 = make(NCGIR15MccR15, 0)
 	_, errCollection_mccr15 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_mccr15, fragmentLength_mccr15 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -27205,8 +27184,6 @@ func (v *NCGIR15) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if errCollection_mccr15 != nil {
 		return runtime.WrapDecodePath(errCollection_mccr15, "MccR15")
 	}
-	bb.LeaveComponent(paddingMark_mccr15)
-	paddingMark_mncr15 := bb.PaddingComponent("MncR15")
 	v.MncR15 = make(NCGIR15MncR15, 0)
 	_, errCollection_mncr15 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_mncr15, fragmentLength_mncr15 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -27225,7 +27202,6 @@ func (v *NCGIR15) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if errCollection_mncr15 != nil {
 		return runtime.WrapDecodePath(errCollection_mncr15, "MncR15")
 	}
-	bb.LeaveComponent(paddingMark_mncr15)
 	bsBytes_nrcellidentityr15, bsBitLen_nrcellidentityr15, err := uper.DecodeBitStringExt(bb, 36, 36, true, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NrCellidentityR15")
@@ -28093,7 +28069,6 @@ func UnmarshalUPERPolygonFrom(bb *uper.BitBuffer) (Polygon, error) {
 }
 
 func unmarshalUPERPolygonInto(v *asn1cUPERPolygonListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(Polygon, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -28102,11 +28077,9 @@ func unmarshalUPERPolygonInto(v *asn1cUPERPolygonListValue, bb *uper.BitBuffer) 
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem PolygonPoints
-			elementMark := bb.PaddingIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
-			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -28114,7 +28087,6 @@ func unmarshalUPERPolygonInto(v *asn1cUPERPolygonListValue, bb *uper.BitBuffer) 
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -29966,13 +29938,11 @@ func (v *CommonIEsRequestAssistanceData) UnmarshalUPERFrom(bb *uper.BitBuffer) e
 		return err
 	}
 	if opt_primarycellid {
-		paddingMark_primarycellid := bb.PaddingComponent("PrimaryCellID")
 		var dec_primarycellid ECGI
 		if err := dec_primarycellid.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PrimaryCellID")
 		}
 		v.PrimaryCellID = &dec_primarycellid
-		bb.LeaveComponent(paddingMark_primarycellid)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -30092,13 +30062,11 @@ func (v *CommonIEsRequestAssistanceData) UnmarshalUPERFrom(bb *uper.BitBuffer) e
 						extBB.LeaveComponent(recoveryMark_periodicassistancedatareqr15)
 					}
 					if ext_opt_primarycellidr15 {
-						paddingMark_primarycellidr15 := extBB.PaddingComponent("PrimaryCellIDR15")
 						var dec_primarycellidr15 NCGIR15
 						if err := dec_primarycellidr15.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrimaryCellIDR15")
 						}
 						v.PrimaryCellIDR15 = &dec_primarycellidr15
-						extBB.LeaveComponent(paddingMark_primarycellidr15)
 					}
 					return nil
 				}()
@@ -30136,13 +30104,11 @@ func (v *CommonIEsRequestAssistanceData) UnmarshalUPERFrom(bb *uper.BitBuffer) e
 						extBB.LeaveComponent(recoveryMark_periodicassistancedatareqr15)
 					}
 					if ext_opt_primarycellidr15 {
-						paddingMark_primarycellidr15 := extBB.PaddingComponent("PrimaryCellIDR15")
 						var dec_primarycellidr15 NCGIR15
 						if err := dec_primarycellidr15.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrimaryCellIDR15")
 						}
 						v.PrimaryCellIDR15 = &dec_primarycellidr15
-						extBB.LeaveComponent(paddingMark_primarycellidr15)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 1, true)
 					if err != nil {
@@ -30894,13 +30860,11 @@ func (v *CommonIEsRequestLocationInformation) UnmarshalUPERFrom(bb *uper.BitBuff
 		bb.LeaveComponent(toleranceMark_triggeredreporting)
 	}
 	if opt_periodicalreporting {
-		paddingMark_periodicalreporting := bb.PaddingComponent("PeriodicalReporting")
 		var dec_periodicalreporting PeriodicalReportingCriteria
 		if err := dec_periodicalreporting.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PeriodicalReporting")
 		}
 		v.PeriodicalReporting = &dec_periodicalreporting
-		bb.LeaveComponent(paddingMark_periodicalreporting)
 	}
 	if opt_additionalinformation {
 		val_additionalinformation, err := uper.DecodeEnumerated(bb, 2, true)
@@ -34022,13 +33986,11 @@ func (v *CommonIEsProvideLocationInformation) UnmarshalUPERFrom(bb *uper.BitBuff
 		bb.LeaveComponent(recoveryMark_locationestimate)
 	}
 	if opt_velocityestimate {
-		paddingMark_velocityestimate := bb.PaddingComponent("VelocityEstimate")
 		var dec_velocityestimate Velocity
 		if err := dec_velocityestimate.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "VelocityEstimate")
 		}
 		v.VelocityEstimate = &dec_velocityestimate
-		bb.LeaveComponent(paddingMark_velocityestimate)
 	}
 	if opt_locationerror {
 		toleranceMark_locationerror := bb.EnterComponent("LocationError")
@@ -34623,40 +34585,32 @@ func (v *LocationCoordinates) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		switch v.Choice {
 		case LocationCoordinatesChoiceHighAccuracyEllipsoidPointWithUncertaintyEllipseV1510:
 			extensionPath = "HighAccuracyEllipsoidPointWithUncertaintyEllipseV1510"
-			paddingMark_highaccuracyellipsoidpointwithuncertaintyellipsev1510 := inner.PaddingComponent("HighAccuracyEllipsoidPointWithUncertaintyEllipseV1510")
 			var dec_highaccuracyellipsoidpointwithuncertaintyellipsev1510 HighAccuracyEllipsoidPointWithUncertaintyEllipseR15
 			if err := dec_highaccuracyellipsoidpointwithuncertaintyellipsev1510.UnmarshalUPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "HighAccuracyEllipsoidPointWithUncertaintyEllipseV1510")
 			}
 			v.HighAccuracyEllipsoidPointWithUncertaintyEllipseV1510 = &dec_highaccuracyellipsoidpointwithuncertaintyellipsev1510
-			inner.LeaveComponent(paddingMark_highaccuracyellipsoidpointwithuncertaintyellipsev1510)
 		case LocationCoordinatesChoiceHighAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoidV1510:
 			extensionPath = "HighAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoidV1510"
-			paddingMark_highaccuracyellipsoidpointwithaltitudeanduncertaintyellipsoidv1510 := inner.PaddingComponent("HighAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoidV1510")
 			var dec_highaccuracyellipsoidpointwithaltitudeanduncertaintyellipsoidv1510 HighAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoidR15
 			if err := dec_highaccuracyellipsoidpointwithaltitudeanduncertaintyellipsoidv1510.UnmarshalUPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "HighAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoidV1510")
 			}
 			v.HighAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoidV1510 = &dec_highaccuracyellipsoidpointwithaltitudeanduncertaintyellipsoidv1510
-			inner.LeaveComponent(paddingMark_highaccuracyellipsoidpointwithaltitudeanduncertaintyellipsoidv1510)
 		case LocationCoordinatesChoiceHaEllipsoidPointWithScalableUncertaintyEllipseV1680:
 			extensionPath = "HaEllipsoidPointWithScalableUncertaintyEllipseV1680"
-			paddingMark_haellipsoidpointwithscalableuncertaintyellipsev1680 := inner.PaddingComponent("HaEllipsoidPointWithScalableUncertaintyEllipseV1680")
 			var dec_haellipsoidpointwithscalableuncertaintyellipsev1680 HAEllipsoidPointWithScalableUncertaintyEllipseR16
 			if err := dec_haellipsoidpointwithscalableuncertaintyellipsev1680.UnmarshalUPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "HaEllipsoidPointWithScalableUncertaintyEllipseV1680")
 			}
 			v.HaEllipsoidPointWithScalableUncertaintyEllipseV1680 = &dec_haellipsoidpointwithscalableuncertaintyellipsev1680
-			inner.LeaveComponent(paddingMark_haellipsoidpointwithscalableuncertaintyellipsev1680)
 		case LocationCoordinatesChoiceHaEllipsoidPointWithAltitudeAndScalableUncertaintyEllipsoidV1680:
 			extensionPath = "HaEllipsoidPointWithAltitudeAndScalableUncertaintyEllipsoidV1680"
-			paddingMark_haellipsoidpointwithaltitudeandscalableuncertaintyellipsoidv1680 := inner.PaddingComponent("HaEllipsoidPointWithAltitudeAndScalableUncertaintyEllipsoidV1680")
 			var dec_haellipsoidpointwithaltitudeandscalableuncertaintyellipsoidv1680 HAEllipsoidPointWithAltitudeAndScalableUncertaintyEllipsoidR16
 			if err := dec_haellipsoidpointwithaltitudeandscalableuncertaintyellipsoidv1680.UnmarshalUPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "HaEllipsoidPointWithAltitudeAndScalableUncertaintyEllipsoidV1680")
 			}
 			v.HaEllipsoidPointWithAltitudeAndScalableUncertaintyEllipsoidV1680 = &dec_haellipsoidpointwithaltitudeandscalableuncertaintyellipsoidv1680
-			inner.LeaveComponent(paddingMark_haellipsoidpointwithaltitudeandscalableuncertaintyellipsoidv1680)
 		case LocationCoordinatesChoiceLocal2dPointWithUncertaintyEllipseV1800:
 			extensionPath = "Local2dPointWithUncertaintyEllipseV1800"
 			recoveryMark_local2dpointwithuncertaintyellipsev1800 := inner.RecoveryComponent("Local2dPointWithUncertaintyEllipseV1800")
@@ -34694,31 +34648,24 @@ func (v *LocationCoordinates) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case LocationCoordinatesChoiceEllipsoidPoint:
-		paddingMark_ellipsoidpoint := bb.PaddingComponent("EllipsoidPoint")
 		var dec_ellipsoidpoint EllipsoidPoint
 		if err := dec_ellipsoidpoint.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "EllipsoidPoint")
 		}
 		v.EllipsoidPoint = &dec_ellipsoidpoint
-		bb.LeaveComponent(paddingMark_ellipsoidpoint)
 	case LocationCoordinatesChoiceEllipsoidPointWithUncertaintyCircle:
-		paddingMark_ellipsoidpointwithuncertaintycircle := bb.PaddingComponent("EllipsoidPointWithUncertaintyCircle")
 		var dec_ellipsoidpointwithuncertaintycircle EllipsoidPointWithUncertaintyCircle
 		if err := dec_ellipsoidpointwithuncertaintycircle.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "EllipsoidPointWithUncertaintyCircle")
 		}
 		v.EllipsoidPointWithUncertaintyCircle = &dec_ellipsoidpointwithuncertaintycircle
-		bb.LeaveComponent(paddingMark_ellipsoidpointwithuncertaintycircle)
 	case LocationCoordinatesChoiceEllipsoidPointWithUncertaintyEllipse:
-		paddingMark_ellipsoidpointwithuncertaintyellipse := bb.PaddingComponent("EllipsoidPointWithUncertaintyEllipse")
 		var dec_ellipsoidpointwithuncertaintyellipse EllipsoidPointWithUncertaintyEllipse
 		if err := dec_ellipsoidpointwithuncertaintyellipse.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "EllipsoidPointWithUncertaintyEllipse")
 		}
 		v.EllipsoidPointWithUncertaintyEllipse = &dec_ellipsoidpointwithuncertaintyellipse
-		bb.LeaveComponent(paddingMark_ellipsoidpointwithuncertaintyellipse)
 	case LocationCoordinatesChoicePolygon:
-		paddingMark_polygon := bb.PaddingComponent("Polygon")
 		tmp_polygon := make(Polygon, 0)
 		_, errCollection_polygon := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_polygon, fragmentLength_polygon int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -34727,11 +34674,9 @@ func (v *LocationCoordinates) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_polygon; i++ {
 				var elem PolygonPoints
-				elementMark := bb.PaddingIndex(fragmentOffset_polygon + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("Polygon[%d]", fragmentOffset_polygon+i))
 				}
-				bb.LeaveComponent(elementMark)
 				tmp_polygon = append(tmp_polygon, elem)
 			}
 			return nil
@@ -34740,31 +34685,24 @@ func (v *LocationCoordinates) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_polygon, "Polygon")
 		}
 		v.Polygon = tmp_polygon
-		bb.LeaveComponent(paddingMark_polygon)
 	case LocationCoordinatesChoiceEllipsoidPointWithAltitude:
-		paddingMark_ellipsoidpointwithaltitude := bb.PaddingComponent("EllipsoidPointWithAltitude")
 		var dec_ellipsoidpointwithaltitude EllipsoidPointWithAltitude
 		if err := dec_ellipsoidpointwithaltitude.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "EllipsoidPointWithAltitude")
 		}
 		v.EllipsoidPointWithAltitude = &dec_ellipsoidpointwithaltitude
-		bb.LeaveComponent(paddingMark_ellipsoidpointwithaltitude)
 	case LocationCoordinatesChoiceEllipsoidPointWithAltitudeAndUncertaintyEllipsoid:
-		paddingMark_ellipsoidpointwithaltitudeanduncertaintyellipsoid := bb.PaddingComponent("EllipsoidPointWithAltitudeAndUncertaintyEllipsoid")
 		var dec_ellipsoidpointwithaltitudeanduncertaintyellipsoid EllipsoidPointWithAltitudeAndUncertaintyEllipsoid
 		if err := dec_ellipsoidpointwithaltitudeanduncertaintyellipsoid.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "EllipsoidPointWithAltitudeAndUncertaintyEllipsoid")
 		}
 		v.EllipsoidPointWithAltitudeAndUncertaintyEllipsoid = &dec_ellipsoidpointwithaltitudeanduncertaintyellipsoid
-		bb.LeaveComponent(paddingMark_ellipsoidpointwithaltitudeanduncertaintyellipsoid)
 	case LocationCoordinatesChoiceEllipsoidArc:
-		paddingMark_ellipsoidarc := bb.PaddingComponent("EllipsoidArc")
 		var dec_ellipsoidarc EllipsoidArc
 		if err := dec_ellipsoidarc.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "EllipsoidArc")
 		}
 		v.EllipsoidArc = &dec_ellipsoidarc
-		bb.LeaveComponent(paddingMark_ellipsoidarc)
 	}
 	return nil
 }
@@ -34902,37 +34840,29 @@ func (v *Velocity) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case VelocityChoiceHorizontalVelocity:
-		paddingMark_horizontalvelocity := bb.PaddingComponent("HorizontalVelocity")
 		var dec_horizontalvelocity HorizontalVelocity
 		if err := dec_horizontalvelocity.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HorizontalVelocity")
 		}
 		v.HorizontalVelocity = &dec_horizontalvelocity
-		bb.LeaveComponent(paddingMark_horizontalvelocity)
 	case VelocityChoiceHorizontalWithVerticalVelocity:
-		paddingMark_horizontalwithverticalvelocity := bb.PaddingComponent("HorizontalWithVerticalVelocity")
 		var dec_horizontalwithverticalvelocity HorizontalWithVerticalVelocity
 		if err := dec_horizontalwithverticalvelocity.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HorizontalWithVerticalVelocity")
 		}
 		v.HorizontalWithVerticalVelocity = &dec_horizontalwithverticalvelocity
-		bb.LeaveComponent(paddingMark_horizontalwithverticalvelocity)
 	case VelocityChoiceHorizontalVelocityWithUncertainty:
-		paddingMark_horizontalvelocitywithuncertainty := bb.PaddingComponent("HorizontalVelocityWithUncertainty")
 		var dec_horizontalvelocitywithuncertainty HorizontalVelocityWithUncertainty
 		if err := dec_horizontalvelocitywithuncertainty.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HorizontalVelocityWithUncertainty")
 		}
 		v.HorizontalVelocityWithUncertainty = &dec_horizontalvelocitywithuncertainty
-		bb.LeaveComponent(paddingMark_horizontalvelocitywithuncertainty)
 	case VelocityChoiceHorizontalWithVerticalVelocityAndUncertainty:
-		paddingMark_horizontalwithverticalvelocityanduncertainty := bb.PaddingComponent("HorizontalWithVerticalVelocityAndUncertainty")
 		var dec_horizontalwithverticalvelocityanduncertainty HorizontalWithVerticalVelocityAndUncertainty
 		if err := dec_horizontalwithverticalvelocityanduncertainty.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HorizontalWithVerticalVelocityAndUncertainty")
 		}
 		v.HorizontalWithVerticalVelocityAndUncertainty = &dec_horizontalwithverticalvelocityanduncertainty
-		bb.LeaveComponent(paddingMark_horizontalwithverticalvelocityanduncertainty)
 	}
 	return nil
 }
@@ -35618,13 +35548,11 @@ func (v *NRCellIDsR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return err
 	}
 	if opt_nrcellglobalidr17 {
-		paddingMark_nrcellglobalidr17 := bb.PaddingComponent("NrCellGlobalIDR17")
 		var dec_nrcellglobalidr17 NCGIR15
 		if err := dec_nrcellglobalidr17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR17")
 		}
 		v.NrCellGlobalIDR17 = &dec_nrcellglobalidr17
-		bb.LeaveComponent(paddingMark_nrcellglobalidr17)
 	}
 	if opt_nrphyscellidr17 {
 		val_nrphyscellidr17, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(1007), false)
@@ -35778,7 +35706,6 @@ func (v *DLPRSIDInfoR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.DlPRSIDR16 = val_dlprsidr16
 	if opt_nrdlprsresourceidlistr16 {
-		paddingMark_nrdlprsresourceidlistr16 := bb.PaddingComponent("NrDLPRSResourceIDListR16")
 		tmp_nrdlprsresourceidlistr16 := make(DLPRSIDInfoR16NrDLPRSResourceIDListR16, 0)
 		_, errCollection_nrdlprsresourceidlistr16 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_nrdlprsresourceidlistr16, fragmentLength_nrdlprsresourceidlistr16 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -35798,7 +35725,6 @@ func (v *DLPRSIDInfoR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_nrdlprsresourceidlistr16, "NrDLPRSResourceIDListR16")
 		}
 		v.NrDLPRSResourceIDListR16 = tmp_nrdlprsresourceidlistr16
-		bb.LeaveComponent(paddingMark_nrdlprsresourceidlistr16)
 	}
 	if opt_nrdlprsresourcesetidr16 {
 		val_nrdlprsresourcesetidr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(7), false)
@@ -36157,13 +36083,11 @@ func (v *LocalOriginR18) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.CoordinateIDR18 = val_coordinateidr18
 	if opt_pointr18 {
-		paddingMark_pointr18 := bb.PaddingComponent("PointR18")
 		var dec_pointr18 HighAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoidR15
 		if err := dec_pointr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PointR18")
 		}
 		v.PointR18 = &dec_pointr18
-		bb.LeaveComponent(paddingMark_pointr18)
 	}
 	if opt_horizaxesorientationr18 {
 		val_horizaxesorientationr18, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3599), false)
@@ -36313,11 +36237,9 @@ func (v *LOSNLOSIndicatorR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	paddingMark_indicatorr17 := bb.PaddingComponent("IndicatorR17")
 	if err := v.IndicatorR17.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "IndicatorR17")
 	}
-	bb.LeaveComponent(paddingMark_indicatorr17)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -37266,11 +37188,9 @@ func (v *NRDLPRSAssistanceDataR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	paddingMark_nrdlprsreferenceinfor16 := bb.PaddingComponent("NrDLPRSReferenceInfoR16")
 	if err := v.NrDLPRSReferenceInfoR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NrDLPRSReferenceInfoR16")
 	}
-	bb.LeaveComponent(paddingMark_nrdlprsreferenceinfor16)
 	toleranceMark_nrdlprsassistancedatalistr16 := bb.EnterComponent("NrDLPRSAssistanceDataListR16")
 	v.NrDLPRSAssistanceDataListR16 = make(NRDLPRSAssistanceDataR16NrDLPRSAssistanceDataListR16, 0)
 	_, errCollection_nrdlprsassistancedatalistr16 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_nrdlprsassistancedatalistr16, fragmentLength_nrdlprsassistancedatalistr16 int64) error {
@@ -37355,7 +37275,6 @@ func (v *NRDLPRSAssistanceDataR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						return runtime.WrapDecodePath(err, "NrDLPRSAggregationInfoR18")
 					}
 					if ext_opt_nrdlprsaggregationinfor18 {
-						paddingMark_nrdlprsaggregationinfor18 := extBB.PaddingComponent("NrDLPRSAggregationInfoR18")
 						tmp_nrdlprsaggregationinfor18 := make(NRDLPRSAggregationInfoR18, 0)
 						_, errCollection_nrdlprsaggregationinfor18 := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, false, func(fragmentOffset_nrdlprsaggregationinfor18, fragmentLength_nrdlprsaggregationinfor18 int64) error {
 							// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1129
@@ -37363,12 +37282,10 @@ func (v *NRDLPRSAssistanceDataR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 								return fmt.Errorf("collection fragment count out of range")
 							}
 							for i_nrdlprsaggregationinfor18 := int64(0); i_nrdlprsaggregationinfor18 < fragmentLength_nrdlprsaggregationinfor18; i_nrdlprsaggregationinfor18++ {
-								elementMark := extBB.PaddingIndex(fragmentOffset_nrdlprsaggregationinfor18 + i_nrdlprsaggregationinfor18)
 								elem, err := UnmarshalUPERNRLinkedDLPRSResourceSetIDPRSAggregationListR18From(extBB)
 								if err != nil {
 									return runtime.WrapDecodePath(err, fmt.Sprintf("NrDLPRSAggregationInfoR18[%d]", fragmentOffset_nrdlprsaggregationinfor18+i_nrdlprsaggregationinfor18))
 								}
-								extBB.LeaveComponent(elementMark)
 								tmp_nrdlprsaggregationinfor18 = append(tmp_nrdlprsaggregationinfor18, elem)
 							}
 							return nil
@@ -37377,7 +37294,6 @@ func (v *NRDLPRSAssistanceDataR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 							return runtime.WrapDecodePath(errCollection_nrdlprsaggregationinfor18, "NrDLPRSAggregationInfoR18")
 						}
 						v.NrDLPRSAggregationInfoR18 = tmp_nrdlprsaggregationinfor18
-						extBB.LeaveComponent(paddingMark_nrdlprsaggregationinfor18)
 					}
 					return nil
 				}()
@@ -37402,7 +37318,6 @@ func (v *NRDLPRSAssistanceDataR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						return runtime.WrapDecodePath(err, "NrDLPRSAggregationInfoR18")
 					}
 					if ext_opt_nrdlprsaggregationinfor18 {
-						paddingMark_nrdlprsaggregationinfor18 := extBB.PaddingComponent("NrDLPRSAggregationInfoR18")
 						tmp_nrdlprsaggregationinfor18 := make(NRDLPRSAggregationInfoR18, 0)
 						_, errCollection_nrdlprsaggregationinfor18 := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, false, func(fragmentOffset_nrdlprsaggregationinfor18, fragmentLength_nrdlprsaggregationinfor18 int64) error {
 							// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1129
@@ -37410,12 +37325,10 @@ func (v *NRDLPRSAssistanceDataR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 								return fmt.Errorf("collection fragment count out of range")
 							}
 							for i_nrdlprsaggregationinfor18 := int64(0); i_nrdlprsaggregationinfor18 < fragmentLength_nrdlprsaggregationinfor18; i_nrdlprsaggregationinfor18++ {
-								elementMark := extBB.PaddingIndex(fragmentOffset_nrdlprsaggregationinfor18 + i_nrdlprsaggregationinfor18)
 								elem, err := UnmarshalUPERNRLinkedDLPRSResourceSetIDPRSAggregationListR18From(extBB)
 								if err != nil {
 									return runtime.WrapDecodePath(err, fmt.Sprintf("NrDLPRSAggregationInfoR18[%d]", fragmentOffset_nrdlprsaggregationinfor18+i_nrdlprsaggregationinfor18))
 								}
-								extBB.LeaveComponent(elementMark)
 								tmp_nrdlprsaggregationinfor18 = append(tmp_nrdlprsaggregationinfor18, elem)
 							}
 							return nil
@@ -37424,7 +37337,6 @@ func (v *NRDLPRSAssistanceDataR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 							return runtime.WrapDecodePath(errCollection_nrdlprsaggregationinfor18, "NrDLPRSAggregationInfoR18")
 						}
 						v.NrDLPRSAggregationInfoR18 = tmp_nrdlprsaggregationinfor18
-						extBB.LeaveComponent(paddingMark_nrdlprsaggregationinfor18)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 0, true)
 					if err != nil {
@@ -37891,13 +37803,11 @@ func (v *NRDLPRSAssistanceDataPerTRPR16) UnmarshalUPERFrom(bb *uper.BitBuffer) e
 		v.NrPhysCellIDR16 = &tmp_nrphyscellidr16
 	}
 	if opt_nrcellglobalidr16 {
-		paddingMark_nrcellglobalidr16 := bb.PaddingComponent("NrCellGlobalIDR16")
 		var dec_nrcellglobalidr16 NCGIR15
 		if err := dec_nrcellglobalidr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR16")
 		}
 		v.NrCellGlobalIDR16 = &dec_nrcellglobalidr16
-		bb.LeaveComponent(paddingMark_nrcellglobalidr16)
 	}
 	if opt_nrarfcnr16 {
 		val_nrarfcnr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -38030,13 +37940,11 @@ func (v *NRDLPRSAssistanceDataPerTRPR16) UnmarshalUPERFrom(bb *uper.BitBuffer) e
 						return runtime.WrapDecodePath(err, "NrDLPRSExpectedAoDOrAoAR17")
 					}
 					if ext_opt_nrdlprsexpectedaodoraoar17 {
-						paddingMark_nrdlprsexpectedaodoraoar17 := extBB.PaddingComponent("NrDLPRSExpectedAoDOrAoAR17")
 						var dec_nrdlprsexpectedaodoraoar17 NRDLPRSExpectedAoDOrAoAR17
 						if err := dec_nrdlprsexpectedaodoraoar17.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSExpectedAoDOrAoAR17")
 						}
 						v.NrDLPRSExpectedAoDOrAoAR17 = &dec_nrdlprsexpectedaodoraoar17
-						extBB.LeaveComponent(paddingMark_nrdlprsexpectedaodoraoar17)
 					}
 					return nil
 				}()
@@ -38061,13 +37969,11 @@ func (v *NRDLPRSAssistanceDataPerTRPR16) UnmarshalUPERFrom(bb *uper.BitBuffer) e
 						return runtime.WrapDecodePath(err, "NrDLPRSExpectedAoDOrAoAR17")
 					}
 					if ext_opt_nrdlprsexpectedaodoraoar17 {
-						paddingMark_nrdlprsexpectedaodoraoar17 := extBB.PaddingComponent("NrDLPRSExpectedAoDOrAoAR17")
 						var dec_nrdlprsexpectedaodoraoar17 NRDLPRSExpectedAoDOrAoAR17
 						if err := dec_nrdlprsexpectedaodoraoar17.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSExpectedAoDOrAoAR17")
 						}
 						v.NrDLPRSExpectedAoDOrAoAR17 = &dec_nrdlprsexpectedaodoraoar17
-						extBB.LeaveComponent(paddingMark_nrdlprsexpectedaodoraoar17)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 1, true)
 					if err != nil {
@@ -38537,21 +38443,17 @@ func (v *NRDLPRSExpectedAoDOrAoAR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case NRDLPRSExpectedAoDOrAoAR17ChoiceExpectedAoDR17:
-		paddingMark_expectedaodr17 := bb.PaddingComponent("ExpectedAoDR17")
 		var dec_expectedaodr17 NRDLPRSExpectedAoDOrAoAR17ExpectedAoDR17
 		if err := dec_expectedaodr17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ExpectedAoDR17")
 		}
 		v.ExpectedAoDR17 = &dec_expectedaodr17
-		bb.LeaveComponent(paddingMark_expectedaodr17)
 	case NRDLPRSExpectedAoDOrAoAR17ChoiceExpectedAoAR17:
-		paddingMark_expectedaoar17 := bb.PaddingComponent("ExpectedAoAR17")
 		var dec_expectedaoar17 NRDLPRSExpectedAoDOrAoAR17ExpectedAoAR17
 		if err := dec_expectedaoar17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ExpectedAoAR17")
 		}
 		v.ExpectedAoAR17 = &dec_expectedaoar17
-		bb.LeaveComponent(paddingMark_expectedaoar17)
 	}
 	return nil
 }
@@ -38645,7 +38547,6 @@ func UnmarshalUPERNRDLPRSAggregationInfoR18From(bb *uper.BitBuffer) (NRDLPRSAggr
 }
 
 func unmarshalUPERNRDLPRSAggregationInfoR18Into(v *asn1cUPERNRDLPRSAggregationInfoR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NRDLPRSAggregationInfoR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1129
@@ -38653,12 +38554,10 @@ func unmarshalUPERNRDLPRSAggregationInfoR18Into(v *asn1cUPERNRDLPRSAggregationIn
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i_value := int64(0); i_value < fragmentLength_value; i_value++ {
-			elementMark := bb.PaddingIndex(fragmentOffset_value + i_value)
 			elem, err := UnmarshalUPERNRLinkedDLPRSResourceSetIDPRSAggregationListR18From(bb)
 			if err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i_value))
 			}
-			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -38666,7 +38565,6 @@ func unmarshalUPERNRDLPRSAggregationInfoR18Into(v *asn1cUPERNRDLPRSAggregationIn
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -38761,7 +38659,6 @@ func UnmarshalUPERNRLinkedDLPRSResourceSetIDPRSAggregationListR18From(bb *uper.B
 }
 
 func unmarshalUPERNRLinkedDLPRSResourceSetIDPRSAggregationListR18Into(v *asn1cUPERNRLinkedDLPRSResourceSetIDPRSAggregationListR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NRLinkedDLPRSResourceSetIDPRSAggregationListR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -38770,11 +38667,9 @@ func unmarshalUPERNRLinkedDLPRSResourceSetIDPRSAggregationListR18Into(v *asn1cUP
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem NRDLPRSAggregationElementR18
-			elementMark := bb.PaddingIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
-			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -38782,7 +38677,6 @@ func unmarshalUPERNRLinkedDLPRSResourceSetIDPRSAggregationListR18Into(v *asn1cUP
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -39277,13 +39171,11 @@ func (v *NRDLPRSBeamInfoPerTRPR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.NrPhysCellIDR16 = &tmp_nrphyscellidr16
 	}
 	if opt_nrcellglobalidr16 {
-		paddingMark_nrcellglobalidr16 := bb.PaddingComponent("NrCellGlobalIDR16")
 		var dec_nrcellglobalidr16 NCGIR15
 		if err := dec_nrcellglobalidr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR16")
 		}
 		v.NrCellGlobalIDR16 = &dec_nrcellglobalidr16
-		bb.LeaveComponent(paddingMark_nrcellglobalidr16)
 	}
 	if opt_nrarfcnr16 {
 		val_nrarfcnr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -40485,13 +40377,11 @@ func (v *NRDLPRSExpectedLOSNLOSAssistancePerTRPR17) UnmarshalUPERFrom(bb *uper.B
 		v.NrPhysCellIDR17 = &tmp_nrphyscellidr17
 	}
 	if opt_nrcellglobalidr17 {
-		paddingMark_nrcellglobalidr17 := bb.PaddingComponent("NrCellGlobalIDR17")
 		var dec_nrcellglobalidr17 NCGIR15
 		if err := dec_nrcellglobalidr17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR17")
 		}
 		v.NrCellGlobalIDR17 = &dec_nrcellglobalidr17
-		bb.LeaveComponent(paddingMark_nrcellglobalidr17)
 	}
 	if opt_nrarfcnr17 {
 		val_nrarfcnr17, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -41015,11 +40905,9 @@ func (v *NRDLPRSResourceSetR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "NrDLPRSResourceSetIDR16")
 	}
 	v.NrDLPRSResourceSetIDR16 = NRDLPRSResourceSetIDR16(val_nrdlprsresourcesetidr16)
-	paddingMark_dlprsperiodicityandresourcesetslotoffsetr16 := bb.PaddingComponent("DlPRSPeriodicityAndResourceSetSlotOffsetR16")
 	if err := v.DlPRSPeriodicityAndResourceSetSlotOffsetR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DlPRSPeriodicityAndResourceSetSlotOffsetR16")
 	}
-	bb.LeaveComponent(paddingMark_dlprsperiodicityandresourcesetslotoffsetr16)
 	if opt_dlprsresourcerepetitionfactorr16 {
 		val_dlprsresourcerepetitionfactorr16, err := uper.DecodeEnumerated(bb, 6, true)
 		if err != nil {
@@ -41246,11 +41134,9 @@ func (v *DLPRSMutingOption1R16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		}
 		v.DlPrsMutingBitRepetitionFactorR16 = &val_dlprsmutingbitrepetitionfactorr16
 	}
-	paddingMark_nroption1mutingr16 := bb.PaddingComponent("NrOption1MutingR16")
 	if err := v.NrOption1MutingR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NrOption1MutingR16")
 	}
-	bb.LeaveComponent(paddingMark_nroption1mutingr16)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -41392,11 +41278,9 @@ func (v *DLPRSMutingOption2R16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	paddingMark_nroption2mutingr16 := bb.PaddingComponent("NrOption2MutingR16")
 	if err := v.NrOption2MutingR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NrOption2MutingR16")
 	}
-	bb.LeaveComponent(paddingMark_nroption2mutingr16)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -41856,11 +41740,9 @@ func (v *NRDLPRSResourceR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "DlPRSSequenceIDR16")
 	}
 	v.DlPRSSequenceIDR16 = val_dlprssequenceidr16
-	paddingMark_dlprscombsizenandreoffsetr16 := bb.PaddingComponent("DlPRSCombSizeNAndReOffsetR16")
 	if err := v.DlPRSCombSizeNAndReOffsetR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DlPRSCombSizeNAndReOffsetR16")
 	}
-	bb.LeaveComponent(paddingMark_dlprscombsizenandreoffsetr16)
 	val_dlprsresourceslotoffsetr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(511), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DlPRSResourceSlotOffsetR16")
@@ -41872,13 +41754,11 @@ func (v *NRDLPRSResourceR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.DlPRSResourceSymbolOffsetR16 = val_dlprsresourcesymboloffsetr16
 	if opt_dlprsqclinfor16 {
-		paddingMark_dlprsqclinfor16 := bb.PaddingComponent("DlPRSQCLInfoR16")
 		var dec_dlprsqclinfor16 DLPRSQCLInfoR16
 		if err := dec_dlprsqclinfor16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "DlPRSQCLInfoR16")
 		}
 		v.DlPRSQCLInfoR16 = &dec_dlprsqclinfor16
-		bb.LeaveComponent(paddingMark_dlprsqclinfor16)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -42182,21 +42062,17 @@ func (v *DLPRSQCLInfoR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case DLPRSQCLInfoR16ChoiceSsbR16:
-		paddingMark_ssbr16 := bb.PaddingComponent("SsbR16")
 		var dec_ssbr16 DLPRSQCLInfoR16SsbR16
 		if err := dec_ssbr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SsbR16")
 		}
 		v.SsbR16 = &dec_ssbr16
-		bb.LeaveComponent(paddingMark_ssbr16)
 	case DLPRSQCLInfoR16ChoiceDlPRSR16:
-		paddingMark_dlprsr16 := bb.PaddingComponent("DlPRSR16")
 		var dec_dlprsr16 DLPRSQCLInfoR16DlPRSR16
 		if err := dec_dlprsr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "DlPRSR16")
 		}
 		v.DlPRSR16 = &dec_dlprsr16
-		bb.LeaveComponent(paddingMark_dlprsr16)
 	}
 	return nil
 }
@@ -42334,37 +42210,29 @@ func (v *NRDLPRSPeriodicityAndResourceSetSlotOffsetR16) UnmarshalUPERFrom(bb *up
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case NRDLPRSPeriodicityAndResourceSetSlotOffsetR16ChoiceScs15R16:
-		paddingMark_scs15r16 := bb.PaddingComponent("Scs15R16")
 		var dec_scs15r16 NRDLPRSPeriodicityAndResourceSetSlotOffsetR16Scs15R16
 		if err := dec_scs15r16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Scs15R16")
 		}
 		v.Scs15R16 = &dec_scs15r16
-		bb.LeaveComponent(paddingMark_scs15r16)
 	case NRDLPRSPeriodicityAndResourceSetSlotOffsetR16ChoiceScs30R16:
-		paddingMark_scs30r16 := bb.PaddingComponent("Scs30R16")
 		var dec_scs30r16 NRDLPRSPeriodicityAndResourceSetSlotOffsetR16Scs30R16
 		if err := dec_scs30r16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Scs30R16")
 		}
 		v.Scs30R16 = &dec_scs30r16
-		bb.LeaveComponent(paddingMark_scs30r16)
 	case NRDLPRSPeriodicityAndResourceSetSlotOffsetR16ChoiceScs60R16:
-		paddingMark_scs60r16 := bb.PaddingComponent("Scs60R16")
 		var dec_scs60r16 NRDLPRSPeriodicityAndResourceSetSlotOffsetR16Scs60R16
 		if err := dec_scs60r16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Scs60R16")
 		}
 		v.Scs60R16 = &dec_scs60r16
-		bb.LeaveComponent(paddingMark_scs60r16)
 	case NRDLPRSPeriodicityAndResourceSetSlotOffsetR16ChoiceScs120R16:
-		paddingMark_scs120r16 := bb.PaddingComponent("Scs120R16")
 		var dec_scs120r16 NRDLPRSPeriodicityAndResourceSetSlotOffsetR16Scs120R16
 		if err := dec_scs120r16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Scs120R16")
 		}
 		v.Scs120R16 = &dec_scs120r16
-		bb.LeaveComponent(paddingMark_scs120r16)
 	}
 	return nil
 }
@@ -42944,13 +42812,11 @@ func (v *NRDLPRSMeasurementTimeWindowsConfigElementR18) UnmarshalUPERFrom(bb *up
 	}
 	v.NrStartSFNTimeWindowR18 = val_nrstartsfntimewindowr18
 	if opt_nrperiodicoroneshottimewindowr18 {
-		paddingMark_nrperiodicoroneshottimewindowr18 := bb.PaddingComponent("NrPeriodicOrOneShotTimeWindowR18")
 		var dec_nrperiodicoroneshottimewindowr18 NRDLPRSMeasurementTimeWindowsConfigElementR18NrPeriodicOrOneShotTimeWindowR18
 		if err := dec_nrperiodicoroneshottimewindowr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrPeriodicOrOneShotTimeWindowR18")
 		}
 		v.NrPeriodicOrOneShotTimeWindowR18 = &dec_nrperiodicoroneshottimewindowr18
-		bb.LeaveComponent(paddingMark_nrperiodicoroneshottimewindowr18)
 	}
 	if opt_nrsymboloffsettimewindowr18 {
 		val_nrsymboloffsettimewindowr18, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(13), false)
@@ -43181,7 +43047,6 @@ func (v *NRSelectedDLPRSIndexPerTRPR18) UnmarshalUPERFrom(bb *uper.BitBuffer) er
 	}
 	v.NrSelectedTRPIndexR18 = val_nrselectedtrpindexr18
 	if opt_dlselectedprsresourcesetindexlistr18 {
-		paddingMark_dlselectedprsresourcesetindexlistr18 := bb.PaddingComponent("DlSelectedPRSResourceSetIndexListR18")
 		tmp_dlselectedprsresourcesetindexlistr18 := make(NRSelectedDLPRSIndexPerTRPR18DlSelectedPRSResourceSetIndexListR18, 0)
 		_, errCollection_dlselectedprsresourcesetindexlistr18 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_dlselectedprsresourcesetindexlistr18, fragmentLength_dlselectedprsresourcesetindexlistr18 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -43201,7 +43066,6 @@ func (v *NRSelectedDLPRSIndexPerTRPR18) UnmarshalUPERFrom(bb *uper.BitBuffer) er
 			return runtime.WrapDecodePath(errCollection_dlselectedprsresourcesetindexlistr18, "DlSelectedPRSResourceSetIndexListR18")
 		}
 		v.DlSelectedPRSResourceSetIndexListR18 = tmp_dlselectedprsresourcesetindexlistr18
-		bb.LeaveComponent(paddingMark_dlselectedprsresourcesetindexlistr18)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -44008,11 +43872,9 @@ func (v *PRSProcessingCapabilityPerBandR16) UnmarshalUPERFrom(bb *uper.BitBuffer
 		return runtime.WrapDecodePath(err, "FreqBandIndicatorNRR16")
 	}
 	v.FreqBandIndicatorNRR16 = FreqBandIndicatorNRR16(val_freqbandindicatornrr16)
-	paddingMark_supportedbandwidthprsr16 := bb.PaddingComponent("SupportedBandwidthPRSR16")
 	if err := v.SupportedBandwidthPRSR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SupportedBandwidthPRSR16")
 	}
-	bb.LeaveComponent(paddingMark_supportedbandwidthprsr16)
 	val_dlprsbuffertyper16, err := uper.DecodeEnumerated(bb, 2, true)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DlPRSBufferTypeR16")
@@ -44566,40 +44428,32 @@ func (v *PRSProcessingCapabilityPerBandR16) UnmarshalUPERFrom(bb *uper.BitBuffer
 						extBB.LeaveComponent(recoveryMark_ppwmaxnumofonesymbolprsresprocessedperslotr18)
 					}
 					if ext_opt_prsbwatwocontiguousintrabandinmgrrcconnectedr18 {
-						paddingMark_prsbwatwocontiguousintrabandinmgrrcconnectedr18 := extBB.PaddingComponent("PrsBWATwoContiguousIntrabandInMGRRCConnectedR18")
 						var dec_prsbwatwocontiguousintrabandinmgrrcconnectedr18 PRSBWATwoContiguousIntrabandInMGR18
 						if err := dec_prsbwatwocontiguousintrabandinmgrrcconnectedr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrsBWATwoContiguousIntrabandInMGRRCConnectedR18")
 						}
 						v.PrsBWATwoContiguousIntrabandInMGRRCConnectedR18 = &dec_prsbwatwocontiguousintrabandinmgrrcconnectedr18
-						extBB.LeaveComponent(paddingMark_prsbwatwocontiguousintrabandinmgrrcconnectedr18)
 					}
 					if ext_opt_prsbwathreecontiguousintrabandinmgrrcconnectedr18 {
-						paddingMark_prsbwathreecontiguousintrabandinmgrrcconnectedr18 := extBB.PaddingComponent("PrsBWAThreeContiguousIntrabandInMGRRCConnectedR18")
 						var dec_prsbwathreecontiguousintrabandinmgrrcconnectedr18 PRSBWAThreeContiguousIntrabandInMGR18
 						if err := dec_prsbwathreecontiguousintrabandinmgrrcconnectedr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrsBWAThreeContiguousIntrabandInMGRRCConnectedR18")
 						}
 						v.PrsBWAThreeContiguousIntrabandInMGRRCConnectedR18 = &dec_prsbwathreecontiguousintrabandinmgrrcconnectedr18
-						extBB.LeaveComponent(paddingMark_prsbwathreecontiguousintrabandinmgrrcconnectedr18)
 					}
 					if ext_opt_prsbwatwocontiguousintrabandrrcidleandinactiver18 {
-						paddingMark_prsbwatwocontiguousintrabandrrcidleandinactiver18 := extBB.PaddingComponent("PrsBWATwoContiguousIntrabandRRCIdleAndInactiveR18")
 						var dec_prsbwatwocontiguousintrabandrrcidleandinactiver18 PRSBWATwoContiguousIntrabandInMGR18
 						if err := dec_prsbwatwocontiguousintrabandrrcidleandinactiver18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrsBWATwoContiguousIntrabandRRCIdleAndInactiveR18")
 						}
 						v.PrsBWATwoContiguousIntrabandRRCIdleAndInactiveR18 = &dec_prsbwatwocontiguousintrabandrrcidleandinactiver18
-						extBB.LeaveComponent(paddingMark_prsbwatwocontiguousintrabandrrcidleandinactiver18)
 					}
 					if ext_opt_prsbwathreecontiguousintrabandrrcidleandinactiver18 {
-						paddingMark_prsbwathreecontiguousintrabandrrcidleandinactiver18 := extBB.PaddingComponent("PrsBWAThreeContiguousIntrabandRRCIdleAndInactiveR18")
 						var dec_prsbwathreecontiguousintrabandrrcidleandinactiver18 PRSBWAThreeContiguousIntrabandInMGR18
 						if err := dec_prsbwathreecontiguousintrabandrrcidleandinactiver18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrsBWAThreeContiguousIntrabandRRCIdleAndInactiveR18")
 						}
 						v.PrsBWAThreeContiguousIntrabandRRCIdleAndInactiveR18 = &dec_prsbwathreecontiguousintrabandrrcidleandinactiver18
-						extBB.LeaveComponent(paddingMark_prsbwathreecontiguousintrabandrrcidleandinactiver18)
 					}
 					if ext_opt_reducednumofsampleinmeasurementwithprsbwarrcconnectedr18 {
 						val_reducednumofsampleinmeasurementwithprsbwarrcconnectedr18, err := uper.DecodeEnumerated(extBB, 1, false)
@@ -44765,40 +44619,32 @@ func (v *PRSProcessingCapabilityPerBandR16) UnmarshalUPERFrom(bb *uper.BitBuffer
 						extBB.LeaveComponent(recoveryMark_ppwmaxnumofonesymbolprsresprocessedperslotr18)
 					}
 					if ext_opt_prsbwatwocontiguousintrabandinmgrrcconnectedr18 {
-						paddingMark_prsbwatwocontiguousintrabandinmgrrcconnectedr18 := extBB.PaddingComponent("PrsBWATwoContiguousIntrabandInMGRRCConnectedR18")
 						var dec_prsbwatwocontiguousintrabandinmgrrcconnectedr18 PRSBWATwoContiguousIntrabandInMGR18
 						if err := dec_prsbwatwocontiguousintrabandinmgrrcconnectedr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrsBWATwoContiguousIntrabandInMGRRCConnectedR18")
 						}
 						v.PrsBWATwoContiguousIntrabandInMGRRCConnectedR18 = &dec_prsbwatwocontiguousintrabandinmgrrcconnectedr18
-						extBB.LeaveComponent(paddingMark_prsbwatwocontiguousintrabandinmgrrcconnectedr18)
 					}
 					if ext_opt_prsbwathreecontiguousintrabandinmgrrcconnectedr18 {
-						paddingMark_prsbwathreecontiguousintrabandinmgrrcconnectedr18 := extBB.PaddingComponent("PrsBWAThreeContiguousIntrabandInMGRRCConnectedR18")
 						var dec_prsbwathreecontiguousintrabandinmgrrcconnectedr18 PRSBWAThreeContiguousIntrabandInMGR18
 						if err := dec_prsbwathreecontiguousintrabandinmgrrcconnectedr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrsBWAThreeContiguousIntrabandInMGRRCConnectedR18")
 						}
 						v.PrsBWAThreeContiguousIntrabandInMGRRCConnectedR18 = &dec_prsbwathreecontiguousintrabandinmgrrcconnectedr18
-						extBB.LeaveComponent(paddingMark_prsbwathreecontiguousintrabandinmgrrcconnectedr18)
 					}
 					if ext_opt_prsbwatwocontiguousintrabandrrcidleandinactiver18 {
-						paddingMark_prsbwatwocontiguousintrabandrrcidleandinactiver18 := extBB.PaddingComponent("PrsBWATwoContiguousIntrabandRRCIdleAndInactiveR18")
 						var dec_prsbwatwocontiguousintrabandrrcidleandinactiver18 PRSBWATwoContiguousIntrabandInMGR18
 						if err := dec_prsbwatwocontiguousintrabandrrcidleandinactiver18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrsBWATwoContiguousIntrabandRRCIdleAndInactiveR18")
 						}
 						v.PrsBWATwoContiguousIntrabandRRCIdleAndInactiveR18 = &dec_prsbwatwocontiguousintrabandrrcidleandinactiver18
-						extBB.LeaveComponent(paddingMark_prsbwatwocontiguousintrabandrrcidleandinactiver18)
 					}
 					if ext_opt_prsbwathreecontiguousintrabandrrcidleandinactiver18 {
-						paddingMark_prsbwathreecontiguousintrabandrrcidleandinactiver18 := extBB.PaddingComponent("PrsBWAThreeContiguousIntrabandRRCIdleAndInactiveR18")
 						var dec_prsbwathreecontiguousintrabandrrcidleandinactiver18 PRSBWAThreeContiguousIntrabandInMGR18
 						if err := dec_prsbwathreecontiguousintrabandrrcidleandinactiver18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrsBWAThreeContiguousIntrabandRRCIdleAndInactiveR18")
 						}
 						v.PrsBWAThreeContiguousIntrabandRRCIdleAndInactiveR18 = &dec_prsbwathreecontiguousintrabandrrcidleandinactiver18
-						extBB.LeaveComponent(paddingMark_prsbwathreecontiguousintrabandrrcidleandinactiver18)
 					}
 					if ext_opt_reducednumofsampleinmeasurementwithprsbwarrcconnectedr18 {
 						val_reducednumofsampleinmeasurementwithprsbwarrcconnectedr18, err := uper.DecodeEnumerated(extBB, 1, false)
@@ -45086,22 +44932,18 @@ func (v *PRSProcessingCapabilityOutsideMGinPPWperTypeR17) UnmarshalUPERFrom(bb *
 	}
 	v.PpwDlPRSBufferTypeR17 = val_ppwdlprsbuffertyper17
 	if opt_ppwdurationofprsprocessing1r17 {
-		paddingMark_ppwdurationofprsprocessing1r17 := bb.PaddingComponent("PpwDurationOfPRSProcessing1R17")
 		var dec_ppwdurationofprsprocessing1r17 PRSProcessingCapabilityOutsideMGinPPWperTypeR17PpwDurationOfPRSProcessing1R17
 		if err := dec_ppwdurationofprsprocessing1r17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PpwDurationOfPRSProcessing1R17")
 		}
 		v.PpwDurationOfPRSProcessing1R17 = &dec_ppwdurationofprsprocessing1r17
-		bb.LeaveComponent(paddingMark_ppwdurationofprsprocessing1r17)
 	}
 	if opt_ppwdurationofprsprocessing2r17 {
-		paddingMark_ppwdurationofprsprocessing2r17 := bb.PaddingComponent("PpwDurationOfPRSProcessing2R17")
 		var dec_ppwdurationofprsprocessing2r17 PRSProcessingCapabilityOutsideMGinPPWperTypeR17PpwDurationOfPRSProcessing2R17
 		if err := dec_ppwdurationofprsprocessing2r17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PpwDurationOfPRSProcessing2R17")
 		}
 		v.PpwDurationOfPRSProcessing2R17 = &dec_ppwdurationofprsprocessing2r17
-		bb.LeaveComponent(paddingMark_ppwdurationofprsprocessing2r17)
 	}
 	toleranceMark_ppwmaxnumofdlprsresprocessedperslotr17 := bb.EnterComponent("PpwMaxNumOfDLPRSResProcessedPerSlotR17")
 	if err := v.PpwMaxNumOfDLPRSResProcessedPerSlotR17.UnmarshalUPERFrom(bb); err != nil {
@@ -45145,13 +44987,11 @@ func (v *PRSProcessingCapabilityOutsideMGinPPWperTypeR17) UnmarshalUPERFrom(bb *
 						return runtime.WrapDecodePath(err, "PpwMaxNumOfDLBandwidthR17")
 					}
 					if ext_opt_ppwmaxnumofdlbandwidthr17 {
-						paddingMark_ppwmaxnumofdlbandwidthr17 := extBB.PaddingComponent("PpwMaxNumOfDLBandwidthR17")
 						var dec_ppwmaxnumofdlbandwidthr17 PRSProcessingCapabilityOutsideMGinPPWperTypeR17PpwMaxNumOfDLBandwidthR17
 						if err := dec_ppwmaxnumofdlbandwidthr17.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PpwMaxNumOfDLBandwidthR17")
 						}
 						v.PpwMaxNumOfDLBandwidthR17 = &dec_ppwmaxnumofdlbandwidthr17
-						extBB.LeaveComponent(paddingMark_ppwmaxnumofdlbandwidthr17)
 					}
 					return nil
 				}()
@@ -45176,13 +45016,11 @@ func (v *PRSProcessingCapabilityOutsideMGinPPWperTypeR17) UnmarshalUPERFrom(bb *
 						return runtime.WrapDecodePath(err, "PpwMaxNumOfDLBandwidthR17")
 					}
 					if ext_opt_ppwmaxnumofdlbandwidthr17 {
-						paddingMark_ppwmaxnumofdlbandwidthr17 := extBB.PaddingComponent("PpwMaxNumOfDLBandwidthR17")
 						var dec_ppwmaxnumofdlbandwidthr17 PRSProcessingCapabilityOutsideMGinPPWperTypeR17PpwMaxNumOfDLBandwidthR17
 						if err := dec_ppwmaxnumofdlbandwidthr17.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PpwMaxNumOfDLBandwidthR17")
 						}
 						v.PpwMaxNumOfDLBandwidthR17 = &dec_ppwmaxnumofdlbandwidthr17
-						extBB.LeaveComponent(paddingMark_ppwmaxnumofdlbandwidthr17)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 0, true)
 					if err != nil {
@@ -45378,24 +45216,18 @@ func (v *PRSBWATwoContiguousIntrabandInMGR18) UnmarshalUPERFrom(bb *uper.BitBuff
 	}
 	v.DlPRSBufferTypeOfBWAR18 = val_dlprsbuffertypeofbwar18
 	if opt_prsdurationoftwoprsbwaprocessingr18 {
-		paddingMark_prsdurationoftwoprsbwaprocessingr18 := bb.PaddingComponent("PrsDurationOfTwoPRSBWAProcessingR18")
 		var dec_prsdurationoftwoprsbwaprocessingr18 PRSBWATwoContiguousIntrabandInMGR18PrsDurationOfTwoPRSBWAProcessingR18
 		if err := dec_prsdurationoftwoprsbwaprocessingr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PrsDurationOfTwoPRSBWAProcessingR18")
 		}
 		v.PrsDurationOfTwoPRSBWAProcessingR18 = &dec_prsdurationoftwoprsbwaprocessingr18
-		bb.LeaveComponent(paddingMark_prsdurationoftwoprsbwaprocessingr18)
 	}
-	paddingMark_maxnumofaggregateddlprsresourceperslotfr1r18 := bb.PaddingComponent("MaxNumOfAggregatedDLPRSResourcePerSlotFR1R18")
 	if err := v.MaxNumOfAggregatedDLPRSResourcePerSlotFR1R18.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MaxNumOfAggregatedDLPRSResourcePerSlotFR1R18")
 	}
-	bb.LeaveComponent(paddingMark_maxnumofaggregateddlprsresourceperslotfr1r18)
-	paddingMark_maxnumofaggregateddlprsresourceperslotfr2r18 := bb.PaddingComponent("MaxNumOfAggregatedDLPRSResourcePerSlotFR2R18")
 	if err := v.MaxNumOfAggregatedDLPRSResourcePerSlotFR2R18.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MaxNumOfAggregatedDLPRSResourcePerSlotFR2R18")
 	}
-	bb.LeaveComponent(paddingMark_maxnumofaggregateddlprsresourceperslotfr2r18)
 	return nil
 }
 
@@ -45546,24 +45378,18 @@ func (v *PRSBWAThreeContiguousIntrabandInMGR18) UnmarshalUPERFrom(bb *uper.BitBu
 	}
 	v.DlPRSBufferTypeOfBWAR18 = val_dlprsbuffertypeofbwar18
 	if opt_prsdurationofthreeprsbwaprocessingr18 {
-		paddingMark_prsdurationofthreeprsbwaprocessingr18 := bb.PaddingComponent("PrsDurationOfThreePRSBWAProcessingR18")
 		var dec_prsdurationofthreeprsbwaprocessingr18 PRSBWAThreeContiguousIntrabandInMGR18PrsDurationOfThreePRSBWAProcessingR18
 		if err := dec_prsdurationofthreeprsbwaprocessingr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PrsDurationOfThreePRSBWAProcessingR18")
 		}
 		v.PrsDurationOfThreePRSBWAProcessingR18 = &dec_prsdurationofthreeprsbwaprocessingr18
-		bb.LeaveComponent(paddingMark_prsdurationofthreeprsbwaprocessingr18)
 	}
-	paddingMark_maxnumofaggregateddlprsresourceperslotfr1r18 := bb.PaddingComponent("MaxNumOfAggregatedDLPRSResourcePerSlotFR1R18")
 	if err := v.MaxNumOfAggregatedDLPRSResourcePerSlotFR1R18.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MaxNumOfAggregatedDLPRSResourcePerSlotFR1R18")
 	}
-	bb.LeaveComponent(paddingMark_maxnumofaggregateddlprsresourceperslotfr1r18)
-	paddingMark_maxnumofaggregateddlprsresourceperslotfr2r18 := bb.PaddingComponent("MaxNumOfAggregatedDLPRSResourcePerSlotFR2R18")
 	if err := v.MaxNumOfAggregatedDLPRSResourcePerSlotFR2R18.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MaxNumOfAggregatedDLPRSResourcePerSlotFR2R18")
 	}
-	bb.LeaveComponent(paddingMark_maxnumofaggregateddlprsresourceperslotfr2r18)
 	return nil
 }
 
@@ -45765,13 +45591,11 @@ func (v *DLPRSMeasurementWithRxFHRRCConnectedR18) UnmarshalUPERFrom(bb *uper.Bit
 		v.MaximumFHHopsR18 = &val_maximumfhhopsr18
 	}
 	if opt_processingdurationr18 {
-		paddingMark_processingdurationr18 := bb.PaddingComponent("ProcessingDurationR18")
 		var dec_processingdurationr18 DLPRSMeasurementWithRxFHRRCConnectedR18ProcessingDurationR18
 		if err := dec_processingdurationr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ProcessingDurationR18")
 		}
 		v.ProcessingDurationR18 = &dec_processingdurationr18
-		bb.LeaveComponent(paddingMark_processingdurationr18)
 	}
 	if opt_rfrxretunetimefr1r18 {
 		val_rfrxretunetimefr1r18, err := uper.DecodeEnumerated(bb, 3, false)
@@ -46821,7 +46645,6 @@ func (v *DLPRSResourcesBandCombinationR16) UnmarshalUPERFrom(bb *uper.BitBuffer)
 	if err != nil {
 		return err
 	}
-	paddingMark_bandlistr16 := bb.PaddingComponent("BandListR16")
 	v.BandListR16 = make(DLPRSResourcesBandCombinationR16BandListR16, 0)
 	_, errCollection_bandlistr16 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_bandlistr16, fragmentLength_bandlistr16 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -46840,7 +46663,6 @@ func (v *DLPRSResourcesBandCombinationR16) UnmarshalUPERFrom(bb *uper.BitBuffer)
 	if errCollection_bandlistr16 != nil {
 		return runtime.WrapDecodePath(errCollection_bandlistr16, "BandListR16")
 	}
-	bb.LeaveComponent(paddingMark_bandlistr16)
 	toleranceMark_maxnrofdlprsresourcesacrossallfltrpresourcesetr16 := bb.EnterComponent("MaxNrOfDLPRSResourcesAcrossAllFLTRPResourceSetR16")
 	if err := v.MaxNrOfDLPRSResourcesAcrossAllFLTRPResourceSetR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MaxNrOfDLPRSResourcesAcrossAllFLTRPResourceSetR16")
@@ -47328,13 +47150,11 @@ func (v *NRDLPRSTRPTEGInfoPerTRPR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error
 		v.NrPhysCellIDR17 = &tmp_nrphyscellidr17
 	}
 	if opt_nrcellglobalidr17 {
-		paddingMark_nrcellglobalidr17 := bb.PaddingComponent("NrCellGlobalIDR17")
 		var dec_nrcellglobalidr17 NCGIR15
 		if err := dec_nrcellglobalidr17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR17")
 		}
 		v.NrCellGlobalIDR17 = &dec_nrcellglobalidr17
-		bb.LeaveComponent(paddingMark_nrcellglobalidr17)
 	}
 	if opt_nrarfcnr17 {
 		val_nrarfcnr17, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -48324,13 +48144,11 @@ func (v *NRTRPIntegrityServiceAlertElementR18) UnmarshalUPERFrom(bb *uper.BitBuf
 		v.NrPhysCellIDR18 = &tmp_nrphyscellidr18
 	}
 	if opt_nrcellglobalidr18 {
-		paddingMark_nrcellglobalidr18 := bb.PaddingComponent("NrCellGlobalIDR18")
 		var dec_nrcellglobalidr18 NCGIR15
 		if err := dec_nrcellglobalidr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR18")
 		}
 		v.NrCellGlobalIDR18 = &dec_nrcellglobalidr18
-		bb.LeaveComponent(paddingMark_nrcellglobalidr18)
 	}
 	if opt_nrarfcnr18 {
 		val_nrarfcnr18, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -50011,13 +49829,11 @@ func (v *DLPRSQCLInformationReqPerTRPR17) UnmarshalUPERFrom(bb *uper.BitBuffer) 
 		v.NrPhysCellIDR17 = &tmp_nrphyscellidr17
 	}
 	if opt_nrcellglobalidr17 {
-		paddingMark_nrcellglobalidr17 := bb.PaddingComponent("NrCellGlobalIDR17")
 		var dec_nrcellglobalidr17 NCGIR15
 		if err := dec_nrcellglobalidr17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR17")
 		}
 		v.NrCellGlobalIDR17 = &dec_nrcellglobalidr17
-		bb.LeaveComponent(paddingMark_nrcellglobalidr17)
 	}
 	if opt_nrarfcnr17 {
 		val_nrarfcnr17, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -50254,11 +50070,9 @@ func (v *DLPRSQCLInfoReqR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "NrDLPRSResourceSetIDR17")
 	}
 	v.NrDLPRSResourceSetIDR17 = NRDLPRSResourceSetIDR16(val_nrdlprsresourcesetidr17)
-	paddingMark_dlprsqclinformationreqr17 := bb.PaddingComponent("DlPrsQCLInformationReqR17")
 	if err := v.DlPrsQCLInformationReqR17.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DlPrsQCLInformationReqR17")
 	}
-	bb.LeaveComponent(paddingMark_dlprsqclinformationreqr17)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -50296,7 +50110,6 @@ func (v *DLPRSQCLInfoReqR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						return runtime.WrapDecodePath(err, "DlPrsQCLInfoRecPerResourceR17")
 					}
 					if ext_opt_dlprsqclinforecperresourcer17 {
-						paddingMark_dlprsqclinforecperresourcer17 := extBB.PaddingComponent("DlPrsQCLInfoRecPerResourceR17")
 						tmp_dlprsqclinforecperresourcer17 := make(DLPRSQCLInfoReqR17DlPrsQCLInfoRecPerResourceR17, 0)
 						_, errCollection_dlprsqclinforecperresourcer17 := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_dlprsqclinforecperresourcer17, fragmentLength_dlprsqclinforecperresourcer17 int64) error {
 							// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -50305,11 +50118,9 @@ func (v *DLPRSQCLInfoReqR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 							}
 							for i := int64(0); i < fragmentLength_dlprsqclinforecperresourcer17; i++ {
 								var elem DLPRSQCLInfoR16
-								elementMark := extBB.PaddingIndex(fragmentOffset_dlprsqclinforecperresourcer17 + i)
 								if err := elem.UnmarshalUPERFrom(extBB); err != nil {
 									return runtime.WrapDecodePath(err, fmt.Sprintf("DlPrsQCLInfoRecPerResourceR17[%d]", fragmentOffset_dlprsqclinforecperresourcer17+i))
 								}
-								extBB.LeaveComponent(elementMark)
 								tmp_dlprsqclinforecperresourcer17 = append(tmp_dlprsqclinforecperresourcer17, elem)
 							}
 							return nil
@@ -50318,7 +50129,6 @@ func (v *DLPRSQCLInfoReqR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 							return runtime.WrapDecodePath(errCollection_dlprsqclinforecperresourcer17, "DlPrsQCLInfoRecPerResourceR17")
 						}
 						v.DlPrsQCLInfoRecPerResourceR17 = tmp_dlprsqclinforecperresourcer17
-						extBB.LeaveComponent(paddingMark_dlprsqclinforecperresourcer17)
 					}
 					return nil
 				}()
@@ -50343,7 +50153,6 @@ func (v *DLPRSQCLInfoReqR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						return runtime.WrapDecodePath(err, "DlPrsQCLInfoRecPerResourceR17")
 					}
 					if ext_opt_dlprsqclinforecperresourcer17 {
-						paddingMark_dlprsqclinforecperresourcer17 := extBB.PaddingComponent("DlPrsQCLInfoRecPerResourceR17")
 						tmp_dlprsqclinforecperresourcer17 := make(DLPRSQCLInfoReqR17DlPrsQCLInfoRecPerResourceR17, 0)
 						_, errCollection_dlprsqclinforecperresourcer17 := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_dlprsqclinforecperresourcer17, fragmentLength_dlprsqclinforecperresourcer17 int64) error {
 							// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -50352,11 +50161,9 @@ func (v *DLPRSQCLInfoReqR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 							}
 							for i := int64(0); i < fragmentLength_dlprsqclinforecperresourcer17; i++ {
 								var elem DLPRSQCLInfoR16
-								elementMark := extBB.PaddingIndex(fragmentOffset_dlprsqclinforecperresourcer17 + i)
 								if err := elem.UnmarshalUPERFrom(extBB); err != nil {
 									return runtime.WrapDecodePath(err, fmt.Sprintf("DlPrsQCLInfoRecPerResourceR17[%d]", fragmentOffset_dlprsqclinforecperresourcer17+i))
 								}
-								extBB.LeaveComponent(elementMark)
 								tmp_dlprsqclinforecperresourcer17 = append(tmp_dlprsqclinforecperresourcer17, elem)
 							}
 							return nil
@@ -50365,7 +50172,6 @@ func (v *DLPRSQCLInfoReqR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 							return runtime.WrapDecodePath(errCollection_dlprsqclinforecperresourcer17, "DlPrsQCLInfoRecPerResourceR17")
 						}
 						v.DlPrsQCLInfoRecPerResourceR17 = tmp_dlprsqclinforecperresourcer17
-						extBB.LeaveComponent(paddingMark_dlprsqclinforecperresourcer17)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 0, true)
 					if err != nil {
@@ -50784,7 +50590,6 @@ func (v *NROnDemandDLPRSRequestR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 						return runtime.WrapDecodePath(err, "NrOnDemandDLPRSAggregationReqListR18")
 					}
 					if ext_opt_dlprsaggregationidpreflistr18 {
-						paddingMark_dlprsaggregationidpreflistr18 := extBB.PaddingComponent("DlPRSAggregationIDPrefListR18")
 						tmp_dlprsaggregationidpreflistr18 := make(NROnDemandDLPRSRequestR17DlPRSAggregationIDPrefListR18, 0)
 						_, errCollection_dlprsaggregationidpreflistr18 := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlprsaggregationidpreflistr18, fragmentLength_dlprsaggregationidpreflistr18 int64) error {
 							// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -50804,10 +50609,8 @@ func (v *NROnDemandDLPRSRequestR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 							return runtime.WrapDecodePath(errCollection_dlprsaggregationidpreflistr18, "DlPRSAggregationIDPrefListR18")
 						}
 						v.DlPRSAggregationIDPrefListR18 = tmp_dlprsaggregationidpreflistr18
-						extBB.LeaveComponent(paddingMark_dlprsaggregationidpreflistr18)
 					}
 					if ext_opt_nrondemanddlprsaggregationreqlistr18 {
-						paddingMark_nrondemanddlprsaggregationreqlistr18 := extBB.PaddingComponent("NrOnDemandDLPRSAggregationReqListR18")
 						tmp_nrondemanddlprsaggregationreqlistr18 := make(NROnDemandDLPRSRequestR17NrOnDemandDLPRSAggregationReqListR18, 0)
 						_, errCollection_nrondemanddlprsaggregationreqlistr18 := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_nrondemanddlprsaggregationreqlistr18, fragmentLength_nrondemanddlprsaggregationreqlistr18 int64) error {
 							// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1129
@@ -50815,12 +50618,10 @@ func (v *NROnDemandDLPRSRequestR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 								return fmt.Errorf("collection fragment count out of range")
 							}
 							for i_nrondemanddlprsaggregationreqlistr18 := int64(0); i_nrondemanddlprsaggregationreqlistr18 < fragmentLength_nrondemanddlprsaggregationreqlistr18; i_nrondemanddlprsaggregationreqlistr18++ {
-								elementMark := extBB.PaddingIndex(fragmentOffset_nrondemanddlprsaggregationreqlistr18 + i_nrondemanddlprsaggregationreqlistr18)
 								elem, err := UnmarshalUPERNROnDemandDLPRSAggregationReqElementR18From(extBB)
 								if err != nil {
 									return runtime.WrapDecodePath(err, fmt.Sprintf("NrOnDemandDLPRSAggregationReqListR18[%d]", fragmentOffset_nrondemanddlprsaggregationreqlistr18+i_nrondemanddlprsaggregationreqlistr18))
 								}
-								extBB.LeaveComponent(elementMark)
 								tmp_nrondemanddlprsaggregationreqlistr18 = append(tmp_nrondemanddlprsaggregationreqlistr18, elem)
 							}
 							return nil
@@ -50829,7 +50630,6 @@ func (v *NROnDemandDLPRSRequestR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 							return runtime.WrapDecodePath(errCollection_nrondemanddlprsaggregationreqlistr18, "NrOnDemandDLPRSAggregationReqListR18")
 						}
 						v.NrOnDemandDLPRSAggregationReqListR18 = tmp_nrondemanddlprsaggregationreqlistr18
-						extBB.LeaveComponent(paddingMark_nrondemanddlprsaggregationreqlistr18)
 					}
 					return nil
 				}()
@@ -50858,7 +50658,6 @@ func (v *NROnDemandDLPRSRequestR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 						return runtime.WrapDecodePath(err, "NrOnDemandDLPRSAggregationReqListR18")
 					}
 					if ext_opt_dlprsaggregationidpreflistr18 {
-						paddingMark_dlprsaggregationidpreflistr18 := extBB.PaddingComponent("DlPRSAggregationIDPrefListR18")
 						tmp_dlprsaggregationidpreflistr18 := make(NROnDemandDLPRSRequestR17DlPRSAggregationIDPrefListR18, 0)
 						_, errCollection_dlprsaggregationidpreflistr18 := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlprsaggregationidpreflistr18, fragmentLength_dlprsaggregationidpreflistr18 int64) error {
 							// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -50878,10 +50677,8 @@ func (v *NROnDemandDLPRSRequestR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 							return runtime.WrapDecodePath(errCollection_dlprsaggregationidpreflistr18, "DlPRSAggregationIDPrefListR18")
 						}
 						v.DlPRSAggregationIDPrefListR18 = tmp_dlprsaggregationidpreflistr18
-						extBB.LeaveComponent(paddingMark_dlprsaggregationidpreflistr18)
 					}
 					if ext_opt_nrondemanddlprsaggregationreqlistr18 {
-						paddingMark_nrondemanddlprsaggregationreqlistr18 := extBB.PaddingComponent("NrOnDemandDLPRSAggregationReqListR18")
 						tmp_nrondemanddlprsaggregationreqlistr18 := make(NROnDemandDLPRSRequestR17NrOnDemandDLPRSAggregationReqListR18, 0)
 						_, errCollection_nrondemanddlprsaggregationreqlistr18 := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_nrondemanddlprsaggregationreqlistr18, fragmentLength_nrondemanddlprsaggregationreqlistr18 int64) error {
 							// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1129
@@ -50889,12 +50686,10 @@ func (v *NROnDemandDLPRSRequestR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 								return fmt.Errorf("collection fragment count out of range")
 							}
 							for i_nrondemanddlprsaggregationreqlistr18 := int64(0); i_nrondemanddlprsaggregationreqlistr18 < fragmentLength_nrondemanddlprsaggregationreqlistr18; i_nrondemanddlprsaggregationreqlistr18++ {
-								elementMark := extBB.PaddingIndex(fragmentOffset_nrondemanddlprsaggregationreqlistr18 + i_nrondemanddlprsaggregationreqlistr18)
 								elem, err := UnmarshalUPERNROnDemandDLPRSAggregationReqElementR18From(extBB)
 								if err != nil {
 									return runtime.WrapDecodePath(err, fmt.Sprintf("NrOnDemandDLPRSAggregationReqListR18[%d]", fragmentOffset_nrondemanddlprsaggregationreqlistr18+i_nrondemanddlprsaggregationreqlistr18))
 								}
-								extBB.LeaveComponent(elementMark)
 								tmp_nrondemanddlprsaggregationreqlistr18 = append(tmp_nrondemanddlprsaggregationreqlistr18, elem)
 							}
 							return nil
@@ -50903,7 +50698,6 @@ func (v *NROnDemandDLPRSRequestR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 							return runtime.WrapDecodePath(errCollection_nrondemanddlprsaggregationreqlistr18, "NrOnDemandDLPRSAggregationReqListR18")
 						}
 						v.NrOnDemandDLPRSAggregationReqListR18 = tmp_nrondemanddlprsaggregationreqlistr18
-						extBB.LeaveComponent(paddingMark_nrondemanddlprsaggregationreqlistr18)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 0, true)
 					if err != nil {
@@ -51325,7 +51119,6 @@ func UnmarshalUPERNROnDemandDLPRSAggregationReqElementR18From(bb *uper.BitBuffer
 }
 
 func unmarshalUPERNROnDemandDLPRSAggregationReqElementR18Into(v *asn1cUPERNROnDemandDLPRSAggregationReqElementR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NROnDemandDLPRSAggregationReqElementR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -51344,7 +51137,6 @@ func unmarshalUPERNROnDemandDLPRSAggregationReqElementR18Into(v *asn1cUPERNROnDe
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -51734,13 +51526,11 @@ func (v *TRPRequestInfoElementR19) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.NrPhysCellIDR19 = &tmp_nrphyscellidr19
 	}
 	if opt_nrcellglobalidr19 {
-		paddingMark_nrcellglobalidr19 := bb.PaddingComponent("NrCellGlobalIDR19")
 		var dec_nrcellglobalidr19 NCGIR15
 		if err := dec_nrcellglobalidr19.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR19")
 		}
 		v.NrCellGlobalIDR19 = &dec_nrcellglobalidr19
-		bb.LeaveComponent(paddingMark_nrcellglobalidr19)
 	}
 	if opt_nrarfcnr19 {
 		val_nrarfcnr19, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -55237,13 +55027,11 @@ func (v *NRPRURSCPMeasElementR18) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.NrPhysCellIDR18 = &tmp_nrphyscellidr18
 	}
 	if opt_nrcellglobalidr18 {
-		paddingMark_nrcellglobalidr18 := bb.PaddingComponent("NrCellGlobalIDR18")
 		var dec_nrcellglobalidr18 NCGIR15
 		if err := dec_nrcellglobalidr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR18")
 		}
 		v.NrCellGlobalIDR18 = &dec_nrcellglobalidr18
-		bb.LeaveComponent(paddingMark_nrcellglobalidr18)
 	}
 	if opt_nrarfcnr18 {
 		val_nrarfcnr18, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -55339,7 +55127,6 @@ func (v *NRPRURSCPMeasElementR18) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		bb.LeaveComponent(toleranceMark_nrprurscpaddsamplemeasurementsr18)
 	}
 	if opt_nrprursrpaddsamplemeasurementsr18 {
-		paddingMark_nrprursrpaddsamplemeasurementsr18 := bb.PaddingComponent("NrPRURSRPAddSampleMeasurementsR18")
 		tmp_nrprursrpaddsamplemeasurementsr18 := make(NRPRURSCPMeasElementR18NrPRURSRPAddSampleMeasurementsR18, 0)
 		_, errCollection_nrprursrpaddsamplemeasurementsr18 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nrprursrpaddsamplemeasurementsr18, fragmentLength_nrprursrpaddsamplemeasurementsr18 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -55359,10 +55146,8 @@ func (v *NRPRURSCPMeasElementR18) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_nrprursrpaddsamplemeasurementsr18, "NrPRURSRPAddSampleMeasurementsR18")
 		}
 		v.NrPRURSRPAddSampleMeasurementsR18 = tmp_nrprursrpaddsamplemeasurementsr18
-		bb.LeaveComponent(paddingMark_nrprursrpaddsamplemeasurementsr18)
 	}
 	if opt_nrprufirstpathrsrpresultdiffaddsamplemeasurementsr18 {
-		paddingMark_nrprufirstpathrsrpresultdiffaddsamplemeasurementsr18 := bb.PaddingComponent("NrPRUFirstPathRSRPResultDiffAddSampleMeasurementsR18")
 		tmp_nrprufirstpathrsrpresultdiffaddsamplemeasurementsr18 := make(NRPRURSCPMeasElementR18NrPRUFirstPathRSRPResultDiffAddSampleMeasurementsR18, 0)
 		_, errCollection_nrprufirstpathrsrpresultdiffaddsamplemeasurementsr18 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nrprufirstpathrsrpresultdiffaddsamplemeasurementsr18, fragmentLength_nrprufirstpathrsrpresultdiffaddsamplemeasurementsr18 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -55382,7 +55167,6 @@ func (v *NRPRURSCPMeasElementR18) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_nrprufirstpathrsrpresultdiffaddsamplemeasurementsr18, "NrPRUFirstPathRSRPResultDiffAddSampleMeasurementsR18")
 		}
 		v.NrPRUFirstPathRSRPResultDiffAddSampleMeasurementsR18 = tmp_nrprufirstpathrsrpresultdiffaddsamplemeasurementsr18
-		bb.LeaveComponent(paddingMark_nrprufirstpathrsrpresultdiffaddsamplemeasurementsr18)
 	}
 	if opt_nrprurscpadditionalmeasurementsr18 {
 		toleranceMark_nrprurscpadditionalmeasurementsr18 := bb.EnterComponent("NrPRURSCPAdditionalMeasurementsR18")
@@ -55838,7 +55622,6 @@ func (v *NRPRURSCPAdditionalMeasurementElementR18) UnmarshalUPERFrom(bb *uper.Bi
 		bb.LeaveComponent(toleranceMark_nrprurscpadditionalmeasurementslistr18)
 	}
 	if opt_nrprursrpdiffadditionalmeasurementslistr18 {
-		paddingMark_nrprursrpdiffadditionalmeasurementslistr18 := bb.PaddingComponent("NrPRURSRPDiffAdditionalMeasurementsListR18")
 		tmp_nrprursrpdiffadditionalmeasurementslistr18 := make(NRPRURSCPAdditionalMeasurementElementR18NrPRURSRPDiffAdditionalMeasurementsListR18, 0)
 		_, errCollection_nrprursrpdiffadditionalmeasurementslistr18 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_nrprursrpdiffadditionalmeasurementslistr18, fragmentLength_nrprursrpdiffadditionalmeasurementslistr18 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -55858,10 +55641,8 @@ func (v *NRPRURSCPAdditionalMeasurementElementR18) UnmarshalUPERFrom(bb *uper.Bi
 			return runtime.WrapDecodePath(errCollection_nrprursrpdiffadditionalmeasurementslistr18, "NrPRURSRPDiffAdditionalMeasurementsListR18")
 		}
 		v.NrPRURSRPDiffAdditionalMeasurementsListR18 = tmp_nrprursrpdiffadditionalmeasurementslistr18
-		bb.LeaveComponent(paddingMark_nrprursrpdiffadditionalmeasurementslistr18)
 	}
 	if opt_nrprufirstpathrsrpresultdiffadditionalmeasurementslistr18 {
-		paddingMark_nrprufirstpathrsrpresultdiffadditionalmeasurementslistr18 := bb.PaddingComponent("NrPRUFirstPathRSRPResultDiffAdditionalMeasurementsListR18")
 		tmp_nrprufirstpathrsrpresultdiffadditionalmeasurementslistr18 := make(NRPRURSCPAdditionalMeasurementElementR18NrPRUFirstPathRSRPResultDiffAdditionalMeasurementsListR18, 0)
 		_, errCollection_nrprufirstpathrsrpresultdiffadditionalmeasurementslistr18 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_nrprufirstpathrsrpresultdiffadditionalmeasurementslistr18, fragmentLength_nrprufirstpathrsrpresultdiffadditionalmeasurementslistr18 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -55881,7 +55662,6 @@ func (v *NRPRURSCPAdditionalMeasurementElementR18) UnmarshalUPERFrom(bb *uper.Bi
 			return runtime.WrapDecodePath(errCollection_nrprufirstpathrsrpresultdiffadditionalmeasurementslistr18, "NrPRUFirstPathRSRPResultDiffAdditionalMeasurementsListR18")
 		}
 		v.NrPRUFirstPathRSRPResultDiffAdditionalMeasurementsListR18 = tmp_nrprufirstpathrsrpresultdiffadditionalmeasurementslistr18
-		bb.LeaveComponent(paddingMark_nrprufirstpathrsrpresultdiffadditionalmeasurementslistr18)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -56273,13 +56053,11 @@ func (v *ReferenceTRPRTDInfoR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.NrPhysCellIDRefR16 = &tmp_nrphyscellidrefr16
 	}
 	if opt_nrcellglobalidrefr16 {
-		paddingMark_nrcellglobalidrefr16 := bb.PaddingComponent("NrCellGlobalIDRefR16")
 		var dec_nrcellglobalidrefr16 NCGIR15
 		if err := dec_nrcellglobalidrefr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDRefR16")
 		}
 		v.NrCellGlobalIDRefR16 = &dec_nrcellglobalidrefr16
-		bb.LeaveComponent(paddingMark_nrcellglobalidrefr16)
 	}
 	if opt_nrarfcnrefr16 {
 		val_nrarfcnrefr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -56289,11 +56067,9 @@ func (v *ReferenceTRPRTDInfoR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		tmp_nrarfcnrefr16 := ARFCNValueNRR15(val_nrarfcnrefr16)
 		v.NrARFCNRefR16 = &tmp_nrarfcnrefr16
 	}
-	paddingMark_reftimer16 := bb.PaddingComponent("RefTimeR16")
 	if err := v.RefTimeR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RefTimeR16")
 	}
-	bb.LeaveComponent(paddingMark_reftimer16)
 	if opt_rtdrefqualityr16 {
 		toleranceMark_rtdrefqualityr16 := bb.EnterComponent("RtdRefQualityR16")
 		var dec_rtdrefqualityr16 NRTimingQualityR16
@@ -56775,13 +56551,11 @@ func (v *RTDInfoElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.NrPhysCellIDR16 = &tmp_nrphyscellidr16
 	}
 	if opt_nrcellglobalidr16 {
-		paddingMark_nrcellglobalidr16 := bb.PaddingComponent("NrCellGlobalIDR16")
 		var dec_nrcellglobalidr16 NCGIR15
 		if err := dec_nrcellglobalidr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR16")
 		}
 		v.NrCellGlobalIDR16 = &dec_nrcellglobalidr16
-		bb.LeaveComponent(paddingMark_nrcellglobalidr16)
 	}
 	if opt_nrarfcnr16 {
 		val_nrarfcnr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -57992,13 +57766,11 @@ func (v *NRSSBConfigR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.SsbPeriodicityR16 = val_ssbperiodicityr16
 	if opt_ssbpositionsinburstr16 {
-		paddingMark_ssbpositionsinburstr16 := bb.PaddingComponent("SsbPositionsInBurstR16")
 		var dec_ssbpositionsinburstr16 NRSSBConfigR16SsbPositionsInBurstR16
 		if err := dec_ssbpositionsinburstr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SsbPositionsInBurstR16")
 		}
 		v.SsbPositionsInBurstR16 = &dec_ssbpositionsinburstr16
-		bb.LeaveComponent(paddingMark_ssbpositionsinburstr16)
 	}
 	val_ssbsubcarrierspacingr16, err := uper.DecodeEnumerated(bb, 5, true)
 	if err != nil {
@@ -58254,13 +58026,11 @@ func (v *NRTimeStampR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.NrPhysCellIDR16 = &tmp_nrphyscellidr16
 	}
 	if opt_nrcellglobalidr16 {
-		paddingMark_nrcellglobalidr16 := bb.PaddingComponent("NrCellGlobalIDR16")
 		var dec_nrcellglobalidr16 NCGIR15
 		if err := dec_nrcellglobalidr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR16")
 		}
 		v.NrCellGlobalIDR16 = &dec_nrcellglobalidr16
-		bb.LeaveComponent(paddingMark_nrcellglobalidr16)
 	}
 	if opt_nrarfcnr16 {
 		val_nrarfcnr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -58275,11 +58045,9 @@ func (v *NRTimeStampR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "NrSFNR16")
 	}
 	v.NrSFNR16 = val_nrsfnr16
-	paddingMark_nrslotr16 := bb.PaddingComponent("NrSlotR16")
 	if err := v.NrSlotR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NrSlotR16")
 	}
-	bb.LeaveComponent(paddingMark_nrslotr16)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -58975,13 +58743,11 @@ func (v *NRTRPBeamAntennaInfoPerTRPR17) UnmarshalUPERFrom(bb *uper.BitBuffer) er
 		v.NrPhysCellIDR17 = &tmp_nrphyscellidr17
 	}
 	if opt_nrcellglobalidr17 {
-		paddingMark_nrcellglobalidr17 := bb.PaddingComponent("NrCellGlobalIDR17")
 		var dec_nrcellglobalidr17 NCGIR15
 		if err := dec_nrcellglobalidr17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR17")
 		}
 		v.NrCellGlobalIDR17 = &dec_nrcellglobalidr17
-		bb.LeaveComponent(paddingMark_nrcellglobalidr17)
 	}
 	if opt_nrarfcnr17 {
 		val_nrarfcnr17, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -60647,13 +60413,11 @@ func (v *TRPLocationInfoElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 		v.NrPhysCellIDR16 = &tmp_nrphyscellidr16
 	}
 	if opt_nrcellglobalidr16 {
-		paddingMark_nrcellglobalidr16 := bb.PaddingComponent("NrCellGlobalIDR16")
 		var dec_nrcellglobalidr16 NCGIR15
 		if err := dec_nrcellglobalidr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR16")
 		}
 		v.NrCellGlobalIDR16 = &dec_nrcellglobalidr16
-		bb.LeaveComponent(paddingMark_nrcellglobalidr16)
 	}
 	if opt_nrarfcnr16 {
 		val_nrarfcnr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -61635,16 +61399,12 @@ func (v *NRIntegrityLocationBoundsR18) UnmarshalUPERFrom(bb *uper.BitBuffer) err
 		return runtime.WrapDecodePath(err, "UnitsR18")
 	}
 	v.UnitsR18 = val_unitsr18
-	paddingMark_meanlocationerrorboundr18 := bb.PaddingComponent("MeanLocationErrorBoundR18")
 	if err := v.MeanLocationErrorBoundR18.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeanLocationErrorBoundR18")
 	}
-	bb.LeaveComponent(paddingMark_meanlocationerrorboundr18)
-	paddingMark_stddevlocationerrorboundr18 := bb.PaddingComponent("StdDevLocationErrorBoundR18")
 	if err := v.StdDevLocationErrorBoundR18.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StdDevLocationErrorBoundR18")
 	}
-	bb.LeaveComponent(paddingMark_stddevlocationerrorboundr18)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -61903,11 +61663,9 @@ func (v *TRPLocationInfoImplicitElementR19) UnmarshalUPERFrom(bb *uper.BitBuffer
 	if err != nil {
 		return err
 	}
-	paddingMark_nrcellglobalidr19 := bb.PaddingComponent("NrCellGlobalIDR19")
 	if err := v.NrCellGlobalIDR19.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NrCellGlobalIDR19")
 	}
-	bb.LeaveComponent(paddingMark_nrcellglobalidr19)
 	val_nraimlassociatedidr19, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NrAIMLAssociatedIDR19")
@@ -67931,13 +67689,11 @@ func (v *RelativeCartesianLocationR18) UnmarshalUPERFrom(bb *uper.BitBuffer) err
 	}
 	bb.LeaveComponent(toleranceMark_zvaluer18)
 	if opt_locationuncr18 {
-		paddingMark_locationuncr18 := bb.PaddingComponent("LocationUncR18")
 		var dec_locationuncr18 LocationUncertaintyR16
 		if err := dec_locationuncr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "LocationUncR18")
 		}
 		v.LocationUncR18 = &dec_locationuncr18
-		bb.LeaveComponent(paddingMark_locationuncr18)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -68633,13 +68389,11 @@ func (v *RelativeLocationR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	bb.LeaveComponent(toleranceMark_deltaheightr16)
 	if opt_locationuncr16 {
-		paddingMark_locationuncr16 := bb.PaddingComponent("LocationUNCR16")
 		var dec_locationuncr16 LocationUncertaintyR16
 		if err := dec_locationuncr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "LocationUNCR16")
 		}
 		v.LocationUNCR16 = &dec_locationuncr16
-		bb.LeaveComponent(paddingMark_locationuncr16)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -70038,13 +69792,11 @@ func (v *OTDOAReferenceCellInfo) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.PhysCellId = val_physcellid
 	if opt_cellglobalid {
-		paddingMark_cellglobalid := bb.PaddingComponent("CellGlobalId")
 		var dec_cellglobalid ECGI
 		if err := dec_cellglobalid.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellGlobalId")
 		}
 		v.CellGlobalId = &dec_cellglobalid
-		bb.LeaveComponent(paddingMark_cellglobalid)
 	}
 	if opt_earfcnref {
 		val_earfcnref, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(65535), false)
@@ -70886,13 +70638,11 @@ func (v *PRSInfo) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						v.PrsOccGroupLenR14 = &val_prsoccgrouplenr14
 					}
 					if ext_opt_prshoppinginfor14 {
-						paddingMark_prshoppinginfor14 := extBB.PaddingComponent("PrsHoppingInfoR14")
 						var dec_prshoppinginfor14 PRSInfoPrsHoppingInfoR14
 						if err := dec_prshoppinginfor14.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrsHoppingInfoR14")
 						}
 						v.PrsHoppingInfoR14 = &dec_prshoppinginfor14
-						extBB.LeaveComponent(paddingMark_prshoppinginfor14)
 					}
 					return nil
 				}()
@@ -70950,13 +70700,11 @@ func (v *PRSInfo) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						v.PrsOccGroupLenR14 = &val_prsoccgrouplenr14
 					}
 					if ext_opt_prshoppinginfor14 {
-						paddingMark_prshoppinginfor14 := extBB.PaddingComponent("PrsHoppingInfoR14")
 						var dec_prshoppinginfor14 PRSInfoPrsHoppingInfoR14
 						if err := dec_prshoppinginfor14.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "PrsHoppingInfoR14")
 						}
 						v.PrsHoppingInfoR14 = &dec_prshoppinginfor14
-						extBB.LeaveComponent(paddingMark_prshoppinginfor14)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 1, true)
 					if err != nil {
@@ -71731,13 +71479,11 @@ func (v *OTDOANeighbourCellInfoElement) UnmarshalUPERFrom(bb *uper.BitBuffer) er
 	}
 	v.PhysCellId = val_physcellid
 	if opt_cellglobalid {
-		paddingMark_cellglobalid := bb.PaddingComponent("CellGlobalId")
 		var dec_cellglobalid ECGI
 		if err := dec_cellglobalid.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellGlobalId")
 		}
 		v.CellGlobalId = &dec_cellglobalid
-		bb.LeaveComponent(paddingMark_cellglobalid)
 	}
 	if opt_earfcn {
 		val_earfcn, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(65535), false)
@@ -72643,13 +72389,11 @@ func (v *OTDOAReferenceCellInfoNBR14) UnmarshalUPERFrom(bb *uper.BitBuffer) erro
 		v.PhysCellIdNBR14 = &val_physcellidnbr14
 	}
 	if opt_cellglobalidnbr14 {
-		paddingMark_cellglobalidnbr14 := bb.PaddingComponent("CellGlobalIdNBR14")
 		var dec_cellglobalidnbr14 ECGI
 		if err := dec_cellglobalidnbr14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellGlobalIdNBR14")
 		}
 		v.CellGlobalIdNBR14 = &dec_cellglobalidnbr14
-		bb.LeaveComponent(paddingMark_cellglobalidnbr14)
 	}
 	if opt_carrierfreqrefr14 {
 		toleranceMark_carrierfreqrefr14 := bb.EnterComponent("CarrierFreqRefR14")
@@ -73886,13 +73630,11 @@ func (v *OTDOANeighbourCellInfoNBR14) UnmarshalUPERFrom(bb *uper.BitBuffer) erro
 		v.PhysCellIdNBR14 = &val_physcellidnbr14
 	}
 	if opt_cellglobalidnbr14 {
-		paddingMark_cellglobalidnbr14 := bb.PaddingComponent("CellGlobalIdNBR14")
 		var dec_cellglobalidnbr14 ECGI
 		if err := dec_cellglobalidnbr14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellGlobalIdNBR14")
 		}
 		v.CellGlobalIdNBR14 = &dec_cellglobalidnbr14
-		bb.LeaveComponent(paddingMark_cellglobalidnbr14)
 	}
 	if opt_carrierfreqr14 {
 		toleranceMark_carrierfreqr14 := bb.EnterComponent("CarrierFreqR14")
@@ -75208,13 +74950,11 @@ func (v *OTDOASignalMeasurementInformation) UnmarshalUPERFrom(bb *uper.BitBuffer
 	}
 	v.PhysCellIdRef = val_physcellidref
 	if opt_cellglobalidref {
-		paddingMark_cellglobalidref := bb.PaddingComponent("CellGlobalIdRef")
 		var dec_cellglobalidref ECGI
 		if err := dec_cellglobalidref.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellGlobalIdRef")
 		}
 		v.CellGlobalIdRef = &dec_cellglobalidref
-		bb.LeaveComponent(paddingMark_cellglobalidref)
 	}
 	if opt_earfcnref {
 		val_earfcnref, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(65535), false)
@@ -75576,13 +75316,11 @@ func (v *OTDOASignalMeasurementInformation) UnmarshalUPERFrom(bb *uper.BitBuffer
 						return runtime.WrapDecodePath(err, "MotionTimeSourceR15")
 					}
 					if ext_opt_motiontimesourcer15 {
-						paddingMark_motiontimesourcer15 := extBB.PaddingComponent("MotionTimeSourceR15")
 						var dec_motiontimesourcer15 MotionTimeSourceR15
 						if err := dec_motiontimesourcer15.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "MotionTimeSourceR15")
 						}
 						v.MotionTimeSourceR15 = &dec_motiontimesourcer15
-						extBB.LeaveComponent(paddingMark_motiontimesourcer15)
 					}
 					return nil
 				}()
@@ -75607,13 +75345,11 @@ func (v *OTDOASignalMeasurementInformation) UnmarshalUPERFrom(bb *uper.BitBuffer
 						return runtime.WrapDecodePath(err, "MotionTimeSourceR15")
 					}
 					if ext_opt_motiontimesourcer15 {
-						paddingMark_motiontimesourcer15 := extBB.PaddingComponent("MotionTimeSourceR15")
 						var dec_motiontimesourcer15 MotionTimeSourceR15
 						if err := dec_motiontimesourcer15.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "MotionTimeSourceR15")
 						}
 						v.MotionTimeSourceR15 = &dec_motiontimesourcer15
-						extBB.LeaveComponent(paddingMark_motiontimesourcer15)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 2, true)
 					if err != nil {
@@ -76068,13 +75804,11 @@ func (v *NeighbourMeasurementElement) UnmarshalUPERFrom(bb *uper.BitBuffer) erro
 	}
 	v.PhysCellIdNeighbour = val_physcellidneighbour
 	if opt_cellglobalidneighbour {
-		paddingMark_cellglobalidneighbour := bb.PaddingComponent("CellGlobalIdNeighbour")
 		var dec_cellglobalidneighbour ECGI
 		if err := dec_cellglobalidneighbour.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellGlobalIdNeighbour")
 		}
 		v.CellGlobalIdNeighbour = &dec_cellglobalidneighbour
-		bb.LeaveComponent(paddingMark_cellglobalidneighbour)
 	}
 	if opt_earfcnneighbour {
 		val_earfcnneighbour, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(65535), false)
@@ -76904,13 +76638,11 @@ func (v *OTDOASignalMeasurementInformationNBR14) UnmarshalUPERFrom(bb *uper.BitB
 	}
 	v.PhysCellIdRefR14 = val_physcellidrefr14
 	if opt_cellglobalidrefr14 {
-		paddingMark_cellglobalidrefr14 := bb.PaddingComponent("CellGlobalIdRefR14")
 		var dec_cellglobalidrefr14 ECGI
 		if err := dec_cellglobalidrefr14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellGlobalIdRefR14")
 		}
 		v.CellGlobalIdRefR14 = &dec_cellglobalidrefr14
-		bb.LeaveComponent(paddingMark_cellglobalidrefr14)
 	}
 	if opt_earfcnrefr14 {
 		val_earfcnrefr14, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(262143), false)
@@ -77389,13 +77121,11 @@ func (v *NeighbourMeasurementElementNBR14) UnmarshalUPERFrom(bb *uper.BitBuffer)
 	}
 	v.PhysCellIdNeighbourR14 = val_physcellidneighbourr14
 	if opt_cellglobalidneighbourr14 {
-		paddingMark_cellglobalidneighbourr14 := bb.PaddingComponent("CellGlobalIdNeighbourR14")
 		var dec_cellglobalidneighbourr14 ECGI
 		if err := dec_cellglobalidneighbourr14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellGlobalIdNeighbourR14")
 		}
 		v.CellGlobalIdNeighbourR14 = &dec_cellglobalidneighbourr14
-		bb.LeaveComponent(paddingMark_cellglobalidneighbourr14)
 	}
 	if opt_earfcnneighbourr14 {
 		val_earfcnneighbourr14, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(262143), false)
@@ -79046,7 +78776,6 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 				decodeErr := func() error {
 					v := &candidate
 					_ = v
-					paddingMark_supportedbandlisteutra := extBB.PaddingComponent("SupportedBandListEUTRA")
 					tmp_supportedbandlisteutra := make(OTDOAProvideCapabilitiesSupportedBandListEUTRA, 0)
 					_, errCollection_supportedbandlisteutra := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_supportedbandlisteutra, fragmentLength_supportedbandlisteutra int64) error {
 						// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -79055,11 +78784,9 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						}
 						for i := int64(0); i < fragmentLength_supportedbandlisteutra; i++ {
 							var elem SupportedBandEUTRA
-							elementMark := extBB.PaddingIndex(fragmentOffset_supportedbandlisteutra + i)
 							if err := elem.UnmarshalUPERFrom(extBB); err != nil {
 								return runtime.WrapDecodePath(err, fmt.Sprintf("SupportedBandListEUTRA[%d]", fragmentOffset_supportedbandlisteutra+i))
 							}
-							extBB.LeaveComponent(elementMark)
 							tmp_supportedbandlisteutra = append(tmp_supportedbandlisteutra, elem)
 						}
 						return nil
@@ -79068,7 +78795,6 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						return runtime.WrapDecodePath(errCollection_supportedbandlisteutra, "SupportedBandListEUTRA")
 					}
 					v.SupportedBandListEUTRA = tmp_supportedbandlisteutra
-					extBB.LeaveComponent(paddingMark_supportedbandlisteutra)
 					return nil
 				}()
 				decoded, padding, err := extAdditions.CompleteKnownAddition(extBB, 0, extData, checkpoint, decodeErr, false)
@@ -79087,7 +78813,6 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 					}
 					defer extBB.LeaveOpenType()
 					_ = extBB
-					paddingMark_supportedbandlisteutra := extBB.PaddingComponent("SupportedBandListEUTRA")
 					tmp_supportedbandlisteutra := make(OTDOAProvideCapabilitiesSupportedBandListEUTRA, 0)
 					_, errCollection_supportedbandlisteutra := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_supportedbandlisteutra, fragmentLength_supportedbandlisteutra int64) error {
 						// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -79096,11 +78821,9 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						}
 						for i := int64(0); i < fragmentLength_supportedbandlisteutra; i++ {
 							var elem SupportedBandEUTRA
-							elementMark := extBB.PaddingIndex(fragmentOffset_supportedbandlisteutra + i)
 							if err := elem.UnmarshalUPERFrom(extBB); err != nil {
 								return runtime.WrapDecodePath(err, fmt.Sprintf("SupportedBandListEUTRA[%d]", fragmentOffset_supportedbandlisteutra+i))
 							}
-							extBB.LeaveComponent(elementMark)
 							tmp_supportedbandlisteutra = append(tmp_supportedbandlisteutra, elem)
 						}
 						return nil
@@ -79109,7 +78832,6 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						return runtime.WrapDecodePath(errCollection_supportedbandlisteutra, "SupportedBandListEUTRA")
 					}
 					v.SupportedBandListEUTRA = tmp_supportedbandlisteutra
-					extBB.LeaveComponent(paddingMark_supportedbandlisteutra)
 					padding, err := uper.CaptureExtensionPadding(extBB, 0, false)
 					if err != nil {
 						return runtime.WrapDecodePath(err, "ExtData_[0]")
@@ -79136,7 +78858,6 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 				decodeErr := func() error {
 					v := &candidate
 					_ = v
-					paddingMark_supportedbandlisteutrav9a0 := extBB.PaddingComponent("SupportedBandListEUTRAV9a0")
 					tmp_supportedbandlisteutrav9a0 := make(OTDOAProvideCapabilitiesSupportedBandListEUTRAV9a0, 0)
 					_, errCollection_supportedbandlisteutrav9a0 := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_supportedbandlisteutrav9a0, fragmentLength_supportedbandlisteutrav9a0 int64) error {
 						// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -79145,11 +78866,9 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						}
 						for i := int64(0); i < fragmentLength_supportedbandlisteutrav9a0; i++ {
 							var elem SupportedBandEUTRAV9a0
-							elementMark := extBB.PaddingIndex(fragmentOffset_supportedbandlisteutrav9a0 + i)
 							if err := elem.UnmarshalUPERFrom(extBB); err != nil {
 								return runtime.WrapDecodePath(err, fmt.Sprintf("SupportedBandListEUTRAV9a0[%d]", fragmentOffset_supportedbandlisteutrav9a0+i))
 							}
-							extBB.LeaveComponent(elementMark)
 							tmp_supportedbandlisteutrav9a0 = append(tmp_supportedbandlisteutrav9a0, elem)
 						}
 						return nil
@@ -79158,7 +78877,6 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						return runtime.WrapDecodePath(errCollection_supportedbandlisteutrav9a0, "SupportedBandListEUTRAV9a0")
 					}
 					v.SupportedBandListEUTRAV9a0 = tmp_supportedbandlisteutrav9a0
-					extBB.LeaveComponent(paddingMark_supportedbandlisteutrav9a0)
 					return nil
 				}()
 				decoded, padding, err := extAdditions.CompleteKnownAddition(extBB, 1, extData, checkpoint, decodeErr, false)
@@ -79177,7 +78895,6 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 					}
 					defer extBB.LeaveOpenType()
 					_ = extBB
-					paddingMark_supportedbandlisteutrav9a0 := extBB.PaddingComponent("SupportedBandListEUTRAV9a0")
 					tmp_supportedbandlisteutrav9a0 := make(OTDOAProvideCapabilitiesSupportedBandListEUTRAV9a0, 0)
 					_, errCollection_supportedbandlisteutrav9a0 := uper.DecodeCollection(extBB, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_supportedbandlisteutrav9a0, fragmentLength_supportedbandlisteutrav9a0 int64) error {
 						// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -79186,11 +78903,9 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						}
 						for i := int64(0); i < fragmentLength_supportedbandlisteutrav9a0; i++ {
 							var elem SupportedBandEUTRAV9a0
-							elementMark := extBB.PaddingIndex(fragmentOffset_supportedbandlisteutrav9a0 + i)
 							if err := elem.UnmarshalUPERFrom(extBB); err != nil {
 								return runtime.WrapDecodePath(err, fmt.Sprintf("SupportedBandListEUTRAV9a0[%d]", fragmentOffset_supportedbandlisteutrav9a0+i))
 							}
-							extBB.LeaveComponent(elementMark)
 							tmp_supportedbandlisteutrav9a0 = append(tmp_supportedbandlisteutrav9a0, elem)
 						}
 						return nil
@@ -79199,7 +78914,6 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						return runtime.WrapDecodePath(errCollection_supportedbandlisteutrav9a0, "SupportedBandListEUTRAV9a0")
 					}
 					v.SupportedBandListEUTRAV9a0 = tmp_supportedbandlisteutrav9a0
-					extBB.LeaveComponent(paddingMark_supportedbandlisteutrav9a0)
 					padding, err := uper.CaptureExtensionPadding(extBB, 1, false)
 					if err != nil {
 						return runtime.WrapDecodePath(err, "ExtData_[1]")
@@ -85844,11 +85558,9 @@ func (v *GNSSReferenceLocation) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	paddingMark_threedlocation := bb.PaddingComponent("ThreeDlocation")
 	if err := v.ThreeDlocation.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ThreeDlocation")
 	}
-	bb.LeaveComponent(paddingMark_threedlocation)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -91422,13 +91134,11 @@ func (v *ArrayOfGridPointsR18) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.StepEastR18 = SpatialDeltaR18(val_stepeastr18)
 	if opt_bitmaskofgridsr18 {
-		paddingMark_bitmaskofgridsr18 := bb.PaddingComponent("BitmaskOfGridsR18")
 		var dec_bitmaskofgridsr18 ArrayOfGridPointsR18BitmaskOfGridsR18
 		if err := dec_bitmaskofgridsr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "BitmaskOfGridsR18")
 		}
 		v.BitmaskOfGridsR18 = &dec_bitmaskofgridsr18
-		bb.LeaveComponent(paddingMark_bitmaskofgridsr18)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -97140,13 +96850,11 @@ func (v *NavModelNAVKeplerianSet) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.NavCuc = val_navcuc
 	if opt_addnavparam {
-		paddingMark_addnavparam := bb.PaddingComponent("AddNAVparam")
 		var dec_addnavparam NavModelNAVKeplerianSetAddNAVparam
 		if err := dec_addnavparam.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "AddNAVparam")
 		}
 		v.AddNAVparam = &dec_addnavparam
-		bb.LeaveComponent(paddingMark_addnavparam)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -112437,26 +112145,18 @@ func (v *SSRIntegrityOrbitBoundsR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error
 	if err != nil {
 		return err
 	}
-	paddingMark_meanorbiterrorr17 := bb.PaddingComponent("MeanOrbitErrorR17")
 	if err := v.MeanOrbitErrorR17.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeanOrbitErrorR17")
 	}
-	bb.LeaveComponent(paddingMark_meanorbiterrorr17)
-	paddingMark_stddevorbiterrorr17 := bb.PaddingComponent("StdDevOrbitErrorR17")
 	if err := v.StdDevOrbitErrorR17.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StdDevOrbitErrorR17")
 	}
-	bb.LeaveComponent(paddingMark_stddevorbiterrorr17)
-	paddingMark_meanorbitrateerrorr17 := bb.PaddingComponent("MeanOrbitRateErrorR17")
 	if err := v.MeanOrbitRateErrorR17.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeanOrbitRateErrorR17")
 	}
-	bb.LeaveComponent(paddingMark_meanorbitrateerrorr17)
-	paddingMark_stddevorbitrateerrorr17 := bb.PaddingComponent("StdDevOrbitRateErrorR17")
 	if err := v.StdDevOrbitRateErrorR17.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StdDevOrbitRateErrorR17")
 	}
-	bb.LeaveComponent(paddingMark_stddevorbitrateerrorr17)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -119218,11 +118918,9 @@ func (v *STECResidualSatElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 		return runtime.WrapDecodePath(err, "SvIDR16")
 	}
 	bb.LeaveComponent(toleranceMark_svidr16)
-	paddingMark_stecresidualcorrectionr16 := bb.PaddingComponent("StecResidualCorrectionR16")
 	if err := v.StecResidualCorrectionR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StecResidualCorrectionR16")
 	}
-	bb.LeaveComponent(paddingMark_stecresidualcorrectionr16)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -123246,7 +122944,6 @@ func (v *SSRSatellitePCVFrequencyElementR18) UnmarshalUPERFrom(bb *uper.BitBuffe
 		return runtime.WrapDecodePath(err, "FrequencyIDR18")
 	}
 	bb.LeaveComponent(toleranceMark_frequencyidr18)
-	paddingMark_phasecentervariationsr18 := bb.PaddingComponent("PhaseCenterVariationsR18")
 	v.PhaseCenterVariationsR18 = make(SSRPhaseCenterVariationListR18, 0)
 	_, errCollection_phasecentervariationsr18 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_phasecentervariationsr18, fragmentLength_phasecentervariationsr18 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -123265,7 +122962,6 @@ func (v *SSRSatellitePCVFrequencyElementR18) UnmarshalUPERFrom(bb *uper.BitBuffe
 	if errCollection_phasecentervariationsr18 != nil {
 		return runtime.WrapDecodePath(errCollection_phasecentervariationsr18, "PhaseCenterVariationsR18")
 	}
-	bb.LeaveComponent(paddingMark_phasecentervariationsr18)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -123405,7 +123101,6 @@ func UnmarshalUPERSSRPhaseCenterVariationListR18From(bb *uper.BitBuffer) (SSRPha
 }
 
 func unmarshalUPERSSRPhaseCenterVariationListR18Into(v *asn1cUPERSSRPhaseCenterVariationListR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(SSRPhaseCenterVariationListR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -123424,7 +123119,6 @@ func unmarshalUPERSSRPhaseCenterVariationListR18Into(v *asn1cUPERSSRPhaseCenterV
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -130278,7 +129972,6 @@ func (v *ReqNavListInfo) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.SvReqList = runtime.BitString{Bytes: bsBytes_svreqlist, BitLength: bsBitLen_svreqlist}
 	if opt_clockmodelidpreflist {
-		paddingMark_clockmodelidpreflist := bb.PaddingComponent("ClockModelIDPrefList")
 		tmp_clockmodelidpreflist := make(ReqNavListInfoClockModelIDPrefList, 0)
 		_, errCollection_clockmodelidpreflist := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_clockmodelidpreflist, fragmentLength_clockmodelidpreflist int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -130298,10 +129991,8 @@ func (v *ReqNavListInfo) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_clockmodelidpreflist, "ClockModelIDPrefList")
 		}
 		v.ClockModelIDPrefList = tmp_clockmodelidpreflist
-		bb.LeaveComponent(paddingMark_clockmodelidpreflist)
 	}
 	if opt_orbitmodelidpreflist {
-		paddingMark_orbitmodelidpreflist := bb.PaddingComponent("OrbitModelIDPrefList")
 		tmp_orbitmodelidpreflist := make(ReqNavListInfoOrbitModelIDPrefList, 0)
 		_, errCollection_orbitmodelidpreflist := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_orbitmodelidpreflist, fragmentLength_orbitmodelidpreflist int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -130321,7 +130012,6 @@ func (v *ReqNavListInfo) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_orbitmodelidpreflist, "OrbitModelIDPrefList")
 		}
 		v.OrbitModelIDPrefList = tmp_orbitmodelidpreflist
-		bb.LeaveComponent(paddingMark_orbitmodelidpreflist)
 	}
 	if opt_addnavparamreq {
 		val_addnavparamreq, err := uper.DecodeBoolean(bb)
@@ -136232,13 +135922,11 @@ func (v *GNSSLOSNLOSGriddedIndicationsReqR18) UnmarshalUPERFrom(bb *uper.BitBuff
 		v.GridPointsSetIDReqR18 = &val_gridpointssetidreqr18
 	}
 	if opt_relativelocationinfor18 {
-		paddingMark_relativelocationinfor18 := bb.PaddingComponent("RelativeLocationInfoR18")
 		var dec_relativelocationinfor18 GNSSLOSNLOSGriddedIndicationsReqR18RelativeLocationInfoR18
 		if err := dec_relativelocationinfor18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RelativeLocationInfoR18")
 		}
 		v.RelativeLocationInfoR18 = &dec_relativelocationinfor18
-		bb.LeaveComponent(paddingMark_relativelocationinfor18)
 	}
 	val_verticalgridtyper18, err := uper.DecodeEnumerated(bb, 2, false)
 	if err != nil {
@@ -160616,13 +160304,11 @@ func (v *SensorMeasurementInformationR13) UnmarshalUPERFrom(bb *uper.BitBuffer) 
 						return runtime.WrapDecodePath(err, "UncertaintyR14")
 					}
 					if ext_opt_uncertaintyr14 {
-						paddingMark_uncertaintyr14 := extBB.PaddingComponent("UncertaintyR14")
 						var dec_uncertaintyr14 SensorMeasurementInformationR13UncertaintyR14
 						if err := dec_uncertaintyr14.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "UncertaintyR14")
 						}
 						v.UncertaintyR14 = &dec_uncertaintyr14
-						extBB.LeaveComponent(paddingMark_uncertaintyr14)
 					}
 					return nil
 				}()
@@ -160647,13 +160333,11 @@ func (v *SensorMeasurementInformationR13) UnmarshalUPERFrom(bb *uper.BitBuffer) 
 						return runtime.WrapDecodePath(err, "UncertaintyR14")
 					}
 					if ext_opt_uncertaintyr14 {
-						paddingMark_uncertaintyr14 := extBB.PaddingComponent("UncertaintyR14")
 						var dec_uncertaintyr14 SensorMeasurementInformationR13UncertaintyR14
 						if err := dec_uncertaintyr14.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "UncertaintyR14")
 						}
 						v.UncertaintyR14 = &dec_uncertaintyr14
-						extBB.LeaveComponent(paddingMark_uncertaintyr14)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 0, true)
 					if err != nil {
@@ -161171,11 +160855,9 @@ func (v *DisplacementInfoListElementR15) UnmarshalUPERFrom(bb *uper.BitBuffer) e
 	if err != nil {
 		return err
 	}
-	paddingMark_deltatimestampr15 := bb.PaddingComponent("DeltaTimeStampR15")
 	if err := v.DeltaTimeStampR15.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DeltaTimeStampR15")
 	}
-	bb.LeaveComponent(paddingMark_deltatimestampr15)
 	if opt_displacementr15 {
 		toleranceMark_displacementr15 := bb.EnterComponent("DisplacementR15")
 		var dec_displacementr15 DisplacementR15
@@ -164557,13 +164239,11 @@ func (v *SensorAssistanceDataListR14) UnmarshalUPERFrom(bb *uper.BitBuffer) erro
 	}
 	v.RefPressureR14 = val_refpressurer14
 	if opt_refpositionr14 {
-		paddingMark_refpositionr14 := bb.PaddingComponent("RefPositionR14")
 		var dec_refpositionr14 EllipsoidPointWithAltitudeAndUncertaintyEllipsoid
 		if err := dec_refpositionr14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "RefPositionR14")
 		}
 		v.RefPositionR14 = &dec_refpositionr14
-		bb.LeaveComponent(paddingMark_refpositionr14)
 	}
 	if opt_reftemperaturer14 {
 		val_reftemperaturer14, err := uper.DecodeInteger(bb, int64Ptr(-64), int64Ptr(63), false)
@@ -164820,11 +164500,9 @@ func (v *PressureValidityAreaV1520) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 	if err != nil {
 		return err
 	}
-	paddingMark_centerpointv1520 := bb.PaddingComponent("CenterPointV1520")
 	if err := v.CenterPointV1520.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CenterPointV1520")
 	}
-	bb.LeaveComponent(paddingMark_centerpointv1520)
 	val_validityareawidthv1520, err := uper.DecodeInteger(bb, int64Ptr(1), int64Ptr(128), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ValidityAreaWidthV1520")
@@ -168148,22 +167826,18 @@ func (v *WLANDataSetR14) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	bb.LeaveComponent(toleranceMark_wlanaplistr14)
 	if opt_supportedchannels11ar14 {
-		paddingMark_supportedchannels11ar14 := bb.PaddingComponent("SupportedChannels11aR14")
 		var dec_supportedchannels11ar14 SupportedChannels11aR14
 		if err := dec_supportedchannels11ar14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SupportedChannels11aR14")
 		}
 		v.SupportedChannels11aR14 = &dec_supportedchannels11ar14
-		bb.LeaveComponent(paddingMark_supportedchannels11ar14)
 	}
 	if opt_supportedchannels11bgr14 {
-		paddingMark_supportedchannels11bgr14 := bb.PaddingComponent("SupportedChannels11bgR14")
 		var dec_supportedchannels11bgr14 SupportedChannels11bgR14
 		if err := dec_supportedchannels11bgr14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SupportedChannels11bgR14")
 		}
 		v.SupportedChannels11bgR14 = &dec_supportedchannels11bgr14
-		bb.LeaveComponent(paddingMark_supportedchannels11bgr14)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -173141,13 +172815,11 @@ func (v *BTBeaconInfoElementR18) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		bb.LeaveComponent(toleranceMark_btlcsgcstranslationparameterr18)
 	}
 	if opt_btantarrayconfigr18 {
-		paddingMark_btantarrayconfigr18 := bb.PaddingComponent("BtAntArrayConfigR18")
 		var dec_btantarrayconfigr18 BTAntArrayConfigR18
 		if err := dec_btantarrayconfigr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "BtAntArrayConfigR18")
 		}
 		v.BtAntArrayConfigR18 = &dec_btantarrayconfigr18
-		bb.LeaveComponent(paddingMark_btantarrayconfigr18)
 	}
 	if opt_btantelementlistr18 {
 		toleranceMark_btantelementlistr18 := bb.EnterComponent("BtAntElementListR18")
@@ -173359,31 +173031,24 @@ func (v *BTAntArrayConfigR18) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case BTAntArrayConfigR18ChoiceBtUniformLinearArrayR18:
-		paddingMark_btuniformlineararrayr18 := bb.PaddingComponent("BtUniformLinearArrayR18")
 		var dec_btuniformlineararrayr18 BTUniformLinearArrayR18
 		if err := dec_btuniformlineararrayr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "BtUniformLinearArrayR18")
 		}
 		v.BtUniformLinearArrayR18 = &dec_btuniformlineararrayr18
-		bb.LeaveComponent(paddingMark_btuniformlineararrayr18)
 	case BTAntArrayConfigR18ChoiceBtUniformRectangularArrayR18:
-		paddingMark_btuniformrectangulararrayr18 := bb.PaddingComponent("BtUniformRectangularArrayR18")
 		var dec_btuniformrectangulararrayr18 BTUniformRectangularArrayR18
 		if err := dec_btuniformrectangulararrayr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "BtUniformRectangularArrayR18")
 		}
 		v.BtUniformRectangularArrayR18 = &dec_btuniformrectangulararrayr18
-		bb.LeaveComponent(paddingMark_btuniformrectangulararrayr18)
 	case BTAntArrayConfigR18ChoiceBtUniformCircularArrayR18:
-		paddingMark_btuniformcirculararrayr18 := bb.PaddingComponent("BtUniformCircularArrayR18")
 		var dec_btuniformcirculararrayr18 BTUniformCircularArrayR18
 		if err := dec_btuniformcirculararrayr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "BtUniformCircularArrayR18")
 		}
 		v.BtUniformCircularArrayR18 = &dec_btuniformcirculararrayr18
-		bb.LeaveComponent(paddingMark_btuniformcirculararrayr18)
 	case BTAntArrayConfigR18ChoiceBtGenericArrayR18:
-		paddingMark_btgenericarrayr18 := bb.PaddingComponent("BtGenericArrayR18")
 		tmp_btgenericarrayr18 := make(BTGenericArrayR18, 0)
 		_, errCollection_btgenericarrayr18 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 74, HasUpper: true}, false, func(fragmentOffset_btgenericarrayr18, fragmentLength_btgenericarrayr18 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -173392,11 +173057,9 @@ func (v *BTAntArrayConfigR18) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_btgenericarrayr18; i++ {
 				var elem BTULAGenericAntElementR18
-				elementMark := bb.PaddingIndex(fragmentOffset_btgenericarrayr18 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("BtGenericArrayR18[%d]", fragmentOffset_btgenericarrayr18+i))
 				}
-				bb.LeaveComponent(elementMark)
 				tmp_btgenericarrayr18 = append(tmp_btgenericarrayr18, elem)
 			}
 			return nil
@@ -173405,7 +173068,6 @@ func (v *BTAntArrayConfigR18) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_btgenericarrayr18, "BtGenericArrayR18")
 		}
 		v.BtGenericArrayR18 = tmp_btgenericarrayr18
-		bb.LeaveComponent(paddingMark_btgenericarrayr18)
 	}
 	return nil
 }
@@ -174221,7 +173883,6 @@ func UnmarshalUPERBTGenericArrayR18From(bb *uper.BitBuffer) (BTGenericArrayR18, 
 }
 
 func unmarshalUPERBTGenericArrayR18Into(v *asn1cUPERBTGenericArrayR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(BTGenericArrayR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 74, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -174230,11 +173891,9 @@ func unmarshalUPERBTGenericArrayR18Into(v *asn1cUPERBTGenericArrayR18ListValue, 
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem BTULAGenericAntElementR18
-			elementMark := bb.PaddingIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
-			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -174242,7 +173901,6 @@ func unmarshalUPERBTGenericArrayR18Into(v *asn1cUPERBTGenericArrayR18ListValue, 
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -175594,19 +175252,15 @@ func (v *NRMeasuredResultsElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) erro
 		return runtime.WrapDecodePath(err, "NrPhysCellIDR16")
 	}
 	v.NrPhysCellIDR16 = NRPhysCellIDR16(val_nrphyscellidr16)
-	paddingMark_nrarfcnr16 := bb.PaddingComponent("NrARFCNR16")
 	if err := v.NrARFCNR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NrARFCNR16")
 	}
-	bb.LeaveComponent(paddingMark_nrarfcnr16)
 	if opt_nrcellglobalidr16 {
-		paddingMark_nrcellglobalidr16 := bb.PaddingComponent("NrCellGlobalIDR16")
 		var dec_nrcellglobalidr16 NCGIR15
 		if err := dec_nrcellglobalidr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR16")
 		}
 		v.NrCellGlobalIDR16 = &dec_nrcellglobalidr16
-		bb.LeaveComponent(paddingMark_nrcellglobalidr16)
 	}
 	if opt_systemframenumberr16 {
 		bsBytes_systemframenumberr16, bsBitLen_systemframenumberr16, err := uper.DecodeBitStringExt(bb, 10, 10, true, false)
@@ -175617,25 +175271,20 @@ func (v *NRMeasuredResultsElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) erro
 		v.SystemFrameNumberR16 = &tmp_systemframenumberr16
 	}
 	if opt_resultsssbcellr16 {
-		paddingMark_resultsssbcellr16 := bb.PaddingComponent("ResultsSSBCellR16")
 		var dec_resultsssbcellr16 MeasQuantityResultsR16
 		if err := dec_resultsssbcellr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ResultsSSBCellR16")
 		}
 		v.ResultsSSBCellR16 = &dec_resultsssbcellr16
-		bb.LeaveComponent(paddingMark_resultsssbcellr16)
 	}
 	if opt_resultscsirscellr16 {
-		paddingMark_resultscsirscellr16 := bb.PaddingComponent("ResultsCSIRSCellR16")
 		var dec_resultscsirscellr16 MeasQuantityResultsR16
 		if err := dec_resultscsirscellr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ResultsCSIRSCellR16")
 		}
 		v.ResultsCSIRSCellR16 = &dec_resultscsirscellr16
-		bb.LeaveComponent(paddingMark_resultscsirscellr16)
 	}
 	if opt_resultsssbindexesr16 {
-		paddingMark_resultsssbindexesr16 := bb.PaddingComponent("ResultsSSBIndexesR16")
 		tmp_resultsssbindexesr16 := make(ResultsPerSSBIndexListR16, 0)
 		_, errCollection_resultsssbindexesr16 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_resultsssbindexesr16, fragmentLength_resultsssbindexesr16 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -175644,11 +175293,9 @@ func (v *NRMeasuredResultsElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) erro
 			}
 			for i := int64(0); i < fragmentLength_resultsssbindexesr16; i++ {
 				var elem ResultsPerSSBIndexR16
-				elementMark := bb.PaddingIndex(fragmentOffset_resultsssbindexesr16 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ResultsSSBIndexesR16[%d]", fragmentOffset_resultsssbindexesr16+i))
 				}
-				bb.LeaveComponent(elementMark)
 				tmp_resultsssbindexesr16 = append(tmp_resultsssbindexesr16, elem)
 			}
 			return nil
@@ -175657,10 +175304,8 @@ func (v *NRMeasuredResultsElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) erro
 			return runtime.WrapDecodePath(errCollection_resultsssbindexesr16, "ResultsSSBIndexesR16")
 		}
 		v.ResultsSSBIndexesR16 = tmp_resultsssbindexesr16
-		bb.LeaveComponent(paddingMark_resultsssbindexesr16)
 	}
 	if opt_resultscsirsindexesr16 {
-		paddingMark_resultscsirsindexesr16 := bb.PaddingComponent("ResultsCSIRSIndexesR16")
 		tmp_resultscsirsindexesr16 := make(ResultsPerCSIRSIndexListR16, 0)
 		_, errCollection_resultscsirsindexesr16 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_resultscsirsindexesr16, fragmentLength_resultscsirsindexesr16 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -175669,11 +175314,9 @@ func (v *NRMeasuredResultsElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) erro
 			}
 			for i := int64(0); i < fragmentLength_resultscsirsindexesr16; i++ {
 				var elem ResultsPerCSIRSIndexR16
-				elementMark := bb.PaddingIndex(fragmentOffset_resultscsirsindexesr16 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ResultsCSIRSIndexesR16[%d]", fragmentOffset_resultscsirsindexesr16+i))
 				}
-				bb.LeaveComponent(elementMark)
 				tmp_resultscsirsindexesr16 = append(tmp_resultscsirsindexesr16, elem)
 			}
 			return nil
@@ -175682,7 +175325,6 @@ func (v *NRMeasuredResultsElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) erro
 			return runtime.WrapDecodePath(errCollection_resultscsirsindexesr16, "ResultsCSIRSIndexesR16")
 		}
 		v.ResultsCSIRSIndexesR16 = tmp_resultscsirsindexesr16
-		bb.LeaveComponent(paddingMark_resultscsirsindexesr16)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -175906,7 +175548,6 @@ func UnmarshalUPERResultsPerSSBIndexListR16From(bb *uper.BitBuffer) (ResultsPerS
 }
 
 func unmarshalUPERResultsPerSSBIndexListR16Into(v *asn1cUPERResultsPerSSBIndexListR16ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(ResultsPerSSBIndexListR16, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -175915,11 +175556,9 @@ func unmarshalUPERResultsPerSSBIndexListR16Into(v *asn1cUPERResultsPerSSBIndexLi
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ResultsPerSSBIndexR16
-			elementMark := bb.PaddingIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
-			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -175927,7 +175566,6 @@ func unmarshalUPERResultsPerSSBIndexListR16Into(v *asn1cUPERResultsPerSSBIndexLi
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -175984,11 +175622,9 @@ func (v *ResultsPerSSBIndexR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "SsbIndexR16")
 	}
 	v.SsbIndexR16 = val_ssbindexr16
-	paddingMark_ssbresultsr16 := bb.PaddingComponent("SsbResultsR16")
 	if err := v.SsbResultsR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SsbResultsR16")
 	}
-	bb.LeaveComponent(paddingMark_ssbresultsr16)
 	return nil
 }
 
@@ -176081,7 +175717,6 @@ func UnmarshalUPERResultsPerCSIRSIndexListR16From(bb *uper.BitBuffer) (ResultsPe
 }
 
 func unmarshalUPERResultsPerCSIRSIndexListR16Into(v *asn1cUPERResultsPerCSIRSIndexListR16ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(ResultsPerCSIRSIndexListR16, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -176090,11 +175725,9 @@ func unmarshalUPERResultsPerCSIRSIndexListR16Into(v *asn1cUPERResultsPerCSIRSInd
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ResultsPerCSIRSIndexR16
-			elementMark := bb.PaddingIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
-			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -176102,7 +175735,6 @@ func unmarshalUPERResultsPerCSIRSIndexListR16Into(v *asn1cUPERResultsPerCSIRSInd
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -176159,11 +175791,9 @@ func (v *ResultsPerCSIRSIndexR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "CsiRSIndexR16")
 	}
 	v.CsiRSIndexR16 = val_csirsindexr16
-	paddingMark_csirsresultsr16 := bb.PaddingComponent("CsiRSResultsR16")
 	if err := v.CsiRSResultsR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CsiRSResultsR16")
 	}
-	bb.LeaveComponent(paddingMark_csirsresultsr16)
 	return nil
 }
 
@@ -179248,11 +178878,9 @@ func (v *NRDLTDOASignalMeasurementInformationR16) UnmarshalUPERFrom(bb *uper.Bit
 	if err != nil {
 		return err
 	}
-	paddingMark_dlprsreferenceinfor16 := bb.PaddingComponent("DlPRSReferenceInfoR16")
 	if err := v.DlPRSReferenceInfoR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DlPRSReferenceInfoR16")
 	}
-	bb.LeaveComponent(paddingMark_dlprsreferenceinfor16)
 	toleranceMark_nrdltdoameaslistr16 := bb.EnterComponent("NrDLTDOAMeasListR16")
 	v.NrDLTDOAMeasListR16 = make(NRDLTDOAMeasListR16, 0)
 	_, errCollection_nrdltdoameaslistr16 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, false, func(fragmentOffset_nrdltdoameaslistr16, fragmentLength_nrdltdoameaslistr16 int64) error {
@@ -179941,13 +179569,11 @@ func (v *NRDLTDOAMeasElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.NrPhysCellIDR16 = &tmp_nrphyscellidr16
 	}
 	if opt_nrcellglobalidr16 {
-		paddingMark_nrcellglobalidr16 := bb.PaddingComponent("NrCellGlobalIDR16")
 		var dec_nrcellglobalidr16 NCGIR15
 		if err := dec_nrcellglobalidr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR16")
 		}
 		v.NrCellGlobalIDR16 = &dec_nrcellglobalidr16
-		bb.LeaveComponent(paddingMark_nrcellglobalidr16)
 	}
 	if opt_nrarfcnr16 {
 		val_nrarfcnr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -182692,22 +182318,18 @@ func (v *NRDLTDOARequestLocationInformationR16) UnmarshalUPERFrom(bb *uper.BitBu
 						return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingRequestR18")
 					}
 					if ext_opt_nrdlprsjointmeasurementrequestr18 {
-						paddingMark_nrdlprsjointmeasurementrequestr18 := extBB.PaddingComponent("NrDLPRSJointMeasurementRequestR18")
 						var dec_nrdlprsjointmeasurementrequestr18 NRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18
 						if err := dec_nrdlprsjointmeasurementrequestr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSJointMeasurementRequestR18")
 						}
 						v.NrDLPRSJointMeasurementRequestR18 = &dec_nrdlprsjointmeasurementrequestr18
-						extBB.LeaveComponent(paddingMark_nrdlprsjointmeasurementrequestr18)
 					}
 					if ext_opt_nrdlprsrxhoppingrequestr18 {
-						paddingMark_nrdlprsrxhoppingrequestr18 := extBB.PaddingComponent("NrDLPRSRxHoppingRequestR18")
 						var dec_nrdlprsrxhoppingrequestr18 NRDLTDOARequestLocationInformationR16NrDLPRSRxHoppingRequestR18
 						if err := dec_nrdlprsrxhoppingrequestr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingRequestR18")
 						}
 						v.NrDLPRSRxHoppingRequestR18 = &dec_nrdlprsrxhoppingrequestr18
-						extBB.LeaveComponent(paddingMark_nrdlprsrxhoppingrequestr18)
 					}
 					return nil
 				}()
@@ -182736,22 +182358,18 @@ func (v *NRDLTDOARequestLocationInformationR16) UnmarshalUPERFrom(bb *uper.BitBu
 						return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingRequestR18")
 					}
 					if ext_opt_nrdlprsjointmeasurementrequestr18 {
-						paddingMark_nrdlprsjointmeasurementrequestr18 := extBB.PaddingComponent("NrDLPRSJointMeasurementRequestR18")
 						var dec_nrdlprsjointmeasurementrequestr18 NRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18
 						if err := dec_nrdlprsjointmeasurementrequestr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSJointMeasurementRequestR18")
 						}
 						v.NrDLPRSJointMeasurementRequestR18 = &dec_nrdlprsjointmeasurementrequestr18
-						extBB.LeaveComponent(paddingMark_nrdlprsjointmeasurementrequestr18)
 					}
 					if ext_opt_nrdlprsrxhoppingrequestr18 {
-						paddingMark_nrdlprsrxhoppingrequestr18 := extBB.PaddingComponent("NrDLPRSRxHoppingRequestR18")
 						var dec_nrdlprsrxhoppingrequestr18 NRDLTDOARequestLocationInformationR16NrDLPRSRxHoppingRequestR18
 						if err := dec_nrdlprsrxhoppingrequestr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingRequestR18")
 						}
 						v.NrDLPRSRxHoppingRequestR18 = &dec_nrdlprsrxhoppingrequestr18
-						extBB.LeaveComponent(paddingMark_nrdlprsrxhoppingrequestr18)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 1, true)
 					if err != nil {
@@ -188534,13 +188152,11 @@ func (v *NRDLAoDMeasElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.NrPhysCellIDR16 = &tmp_nrphyscellidr16
 	}
 	if opt_nrcellglobalidr16 {
-		paddingMark_nrcellglobalidr16 := bb.PaddingComponent("NrCellGlobalIDR16")
 		var dec_nrcellglobalidr16 NCGIR15
 		if err := dec_nrcellglobalidr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR16")
 		}
 		v.NrCellGlobalIDR16 = &dec_nrcellglobalidr16
-		bb.LeaveComponent(paddingMark_nrcellglobalidr16)
 	}
 	if opt_nrarfcnr16 {
 		val_nrarfcnr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -190312,13 +189928,11 @@ func (v *NRDLAoDRequestLocationInformationR16) UnmarshalUPERFrom(bb *uper.BitBuf
 						return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingRequestR18")
 					}
 					if ext_opt_nrdlprsrxhoppingrequestr18 {
-						paddingMark_nrdlprsrxhoppingrequestr18 := extBB.PaddingComponent("NrDLPRSRxHoppingRequestR18")
 						var dec_nrdlprsrxhoppingrequestr18 NRDLAoDRequestLocationInformationR16NrDLPRSRxHoppingRequestR18
 						if err := dec_nrdlprsrxhoppingrequestr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingRequestR18")
 						}
 						v.NrDLPRSRxHoppingRequestR18 = &dec_nrdlprsrxhoppingrequestr18
-						extBB.LeaveComponent(paddingMark_nrdlprsrxhoppingrequestr18)
 					}
 					return nil
 				}()
@@ -190343,13 +189957,11 @@ func (v *NRDLAoDRequestLocationInformationR16) UnmarshalUPERFrom(bb *uper.BitBuf
 						return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingRequestR18")
 					}
 					if ext_opt_nrdlprsrxhoppingrequestr18 {
-						paddingMark_nrdlprsrxhoppingrequestr18 := extBB.PaddingComponent("NrDLPRSRxHoppingRequestR18")
 						var dec_nrdlprsrxhoppingrequestr18 NRDLAoDRequestLocationInformationR16NrDLPRSRxHoppingRequestR18
 						if err := dec_nrdlprsrxhoppingrequestr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingRequestR18")
 						}
 						v.NrDLPRSRxHoppingRequestR18 = &dec_nrdlprsrxhoppingrequestr18
-						extBB.LeaveComponent(paddingMark_nrdlprsrxhoppingrequestr18)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 1, true)
 					if err != nil {
@@ -195864,13 +195476,11 @@ func (v *NRMultiRTTMeasElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.NrPhysCellIDR16 = &tmp_nrphyscellidr16
 	}
 	if opt_nrcellglobalidr16 {
-		paddingMark_nrcellglobalidr16 := bb.PaddingComponent("NrCellGlobalIDR16")
 		var dec_nrcellglobalidr16 NCGIR15
 		if err := dec_nrcellglobalidr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR16")
 		}
 		v.NrCellGlobalIDR16 = &dec_nrcellglobalidr16
-		bb.LeaveComponent(paddingMark_nrcellglobalidr16)
 	}
 	if opt_nrarfcnr16 {
 		val_nrarfcnr16, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
@@ -196021,13 +195631,11 @@ func (v *NRMultiRTTMeasElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						return runtime.WrapDecodePath(err, "NrMultiRTTAdditionalMeasurementsExtR17")
 					}
 					if ext_opt_nruerxtxteginfor17 {
-						paddingMark_nruerxtxteginfor17 := extBB.PaddingComponent("NrUERxTxTEGInfoR17")
 						var dec_nruerxtxteginfor17 NRUERxTxTEGInfoR17
 						if err := dec_nruerxtxteginfor17.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrUERxTxTEGInfoR17")
 						}
 						v.NrUERxTxTEGInfoR17 = &dec_nruerxtxteginfor17
-						extBB.LeaveComponent(paddingMark_nruerxtxteginfor17)
 					}
 					if ext_opt_nrdlprsfirstpathrsrpresultr17 {
 						val_nrdlprsfirstpathrsrpresultr17, err := uper.DecodeInteger(extBB, int64Ptr(0), int64Ptr(126), false)
@@ -196134,13 +195742,11 @@ func (v *NRMultiRTTMeasElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						return runtime.WrapDecodePath(err, "NrMultiRTTAdditionalMeasurementsExtR17")
 					}
 					if ext_opt_nruerxtxteginfor17 {
-						paddingMark_nruerxtxteginfor17 := extBB.PaddingComponent("NrUERxTxTEGInfoR17")
 						var dec_nruerxtxteginfor17 NRUERxTxTEGInfoR17
 						if err := dec_nruerxtxteginfor17.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrUERxTxTEGInfoR17")
 						}
 						v.NrUERxTxTEGInfoR17 = &dec_nruerxtxteginfor17
-						extBB.LeaveComponent(paddingMark_nruerxtxteginfor17)
 					}
 					if ext_opt_nrdlprsfirstpathrsrpresultr17 {
 						val_nrdlprsfirstpathrsrpresultr17, err := uper.DecodeInteger(extBB, int64Ptr(0), int64Ptr(126), false)
@@ -196343,13 +195949,11 @@ func (v *NRMultiRTTMeasElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						v.NrReportDLPRSMeasBasedOnSingleOrMultiHopRxR18 = &val_nrreportdlprsmeasbasedonsingleormultihoprxr18
 					}
 					if ext_opt_nrntnuerxtxmeasurementsr18 {
-						paddingMark_nrntnuerxtxmeasurementsr18 := extBB.PaddingComponent("NrNTNUERxTxMeasurementsR18")
 						var dec_nrntnuerxtxmeasurementsr18 NRNTNUERxTxMeasurementsR18
 						if err := dec_nrntnuerxtxmeasurementsr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrNTNUERxTxMeasurementsR18")
 						}
 						v.NrNTNUERxTxMeasurementsR18 = &dec_nrntnuerxtxmeasurementsr18
-						extBB.LeaveComponent(paddingMark_nrntnuerxtxmeasurementsr18)
 					}
 					return nil
 				}()
@@ -196478,13 +196082,11 @@ func (v *NRMultiRTTMeasElementR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						v.NrReportDLPRSMeasBasedOnSingleOrMultiHopRxR18 = &val_nrreportdlprsmeasbasedonsingleormultihoprxr18
 					}
 					if ext_opt_nrntnuerxtxmeasurementsr18 {
-						paddingMark_nrntnuerxtxmeasurementsr18 := extBB.PaddingComponent("NrNTNUERxTxMeasurementsR18")
 						var dec_nrntnuerxtxmeasurementsr18 NRNTNUERxTxMeasurementsR18
 						if err := dec_nrntnuerxtxmeasurementsr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrNTNUERxTxMeasurementsR18")
 						}
 						v.NrNTNUERxTxMeasurementsR18 = &dec_nrntnuerxtxmeasurementsr18
-						extBB.LeaveComponent(paddingMark_nrntnuerxtxmeasurementsr18)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 1, true)
 					if err != nil {
@@ -197221,13 +196823,11 @@ func (v *NRMultiRTTAdditionalMeasurementElementR16) UnmarshalUPERFrom(bb *uper.B
 						return runtime.WrapDecodePath(err, "NrAdditionalPathListExtR17")
 					}
 					if ext_opt_nruerxtxteginfor17 {
-						paddingMark_nruerxtxteginfor17 := extBB.PaddingComponent("NrUERxTxTEGInfoR17")
 						var dec_nruerxtxteginfor17 NRUERxTxTEGInfoR17
 						if err := dec_nruerxtxteginfor17.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrUERxTxTEGInfoR17")
 						}
 						v.NrUERxTxTEGInfoR17 = &dec_nruerxtxteginfor17
-						extBB.LeaveComponent(paddingMark_nruerxtxteginfor17)
 					}
 					if ext_opt_nrdlprsfirstpathrsrpresultdiffr17 {
 						val_nrdlprsfirstpathrsrpresultdiffr17, err := uper.DecodeInteger(extBB, int64Ptr(0), int64Ptr(61), false)
@@ -197305,13 +196905,11 @@ func (v *NRMultiRTTAdditionalMeasurementElementR16) UnmarshalUPERFrom(bb *uper.B
 						return runtime.WrapDecodePath(err, "NrAdditionalPathListExtR17")
 					}
 					if ext_opt_nruerxtxteginfor17 {
-						paddingMark_nruerxtxteginfor17 := extBB.PaddingComponent("NrUERxTxTEGInfoR17")
 						var dec_nruerxtxteginfor17 NRUERxTxTEGInfoR17
 						if err := dec_nruerxtxteginfor17.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrUERxTxTEGInfoR17")
 						}
 						v.NrUERxTxTEGInfoR17 = &dec_nruerxtxteginfor17
-						extBB.LeaveComponent(paddingMark_nruerxtxteginfor17)
 					}
 					if ext_opt_nrdlprsfirstpathrsrpresultdiffr17 {
 						val_nrdlprsfirstpathrsrpresultdiffr17, err := uper.DecodeInteger(extBB, int64Ptr(0), int64Ptr(61), false)
@@ -197489,13 +197087,11 @@ func (v *NRMultiRTTAdditionalMeasurementElementR16) UnmarshalUPERFrom(bb *uper.B
 						v.NrReportDLPRSMeasBasedOnSingleOrMultiHopRxR18 = &val_nrreportdlprsmeasbasedonsingleormultihoprxr18
 					}
 					if ext_opt_nrntnuerxtxmeasurementsr18 {
-						paddingMark_nrntnuerxtxmeasurementsr18 := extBB.PaddingComponent("NrNTNUERxTxMeasurementsR18")
 						var dec_nrntnuerxtxmeasurementsr18 NRNTNUERxTxMeasurementsR18
 						if err := dec_nrntnuerxtxmeasurementsr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrNTNUERxTxMeasurementsR18")
 						}
 						v.NrNTNUERxTxMeasurementsR18 = &dec_nrntnuerxtxmeasurementsr18
-						extBB.LeaveComponent(paddingMark_nrntnuerxtxmeasurementsr18)
 					}
 					return nil
 				}()
@@ -197624,13 +197220,11 @@ func (v *NRMultiRTTAdditionalMeasurementElementR16) UnmarshalUPERFrom(bb *uper.B
 						v.NrReportDLPRSMeasBasedOnSingleOrMultiHopRxR18 = &val_nrreportdlprsmeasbasedonsingleormultihoprxr18
 					}
 					if ext_opt_nrntnuerxtxmeasurementsr18 {
-						paddingMark_nrntnuerxtxmeasurementsr18 := extBB.PaddingComponent("NrNTNUERxTxMeasurementsR18")
 						var dec_nrntnuerxtxmeasurementsr18 NRNTNUERxTxMeasurementsR18
 						if err := dec_nrntnuerxtxmeasurementsr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrNTNUERxTxMeasurementsR18")
 						}
 						v.NrNTNUERxTxMeasurementsR18 = &dec_nrntnuerxtxmeasurementsr18
-						extBB.LeaveComponent(paddingMark_nrntnuerxtxmeasurementsr18)
 					}
 					padding, err := uper.CaptureExtensionPadding(extBB, 1, true)
 					if err != nil {
@@ -197827,15 +197421,12 @@ func (v *NRSRSTxTEGElementR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.NrUETxTEGIDR17 = val_nruetxtegidr17
 	if opt_carrierfreqr17 {
-		paddingMark_carrierfreqr17 := bb.PaddingComponent("CarrierFreqR17")
 		var dec_carrierfreqr17 NRSRSTxTEGElementR17CarrierFreqR17
 		if err := dec_carrierfreqr17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CarrierFreqR17")
 		}
 		v.CarrierFreqR17 = &dec_carrierfreqr17
-		bb.LeaveComponent(paddingMark_carrierfreqr17)
 	}
-	paddingMark_srsposresourcelistr17 := bb.PaddingComponent("SrsPosResourceListR17")
 	v.SrsPosResourceListR17 = make(NRSRSTxTEGElementR17SrsPosResourceListR17, 0)
 	_, errCollection_srsposresourcelistr17 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_srsposresourcelistr17, fragmentLength_srsposresourcelistr17 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -197854,7 +197445,6 @@ func (v *NRSRSTxTEGElementR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if errCollection_srsposresourcelistr17 != nil {
 		return runtime.WrapDecodePath(errCollection_srsposresourcelistr17, "SrsPosResourceListR17")
 	}
-	bb.LeaveComponent(paddingMark_srsposresourcelistr17)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
@@ -198029,29 +197619,23 @@ func (v *NRUERxTxTEGInfoR17) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case NRUERxTxTEGInfoR17ChoiceCase1R17:
-		paddingMark_case1r17 := bb.PaddingComponent("Case1R17")
 		var dec_case1r17 NRUERxTxTEGInfoR17Case1R17
 		if err := dec_case1r17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Case1R17")
 		}
 		v.Case1R17 = &dec_case1r17
-		bb.LeaveComponent(paddingMark_case1r17)
 	case NRUERxTxTEGInfoR17ChoiceCase2R17:
-		paddingMark_case2r17 := bb.PaddingComponent("Case2R17")
 		var dec_case2r17 NRUERxTxTEGInfoR17Case2R17
 		if err := dec_case2r17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Case2R17")
 		}
 		v.Case2R17 = &dec_case2r17
-		bb.LeaveComponent(paddingMark_case2r17)
 	case NRUERxTxTEGInfoR17ChoiceCase3R17:
-		paddingMark_case3r17 := bb.PaddingComponent("Case3R17")
 		var dec_case3r17 NRUERxTxTEGInfoR17Case3R17
 		if err := dec_case3r17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Case3R17")
 		}
 		v.Case3R17 = &dec_case3r17
-		bb.LeaveComponent(paddingMark_case3r17)
 	}
 	return nil
 }
@@ -198669,11 +198253,9 @@ func (v *NRMultiRTTRequestLocationInformationR16) UnmarshalUPERFrom(bb *uper.Bit
 		return runtime.WrapDecodePath(err, "NrAssistanceAvailabilityR16")
 	}
 	v.NrAssistanceAvailabilityR16 = val_nrassistanceavailabilityr16
-	paddingMark_nrmultirttreportconfigr16 := bb.PaddingComponent("NrMultiRTTReportConfigR16")
 	if err := v.NrMultiRTTReportConfigR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NrMultiRTTReportConfigR16")
 	}
-	bb.LeaveComponent(paddingMark_nrmultirttreportconfigr16)
 	if opt_additionalpathsr16 {
 		val_additionalpathsr16, err := uper.DecodeEnumerated(bb, 1, false)
 		if err != nil {
@@ -198976,13 +198558,11 @@ func (v *NRMultiRTTRequestLocationInformationR16) UnmarshalUPERFrom(bb *uper.Bit
 						return runtime.WrapDecodePath(err, "NrDLPRSMeasurementTimeWindowsConfigR18")
 					}
 					if ext_opt_nrdlprsrxhoppingrequestr18 {
-						paddingMark_nrdlprsrxhoppingrequestr18 := extBB.PaddingComponent("NrDLPRSRxHoppingRequestR18")
 						var dec_nrdlprsrxhoppingrequestr18 NRMultiRTTRequestLocationInformationR16NrDLPRSRxHoppingRequestR18
 						if err := dec_nrdlprsrxhoppingrequestr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingRequestR18")
 						}
 						v.NrDLPRSRxHoppingRequestR18 = &dec_nrdlprsrxhoppingrequestr18
-						extBB.LeaveComponent(paddingMark_nrdlprsrxhoppingrequestr18)
 					}
 					if ext_opt_timingreportinggranularityfactorextr18 {
 						val_timingreportinggranularityfactorextr18, err := uper.DecodeInteger(extBB, int64Ptr(-6), int64Ptr(-1), false)
@@ -198992,13 +198572,11 @@ func (v *NRMultiRTTRequestLocationInformationR16) UnmarshalUPERFrom(bb *uper.Bit
 						v.TimingReportingGranularityFactorExtR18 = &val_timingreportinggranularityfactorextr18
 					}
 					if ext_opt_nrdlprsjointmeasurementrequestr18 {
-						paddingMark_nrdlprsjointmeasurementrequestr18 := extBB.PaddingComponent("NrDLPRSJointMeasurementRequestR18")
 						var dec_nrdlprsjointmeasurementrequestr18 NRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR18
 						if err := dec_nrdlprsjointmeasurementrequestr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSJointMeasurementRequestR18")
 						}
 						v.NrDLPRSJointMeasurementRequestR18 = &dec_nrdlprsjointmeasurementrequestr18
-						extBB.LeaveComponent(paddingMark_nrdlprsjointmeasurementrequestr18)
 					}
 					if ext_opt_nrdlprsmeasurementtimewindowsconfigr18 {
 						recoveryMark_nrdlprsmeasurementtimewindowsconfigr18 := extBB.RecoveryComponent("NrDLPRSMeasurementTimeWindowsConfigR18")
@@ -199060,13 +198638,11 @@ func (v *NRMultiRTTRequestLocationInformationR16) UnmarshalUPERFrom(bb *uper.Bit
 						return runtime.WrapDecodePath(err, "NrDLPRSMeasurementTimeWindowsConfigR18")
 					}
 					if ext_opt_nrdlprsrxhoppingrequestr18 {
-						paddingMark_nrdlprsrxhoppingrequestr18 := extBB.PaddingComponent("NrDLPRSRxHoppingRequestR18")
 						var dec_nrdlprsrxhoppingrequestr18 NRMultiRTTRequestLocationInformationR16NrDLPRSRxHoppingRequestR18
 						if err := dec_nrdlprsrxhoppingrequestr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingRequestR18")
 						}
 						v.NrDLPRSRxHoppingRequestR18 = &dec_nrdlprsrxhoppingrequestr18
-						extBB.LeaveComponent(paddingMark_nrdlprsrxhoppingrequestr18)
 					}
 					if ext_opt_timingreportinggranularityfactorextr18 {
 						val_timingreportinggranularityfactorextr18, err := uper.DecodeInteger(extBB, int64Ptr(-6), int64Ptr(-1), false)
@@ -199076,13 +198652,11 @@ func (v *NRMultiRTTRequestLocationInformationR16) UnmarshalUPERFrom(bb *uper.Bit
 						v.TimingReportingGranularityFactorExtR18 = &val_timingreportinggranularityfactorextr18
 					}
 					if ext_opt_nrdlprsjointmeasurementrequestr18 {
-						paddingMark_nrdlprsjointmeasurementrequestr18 := extBB.PaddingComponent("NrDLPRSJointMeasurementRequestR18")
 						var dec_nrdlprsjointmeasurementrequestr18 NRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR18
 						if err := dec_nrdlprsjointmeasurementrequestr18.UnmarshalUPERFrom(extBB); err != nil {
 							return runtime.WrapDecodePath(err, "NrDLPRSJointMeasurementRequestR18")
 						}
 						v.NrDLPRSJointMeasurementRequestR18 = &dec_nrdlprsjointmeasurementrequestr18
-						extBB.LeaveComponent(paddingMark_nrdlprsjointmeasurementrequestr18)
 					}
 					if ext_opt_nrdlprsmeasurementtimewindowsconfigr18 {
 						recoveryMark_nrdlprsmeasurementtimewindowsconfigr18 := extBB.RecoveryComponent("NrDLPRSMeasurementTimeWindowsConfigR18")
@@ -204964,11 +204538,9 @@ func (v *NRDLAIMLPRSProcessingCapabilityElementR19) UnmarshalUPERFrom(bb *uper.B
 	if err != nil {
 		return err
 	}
-	paddingMark_supportedbandwidthprsr19 := bb.PaddingComponent("SupportedBandwidthPRSR19")
 	if err := v.SupportedBandwidthPRSR19.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SupportedBandwidthPRSR19")
 	}
-	bb.LeaveComponent(paddingMark_supportedbandwidthprsr19)
 	val_dlprsbuffertyper19, err := uper.DecodeEnumerated(bb, 2, true)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DlPRSBufferTypeR19")
@@ -205203,13 +204775,11 @@ func (v *PRSProcessingCapabilityOutsideMGinPPWperTypeR19) UnmarshalUPERFrom(bb *
 	}
 	bb.LeaveComponent(toleranceMark_ppwmaxnumofdlprsresprocessedperslotr19)
 	if opt_ppwmaxnumofdlbandwidthr19 {
-		paddingMark_ppwmaxnumofdlbandwidthr19 := bb.PaddingComponent("PpwMaxNumOfDLBandwidthR19")
 		var dec_ppwmaxnumofdlbandwidthr19 PRSProcessingCapabilityOutsideMGinPPWperTypeR19PpwMaxNumOfDLBandwidthR19
 		if err := dec_ppwmaxnumofdlbandwidthr19.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "PpwMaxNumOfDLBandwidthR19")
 		}
 		v.PpwMaxNumOfDLBandwidthR19 = &dec_ppwmaxnumofdlbandwidthr19
-		bb.LeaveComponent(paddingMark_ppwmaxnumofdlbandwidthr19)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -206880,13 +206450,11 @@ func (v *RequestCapabilitiesCriticalExtensions) UnmarshalUPERFrom(bb *uper.BitBu
 		v.C1 = &dec_c1
 		bb.LeaveComponent(toleranceMark_c1)
 	case RequestCapabilitiesCriticalExtensionsChoiceCriticalExtensionsFuture:
-		paddingMark_criticalextensionsfuture := bb.PaddingComponent("CriticalExtensionsFuture")
 		var dec_criticalextensionsfuture RequestCapabilitiesCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
-		bb.LeaveComponent(paddingMark_criticalextensionsfuture)
 	}
 	return nil
 }
@@ -207119,13 +206687,11 @@ func (v *ProvideCapabilitiesCriticalExtensions) UnmarshalUPERFrom(bb *uper.BitBu
 		v.C1 = &dec_c1
 		bb.LeaveComponent(toleranceMark_c1)
 	case ProvideCapabilitiesCriticalExtensionsChoiceCriticalExtensionsFuture:
-		paddingMark_criticalextensionsfuture := bb.PaddingComponent("CriticalExtensionsFuture")
 		var dec_criticalextensionsfuture ProvideCapabilitiesCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
-		bb.LeaveComponent(paddingMark_criticalextensionsfuture)
 	}
 	return nil
 }
@@ -207358,13 +206924,11 @@ func (v *RequestAssistanceDataCriticalExtensions) UnmarshalUPERFrom(bb *uper.Bit
 		v.C1 = &dec_c1
 		bb.LeaveComponent(toleranceMark_c1)
 	case RequestAssistanceDataCriticalExtensionsChoiceCriticalExtensionsFuture:
-		paddingMark_criticalextensionsfuture := bb.PaddingComponent("CriticalExtensionsFuture")
 		var dec_criticalextensionsfuture RequestAssistanceDataCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
-		bb.LeaveComponent(paddingMark_criticalextensionsfuture)
 	}
 	return nil
 }
@@ -207597,13 +207161,11 @@ func (v *ProvideAssistanceDataCriticalExtensions) UnmarshalUPERFrom(bb *uper.Bit
 		v.C1 = &dec_c1
 		bb.LeaveComponent(toleranceMark_c1)
 	case ProvideAssistanceDataCriticalExtensionsChoiceCriticalExtensionsFuture:
-		paddingMark_criticalextensionsfuture := bb.PaddingComponent("CriticalExtensionsFuture")
 		var dec_criticalextensionsfuture ProvideAssistanceDataCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
-		bb.LeaveComponent(paddingMark_criticalextensionsfuture)
 	}
 	return nil
 }
@@ -207836,13 +207398,11 @@ func (v *RequestLocationInformationCriticalExtensions) UnmarshalUPERFrom(bb *upe
 		v.C1 = &dec_c1
 		bb.LeaveComponent(toleranceMark_c1)
 	case RequestLocationInformationCriticalExtensionsChoiceCriticalExtensionsFuture:
-		paddingMark_criticalextensionsfuture := bb.PaddingComponent("CriticalExtensionsFuture")
 		var dec_criticalextensionsfuture RequestLocationInformationCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
-		bb.LeaveComponent(paddingMark_criticalextensionsfuture)
 	}
 	return nil
 }
@@ -208075,13 +207635,11 @@ func (v *ProvideLocationInformationCriticalExtensions) UnmarshalUPERFrom(bb *upe
 		v.C1 = &dec_c1
 		bb.LeaveComponent(toleranceMark_c1)
 	case ProvideLocationInformationCriticalExtensionsChoiceCriticalExtensionsFuture:
-		paddingMark_criticalextensionsfuture := bb.PaddingComponent("CriticalExtensionsFuture")
 		var dec_criticalextensionsfuture ProvideLocationInformationCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
-		bb.LeaveComponent(paddingMark_criticalextensionsfuture)
 	}
 	return nil
 }
@@ -208314,13 +207872,11 @@ func (v *AbortCriticalExtensions) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		v.C1 = &dec_c1
 		bb.LeaveComponent(toleranceMark_c1)
 	case AbortCriticalExtensionsChoiceCriticalExtensionsFuture:
-		paddingMark_criticalextensionsfuture := bb.PaddingComponent("CriticalExtensionsFuture")
 		var dec_criticalextensionsfuture AbortCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
-		bb.LeaveComponent(paddingMark_criticalextensionsfuture)
 	}
 	return nil
 }
@@ -208579,7 +208135,6 @@ func (v *CellGlobalIdEUTRAAndUTRAPlmnIdentity) UnmarshalUPERFrom(bb *uper.BitBuf
 	}
 	defer bb.LeaveDecodeValue()
 	*v = CellGlobalIdEUTRAAndUTRAPlmnIdentity{}
-	paddingMark_mcc := bb.PaddingComponent("Mcc")
 	v.Mcc = make(CellGlobalIdEUTRAAndUTRAPlmnIdentityMcc, 0)
 	_, errCollection_mcc := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_mcc, fragmentLength_mcc int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -208598,8 +208153,6 @@ func (v *CellGlobalIdEUTRAAndUTRAPlmnIdentity) UnmarshalUPERFrom(bb *uper.BitBuf
 	if errCollection_mcc != nil {
 		return runtime.WrapDecodePath(errCollection_mcc, "Mcc")
 	}
-	bb.LeaveComponent(paddingMark_mcc)
-	paddingMark_mnc := bb.PaddingComponent("Mnc")
 	v.Mnc = make(CellGlobalIdEUTRAAndUTRAPlmnIdentityMnc, 0)
 	_, errCollection_mnc := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_mnc, fragmentLength_mnc int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -208618,7 +208171,6 @@ func (v *CellGlobalIdEUTRAAndUTRAPlmnIdentity) UnmarshalUPERFrom(bb *uper.BitBuf
 	if errCollection_mnc != nil {
 		return runtime.WrapDecodePath(errCollection_mnc, "Mnc")
 	}
-	bb.LeaveComponent(paddingMark_mnc)
 	return nil
 }
 
@@ -208713,7 +208265,6 @@ func UnmarshalUPERCellGlobalIdEUTRAAndUTRAPlmnIdentityMccFrom(bb *uper.BitBuffer
 }
 
 func unmarshalUPERCellGlobalIdEUTRAAndUTRAPlmnIdentityMccInto(v *asn1cUPERCellGlobalIdEUTRAAndUTRAPlmnIdentityMccListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(CellGlobalIdEUTRAAndUTRAPlmnIdentityMcc, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -208732,7 +208283,6 @@ func unmarshalUPERCellGlobalIdEUTRAAndUTRAPlmnIdentityMccInto(v *asn1cUPERCellGl
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -208827,7 +208377,6 @@ func UnmarshalUPERCellGlobalIdEUTRAAndUTRAPlmnIdentityMncFrom(bb *uper.BitBuffer
 }
 
 func unmarshalUPERCellGlobalIdEUTRAAndUTRAPlmnIdentityMncInto(v *asn1cUPERCellGlobalIdEUTRAAndUTRAPlmnIdentityMncListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(CellGlobalIdEUTRAAndUTRAPlmnIdentityMnc, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -208846,7 +208395,6 @@ func unmarshalUPERCellGlobalIdEUTRAAndUTRAPlmnIdentityMncInto(v *asn1cUPERCellGl
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -209018,7 +208566,6 @@ func (v *CellGlobalIdGERANPlmnIdentity) UnmarshalUPERFrom(bb *uper.BitBuffer) er
 	}
 	defer bb.LeaveDecodeValue()
 	*v = CellGlobalIdGERANPlmnIdentity{}
-	paddingMark_mcc := bb.PaddingComponent("Mcc")
 	v.Mcc = make(CellGlobalIdGERANPlmnIdentityMcc, 0)
 	_, errCollection_mcc := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_mcc, fragmentLength_mcc int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -209037,8 +208584,6 @@ func (v *CellGlobalIdGERANPlmnIdentity) UnmarshalUPERFrom(bb *uper.BitBuffer) er
 	if errCollection_mcc != nil {
 		return runtime.WrapDecodePath(errCollection_mcc, "Mcc")
 	}
-	bb.LeaveComponent(paddingMark_mcc)
-	paddingMark_mnc := bb.PaddingComponent("Mnc")
 	v.Mnc = make(CellGlobalIdGERANPlmnIdentityMnc, 0)
 	_, errCollection_mnc := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_mnc, fragmentLength_mnc int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -209057,7 +208602,6 @@ func (v *CellGlobalIdGERANPlmnIdentity) UnmarshalUPERFrom(bb *uper.BitBuffer) er
 	if errCollection_mnc != nil {
 		return runtime.WrapDecodePath(errCollection_mnc, "Mnc")
 	}
-	bb.LeaveComponent(paddingMark_mnc)
 	return nil
 }
 
@@ -209152,7 +208696,6 @@ func UnmarshalUPERCellGlobalIdGERANPlmnIdentityMccFrom(bb *uper.BitBuffer) (Cell
 }
 
 func unmarshalUPERCellGlobalIdGERANPlmnIdentityMccInto(v *asn1cUPERCellGlobalIdGERANPlmnIdentityMccListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(CellGlobalIdGERANPlmnIdentityMcc, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -209171,7 +208714,6 @@ func unmarshalUPERCellGlobalIdGERANPlmnIdentityMccInto(v *asn1cUPERCellGlobalIdG
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -209266,7 +208808,6 @@ func UnmarshalUPERCellGlobalIdGERANPlmnIdentityMncFrom(bb *uper.BitBuffer) (Cell
 }
 
 func unmarshalUPERCellGlobalIdGERANPlmnIdentityMncInto(v *asn1cUPERCellGlobalIdGERANPlmnIdentityMncListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(CellGlobalIdGERANPlmnIdentityMnc, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -209285,7 +208826,6 @@ func unmarshalUPERCellGlobalIdGERANPlmnIdentityMncInto(v *asn1cUPERCellGlobalIdG
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -209376,7 +208916,6 @@ func UnmarshalUPERECGIMccFrom(bb *uper.BitBuffer) (ECGIMcc, error) {
 }
 
 func unmarshalUPERECGIMccInto(v *asn1cUPERECGIMccListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(ECGIMcc, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -209395,7 +208934,6 @@ func unmarshalUPERECGIMccInto(v *asn1cUPERECGIMccListValue, bb *uper.BitBuffer) 
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -209486,7 +209024,6 @@ func UnmarshalUPERECGIMncFrom(bb *uper.BitBuffer) (ECGIMnc, error) {
 }
 
 func unmarshalUPERECGIMncInto(v *asn1cUPERECGIMncListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(ECGIMnc, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -209505,7 +209042,6 @@ func unmarshalUPERECGIMncInto(v *asn1cUPERECGIMncListValue, bb *uper.BitBuffer) 
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -209596,7 +209132,6 @@ func UnmarshalUPERNCGIR15MccR15From(bb *uper.BitBuffer) (NCGIR15MccR15, error) {
 }
 
 func unmarshalUPERNCGIR15MccR15Into(v *asn1cUPERNCGIR15MccR15ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NCGIR15MccR15, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -209615,7 +209150,6 @@ func unmarshalUPERNCGIR15MccR15Into(v *asn1cUPERNCGIR15MccR15ListValue, bb *uper
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -209706,7 +209240,6 @@ func UnmarshalUPERNCGIR15MncR15From(bb *uper.BitBuffer) (NCGIR15MncR15, error) {
 }
 
 func unmarshalUPERNCGIR15MncR15Into(v *asn1cUPERNCGIR15MncR15ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NCGIR15MncR15, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -209725,7 +209258,6 @@ func unmarshalUPERNCGIR15MncR15Into(v *asn1cUPERNCGIR15MncR15ListValue, bb *uper
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -209978,13 +209510,11 @@ func (v *ScheduledLocationTimeR17NetworkTimeR17) UnmarshalUPERFrom(bb *uper.BitB
 		v.EUtraTimeR17 = &dec_eutratimer17
 		bb.LeaveComponent(toleranceMark_eutratimer17)
 	case ScheduledLocationTimeR17NetworkTimeR17ChoiceNrTimeR17:
-		paddingMark_nrtimer17 := bb.PaddingComponent("NrTimeR17")
 		var dec_nrtimer17 ScheduledLocationTimeR17NetworkTimeR17NrTimeR17
 		if err := dec_nrtimer17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrTimeR17")
 		}
 		v.NrTimeR17 = &dec_nrtimer17
-		bb.LeaveComponent(paddingMark_nrtimer17)
 	}
 	return nil
 }
@@ -210169,13 +209699,11 @@ func (v *ScheduledLocationTimeR17NetworkTimeR17NrTimeR17) UnmarshalUPERFrom(bb *
 	}
 	v.NrARFCNR17 = ARFCNValueNRR15(val_nrarfcnr17)
 	if opt_nrcellglobalidr17 {
-		paddingMark_nrcellglobalidr17 := bb.PaddingComponent("NrCellGlobalIDR17")
 		var dec_nrcellglobalidr17 NCGIR15
 		if err := dec_nrcellglobalidr17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR17")
 		}
 		v.NrCellGlobalIDR17 = &dec_nrcellglobalidr17
-		bb.LeaveComponent(paddingMark_nrcellglobalidr17)
 	}
 	val_nrsfnr17, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(1023), false)
 	if err != nil {
@@ -210183,13 +209711,11 @@ func (v *ScheduledLocationTimeR17NetworkTimeR17NrTimeR17) UnmarshalUPERFrom(bb *
 	}
 	v.NrSFNR17 = val_nrsfnr17
 	if opt_nrslotr17 {
-		paddingMark_nrslotr17 := bb.PaddingComponent("NrSlotR17")
 		var dec_nrslotr17 ScheduledLocationTimeR17NetworkTimeR17NrTimeR17NrSlotR17
 		if err := dec_nrslotr17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrSlotR17")
 		}
 		v.NrSlotR17 = &dec_nrslotr17
-		bb.LeaveComponent(paddingMark_nrslotr17)
 	}
 	return nil
 }
@@ -210407,7 +209933,6 @@ func UnmarshalUPERDLPRSIDInfoR16NrDLPRSResourceIDListR16From(bb *uper.BitBuffer)
 }
 
 func unmarshalUPERDLPRSIDInfoR16NrDLPRSResourceIDListR16Into(v *asn1cUPERDLPRSIDInfoR16NrDLPRSResourceIDListR16ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(DLPRSIDInfoR16NrDLPRSResourceIDListR16, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -210426,7 +209951,6 @@ func unmarshalUPERDLPRSIDInfoR16NrDLPRSResourceIDListR16Into(v *asn1cUPERDLPRSID
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -213548,21 +213072,17 @@ func (v *NRDLPRSMeasurementTimeWindowsConfigElementR18NrPeriodicOrOneShotTimeWin
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case NRDLPRSMeasurementTimeWindowsConfigElementR18NrPeriodicOrOneShotTimeWindowR18ChoiceNrPeriodicityAndSlotOffsetTimeWindowR18:
-		paddingMark_nrperiodicityandslotoffsettimewindowr18 := bb.PaddingComponent("NrPeriodicityAndSlotOffsetTimeWindowR18")
 		var dec_nrperiodicityandslotoffsettimewindowr18 NRDLPRSPeriodicityAndResourceSetSlotOffsetR16
 		if err := dec_nrperiodicityandslotoffsettimewindowr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrPeriodicityAndSlotOffsetTimeWindowR18")
 		}
 		v.NrPeriodicityAndSlotOffsetTimeWindowR18 = &dec_nrperiodicityandslotoffsettimewindowr18
-		bb.LeaveComponent(paddingMark_nrperiodicityandslotoffsettimewindowr18)
 	case NRDLPRSMeasurementTimeWindowsConfigElementR18NrPeriodicOrOneShotTimeWindowR18ChoiceNrOneShotSlotOffsetTimeWindowR18:
-		paddingMark_nroneshotslotoffsettimewindowr18 := bb.PaddingComponent("NrOneShotSlotOffsetTimeWindowR18")
 		var dec_nroneshotslotoffsettimewindowr18 NRDLPRSMeasurementTimeWindowsConfigElementR18NrPeriodicOrOneShotTimeWindowR18NrOneShotSlotOffsetTimeWindowR18
 		if err := dec_nroneshotslotoffsettimewindowr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrOneShotSlotOffsetTimeWindowR18")
 		}
 		v.NrOneShotSlotOffsetTimeWindowR18 = &dec_nroneshotslotoffsettimewindowr18
-		bb.LeaveComponent(paddingMark_nroneshotslotoffsettimewindowr18)
 	}
 	return nil
 }
@@ -213896,7 +213416,6 @@ func UnmarshalUPERNRSelectedDLPRSIndexPerTRPR18DlSelectedPRSResourceSetIndexList
 }
 
 func unmarshalUPERNRSelectedDLPRSIndexPerTRPR18DlSelectedPRSResourceSetIndexListR18Into(v *asn1cUPERNRSelectedDLPRSIndexPerTRPR18DlSelectedPRSResourceSetIndexListR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NRSelectedDLPRSIndexPerTRPR18DlSelectedPRSResourceSetIndexListR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -213915,7 +213434,6 @@ func unmarshalUPERNRSelectedDLPRSIndexPerTRPR18DlSelectedPRSResourceSetIndexList
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -217197,7 +216715,6 @@ func UnmarshalUPERDLPRSResourcesBandCombinationR16BandListR16From(bb *uper.BitBu
 }
 
 func unmarshalUPERDLPRSResourcesBandCombinationR16BandListR16Into(v *asn1cUPERDLPRSResourcesBandCombinationR16BandListR16ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(DLPRSResourcesBandCombinationR16BandListR16, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -217216,7 +216733,6 @@ func unmarshalUPERDLPRSResourcesBandCombinationR16BandListR16Into(v *asn1cUPERDL
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -218062,13 +217578,11 @@ func (v *DLPRSQCLInfoReqR17DlPrsQCLInformationReqR17) UnmarshalUPERFrom(bb *uper
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case DLPRSQCLInfoReqR17DlPrsQCLInformationReqR17ChoiceDlPrsQCLInfoRecPerResourceSetR17:
-		paddingMark_dlprsqclinforecperresourcesetr17 := bb.PaddingComponent("DlPrsQCLInfoRecPerResourceSetR17")
 		var dec_dlprsqclinforecperresourcesetr17 DLPRSQCLInfoR16
 		if err := dec_dlprsqclinforecperresourcesetr17.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "DlPrsQCLInfoRecPerResourceSetR17")
 		}
 		v.DlPrsQCLInfoRecPerResourceSetR17 = &dec_dlprsqclinforecperresourcesetr17
-		bb.LeaveComponent(paddingMark_dlprsqclinforecperresourcesetr17)
 	case DLPRSQCLInfoReqR17DlPrsQCLInformationReqR17ChoiceDlPrsQCLInfoRequestedR17:
 		v.DlPrsQCLInfoRequestedR17 = new(struct{})
 	}
@@ -218166,7 +217680,6 @@ func UnmarshalUPERDLPRSQCLInfoReqR17DlPrsQCLInfoRecPerResourceR17From(bb *uper.B
 }
 
 func unmarshalUPERDLPRSQCLInfoReqR17DlPrsQCLInfoRecPerResourceR17Into(v *asn1cUPERDLPRSQCLInfoReqR17DlPrsQCLInfoRecPerResourceR17ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(DLPRSQCLInfoReqR17DlPrsQCLInfoRecPerResourceR17, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -218175,11 +217688,9 @@ func unmarshalUPERDLPRSQCLInfoReqR17DlPrsQCLInfoRecPerResourceR17Into(v *asn1cUP
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem DLPRSQCLInfoR16
-			elementMark := bb.PaddingIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
-			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -218187,7 +217698,6 @@ func unmarshalUPERDLPRSQCLInfoReqR17DlPrsQCLInfoRecPerResourceR17Into(v *asn1cUP
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -218398,7 +217908,6 @@ func UnmarshalUPERNROnDemandDLPRSRequestR17DlPRSAggregationIDPrefListR18From(bb 
 }
 
 func unmarshalUPERNROnDemandDLPRSRequestR17DlPRSAggregationIDPrefListR18Into(v *asn1cUPERNROnDemandDLPRSRequestR17DlPRSAggregationIDPrefListR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NROnDemandDLPRSRequestR17DlPRSAggregationIDPrefListR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -218417,7 +217926,6 @@ func unmarshalUPERNROnDemandDLPRSRequestR17DlPRSAggregationIDPrefListR18Into(v *
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -218512,7 +218020,6 @@ func UnmarshalUPERNROnDemandDLPRSRequestR17NrOnDemandDLPRSAggregationReqListR18F
 }
 
 func unmarshalUPERNROnDemandDLPRSRequestR17NrOnDemandDLPRSAggregationReqListR18Into(v *asn1cUPERNROnDemandDLPRSRequestR17NrOnDemandDLPRSAggregationReqListR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NROnDemandDLPRSRequestR17NrOnDemandDLPRSAggregationReqListR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1129
@@ -218520,12 +218027,10 @@ func unmarshalUPERNROnDemandDLPRSRequestR17NrOnDemandDLPRSAggregationReqListR18I
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i_value := int64(0); i_value < fragmentLength_value; i_value++ {
-			elementMark := bb.PaddingIndex(fragmentOffset_value + i_value)
 			elem, err := UnmarshalUPERNROnDemandDLPRSAggregationReqElementR18From(bb)
 			if err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i_value))
 			}
-			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -218533,7 +218038,6 @@ func unmarshalUPERNROnDemandDLPRSRequestR17NrOnDemandDLPRSAggregationReqListR18I
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -219041,7 +218545,6 @@ func UnmarshalUPERNRPRURSCPMeasElementR18NrPRURSRPAddSampleMeasurementsR18From(b
 }
 
 func unmarshalUPERNRPRURSCPMeasElementR18NrPRURSRPAddSampleMeasurementsR18Into(v *asn1cUPERNRPRURSCPMeasElementR18NrPRURSRPAddSampleMeasurementsR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NRPRURSCPMeasElementR18NrPRURSRPAddSampleMeasurementsR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -219060,7 +218563,6 @@ func unmarshalUPERNRPRURSCPMeasElementR18NrPRURSRPAddSampleMeasurementsR18Into(v
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -219155,7 +218657,6 @@ func UnmarshalUPERNRPRURSCPMeasElementR18NrPRUFirstPathRSRPResultDiffAddSampleMe
 }
 
 func unmarshalUPERNRPRURSCPMeasElementR18NrPRUFirstPathRSRPResultDiffAddSampleMeasurementsR18Into(v *asn1cUPERNRPRURSCPMeasElementR18NrPRUFirstPathRSRPResultDiffAddSampleMeasurementsR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NRPRURSCPMeasElementR18NrPRUFirstPathRSRPResultDiffAddSampleMeasurementsR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -219174,7 +218675,6 @@ func unmarshalUPERNRPRURSCPMeasElementR18NrPRUFirstPathRSRPResultDiffAddSampleMe
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -219385,7 +218885,6 @@ func UnmarshalUPERNRPRURSCPAdditionalMeasurementElementR18NrPRURSRPDiffAdditiona
 }
 
 func unmarshalUPERNRPRURSCPAdditionalMeasurementElementR18NrPRURSRPDiffAdditionalMeasurementsListR18Into(v *asn1cUPERNRPRURSCPAdditionalMeasurementElementR18NrPRURSRPDiffAdditionalMeasurementsListR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NRPRURSCPAdditionalMeasurementElementR18NrPRURSRPDiffAdditionalMeasurementsListR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -219404,7 +218903,6 @@ func unmarshalUPERNRPRURSCPAdditionalMeasurementElementR18NrPRURSRPDiffAdditiona
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -219499,7 +218997,6 @@ func UnmarshalUPERNRPRURSCPAdditionalMeasurementElementR18NrPRUFirstPathRSRPResu
 }
 
 func unmarshalUPERNRPRURSCPAdditionalMeasurementElementR18NrPRUFirstPathRSRPResultDiffAdditionalMeasurementsListR18Into(v *asn1cUPERNRPRURSCPAdditionalMeasurementElementR18NrPRUFirstPathRSRPResultDiffAdditionalMeasurementsListR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NRPRURSCPAdditionalMeasurementElementR18NrPRUFirstPathRSRPResultDiffAdditionalMeasurementsListR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -219518,7 +219015,6 @@ func unmarshalUPERNRPRURSCPAdditionalMeasurementElementR18NrPRUFirstPathRSRPResu
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -221467,21 +220963,17 @@ func (v *ReferencePointR16ReferencePointGeographicLocationR16) UnmarshalUPERFrom
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case ReferencePointR16ReferencePointGeographicLocationR16ChoiceLocation3DR16:
-		paddingMark_location3dr16 := bb.PaddingComponent("Location3DR16")
 		var dec_location3dr16 EllipsoidPointWithAltitudeAndUncertaintyEllipsoid
 		if err := dec_location3dr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "Location3DR16")
 		}
 		v.Location3DR16 = &dec_location3dr16
-		bb.LeaveComponent(paddingMark_location3dr16)
 	case ReferencePointR16ReferencePointGeographicLocationR16ChoiceHaLocation3DR16:
-		paddingMark_halocation3dr16 := bb.PaddingComponent("HaLocation3DR16")
 		var dec_halocation3dr16 HighAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoidR15
 		if err := dec_halocation3dr16.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "HaLocation3DR16")
 		}
 		v.HaLocation3DR16 = &dec_halocation3dr16
-		bb.LeaveComponent(paddingMark_halocation3dr16)
 	}
 	return nil
 }
@@ -221994,7 +221486,6 @@ func (v *PRSInfoPrsHoppingInfoR14) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		}
 		v.Nb2R14 = &val_nb2r14
 	case PRSInfoPrsHoppingInfoR14ChoiceNb4R14:
-		paddingMark_nb4r14 := bb.PaddingComponent("Nb4R14")
 		tmp_nb4r14 := make(PRSInfoPrsHoppingInfoR14Nb4R14, 0)
 		_, errCollection_nb4r14 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nb4r14, fragmentLength_nb4r14 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -222014,7 +221505,6 @@ func (v *PRSInfoPrsHoppingInfoR14) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_nb4r14, "Nb4R14")
 		}
 		v.Nb4R14 = tmp_nb4r14
-		bb.LeaveComponent(paddingMark_nb4r14)
 	}
 	return nil
 }
@@ -222110,7 +221600,6 @@ func UnmarshalUPERPRSInfoPrsHoppingInfoR14Nb4R14From(bb *uper.BitBuffer) (PRSInf
 }
 
 func unmarshalUPERPRSInfoPrsHoppingInfoR14Nb4R14Into(v *asn1cUPERPRSInfoPrsHoppingInfoR14Nb4R14ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(PRSInfoPrsHoppingInfoR14Nb4R14, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 3, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -222129,7 +221618,6 @@ func unmarshalUPERPRSInfoPrsHoppingInfoR14Nb4R14Into(v *asn1cUPERPRSInfoPrsHoppi
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -222356,19 +221844,15 @@ func (v *NPRSInfoR14PartAR14) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	paddingMark_nprsbitmapr14 := bb.PaddingComponent("NprsBitmapR14")
 	if err := v.NprsBitmapR14.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NprsBitmapR14")
 	}
-	bb.LeaveComponent(paddingMark_nprsbitmapr14)
 	if opt_nprsmutinginfoar14 {
-		paddingMark_nprsmutinginfoar14 := bb.PaddingComponent("NprsMutingInfoAR14")
 		var dec_nprsmutinginfoar14 NPRSInfoR14PartAR14NprsMutingInfoAR14
 		if err := dec_nprsmutinginfoar14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NprsMutingInfoAR14")
 		}
 		v.NprsMutingInfoAR14 = &dec_nprsmutinginfoar14
-		bb.LeaveComponent(paddingMark_nprsmutinginfoar14)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -222854,13 +222338,11 @@ func (v *NPRSInfoR14PartBR14) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.NprsNumSFR14 = val_nprsnumsfr14
 	if opt_nprsmutinginfobr14 {
-		paddingMark_nprsmutinginfobr14 := bb.PaddingComponent("NprsMutingInfoBR14")
 		var dec_nprsmutinginfobr14 NPRSInfoR14PartBR14NprsMutingInfoBR14
 		if err := dec_nprsmutinginfobr14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NprsMutingInfoBR14")
 		}
 		v.NprsMutingInfoBR14 = &dec_nprsmutinginfobr14
-		bb.LeaveComponent(paddingMark_nprsmutinginfobr14)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -223252,19 +222734,15 @@ func (v *NPRSInfoR14PartATDDR15) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	paddingMark_nprsbitmapr15 := bb.PaddingComponent("NprsBitmapR15")
 	if err := v.NprsBitmapR15.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NprsBitmapR15")
 	}
-	bb.LeaveComponent(paddingMark_nprsbitmapr15)
 	if opt_nprsmutinginfoar15 {
-		paddingMark_nprsmutinginfoar15 := bb.PaddingComponent("NprsMutingInfoAR15")
 		var dec_nprsmutinginfoar15 NPRSInfoR14PartATDDR15NprsMutingInfoAR15
 		if err := dec_nprsmutinginfoar15.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NprsMutingInfoAR15")
 		}
 		v.NprsMutingInfoAR15 = &dec_nprsmutinginfoar15
-		bb.LeaveComponent(paddingMark_nprsmutinginfoar15)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
@@ -223705,7 +223183,6 @@ func UnmarshalUPEROTDOAProvideCapabilitiesSupportedBandListEUTRAFrom(bb *uper.Bi
 }
 
 func unmarshalUPEROTDOAProvideCapabilitiesSupportedBandListEUTRAInto(v *asn1cUPEROTDOAProvideCapabilitiesSupportedBandListEUTRAListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(OTDOAProvideCapabilitiesSupportedBandListEUTRA, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -223714,11 +223191,9 @@ func unmarshalUPEROTDOAProvideCapabilitiesSupportedBandListEUTRAInto(v *asn1cUPE
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SupportedBandEUTRA
-			elementMark := bb.PaddingIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
-			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -223726,7 +223201,6 @@ func unmarshalUPEROTDOAProvideCapabilitiesSupportedBandListEUTRAInto(v *asn1cUPE
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -223821,7 +223295,6 @@ func UnmarshalUPEROTDOAProvideCapabilitiesSupportedBandListEUTRAV9a0From(bb *upe
 }
 
 func unmarshalUPEROTDOAProvideCapabilitiesSupportedBandListEUTRAV9a0Into(v *asn1cUPEROTDOAProvideCapabilitiesSupportedBandListEUTRAV9a0ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(OTDOAProvideCapabilitiesSupportedBandListEUTRAV9a0, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1083
@@ -223830,11 +223303,9 @@ func unmarshalUPEROTDOAProvideCapabilitiesSupportedBandListEUTRAV9a0Into(v *asn1
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SupportedBandEUTRAV9a0
-			elementMark := bb.PaddingIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
-			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -223842,7 +223313,6 @@ func unmarshalUPEROTDOAProvideCapabilitiesSupportedBandListEUTRAV9a0Into(v *asn1
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -225347,13 +224817,11 @@ func (v *NetworkTimeCellIDNBIoTR14) UnmarshalUPERFrom(bb *uper.BitBuffer) error 
 	}
 	v.NbPhysCellIdR14 = val_nbphyscellidr14
 	if opt_nbcellglobalidr14 {
-		paddingMark_nbcellglobalidr14 := bb.PaddingComponent("NbCellGlobalIdR14")
 		var dec_nbcellglobalidr14 ECGI
 		if err := dec_nbcellglobalidr14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NbCellGlobalIdR14")
 		}
 		v.NbCellGlobalIdR14 = &dec_nbcellglobalidr14
-		bb.LeaveComponent(paddingMark_nbcellglobalidr14)
 	}
 	toleranceMark_nbcarrierfreqr14 := bb.EnterComponent("NbCarrierFreqR14")
 	if err := v.NbCarrierFreqR14.UnmarshalUPERFrom(bb); err != nil {
@@ -225524,13 +224992,11 @@ func (v *NetworkTimeCellIDNrR15) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	v.NrPhysCellIdR15 = val_nrphyscellidr15
 	if opt_nrcellglobalidr15 {
-		paddingMark_nrcellglobalidr15 := bb.PaddingComponent("NrCellGlobalIDR15")
 		var dec_nrcellglobalidr15 NCGIR15
 		if err := dec_nrcellglobalidr15.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR15")
 		}
 		v.NrCellGlobalIDR15 = &dec_nrcellglobalidr15
-		bb.LeaveComponent(paddingMark_nrcellglobalidr15)
 	}
 	val_nrarfcnr15, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(3279165), false)
 	if err != nil {
@@ -226015,11 +225481,9 @@ func (v *NavModelNAVKeplerianSetAddNAVparam) UnmarshalUPERFrom(bb *uper.BitBuffe
 		return runtime.WrapDecodePath(err, "EphemL2Pflag")
 	}
 	v.EphemL2Pflag = val_epheml2pflag
-	paddingMark_ephemsf1rsvd := bb.PaddingComponent("EphemSF1Rsvd")
 	if err := v.EphemSF1Rsvd.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "EphemSF1Rsvd")
 	}
-	bb.LeaveComponent(paddingMark_ephemsf1rsvd)
 	val_ephemaoda, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(31), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "EphemAODA")
@@ -226408,7 +225872,6 @@ func UnmarshalUPERReqNavListInfoClockModelIDPrefListFrom(bb *uper.BitBuffer) (Re
 }
 
 func unmarshalUPERReqNavListInfoClockModelIDPrefListInto(v *asn1cUPERReqNavListInfoClockModelIDPrefListListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(ReqNavListInfoClockModelIDPrefList, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -226427,7 +225890,6 @@ func unmarshalUPERReqNavListInfoClockModelIDPrefListInto(v *asn1cUPERReqNavListI
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -226522,7 +225984,6 @@ func UnmarshalUPERReqNavListInfoOrbitModelIDPrefListFrom(bb *uper.BitBuffer) (Re
 }
 
 func unmarshalUPERReqNavListInfoOrbitModelIDPrefListInto(v *asn1cUPERReqNavListInfoOrbitModelIDPrefListListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(ReqNavListInfoOrbitModelIDPrefList, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -226541,7 +226002,6 @@ func unmarshalUPERReqNavListInfoOrbitModelIDPrefListInto(v *asn1cUPERReqNavListI
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -228114,13 +227574,11 @@ func (v *MeasurementReferenceTimeNetworkTimeNbIoTR14) UnmarshalUPERFrom(bb *uper
 	}
 	v.NbPhysCellIdR14 = val_nbphyscellidr14
 	if opt_nbcellglobalidr14 {
-		paddingMark_nbcellglobalidr14 := bb.PaddingComponent("NbCellGlobalIdR14")
 		var dec_nbcellglobalidr14 ECGI
 		if err := dec_nbcellglobalidr14.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NbCellGlobalIdR14")
 		}
 		v.NbCellGlobalIdR14 = &dec_nbcellglobalidr14
-		bb.LeaveComponent(paddingMark_nbcellglobalidr14)
 	}
 	bsBytes_sfnr14, bsBitLen_sfnr14, err := uper.DecodeBitStringExt(bb, 10, 10, true, false)
 	if err != nil {
@@ -228299,13 +227757,11 @@ func (v *MeasurementReferenceTimeNetworkTimeNrR15) UnmarshalUPERFrom(bb *uper.Bi
 	}
 	v.NrPhysCellIdR15 = val_nrphyscellidr15
 	if opt_nrcellglobalidr15 {
-		paddingMark_nrcellglobalidr15 := bb.PaddingComponent("NrCellGlobalIDR15")
 		var dec_nrcellglobalidr15 NCGIR15
 		if err := dec_nrcellglobalidr15.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrCellGlobalIDR15")
 		}
 		v.NrCellGlobalIDR15 = &dec_nrcellglobalidr15
-		bb.LeaveComponent(paddingMark_nrcellglobalidr15)
 	}
 	bsBytes_nrsfnr15, bsBitLen_nrsfnr15, err := uper.DecodeBitStringExt(bb, 10, 10, true, false)
 	if err != nil {
@@ -231616,7 +231072,6 @@ func (v *NRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18)
 		return err
 	}
 	if opt_nrdlprsjointmeasurementrequestedpfllistr18 {
-		paddingMark_nrdlprsjointmeasurementrequestedpfllistr18 := bb.PaddingComponent("NrDLPRSJointMeasurementRequestedPFLListR18")
 		tmp_nrdlprsjointmeasurementrequestedpfllistr18 := make(NRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18, 0)
 		_, errCollection_nrdlprsjointmeasurementrequestedpfllistr18 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nrdlprsjointmeasurementrequestedpfllistr18, fragmentLength_nrdlprsjointmeasurementrequestedpfllistr18 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -231636,7 +231091,6 @@ func (v *NRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18)
 			return runtime.WrapDecodePath(errCollection_nrdlprsjointmeasurementrequestedpfllistr18, "NrDLPRSJointMeasurementRequestedPFLListR18")
 		}
 		v.NrDLPRSJointMeasurementRequestedPFLListR18 = tmp_nrdlprsjointmeasurementrequestedpfllistr18
-		bb.LeaveComponent(paddingMark_nrdlprsjointmeasurementrequestedpfllistr18)
 	}
 	return nil
 }
@@ -231732,7 +231186,6 @@ func UnmarshalUPERNRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRe
 }
 
 func unmarshalUPERNRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18Into(v *asn1cUPERNRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -231751,7 +231204,6 @@ func unmarshalUPERNRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRe
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -231812,13 +231264,11 @@ func (v *NRDLTDOARequestLocationInformationR16NrDLPRSRxHoppingRequestR18) Unmars
 		return err
 	}
 	if opt_nrdlprsrxhoppingtotalbandwidthr18 {
-		paddingMark_nrdlprsrxhoppingtotalbandwidthr18 := bb.PaddingComponent("NrDLPRSRxHoppingTotalBandwidthR18")
 		var dec_nrdlprsrxhoppingtotalbandwidthr18 NRDLTDOARequestLocationInformationR16NrDLPRSRxHoppingRequestR18NrDLPRSRxHoppingTotalBandwidthR18
 		if err := dec_nrdlprsrxhoppingtotalbandwidthr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingTotalBandwidthR18")
 		}
 		v.NrDLPRSRxHoppingTotalBandwidthR18 = &dec_nrdlprsrxhoppingtotalbandwidthr18
-		bb.LeaveComponent(paddingMark_nrdlprsrxhoppingtotalbandwidthr18)
 	}
 	return nil
 }
@@ -233027,13 +232477,11 @@ func (v *NRDLAoDRequestLocationInformationR16NrDLPRSRxHoppingRequestR18) Unmarsh
 		return err
 	}
 	if opt_nrdlprsrxhoppingtotalbandwidthr18 {
-		paddingMark_nrdlprsrxhoppingtotalbandwidthr18 := bb.PaddingComponent("NrDLPRSRxHoppingTotalBandwidthR18")
 		var dec_nrdlprsrxhoppingtotalbandwidthr18 NRDLAoDRequestLocationInformationR16NrDLPRSRxHoppingRequestR18NrDLPRSRxHoppingTotalBandwidthR18
 		if err := dec_nrdlprsrxhoppingtotalbandwidthr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingTotalBandwidthR18")
 		}
 		v.NrDLPRSRxHoppingTotalBandwidthR18 = &dec_nrdlprsrxhoppingtotalbandwidthr18
-		bb.LeaveComponent(paddingMark_nrdlprsrxhoppingtotalbandwidthr18)
 	}
 	return nil
 }
@@ -235445,7 +234893,6 @@ func UnmarshalUPERNRSRSTxTEGElementR17SrsPosResourceListR17From(bb *uper.BitBuff
 }
 
 func unmarshalUPERNRSRSTxTEGElementR17SrsPosResourceListR17Into(v *asn1cUPERNRSRSTxTEGElementR17SrsPosResourceListR17ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NRSRSTxTEGElementR17SrsPosResourceListR17, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -235464,7 +234911,6 @@ func unmarshalUPERNRSRSTxTEGElementR17SrsPosResourceListR17Into(v *asn1cUPERNRSR
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 
@@ -235854,13 +235300,11 @@ func (v *NRMultiRTTRequestLocationInformationR16NrDLPRSRxHoppingRequestR18) Unma
 		return err
 	}
 	if opt_nrdlprsrxhoppingtotalbandwidthr18 {
-		paddingMark_nrdlprsrxhoppingtotalbandwidthr18 := bb.PaddingComponent("NrDLPRSRxHoppingTotalBandwidthR18")
 		var dec_nrdlprsrxhoppingtotalbandwidthr18 NRMultiRTTRequestLocationInformationR16NrDLPRSRxHoppingRequestR18NrDLPRSRxHoppingTotalBandwidthR18
 		if err := dec_nrdlprsrxhoppingtotalbandwidthr18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrDLPRSRxHoppingTotalBandwidthR18")
 		}
 		v.NrDLPRSRxHoppingTotalBandwidthR18 = &dec_nrdlprsrxhoppingtotalbandwidthr18
-		bb.LeaveComponent(paddingMark_nrdlprsrxhoppingtotalbandwidthr18)
 	}
 	return nil
 }
@@ -236029,7 +235473,6 @@ func (v *NRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR1
 		return err
 	}
 	if opt_nrdlprsjointmeasurementrequestedpfllistr18 {
-		paddingMark_nrdlprsjointmeasurementrequestedpfllistr18 := bb.PaddingComponent("NrDLPRSJointMeasurementRequestedPFLListR18")
 		tmp_nrdlprsjointmeasurementrequestedpfllistr18 := make(NRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18, 0)
 		_, errCollection_nrdlprsjointmeasurementrequestedpfllistr18 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nrdlprsjointmeasurementrequestedpfllistr18, fragmentLength_nrdlprsjointmeasurementrequestedpfllistr18 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -236049,7 +235492,6 @@ func (v *NRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR1
 			return runtime.WrapDecodePath(errCollection_nrdlprsjointmeasurementrequestedpfllistr18, "NrDLPRSJointMeasurementRequestedPFLListR18")
 		}
 		v.NrDLPRSJointMeasurementRequestedPFLListR18 = tmp_nrdlprsjointmeasurementrequestedpfllistr18
-		bb.LeaveComponent(paddingMark_nrdlprsjointmeasurementrequestedpfllistr18)
 	}
 	return nil
 }
@@ -236145,7 +235587,6 @@ func UnmarshalUPERNRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurement
 }
 
 func unmarshalUPERNRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18Into(v *asn1cUPERNRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18ListValue, bb *uper.BitBuffer) error {
-	paddingMark_value := bb.PaddingComponent("Value")
 	v.Value = make(NRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 2, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1110
@@ -236164,7 +235605,6 @@ func unmarshalUPERNRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurement
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(paddingMark_value)
 	return nil
 }
 

@@ -1,6 +1,6 @@
 // Code generated from LPP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer.go; SHA-256 4790aed9ce09c07669185fa4a22df7330bd8c6c7290d7869f1175774dce86ced.
+// Runtime source: runtime/uper/bitbuffer.go; SHA-256 0972c531bff1d6fdb05b79fe2d57da407896a3ae693cdf6dccd37facae9defb5.
 package uper
 
 import (
@@ -174,13 +174,23 @@ func NewBitBufferFromBits(data []byte, bitLen int) (*BitBuffer, error) {
 // Generated entry points keep this storage on the stack; nested buffers share
 // it. A nil budget is allocated lazily on the first read.
 func NewDecodeBuffer(data []byte, budget *DecodeBudget) *BitBuffer {
+	state := newDecodeBuffer(data, budget)
+	return &state
+}
+
+// newDecodeBuffer keeps bounds checks and default-limit initialization in the
+// runtime instead of copying them into every generated entry point. Returning
+// the state by value lets the public constructor keep caller-owned storage.
+//
+//go:noinline
+func newDecodeBuffer(data []byte, budget *DecodeBudget) BitBuffer {
 	if budget != nil {
 		*budget = DecodeBudget{limits: DefaultDecodeLimits()}
 	}
 	if len(data) > math.MaxInt/8 {
-		return &BitBuffer{data: data, invalidLength: true, budget: budget}
+		return BitBuffer{data: data, invalidLength: true, budget: budget}
 	}
-	return &BitBuffer{
+	return BitBuffer{
 		data:   data,
 		bitLen: len(data) * 8,
 		budget: budget,

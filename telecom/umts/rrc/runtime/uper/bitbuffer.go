@@ -1,6 +1,6 @@
 // Code generated from UMTS RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer.go; SHA-256 2135a2e936cef630008f261a52dec76d5fdf3f63635e68e9cf90abd43e085fe5.
+// Runtime source: runtime/uper/bitbuffer.go; SHA-256 1bbbfe20ce0a8904c02e59df6f3578cad934205ab6adde5d2f3139aeee71bb79.
 package uper
 
 import (
@@ -173,13 +173,23 @@ func NewBitBufferFromBytes(data []byte) *BitBuffer {
 // Generated entry points keep this storage on the stack; nested buffers share
 // it. A nil budget is allocated lazily on the first read.
 func NewDecodeBuffer(data []byte, budget *DecodeBudget) *BitBuffer {
+	state := newDecodeBuffer(data, budget)
+	return &state
+}
+
+// newDecodeBuffer keeps bounds checks and default-limit initialization in the
+// runtime instead of copying them into every generated entry point. Returning
+// the state by value lets the public constructor keep caller-owned storage.
+//
+//go:noinline
+func newDecodeBuffer(data []byte, budget *DecodeBudget) BitBuffer {
 	if budget != nil {
 		*budget = DecodeBudget{limits: DefaultDecodeLimits()}
 	}
 	if len(data) > math.MaxInt/8 {
-		return &BitBuffer{data: data, invalidLength: true, budget: budget}
+		return BitBuffer{data: data, invalidLength: true, budget: budget}
 	}
-	return &BitBuffer{
+	return BitBuffer{
 		data:   data,
 		bitLen: len(data) * 8,
 		budget: budget,
