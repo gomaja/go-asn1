@@ -586,12 +586,12 @@ identifiers and raw values from the package's own runtime:
 | `telecom/lte/lpp` | `telecom/lte/lpp/runtime` | `telecom/lte/lpp/runtime/uper` |
 | `telecom/umts/rrc` | `telecom/umts/rrc/runtime` | `telecom/umts/rrc/runtime/uper` |
 
-The encoding-rules packages keep the shared `runtime/per` names for the parts
-they provide, and the PER sections below use those names. For example,
-`per.ErrExtraData` becomes `ErrExtraData` from
+The encoding-rules packages keep the names of the former shared `runtime/per`
+for the parts they provide, and the PER sections below use those names. For
+example, `per.ErrExtraData` becomes `ErrExtraData` from
 `telecom/lte/s1ap/runtime/aper` for S1AP, and `per.ErrTruncated` becomes
-`ErrTruncated` from `telecom/lte/rrc/runtime/uper` for LTE RRC. No generated
-package imports `runtime/per` any more; it stays in the module, unchanged.
+`ErrTruncated` from `telecom/lte/rrc/runtime/uper` for LTE RRC. The shared
+`runtime/per` itself is removed, since no generated package imports it.
 
 #### LPP and UMTS RRC callers
 
@@ -611,7 +611,8 @@ neither uses, such as the APER functions, have no counterpart there:
   options.
 - Compare tolerance kinds by name. LPP's runtime carries only the kinds LPP
   can produce, so their numeric values differ from the shared runtime's: for
-  example, its `ToleratedTruncatedExtension` is 2, where `runtime/per`'s is 3.
+  example, its `ToleratedTruncatedExtension` is 2, where the former shared
+  `runtime/per` used 3.
 
 UMTS RRC's `TrailingBitsTolerance` now covers the outer PDU only, the
 extension and padding parts of TS 25.331 V19.0.1 §12.1.3. Bits after a value
