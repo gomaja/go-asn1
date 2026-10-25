@@ -9,202 +9,202 @@ import (
 	big "math/big"
 )
 
-// PrivateMessageIEsValuePrivateTable is the concrete PrivateTable[PrivateMessageIEsValue].
+// PrivateMessageIEsValuePrivateTable is the bound table for PrivateMessageIEs of TS 36.413.
 type PrivateMessageIEsValuePrivateTable struct{ bound bool }
 
-// AdditionalGUTIExtIEsValueExtensionTable is the concrete ExtensionTable[AdditionalGUTIExtIEsValue].
+// AdditionalGUTIExtIEsValueExtensionTable is the bound table for Additional-GUTI-ExtIEs of TS 36.413.
 type AdditionalGUTIExtIEsValueExtensionTable struct{ bound bool }
 
-// AllocationAndRetentionPriorityExtIEsValueExtensionTable is the concrete ExtensionTable[AllocationAndRetentionPriorityExtIEsValue].
+// AllocationAndRetentionPriorityExtIEsValueExtensionTable is the bound table for AllocationAndRetentionPriority-ExtIEs of TS 36.413.
 type AllocationAndRetentionPriorityExtIEsValueExtensionTable struct{ bound bool }
 
-// AssistanceDataForPagingExtIEsValueExtensionTable is the concrete ExtensionTable[AssistanceDataForPagingExtIEsValue].
+// AssistanceDataForPagingExtIEsValueExtensionTable is the bound table for AssistanceDataForPaging-ExtIEs of TS 36.413.
 type AssistanceDataForPagingExtIEsValueExtensionTable struct{ bound bool }
 
-// AssistanceDataForRecommendedCellsExtIEsValueExtensionTable is the concrete ExtensionTable[AssistanceDataForRecommendedCellsExtIEsValue].
+// AssistanceDataForRecommendedCellsExtIEsValueExtensionTable is the bound table for AssistanceDataForRecommendedCells-ExtIEs of TS 36.413.
 type AssistanceDataForRecommendedCellsExtIEsValueExtensionTable struct{ bound bool }
 
-// BearersSubjectToDLDiscardingItemExtIEsValueExtensionTable is the concrete ExtensionTable[BearersSubjectToDLDiscardingItemExtIEsValue].
+// BearersSubjectToDLDiscardingItemExtIEsValueExtensionTable is the bound table for Bearers-SubjectToDLDiscarding-ItemExtIEs of TS 36.413.
 type BearersSubjectToDLDiscardingItemExtIEsValueExtensionTable struct{ bound bool }
 
-// BearersSubjectToDLDiscardingItemIEValueIETable is the concrete IETable[BearersSubjectToDLDiscardingItemIEValue].
+// BearersSubjectToDLDiscardingItemIEValueIETable is the bound table for Bearers-SubjectToDLDiscarding-ItemIEs of TS 36.413.
 type BearersSubjectToDLDiscardingItemIEValueIETable struct{ bound bool }
 
-// BearersSubjectToEarlyStatusTransferItemExtIEsValueExtensionTable is the concrete ExtensionTable[BearersSubjectToEarlyStatusTransferItemExtIEsValue].
+// BearersSubjectToEarlyStatusTransferItemExtIEsValueExtensionTable is the bound table for Bearers-SubjectToEarlyStatusTransfer-ItemExtIEs of TS 36.413.
 type BearersSubjectToEarlyStatusTransferItemExtIEsValueExtensionTable struct{ bound bool }
 
-// BearersSubjectToEarlyStatusTransferItemIEValueIETable is the concrete IETable[BearersSubjectToEarlyStatusTransferItemIEValue].
+// BearersSubjectToEarlyStatusTransferItemIEValueIETable is the bound table for Bearers-SubjectToEarlyStatusTransfer-ItemIEs of TS 36.413.
 type BearersSubjectToEarlyStatusTransferItemIEValueIETable struct{ bound bool }
 
-// BearersSubjectToStatusTransferItemExtIEsValueExtensionTable is the concrete ExtensionTable[BearersSubjectToStatusTransferItemExtIEsValue].
+// BearersSubjectToStatusTransferItemExtIEsValueExtensionTable is the bound table for Bearers-SubjectToStatusTransfer-ItemExtIEs of TS 36.413.
 type BearersSubjectToStatusTransferItemExtIEsValueExtensionTable struct{ bound bool }
 
-// BearersSubjectToStatusTransferItemIEValueIETable is the concrete IETable[BearersSubjectToStatusTransferItemIEValue].
+// BearersSubjectToStatusTransferItemIEValueIETable is the bound table for Bearers-SubjectToStatusTransfer-ItemIEs of TS 36.413.
 type BearersSubjectToStatusTransferItemIEValueIETable struct{ bound bool }
 
-// BluetoothMeasurementConfigurationExtIEsValueExtensionTable is the concrete ExtensionTable[BluetoothMeasurementConfigurationExtIEsValue].
+// BluetoothMeasurementConfigurationExtIEsValueExtensionTable is the bound table for BluetoothMeasurementConfiguration-ExtIEs of TS 36.413.
 type BluetoothMeasurementConfigurationExtIEsValueExtensionTable struct{ bound bool }
 
-// CGIExtIEsValueExtensionTable is the concrete ExtensionTable[CGIExtIEsValue].
+// CGIExtIEsValueExtensionTable is the bound table for CGI-ExtIEs of TS 36.413.
 type CGIExtIEsValueExtensionTable struct{ bound bool }
 
-// CNTypeRestrictionsItemExtIEsValueExtensionTable is the concrete ExtensionTable[CNTypeRestrictionsItemExtIEsValue].
+// CNTypeRestrictionsItemExtIEsValueExtensionTable is the bound table for CNTypeRestrictions-Item-ExtIEs of TS 36.413.
 type CNTypeRestrictionsItemExtIEsValueExtensionTable struct{ bound bool }
 
-// COUNTValueExtendedExtIEsValueExtensionTable is the concrete ExtensionTable[COUNTValueExtendedExtIEsValue].
+// COUNTValueExtendedExtIEsValueExtensionTable is the bound table for COUNTValueExtended-ExtIEs of TS 36.413.
 type COUNTValueExtendedExtIEsValueExtensionTable struct{ bound bool }
 
-// COUNTvalueExtIEsValueExtensionTable is the concrete ExtensionTable[COUNTvalueExtIEsValue].
+// COUNTvalueExtIEsValueExtensionTable is the bound table for COUNTvalue-ExtIEs of TS 36.413.
 type COUNTvalueExtIEsValueExtensionTable struct{ bound bool }
 
-// COUNTvaluePDCPSNlength18ExtIEsValueExtensionTable is the concrete ExtensionTable[COUNTvaluePDCPSNlength18ExtIEsValue].
+// COUNTvaluePDCPSNlength18ExtIEsValueExtensionTable is the bound table for COUNTvaluePDCP-SNlength18-ExtIEs of TS 36.413.
 type COUNTvaluePDCPSNlength18ExtIEsValueExtensionTable struct{ bound bool }
 
-// CSGIdListItemExtIEsValueExtensionTable is the concrete ExtensionTable[CSGIdListItemExtIEsValue].
+// CSGIdListItemExtIEsValueExtensionTable is the bound table for CSG-IdList-Item-ExtIEs of TS 36.413.
 type CSGIdListItemExtIEsValueExtensionTable struct{ bound bool }
 
-// CancelledCellinEAIItemExtIEsValueExtensionTable is the concrete ExtensionTable[CancelledCellinEAIItemExtIEsValue].
+// CancelledCellinEAIItemExtIEsValueExtensionTable is the bound table for CancelledCellinEAI-Item-ExtIEs of TS 36.413.
 type CancelledCellinEAIItemExtIEsValueExtensionTable struct{ bound bool }
 
-// CancelledCellinTAIItemExtIEsValueExtensionTable is the concrete ExtensionTable[CancelledCellinTAIItemExtIEsValue].
+// CancelledCellinTAIItemExtIEsValueExtensionTable is the bound table for CancelledCellinTAI-Item-ExtIEs of TS 36.413.
 type CancelledCellinTAIItemExtIEsValueExtensionTable struct{ bound bool }
 
-// Cdma2000OneXSRVCCInfoExtIEsValueExtensionTable is the concrete ExtensionTable[Cdma2000OneXSRVCCInfoExtIEsValue].
+// Cdma2000OneXSRVCCInfoExtIEsValueExtensionTable is the bound table for Cdma2000OneXSRVCCInfo-ExtIEs of TS 36.413.
 type Cdma2000OneXSRVCCInfoExtIEsValueExtensionTable struct{ bound bool }
 
-// CellBasedMDTExtIEsValueExtensionTable is the concrete ExtensionTable[CellBasedMDTExtIEsValue].
+// CellBasedMDTExtIEsValueExtensionTable is the bound table for CellBasedMDT-ExtIEs of TS 36.413.
 type CellBasedMDTExtIEsValueExtensionTable struct{ bound bool }
 
-// CellBasedQMCExtIEsValueExtensionTable is the concrete ExtensionTable[CellBasedQMCExtIEsValue].
+// CellBasedQMCExtIEsValueExtensionTable is the bound table for CellBasedQMC-ExtIEs of TS 36.413.
 type CellBasedQMCExtIEsValueExtensionTable struct{ bound bool }
 
-// CellIDBroadcastItemExtIEsValueExtensionTable is the concrete ExtensionTable[CellIDBroadcastItemExtIEsValue].
+// CellIDBroadcastItemExtIEsValueExtensionTable is the bound table for CellID-Broadcast-Item-ExtIEs of TS 36.413.
 type CellIDBroadcastItemExtIEsValueExtensionTable struct{ bound bool }
 
-// CellIDCancelledItemExtIEsValueExtensionTable is the concrete ExtensionTable[CellIDCancelledItemExtIEsValue].
+// CellIDCancelledItemExtIEsValueExtensionTable is the bound table for CellID-Cancelled-Item-ExtIEs of TS 36.413.
 type CellIDCancelledItemExtIEsValueExtensionTable struct{ bound bool }
 
-// CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTable is the concrete ExtensionTable[CellIdentifierAndCELevelForCECapableUEsExtIEsValue].
+// CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTable is the bound table for CellIdentifierAndCELevelForCECapableUEs-ExtIEs of TS 36.413.
 type CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTable struct{ bound bool }
 
-// CellTypeExtIEsValueExtensionTable is the concrete ExtensionTable[CellTypeExtIEsValue].
+// CellTypeExtIEsValueExtensionTable is the bound table for CellType-ExtIEs of TS 36.413.
 type CellTypeExtIEsValueExtensionTable struct{ bound bool }
 
-// CompletedCellinEAIItemExtIEsValueExtensionTable is the concrete ExtensionTable[CompletedCellinEAIItemExtIEsValue].
+// CompletedCellinEAIItemExtIEsValueExtensionTable is the bound table for CompletedCellinEAI-Item-ExtIEs of TS 36.413.
 type CompletedCellinEAIItemExtIEsValueExtensionTable struct{ bound bool }
 
-// CompletedCellinTAIItemExtIEsValueExtensionTable is the concrete ExtensionTable[CompletedCellinTAIItemExtIEsValue].
+// CompletedCellinTAIItemExtIEsValueExtensionTable is the bound table for CompletedCellinTAI-Item-ExtIEs of TS 36.413.
 type CompletedCellinTAIItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ConnectedengNBItemExtIEsValueExtensionTable is the concrete ExtensionTable[ConnectedengNBItemExtIEsValue].
+// ConnectedengNBItemExtIEsValueExtensionTable is the bound table for ConnectedengNBItem-ExtIEs of TS 36.413.
 type ConnectedengNBItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ContextatSourceExtIEsValueExtensionTable is the concrete ExtensionTable[ContextatSourceExtIEsValue].
+// ContextatSourceExtIEsValueExtensionTable is the bound table for ContextatSource-ExtIEs of TS 36.413.
 type ContextatSourceExtIEsValueExtensionTable struct{ bound bool }
 
-// CriticalityDiagnosticsExtIEsValueExtensionTable is the concrete ExtensionTable[CriticalityDiagnosticsExtIEsValue].
+// CriticalityDiagnosticsExtIEsValueExtensionTable is the bound table for CriticalityDiagnostics-ExtIEs of TS 36.413.
 type CriticalityDiagnosticsExtIEsValueExtensionTable struct{ bound bool }
 
-// CriticalityDiagnosticsIEItemExtIEsValueExtensionTable is the concrete ExtensionTable[CriticalityDiagnosticsIEItemExtIEsValue].
+// CriticalityDiagnosticsIEItemExtIEsValueExtensionTable is the bound table for CriticalityDiagnostics-IE-Item-ExtIEs of TS 36.413.
 type CriticalityDiagnosticsIEItemExtIEsValueExtensionTable struct{ bound bool }
 
-// DAPSRequestInfoExtIEsValueExtensionTable is the concrete ExtensionTable[DAPSRequestInfoExtIEsValue].
+// DAPSRequestInfoExtIEsValueExtensionTable is the bound table for DAPSRequestInfo-ExtIEs of TS 36.413.
 type DAPSRequestInfoExtIEsValueExtensionTable struct{ bound bool }
 
-// DAPSResponseInfoExtIEsValueExtensionTable is the concrete ExtensionTable[DAPSResponseInfoExtIEsValue].
+// DAPSResponseInfoExtIEsValueExtensionTable is the bound table for DAPSResponseInfo-ExtIEs of TS 36.413.
 type DAPSResponseInfoExtIEsValueExtensionTable struct{ bound bool }
 
-// DAPSResponseInfoItemExtIEsValueExtensionTable is the concrete ExtensionTable[DAPSResponseInfoItemExtIEsValue].
+// DAPSResponseInfoItemExtIEsValueExtensionTable is the bound table for DAPSResponseInfoItem-ExtIEs of TS 36.413.
 type DAPSResponseInfoItemExtIEsValueExtensionTable struct{ bound bool }
 
-// DAPSResponseInfoListIEValueIETable is the concrete IETable[DAPSResponseInfoListIEValue].
+// DAPSResponseInfoListIEValueIETable is the bound table for DAPSResponseInfoListIEs of TS 36.413.
 type DAPSResponseInfoListIEValueIETable struct{ bound bool }
 
-// DLCPSecurityInformationExtIEsValueExtensionTable is the concrete ExtensionTable[DLCPSecurityInformationExtIEsValue].
+// DLCPSecurityInformationExtIEsValueExtensionTable is the bound table for DL-CP-SecurityInformation-ExtIEs of TS 36.413.
 type DLCPSecurityInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABInformationListIEValueIETable is the concrete IETable[ERABInformationListIEValue].
+// ERABInformationListIEValueIETable is the bound table for E-RABInformationListIEs of TS 36.413.
 type ERABInformationListIEValueIETable struct{ bound bool }
 
-// ERABInformationListItemExtIEsValueExtensionTable is the concrete ExtensionTable[ERABInformationListItemExtIEsValue].
+// ERABInformationListItemExtIEsValueExtensionTable is the bound table for E-RABInformationListItem-ExtIEs of TS 36.413.
 type ERABInformationListItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABItemExtIEsValueExtensionTable is the concrete ExtensionTable[ERABItemExtIEsValue].
+// ERABItemExtIEsValueExtensionTable is the bound table for E-RABItem-ExtIEs of TS 36.413.
 type ERABItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABItemIEValueIETable is the concrete IETable[ERABItemIEValue].
+// ERABItemIEValueIETable is the bound table for E-RABItemIEs of TS 36.413.
 type ERABItemIEValueIETable struct{ bound bool }
 
-// ERABQoSParametersExtIEsValueExtensionTable is the concrete ExtensionTable[ERABQoSParametersExtIEsValue].
+// ERABQoSParametersExtIEsValueExtensionTable is the bound table for E-RABQoSParameters-ExtIEs of TS 36.413.
 type ERABQoSParametersExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABSecurityResultItemExtIEsValueExtensionTable is the concrete ExtensionTable[ERABSecurityResultItemExtIEsValue].
+// ERABSecurityResultItemExtIEsValueExtensionTable is the bound table for E-RABSecurityResultItem-ExtIEs of TS 36.413.
 type ERABSecurityResultItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABSecurityResultListIEValueIETable is the concrete IETable[ERABSecurityResultListIEValue].
+// ERABSecurityResultListIEValueIETable is the bound table for E-RABSecurityResultListIEs of TS 36.413.
 type ERABSecurityResultListIEValueIETable struct{ bound bool }
 
-// ERABUsageReportItemExtIEsValueExtensionTable is the concrete ExtensionTable[ERABUsageReportItemExtIEsValue].
+// ERABUsageReportItemExtIEsValueExtensionTable is the bound table for E-RABUsageReportItem-ExtIEs of TS 36.413.
 type ERABUsageReportItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABUsageReportItemIEValueIETable is the concrete IETable[ERABUsageReportItemIEValue].
+// ERABUsageReportItemIEValueIETable is the bound table for E-RABUsageReportItemIEs of TS 36.413.
 type ERABUsageReportItemIEValueIETable struct{ bound bool }
 
-// ENDCSONConfigurationTransferExtIEsValueExtensionTable is the concrete ExtensionTable[ENDCSONConfigurationTransferExtIEsValue].
+// ENDCSONConfigurationTransferExtIEsValueExtensionTable is the bound table for EN-DCSONConfigurationTransfer-ExtIEs of TS 36.413.
 type ENDCSONConfigurationTransferExtIEsValueExtensionTable struct{ bound bool }
 
-// ENDCSONeNBIdentificationExtIEsValueExtensionTable is the concrete ExtensionTable[ENDCSONeNBIdentificationExtIEsValue].
+// ENDCSONeNBIdentificationExtIEsValueExtensionTable is the bound table for EN-DCSONeNBIdentification-ExtIEs of TS 36.413.
 type ENDCSONeNBIdentificationExtIEsValueExtensionTable struct{ bound bool }
 
-// ENDCSONengNBIdentificationExtIEsValueExtensionTable is the concrete ExtensionTable[ENDCSONengNBIdentificationExtIEsValue].
+// ENDCSONengNBIdentificationExtIEsValueExtensionTable is the bound table for EN-DCSONengNBIdentification-ExtIEs of TS 36.413.
 type ENDCSONengNBIdentificationExtIEsValueExtensionTable struct{ bound bool }
 
-// ENDCTransferTypeReplyExtIEsValueExtensionTable is the concrete ExtensionTable[ENDCTransferTypeReplyExtIEsValue].
+// ENDCTransferTypeReplyExtIEsValueExtensionTable is the bound table for EN-DCTransferTypeReply-ExtIEs of TS 36.413.
 type ENDCTransferTypeReplyExtIEsValueExtensionTable struct{ bound bool }
 
-// ENDCTransferTypeRequestExtIEsValueExtensionTable is the concrete ExtensionTable[ENDCTransferTypeRequestExtIEsValue].
+// ENDCTransferTypeRequestExtIEsValueExtensionTable is the bound table for EN-DCTransferTypeRequest-ExtIEs of TS 36.413.
 type ENDCTransferTypeRequestExtIEsValueExtensionTable struct{ bound bool }
 
-// ENBEarlyStatusTransferTransparentContainerExtIEsValueExtensionTable is the concrete ExtensionTable[ENBEarlyStatusTransferTransparentContainerExtIEsValue].
+// ENBEarlyStatusTransferTransparentContainerExtIEsValueExtensionTable is the bound table for ENB-EarlyStatusTransfer-TransparentContainer-ExtIEs of TS 36.413.
 type ENBEarlyStatusTransferTransparentContainerExtIEsValueExtensionTable struct{ bound bool }
 
-// ENBStatusTransferTransparentContainerExtIEsValueExtensionTable is the concrete ExtensionTable[ENBStatusTransferTransparentContainerExtIEsValue].
+// ENBStatusTransferTransparentContainerExtIEsValueExtensionTable is the bound table for ENB-StatusTransfer-TransparentContainer-ExtIEs of TS 36.413.
 type ENBStatusTransferTransparentContainerExtIEsValueExtensionTable struct{ bound bool }
 
-// ENBX2ExtTLAExtIEsValueExtensionTable is the concrete ExtensionTable[ENBX2ExtTLAExtIEsValue].
+// ENBX2ExtTLAExtIEsValueExtensionTable is the bound table for ENBX2ExtTLA-ExtIEs of TS 36.413.
 type ENBX2ExtTLAExtIEsValueExtensionTable struct{ bound bool }
 
-// EUTRANCGIExtIEsValueExtensionTable is the concrete ExtensionTable[EUTRANCGIExtIEsValue].
+// EUTRANCGIExtIEsValueExtensionTable is the bound table for EUTRAN-CGI-ExtIEs of TS 36.413.
 type EUTRANCGIExtIEsValueExtensionTable struct{ bound bool }
 
-// EmergencyAreaIDBroadcastItemExtIEsValueExtensionTable is the concrete ExtensionTable[EmergencyAreaIDBroadcastItemExtIEsValue].
+// EmergencyAreaIDBroadcastItemExtIEsValueExtensionTable is the bound table for EmergencyAreaID-Broadcast-Item-ExtIEs of TS 36.413.
 type EmergencyAreaIDBroadcastItemExtIEsValueExtensionTable struct{ bound bool }
 
-// EmergencyAreaIDCancelledItemExtIEsValueExtensionTable is the concrete ExtensionTable[EmergencyAreaIDCancelledItemExtIEsValue].
+// EmergencyAreaIDCancelledItemExtIEsValueExtensionTable is the bound table for EmergencyAreaID-Cancelled-Item-ExtIEs of TS 36.413.
 type EmergencyAreaIDCancelledItemExtIEsValueExtensionTable struct{ bound bool }
 
-// EventL1LoggedMDTConfigExtIEsValueExtensionTable is the concrete ExtensionTable[EventL1LoggedMDTConfigExtIEsValue].
+// EventL1LoggedMDTConfigExtIEsValueExtensionTable is the bound table for EventL1LoggedMDTConfig-ExtIEs of TS 36.413.
 type EventL1LoggedMDTConfigExtIEsValueExtensionTable struct{ bound bool }
 
-// EventTriggerExtIEValueIETable is the concrete IETable[EventTriggerExtIEValue].
+// EventTriggerExtIEValueIETable is the bound table for EventTrigger-ExtIEs of TS 36.413.
 type EventTriggerExtIEValueIETable struct{ bound bool }
 
-// ExpectedUEActivityBehaviourExtIEsValueExtensionTable is the concrete ExtensionTable[ExpectedUEActivityBehaviourExtIEsValue].
+// ExpectedUEActivityBehaviourExtIEsValueExtensionTable is the bound table for ExpectedUEActivityBehaviour-ExtIEs of TS 36.413.
 type ExpectedUEActivityBehaviourExtIEsValueExtensionTable struct{ bound bool }
 
-// ExpectedUEBehaviourExtIEsValueExtensionTable is the concrete ExtensionTable[ExpectedUEBehaviourExtIEsValue].
+// ExpectedUEBehaviourExtIEsValueExtensionTable is the bound table for ExpectedUEBehaviour-ExtIEs of TS 36.413.
 type ExpectedUEBehaviourExtIEsValueExtensionTable struct{ bound bool }
 
-// FiveGSTAIExtIEsValueExtensionTable is the concrete ExtensionTable[FiveGSTAIExtIEsValue].
+// FiveGSTAIExtIEsValueExtensionTable is the bound table for FiveGSTAI-ExtIEs of TS 36.413.
 type FiveGSTAIExtIEsValueExtensionTable struct{ bound bool }
 
-// ForbiddenLAsItemExtIEsValueExtensionTable is the concrete ExtensionTable[ForbiddenLAsItemExtIEsValue].
+// ForbiddenLAsItemExtIEsValueExtensionTable is the bound table for ForbiddenLAs-Item-ExtIEs of TS 36.413.
 type ForbiddenLAsItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ForbiddenTAsItemExtIEsValueExtensionTable is the concrete ExtensionTable[ForbiddenTAsItemExtIEsValue].
+// ForbiddenTAsItemExtIEsValueExtensionTable is the bound table for ForbiddenTAs-Item-ExtIEs of TS 36.413.
 type ForbiddenTAsItemExtIEsValueExtensionTable struct{ bound bool }
 
-// GBRQosInformationExtIEsValueExtensionTable is the concrete ExtensionTable[GBRQosInformationExtIEsValue].
+// GBRQosInformationExtIEsValueExtensionTable is the bound table for GBR-QosInformation-ExtIEs of TS 36.413.
 type GBRQosInformationExtIEsValueExtensionTable struct{ bound bool }
 
 // ExtendedBitRateValueCodec is the concrete ValueCodec[ExtendedBitRate].
@@ -307,220 +307,220 @@ func (c ExtendedBitRateValueCodec) encodeChanged(value ExtendedBitRate,
 	return out, aper.OperationError(err, c.path)
 }
 
-// GERANCellIDExtIEsValueExtensionTable is the concrete ExtensionTable[GERANCellIDExtIEsValue].
+// GERANCellIDExtIEsValueExtensionTable is the bound table for GERAN-Cell-ID-ExtIEs of TS 36.413.
 type GERANCellIDExtIEsValueExtensionTable struct{ bound bool }
 
-// GNBExtIEsValueExtensionTable is the concrete ExtensionTable[GNBExtIEsValue].
+// GNBExtIEsValueExtensionTable is the bound table for GNB-ExtIEs of TS 36.413.
 type GNBExtIEsValueExtensionTable struct{ bound bool }
 
-// GUMMEIExtIEsValueExtensionTable is the concrete ExtensionTable[GUMMEIExtIEsValue].
+// GUMMEIExtIEsValueExtensionTable is the bound table for GUMMEI-ExtIEs of TS 36.413.
 type GUMMEIExtIEsValueExtensionTable struct{ bound bool }
 
-// GlobalGNBIDExtIEsValueExtensionTable is the concrete ExtensionTable[GlobalGNBIDExtIEsValue].
+// GlobalGNBIDExtIEsValueExtensionTable is the bound table for Global-GNB-ID-ExtIEs of TS 36.413.
 type GlobalGNBIDExtIEsValueExtensionTable struct{ bound bool }
 
-// GlobalEnGNBIDExtIEsValueExtensionTable is the concrete ExtensionTable[GlobalEnGNBIDExtIEsValue].
+// GlobalEnGNBIDExtIEsValueExtensionTable is the bound table for Global-en-gNB-ID-ExtIEs of TS 36.413.
 type GlobalEnGNBIDExtIEsValueExtensionTable struct{ bound bool }
 
-// GlobalENBIDExtIEsValueExtensionTable is the concrete ExtensionTable[GlobalENBIDExtIEsValue].
+// GlobalENBIDExtIEsValueExtensionTable is the bound table for GlobalENB-ID-ExtIEs of TS 36.413.
 type GlobalENBIDExtIEsValueExtensionTable struct{ bound bool }
 
-// HandoverRestrictionListExtIEsValueExtensionTable is the concrete ExtensionTable[HandoverRestrictionListExtIEsValue].
+// HandoverRestrictionListExtIEsValueExtensionTable is the bound table for HandoverRestrictionList-ExtIEs of TS 36.413.
 type HandoverRestrictionListExtIEsValueExtensionTable struct{ bound bool }
 
-// ImmediateMDTExtIEsValueExtensionTable is the concrete ExtensionTable[ImmediateMDTExtIEsValue].
+// ImmediateMDTExtIEsValueExtensionTable is the bound table for ImmediateMDT-ExtIEs of TS 36.413.
 type ImmediateMDTExtIEsValueExtensionTable struct{ bound bool }
 
-// InformationForCECapableUEsExtIEsValueExtensionTable is the concrete ExtensionTable[InformationForCECapableUEsExtIEsValue].
+// InformationForCECapableUEsExtIEsValueExtensionTable is the bound table for InformationForCECapableUEs-ExtIEs of TS 36.413.
 type InformationForCECapableUEsExtIEsValueExtensionTable struct{ bound bool }
 
-// InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionTable is the concrete ExtensionTable[InformationOnRecommendedCellsAndENBsForPagingExtIEsValue].
+// InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionTable is the bound table for InformationOnRecommendedCellsAndENBsForPaging-ExtIEs of TS 36.413.
 type InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionTable struct{ bound bool }
 
-// InterSystemMeasurementItemExtIEsValueExtensionTable is the concrete ExtensionTable[InterSystemMeasurementItemExtIEsValue].
+// InterSystemMeasurementItemExtIEsValueExtensionTable is the bound table for InterSystemMeasurementItem-ExtIEs of TS 36.413.
 type InterSystemMeasurementItemExtIEsValueExtensionTable struct{ bound bool }
 
-// InterSystemMeasurementParametersExtIEsValueExtensionTable is the concrete ExtensionTable[InterSystemMeasurementParametersExtIEsValue].
+// InterSystemMeasurementParametersExtIEsValueExtensionTable is the bound table for InterSystemMeasurementParameters-ExtIEs of TS 36.413.
 type InterSystemMeasurementParametersExtIEsValueExtensionTable struct{ bound bool }
 
-// IntersystemMeasurementConfigurationExtIEsValueExtensionTable is the concrete ExtensionTable[IntersystemMeasurementConfigurationExtIEsValue].
+// IntersystemMeasurementConfigurationExtIEsValueExtensionTable is the bound table for IntersystemMeasurementConfiguration-ExtIEs of TS 36.413.
 type IntersystemMeasurementConfigurationExtIEsValueExtensionTable struct{ bound bool }
 
-// LAIExtIEsValueExtensionTable is the concrete ExtensionTable[LAIExtIEsValue].
+// LAIExtIEsValueExtensionTable is the bound table for LAI-ExtIEs of TS 36.413.
 type LAIExtIEsValueExtensionTable struct{ bound bool }
 
-// LTENTNTAIInformationExtIEsValueExtensionTable is the concrete ExtensionTable[LTENTNTAIInformationExtIEsValue].
+// LTENTNTAIInformationExtIEsValueExtensionTable is the bound table for LTE-NTN-TAI-Information-ExtIEs of TS 36.413.
 type LTENTNTAIInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// LastVisitedEUTRANCellInformationExtIEsValueExtensionTable is the concrete ExtensionTable[LastVisitedEUTRANCellInformationExtIEsValue].
+// LastVisitedEUTRANCellInformationExtIEsValueExtensionTable is the bound table for LastVisitedEUTRANCellInformation-ExtIEs of TS 36.413.
 type LastVisitedEUTRANCellInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// LastVisitedPSCellInformationExtIEsValueExtensionTable is the concrete ExtensionTable[LastVisitedPSCellInformationExtIEsValue].
+// LastVisitedPSCellInformationExtIEsValueExtensionTable is the bound table for LastVisitedPSCellInformation-ExtIEs of TS 36.413.
 type LastVisitedPSCellInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// ListeningSubframePatternExtIEsValueExtensionTable is the concrete ExtensionTable[ListeningSubframePatternExtIEsValue].
+// ListeningSubframePatternExtIEsValueExtensionTable is the bound table for ListeningSubframePattern-ExtIEs of TS 36.413.
 type ListeningSubframePatternExtIEsValueExtensionTable struct{ bound bool }
 
-// LoggedMBSFNMDTExtIEsValueExtensionTable is the concrete ExtensionTable[LoggedMBSFNMDTExtIEsValue].
+// LoggedMBSFNMDTExtIEsValueExtensionTable is the bound table for LoggedMBSFNMDT-ExtIEs of TS 36.413.
 type LoggedMBSFNMDTExtIEsValueExtensionTable struct{ bound bool }
 
-// LoggedMDTExtIEsValueExtensionTable is the concrete ExtensionTable[LoggedMDTExtIEsValue].
+// LoggedMDTExtIEsValueExtensionTable is the bound table for LoggedMDT-ExtIEs of TS 36.413.
 type LoggedMDTExtIEsValueExtensionTable struct{ bound bool }
 
-// M1PeriodicReportingExtIEsValueExtensionTable is the concrete ExtensionTable[M1PeriodicReportingExtIEsValue].
+// M1PeriodicReportingExtIEsValueExtensionTable is the bound table for M1PeriodicReporting-ExtIEs of TS 36.413.
 type M1PeriodicReportingExtIEsValueExtensionTable struct{ bound bool }
 
-// M1ThresholdEventA2ExtIEsValueExtensionTable is the concrete ExtensionTable[M1ThresholdEventA2ExtIEsValue].
+// M1ThresholdEventA2ExtIEsValueExtensionTable is the bound table for M1ThresholdEventA2-ExtIEs of TS 36.413.
 type M1ThresholdEventA2ExtIEsValueExtensionTable struct{ bound bool }
 
-// M3ConfigurationExtIEsValueExtensionTable is the concrete ExtensionTable[M3ConfigurationExtIEsValue].
+// M3ConfigurationExtIEsValueExtensionTable is the bound table for M3Configuration-ExtIEs of TS 36.413.
 type M3ConfigurationExtIEsValueExtensionTable struct{ bound bool }
 
-// M4ConfigurationExtIEsValueExtensionTable is the concrete ExtensionTable[M4ConfigurationExtIEsValue].
+// M4ConfigurationExtIEsValueExtensionTable is the bound table for M4Configuration-ExtIEs of TS 36.413.
 type M4ConfigurationExtIEsValueExtensionTable struct{ bound bool }
 
-// M5ConfigurationExtIEsValueExtensionTable is the concrete ExtensionTable[M5ConfigurationExtIEsValue].
+// M5ConfigurationExtIEsValueExtensionTable is the bound table for M5Configuration-ExtIEs of TS 36.413.
 type M5ConfigurationExtIEsValueExtensionTable struct{ bound bool }
 
-// M6ConfigurationExtIEsValueExtensionTable is the concrete ExtensionTable[M6ConfigurationExtIEsValue].
+// M6ConfigurationExtIEsValueExtensionTable is the bound table for M6Configuration-ExtIEs of TS 36.413.
 type M6ConfigurationExtIEsValueExtensionTable struct{ bound bool }
 
-// M7ConfigurationExtIEsValueExtensionTable is the concrete ExtensionTable[M7ConfigurationExtIEsValue].
+// M7ConfigurationExtIEsValueExtensionTable is the bound table for M7Configuration-ExtIEs of TS 36.413.
 type M7ConfigurationExtIEsValueExtensionTable struct{ bound bool }
 
-// MBSFNResultToLogInfoExtIEsValueExtensionTable is the concrete ExtensionTable[MBSFNResultToLogInfoExtIEsValue].
+// MBSFNResultToLogInfoExtIEsValueExtensionTable is the bound table for MBSFN-ResultToLogInfo-ExtIEs of TS 36.413.
 type MBSFNResultToLogInfoExtIEsValueExtensionTable struct{ bound bool }
 
-// MDTConfigurationExtIEsValueExtensionTable is the concrete ExtensionTable[MDTConfigurationExtIEsValue].
+// MDTConfigurationExtIEsValueExtensionTable is the bound table for MDT-Configuration-ExtIEs of TS 36.413.
 type MDTConfigurationExtIEsValueExtensionTable struct{ bound bool }
 
-// MDTModeExtensionIEIEValueIETable is the concrete IETable[MDTModeExtensionIEIEValue].
+// MDTModeExtensionIEIEValueIETable is the bound table for MDTMode-ExtensionIE of TS 36.413.
 type MDTModeExtensionIEIEValueIETable struct{ bound bool }
 
-// MeasurementThresholdL1LoggedMDTExtIEValueIETable is the concrete IETable[MeasurementThresholdL1LoggedMDTExtIEValue].
+// MeasurementThresholdL1LoggedMDTExtIEValueIETable is the bound table for MeasurementThresholdL1LoggedMDT-ExtIEs of TS 36.413.
 type MeasurementThresholdL1LoggedMDTExtIEValueIETable struct{ bound bool }
 
-// MutingPatternInformationExtIEsValueExtensionTable is the concrete ExtensionTable[MutingPatternInformationExtIEsValue].
+// MutingPatternInformationExtIEsValueExtensionTable is the bound table for MutingPatternInformation-ExtIEs of TS 36.413.
 type MutingPatternInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// NBIoTPagingEDRXInformationExtIEsValueExtensionTable is the concrete ExtensionTable[NBIoTPagingEDRXInformationExtIEsValue].
+// NBIoTPagingEDRXInformationExtIEsValueExtensionTable is the bound table for NB-IoT-Paging-eDRXInformation-ExtIEs of TS 36.413.
 type NBIoTPagingEDRXInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// NGENBExtIEsValueExtensionTable is the concrete ExtensionTable[NGENBExtIEsValue].
+// NGENBExtIEsValueExtensionTable is the bound table for NG-eNB-ExtIEs of TS 36.413.
 type NGENBExtIEsValueExtensionTable struct{ bound bool }
 
-// NRCGIExtIEsValueExtensionTable is the concrete ExtensionTable[NRCGIExtIEsValue].
+// NRCGIExtIEsValueExtensionTable is the bound table for NR-CGI-ExtIEs of TS 36.413.
 type NRCGIExtIEsValueExtensionTable struct{ bound bool }
 
-// NRUESecurityCapabilitiesExtIEsValueExtensionTable is the concrete ExtensionTable[NRUESecurityCapabilitiesExtIEsValue].
+// NRUESecurityCapabilitiesExtIEsValueExtensionTable is the bound table for NRUESecurityCapabilities-ExtIEs of TS 36.413.
 type NRUESecurityCapabilitiesExtIEsValueExtensionTable struct{ bound bool }
 
-// NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionTable is the concrete ExtensionTable[NRUESidelinkAggregateMaximumBitrateExtIEsValue].
+// NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionTable is the bound table for NRUESidelinkAggregateMaximumBitrate-ExtIEs of TS 36.413.
 type NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionTable struct{ bound bool }
 
-// NRV2XServicesAuthorizedExtIEsValueExtensionTable is the concrete ExtensionTable[NRV2XServicesAuthorizedExtIEsValue].
+// NRV2XServicesAuthorizedExtIEsValueExtensionTable is the bound table for NRV2XServicesAuthorized-ExtIEs of TS 36.413.
 type NRV2XServicesAuthorizedExtIEsValueExtensionTable struct{ bound bool }
 
-// PC5FlowBitRatesExtIEsValueExtensionTable is the concrete ExtensionTable[PC5FlowBitRatesExtIEsValue].
+// PC5FlowBitRatesExtIEsValueExtensionTable is the bound table for PC5FlowBitRates-ExtIEs of TS 36.413.
 type PC5FlowBitRatesExtIEsValueExtensionTable struct{ bound bool }
 
-// PC5QoSFlowItemExtIEsValueExtensionTable is the concrete ExtensionTable[PC5QoSFlowItemExtIEsValue].
+// PC5QoSFlowItemExtIEsValueExtensionTable is the bound table for PC5QoSFlowItem-ExtIEs of TS 36.413.
 type PC5QoSFlowItemExtIEsValueExtensionTable struct{ bound bool }
 
-// PC5QoSParametersExtIEsValueExtensionTable is the concrete ExtensionTable[PC5QoSParametersExtIEsValue].
+// PC5QoSParametersExtIEsValueExtensionTable is the bound table for PC5QoSParameters-ExtIEs of TS 36.413.
 type PC5QoSParametersExtIEsValueExtensionTable struct{ bound bool }
 
-// PLMNAreaBasedQMCExtIEsValueExtensionTable is the concrete ExtensionTable[PLMNAreaBasedQMCExtIEsValue].
+// PLMNAreaBasedQMCExtIEsValueExtensionTable is the bound table for PLMNAreaBasedQMC-ExtIEs of TS 36.413.
 type PLMNAreaBasedQMCExtIEsValueExtensionTable struct{ bound bool }
 
-// PSCellInformationExtIEsValueExtensionTable is the concrete ExtensionTable[PSCellInformationExtIEsValue].
+// PSCellInformationExtIEsValueExtensionTable is the bound table for PSCellInformation-ExtIEs of TS 36.413.
 type PSCellInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// PagingEDRXInformationExtIEsValueExtensionTable is the concrete ExtensionTable[PagingEDRXInformationExtIEsValue].
+// PagingEDRXInformationExtIEsValueExtensionTable is the bound table for Paging-eDRXInformation-ExtIEs of TS 36.413.
 type PagingEDRXInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// PagingAttemptInformationExtIEsValueExtensionTable is the concrete ExtensionTable[PagingAttemptInformationExtIEsValue].
+// PagingAttemptInformationExtIEsValueExtensionTable is the bound table for PagingAttemptInformation-ExtIEs of TS 36.413.
 type PagingAttemptInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// ProSeAuthorizedExtIEsValueExtensionTable is the concrete ExtensionTable[ProSeAuthorizedExtIEsValue].
+// ProSeAuthorizedExtIEsValueExtensionTable is the bound table for ProSeAuthorized-ExtIEs of TS 36.413.
 type ProSeAuthorizedExtIEsValueExtensionTable struct{ bound bool }
 
-// RATRestrictionsItemExtIEsValueExtensionTable is the concrete ExtensionTable[RATRestrictionsItemExtIEsValue].
+// RATRestrictionsItemExtIEsValueExtensionTable is the bound table for RAT-RestrictionsItem-ExtIEs of TS 36.413.
 type RATRestrictionsItemExtIEsValueExtensionTable struct{ bound bool }
 
-// RIMTransferExtIEsValueExtensionTable is the concrete ExtensionTable[RIMTransferExtIEsValue].
+// RIMTransferExtIEsValueExtensionTable is the bound table for RIMTransfer-ExtIEs of TS 36.413.
 type RIMTransferExtIEsValueExtensionTable struct{ bound bool }
 
-// RLFReportInformationExtIEsValueExtensionTable is the concrete ExtensionTable[RLFReportInformationExtIEsValue].
+// RLFReportInformationExtIEsValueExtensionTable is the bound table for RLFReportInformation-ExtIEs of TS 36.413.
 type RLFReportInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// RecommendedCellItemIEValueIETable is the concrete IETable[RecommendedCellItemIEValue].
+// RecommendedCellItemIEValueIETable is the bound table for RecommendedCellItemIEs of TS 36.413.
 type RecommendedCellItemIEValueIETable struct{ bound bool }
 
-// RecommendedCellsForPagingExtIEsValueExtensionTable is the concrete ExtensionTable[RecommendedCellsForPagingExtIEsValue].
+// RecommendedCellsForPagingExtIEsValueExtensionTable is the bound table for RecommendedCellsForPaging-ExtIEs of TS 36.413.
 type RecommendedCellsForPagingExtIEsValueExtensionTable struct{ bound bool }
 
-// RecommendedCellsForPagingItemExtIEsValueExtensionTable is the concrete ExtensionTable[RecommendedCellsForPagingItemExtIEsValue].
+// RecommendedCellsForPagingItemExtIEsValueExtensionTable is the bound table for RecommendedCellsForPagingItem-ExtIEs of TS 36.413.
 type RecommendedCellsForPagingItemExtIEsValueExtensionTable struct{ bound bool }
 
-// RecommendedENBItemExtIEsValueExtensionTable is the concrete ExtensionTable[RecommendedENBItemExtIEsValue].
+// RecommendedENBItemExtIEsValueExtensionTable is the bound table for RecommendedENBItem-ExtIEs of TS 36.413.
 type RecommendedENBItemExtIEsValueExtensionTable struct{ bound bool }
 
-// RecommendedENBItemIEValueIETable is the concrete IETable[RecommendedENBItemIEValue].
+// RecommendedENBItemIEValueIETable is the bound table for RecommendedENBItemIEs of TS 36.413.
 type RecommendedENBItemIEValueIETable struct{ bound bool }
 
-// RecommendedENBsForPagingExtIEsValueExtensionTable is the concrete ExtensionTable[RecommendedENBsForPagingExtIEsValue].
+// RecommendedENBsForPagingExtIEsValueExtensionTable is the bound table for RecommendedENBsForPaging-ExtIEs of TS 36.413.
 type RecommendedENBsForPagingExtIEsValueExtensionTable struct{ bound bool }
 
-// RequestTypeExtIEsValueExtensionTable is the concrete ExtensionTable[RequestTypeExtIEsValue].
+// RequestTypeExtIEsValueExtensionTable is the bound table for RequestType-ExtIEs of TS 36.413.
 type RequestTypeExtIEsValueExtensionTable struct{ bound bool }
 
-// RequestedTNLInfoExtIEsValueExtensionTable is the concrete ExtensionTable[RequestedTNLInfoExtIEsValue].
+// RequestedTNLInfoExtIEsValueExtensionTable is the bound table for RequestedTNLInfo-ExtIEs of TS 36.413.
 type RequestedTNLInfoExtIEsValueExtensionTable struct{ bound bool }
 
-// STMSIExtIEsValueExtensionTable is the concrete ExtensionTable[STMSIExtIEsValue].
+// STMSIExtIEsValueExtensionTable is the bound table for S-TMSI-ExtIEs of TS 36.413.
 type STMSIExtIEsValueExtensionTable struct{ bound bool }
 
-// SONConfigurationTransferExtIEsValueExtensionTable is the concrete ExtensionTable[SONConfigurationTransferExtIEsValue].
+// SONConfigurationTransferExtIEsValueExtensionTable is the bound table for SONConfigurationTransfer-ExtIEs of TS 36.413.
 type SONConfigurationTransferExtIEsValueExtensionTable struct{ bound bool }
 
-// SONInformationExtensionIEIEValueIETable is the concrete IETable[SONInformationExtensionIEIEValue].
+// SONInformationExtensionIEIEValueIETable is the bound table for SONInformation-ExtensionIE of TS 36.413.
 type SONInformationExtensionIEIEValueIETable struct{ bound bool }
 
-// SONInformationReplyExtIEsValueExtensionTable is the concrete ExtensionTable[SONInformationReplyExtIEsValue].
+// SONInformationReplyExtIEsValueExtensionTable is the bound table for SONInformationReply-ExtIEs of TS 36.413.
 type SONInformationReplyExtIEsValueExtensionTable struct{ bound bool }
 
-// ScheduledCommunicationTimeExtIEsValueExtensionTable is the concrete ExtensionTable[ScheduledCommunicationTimeExtIEsValue].
+// ScheduledCommunicationTimeExtIEsValueExtensionTable is the bound table for ScheduledCommunicationTime-ExtIEs of TS 36.413.
 type ScheduledCommunicationTimeExtIEsValueExtensionTable struct{ bound bool }
 
-// SecondaryRATDataUsageReportItemExtIEsValueExtensionTable is the concrete ExtensionTable[SecondaryRATDataUsageReportItemExtIEsValue].
+// SecondaryRATDataUsageReportItemExtIEsValueExtensionTable is the bound table for SecondaryRATDataUsageReportItem-ExtIEs of TS 36.413.
 type SecondaryRATDataUsageReportItemExtIEsValueExtensionTable struct{ bound bool }
 
-// SecondaryRATDataUsageReportItemIEValueIETable is the concrete IETable[SecondaryRATDataUsageReportItemIEValue].
+// SecondaryRATDataUsageReportItemIEValueIETable is the bound table for SecondaryRATDataUsageReportItemIEs of TS 36.413.
 type SecondaryRATDataUsageReportItemIEValueIETable struct{ bound bool }
 
-// SecurityContextExtIEsValueExtensionTable is the concrete ExtensionTable[SecurityContextExtIEsValue].
+// SecurityContextExtIEsValueExtensionTable is the bound table for SecurityContext-ExtIEs of TS 36.413.
 type SecurityContextExtIEsValueExtensionTable struct{ bound bool }
 
-// SecurityIndicationExtIEsValueExtensionTable is the concrete ExtensionTable[SecurityIndicationExtIEsValue].
+// SecurityIndicationExtIEsValueExtensionTable is the bound table for SecurityIndication-ExtIEs of TS 36.413.
 type SecurityIndicationExtIEsValueExtensionTable struct{ bound bool }
 
-// SecurityResultExtIEsValueExtensionTable is the concrete ExtensionTable[SecurityResultExtIEsValue].
+// SecurityResultExtIEsValueExtensionTable is the bound table for SecurityResult-ExtIEs of TS 36.413.
 type SecurityResultExtIEsValueExtensionTable struct{ bound bool }
 
-// SensorMeasConfigNameItemExtIEsValueExtensionTable is the concrete ExtensionTable[SensorMeasConfigNameItemExtIEsValue].
+// SensorMeasConfigNameItemExtIEsValueExtensionTable is the bound table for SensorMeasConfigNameItem-ExtIEs of TS 36.413.
 type SensorMeasConfigNameItemExtIEsValueExtensionTable struct{ bound bool }
 
-// SensorMeasurementConfigurationExtIEsValueExtensionTable is the concrete ExtensionTable[SensorMeasurementConfigurationExtIEsValue].
+// SensorMeasurementConfigurationExtIEsValueExtensionTable is the bound table for SensorMeasurementConfiguration-ExtIEs of TS 36.413.
 type SensorMeasurementConfigurationExtIEsValueExtensionTable struct{ bound bool }
 
-// SensorNameConfigExtIEValueIETable is the concrete IETable[SensorNameConfigExtIEValue].
+// SensorNameConfigExtIEValueIETable is the bound table for SensorNameConfig-ExtIEs of TS 36.413.
 type SensorNameConfigExtIEValueIETable struct{ bound bool }
 
-// ServedDCNsItemExtIEsValueExtensionTable is the concrete ExtensionTable[ServedDCNsItemExtIEsValue].
+// ServedDCNsItemExtIEsValueExtensionTable is the bound table for ServedDCNsItem-ExtIEs of TS 36.413.
 type ServedDCNsItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ServedGUMMEIsItemExtIEsValueExtensionTable is the concrete ExtensionTable[ServedGUMMEIsItemExtIEsValue].
+// ServedGUMMEIsItemExtIEsValueExtensionTable is the bound table for ServedGUMMEIsItem-ExtIEs of TS 36.413.
 type ServedGUMMEIsItemExtIEsValueExtensionTable struct{ bound bool }
 
 // GUMMEITypeValueCodec is the concrete ValueCodec[GUMMEIType].
@@ -623,16 +623,16 @@ func (c GUMMEITypeValueCodec) encodeChanged(value GUMMEIType,
 	return out, aper.OperationError(err, c.path)
 }
 
-// SourceNgRanNodeIDExtIEsValueExtensionTable is the concrete ExtensionTable[SourceNgRanNodeIDExtIEsValue].
+// SourceNgRanNodeIDExtIEsValueExtensionTable is the bound table for SourceNgRanNode-ID-ExtIEs of TS 36.413.
 type SourceNgRanNodeIDExtIEsValueExtensionTable struct{ bound bool }
 
-// SourceNodeIDExtensionIEIEValueIETable is the concrete IETable[SourceNodeIDExtensionIEIEValue].
+// SourceNodeIDExtensionIEIEValueIETable is the bound table for SourceNodeID-ExtensionIE of TS 36.413.
 type SourceNodeIDExtensionIEIEValueIETable struct{ bound bool }
 
-// SourceeNBIDExtIEsValueExtensionTable is the concrete ExtensionTable[SourceeNBIDExtIEsValue].
+// SourceeNBIDExtIEsValueExtensionTable is the bound table for SourceeNB-ID-ExtIEs of TS 36.413.
 type SourceeNBIDExtIEsValueExtensionTable struct{ bound bool }
 
-// SourceeNBToTargeteNBTransparentContainerExtIEsValueExtensionTable is the concrete ExtensionTable[SourceeNBToTargeteNBTransparentContainerExtIEsValue].
+// SourceeNBToTargeteNBTransparentContainerExtIEsValueExtensionTable is the bound table for SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs of TS 36.413.
 type SourceeNBToTargeteNBTransparentContainerExtIEsValueExtensionTable struct{ bound bool }
 
 // AdditionalRRMPriorityIndexValueCodec is the concrete ValueCodec[AdditionalRRMPriorityIndex].
@@ -1035,94 +1035,94 @@ func (c DirectForwardingPathAvailabilityValueCodec) encodeChanged(value DirectFo
 	return out, aper.OperationError(err, c.path)
 }
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsValueExtensionTable is the concrete ExtensionTable[SubscriptionBasedUEDifferentiationInfoExtIEsValue].
+// SubscriptionBasedUEDifferentiationInfoExtIEsValueExtensionTable is the bound table for Subscription-Based-UE-DifferentiationInfo-ExtIEs of TS 36.413.
 type SubscriptionBasedUEDifferentiationInfoExtIEsValueExtensionTable struct{ bound bool }
 
-// SupportedTAsItemExtIEsValueExtensionTable is the concrete ExtensionTable[SupportedTAsItemExtIEsValue].
+// SupportedTAsItemExtIEsValueExtensionTable is the bound table for SupportedTAs-Item-ExtIEs of TS 36.413.
 type SupportedTAsItemExtIEsValueExtensionTable struct{ bound bool }
 
-// SynchronisationInformationExtIEsValueExtensionTable is the concrete ExtensionTable[SynchronisationInformationExtIEsValue].
+// SynchronisationInformationExtIEsValueExtensionTable is the bound table for SynchronisationInformation-ExtIEs of TS 36.413.
 type SynchronisationInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// TABasedMDTExtIEsValueExtensionTable is the concrete ExtensionTable[TABasedMDTExtIEsValue].
+// TABasedMDTExtIEsValueExtensionTable is the bound table for TABasedMDT-ExtIEs of TS 36.413.
 type TABasedMDTExtIEsValueExtensionTable struct{ bound bool }
 
-// TABasedQMCExtIEsValueExtensionTable is the concrete ExtensionTable[TABasedQMCExtIEsValue].
+// TABasedQMCExtIEsValueExtensionTable is the bound table for TABasedQMC-ExtIEs of TS 36.413.
 type TABasedQMCExtIEsValueExtensionTable struct{ bound bool }
 
-// TAIBroadcastItemExtIEsValueExtensionTable is the concrete ExtensionTable[TAIBroadcastItemExtIEsValue].
+// TAIBroadcastItemExtIEsValueExtensionTable is the bound table for TAI-Broadcast-Item-ExtIEs of TS 36.413.
 type TAIBroadcastItemExtIEsValueExtensionTable struct{ bound bool }
 
-// TAICancelledItemExtIEsValueExtensionTable is the concrete ExtensionTable[TAICancelledItemExtIEsValue].
+// TAICancelledItemExtIEsValueExtensionTable is the bound table for TAI-Cancelled-Item-ExtIEs of TS 36.413.
 type TAICancelledItemExtIEsValueExtensionTable struct{ bound bool }
 
-// TAIExtIEsValueExtensionTable is the concrete ExtensionTable[TAIExtIEsValue].
+// TAIExtIEsValueExtensionTable is the bound table for TAI-ExtIEs of TS 36.413.
 type TAIExtIEsValueExtensionTable struct{ bound bool }
 
-// TAIBasedMDTExtIEsValueExtensionTable is the concrete ExtensionTable[TAIBasedMDTExtIEsValue].
+// TAIBasedMDTExtIEsValueExtensionTable is the bound table for TAIBasedMDT-ExtIEs of TS 36.413.
 type TAIBasedMDTExtIEsValueExtensionTable struct{ bound bool }
 
-// TAIBasedQMCExtIEsValueExtensionTable is the concrete ExtensionTable[TAIBasedQMCExtIEsValue].
+// TAIBasedQMCExtIEsValueExtensionTable is the bound table for TAIBasedQMC-ExtIEs of TS 36.413.
 type TAIBasedQMCExtIEsValueExtensionTable struct{ bound bool }
 
-// TargetNgRanNodeIDExtIEsValueExtensionTable is the concrete ExtensionTable[TargetNgRanNodeIDExtIEsValue].
+// TargetNgRanNodeIDExtIEsValueExtensionTable is the bound table for TargetNgRanNode-ID-ExtIEs of TS 36.413.
 type TargetNgRanNodeIDExtIEsValueExtensionTable struct{ bound bool }
 
-// TargetRNCIDExtIEsValueExtensionTable is the concrete ExtensionTable[TargetRNCIDExtIEsValue].
+// TargetRNCIDExtIEsValueExtensionTable is the bound table for TargetRNC-ID-ExtIEs of TS 36.413.
 type TargetRNCIDExtIEsValueExtensionTable struct{ bound bool }
 
-// TargeteNBIDExtIEsValueExtensionTable is the concrete ExtensionTable[TargeteNBIDExtIEsValue].
+// TargeteNBIDExtIEsValueExtensionTable is the bound table for TargeteNB-ID-ExtIEs of TS 36.413.
 type TargeteNBIDExtIEsValueExtensionTable struct{ bound bool }
 
-// TargeteNBToSourceeNBTransparentContainerExtIEsValueExtensionTable is the concrete ExtensionTable[TargeteNBToSourceeNBTransparentContainerExtIEsValue].
+// TargeteNBToSourceeNBTransparentContainerExtIEsValueExtensionTable is the bound table for TargeteNB-ToSourceeNB-TransparentContainer-ExtIEs of TS 36.413.
 type TargeteNBToSourceeNBTransparentContainerExtIEsValueExtensionTable struct{ bound bool }
 
-// TimeBasedHandoverInformationExtIEsValueExtensionTable is the concrete ExtensionTable[TimeBasedHandoverInformationExtIEsValue].
+// TimeBasedHandoverInformationExtIEsValueExtensionTable is the bound table for TimeBasedHandoverInformation-ExtIEs of TS 36.413.
 type TimeBasedHandoverInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// TimeSynchronisationInfoExtIEsValueExtensionTable is the concrete ExtensionTable[TimeSynchronisationInfoExtIEsValue].
+// TimeSynchronisationInfoExtIEsValueExtensionTable is the bound table for TimeSynchronisationInfo-ExtIEs of TS 36.413.
 type TimeSynchronisationInfoExtIEsValueExtensionTable struct{ bound bool }
 
-// TraceActivationExtIEsValueExtensionTable is the concrete ExtensionTable[TraceActivationExtIEsValue].
+// TraceActivationExtIEsValueExtensionTable is the bound table for TraceActivation-ExtIEs of TS 36.413.
 type TraceActivationExtIEsValueExtensionTable struct{ bound bool }
 
-// TunnelInformationExtIEsValueExtensionTable is the concrete ExtensionTable[TunnelInformationExtIEsValue].
+// TunnelInformationExtIEsValueExtensionTable is the bound table for Tunnel-Information-ExtIEs of TS 36.413.
 type TunnelInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// UES1APIDPairExtIEsValueExtensionTable is the concrete ExtensionTable[UES1APIDPairExtIEsValue].
+// UES1APIDPairExtIEsValueExtensionTable is the bound table for UE-S1AP-ID-pair-ExtIEs of TS 36.413.
 type UES1APIDPairExtIEsValueExtensionTable struct{ bound bool }
 
-// UESidelinkAggregateMaximumBitratesExtIEsValueExtensionTable is the concrete ExtensionTable[UESidelinkAggregateMaximumBitratesExtIEsValue].
+// UESidelinkAggregateMaximumBitratesExtIEsValueExtensionTable is the bound table for UE-Sidelink-Aggregate-MaximumBitrates-ExtIEs of TS 36.413.
 type UESidelinkAggregateMaximumBitratesExtIEsValueExtensionTable struct{ bound bool }
 
-// UEAssociatedLogicalS1ConnectionItemExtIEsValueExtensionTable is the concrete ExtensionTable[UEAssociatedLogicalS1ConnectionItemExtIEsValue].
+// UEAssociatedLogicalS1ConnectionItemExtIEsValueExtensionTable is the bound table for UE-associatedLogicalS1-ConnectionItemExtIEs of TS 36.413.
 type UEAssociatedLogicalS1ConnectionItemExtIEsValueExtensionTable struct{ bound bool }
 
-// UEAggregateMaximumBitratesExtIEsValueExtensionTable is the concrete ExtensionTable[UEAggregateMaximumBitratesExtIEsValue].
+// UEAggregateMaximumBitratesExtIEsValueExtensionTable is the bound table for UEAggregate-MaximumBitrates-ExtIEs of TS 36.413.
 type UEAggregateMaximumBitratesExtIEsValueExtensionTable struct{ bound bool }
 
-// UEAppLayerMeasConfigExtIEsValueExtensionTable is the concrete ExtensionTable[UEAppLayerMeasConfigExtIEsValue].
+// UEAppLayerMeasConfigExtIEsValueExtensionTable is the bound table for UEAppLayerMeasConfig-ExtIEs of TS 36.413.
 type UEAppLayerMeasConfigExtIEsValueExtensionTable struct{ bound bool }
 
-// UESecurityCapabilitiesExtIEsValueExtensionTable is the concrete ExtensionTable[UESecurityCapabilitiesExtIEsValue].
+// UESecurityCapabilitiesExtIEsValueExtensionTable is the bound table for UESecurityCapabilities-ExtIEs of TS 36.413.
 type UESecurityCapabilitiesExtIEsValueExtensionTable struct{ bound bool }
 
-// ULCPSecurityInformationExtIEsValueExtensionTable is the concrete ExtensionTable[ULCPSecurityInformationExtIEsValue].
+// ULCPSecurityInformationExtIEsValueExtensionTable is the bound table for UL-CP-SecurityInformation-ExtIEs of TS 36.413.
 type ULCPSecurityInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// UserLocationInformationExtIEsValueExtensionTable is the concrete ExtensionTable[UserLocationInformationExtIEsValue].
+// UserLocationInformationExtIEsValueExtensionTable is the bound table for UserLocationInformation-ExtIEs of TS 36.413.
 type UserLocationInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// V2XServicesAuthorizedExtIEsValueExtensionTable is the concrete ExtensionTable[V2XServicesAuthorizedExtIEsValue].
+// V2XServicesAuthorizedExtIEsValueExtensionTable is the bound table for V2XServicesAuthorized-ExtIEs of TS 36.413.
 type V2XServicesAuthorizedExtIEsValueExtensionTable struct{ bound bool }
 
-// WLANMeasurementConfigurationExtIEsValueExtensionTable is the concrete ExtensionTable[WLANMeasurementConfigurationExtIEsValue].
+// WLANMeasurementConfigurationExtIEsValueExtensionTable is the bound table for WLANMeasurementConfiguration-ExtIEs of TS 36.413.
 type WLANMeasurementConfigurationExtIEsValueExtensionTable struct{ bound bool }
 
-// WUSAssistanceInformationExtIEsValueExtensionTable is the concrete ExtensionTable[WUSAssistanceInformationExtIEsValue].
+// WUSAssistanceInformationExtIEsValueExtensionTable is the bound table for WUS-Assistance-Information-ExtIEs of TS 36.413.
 type WUSAssistanceInformationExtIEsValueExtensionTable struct{ bound bool }
 
-// X2TNLConfigurationInfoExtIEsValueExtensionTable is the concrete ExtensionTable[X2TNLConfigurationInfoExtIEsValue].
+// X2TNLConfigurationInfoExtIEsValueExtensionTable is the bound table for X2TNLConfigurationInfo-ExtIEs of TS 36.413.
 type X2TNLConfigurationInfoExtIEsValueExtensionTable struct{ bound bool }
 
 // ENBIndirectX2TransportLayerAddressesValueCodec is the concrete ValueCodec[ENBIndirectX2TransportLayerAddresses].
@@ -1225,10 +1225,10 @@ func (c ENBIndirectX2TransportLayerAddressesValueCodec) encodeChanged(value ENBI
 	return out, aper.OperationError(err, c.path)
 }
 
-// CSGMembershipInfoExtIEsValueExtensionTable is the concrete ExtensionTable[CSGMembershipInfoExtIEsValue].
+// CSGMembershipInfoExtIEsValueExtensionTable is the bound table for CSGMembershipInfo-ExtIEs of TS 36.413.
 type CSGMembershipInfoExtIEsValueExtensionTable struct{ bound bool }
 
-// CellTrafficTraceIEValueIETable is the concrete IETable[CellTrafficTraceIEValue].
+// CellTrafficTraceIEValueIETable is the bound table for CellTrafficTraceIEs of TS 36.413.
 type CellTrafficTraceIEValueIETable struct{ bound bool }
 
 // EUTRANTraceIDValueCodec is the concrete ValueCodec[EUTRANTraceID].
@@ -1331,7 +1331,7 @@ func (c EUTRANTraceIDValueCodec) encodeChanged(value EUTRANTraceID,
 	return out, aper.OperationError(err, c.path)
 }
 
-// ConnectionEstablishmentIndicationIEValueIETable is the concrete IETable[ConnectionEstablishmentIndicationIEValue].
+// ConnectionEstablishmentIndicationIEValueIETable is the bound table for ConnectionEstablishmentIndicationIEs of TS 36.413.
 type ConnectionEstablishmentIndicationIEValueIETable struct{ bound bool }
 
 // EnhancedCoverageRestrictedValueCodec is the concrete ValueCodec[EnhancedCoverageRestricted].
@@ -1734,10 +1734,10 @@ func (c CoarseUELocationValueCodec) encodeChanged(value CoarseUELocation,
 	return out, aper.OperationError(err, c.path)
 }
 
-// DeactivateTraceIEValueIETable is the concrete IETable[DeactivateTraceIEValue].
+// DeactivateTraceIEValueIETable is the bound table for DeactivateTraceIEs of TS 36.413.
 type DeactivateTraceIEValueIETable struct{ bound bool }
 
-// DownlinkNASTransportIEValueIETable is the concrete IETable[DownlinkNASTransportIEValue].
+// DownlinkNASTransportIEValueIETable is the bound table for DownlinkNASTransport-IEs of TS 36.413.
 type DownlinkNASTransportIEValueIETable struct{ bound bool }
 
 // DLNASPDUDeliveryAckRequestValueCodec is the concrete ValueCodec[DLNASPDUDeliveryAckRequest].
@@ -1840,10 +1840,10 @@ func (c DLNASPDUDeliveryAckRequestValueCodec) encodeChanged(value DLNASPDUDelive
 	return out, aper.OperationError(err, c.path)
 }
 
-// DownlinkNonUEAssociatedLPPaTransportIEValueIETable is the concrete IETable[DownlinkNonUEAssociatedLPPaTransportIEValue].
+// DownlinkNonUEAssociatedLPPaTransportIEValueIETable is the bound table for DownlinkNonUEAssociatedLPPaTransport-IEs of TS 36.413.
 type DownlinkNonUEAssociatedLPPaTransportIEValueIETable struct{ bound bool }
 
-// DownlinkS1cdma2000tunnellingIEValueIETable is the concrete IETable[DownlinkS1cdma2000tunnellingIEValue].
+// DownlinkS1cdma2000tunnellingIEValueIETable is the bound table for DownlinkS1cdma2000tunnellingIEs of TS 36.413.
 type DownlinkS1cdma2000tunnellingIEValueIETable struct{ bound bool }
 
 // Cdma2000HOStatusValueCodec is the concrete ValueCodec[Cdma2000HOStatus].
@@ -2146,40 +2146,40 @@ func (c Cdma2000PDUValueCodec) encodeChanged(value Cdma2000PDU,
 	return out, aper.OperationError(err, c.path)
 }
 
-// DownlinkUEAssociatedLPPaTransportIEValueIETable is the concrete IETable[DownlinkUEAssociatedLPPaTransportIEValue].
+// DownlinkUEAssociatedLPPaTransportIEValueIETable is the bound table for DownlinkUEAssociatedLPPaTransport-IEs of TS 36.413.
 type DownlinkUEAssociatedLPPaTransportIEValueIETable struct{ bound bool }
 
-// ERABAdmittedItemExtIEsValueExtensionTable is the concrete ExtensionTable[ERABAdmittedItemExtIEsValue].
+// ERABAdmittedItemExtIEsValueExtensionTable is the bound table for E-RABAdmittedItem-ExtIEs of TS 36.413.
 type ERABAdmittedItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABAdmittedItemIEValueIETable is the concrete IETable[ERABAdmittedItemIEValue].
+// ERABAdmittedItemIEValueIETable is the bound table for E-RABAdmittedItemIEs of TS 36.413.
 type ERABAdmittedItemIEValueIETable struct{ bound bool }
 
-// ERABDataForwardingItemExtIEsValueExtensionTable is the concrete ExtensionTable[ERABDataForwardingItemExtIEsValue].
+// ERABDataForwardingItemExtIEsValueExtensionTable is the bound table for E-RABDataForwardingItem-ExtIEs of TS 36.413.
 type ERABDataForwardingItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABDataForwardingItemIEValueIETable is the concrete IETable[ERABDataForwardingItemIEValue].
+// ERABDataForwardingItemIEValueIETable is the bound table for E-RABDataForwardingItemIEs of TS 36.413.
 type ERABDataForwardingItemIEValueIETable struct{ bound bool }
 
-// ERABFailedToResumeItemResumeReqExtIEsValueExtensionTable is the concrete ExtensionTable[ERABFailedToResumeItemResumeReqExtIEsValue].
+// ERABFailedToResumeItemResumeReqExtIEsValueExtensionTable is the bound table for E-RABFailedToResumeItemResumeReq-ExtIEs of TS 36.413.
 type ERABFailedToResumeItemResumeReqExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABFailedToResumeItemResumeReqIEValueIETable is the concrete IETable[ERABFailedToResumeItemResumeReqIEValue].
+// ERABFailedToResumeItemResumeReqIEValueIETable is the bound table for E-RABFailedToResumeItemResumeReqIEs of TS 36.413.
 type ERABFailedToResumeItemResumeReqIEValueIETable struct{ bound bool }
 
-// ERABFailedToResumeItemResumeResExtIEsValueExtensionTable is the concrete ExtensionTable[ERABFailedToResumeItemResumeResExtIEsValue].
+// ERABFailedToResumeItemResumeResExtIEsValueExtensionTable is the bound table for E-RABFailedToResumeItemResumeRes-ExtIEs of TS 36.413.
 type ERABFailedToResumeItemResumeResExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABFailedToResumeItemResumeResIEValueIETable is the concrete IETable[ERABFailedToResumeItemResumeResIEValue].
+// ERABFailedToResumeItemResumeResIEValueIETable is the bound table for E-RABFailedToResumeItemResumeResIEs of TS 36.413.
 type ERABFailedToResumeItemResumeResIEValueIETable struct{ bound bool }
 
-// ERABFailedToSetupItemHOReqAckExtIEsValueExtensionTable is the concrete ExtensionTable[ERABFailedToSetupItemHOReqAckExtIEsValue].
+// ERABFailedToSetupItemHOReqAckExtIEsValueExtensionTable is the bound table for E-RABFailedToSetupItemHOReqAckExtIEs of TS 36.413.
 type ERABFailedToSetupItemHOReqAckExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABFailedtoSetupItemHOReqAckIEValueIETable is the concrete IETable[ERABFailedtoSetupItemHOReqAckIEValue].
+// ERABFailedtoSetupItemHOReqAckIEValueIETable is the bound table for E-RABFailedtoSetupItemHOReqAckIEs of TS 36.413.
 type ERABFailedtoSetupItemHOReqAckIEValueIETable struct{ bound bool }
 
-// ERABModificationConfirmIEValueIETable is the concrete IETable[ERABModificationConfirmIEValue].
+// ERABModificationConfirmIEValueIETable is the bound table for E-RABModificationConfirmIEs of TS 36.413.
 type ERABModificationConfirmIEValueIETable struct{ bound bool }
 
 // CSGMembershipStatusValueCodec is the concrete ValueCodec[CSGMembershipStatus].
@@ -2282,79 +2282,79 @@ func (c CSGMembershipStatusValueCodec) encodeChanged(value CSGMembershipStatus,
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModificationIndicationIEValueIETable is the concrete IETable[ERABModificationIndicationIEValue].
+// ERABModificationIndicationIEValueIETable is the bound table for E-RABModificationIndicationIEs of TS 36.413.
 type ERABModificationIndicationIEValueIETable struct{ bound bool }
 
-// ERABModifyItemBearerModConfExtIEsValueExtensionTable is the concrete ExtensionTable[ERABModifyItemBearerModConfExtIEsValue].
+// ERABModifyItemBearerModConfExtIEsValueExtensionTable is the bound table for E-RABModifyItemBearerModConfExtIEs of TS 36.413.
 type ERABModifyItemBearerModConfExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABModifyItemBearerModConfIEValueIETable is the concrete IETable[ERABModifyItemBearerModConfIEValue].
+// ERABModifyItemBearerModConfIEValueIETable is the bound table for E-RABModifyItemBearerModConfIEs of TS 36.413.
 type ERABModifyItemBearerModConfIEValueIETable struct{ bound bool }
 
-// ERABModifyItemBearerModResExtIEsValueExtensionTable is the concrete ExtensionTable[ERABModifyItemBearerModResExtIEsValue].
+// ERABModifyItemBearerModResExtIEsValueExtensionTable is the bound table for E-RABModifyItemBearerModResExtIEs of TS 36.413.
 type ERABModifyItemBearerModResExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABModifyItemBearerModResIEValueIETable is the concrete IETable[ERABModifyItemBearerModResIEValue].
+// ERABModifyItemBearerModResIEValueIETable is the bound table for E-RABModifyItemBearerModResIEs of TS 36.413.
 type ERABModifyItemBearerModResIEValueIETable struct{ bound bool }
 
-// ERABModifyRequestIEValueIETable is the concrete IETable[ERABModifyRequestIEValue].
+// ERABModifyRequestIEValueIETable is the bound table for E-RABModifyRequestIEs of TS 36.413.
 type ERABModifyRequestIEValueIETable struct{ bound bool }
 
-// ERABModifyResponseIEValueIETable is the concrete IETable[ERABModifyResponseIEValue].
+// ERABModifyResponseIEValueIETable is the bound table for E-RABModifyResponseIEs of TS 36.413.
 type ERABModifyResponseIEValueIETable struct{ bound bool }
 
-// ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionTable is the concrete ExtensionTable[ERABNotToBeModifiedItemBearerModIndExtIEsValue].
+// ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionTable is the bound table for E-RABNotToBeModifiedItemBearerModInd-ExtIEs of TS 36.413.
 type ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABNotToBeModifiedItemBearerModIndIEValueIETable is the concrete IETable[ERABNotToBeModifiedItemBearerModIndIEValue].
+// ERABNotToBeModifiedItemBearerModIndIEValueIETable is the bound table for E-RABNotToBeModifiedItemBearerModIndIEs of TS 36.413.
 type ERABNotToBeModifiedItemBearerModIndIEValueIETable struct{ bound bool }
 
-// ERABReleaseCommandIEValueIETable is the concrete IETable[ERABReleaseCommandIEValue].
+// ERABReleaseCommandIEValueIETable is the bound table for E-RABReleaseCommandIEs of TS 36.413.
 type ERABReleaseCommandIEValueIETable struct{ bound bool }
 
-// ERABReleaseIndicationIEValueIETable is the concrete IETable[ERABReleaseIndicationIEValue].
+// ERABReleaseIndicationIEValueIETable is the bound table for E-RABReleaseIndicationIEs of TS 36.413.
 type ERABReleaseIndicationIEValueIETable struct{ bound bool }
 
-// ERABReleaseItemBearerRelCompExtIEsValueExtensionTable is the concrete ExtensionTable[ERABReleaseItemBearerRelCompExtIEsValue].
+// ERABReleaseItemBearerRelCompExtIEsValueExtensionTable is the bound table for E-RABReleaseItemBearerRelCompExtIEs of TS 36.413.
 type ERABReleaseItemBearerRelCompExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABReleaseItemBearerRelCompIEValueIETable is the concrete IETable[ERABReleaseItemBearerRelCompIEValue].
+// ERABReleaseItemBearerRelCompIEValueIETable is the bound table for E-RABReleaseItemBearerRelCompIEs of TS 36.413.
 type ERABReleaseItemBearerRelCompIEValueIETable struct{ bound bool }
 
-// ERABReleaseResponseIEValueIETable is the concrete IETable[ERABReleaseResponseIEValue].
+// ERABReleaseResponseIEValueIETable is the bound table for E-RABReleaseResponseIEs of TS 36.413.
 type ERABReleaseResponseIEValueIETable struct{ bound bool }
 
-// ERABSetupItemBearerSUResExtIEsValueExtensionTable is the concrete ExtensionTable[ERABSetupItemBearerSUResExtIEsValue].
+// ERABSetupItemBearerSUResExtIEsValueExtensionTable is the bound table for E-RABSetupItemBearerSUResExtIEs of TS 36.413.
 type ERABSetupItemBearerSUResExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABSetupItemBearerSUResIEValueIETable is the concrete IETable[ERABSetupItemBearerSUResIEValue].
+// ERABSetupItemBearerSUResIEValueIETable is the bound table for E-RABSetupItemBearerSUResIEs of TS 36.413.
 type ERABSetupItemBearerSUResIEValueIETable struct{ bound bool }
 
-// ERABSetupItemCtxtSUResExtIEsValueExtensionTable is the concrete ExtensionTable[ERABSetupItemCtxtSUResExtIEsValue].
+// ERABSetupItemCtxtSUResExtIEsValueExtensionTable is the bound table for E-RABSetupItemCtxtSUResExtIEs of TS 36.413.
 type ERABSetupItemCtxtSUResExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABSetupItemCtxtSUResIEValueIETable is the concrete IETable[ERABSetupItemCtxtSUResIEValue].
+// ERABSetupItemCtxtSUResIEValueIETable is the bound table for E-RABSetupItemCtxtSUResIEs of TS 36.413.
 type ERABSetupItemCtxtSUResIEValueIETable struct{ bound bool }
 
-// ERABSetupRequestIEValueIETable is the concrete IETable[ERABSetupRequestIEValue].
+// ERABSetupRequestIEValueIETable is the bound table for E-RABSetupRequestIEs of TS 36.413.
 type ERABSetupRequestIEValueIETable struct{ bound bool }
 
-// ERABSetupResponseIEValueIETable is the concrete IETable[ERABSetupResponseIEValue].
+// ERABSetupResponseIEValueIETable is the bound table for E-RABSetupResponseIEs of TS 36.413.
 type ERABSetupResponseIEValueIETable struct{ bound bool }
 
-// ERABToBeModifiedItemBearerModIndExtIEsValueExtensionTable is the concrete ExtensionTable[ERABToBeModifiedItemBearerModIndExtIEsValue].
+// ERABToBeModifiedItemBearerModIndExtIEsValueExtensionTable is the bound table for E-RABToBeModifiedItemBearerModInd-ExtIEs of TS 36.413.
 type ERABToBeModifiedItemBearerModIndExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABToBeModifiedItemBearerModIndIEValueIETable is the concrete IETable[ERABToBeModifiedItemBearerModIndIEValue].
+// ERABToBeModifiedItemBearerModIndIEValueIETable is the bound table for E-RABToBeModifiedItemBearerModIndIEs of TS 36.413.
 type ERABToBeModifiedItemBearerModIndIEValueIETable struct{ bound bool }
 
-// ERABToBeModifiedItemBearerModReqIEValueIETable is the concrete IETable[ERABToBeModifiedItemBearerModReqIEValue].
+// ERABToBeModifiedItemBearerModReqIEValueIETable is the bound table for E-RABToBeModifiedItemBearerModReqIEs of TS 36.413.
 type ERABToBeModifiedItemBearerModReqIEValueIETable struct{ bound bool }
 
-// ERABToBeModifyItemBearerModReqExtIEsValueExtensionTable is the concrete ExtensionTable[ERABToBeModifyItemBearerModReqExtIEsValue].
+// ERABToBeModifyItemBearerModReqExtIEsValueExtensionTable is the bound table for E-RABToBeModifyItemBearerModReqExtIEs of TS 36.413.
 type ERABToBeModifyItemBearerModReqExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABToBeSetupItemBearerSUReqExtIEsValueExtensionTable is the concrete ExtensionTable[ERABToBeSetupItemBearerSUReqExtIEsValue].
+// ERABToBeSetupItemBearerSUReqExtIEsValueExtensionTable is the bound table for E-RABToBeSetupItemBearerSUReqExtIEs of TS 36.413.
 type ERABToBeSetupItemBearerSUReqExtIEsValueExtensionTable struct{ bound bool }
 
 // CorrelationIDValueCodec is the concrete ValueCodec[CorrelationID].
@@ -2657,16 +2657,16 @@ func (c EthernetTypeValueCodec) encodeChanged(value EthernetType,
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABToBeSetupItemBearerSUReqIEValueIETable is the concrete IETable[ERABToBeSetupItemBearerSUReqIEValue].
+// ERABToBeSetupItemBearerSUReqIEValueIETable is the bound table for E-RABToBeSetupItemBearerSUReqIEs of TS 36.413.
 type ERABToBeSetupItemBearerSUReqIEValueIETable struct{ bound bool }
 
-// ERABToBeSetupItemCtxtSUReqExtIEsValueExtensionTable is the concrete ExtensionTable[ERABToBeSetupItemCtxtSUReqExtIEsValue].
+// ERABToBeSetupItemCtxtSUReqExtIEsValueExtensionTable is the bound table for E-RABToBeSetupItemCtxtSUReqExtIEs of TS 36.413.
 type ERABToBeSetupItemCtxtSUReqExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABToBeSetupItemCtxtSUReqIEValueIETable is the concrete IETable[ERABToBeSetupItemCtxtSUReqIEValue].
+// ERABToBeSetupItemCtxtSUReqIEValueIETable is the bound table for E-RABToBeSetupItemCtxtSUReqIEs of TS 36.413.
 type ERABToBeSetupItemCtxtSUReqIEValueIETable struct{ bound bool }
 
-// ERABToBeSetupItemHOReqExtIEsValueExtensionTable is the concrete ExtensionTable[ERABToBeSetupItemHOReqExtIEsValue].
+// ERABToBeSetupItemHOReqExtIEsValueExtensionTable is the bound table for E-RABToBeSetupItemHOReq-ExtIEs of TS 36.413.
 type ERABToBeSetupItemHOReqExtIEsValueExtensionTable struct{ bound bool }
 
 // DataForwardingNotPossibleValueCodec is the concrete ValueCodec[DataForwardingNotPossible].
@@ -2769,40 +2769,40 @@ func (c DataForwardingNotPossibleValueCodec) encodeChanged(value DataForwardingN
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABToBeSetupItemHOReqIEValueIETable is the concrete IETable[ERABToBeSetupItemHOReqIEValue].
+// ERABToBeSetupItemHOReqIEValueIETable is the bound table for E-RABToBeSetupItemHOReqIEs of TS 36.413.
 type ERABToBeSetupItemHOReqIEValueIETable struct{ bound bool }
 
-// ERABToBeSwitchedDLItemExtIEsValueExtensionTable is the concrete ExtensionTable[ERABToBeSwitchedDLItemExtIEsValue].
+// ERABToBeSwitchedDLItemExtIEsValueExtensionTable is the bound table for E-RABToBeSwitchedDLItem-ExtIEs of TS 36.413.
 type ERABToBeSwitchedDLItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABToBeSwitchedDLItemIEValueIETable is the concrete IETable[ERABToBeSwitchedDLItemIEValue].
+// ERABToBeSwitchedDLItemIEValueIETable is the bound table for E-RABToBeSwitchedDLItemIEs of TS 36.413.
 type ERABToBeSwitchedDLItemIEValueIETable struct{ bound bool }
 
-// ERABToBeSwitchedULItemExtIEsValueExtensionTable is the concrete ExtensionTable[ERABToBeSwitchedULItemExtIEsValue].
+// ERABToBeSwitchedULItemExtIEsValueExtensionTable is the bound table for E-RABToBeSwitchedULItem-ExtIEs of TS 36.413.
 type ERABToBeSwitchedULItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABToBeSwitchedULItemIEValueIETable is the concrete IETable[ERABToBeSwitchedULItemIEValue].
+// ERABToBeSwitchedULItemIEValueIETable is the bound table for E-RABToBeSwitchedULItemIEs of TS 36.413.
 type ERABToBeSwitchedULItemIEValueIETable struct{ bound bool }
 
-// ERABToBeUpdatedItemExtIEsValueExtensionTable is the concrete ExtensionTable[ERABToBeUpdatedItemExtIEsValue].
+// ERABToBeUpdatedItemExtIEsValueExtensionTable is the bound table for E-RABToBeUpdatedItem-ExtIEs of TS 36.413.
 type ERABToBeUpdatedItemExtIEsValueExtensionTable struct{ bound bool }
 
-// ERABToBeUpdatedItemIEValueIETable is the concrete IETable[ERABToBeUpdatedItemIEValue].
+// ERABToBeUpdatedItemIEValueIETable is the bound table for E-RABToBeUpdatedItemIEs of TS 36.413.
 type ERABToBeUpdatedItemIEValueIETable struct{ bound bool }
 
-// ENBCPRelocationIndicationIEValueIETable is the concrete IETable[ENBCPRelocationIndicationIEValue].
+// ENBCPRelocationIndicationIEValueIETable is the bound table for ENBCPRelocationIndicationIEs of TS 36.413.
 type ENBCPRelocationIndicationIEValueIETable struct{ bound bool }
 
-// ENBConfigurationTransferIEValueIETable is the concrete IETable[ENBConfigurationTransferIEValue].
+// ENBConfigurationTransferIEValueIETable is the bound table for ENBConfigurationTransferIEs of TS 36.413.
 type ENBConfigurationTransferIEValueIETable struct{ bound bool }
 
-// ENBConfigurationUpdateAcknowledgeIEValueIETable is the concrete IETable[ENBConfigurationUpdateAcknowledgeIEValue].
+// ENBConfigurationUpdateAcknowledgeIEValueIETable is the bound table for ENBConfigurationUpdateAcknowledgeIEs of TS 36.413.
 type ENBConfigurationUpdateAcknowledgeIEValueIETable struct{ bound bool }
 
-// ENBConfigurationUpdateFailureIEValueIETable is the concrete IETable[ENBConfigurationUpdateFailureIEValue].
+// ENBConfigurationUpdateFailureIEValueIETable is the bound table for ENBConfigurationUpdateFailureIEs of TS 36.413.
 type ENBConfigurationUpdateFailureIEValueIETable struct{ bound bool }
 
-// ENBConfigurationUpdateIEValueIETable is the concrete IETable[ENBConfigurationUpdateIEValue].
+// ENBConfigurationUpdateIEValueIETable is the bound table for ENBConfigurationUpdateIEs of TS 36.413.
 type ENBConfigurationUpdateIEValueIETable struct{ bound bool }
 
 // ENBnameValueCodec is the concrete ValueCodec[ENBname].
@@ -2905,25 +2905,25 @@ func (c ENBnameValueCodec) encodeChanged(value ENBname,
 	return out, aper.OperationError(err, c.path)
 }
 
-// ENBDirectInformationTransferIEValueIETable is the concrete IETable[ENBDirectInformationTransferIEValue].
+// ENBDirectInformationTransferIEValueIETable is the bound table for ENBDirectInformationTransferIEs of TS 36.413.
 type ENBDirectInformationTransferIEValueIETable struct{ bound bool }
 
-// ENBEarlyStatusTransferIEValueIETable is the concrete IETable[ENBEarlyStatusTransferIEValue].
+// ENBEarlyStatusTransferIEValueIETable is the bound table for ENBEarlyStatusTransferIEs of TS 36.413.
 type ENBEarlyStatusTransferIEValueIETable struct{ bound bool }
 
-// ENBStatusTransferIEValueIETable is the concrete IETable[ENBStatusTransferIEValue].
+// ENBStatusTransferIEValueIETable is the bound table for ENBStatusTransferIEs of TS 36.413.
 type ENBStatusTransferIEValueIETable struct{ bound bool }
 
-// ErrorIndicationIEValueIETable is the concrete IETable[ErrorIndicationIEValue].
+// ErrorIndicationIEValueIETable is the bound table for ErrorIndicationIEs of TS 36.413.
 type ErrorIndicationIEValueIETable struct{ bound bool }
 
-// HandoverCancelAcknowledgeIEValueIETable is the concrete IETable[HandoverCancelAcknowledgeIEValue].
+// HandoverCancelAcknowledgeIEValueIETable is the bound table for HandoverCancelAcknowledgeIEs of TS 36.413.
 type HandoverCancelAcknowledgeIEValueIETable struct{ bound bool }
 
-// HandoverCancelIEValueIETable is the concrete IETable[HandoverCancelIEValue].
+// HandoverCancelIEValueIETable is the bound table for HandoverCancelIEs of TS 36.413.
 type HandoverCancelIEValueIETable struct{ bound bool }
 
-// HandoverCommandIEValueIETable is the concrete IETable[HandoverCommandIEValue].
+// HandoverCommandIEValueIETable is the bound table for HandoverCommandIEs of TS 36.413.
 type HandoverCommandIEValueIETable struct{ bound bool }
 
 // HandoverTypeValueCodec is the concrete ValueCodec[HandoverType].
@@ -3026,16 +3026,16 @@ func (c HandoverTypeValueCodec) encodeChanged(value HandoverType,
 	return out, aper.OperationError(err, c.path)
 }
 
-// HandoverFailureIEValueIETable is the concrete IETable[HandoverFailureIEValue].
+// HandoverFailureIEValueIETable is the bound table for HandoverFailureIEs of TS 36.413.
 type HandoverFailureIEValueIETable struct{ bound bool }
 
-// HandoverNotifyIEValueIETable is the concrete IETable[HandoverNotifyIEValue].
+// HandoverNotifyIEValueIETable is the bound table for HandoverNotifyIEs of TS 36.413.
 type HandoverNotifyIEValueIETable struct{ bound bool }
 
-// HandoverPreparationFailureIEValueIETable is the concrete IETable[HandoverPreparationFailureIEValue].
+// HandoverPreparationFailureIEValueIETable is the bound table for HandoverPreparationFailureIEs of TS 36.413.
 type HandoverPreparationFailureIEValueIETable struct{ bound bool }
 
-// HandoverRequestAcknowledgeIEValueIETable is the concrete IETable[HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeIEValueIETable is the bound table for HandoverRequestAcknowledgeIEs of TS 36.413.
 type HandoverRequestAcknowledgeIEValueIETable struct{ bound bool }
 
 // CSGIdValueCodec is the concrete ValueCodec[CSGId].
@@ -3338,7 +3338,7 @@ func (c CEModeBSupportIndicatorValueCodec) encodeChanged(value CEModeBSupportInd
 	return out, aper.OperationError(err, c.path)
 }
 
-// HandoverRequestIEValueIETable is the concrete IETable[HandoverRequestIEValue].
+// HandoverRequestIEValueIETable is the bound table for HandoverRequestIEs of TS 36.413.
 type HandoverRequestIEValueIETable struct{ bound bool }
 
 // AerialUEsubscriptionInformationValueCodec is the concrete ValueCodec[AerialUEsubscriptionInformation].
@@ -3541,16 +3541,16 @@ func (c IABAuthorizedValueCodec) encodeChanged(value IABAuthorized,
 	return out, aper.OperationError(err, c.path)
 }
 
-// HandoverRequiredIEValueIETable is the concrete IETable[HandoverRequiredIEValue].
+// HandoverRequiredIEValueIETable is the bound table for HandoverRequiredIEs of TS 36.413.
 type HandoverRequiredIEValueIETable struct{ bound bool }
 
-// HandoverSuccessIEValueIETable is the concrete IETable[HandoverSuccessIEValue].
+// HandoverSuccessIEValueIETable is the bound table for HandoverSuccessIEs of TS 36.413.
 type HandoverSuccessIEValueIETable struct{ bound bool }
 
-// InitialContextSetupFailureIEValueIETable is the concrete IETable[InitialContextSetupFailureIEValue].
+// InitialContextSetupFailureIEValueIETable is the bound table for InitialContextSetupFailureIEs of TS 36.413.
 type InitialContextSetupFailureIEValueIETable struct{ bound bool }
 
-// InitialContextSetupRequestIEValueIETable is the concrete IETable[InitialContextSetupRequestIEValue].
+// InitialContextSetupRequestIEValueIETable is the bound table for InitialContextSetupRequestIEs of TS 36.413.
 type InitialContextSetupRequestIEValueIETable struct{ bound bool }
 
 // CSFallbackIndicatorValueCodec is the concrete ValueCodec[CSFallbackIndicator].
@@ -3753,10 +3753,10 @@ func (c AdditionalCSFallbackIndicatorValueCodec) encodeChanged(value AdditionalC
 	return out, aper.OperationError(err, c.path)
 }
 
-// InitialContextSetupResponseIEValueIETable is the concrete IETable[InitialContextSetupResponseIEValue].
+// InitialContextSetupResponseIEValueIETable is the bound table for InitialContextSetupResponseIEs of TS 36.413.
 type InitialContextSetupResponseIEValueIETable struct{ bound bool }
 
-// InitialUEMessageIEValueIETable is the concrete IETable[InitialUEMessageIEValue].
+// InitialUEMessageIEValueIETable is the bound table for InitialUEMessage-IEs of TS 36.413.
 type InitialUEMessageIEValueIETable struct{ bound bool }
 
 // DCNIDValueCodec is the concrete ValueCodec[DCNID].
@@ -4159,61 +4159,61 @@ func (c CoarseUELocationRequestedValueCodec) encodeChanged(value CoarseUELocatio
 	return out, aper.OperationError(err, c.path)
 }
 
-// KillRequestIEValueIETable is the concrete IETable[KillRequestIEValue].
+// KillRequestIEValueIETable is the bound table for KillRequestIEs of TS 36.413.
 type KillRequestIEValueIETable struct{ bound bool }
 
-// KillResponseIEValueIETable is the concrete IETable[KillResponseIEValue].
+// KillResponseIEValueIETable is the bound table for KillResponseIEs of TS 36.413.
 type KillResponseIEValueIETable struct{ bound bool }
 
-// LocationReportIEValueIETable is the concrete IETable[LocationReportIEValue].
+// LocationReportIEValueIETable is the bound table for LocationReportIEs of TS 36.413.
 type LocationReportIEValueIETable struct{ bound bool }
 
-// LocationReportingControlIEValueIETable is the concrete IETable[LocationReportingControlIEValue].
+// LocationReportingControlIEValueIETable is the bound table for LocationReportingControlIEs of TS 36.413.
 type LocationReportingControlIEValueIETable struct{ bound bool }
 
-// LocationReportingFailureIndicationIEValueIETable is the concrete IETable[LocationReportingFailureIndicationIEValue].
+// LocationReportingFailureIndicationIEValueIETable is the bound table for LocationReportingFailureIndicationIEs of TS 36.413.
 type LocationReportingFailureIndicationIEValueIETable struct{ bound bool }
 
-// MMECPRelocationIndicationIEValueIETable is the concrete IETable[MMECPRelocationIndicationIEValue].
+// MMECPRelocationIndicationIEValueIETable is the bound table for MMECPRelocationIndicationIEs of TS 36.413.
 type MMECPRelocationIndicationIEValueIETable struct{ bound bool }
 
-// MMEConfigurationTransferIEValueIETable is the concrete IETable[MMEConfigurationTransferIEValue].
+// MMEConfigurationTransferIEValueIETable is the bound table for MMEConfigurationTransferIEs of TS 36.413.
 type MMEConfigurationTransferIEValueIETable struct{ bound bool }
 
-// MMEConfigurationUpdateAcknowledgeIEValueIETable is the concrete IETable[MMEConfigurationUpdateAcknowledgeIEValue].
+// MMEConfigurationUpdateAcknowledgeIEValueIETable is the bound table for MMEConfigurationUpdateAcknowledgeIEs of TS 36.413.
 type MMEConfigurationUpdateAcknowledgeIEValueIETable struct{ bound bool }
 
-// MMEConfigurationUpdateFailureIEValueIETable is the concrete IETable[MMEConfigurationUpdateFailureIEValue].
+// MMEConfigurationUpdateFailureIEValueIETable is the bound table for MMEConfigurationUpdateFailureIEs of TS 36.413.
 type MMEConfigurationUpdateFailureIEValueIETable struct{ bound bool }
 
-// MMEConfigurationUpdateIEValueIETable is the concrete IETable[MMEConfigurationUpdateIEValue].
+// MMEConfigurationUpdateIEValueIETable is the bound table for MMEConfigurationUpdateIEs of TS 36.413.
 type MMEConfigurationUpdateIEValueIETable struct{ bound bool }
 
-// MMEDirectInformationTransferIEValueIETable is the concrete IETable[MMEDirectInformationTransferIEValue].
+// MMEDirectInformationTransferIEValueIETable is the bound table for MMEDirectInformationTransferIEs of TS 36.413.
 type MMEDirectInformationTransferIEValueIETable struct{ bound bool }
 
-// MMEEarlyStatusTransferIEValueIETable is the concrete IETable[MMEEarlyStatusTransferIEValue].
+// MMEEarlyStatusTransferIEValueIETable is the bound table for MMEEarlyStatusTransferIEs of TS 36.413.
 type MMEEarlyStatusTransferIEValueIETable struct{ bound bool }
 
-// MMEStatusTransferIEValueIETable is the concrete IETable[MMEStatusTransferIEValue].
+// MMEStatusTransferIEValueIETable is the bound table for MMEStatusTransferIEs of TS 36.413.
 type MMEStatusTransferIEValueIETable struct{ bound bool }
 
-// NASDeliveryIndicationIEValueIETable is the concrete IETable[NASDeliveryIndicationIEValue].
+// NASDeliveryIndicationIEValueIETable is the bound table for NASDeliveryIndicationIEs of TS 36.413.
 type NASDeliveryIndicationIEValueIETable struct{ bound bool }
 
-// NASNonDeliveryIndicationIEValueIETable is the concrete IETable[NASNonDeliveryIndicationIEValue].
+// NASNonDeliveryIndicationIEValueIETable is the bound table for NASNonDeliveryIndication-IEs of TS 36.413.
 type NASNonDeliveryIndicationIEValueIETable struct{ bound bool }
 
-// OverloadStartIEValueIETable is the concrete IETable[OverloadStartIEValue].
+// OverloadStartIEValueIETable is the bound table for OverloadStartIEs of TS 36.413.
 type OverloadStartIEValueIETable struct{ bound bool }
 
-// OverloadStopIEValueIETable is the concrete IETable[OverloadStopIEValue].
+// OverloadStopIEValueIETable is the bound table for OverloadStopIEs of TS 36.413.
 type OverloadStopIEValueIETable struct{ bound bool }
 
-// PWSFailureIndicationIEValueIETable is the concrete IETable[PWSFailureIndicationIEValue].
+// PWSFailureIndicationIEValueIETable is the bound table for PWSFailureIndicationIEs of TS 36.413.
 type PWSFailureIndicationIEValueIETable struct{ bound bool }
 
-// PWSRestartIndicationIEValueIETable is the concrete IETable[PWSRestartIndicationIEValue].
+// PWSRestartIndicationIEValueIETable is the bound table for PWSRestartIndicationIEs of TS 36.413.
 type PWSRestartIndicationIEValueIETable struct{ bound bool }
 
 // EmergencyAreaIDListForRestartValueCodec is the concrete ValueCodec[EmergencyAreaIDListForRestart].
@@ -4316,7 +4316,7 @@ func (c EmergencyAreaIDListForRestartValueCodec) encodeChanged(value EmergencyAr
 	return out, aper.OperationError(err, c.path)
 }
 
-// PagingIEValueIETable is the concrete IETable[PagingIEValue].
+// PagingIEValueIETable is the bound table for PagingIEs of TS 36.413.
 type PagingIEValueIETable struct{ bound bool }
 
 // CNDomainValueCodec is the concrete ValueCodec[CNDomain].
@@ -4619,46 +4619,46 @@ func (c DataSizeValueCodec) encodeChanged(value DataSize,
 	return out, aper.OperationError(err, c.path)
 }
 
-// PathSwitchRequestAcknowledgeIEValueIETable is the concrete IETable[PathSwitchRequestAcknowledgeIEValue].
+// PathSwitchRequestAcknowledgeIEValueIETable is the bound table for PathSwitchRequestAcknowledgeIEs of TS 36.413.
 type PathSwitchRequestAcknowledgeIEValueIETable struct{ bound bool }
 
-// PathSwitchRequestFailureIEValueIETable is the concrete IETable[PathSwitchRequestFailureIEValue].
+// PathSwitchRequestFailureIEValueIETable is the bound table for PathSwitchRequestFailureIEs of TS 36.413.
 type PathSwitchRequestFailureIEValueIETable struct{ bound bool }
 
-// PathSwitchRequestIEValueIETable is the concrete IETable[PathSwitchRequestIEValue].
+// PathSwitchRequestIEValueIETable is the bound table for PathSwitchRequestIEs of TS 36.413.
 type PathSwitchRequestIEValueIETable struct{ bound bool }
 
-// RerouteNASRequestIEValueIETable is the concrete IETable[RerouteNASRequestIEValue].
+// RerouteNASRequestIEValueIETable is the bound table for RerouteNASRequest-IEs of TS 36.413.
 type RerouteNASRequestIEValueIETable struct{ bound bool }
 
-// ResetAcknowledgeIEValueIETable is the concrete IETable[ResetAcknowledgeIEValue].
+// ResetAcknowledgeIEValueIETable is the bound table for ResetAcknowledgeIEs of TS 36.413.
 type ResetAcknowledgeIEValueIETable struct{ bound bool }
 
-// ResetIEValueIETable is the concrete IETable[ResetIEValue].
+// ResetIEValueIETable is the bound table for ResetIEs of TS 36.413.
 type ResetIEValueIETable struct{ bound bool }
 
-// RetrieveUEInformationIEValueIETable is the concrete IETable[RetrieveUEInformationIEValue].
+// RetrieveUEInformationIEValueIETable is the bound table for RetrieveUEInformationIEs of TS 36.413.
 type RetrieveUEInformationIEValueIETable struct{ bound bool }
 
-// S1RemovalFailureIEValueIETable is the concrete IETable[S1RemovalFailureIEValue].
+// S1RemovalFailureIEValueIETable is the bound table for S1RemovalFailureIEs of TS 36.413.
 type S1RemovalFailureIEValueIETable struct{ bound bool }
 
-// S1RemovalRequestIEValueIETable is the concrete IETable[S1RemovalRequestIEValue].
+// S1RemovalRequestIEValueIETable is the bound table for S1RemovalRequestIEs of TS 36.413.
 type S1RemovalRequestIEValueIETable struct{ bound bool }
 
-// S1RemovalResponseIEValueIETable is the concrete IETable[S1RemovalResponseIEValue].
+// S1RemovalResponseIEValueIETable is the bound table for S1RemovalResponseIEs of TS 36.413.
 type S1RemovalResponseIEValueIETable struct{ bound bool }
 
-// S1SetupFailureIEValueIETable is the concrete IETable[S1SetupFailureIEValue].
+// S1SetupFailureIEValueIETable is the bound table for S1SetupFailureIEs of TS 36.413.
 type S1SetupFailureIEValueIETable struct{ bound bool }
 
-// S1SetupRequestIEValueIETable is the concrete IETable[S1SetupRequestIEValue].
+// S1SetupRequestIEValueIETable is the bound table for S1SetupRequestIEs of TS 36.413.
 type S1SetupRequestIEValueIETable struct{ bound bool }
 
-// S1SetupResponseIEValueIETable is the concrete IETable[S1SetupResponseIEValue].
+// S1SetupResponseIEValueIETable is the bound table for S1SetupResponseIEs of TS 36.413.
 type S1SetupResponseIEValueIETable struct{ bound bool }
 
-// SecondaryRATDataUsageReportIEValueIETable is the concrete IETable[SecondaryRATDataUsageReportIEValue].
+// SecondaryRATDataUsageReportIEValueIETable is the bound table for SecondaryRATDataUsageReportIEs of TS 36.413.
 type SecondaryRATDataUsageReportIEValueIETable struct{ bound bool }
 
 // HandoverFlagValueCodec is the concrete ValueCodec[HandoverFlag].
@@ -4761,49 +4761,49 @@ func (c HandoverFlagValueCodec) encodeChanged(value HandoverFlag,
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIItemExtIEsValueExtensionTable is the concrete ExtensionTable[TAIItemExtIEsValue].
+// TAIItemExtIEsValueExtensionTable is the bound table for TAIItemExtIEs of TS 36.413.
 type TAIItemExtIEsValueExtensionTable struct{ bound bool }
 
-// TAIItemIEValueIETable is the concrete IETable[TAIItemIEValue].
+// TAIItemIEValueIETable is the bound table for TAIItemIEs of TS 36.413.
 type TAIItemIEValueIETable struct{ bound bool }
 
-// TraceFailureIndicationIEValueIETable is the concrete IETable[TraceFailureIndicationIEValue].
+// TraceFailureIndicationIEValueIETable is the bound table for TraceFailureIndicationIEs of TS 36.413.
 type TraceFailureIndicationIEValueIETable struct{ bound bool }
 
-// TraceStartIEValueIETable is the concrete IETable[TraceStartIEValue].
+// TraceStartIEValueIETable is the bound table for TraceStartIEs of TS 36.413.
 type TraceStartIEValueIETable struct{ bound bool }
 
-// UEAssociatedLogicalS1ConnectionItemResIEValueIETable is the concrete IETable[UEAssociatedLogicalS1ConnectionItemResIEValue].
+// UEAssociatedLogicalS1ConnectionItemResIEValueIETable is the bound table for UE-associatedLogicalS1-ConnectionItemRes of TS 36.413.
 type UEAssociatedLogicalS1ConnectionItemResIEValueIETable struct{ bound bool }
 
-// UEAssociatedLogicalS1ConnectionItemResAckIEValueIETable is the concrete IETable[UEAssociatedLogicalS1ConnectionItemResAckIEValue].
+// UEAssociatedLogicalS1ConnectionItemResAckIEValueIETable is the bound table for UE-associatedLogicalS1-ConnectionItemResAck of TS 36.413.
 type UEAssociatedLogicalS1ConnectionItemResAckIEValueIETable struct{ bound bool }
 
-// UECapabilityInfoIndicationIEValueIETable is the concrete IETable[UECapabilityInfoIndicationIEValue].
+// UECapabilityInfoIndicationIEValueIETable is the bound table for UECapabilityInfoIndicationIEs of TS 36.413.
 type UECapabilityInfoIndicationIEValueIETable struct{ bound bool }
 
-// UEContextModificationConfirmIEValueIETable is the concrete IETable[UEContextModificationConfirmIEValue].
+// UEContextModificationConfirmIEValueIETable is the bound table for UEContextModificationConfirmIEs of TS 36.413.
 type UEContextModificationConfirmIEValueIETable struct{ bound bool }
 
-// UEContextModificationFailureIEValueIETable is the concrete IETable[UEContextModificationFailureIEValue].
+// UEContextModificationFailureIEValueIETable is the bound table for UEContextModificationFailureIEs of TS 36.413.
 type UEContextModificationFailureIEValueIETable struct{ bound bool }
 
-// UEContextModificationIndicationIEValueIETable is the concrete IETable[UEContextModificationIndicationIEValue].
+// UEContextModificationIndicationIEValueIETable is the bound table for UEContextModificationIndicationIEs of TS 36.413.
 type UEContextModificationIndicationIEValueIETable struct{ bound bool }
 
-// UEContextModificationRequestIEValueIETable is the concrete IETable[UEContextModificationRequestIEValue].
+// UEContextModificationRequestIEValueIETable is the bound table for UEContextModificationRequestIEs of TS 36.413.
 type UEContextModificationRequestIEValueIETable struct{ bound bool }
 
-// UEContextModificationResponseIEValueIETable is the concrete IETable[UEContextModificationResponseIEValue].
+// UEContextModificationResponseIEValueIETable is the bound table for UEContextModificationResponseIEs of TS 36.413.
 type UEContextModificationResponseIEValueIETable struct{ bound bool }
 
-// UEContextReleaseCommandIEValueIETable is the concrete IETable[UEContextReleaseCommandIEValue].
+// UEContextReleaseCommandIEValueIETable is the bound table for UEContextReleaseCommand-IEs of TS 36.413.
 type UEContextReleaseCommandIEValueIETable struct{ bound bool }
 
-// UEContextReleaseCompleteIEValueIETable is the concrete IETable[UEContextReleaseCompleteIEValue].
+// UEContextReleaseCompleteIEValueIETable is the bound table for UEContextReleaseComplete-IEs of TS 36.413.
 type UEContextReleaseCompleteIEValueIETable struct{ bound bool }
 
-// UEContextReleaseRequestIEValueIETable is the concrete IETable[UEContextReleaseRequestIEValue].
+// UEContextReleaseRequestIEValueIETable is the bound table for UEContextReleaseRequest-IEs of TS 36.413.
 type UEContextReleaseRequestIEValueIETable struct{ bound bool }
 
 // GWContextReleaseIndicationValueCodec is the concrete ValueCodec[GWContextReleaseIndication].
@@ -4906,43 +4906,43 @@ func (c GWContextReleaseIndicationValueCodec) encodeChanged(value GWContextRelea
 	return out, aper.OperationError(err, c.path)
 }
 
-// UEContextResumeFailureIEValueIETable is the concrete IETable[UEContextResumeFailureIEValue].
+// UEContextResumeFailureIEValueIETable is the bound table for UEContextResumeFailureIEs of TS 36.413.
 type UEContextResumeFailureIEValueIETable struct{ bound bool }
 
-// UEContextResumeRequestIEValueIETable is the concrete IETable[UEContextResumeRequestIEValue].
+// UEContextResumeRequestIEValueIETable is the bound table for UEContextResumeRequestIEs of TS 36.413.
 type UEContextResumeRequestIEValueIETable struct{ bound bool }
 
-// UEContextResumeResponseIEValueIETable is the concrete IETable[UEContextResumeResponseIEValue].
+// UEContextResumeResponseIEValueIETable is the bound table for UEContextResumeResponseIEs of TS 36.413.
 type UEContextResumeResponseIEValueIETable struct{ bound bool }
 
-// UEContextSuspendRequestIEValueIETable is the concrete IETable[UEContextSuspendRequestIEValue].
+// UEContextSuspendRequestIEValueIETable is the bound table for UEContextSuspendRequestIEs of TS 36.413.
 type UEContextSuspendRequestIEValueIETable struct{ bound bool }
 
-// UEContextSuspendResponseIEValueIETable is the concrete IETable[UEContextSuspendResponseIEValue].
+// UEContextSuspendResponseIEValueIETable is the bound table for UEContextSuspendResponseIEs of TS 36.413.
 type UEContextSuspendResponseIEValueIETable struct{ bound bool }
 
-// UEInformationTransferIEValueIETable is the concrete IETable[UEInformationTransferIEValue].
+// UEInformationTransferIEValueIETable is the bound table for UEInformationTransferIEs of TS 36.413.
 type UEInformationTransferIEValueIETable struct{ bound bool }
 
-// UERadioCapabilityIDMappingRequestIEValueIETable is the concrete IETable[UERadioCapabilityIDMappingRequestIEValue].
+// UERadioCapabilityIDMappingRequestIEValueIETable is the bound table for UERadioCapabilityIDMappingRequestIEs of TS 36.413.
 type UERadioCapabilityIDMappingRequestIEValueIETable struct{ bound bool }
 
-// UERadioCapabilityIDMappingResponseIEValueIETable is the concrete IETable[UERadioCapabilityIDMappingResponseIEValue].
+// UERadioCapabilityIDMappingResponseIEValueIETable is the bound table for UERadioCapabilityIDMappingResponseIEs of TS 36.413.
 type UERadioCapabilityIDMappingResponseIEValueIETable struct{ bound bool }
 
-// UERadioCapabilityMatchRequestIEValueIETable is the concrete IETable[UERadioCapabilityMatchRequestIEValue].
+// UERadioCapabilityMatchRequestIEValueIETable is the bound table for UERadioCapabilityMatchRequestIEs of TS 36.413.
 type UERadioCapabilityMatchRequestIEValueIETable struct{ bound bool }
 
-// UERadioCapabilityMatchResponseIEValueIETable is the concrete IETable[UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityMatchResponseIEValueIETable is the bound table for UERadioCapabilityMatchResponseIEs of TS 36.413.
 type UERadioCapabilityMatchResponseIEValueIETable struct{ bound bool }
 
-// UplinkNASTransportIEValueIETable is the concrete IETable[UplinkNASTransportIEValue].
+// UplinkNASTransportIEValueIETable is the bound table for UplinkNASTransport-IEs of TS 36.413.
 type UplinkNASTransportIEValueIETable struct{ bound bool }
 
-// UplinkNonUEAssociatedLPPaTransportIEValueIETable is the concrete IETable[UplinkNonUEAssociatedLPPaTransportIEValue].
+// UplinkNonUEAssociatedLPPaTransportIEValueIETable is the bound table for UplinkNonUEAssociatedLPPaTransport-IEs of TS 36.413.
 type UplinkNonUEAssociatedLPPaTransportIEValueIETable struct{ bound bool }
 
-// UplinkS1cdma2000tunnellingIEValueIETable is the concrete IETable[UplinkS1cdma2000tunnellingIEValue].
+// UplinkS1cdma2000tunnellingIEValueIETable is the bound table for UplinkS1cdma2000tunnellingIEs of TS 36.413.
 type UplinkS1cdma2000tunnellingIEValueIETable struct{ bound bool }
 
 // Cdma2000SectorIDValueCodec is the concrete ValueCodec[Cdma2000SectorID].
@@ -5345,10 +5345,10 @@ func (c EUTRANRoundTripDelayEstimationInfoValueCodec) encodeChanged(value EUTRAN
 	return out, aper.OperationError(err, c.path)
 }
 
-// UplinkUEAssociatedLPPaTransportIEValueIETable is the concrete IETable[UplinkUEAssociatedLPPaTransportIEValue].
+// UplinkUEAssociatedLPPaTransportIEValueIETable is the bound table for UplinkUEAssociatedLPPaTransport-IEs of TS 36.413.
 type UplinkUEAssociatedLPPaTransportIEValueIETable struct{ bound bool }
 
-// WriteReplaceWarningRequestIEValueIETable is the concrete IETable[WriteReplaceWarningRequestIEValue].
+// WriteReplaceWarningRequestIEValueIETable is the bound table for WriteReplaceWarningRequestIEs of TS 36.413.
 type WriteReplaceWarningRequestIEValueIETable struct{ bound bool }
 
 // ExtendedRepetitionPeriodValueCodec is the concrete ValueCodec[ExtendedRepetitionPeriod].
@@ -5651,7 +5651,7 @@ func (c ConcurrentWarningMessageIndicatorValueCodec) encodeChanged(value Concurr
 	return out, aper.OperationError(err, c.path)
 }
 
-// WriteReplaceWarningResponseIEValueIETable is the concrete IETable[WriteReplaceWarningResponseIEValue].
+// WriteReplaceWarningResponseIEValueIETable is the bound table for WriteReplaceWarningResponseIEs of TS 36.413.
 type WriteReplaceWarningResponseIEValueIETable struct{ bound bool }
 
 // BPLMNsValueCodec is the concrete ValueCodec[BPLMNs].

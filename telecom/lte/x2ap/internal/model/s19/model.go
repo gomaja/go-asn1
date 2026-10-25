@@ -7897,7 +7897,7 @@ func X2apInternalHandoverRequestAcknowledgeUnmarshalAPERFrom(v *HandoverRequestA
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s14.HandoverRequestAcknowledgeIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -8117,7 +8117,7 @@ func X2apInternalResetResponseUnmarshalAPERFrom(v *ResetResponse, bb *aper.BitBu
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s07.ResetResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -8337,7 +8337,7 @@ func X2apInternalX2SetupResponseUnmarshalAPERFrom(v *X2SetupResponse, bb *aper.B
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s17.X2SetupResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -8557,7 +8557,7 @@ func X2apInternalENBConfigurationUpdateAcknowledgeUnmarshalAPERFrom(v *ENBConfig
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s06.ENBConfigurationUpdateAcknowledgeIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -8777,7 +8777,7 @@ func X2apInternalResourceStatusResponseUnmarshalAPERFrom(v *ResourceStatusRespon
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s16.ResourceStatusResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -8997,7 +8997,7 @@ func X2apInternalMobilityChangeAcknowledgeUnmarshalAPERFrom(v *MobilityChangeAck
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s07.MobilityChangeAcknowledgeIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -9217,7 +9217,7 @@ func X2apInternalCellActivationResponseUnmarshalAPERFrom(v *CellActivationRespon
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s13.CellActivationResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -9437,7 +9437,7 @@ func X2apInternalSeNBAdditionRequestAcknowledgeUnmarshalAPERFrom(v *SeNBAddition
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s15.SeNBAdditionRequestAcknowledgeIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -9657,7 +9657,7 @@ func X2apInternalSeNBModificationRequestAcknowledgeUnmarshalAPERFrom(v *SeNBModi
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s15.SeNBModificationRequestAcknowledgeIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -9877,7 +9877,7 @@ func X2apInternalSeNBModificationConfirmUnmarshalAPERFrom(v *SeNBModificationCon
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s12.SeNBModificationConfirmIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -10097,7 +10097,7 @@ func X2apInternalSeNBReleaseConfirmUnmarshalAPERFrom(v *SeNBReleaseConfirm, bb *
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s15.SeNBReleaseConfirmIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -10317,7 +10317,7 @@ func X2apInternalX2RemovalResponseUnmarshalAPERFrom(v *X2RemovalResponse, bb *ap
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s07.X2RemovalResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -10537,7 +10537,7 @@ func X2apInternalRetrieveUEContextResponseUnmarshalAPERFrom(v *RetrieveUEContext
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s17.RetrieveUEContextResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -10757,7 +10757,7 @@ func X2apInternalSgNBAdditionRequestAcknowledgeUnmarshalAPERFrom(v *SgNBAddition
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s15.SgNBAdditionRequestAcknowledgeIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -10977,7 +10977,7 @@ func X2apInternalSgNBModificationRequestAcknowledgeUnmarshalAPERFrom(v *SgNBModi
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s17.SgNBModificationRequestAcknowledgeIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -11197,7 +11197,7 @@ func X2apInternalSgNBModificationConfirmUnmarshalAPERFrom(v *SgNBModificationCon
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s15.SgNBModificationConfirmIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -11417,7 +11417,7 @@ func X2apInternalSgNBReleaseRequestAcknowledgeUnmarshalAPERFrom(v *SgNBReleaseRe
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s17.SgNBReleaseRequestAcknowledgeIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -11637,7 +11637,7 @@ func X2apInternalSgNBReleaseConfirmUnmarshalAPERFrom(v *SgNBReleaseConfirm, bb *
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s15.SgNBReleaseConfirmIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -11857,7 +11857,7 @@ func X2apInternalSgNBChangeConfirmUnmarshalAPERFrom(v *SgNBChangeConfirm, bb *ap
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s15.SgNBChangeConfirmIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -12077,7 +12077,7 @@ func X2apInternalENDCX2SetupResponseUnmarshalAPERFrom(v *ENDCX2SetupResponse, bb
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s18.ENDCX2SetupResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -12297,7 +12297,7 @@ func X2apInternalENDCConfigurationUpdateAcknowledgeUnmarshalAPERFrom(v *ENDCConf
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s18.ENDCConfigurationUpdateAcknowledgeIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -12517,7 +12517,7 @@ func X2apInternalENDCCellActivationResponseUnmarshalAPERFrom(v *ENDCCellActivati
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s13.ENDCCellActivationResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -12737,7 +12737,7 @@ func X2apInternalENDCResourceStatusResponseUnmarshalAPERFrom(v *ENDCResourceStat
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s06.ENDCResourceStatusResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -12957,7 +12957,7 @@ func X2apInternalENDCPartialResetConfirmUnmarshalAPERFrom(v *ENDCPartialResetCon
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s18.ENDCPartialResetConfirmIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -13177,7 +13177,7 @@ func X2apInternalEUTRANRCellResourceCoordinationResponseUnmarshalAPERFrom(v *EUT
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s16.EUTRANRCellResourceCoordinationResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -13397,7 +13397,7 @@ func X2apInternalENDCX2RemovalResponseUnmarshalAPERFrom(v *ENDCX2RemovalResponse
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s07.ENDCX2RemovalResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -13617,7 +13617,7 @@ func X2apInternalUERadioCapabilityIDMappingResponseUnmarshalAPERFrom(v *UERadioC
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s11.UERadioCapabilityIDMappingResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -19184,4 +19184,122 @@ func X2apInternalConstructT51UERadioCapabilityIDMappingResponseSuccessfulBinding
 }
 func X2apInternalConstructT56EUTRANRCellResourceCoordinationResponseSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(v0 s00.ProcedureInfo, v1 func(*EUTRANRCellResourceCoordinationResponse, *aper.DecodeBudget) (s12.ValidationReport, error), v2 func(*EUTRANRCellResourceCoordinationResponse, bool, *aper.DecodeBudget) ([]byte, error), v3 func([]byte, aper.DecodeState) (EUTRANRCellResourceCoordinationResponse, error), v4 func(EUTRANRCellResourceCoordinationResponse) SuccessfulValue, v5 func(EUTRANRCellResourceCoordinationResponse, aper.DecodeState) (EUTRANRCellResourceCoordinationResponse, aper.Snapshot), v6 func(EUTRANRCellResourceCoordinationResponse, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan, v7 s00.X2apInternalCodecContext) EUTRANRCellResourceCoordinationResponseSuccessfulBinding {
 	return EUTRANRCellResourceCoordinationResponseSuccessfulBinding{info: v0, validate: v1, encode: v2, decode: v3, inject: v4, capture: v5, compare: v6, context: v7}
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SuccessfulValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.code {
+	case s00.ProcedureCode(0):
+		if v.bodyHandoverRequestAcknowledge != nil {
+			return v.bodyHandoverRequestAcknowledge, true
+		}
+	case s00.ProcedureCode(12):
+		if v.bodyMobilityChangeAcknowledge != nil {
+			return v.bodyMobilityChangeAcknowledge, true
+		}
+	case s00.ProcedureCode(15):
+		if v.bodyCellActivationResponse != nil {
+			return v.bodyCellActivationResponse, true
+		}
+	case s00.ProcedureCode(18):
+		if v.bodyX2RemovalResponse != nil {
+			return v.bodyX2RemovalResponse, true
+		}
+	case s00.ProcedureCode(19):
+		if v.bodySeNBAdditionRequestAcknowledge != nil {
+			return v.bodySeNBAdditionRequestAcknowledge, true
+		}
+	case s00.ProcedureCode(21):
+		if v.bodySeNBModificationRequestAcknowledge != nil {
+			return v.bodySeNBModificationRequestAcknowledge, true
+		}
+	case s00.ProcedureCode(22):
+		if v.bodySeNBModificationConfirm != nil {
+			return v.bodySeNBModificationConfirm, true
+		}
+	case s00.ProcedureCode(24):
+		if v.bodySeNBReleaseConfirm != nil {
+			return v.bodySeNBReleaseConfirm, true
+		}
+	case s00.ProcedureCode(26):
+		if v.bodyRetrieveUEContextResponse != nil {
+			return v.bodyRetrieveUEContextResponse, true
+		}
+	case s00.ProcedureCode(27):
+		if v.bodySgNBAdditionRequestAcknowledge != nil {
+			return v.bodySgNBAdditionRequestAcknowledge, true
+		}
+	case s00.ProcedureCode(29):
+		if v.bodySgNBModificationRequestAcknowledge != nil {
+			return v.bodySgNBModificationRequestAcknowledge, true
+		}
+	case s00.ProcedureCode(30):
+		if v.bodySgNBModificationConfirm != nil {
+			return v.bodySgNBModificationConfirm, true
+		}
+	case s00.ProcedureCode(31):
+		if v.bodySgNBReleaseRequestAcknowledge != nil {
+			return v.bodySgNBReleaseRequestAcknowledge, true
+		}
+	case s00.ProcedureCode(32):
+		if v.bodySgNBReleaseConfirm != nil {
+			return v.bodySgNBReleaseConfirm, true
+		}
+	case s00.ProcedureCode(34):
+		if v.bodySgNBChangeConfirm != nil {
+			return v.bodySgNBChangeConfirm, true
+		}
+	case s00.ProcedureCode(36):
+		if v.bodyENDCX2SetupResponse != nil {
+			return v.bodyENDCX2SetupResponse, true
+		}
+	case s00.ProcedureCode(37):
+		if v.bodyENDCConfigurationUpdateAcknowledge != nil {
+			return v.bodyENDCConfigurationUpdateAcknowledge, true
+		}
+	case s00.ProcedureCode(39):
+		if v.bodyENDCCellActivationResponse != nil {
+			return v.bodyENDCCellActivationResponse, true
+		}
+	case s00.ProcedureCode(40):
+		if v.bodyENDCPartialResetConfirm != nil {
+			return v.bodyENDCPartialResetConfirm, true
+		}
+	case s00.ProcedureCode(41):
+		if v.bodyEUTRANRCellResourceCoordinationResponse != nil {
+			return v.bodyEUTRANRCellResourceCoordinationResponse, true
+		}
+	case s00.ProcedureCode(43):
+		if v.bodyENDCX2RemovalResponse != nil {
+			return v.bodyENDCX2RemovalResponse, true
+		}
+	case s00.ProcedureCode(54):
+		if v.bodyENDCResourceStatusResponse != nil {
+			return v.bodyENDCResourceStatusResponse, true
+		}
+	case s00.ProcedureCode(56):
+		if v.bodyUERadioCapabilityIDMappingResponse != nil {
+			return v.bodyUERadioCapabilityIDMappingResponse, true
+		}
+	case s00.ProcedureCode(6):
+		if v.bodyX2SetupResponse != nil {
+			return v.bodyX2SetupResponse, true
+		}
+	case s00.ProcedureCode(7):
+		if v.bodyResetResponse != nil {
+			return v.bodyResetResponse, true
+		}
+	case s00.ProcedureCode(8):
+		if v.bodyENBConfigurationUpdateAcknowledge != nil {
+			return v.bodyENBConfigurationUpdateAcknowledge, true
+		}
+	case s00.ProcedureCode(9):
+		if v.bodyResourceStatusResponse != nil {
+			return v.bodyResourceStatusResponse, true
+		}
+	}
+	return nil, false
 }

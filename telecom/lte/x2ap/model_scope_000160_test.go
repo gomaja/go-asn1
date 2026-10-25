@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
+	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
 )
 
-func enGNBENDCX2SetupReqAckIEFieldapiMust(v s18.EnGNBENDCX2SetupReqAckIEField, err error) s18.EnGNBENDCX2SetupReqAckIEField {
+func eNBENDCX2SetupReqAckIEFieldapiMust(v s17.ENBENDCX2SetupReqAckIEField, err error) s17.ENBENDCX2SetupReqAckIEField {
 	if err != nil {
 		panic(err)
 	}

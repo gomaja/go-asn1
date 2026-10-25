@@ -6,7 +6,7 @@ import (
 	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func successfulOutcomefreshMust(value s19.SuccessfulOutcome, err error) s19.SuccessfulOutcome {
+func handoverRequestAcknowledgefreshMust(value s19.HandoverRequestAcknowledge, err error) s19.HandoverRequestAcknowledge {
 	if err != nil {
 		panic(err)
 	}

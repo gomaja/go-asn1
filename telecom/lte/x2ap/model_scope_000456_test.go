@@ -3,22 +3,17 @@
 package x2ap
 
 import (
-	fmt "fmt"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// New validates the source value and constructs a value without received replay state.
-func (c ERABsAdmittedItemExtIEsExtFieldValueCodec) New(value s06.ERABsAdmittedItemExtIEsExtField) (ERABsAdmittedItemExtIEsExtFieldAPERValue, error) {
-	if c.encode == nil {
-		return ERABsAdmittedItemExtIEsExtFieldAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ERABsAdmittedItemExtIEsExtFieldAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ERABsAdmittedItemExtIEsExtFieldAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	return ERABsAdmittedItemExtIEsExtFieldAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+// ERABsAdmittedItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ERABsAdmittedItemExtIEsExtField].
+type ERABsAdmittedItemExtIEsExtFieldValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(s06.ERABsAdmittedItemExtIEsExtField, aper.DecodeState) (s06.ERABsAdmittedItemExtIEsExtField, aper.Snapshot)
+	compare func(s06.ERABsAdmittedItemExtIEsExtField, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
+	path    aper.Path
+	decode  func([]byte, aper.DecodeState) (s06.ERABsAdmittedItemExtIEsExtField, error)
+	encode  func(s06.ERABsAdmittedItemExtIEsExtField, bool, *aper.DecodeBudget) ([]byte, error)
 }

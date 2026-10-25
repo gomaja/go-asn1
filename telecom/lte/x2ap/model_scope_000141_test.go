@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
 )
 
-func initiatingMessageapiMust(v s20.InitiatingMessage, err error) s20.InitiatingMessage {
+func x2SetupFailureIEFieldapiMust(v s07.X2SetupFailureIEField, err error) s07.X2SetupFailureIEField {
 	if err != nil {
 		panic(err)
 	}

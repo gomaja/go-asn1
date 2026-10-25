@@ -16,10 +16,10 @@ import (
 	big "math/big"
 )
 
-// ENBConfigurationUpdateAcknowledgeIEContainer is the concrete ProtocolIEContainer[ENBConfigurationUpdateAcknowledgeIEValue].
+// ENBConfigurationUpdateAcknowledgeIEContainer is ProtocolIE-Container {{ENBConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8: a list of ENBConfigurationUpdateAcknowledgeIEField values.
 type ENBConfigurationUpdateAcknowledgeIEContainer []ENBConfigurationUpdateAcknowledgeIEField
 
-// ENBConfigurationUpdateAcknowledgeIEField is the concrete ProtocolIEField[ENBConfigurationUpdateAcknowledgeIEValue].
+// ENBConfigurationUpdateAcknowledgeIEField is ProtocolIE-Field {{ENBConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENBConfigurationUpdateAcknowledgeIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -137,10 +137,10 @@ func X2apInternalENBConfigurationUpdateAcknowledgeIEFieldUnmarshalAPERFrom(v *EN
 	return nil
 }
 
-// ENBConfigurationUpdateFailureIEContainer is the concrete ProtocolIEContainer[ENBConfigurationUpdateFailureIEValue].
+// ENBConfigurationUpdateFailureIEContainer is ProtocolIE-Container {{ENBConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8: a list of ENBConfigurationUpdateFailureIEField values.
 type ENBConfigurationUpdateFailureIEContainer []ENBConfigurationUpdateFailureIEField
 
-// ENBConfigurationUpdateFailureIEField is the concrete ProtocolIEField[ENBConfigurationUpdateFailureIEValue].
+// ENBConfigurationUpdateFailureIEField is ProtocolIE-Field {{ENBConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENBConfigurationUpdateFailureIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -258,10 +258,10 @@ func X2apInternalENBConfigurationUpdateFailureIEFieldUnmarshalAPERFrom(v *ENBCon
 	return nil
 }
 
-// CellActivationFailureIEContainer is the concrete ProtocolIEContainer[CellActivationFailureIEValue].
+// CellActivationFailureIEContainer is ProtocolIE-Container {{CellActivationFailure-IEs}} of TS 36.423 §9.3.8: a list of CellActivationFailureIEField values.
 type CellActivationFailureIEContainer []CellActivationFailureIEField
 
-// CellActivationFailureIEField is the concrete ProtocolIEField[CellActivationFailureIEValue].
+// CellActivationFailureIEField is ProtocolIE-Field {{CellActivationFailure-IEs}} of TS 36.423 §9.3.8: an information element field.
 type CellActivationFailureIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -379,10 +379,10 @@ func X2apInternalCellActivationFailureIEFieldUnmarshalAPERFrom(v *CellActivation
 	return nil
 }
 
-// ENDCX2SetupFailureIEContainer is the concrete ProtocolIEContainer[ENDCX2SetupFailureIEValue].
+// ENDCX2SetupFailureIEContainer is ProtocolIE-Container {{ENDCX2SetupFailure-IEs}} of TS 36.423 §9.3.8: a list of ENDCX2SetupFailureIEField values.
 type ENDCX2SetupFailureIEContainer []ENDCX2SetupFailureIEField
 
-// ENDCX2SetupFailureIEField is the concrete ProtocolIEField[ENDCX2SetupFailureIEValue].
+// ENDCX2SetupFailureIEField is ProtocolIE-Field {{ENDCX2SetupFailure-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCX2SetupFailureIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -500,10 +500,10 @@ func X2apInternalENDCX2SetupFailureIEFieldUnmarshalAPERFrom(v *ENDCX2SetupFailur
 	return nil
 }
 
-// ENDCConfigurationUpdateFailureIEContainer is the concrete ProtocolIEContainer[ENDCConfigurationUpdateFailureIEValue].
+// ENDCConfigurationUpdateFailureIEContainer is ProtocolIE-Container {{ENDCConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8: a list of ENDCConfigurationUpdateFailureIEField values.
 type ENDCConfigurationUpdateFailureIEContainer []ENDCConfigurationUpdateFailureIEField
 
-// ENDCConfigurationUpdateFailureIEField is the concrete ProtocolIEField[ENDCConfigurationUpdateFailureIEValue].
+// ENDCConfigurationUpdateFailureIEField is ProtocolIE-Field {{ENDCConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCConfigurationUpdateFailureIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -621,10 +621,10 @@ func X2apInternalENDCConfigurationUpdateFailureIEFieldUnmarshalAPERFrom(v *ENDCC
 	return nil
 }
 
-// ENDCCellActivationFailureIEContainer is the concrete ProtocolIEContainer[ENDCCellActivationFailureIEValue].
+// ENDCCellActivationFailureIEContainer is ProtocolIE-Container {{ENDCCellActivationFailure-IEs}} of TS 36.423 §9.3.8: a list of ENDCCellActivationFailureIEField values.
 type ENDCCellActivationFailureIEContainer []ENDCCellActivationFailureIEField
 
-// ENDCCellActivationFailureIEField is the concrete ProtocolIEField[ENDCCellActivationFailureIEValue].
+// ENDCCellActivationFailureIEField is ProtocolIE-Field {{ENDCCellActivationFailure-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCCellActivationFailureIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -742,10 +742,10 @@ func X2apInternalENDCCellActivationFailureIEFieldUnmarshalAPERFrom(v *ENDCCellAc
 	return nil
 }
 
-// ENDCX2RemovalFailureIEContainer is the concrete ProtocolIEContainer[ENDCX2RemovalFailureIEValue].
+// ENDCX2RemovalFailureIEContainer is ProtocolIE-Container {{ENDCX2RemovalFailure-IEs}} of TS 36.423 §9.3.8: a list of ENDCX2RemovalFailureIEField values.
 type ENDCX2RemovalFailureIEContainer []ENDCX2RemovalFailureIEField
 
-// ENDCX2RemovalFailureIEField is the concrete ProtocolIEField[ENDCX2RemovalFailureIEValue].
+// ENDCX2RemovalFailureIEField is ProtocolIE-Field {{ENDCX2RemovalFailure-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCX2RemovalFailureIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -863,10 +863,10 @@ func X2apInternalENDCX2RemovalFailureIEFieldUnmarshalAPERFrom(v *ENDCX2RemovalFa
 	return nil
 }
 
-// ENDCConfigurationTransferIEContainer is the concrete ProtocolIEContainer[ENDCConfigurationTransferIEValue].
+// ENDCConfigurationTransferIEContainer is ProtocolIE-Container {{ENDCConfigurationTransfer-IEs}} of TS 36.423 §9.3.8: a list of ENDCConfigurationTransferIEField values.
 type ENDCConfigurationTransferIEContainer []ENDCConfigurationTransferIEField
 
-// ENDCConfigurationTransferIEField is the concrete ProtocolIEField[ENDCConfigurationTransferIEValue].
+// ENDCConfigurationTransferIEField is ProtocolIE-Field {{ENDCConfigurationTransfer-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCConfigurationTransferIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -984,10 +984,10 @@ func X2apInternalENDCConfigurationTransferIEFieldUnmarshalAPERFrom(v *ENDCConfig
 	return nil
 }
 
-// ENDCResourceStatusResponseIEContainer is the concrete ProtocolIEContainer[ENDCResourceStatusResponseIEValue].
+// ENDCResourceStatusResponseIEContainer is ProtocolIE-Container {{ENDCResourceStatusResponse-IEs}} of TS 36.423 §9.3.8: a list of ENDCResourceStatusResponseIEField values.
 type ENDCResourceStatusResponseIEContainer []ENDCResourceStatusResponseIEField
 
-// ENDCResourceStatusResponseIEField is the concrete ProtocolIEField[ENDCResourceStatusResponseIEValue].
+// ENDCResourceStatusResponseIEField is ProtocolIE-Field {{ENDCResourceStatusResponse-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCResourceStatusResponseIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -1105,10 +1105,10 @@ func X2apInternalENDCResourceStatusResponseIEFieldUnmarshalAPERFrom(v *ENDCResou
 	return nil
 }
 
-// ENDCResourceStatusFailureIEContainer is the concrete ProtocolIEContainer[ENDCResourceStatusFailureIEValue].
+// ENDCResourceStatusFailureIEContainer is ProtocolIE-Container {{ENDCResourceStatusFailure-IEs}} of TS 36.423 §9.3.8: a list of ENDCResourceStatusFailureIEField values.
 type ENDCResourceStatusFailureIEContainer []ENDCResourceStatusFailureIEField
 
-// ENDCResourceStatusFailureIEField is the concrete ProtocolIEField[ENDCResourceStatusFailureIEValue].
+// ENDCResourceStatusFailureIEField is ProtocolIE-Field {{ENDCResourceStatusFailure-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCResourceStatusFailureIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -2570,7 +2570,7 @@ func X2apInternalWidebandCQIExtIEsValuecompareX2APProtocolExtensionContainer(v *
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// CHOinformationREQExtIEsCHOTimeBasedInformationExtBinding is the concrete ExtensionBinding[CHOTimeBasedInformation, CHOinformationREQExtIEsValue].
+// CHOinformationREQExtIEsCHOTimeBasedInformationExtBinding binds CHOTimeBasedInformation to ProtocolExtensionField {{CHOinformation-REQ-ExtIEs}} of TS 36.423 §9.3.8.
 type CHOinformationREQExtIEsCHOTimeBasedInformationExtBinding struct {
 	info   FieldInfo
 	codec  s01.CHOTimeBasedInformationValueCodec
@@ -2612,7 +2612,7 @@ func (b CHOinformationREQExtIEsCHOTimeBasedInformationExtBinding) Get(field *CHO
 	return b.get(&field.ExtensionValue)
 }
 
-// CHOinformationREQExtIEsExtField is the concrete ProtocolExtensionField[CHOinformationREQExtIEsValue].
+// CHOinformationREQExtIEsExtField is ProtocolExtensionField {{CHOinformation-REQ-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type CHOinformationREQExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -2730,7 +2730,7 @@ func X2apInternalCHOinformationREQExtIEsExtFieldUnmarshalAPERFrom(v *CHOinformat
 	return nil
 }
 
-// ERABItemERABItemIEBinding is the concrete IEBinding[ERABItem, ERABItemIEValue].
+// ERABItemERABItemIEBinding binds ERABItem to ProtocolIE-Field {{E-RAB-ItemIEs}} of TS 36.423 §9.3.8.
 type ERABItemERABItemIEBinding struct {
 	info   FieldInfo
 	codec  s04.ERABItemValueCodec
@@ -2770,7 +2770,7 @@ func (b ERABItemERABItemIEBinding) Get(field *ERABItemIEField) (*s04.ERABItem, b
 	return b.get(&field.Value)
 }
 
-// ERABItemIEField is the concrete ProtocolIEField[ERABItemIEValue].
+// ERABItemIEField is ProtocolIE-Field {{E-RAB-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
 type ERABItemIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -2888,7 +2888,7 @@ func X2apInternalERABItemIEFieldUnmarshalAPERFrom(v *ERABItemIEField, bb *aper.B
 	return nil
 }
 
-// ERABLevelQoSParametersExtIEsPacketLossRateExtBinding is the concrete ExtensionBinding[PacketLossRate, ERABLevelQoSParametersExtIEsValue].
+// ERABLevelQoSParametersExtIEsPacketLossRateExtBinding binds PacketLossRate to ProtocolExtensionField {{E-RAB-Level-QoS-Parameters-ExtIEs}} of TS 36.423 §9.3.8.
 type ERABLevelQoSParametersExtIEsPacketLossRateExtBinding struct {
 	info   FieldInfo
 	codec  s00.PacketLossRateValueCodec
@@ -2930,7 +2930,7 @@ func (b ERABLevelQoSParametersExtIEsPacketLossRateExtBinding) Get(field *ERABLev
 	return b.get(&field.ExtensionValue)
 }
 
-// ERABLevelQoSParametersExtIEsExtField is the concrete ProtocolExtensionField[ERABLevelQoSParametersExtIEsValue].
+// ERABLevelQoSParametersExtIEsExtField is ProtocolExtensionField {{E-RAB-Level-QoS-Parameters-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ERABLevelQoSParametersExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3048,7 +3048,7 @@ func X2apInternalERABLevelQoSParametersExtIEsExtFieldUnmarshalAPERFrom(v *ERABLe
 	return nil
 }
 
-// ERABUsageReportItemERABUsageReportItemIEBinding is the concrete IEBinding[ERABUsageReportItem, ERABUsageReportItemIEValue].
+// ERABUsageReportItemERABUsageReportItemIEBinding binds ERABUsageReportItem to ProtocolIE-Field {{E-RABUsageReport-ItemIEs}} of TS 36.423 §9.3.8.
 type ERABUsageReportItemERABUsageReportItemIEBinding struct {
 	info   FieldInfo
 	codec  s04.ERABUsageReportItemValueCodec
@@ -3090,7 +3090,7 @@ func (b ERABUsageReportItemERABUsageReportItemIEBinding) Get(field *ERABUsageRep
 	return b.get(&field.Value)
 }
 
-// ERABUsageReportItemIEField is the concrete ProtocolIEField[ERABUsageReportItemIEValue].
+// ERABUsageReportItemIEField is ProtocolIE-Field {{E-RABUsageReport-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
 type ERABUsageReportItemIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -3384,7 +3384,7 @@ func X2apInternalAdditionalMeasurementTimingConfigurationListValueCodecEncodeCha
 	return out, aper.OperationError(err, c.path)
 }
 
-// CellActivationFailureCauseIEBinding is the concrete IEBinding[Cause, CellActivationFailureIEValue].
+// CellActivationFailureCauseIEBinding binds Cause to ProtocolIE-Field {{CellActivationFailure-IEs}} of TS 36.423 §9.3.8.
 type CellActivationFailureCauseIEBinding struct {
 	info   FieldInfo
 	codec  s00.CauseValueCodec
@@ -3424,7 +3424,7 @@ func (b CellActivationFailureCauseIEBinding) Get(field *CellActivationFailureIEF
 	return b.get(&field.Value)
 }
 
-// CellActivationFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, CellActivationFailureIEValue].
+// CellActivationFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{CellActivationFailure-IEs}} of TS 36.423 §9.3.8.
 type CellActivationFailureCriticalityDiagnosticsIEBinding struct {
 	info   FieldInfo
 	codec  CriticalityDiagnosticsValueCodec
@@ -3818,7 +3818,7 @@ func X2apInternalABSStatusValueCodecEncodeChanged(c ABSStatusValueCodec, value A
 	return out, aper.OperationError(err, c.path)
 }
 
-// CellToReportEUTRAENDCItemCellToReportEUTRAENDCItemIEBinding is the concrete IEBinding[CellToReportEUTRAENDCItem, CellToReportEUTRAENDCItemIEValue].
+// CellToReportEUTRAENDCItemCellToReportEUTRAENDCItemIEBinding binds CellToReportEUTRAENDCItem to ProtocolIE-Field {{CellToReport-E-UTRA-ENDC-Item-IEs}} of TS 36.423 §9.3.8.
 type CellToReportEUTRAENDCItemCellToReportEUTRAENDCItemIEBinding struct {
 	info   FieldInfo
 	codec  s04.CellToReportEUTRAENDCItemValueCodec
@@ -3860,7 +3860,7 @@ func (b CellToReportEUTRAENDCItemCellToReportEUTRAENDCItemIEBinding) Get(field *
 	return b.get(&field.Value)
 }
 
-// CellToReportEUTRAENDCItemIEField is the concrete ProtocolIEField[CellToReportEUTRAENDCItemIEValue].
+// CellToReportEUTRAENDCItemIEField is ProtocolIE-Field {{CellToReport-E-UTRA-ENDC-Item-IEs}} of TS 36.423 §9.3.8: an information element field.
 type CellToReportEUTRAENDCItemIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -3978,7 +3978,7 @@ func X2apInternalCellToReportEUTRAENDCItemIEFieldUnmarshalAPERFrom(v *CellToRepo
 	return nil
 }
 
-// CellToReportItemCellToReportItemIEBinding is the concrete IEBinding[CellToReportItem, CellToReportItemIEValue].
+// CellToReportItemCellToReportItemIEBinding binds CellToReportItem to ProtocolIE-Field {{CellToReport-ItemIEs}} of TS 36.423 §9.3.8.
 type CellToReportItemCellToReportItemIEBinding struct {
 	info   FieldInfo
 	codec  s04.CellToReportItemValueCodec
@@ -4020,7 +4020,7 @@ func (b CellToReportItemCellToReportItemIEBinding) Get(field *CellToReportItemIE
 	return b.get(&field.Value)
 }
 
-// CellToReportItemIEField is the concrete ProtocolIEField[CellToReportItemIEValue].
+// CellToReportItemIEField is ProtocolIE-Field {{CellToReport-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
 type CellToReportItemIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -4226,7 +4226,7 @@ func X2apInternalCandidateCellsToBeCancelledListValueCodecEncodeChanged(c Candid
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABsAdmittedItemExtIEsDAPSResponseInfoExtBinding is the concrete ExtensionBinding[DAPSResponseInfo, ERABsAdmittedItemExtIEsValue].
+// ERABsAdmittedItemExtIEsDAPSResponseInfoExtBinding binds DAPSResponseInfo to ProtocolExtensionField {{E-RABs-Admitted-Item-ExtIEs}} of TS 36.423 §9.3.8.
 type ERABsAdmittedItemExtIEsDAPSResponseInfoExtBinding struct {
 	info   FieldInfo
 	codec  s04.DAPSResponseInfoValueCodec
@@ -4268,7 +4268,7 @@ func (b ERABsAdmittedItemExtIEsDAPSResponseInfoExtBinding) Get(field *ERABsAdmit
 	return b.get(&field.ExtensionValue)
 }
 
-// ERABsAdmittedItemExtIEsExtField is the concrete ProtocolExtensionField[ERABsAdmittedItemExtIEsValue].
+// ERABsAdmittedItemExtIEsExtField is ProtocolExtensionField {{E-RABs-Admitted-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ERABsAdmittedItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4386,7 +4386,7 @@ func X2apInternalERABsAdmittedItemExtIEsExtFieldUnmarshalAPERFrom(v *ERABsAdmitt
 	return nil
 }
 
-// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsLCIDExtBinding is the concrete ExtensionBinding[LCID, ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsLCIDExtBinding binds LCID to ProtocolExtensionField {{E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs}} of TS 36.423 §9.3.8.
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsLCIDExtBinding struct {
 	info   FieldInfo
 	codec  s00.LCIDValueCodec
@@ -4430,7 +4430,7 @@ func (b ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsLCIDExtBi
 	return b.get(&field.ExtensionValue)
 }
 
-// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtField is the concrete ProtocolExtensionField[ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtField is ProtocolExtensionField {{E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4548,7 +4548,7 @@ func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs
 	return nil
 }
 
-// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsLCIDExtBinding is the concrete ExtensionBinding[LCID, ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsLCIDExtBinding binds LCID to ProtocolExtensionField {{E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs}} of TS 36.423 §9.3.8.
 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsLCIDExtBinding struct {
 	info   FieldInfo
 	codec  s00.LCIDValueCodec
@@ -4592,7 +4592,7 @@ func (b ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsLCIDExtBindi
 	return b.get(&field.ExtensionValue)
 }
 
-// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField is the concrete ProtocolExtensionField[ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField is ProtocolExtensionField {{E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4710,7 +4710,7 @@ func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExt
 	return nil
 }
 
-// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsPDCPSnLengthExtBinding is the concrete ExtensionBinding[PDCPSnLength, ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue].
+// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsPDCPSnLengthExtBinding binds PDCPSnLength to ProtocolExtensionField {{E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs}} of TS 36.423 §9.3.8.
 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsPDCPSnLengthExtBinding struct {
 	info   FieldInfo
 	codec  s00.PDCPSnLengthValueCodec
@@ -4754,7 +4754,7 @@ func (b ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsPDCPSnLength
 	return b.get(&field.ExtensionValue)
 }
 
-// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtField is the concrete ProtocolExtensionField[ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue].
+// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtField is ProtocolExtensionField {{E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4872,7 +4872,7 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExt
 	return nil
 }
 
-// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsPDCPSnLengthExtBinding is the concrete ExtensionBinding[PDCPSnLength, ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsPDCPSnLengthExtBinding binds PDCPSnLength to ProtocolExtensionField {{E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs}} of TS 36.423 §9.3.8.
 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsPDCPSnLengthExtBinding struct {
 	info   FieldInfo
 	codec  s00.PDCPSnLengthValueCodec
@@ -4916,7 +4916,7 @@ func (b ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsPDCPSnLe
 	return b.get(&field.ExtensionValue)
 }
 
-// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtField is the concrete ProtocolExtensionField[ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtField is ProtocolExtensionField {{E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5034,7 +5034,7 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIE
 	return nil
 }
 
-// ENBENDCX2RemovalReqAckGlobalENBIDIEBinding is the concrete IEBinding[GlobalENBID, ENBENDCX2RemovalReqAckIEValue].
+// ENBENDCX2RemovalReqAckGlobalENBIDIEBinding binds GlobalENBID to ProtocolIE-Field {{ENB-ENDCX2RemovalReqAckIEs}} of TS 36.423 §9.3.8.
 type ENBENDCX2RemovalReqAckGlobalENBIDIEBinding struct {
 	info   FieldInfo
 	codec  s05.GlobalENBIDValueCodec
@@ -5074,7 +5074,7 @@ func (b ENBENDCX2RemovalReqAckGlobalENBIDIEBinding) Get(field *ENBENDCX2RemovalR
 	return b.get(&field.Value)
 }
 
-// ENBENDCX2RemovalReqAckIEField is the concrete ProtocolIEField[ENBENDCX2RemovalReqAckIEValue].
+// ENBENDCX2RemovalReqAckIEField is ProtocolIE-Field {{ENB-ENDCX2RemovalReqAckIEs}} of TS 36.423 §9.3.8: an information element field.
 type ENBENDCX2RemovalReqAckIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -5192,7 +5192,7 @@ func X2apInternalENBENDCX2RemovalReqAckIEFieldUnmarshalAPERFrom(v *ENBENDCX2Remo
 	return nil
 }
 
-// ENBENDCX2RemovalReqGlobalENBIDIEBinding is the concrete IEBinding[GlobalENBID, ENBENDCX2RemovalReqIEValue].
+// ENBENDCX2RemovalReqGlobalENBIDIEBinding binds GlobalENBID to ProtocolIE-Field {{ENB-ENDCX2RemovalReqIEs}} of TS 36.423 §9.3.8.
 type ENBENDCX2RemovalReqGlobalENBIDIEBinding struct {
 	info   FieldInfo
 	codec  s05.GlobalENBIDValueCodec
@@ -5232,7 +5232,7 @@ func (b ENBENDCX2RemovalReqGlobalENBIDIEBinding) Get(field *ENBENDCX2RemovalReqI
 	return b.get(&field.Value)
 }
 
-// ENBENDCX2RemovalReqIEField is the concrete ProtocolIEField[ENBENDCX2RemovalReqIEValue].
+// ENBENDCX2RemovalReqIEField is ProtocolIE-Field {{ENB-ENDCX2RemovalReqIEs}} of TS 36.423 §9.3.8: an information element field.
 type ENBENDCX2RemovalReqIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -5350,7 +5350,7 @@ func X2apInternalENBENDCX2RemovalReqIEFieldUnmarshalAPERFrom(v *ENBENDCX2Removal
 	return nil
 }
 
-// ENBConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ENBConfigurationUpdateAcknowledgeIEValue].
+// ENBConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENBConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type ENBConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding struct {
 	info   FieldInfo
 	codec  CriticalityDiagnosticsValueCodec
@@ -5394,7 +5394,7 @@ func (b ENBConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding) Get(fi
 	return b.get(&field.Value)
 }
 
-// ENBConfigurationUpdateFailureCauseIEBinding is the concrete IEBinding[Cause, ENBConfigurationUpdateFailureIEValue].
+// ENBConfigurationUpdateFailureCauseIEBinding binds Cause to ProtocolIE-Field {{ENBConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8.
 type ENBConfigurationUpdateFailureCauseIEBinding struct {
 	info   FieldInfo
 	codec  s00.CauseValueCodec
@@ -5434,7 +5434,7 @@ func (b ENBConfigurationUpdateFailureCauseIEBinding) Get(field *ENBConfiguration
 	return b.get(&field.Value)
 }
 
-// ENBConfigurationUpdateFailureTimeToWaitIEBinding is the concrete IEBinding[TimeToWait, ENBConfigurationUpdateFailureIEValue].
+// ENBConfigurationUpdateFailureTimeToWaitIEBinding binds TimeToWait to ProtocolIE-Field {{ENBConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8.
 type ENBConfigurationUpdateFailureTimeToWaitIEBinding struct {
 	info   FieldInfo
 	codec  s00.TimeToWaitValueCodec
@@ -5476,7 +5476,7 @@ func (b ENBConfigurationUpdateFailureTimeToWaitIEBinding) Get(field *ENBConfigur
 	return b.get(&field.Value)
 }
 
-// ENBConfigurationUpdateFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ENBConfigurationUpdateFailureIEValue].
+// ENBConfigurationUpdateFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENBConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8.
 type ENBConfigurationUpdateFailureCriticalityDiagnosticsIEBinding struct {
 	info   FieldInfo
 	codec  CriticalityDiagnosticsValueCodec
@@ -5520,7 +5520,7 @@ func (b ENBConfigurationUpdateFailureCriticalityDiagnosticsIEBinding) Get(field 
 	return b.get(&field.Value)
 }
 
-// ENDCCellActivationFailureActivationIDIEBinding is the concrete IEBinding[ActivationID, ENDCCellActivationFailureIEValue].
+// ENDCCellActivationFailureActivationIDIEBinding binds ActivationID to ProtocolIE-Field {{ENDCCellActivationFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationFailureActivationIDIEBinding struct {
 	info   FieldInfo
 	codec  s00.ActivationIDValueCodec
@@ -5562,7 +5562,7 @@ func (b ENDCCellActivationFailureActivationIDIEBinding) Get(field *ENDCCellActiv
 	return b.get(&field.Value)
 }
 
-// ENDCCellActivationFailureCauseIEBinding is the concrete IEBinding[Cause, ENDCCellActivationFailureIEValue].
+// ENDCCellActivationFailureCauseIEBinding binds Cause to ProtocolIE-Field {{ENDCCellActivationFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationFailureCauseIEBinding struct {
 	info   FieldInfo
 	codec  s00.CauseValueCodec
@@ -5602,7 +5602,7 @@ func (b ENDCCellActivationFailureCauseIEBinding) Get(field *ENDCCellActivationFa
 	return b.get(&field.Value)
 }
 
-// ENDCCellActivationFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ENDCCellActivationFailureIEValue].
+// ENDCCellActivationFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCCellActivationFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationFailureCriticalityDiagnosticsIEBinding struct {
 	info   FieldInfo
 	codec  CriticalityDiagnosticsValueCodec
@@ -5644,7 +5644,7 @@ func (b ENDCCellActivationFailureCriticalityDiagnosticsIEBinding) Get(field *END
 	return b.get(&field.Value)
 }
 
-// ENDCCellActivationFailureInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCCellActivationFailureIEValue].
+// ENDCCellActivationFailureInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCCellActivationFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationFailureInterfaceInstanceIndicationIEBinding struct {
 	info   FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -5776,7 +5776,7 @@ func X2apInternalActivatedNRCellListValueCodecEncodeChanged(c ActivatedNRCellLis
 	return out, aper.OperationError(err, c.path)
 }
 
-// ENDCConfigurationTransferEndcSONConfigurationTransferIEBinding is the concrete IEBinding[EndcSONConfigurationTransfer, ENDCConfigurationTransferIEValue].
+// ENDCConfigurationTransferEndcSONConfigurationTransferIEBinding binds EndcSONConfigurationTransfer to ProtocolIE-Field {{ENDCConfigurationTransfer-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationTransferEndcSONConfigurationTransferIEBinding struct {
 	info   FieldInfo
 	codec  s00.EndcSONConfigurationTransferValueCodec
@@ -5820,7 +5820,7 @@ func (b ENDCConfigurationTransferEndcSONConfigurationTransferIEBinding) Get(fiel
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationTransferInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCConfigurationTransferIEValue].
+// ENDCConfigurationTransferInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCConfigurationTransfer-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationTransferInterfaceInstanceIndicationIEBinding struct {
 	info   FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -5864,7 +5864,7 @@ func (b ENDCConfigurationTransferInterfaceInstanceIndicationIEBinding) Get(field
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateFailureCauseIEBinding is the concrete IEBinding[Cause, ENDCConfigurationUpdateFailureIEValue].
+// ENDCConfigurationUpdateFailureCauseIEBinding binds Cause to ProtocolIE-Field {{ENDCConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateFailureCauseIEBinding struct {
 	info   FieldInfo
 	codec  s00.CauseValueCodec
@@ -5904,7 +5904,7 @@ func (b ENDCConfigurationUpdateFailureCauseIEBinding) Get(field *ENDCConfigurati
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ENDCConfigurationUpdateFailureIEValue].
+// ENDCConfigurationUpdateFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateFailureCriticalityDiagnosticsIEBinding struct {
 	info   FieldInfo
 	codec  CriticalityDiagnosticsValueCodec
@@ -5948,7 +5948,7 @@ func (b ENDCConfigurationUpdateFailureCriticalityDiagnosticsIEBinding) Get(field
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateFailureTimeToWaitIEBinding is the concrete IEBinding[TimeToWait, ENDCConfigurationUpdateFailureIEValue].
+// ENDCConfigurationUpdateFailureTimeToWaitIEBinding binds TimeToWait to ProtocolIE-Field {{ENDCConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateFailureTimeToWaitIEBinding struct {
 	info   FieldInfo
 	codec  s00.TimeToWaitValueCodec
@@ -5990,7 +5990,7 @@ func (b ENDCConfigurationUpdateFailureTimeToWaitIEBinding) Get(field *ENDCConfig
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateFailureInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCConfigurationUpdateFailureIEValue].
+// ENDCConfigurationUpdateFailureInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateFailureInterfaceInstanceIndicationIEBinding struct {
 	info   FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -6034,7 +6034,7 @@ func (b ENDCConfigurationUpdateFailureInterfaceInstanceIndicationIEBinding) Get(
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusFailureMeasurementIDENDCIEBinding is the concrete IEBinding[MeasurementIDENDC, ENDCResourceStatusFailureIEValue].
+// ENDCResourceStatusFailureMeasurementIDENDCIEBinding binds MeasurementIDENDC to ProtocolIE-Field {{ENDCResourceStatusFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusFailureMeasurementIDENDCIEBinding struct {
 	info   FieldInfo
 	codec  s00.MeasurementIDENDCValueCodec
@@ -6076,7 +6076,7 @@ func (b ENDCResourceStatusFailureMeasurementIDENDCIEBinding) Get(field *ENDCReso
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusFailureCauseIEBinding is the concrete IEBinding[Cause, ENDCResourceStatusFailureIEValue].
+// ENDCResourceStatusFailureCauseIEBinding binds Cause to ProtocolIE-Field {{ENDCResourceStatusFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusFailureCauseIEBinding struct {
 	info   FieldInfo
 	codec  s00.CauseValueCodec
@@ -6116,7 +6116,7 @@ func (b ENDCResourceStatusFailureCauseIEBinding) Get(field *ENDCResourceStatusFa
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ENDCResourceStatusFailureIEValue].
+// ENDCResourceStatusFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCResourceStatusFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusFailureCriticalityDiagnosticsIEBinding struct {
 	info   FieldInfo
 	codec  CriticalityDiagnosticsValueCodec
@@ -6158,7 +6158,7 @@ func (b ENDCResourceStatusFailureCriticalityDiagnosticsIEBinding) Get(field *END
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusFailureInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCResourceStatusFailureIEValue].
+// ENDCResourceStatusFailureInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCResourceStatusFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusFailureInterfaceInstanceIndicationIEBinding struct {
 	info   FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -6202,7 +6202,7 @@ func (b ENDCResourceStatusFailureInterfaceInstanceIndicationIEBinding) Get(field
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusResponseMeasurementIDENDCIEBinding is the concrete IEBinding[MeasurementIDENDC, ENDCResourceStatusResponseIEValue].
+// ENDCResourceStatusResponseMeasurementIDENDCIEBinding binds MeasurementIDENDC to ProtocolIE-Field {{ENDCResourceStatusResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusResponseMeasurementIDENDCIEBinding struct {
 	info   FieldInfo
 	codec  s00.MeasurementIDENDCValueCodec
@@ -6244,7 +6244,7 @@ func (b ENDCResourceStatusResponseMeasurementIDENDCIEBinding) Get(field *ENDCRes
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ENDCResourceStatusResponseIEValue].
+// ENDCResourceStatusResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCResourceStatusResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusResponseCriticalityDiagnosticsIEBinding struct {
 	info   FieldInfo
 	codec  CriticalityDiagnosticsValueCodec
@@ -6286,7 +6286,7 @@ func (b ENDCResourceStatusResponseCriticalityDiagnosticsIEBinding) Get(field *EN
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusResponseInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCResourceStatusResponseIEValue].
+// ENDCResourceStatusResponseInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCResourceStatusResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusResponseInterfaceInstanceIndicationIEBinding struct {
 	info   FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -6330,7 +6330,7 @@ func (b ENDCResourceStatusResponseInterfaceInstanceIndicationIEBinding) Get(fiel
 	return b.get(&field.Value)
 }
 
-// ENDCX2RemovalFailureCauseIEBinding is the concrete IEBinding[Cause, ENDCX2RemovalFailureIEValue].
+// ENDCX2RemovalFailureCauseIEBinding binds Cause to ProtocolIE-Field {{ENDCX2RemovalFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2RemovalFailureCauseIEBinding struct {
 	info   FieldInfo
 	codec  s00.CauseValueCodec
@@ -6370,7 +6370,7 @@ func (b ENDCX2RemovalFailureCauseIEBinding) Get(field *ENDCX2RemovalFailureIEFie
 	return b.get(&field.Value)
 }
 
-// ENDCX2RemovalFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ENDCX2RemovalFailureIEValue].
+// ENDCX2RemovalFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCX2RemovalFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2RemovalFailureCriticalityDiagnosticsIEBinding struct {
 	info   FieldInfo
 	codec  CriticalityDiagnosticsValueCodec
@@ -6412,7 +6412,7 @@ func (b ENDCX2RemovalFailureCriticalityDiagnosticsIEBinding) Get(field *ENDCX2Re
 	return b.get(&field.Value)
 }
 
-// ENDCX2RemovalFailureInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCX2RemovalFailureIEValue].
+// ENDCX2RemovalFailureInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCX2RemovalFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2RemovalFailureInterfaceInstanceIndicationIEBinding struct {
 	info   FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -6454,7 +6454,7 @@ func (b ENDCX2RemovalFailureInterfaceInstanceIndicationIEBinding) Get(field *END
 	return b.get(&field.Value)
 }
 
-// ENDCX2SetupFailureCauseIEBinding is the concrete IEBinding[Cause, ENDCX2SetupFailureIEValue].
+// ENDCX2SetupFailureCauseIEBinding binds Cause to ProtocolIE-Field {{ENDCX2SetupFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupFailureCauseIEBinding struct {
 	info   FieldInfo
 	codec  s00.CauseValueCodec
@@ -6494,7 +6494,7 @@ func (b ENDCX2SetupFailureCauseIEBinding) Get(field *ENDCX2SetupFailureIEField) 
 	return b.get(&field.Value)
 }
 
-// ENDCX2SetupFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ENDCX2SetupFailureIEValue].
+// ENDCX2SetupFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCX2SetupFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupFailureCriticalityDiagnosticsIEBinding struct {
 	info   FieldInfo
 	codec  CriticalityDiagnosticsValueCodec
@@ -6536,7 +6536,7 @@ func (b ENDCX2SetupFailureCriticalityDiagnosticsIEBinding) Get(field *ENDCX2Setu
 	return b.get(&field.Value)
 }
 
-// ENDCX2SetupFailureTimeToWaitIEBinding is the concrete IEBinding[TimeToWait, ENDCX2SetupFailureIEValue].
+// ENDCX2SetupFailureTimeToWaitIEBinding binds TimeToWait to ProtocolIE-Field {{ENDCX2SetupFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupFailureTimeToWaitIEBinding struct {
 	info   FieldInfo
 	codec  s00.TimeToWaitValueCodec
@@ -6576,7 +6576,7 @@ func (b ENDCX2SetupFailureTimeToWaitIEBinding) Get(field *ENDCX2SetupFailureIEFi
 	return b.get(&field.Value)
 }
 
-// ENDCX2SetupFailureInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCX2SetupFailureIEValue].
+// ENDCX2SetupFailureInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCX2SetupFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupFailureInterfaceInstanceIndicationIEBinding struct {
 	info   FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -6618,7 +6618,7 @@ func (b ENDCX2SetupFailureInterfaceInstanceIndicationIEBinding) Get(field *ENDCX
 	return b.get(&field.Value)
 }
 
-// ENDCX2SetupFailureMessageOversizeNotificationIEBinding is the concrete IEBinding[MessageOversizeNotification, ENDCX2SetupFailureIEValue].
+// ENDCX2SetupFailureMessageOversizeNotificationIEBinding binds MessageOversizeNotification to ProtocolIE-Field {{ENDCX2SetupFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupFailureMessageOversizeNotificationIEBinding struct {
 	info   FieldInfo
 	codec  s05.MessageOversizeNotificationValueCodec
@@ -10444,55 +10444,55 @@ func X2apInternalWidebandCQIValueCodecEncodeChanged(c WidebandCQIValueCodec, val
 	return out, aper.OperationError(err, c.path)
 }
 
-// CellToReportEUTRAENDCItemIEContainer is the concrete ProtocolIEContainer[CellToReportEUTRAENDCItemIEValue].
+// CellToReportEUTRAENDCItemIEContainer is ProtocolIE-Container {{CellToReport-E-UTRA-ENDC-Item-IEs}} of TS 36.423 §9.3.8: a list of CellToReportEUTRAENDCItemIEField values.
 type CellToReportEUTRAENDCItemIEContainer []CellToReportEUTRAENDCItemIEField
 
-// CellToReportItemIEContainer is the concrete ProtocolIEContainer[CellToReportItemIEValue].
+// CellToReportItemIEContainer is ProtocolIE-Container {{CellToReport-ItemIEs}} of TS 36.423 §9.3.8: a list of CellToReportItemIEField values.
 type CellToReportItemIEContainer []CellToReportItemIEField
 
-// ERABItemIEContainer is the concrete ProtocolIEContainer[ERABItemIEValue].
+// ERABItemIEContainer is ProtocolIE-Container {{E-RAB-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABItemIEField values.
 type ERABItemIEContainer []ERABItemIEField
 
-// ERABUsageReportItemIEContainer is the concrete ProtocolIEContainer[ERABUsageReportItemIEValue].
+// ERABUsageReportItemIEContainer is ProtocolIE-Container {{E-RABUsageReport-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABUsageReportItemIEField values.
 type ERABUsageReportItemIEContainer []ERABUsageReportItemIEField
 
-// CHOinformationREQExtIEsExtContainer is the concrete ProtocolExtensionContainer[CHOinformationREQExtIEsValue].
+// CHOinformationREQExtIEsExtContainer is ProtocolExtensionContainer {{CHOinformation-REQ-ExtIEs}} of TS 36.423 §9.3.8: a list of CHOinformationREQExtIEsExtField values.
 type CHOinformationREQExtIEsExtContainer []CHOinformationREQExtIEsExtField
 
-// ERABLevelQoSParametersExtIEsExtContainer is the concrete ProtocolExtensionContainer[ERABLevelQoSParametersExtIEsValue].
+// ERABLevelQoSParametersExtIEsExtContainer is ProtocolExtensionContainer {{E-RAB-Level-QoS-Parameters-ExtIEs}} of TS 36.423 §9.3.8: a list of ERABLevelQoSParametersExtIEsExtField values.
 type ERABLevelQoSParametersExtIEsExtContainer []ERABLevelQoSParametersExtIEsExtField
 
-// ERABItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABItemIEValue].
+// ERABItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RAB-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
 type ERABItemIEValueProtocolIESingleContainer = ERABItemIEField
 
-// ERABUsageReportItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABUsageReportItemIEValue].
+// ERABUsageReportItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABUsageReport-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
 type ERABUsageReportItemIEValueProtocolIESingleContainer = ERABUsageReportItemIEField
 
-// ERABsAdmittedItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ERABsAdmittedItemExtIEsValue].
+// ERABsAdmittedItemExtIEsExtContainer is ProtocolExtensionContainer {{E-RABs-Admitted-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of ERABsAdmittedItemExtIEsExtField values.
 type ERABsAdmittedItemExtIEsExtContainer []ERABsAdmittedItemExtIEsExtField
 
-// CellToReportItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[CellToReportItemIEValue].
+// CellToReportItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{CellToReport-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
 type CellToReportItemIEValueProtocolIESingleContainer = CellToReportItemIEField
 
-// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtContainer is the concrete ProtocolExtensionContainer[ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtContainer is ProtocolExtensionContainer {{E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs}} of TS 36.423 §9.3.8: a list of ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtField values.
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtContainer []ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtField
 
-// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtContainer is the concrete ProtocolExtensionContainer[ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtContainer is ProtocolExtensionContainer {{E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs}} of TS 36.423 §9.3.8: a list of ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField values.
 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtContainer []ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField
 
-// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtContainer is the concrete ProtocolExtensionContainer[ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue].
+// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtContainer is ProtocolExtensionContainer {{E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs}} of TS 36.423 §9.3.8: a list of ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtField values.
 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtContainer []ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtField
 
-// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtContainer is the concrete ProtocolExtensionContainer[ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtContainer is ProtocolExtensionContainer {{E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs}} of TS 36.423 §9.3.8: a list of ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtField values.
 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtContainer []ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtField
 
-// CellToReportEUTRAENDCItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[CellToReportEUTRAENDCItemIEValue].
+// CellToReportEUTRAENDCItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{CellToReport-E-UTRA-ENDC-Item-IEs}} of TS 36.423 §9.3.8: one information element field.
 type CellToReportEUTRAENDCItemIEValueProtocolIESingleContainer = CellToReportEUTRAENDCItemIEField
 
-// ENBENDCX2RemovalReqIEContainer is the concrete ProtocolIEContainer[ENBENDCX2RemovalReqIEValue].
+// ENBENDCX2RemovalReqIEContainer is ProtocolIE-Container {{ENB-ENDCX2RemovalReqIEs}} of TS 36.423 §9.3.8: a list of ENBENDCX2RemovalReqIEField values.
 type ENBENDCX2RemovalReqIEContainer []ENBENDCX2RemovalReqIEField
 
-// ENBENDCX2RemovalReqAckIEContainer is the concrete ProtocolIEContainer[ENBENDCX2RemovalReqAckIEValue].
+// ENBENDCX2RemovalReqAckIEContainer is ProtocolIE-Container {{ENB-ENDCX2RemovalReqAckIEs}} of TS 36.423 §9.3.8: a list of ENBENDCX2RemovalReqAckIEField values.
 type ENBENDCX2RemovalReqAckIEContainer []ENBENDCX2RemovalReqAckIEField
 
 // eNBConfigurationUpdateAcknowledgeIEValueprotocolOpenValue is the concrete protocolOpenValue[ENBConfigurationUpdateAcknowledgeIEValue].
@@ -12663,7 +12663,7 @@ func (v WidebandCQIAPERValue) WithoutReplay() WidebandCQIAPERValue {
 	return v
 }
 
-// CHOinformationREQExtIEsIEField is the concrete ProtocolIEField[CHOinformationREQExtIEsValue].
+// CHOinformationREQExtIEsIEField uses the ProtocolIE-Field shape for object set CHOinformation-REQ-ExtIEs of TS 36.423.
 type CHOinformationREQExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -12781,10 +12781,10 @@ func X2apInternalCHOinformationREQExtIEsIEFieldUnmarshalAPERFrom(v *CHOinformati
 	return nil
 }
 
-// CHOinformationREQExtIEsIEContainer is the concrete ProtocolIEContainer[CHOinformationREQExtIEsValue].
+// CHOinformationREQExtIEsIEContainer uses the ProtocolIE-Container shape for object set CHOinformation-REQ-ExtIEs of TS 36.423: a list of CHOinformationREQExtIEsIEField values.
 type CHOinformationREQExtIEsIEContainer []CHOinformationREQExtIEsIEField
 
-// ERABLevelQoSParametersExtIEsIEField is the concrete ProtocolIEField[ERABLevelQoSParametersExtIEsValue].
+// ERABLevelQoSParametersExtIEsIEField uses the ProtocolIE-Field shape for object set E-RAB-Level-QoS-Parameters-ExtIEs of TS 36.423.
 type ERABLevelQoSParametersExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -12902,10 +12902,10 @@ func X2apInternalERABLevelQoSParametersExtIEsIEFieldUnmarshalAPERFrom(v *ERABLev
 	return nil
 }
 
-// ERABLevelQoSParametersExtIEsIEContainer is the concrete ProtocolIEContainer[ERABLevelQoSParametersExtIEsValue].
+// ERABLevelQoSParametersExtIEsIEContainer uses the ProtocolIE-Container shape for object set E-RAB-Level-QoS-Parameters-ExtIEs of TS 36.423: a list of ERABLevelQoSParametersExtIEsIEField values.
 type ERABLevelQoSParametersExtIEsIEContainer []ERABLevelQoSParametersExtIEsIEField
 
-// ERABsAdmittedItemExtIEsIEField is the concrete ProtocolIEField[ERABsAdmittedItemExtIEsValue].
+// ERABsAdmittedItemExtIEsIEField uses the ProtocolIE-Field shape for object set E-RABs-Admitted-Item-ExtIEs of TS 36.423.
 type ERABsAdmittedItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13023,10 +13023,10 @@ func X2apInternalERABsAdmittedItemExtIEsIEFieldUnmarshalAPERFrom(v *ERABsAdmitte
 	return nil
 }
 
-// ERABsAdmittedItemExtIEsIEContainer is the concrete ProtocolIEContainer[ERABsAdmittedItemExtIEsValue].
+// ERABsAdmittedItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set E-RABs-Admitted-Item-ExtIEs of TS 36.423: a list of ERABsAdmittedItemExtIEsIEField values.
 type ERABsAdmittedItemExtIEsIEContainer []ERABsAdmittedItemExtIEsIEField
 
-// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEField is the concrete ProtocolIEField[ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEField uses the ProtocolIE-Field shape for object set E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs of TS 36.423.
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13144,10 +13144,10 @@ func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs
 	return nil
 }
 
-// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEContainer is the concrete ProtocolIEContainer[ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEContainer uses the ProtocolIE-Container shape for object set E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs of TS 36.423: a list of ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEField values.
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEContainer []ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEField
 
-// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEField is the concrete ProtocolIEField[ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEField uses the ProtocolIE-Field shape for object set E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs of TS 36.423.
 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13265,10 +13265,10 @@ func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEF
 	return nil
 }
 
-// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEContainer is the concrete ProtocolIEContainer[ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEContainer uses the ProtocolIE-Container shape for object set E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs of TS 36.423: a list of ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEField values.
 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEContainer []ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEField
 
-// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEField is the concrete ProtocolIEField[ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue].
+// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEField uses the ProtocolIE-Field shape for object set E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs of TS 36.423.
 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13386,10 +13386,10 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEF
 	return nil
 }
 
-// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEContainer is the concrete ProtocolIEContainer[ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue].
+// ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEContainer uses the ProtocolIE-Container shape for object set E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs of TS 36.423: a list of ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEField values.
 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEContainer []ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEField
 
-// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEField is the concrete ProtocolIEField[ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEField uses the ProtocolIE-Field shape for object set E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs of TS 36.423.
 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13507,7 +13507,7 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIE
 	return nil
 }
 
-// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEContainer is the concrete ProtocolIEContainer[ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue].
+// ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEContainer uses the ProtocolIE-Container shape for object set E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs of TS 36.423: a list of ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEField values.
 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEContainer []ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEField
 
 func X2apInternalCaptureX2APABSStatus(v *ABSStatus, s *aper.SemanticCapture) {
@@ -49611,7 +49611,7 @@ func X2apInternalABSStatusUnmarshalAPERFrom(v *ABSStatus, bb *aper.BitBuffer) er
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s00.ABSStatusExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -49868,7 +49868,7 @@ func X2apInternalAdditionalMeasurementTimingConfigurationItemUnmarshalAPERFrom(v
 	toleranceMark_csirsmtcconfigurationlist := bb.EnterComponent("CsiRSMTCConfigurationList")
 	v.CsiRSMTCConfigurationList = make(CSIRSMTCConfigurationList, 0)
 	_, errCollection_csirsmtcconfigurationlist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 96, HasUpper: true}, true, func(fragmentOffset_csirsmtcconfigurationlist, fragmentLength_csirsmtcconfigurationlist int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_csirsmtcconfigurationlist < 0 || fragmentLength_csirsmtcconfigurationlist < 0 || fragmentLength_csirsmtcconfigurationlist > int64(^uint(0)>>1) || fragmentOffset_csirsmtcconfigurationlist > int64(^uint(0)>>1)-fragmentLength_csirsmtcconfigurationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49895,7 +49895,7 @@ func X2apInternalAdditionalMeasurementTimingConfigurationItemUnmarshalAPERFrom(v
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.AdditionalMeasurementTimingConfigurationItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50170,7 +50170,7 @@ func X2apInternalCSIRSMTCConfigurationItemUnmarshalAPERFrom(v *CSIRSMTCConfigura
 		toleranceMark_csirsneighbourlist := bb.EnterComponent("CsiRSNeighbourList")
 		tmp_csirsneighbourlist := make(CSIRSNeighbourList, 0)
 		_, errCollection_csirsneighbourlist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_csirsneighbourlist, fragmentLength_csirsneighbourlist int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_csirsneighbourlist < 0 || fragmentLength_csirsneighbourlist < 0 || fragmentLength_csirsneighbourlist > int64(^uint(0)>>1) || fragmentOffset_csirsneighbourlist > int64(^uint(0)>>1)-fragmentLength_csirsneighbourlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50199,7 +50199,7 @@ func X2apInternalCSIRSMTCConfigurationItemUnmarshalAPERFrom(v *CSIRSMTCConfigura
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CSIRSMTCConfigurationItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50466,7 +50466,7 @@ func X2apInternalCSIRSNeighbourItemUnmarshalAPERFrom(v *CSIRSNeighbourItem, bb *
 		toleranceMark_csirsmtcneighbourlist := bb.EnterComponent("CsiRSMTCNeighbourList")
 		tmp_csirsmtcneighbourlist := make(CSIRSMTCNeighbourList, 0)
 		_, errCollection_csirsmtcneighbourlist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_csirsmtcneighbourlist, fragmentLength_csirsmtcneighbourlist int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_csirsmtcneighbourlist < 0 || fragmentLength_csirsmtcneighbourlist < 0 || fragmentLength_csirsmtcneighbourlist > int64(^uint(0)>>1) || fragmentOffset_csirsmtcneighbourlist > int64(^uint(0)>>1)-fragmentLength_csirsmtcneighbourlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50495,7 +50495,7 @@ func X2apInternalCSIRSNeighbourItemUnmarshalAPERFrom(v *CSIRSNeighbourItem, bb *
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CSIRSNeighbourItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50744,7 +50744,7 @@ func X2apInternalCellBasedMDTUnmarshalAPERFrom(v *CellBasedMDT, bb *aper.BitBuff
 	toleranceMark_cellidlistformdt := bb.EnterComponent("CellIdListforMDT")
 	v.CellIdListforMDT = make(CellIdListforMDT, 0)
 	_, errCollection_cellidlistformdt := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_cellidlistformdt, fragmentLength_cellidlistformdt int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_cellidlistformdt < 0 || fragmentLength_cellidlistformdt < 0 || fragmentLength_cellidlistformdt > int64(^uint(0)>>1) || fragmentOffset_cellidlistformdt > int64(^uint(0)>>1)-fragmentLength_cellidlistformdt {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50771,7 +50771,7 @@ func X2apInternalCellBasedMDTUnmarshalAPERFrom(v *CellBasedMDT, bb *aper.BitBuff
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CellBasedMDTExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51020,7 +51020,7 @@ func X2apInternalCellBasedQMCUnmarshalAPERFrom(v *CellBasedQMC, bb *aper.BitBuff
 	toleranceMark_cellidlistforqmc := bb.EnterComponent("CellIdListforQMC")
 	v.CellIdListforQMC = make(CellIdListforQMC, 0)
 	_, errCollection_cellidlistforqmc := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_cellidlistforqmc, fragmentLength_cellidlistforqmc int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_cellidlistforqmc < 0 || fragmentLength_cellidlistforqmc < 0 || fragmentLength_cellidlistforqmc > int64(^uint(0)>>1) || fragmentOffset_cellidlistforqmc > int64(^uint(0)>>1)-fragmentLength_cellidlistforqmc {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51047,7 +51047,7 @@ func X2apInternalCellBasedQMCUnmarshalAPERFrom(v *CellBasedQMC, bb *aper.BitBuff
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CellBasedQMCExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51296,7 +51296,7 @@ func X2apInternalCPAinformationREQACKUnmarshalAPERFrom(v *CPAinformationREQACK, 
 	toleranceMark_candidatepscells := bb.EnterComponent("CandidatePscells")
 	v.CandidatePscells = make(CPACcandidatePSCellsList, 0)
 	_, errCollection_candidatepscells := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_candidatepscells, fragmentLength_candidatepscells int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_candidatepscells < 0 || fragmentLength_candidatepscells < 0 || fragmentLength_candidatepscells > int64(^uint(0)>>1) || fragmentOffset_candidatepscells > int64(^uint(0)>>1)-fragmentLength_candidatepscells {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51323,7 +51323,7 @@ func X2apInternalCPAinformationREQACKUnmarshalAPERFrom(v *CPAinformationREQACK, 
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CPAinformationREQACKExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51572,7 +51572,7 @@ func X2apInternalCPCinformationCONFUnmarshalAPERFrom(v *CPCinformationCONF, bb *
 	toleranceMark_cpctargetsgnblist := bb.EnterComponent("CpcTargetSgnbList")
 	v.CpcTargetSgnbList = make(CPCTargetSgNBConfList, 0)
 	_, errCollection_cpctargetsgnblist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_cpctargetsgnblist, fragmentLength_cpctargetsgnblist int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_cpctargetsgnblist < 0 || fragmentLength_cpctargetsgnblist < 0 || fragmentLength_cpctargetsgnblist > int64(^uint(0)>>1) || fragmentOffset_cpctargetsgnblist > int64(^uint(0)>>1)-fragmentLength_cpctargetsgnblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51599,7 +51599,7 @@ func X2apInternalCPCinformationCONFUnmarshalAPERFrom(v *CPCinformationCONF, bb *
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CPCinformationCONFExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51856,7 +51856,7 @@ func X2apInternalCPCTargetSgNBConfItemUnmarshalAPERFrom(v *CPCTargetSgNBConfItem
 	toleranceMark_candidatepscells := bb.EnterComponent("CandidatePscells")
 	v.CandidatePscells = make(CPACcandidatePSCellsList, 0)
 	_, errCollection_candidatepscells := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_candidatepscells, fragmentLength_candidatepscells int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_candidatepscells < 0 || fragmentLength_candidatepscells < 0 || fragmentLength_candidatepscells > int64(^uint(0)>>1) || fragmentOffset_candidatepscells > int64(^uint(0)>>1)-fragmentLength_candidatepscells {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51883,7 +51883,7 @@ func X2apInternalCPCTargetSgNBConfItemUnmarshalAPERFrom(v *CPCTargetSgNBConfItem
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CPCTargetSgNBConfItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52132,7 +52132,7 @@ func X2apInternalCPCupdateMODUnmarshalAPERFrom(v *CPCupdateMOD, bb *aper.BitBuff
 	toleranceMark_cpctargetsgnblist := bb.EnterComponent("CpcTargetSgnbList")
 	v.CpcTargetSgnbList = make(CPCTargetSgNBModList, 0)
 	_, errCollection_cpctargetsgnblist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_cpctargetsgnblist, fragmentLength_cpctargetsgnblist int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_cpctargetsgnblist < 0 || fragmentLength_cpctargetsgnblist < 0 || fragmentLength_cpctargetsgnblist > int64(^uint(0)>>1) || fragmentOffset_cpctargetsgnblist > int64(^uint(0)>>1)-fragmentLength_cpctargetsgnblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52159,7 +52159,7 @@ func X2apInternalCPCupdateMODUnmarshalAPERFrom(v *CPCupdateMOD, bb *aper.BitBuff
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CPCupdateMODExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52416,7 +52416,7 @@ func X2apInternalCPCTargetSgNBModItemUnmarshalAPERFrom(v *CPCTargetSgNBModItem, 
 	toleranceMark_candidatepscells := bb.EnterComponent("CandidatePscells")
 	v.CandidatePscells = make(CPACcandidatePSCellsList, 0)
 	_, errCollection_candidatepscells := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_candidatepscells, fragmentLength_candidatepscells int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_candidatepscells < 0 || fragmentLength_candidatepscells < 0 || fragmentLength_candidatepscells > int64(^uint(0)>>1) || fragmentOffset_candidatepscells > int64(^uint(0)>>1)-fragmentLength_candidatepscells {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52443,7 +52443,7 @@ func X2apInternalCPCTargetSgNBModItemUnmarshalAPERFrom(v *CPCTargetSgNBModItem, 
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CPCTargetSgNBModItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52692,7 +52692,7 @@ func X2apInternalCPAinformationMODACKUnmarshalAPERFrom(v *CPAinformationMODACK, 
 	toleranceMark_candidatepscells := bb.EnterComponent("CandidatePscells")
 	v.CandidatePscells = make(CPACcandidatePSCellsList, 0)
 	_, errCollection_candidatepscells := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_candidatepscells, fragmentLength_candidatepscells int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_candidatepscells < 0 || fragmentLength_candidatepscells < 0 || fragmentLength_candidatepscells > int64(^uint(0)>>1) || fragmentOffset_candidatepscells > int64(^uint(0)>>1)-fragmentLength_candidatepscells {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52719,7 +52719,7 @@ func X2apInternalCPAinformationMODACKUnmarshalAPERFrom(v *CPAinformationMODACK, 
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CPAinformationMODACKExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52968,7 +52968,7 @@ func X2apInternalCPACinformationREQDUnmarshalAPERFrom(v *CPACinformationREQD, bb
 	toleranceMark_candidatepscells := bb.EnterComponent("CandidatePscells")
 	v.CandidatePscells = make(CPACcandidatePSCellsList, 0)
 	_, errCollection_candidatepscells := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_candidatepscells, fragmentLength_candidatepscells int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_candidatepscells < 0 || fragmentLength_candidatepscells < 0 || fragmentLength_candidatepscells > int64(^uint(0)>>1) || fragmentOffset_candidatepscells > int64(^uint(0)>>1)-fragmentLength_candidatepscells {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52995,7 +52995,7 @@ func X2apInternalCPACinformationREQDUnmarshalAPERFrom(v *CPACinformationREQD, bb
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CPACinformationREQDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -53258,7 +53258,7 @@ func X2apInternalCoMPInformationUnmarshalAPERFrom(v *CoMPInformation, bb *aper.B
 	toleranceMark_compinformationitem := bb.EnterComponent("CoMPInformationItem")
 	v.CoMPInformationItem = make(CoMPInformationItem, 0)
 	_, errCollection_compinformationitem := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_compinformationitem, fragmentLength_compinformationitem int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_compinformationitem < 0 || fragmentLength_compinformationitem < 0 || fragmentLength_compinformationitem > int64(^uint(0)>>1) || fragmentOffset_compinformationitem > int64(^uint(0)>>1)-fragmentLength_compinformationitem {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -53284,7 +53284,7 @@ func X2apInternalCoMPInformationUnmarshalAPERFrom(v *CoMPInformation, bb *aper.B
 	toleranceMark_compinformationstarttime := bb.EnterComponent("CoMPInformationStartTime")
 	v.CoMPInformationStartTime = make(CoMPInformationStartTime, 0)
 	_, errCollection_compinformationstarttime := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 1, HasUpper: true}, true, func(fragmentOffset_compinformationstarttime, fragmentLength_compinformationstarttime int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_compinformationstarttime < 0 || fragmentLength_compinformationstarttime < 0 || fragmentLength_compinformationstarttime > int64(^uint(0)>>1) || fragmentOffset_compinformationstarttime > int64(^uint(0)>>1)-fragmentLength_compinformationstarttime {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -53311,7 +53311,7 @@ func X2apInternalCoMPInformationUnmarshalAPERFrom(v *CoMPInformation, bb *aper.B
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CoMPInformationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -53642,7 +53642,7 @@ func X2apInternalCriticalityDiagnosticsUnmarshalAPERFrom(v *CriticalityDiagnosti
 		toleranceMark_iescriticalitydiagnostics := bb.EnterComponent("IEsCriticalityDiagnostics")
 		tmp_iescriticalitydiagnostics := make(CriticalityDiagnosticsIEList, 0)
 		_, errCollection_iescriticalitydiagnostics := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_iescriticalitydiagnostics, fragmentLength_iescriticalitydiagnostics int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_iescriticalitydiagnostics < 0 || fragmentLength_iescriticalitydiagnostics < 0 || fragmentLength_iescriticalitydiagnostics > int64(^uint(0)>>1) || fragmentOffset_iescriticalitydiagnostics > int64(^uint(0)>>1)-fragmentLength_iescriticalitydiagnostics {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -53671,7 +53671,7 @@ func X2apInternalCriticalityDiagnosticsUnmarshalAPERFrom(v *CriticalityDiagnosti
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.CriticalityDiagnosticsExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -53915,7 +53915,7 @@ func X2apInternalSupportedSULFreqBandItemUnmarshalAPERFrom(v *SupportedSULFreqBa
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.SupportedSULFreqBandItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -54183,7 +54183,7 @@ func X2apInternalTNLCapacityIndicatorUnmarshalAPERFrom(v *TNLCapacityIndicator, 
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.TNLCapacityIndicatorExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -54435,7 +54435,7 @@ func X2apInternalUESecurityCapabilitiesUnmarshalAPERFrom(v *UESecurityCapabiliti
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.UESecurityCapabilitiesExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -54679,7 +54679,7 @@ func X2apInternalUESidelinkAggregateMaximumBitRateUnmarshalAPERFrom(v *UESidelin
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.UESidelinkAggregateMaximumBitRateExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -54923,7 +54923,7 @@ func X2apInternalULConfigurationUnmarshalAPERFrom(v *ULConfiguration, bb *aper.B
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.ULConfigurationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -55167,7 +55167,7 @@ func X2apInternalULOnlySharingUnmarshalAPERFrom(v *ULOnlySharing, bb *aper.BitBu
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.ULOnlySharingExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -55586,7 +55586,7 @@ func X2apInternalUsableABSInformationFDDUnmarshalAPERFrom(v *UsableABSInformatio
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.UsableABSInformationFDDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -55830,7 +55830,7 @@ func X2apInternalUsableABSInformationTDDUnmarshalAPERFrom(v *UsableABSInformatio
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.UsableABSInformationTDDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -56114,7 +56114,7 @@ func X2apInternalV2XServicesAuthorizedUnmarshalAPERFrom(v *V2XServicesAuthorized
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.V2XServicesAuthorizedExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -56382,7 +56382,7 @@ func X2apInternalWidebandCQIUnmarshalAPERFrom(v *WidebandCQI, bb *aper.BitBuffer
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.WidebandCQIExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -56634,7 +56634,7 @@ func X2apInternalCoMPInformationItemElemUnmarshalAPERFrom(v *CoMPInformationItem
 	toleranceMark_comphypothesisset := bb.EnterComponent("CoMPHypothesisSet")
 	v.CoMPHypothesisSet = make(CoMPHypothesisSet, 0)
 	_, errCollection_comphypothesisset := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_comphypothesisset, fragmentLength_comphypothesisset int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_comphypothesisset < 0 || fragmentLength_comphypothesisset < 0 || fragmentLength_comphypothesisset > int64(^uint(0)>>1) || fragmentOffset_comphypothesisset > int64(^uint(0)>>1)-fragmentLength_comphypothesisset {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -56666,7 +56666,7 @@ func X2apInternalCoMPInformationItemElemUnmarshalAPERFrom(v *CoMPInformationItem
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CoMPInformationItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -61984,7 +61984,7 @@ func X2apInternalFirstDLCountUnmarshalAPERFrom(v *FirstDLCount, bb *aper.BitBuff
 	toleranceMark_erabssubjecttoearlystatustransfer := bb.EnterComponent("ERABsSubjectToEarlyStatusTransfer")
 	v.ERABsSubjectToEarlyStatusTransfer = make(ERABsSubjectToEarlyStatusTransferList, 0)
 	_, errCollection_erabssubjecttoearlystatustransfer := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabssubjecttoearlystatustransfer, fragmentLength_erabssubjecttoearlystatustransfer int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_erabssubjecttoearlystatustransfer < 0 || fragmentLength_erabssubjecttoearlystatustransfer < 0 || fragmentLength_erabssubjecttoearlystatustransfer > int64(^uint(0)>>1) || fragmentOffset_erabssubjecttoearlystatustransfer > int64(^uint(0)>>1)-fragmentLength_erabssubjecttoearlystatustransfer {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -62011,7 +62011,7 @@ func X2apInternalFirstDLCountUnmarshalAPERFrom(v *FirstDLCount, bb *aper.BitBuff
 		toleranceMark_ieextension := bb.EnterComponent("IEExtension")
 		tmp_ieextension := make(s03.FirstDLCountExtIEsExtContainer, 0)
 		_, errCollection_ieextension := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextension, fragmentLength_ieextension int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextension < 0 || fragmentLength_ieextension < 0 || fragmentLength_ieextension > int64(^uint(0)>>1) || fragmentOffset_ieextension > int64(^uint(0)>>1)-fragmentLength_ieextension {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -62258,7 +62258,7 @@ func X2apInternalDLDiscardingUnmarshalAPERFrom(v *DLDiscarding, bb *aper.BitBuff
 	toleranceMark_erabssubjecttodldiscardinglist := bb.EnterComponent("ERABsSubjectToDLDiscardingList")
 	v.ERABsSubjectToDLDiscardingList = make(ERABsSubjectToDLDiscardingList, 0)
 	_, errCollection_erabssubjecttodldiscardinglist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabssubjecttodldiscardinglist, fragmentLength_erabssubjecttodldiscardinglist int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_erabssubjecttodldiscardinglist < 0 || fragmentLength_erabssubjecttodldiscardinglist < 0 || fragmentLength_erabssubjecttodldiscardinglist > int64(^uint(0)>>1) || fragmentOffset_erabssubjecttodldiscardinglist > int64(^uint(0)>>1)-fragmentLength_erabssubjecttodldiscardinglist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -62285,7 +62285,7 @@ func X2apInternalDLDiscardingUnmarshalAPERFrom(v *DLDiscarding, bb *aper.BitBuff
 		toleranceMark_ieextension := bb.EnterComponent("IEExtension")
 		tmp_ieextension := make(s02.DLDiscardingExtIEsExtContainer, 0)
 		_, errCollection_ieextension := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextension, fragmentLength_ieextension int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextension < 0 || fragmentLength_ieextension < 0 || fragmentLength_ieextension > int64(^uint(0)>>1) || fragmentOffset_ieextension > int64(^uint(0)>>1)-fragmentLength_ieextension {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -63351,4 +63351,435 @@ func X2apInternalConstructT47ERABsSubjectToEarlyStatusTransferListValueCodecF4pa
 }
 func X2apInternalConstructT54AdditionalMeasurementTimingConfigurationListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context(v0 aper.Path, v1 func([]byte, aper.DecodeState) (AdditionalMeasurementTimingConfigurationList, error), v2 func(AdditionalMeasurementTimingConfigurationList, bool, *aper.DecodeBudget) ([]byte, error), v3 func(AdditionalMeasurementTimingConfigurationList, aper.DecodeState) (AdditionalMeasurementTimingConfigurationList, aper.Snapshot), v4 func(AdditionalMeasurementTimingConfigurationList, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan, v5 s00.X2apInternalCodecContext) AdditionalMeasurementTimingConfigurationListValueCodec {
 	return AdditionalMeasurementTimingConfigurationListValueCodec{path: v0, decode: v1, encode: v2, capture: v3, compare: v4, context: v5}
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CHOinformationREQExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(446):
+		if v.rowCHOTimeBasedInformation != nil {
+			return v.rowCHOTimeBasedInformation, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CellActivationFailureIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CellToReportEUTRAENDCItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(404):
+		if v.rowCellToReportEUTRAENDCItem != nil {
+			return v.rowCellToReportEUTRAENDCItem, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CellToReportItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(31):
+		if v.rowCellToReportItem != nil {
+			return v.rowCellToReportItem, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENBConfigurationUpdateAcknowledgeIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENBConfigurationUpdateFailureIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(22):
+		if v.rowTimeToWait != nil {
+			return v.rowTimeToWait, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENBENDCX2RemovalReqAckIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(21):
+		if v.rowGlobalENBID != nil {
+			return v.rowGlobalENBID, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENBENDCX2RemovalReqIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(21):
+		if v.rowGlobalENBID != nil {
+			return v.rowGlobalENBID, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCCellActivationFailureIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(256):
+		if v.rowActivationID != nil {
+			return v.rowActivationID, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCConfigurationTransferIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(326):
+		if v.rowEndcSONConfigurationTransfer != nil {
+			return v.rowEndcSONConfigurationTransfer, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCConfigurationUpdateFailureIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(22):
+		if v.rowTimeToWait != nil {
+			return v.rowTimeToWait, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *ENDCResourceStatusFailureIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(383):
+		if v.rowEUTRANNode1MeasurementID != nil {
+			return v.rowEUTRANNode1MeasurementID, true
+		}
+	case s00.ProtocolIEID(384):
+		if v.rowEUTRANNode2MeasurementID != nil {
+			return v.rowEUTRANNode2MeasurementID, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *ENDCResourceStatusResponseIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(383):
+		if v.rowEUTRANNode1MeasurementID != nil {
+			return v.rowEUTRANNode1MeasurementID, true
+		}
+	case s00.ProtocolIEID(384):
+		if v.rowEUTRANNode2MeasurementID != nil {
+			return v.rowEUTRANNode2MeasurementID, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCX2RemovalFailureIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCX2SetupFailureIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(22):
+		if v.rowTimeToWait != nil {
+			return v.rowTimeToWait, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(350):
+		if v.rowMessageOversizeNotification != nil {
+			return v.rowMessageOversizeNotification, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(2):
+		if v.rowERABItem != nil {
+			return v.rowERABItem, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *ERABLevelQoSParametersExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(273):
+		if v.rowDownlinkPacketLossRate != nil {
+			return v.rowDownlinkPacketLossRate, true
+		}
+	case s00.ProtocolIEID(274):
+		if v.rowUplinkPacketLossRate != nil {
+			return v.rowUplinkPacketLossRate, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABUsageReportItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(263):
+		if v.rowERABUsageReportItem != nil {
+			return v.rowERABUsageReportItem, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABsAdmittedItemExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(366):
+		if v.rowDAPSResponseInfo != nil {
+			return v.rowDAPSResponseInfo, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(314):
+		if v.rowLCID != nil {
+			return v.rowLCID, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(314):
+		if v.rowLCID != nil {
+			return v.rowLCID, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(302):
+		if v.rowULpDCPSnLength != nil {
+			return v.rowULpDCPSnLength, true
+		}
+	case s00.ProtocolIEID(311):
+		if v.rowDLPDCPSnLength != nil {
+			return v.rowDLPDCPSnLength, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(302):
+		if v.rowULpDCPSnLength != nil {
+			return v.rowULpDCPSnLength, true
+		}
+	case s00.ProtocolIEID(311):
+		if v.rowDLPDCPSnLength != nil {
+			return v.rowDLPDCPSnLength, true
+		}
+	}
+	return nil, false
 }

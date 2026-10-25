@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
 )
 
-func eRABUsageReportItemAPERValueapiMust(v s04.ERABUsageReportItemAPERValue, err error) s04.ERABUsageReportItemAPERValue {
+func uRIAddressAPERValueapiMust(v s12.URIAddressAPERValue, err error) s12.URIAddressAPERValue {
 	if err != nil {
 		panic(err)
 	}

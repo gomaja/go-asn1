@@ -32,12 +32,13 @@ import (
 	s39 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s39"
 	s40 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s40"
 	s42 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s42"
+	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
 	s45 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s45"
 	s46 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s46"
+	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
 	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
 	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
-	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	strings "strings"
@@ -48,7 +49,7 @@ import (
 // §23 selects exactly one CHOICE alternative. Validation refuses every malformed
 // PDU selector state rejected by the encoder, while opaque future choices stay unchecked.
 func TestValidationPDURefusalParity(t *testing.T) {
-	init := initiatingMessageFreshMust(s51.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0}))
+	init := initiatingMessageFreshMust(s52.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0}))
 	success := successfulOutcomeFreshMust(s50.NewOpaqueSuccessfulOutcome(250, s00.CriticalityIgnore, []byte{0}))
 	failure := unsuccessfulOutcomeFreshMust(s36.NewOpaqueUnsuccessfulOutcome(250, s00.CriticalityIgnore, []byte{0}))
 	extension := choiceExtensionFreshMust(aper.NewChoiceExtension(0, []byte{0}))
@@ -244,7 +245,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		initialContextSetupRequestIEValueRequireZeroIDSelection(t, initialContextSetupRequestIEFieldFreshMust(s48.InitialContextSetupRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), initialContextSetupRequestIEFieldFreshMust(s48.InitialContextSetupRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("InitialContextSetupResponseIEs", func(t *testing.T) {
-		initialContextSetupResponseIEValueRequireZeroIDSelection(t, initialContextSetupResponseIEFieldFreshMust(s39.InitialContextSetupResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), initialContextSetupResponseIEFieldFreshMust(s39.InitialContextSetupResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		initialContextSetupResponseIEValueRequireZeroIDSelection(t, initialContextSetupResponseIEFieldFreshMust(s40.InitialContextSetupResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), initialContextSetupResponseIEFieldFreshMust(s40.InitialContextSetupResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("LocationReportIEs", func(t *testing.T) {
 		locationReportIEValueRequireZeroIDSelection(t, locationReportIEFieldFreshMust(s32.LocationReportIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), locationReportIEFieldFreshMust(s32.LocationReportIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -271,7 +272,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		nASNonDeliveryIndicationIEValueRequireZeroIDSelection(t, nASNonDeliveryIndicationIEFieldFreshMust(s19.NASNonDeliveryIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), nASNonDeliveryIndicationIEFieldFreshMust(s19.NASNonDeliveryIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("PathSwitchRequestAcknowledgeIEs", func(t *testing.T) {
-		pathSwitchRequestAcknowledgeIEValueRequireZeroIDSelection(t, pathSwitchRequestAcknowledgeIEFieldFreshMust(s46.PathSwitchRequestAcknowledgeIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), pathSwitchRequestAcknowledgeIEFieldFreshMust(s46.PathSwitchRequestAcknowledgeIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		pathSwitchRequestAcknowledgeIEValueRequireZeroIDSelection(t, pathSwitchRequestAcknowledgeIEFieldFreshMust(s47.PathSwitchRequestAcknowledgeIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), pathSwitchRequestAcknowledgeIEFieldFreshMust(s47.PathSwitchRequestAcknowledgeIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("PathSwitchRequestFailureIEs", func(t *testing.T) {
 		pathSwitchRequestFailureIEValueRequireZeroIDSelection(t, pathSwitchRequestFailureIEFieldFreshMust(s23.PathSwitchRequestFailureIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), pathSwitchRequestFailureIEFieldFreshMust(s23.PathSwitchRequestFailureIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -286,7 +287,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		traceFailureIndicationIEValueRequireZeroIDSelection(t, traceFailureIndicationIEFieldFreshMust(s21.TraceFailureIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), traceFailureIndicationIEFieldFreshMust(s21.TraceFailureIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("TraceStartIEs", func(t *testing.T) {
-		traceStartIEValueRequireZeroIDSelection(t, traceStartIEFieldFreshMust(s48.TraceStartIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), traceStartIEFieldFreshMust(s48.TraceStartIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		traceStartIEValueRequireZeroIDSelection(t, traceStartIEFieldFreshMust(s49.TraceStartIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), traceStartIEFieldFreshMust(s49.TraceStartIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UECapabilityInfoIndicationIEs", func(t *testing.T) {
 		uECapabilityInfoIndicationIEValueRequireZeroIDSelection(t, uECapabilityInfoIndicationIEFieldFreshMust(s12.UECapabilityInfoIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uECapabilityInfoIndicationIEFieldFreshMust(s12.UECapabilityInfoIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -301,7 +302,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		uEContextModificationIndicationIEValueRequireZeroIDSelection(t, uEContextModificationIndicationIEFieldFreshMust(s21.UEContextModificationIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextModificationIndicationIEFieldFreshMust(s21.UEContextModificationIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextModificationRequestIEs", func(t *testing.T) {
-		uEContextModificationRequestIEValueRequireZeroIDSelection(t, uEContextModificationRequestIEFieldFreshMust(s46.UEContextModificationRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextModificationRequestIEFieldFreshMust(s46.UEContextModificationRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		uEContextModificationRequestIEValueRequireZeroIDSelection(t, uEContextModificationRequestIEFieldFreshMust(s47.UEContextModificationRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextModificationRequestIEFieldFreshMust(s47.UEContextModificationRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextModificationResponseIEs", func(t *testing.T) {
 		uEContextModificationResponseIEValueRequireZeroIDSelection(t, uEContextModificationResponseIEFieldFreshMust(s23.UEContextModificationResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextModificationResponseIEFieldFreshMust(s23.UEContextModificationResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -310,7 +311,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		uEContextReleaseCompleteIEValueRequireZeroIDSelection(t, uEContextReleaseCompleteIEFieldFreshMust(s45.UEContextReleaseCompleteIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextReleaseCompleteIEFieldFreshMust(s45.UEContextReleaseCompleteIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextReleaseRequestIEs", func(t *testing.T) {
-		uEContextReleaseRequestIEValueRequireZeroIDSelection(t, uEContextReleaseRequestIEFieldFreshMust(s42.UEContextReleaseRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextReleaseRequestIEFieldFreshMust(s42.UEContextReleaseRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		uEContextReleaseRequestIEValueRequireZeroIDSelection(t, uEContextReleaseRequestIEFieldFreshMust(s43.UEContextReleaseRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextReleaseRequestIEFieldFreshMust(s43.UEContextReleaseRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextResumeFailureIEs", func(t *testing.T) {
 		uEContextResumeFailureIEValueRequireZeroIDSelection(t, uEContextResumeFailureIEFieldFreshMust(s23.UEContextResumeFailureIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextResumeFailureIEFieldFreshMust(s23.UEContextResumeFailureIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -322,7 +323,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		uEContextResumeResponseIEValueRequireZeroIDSelection(t, uEContextResumeResponseIEFieldFreshMust(s38.UEContextResumeResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextResumeResponseIEFieldFreshMust(s38.UEContextResumeResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextSuspendRequestIEs", func(t *testing.T) {
-		uEContextSuspendRequestIEValueRequireZeroIDSelection(t, uEContextSuspendRequestIEFieldFreshMust(s45.UEContextSuspendRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextSuspendRequestIEFieldFreshMust(s45.UEContextSuspendRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		uEContextSuspendRequestIEValueRequireZeroIDSelection(t, uEContextSuspendRequestIEFieldFreshMust(s46.UEContextSuspendRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextSuspendRequestIEFieldFreshMust(s46.UEContextSuspendRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextSuspendResponseIEs", func(t *testing.T) {
 		uEContextSuspendResponseIEValueRequireZeroIDSelection(t, uEContextSuspendResponseIEFieldFreshMust(s28.UEContextSuspendResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextSuspendResponseIEFieldFreshMust(s28.UEContextSuspendResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))

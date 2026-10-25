@@ -3,10 +3,16 @@
 package x2ap
 
 import (
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// ReceivedForm returns the retained wire representation, if present.
-func (v Int64APERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+// Int64APERValue is the concrete APERValue[int64].
+type Int64APERValue struct {
+	context s00.X2apInternalCodecContext
+	Value   int64
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
 }

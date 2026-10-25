@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
 )
 
-func eUTRANRCellResourceCoordinationRequestfreshMust(value s20.EUTRANRCellResourceCoordinationRequest, err error) s20.EUTRANRCellResourceCoordinationRequest {
+func eUTRANRCellResourceCoordinationRequestIEFieldfreshMust(value s16.EUTRANRCellResourceCoordinationRequestIEField, err error) s16.EUTRANRCellResourceCoordinationRequestIEField {
 	if err != nil {
 		panic(err)
 	}

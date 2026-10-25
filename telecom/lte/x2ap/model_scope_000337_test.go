@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
 )
 
-func secondaryRATDataUsageReportfreshMust(value s20.SecondaryRATDataUsageReport, err error) s20.SecondaryRATDataUsageReport {
+func secondaryRATDataUsageReportIEFieldfreshMust(value s17.SecondaryRATDataUsageReportIEField, err error) s17.SecondaryRATDataUsageReportIEField {
 	if err != nil {
 		panic(err)
 	}

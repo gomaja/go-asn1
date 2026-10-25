@@ -569,10 +569,10 @@ func NewENDCResourceStatusFailure(fields s06.ENDCResourceStatusFailureIEContaine
 	return v, aper.OperationError(nil, "ENDCResourceStatusFailure")
 }
 
-// HandoverRequestAcknowledgeIEContainer is the concrete ProtocolIEContainer[HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeIEContainer is ProtocolIE-Container {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8: a list of HandoverRequestAcknowledgeIEField values.
 type HandoverRequestAcknowledgeIEContainer []HandoverRequestAcknowledgeIEField
 
-// HandoverRequestAcknowledgeIEField is the concrete ProtocolIEField[HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeIEField is ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8: an information element field.
 type HandoverRequestAcknowledgeIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -690,10 +690,10 @@ func X2apInternalHandoverRequestAcknowledgeIEFieldUnmarshalAPERFrom(v *HandoverR
 	return nil
 }
 
-// HandoverCancelIEContainer is the concrete ProtocolIEContainer[HandoverCancelIEValue].
+// HandoverCancelIEContainer is ProtocolIE-Container {{HandoverCancel-IEs}} of TS 36.423 §9.3.8: a list of HandoverCancelIEField values.
 type HandoverCancelIEContainer []HandoverCancelIEField
 
-// HandoverCancelIEField is the concrete ProtocolIEField[HandoverCancelIEValue].
+// HandoverCancelIEField is ProtocolIE-Field {{HandoverCancel-IEs}} of TS 36.423 §9.3.8: an information element field.
 type HandoverCancelIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -811,10 +811,10 @@ func X2apInternalHandoverCancelIEFieldUnmarshalAPERFrom(v *HandoverCancelIEField
 	return nil
 }
 
-// LoadInformationIEContainer is the concrete ProtocolIEContainer[LoadInformationIEValue].
+// LoadInformationIEContainer is ProtocolIE-Container {{LoadInformation-IEs}} of TS 36.423 §9.3.8: a list of LoadInformationIEField values.
 type LoadInformationIEContainer []LoadInformationIEField
 
-// LoadInformationIEField is the concrete ProtocolIEField[LoadInformationIEValue].
+// LoadInformationIEField is ProtocolIE-Field {{LoadInformation-IEs}} of TS 36.423 §9.3.8: an information element field.
 type LoadInformationIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -932,10 +932,10 @@ func X2apInternalLoadInformationIEFieldUnmarshalAPERFrom(v *LoadInformationIEFie
 	return nil
 }
 
-// ResourceStatusRequestIEContainer is the concrete ProtocolIEContainer[ResourceStatusRequestIEValue].
+// ResourceStatusRequestIEContainer is ProtocolIE-Container {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8: a list of ResourceStatusRequestIEField values.
 type ResourceStatusRequestIEContainer []ResourceStatusRequestIEField
 
-// ResourceStatusRequestIEField is the concrete ProtocolIEField[ResourceStatusRequestIEValue].
+// ResourceStatusRequestIEField is ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ResourceStatusRequestIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -1053,10 +1053,10 @@ func X2apInternalResourceStatusRequestIEFieldUnmarshalAPERFrom(v *ResourceStatus
 	return nil
 }
 
-// ResourceStatusFailureIEContainer is the concrete ProtocolIEContainer[ResourceStatusFailureIEValue].
+// ResourceStatusFailureIEContainer is ProtocolIE-Container {{ResourceStatusFailure-IEs}} of TS 36.423 §9.3.8: a list of ResourceStatusFailureIEField values.
 type ResourceStatusFailureIEContainer []ResourceStatusFailureIEField
 
-// ResourceStatusFailureIEField is the concrete ProtocolIEField[ResourceStatusFailureIEValue].
+// ResourceStatusFailureIEField is ProtocolIE-Field {{ResourceStatusFailure-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ResourceStatusFailureIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -1174,10 +1174,10 @@ func X2apInternalResourceStatusFailureIEFieldUnmarshalAPERFrom(v *ResourceStatus
 	return nil
 }
 
-// SgNBActivityNotificationIEContainer is the concrete ProtocolIEContainer[SgNBActivityNotificationIEValue].
+// SgNBActivityNotificationIEContainer is ProtocolIE-Container {{SgNBActivityNotification-IEs}} of TS 36.423 §9.3.8: a list of SgNBActivityNotificationIEField values.
 type SgNBActivityNotificationIEContainer []SgNBActivityNotificationIEField
 
-// SgNBActivityNotificationIEField is the concrete ProtocolIEField[SgNBActivityNotificationIEValue].
+// SgNBActivityNotificationIEField is ProtocolIE-Field {{SgNBActivityNotification-IEs}} of TS 36.423 §9.3.8: an information element field.
 type SgNBActivityNotificationIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -1295,10 +1295,10 @@ func X2apInternalSgNBActivityNotificationIEFieldUnmarshalAPERFrom(v *SgNBActivit
 	return nil
 }
 
-// ConditionalHandoverCancelIEContainer is the concrete ProtocolIEContainer[ConditionalHandoverCancelIEValue].
+// ConditionalHandoverCancelIEContainer is ProtocolIE-Container {{ConditionalHandoverCancel-IEs}} of TS 36.423 §9.3.8: a list of ConditionalHandoverCancelIEField values.
 type ConditionalHandoverCancelIEContainer []ConditionalHandoverCancelIEField
 
-// ConditionalHandoverCancelIEField is the concrete ProtocolIEField[ConditionalHandoverCancelIEValue].
+// ConditionalHandoverCancelIEField is ProtocolIE-Field {{ConditionalHandoverCancel-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ConditionalHandoverCancelIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -1416,10 +1416,10 @@ func X2apInternalConditionalHandoverCancelIEFieldUnmarshalAPERFrom(v *Conditiona
 	return nil
 }
 
-// ENDCResourceStatusUpdateIEContainer is the concrete ProtocolIEContainer[ENDCResourceStatusUpdateIEValue].
+// ENDCResourceStatusUpdateIEContainer is ProtocolIE-Container {{ENDCResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8: a list of ENDCResourceStatusUpdateIEField values.
 type ENDCResourceStatusUpdateIEContainer []ENDCResourceStatusUpdateIEField
 
-// ENDCResourceStatusUpdateIEField is the concrete ProtocolIEField[ENDCResourceStatusUpdateIEValue].
+// ENDCResourceStatusUpdateIEField is ProtocolIE-Field {{ENDCResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCResourceStatusUpdateIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -1537,10 +1537,10 @@ func X2apInternalENDCResourceStatusUpdateIEFieldUnmarshalAPERFrom(v *ENDCResourc
 	return nil
 }
 
-// ENDCResourceStatusRequestIEContainer is the concrete ProtocolIEContainer[ENDCResourceStatusRequestIEValue].
+// ENDCResourceStatusRequestIEContainer is ProtocolIE-Container {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8: a list of ENDCResourceStatusRequestIEField values.
 type ENDCResourceStatusRequestIEContainer []ENDCResourceStatusRequestIEField
 
-// ENDCResourceStatusRequestIEField is the concrete ProtocolIEField[ENDCResourceStatusRequestIEValue].
+// ENDCResourceStatusRequestIEField is ProtocolIE-Field {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCResourceStatusRequestIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -3291,7 +3291,7 @@ func X2apInternalSgNBActivityNotificationIEValuecompareX2APProtocolIEContainer(v
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding is the concrete ExtensionBinding[CSIRSTransmissionIndication, NRNeighbourInformationExtIEsValue].
+// NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding binds CSIRSTransmissionIndication to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding struct {
 	info   s06.FieldInfo
 	codec  s00.CSIRSTransmissionIndicationValueCodec
@@ -3335,7 +3335,7 @@ func (b NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding) Get(f
 	return b.get(&field.ExtensionValue)
 }
 
-// NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding is the concrete ExtensionBinding[SSBPositionsInBurst, NRNeighbourInformationExtIEsValue].
+// NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding binds SSBPositionsInBurst to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding struct {
 	info   s06.FieldInfo
 	codec  s05.SSBPositionsInBurstValueCodec
@@ -3379,7 +3379,7 @@ func (b NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding) Get(field *NR
 	return b.get(&field.ExtensionValue)
 }
 
-// NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding is the concrete ExtensionBinding[NRCellPRACHConfig, NRNeighbourInformationExtIEsValue].
+// NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding binds NRCellPRACHConfig to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding struct {
 	info   s06.FieldInfo
 	codec  s00.NRCellPRACHConfigValueCodec
@@ -3421,7 +3421,7 @@ func (b NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding) Get(field *NRNe
 	return b.get(&field.ExtensionValue)
 }
 
-// NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding is the concrete ExtensionBinding[AdditionalMeasurementTimingConfigurationList, NRNeighbourInformationExtIEsValue].
+// NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding binds AdditionalMeasurementTimingConfigurationList to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding struct {
 	info   s06.FieldInfo
 	codec  s06.AdditionalMeasurementTimingConfigurationListValueCodec
@@ -3465,7 +3465,7 @@ func (b NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationList
 	return b.get(&field.ExtensionValue)
 }
 
-// NRNeighbourInformationExtIEsExtField is the concrete ProtocolExtensionField[NRNeighbourInformationExtIEsValue].
+// NRNeighbourInformationExtIEsExtField is ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type NRNeighbourInformationExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3583,7 +3583,7 @@ func X2apInternalNRNeighbourInformationExtIEsExtFieldUnmarshalAPERFrom(v *NRNeig
 	return nil
 }
 
-// ConditionalHandoverCancelUEX2APIDIEBinding is the concrete IEBinding[UEX2APID, ConditionalHandoverCancelIEValue].
+// ConditionalHandoverCancelUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{ConditionalHandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type ConditionalHandoverCancelUEX2APIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDValueCodec
@@ -3623,7 +3623,7 @@ func (b ConditionalHandoverCancelUEX2APIDIEBinding) Get(field *ConditionalHandov
 	return b.get(&field.Value)
 }
 
-// ConditionalHandoverCancelCauseIEBinding is the concrete IEBinding[Cause, ConditionalHandoverCancelIEValue].
+// ConditionalHandoverCancelCauseIEBinding binds Cause to ProtocolIE-Field {{ConditionalHandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type ConditionalHandoverCancelCauseIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.CauseValueCodec
@@ -3663,7 +3663,7 @@ func (b ConditionalHandoverCancelCauseIEBinding) Get(field *ConditionalHandoverC
 	return b.get(&field.Value)
 }
 
-// ConditionalHandoverCancelUEX2APIDExtensionIEBinding is the concrete IEBinding[UEX2APIDExtension, ConditionalHandoverCancelIEValue].
+// ConditionalHandoverCancelUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{ConditionalHandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type ConditionalHandoverCancelUEX2APIDExtensionIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDExtensionValueCodec
@@ -3705,7 +3705,7 @@ func (b ConditionalHandoverCancelUEX2APIDExtensionIEBinding) Get(field *Conditio
 	return b.get(&field.Value)
 }
 
-// ConditionalHandoverCancelCandidateCellsToBeCancelledListIEBinding is the concrete IEBinding[CandidateCellsToBeCancelledList, ConditionalHandoverCancelIEValue].
+// ConditionalHandoverCancelCandidateCellsToBeCancelledListIEBinding binds CandidateCellsToBeCancelledList to ProtocolIE-Field {{ConditionalHandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type ConditionalHandoverCancelCandidateCellsToBeCancelledListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.CandidateCellsToBeCancelledListValueCodec
@@ -3749,7 +3749,7 @@ func (b ConditionalHandoverCancelCandidateCellsToBeCancelledListIEBinding) Get(f
 	return b.get(&field.Value)
 }
 
-// ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding is the concrete IEBinding[ERABsToBeReleasedSgNBChaConfItem, ERABsToBeReleasedSgNBChaConfItemIEValue].
+// ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding binds ERABsToBeReleasedSgNBChaConfItem to ProtocolIE-Field {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8.
 type ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding struct {
 	info   s06.FieldInfo
 	codec  ERABsToBeReleasedSgNBChaConfItemValueCodec
@@ -3881,7 +3881,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemValueCodecEncodeChanged(c ERABs
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABsToBeReleasedSgNBChaConfItemIEField is the concrete ProtocolIEField[ERABsToBeReleasedSgNBChaConfItemIEValue].
+// ERABsToBeReleasedSgNBChaConfItemIEField is ProtocolIE-Field {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
 type ERABsToBeReleasedSgNBChaConfItemIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -3999,7 +3999,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemIEFieldUnmarshalAPERFrom(v *ERA
 	return nil
 }
 
-// ENDCResourceStatusRequestMeasurementIDENDCIEBinding is the concrete IEBinding[MeasurementIDENDC, ENDCResourceStatusRequestIEValue].
+// ENDCResourceStatusRequestMeasurementIDENDCIEBinding binds MeasurementIDENDC to ProtocolIE-Field {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusRequestMeasurementIDENDCIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.MeasurementIDENDCValueCodec
@@ -4041,7 +4041,7 @@ func (b ENDCResourceStatusRequestMeasurementIDENDCIEBinding) Get(field *ENDCReso
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusRequestRegistrationRequestENDCIEBinding is the concrete IEBinding[RegistrationRequestENDC, ENDCResourceStatusRequestIEValue].
+// ENDCResourceStatusRequestRegistrationRequestENDCIEBinding binds RegistrationRequestENDC to ProtocolIE-Field {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusRequestRegistrationRequestENDCIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.RegistrationRequestENDCValueCodec
@@ -4085,7 +4085,7 @@ func (b ENDCResourceStatusRequestRegistrationRequestENDCIEBinding) Get(field *EN
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusRequestReportingPeriodicityENDCIEBinding is the concrete IEBinding[ReportingPeriodicityENDC, ENDCResourceStatusRequestIEValue].
+// ENDCResourceStatusRequestReportingPeriodicityENDCIEBinding binds ReportingPeriodicityENDC to ProtocolIE-Field {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusRequestReportingPeriodicityENDCIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.ReportingPeriodicityENDCValueCodec
@@ -4129,7 +4129,7 @@ func (b ENDCResourceStatusRequestReportingPeriodicityENDCIEBinding) Get(field *E
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusRequestReportCharacteristicsENDCIEBinding is the concrete IEBinding[ReportCharacteristicsENDC, ENDCResourceStatusRequestIEValue].
+// ENDCResourceStatusRequestReportCharacteristicsENDCIEBinding binds ReportCharacteristicsENDC to ProtocolIE-Field {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusRequestReportCharacteristicsENDCIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.ReportCharacteristicsENDCValueCodec
@@ -4173,7 +4173,7 @@ func (b ENDCResourceStatusRequestReportCharacteristicsENDCIEBinding) Get(field *
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusRequestCellToReportNRENDCListIEBinding is the concrete IEBinding[CellToReportNRENDCList, ENDCResourceStatusRequestIEValue].
+// ENDCResourceStatusRequestCellToReportNRENDCListIEBinding binds CellToReportNRENDCList to ProtocolIE-Field {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusRequestCellToReportNRENDCListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.CellToReportNRENDCListValueCodec
@@ -4215,7 +4215,7 @@ func (b ENDCResourceStatusRequestCellToReportNRENDCListIEBinding) Get(field *END
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusRequestInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCResourceStatusRequestIEValue].
+// ENDCResourceStatusRequestInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusRequestInterfaceInstanceIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -4259,7 +4259,7 @@ func (b ENDCResourceStatusRequestInterfaceInstanceIndicationIEBinding) Get(field
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusRequestCellToReportEUTRAENDCListIEBinding is the concrete IEBinding[CellToReportEUTRAENDCList, ENDCResourceStatusRequestIEValue].
+// ENDCResourceStatusRequestCellToReportEUTRAENDCListIEBinding binds CellToReportEUTRAENDCList to ProtocolIE-Field {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusRequestCellToReportEUTRAENDCListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.CellToReportEUTRAENDCListValueCodec
@@ -4303,7 +4303,7 @@ func (b ENDCResourceStatusRequestCellToReportEUTRAENDCListIEBinding) Get(field *
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusUpdateMeasurementIDENDCIEBinding is the concrete IEBinding[MeasurementIDENDC, ENDCResourceStatusUpdateIEValue].
+// ENDCResourceStatusUpdateMeasurementIDENDCIEBinding binds MeasurementIDENDC to ProtocolIE-Field {{ENDCResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusUpdateMeasurementIDENDCIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.MeasurementIDENDCValueCodec
@@ -4345,7 +4345,7 @@ func (b ENDCResourceStatusUpdateMeasurementIDENDCIEBinding) Get(field *ENDCResou
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusUpdateCellMeasurementResultNRENDCListIEBinding is the concrete IEBinding[CellMeasurementResultNRENDCList, ENDCResourceStatusUpdateIEValue].
+// ENDCResourceStatusUpdateCellMeasurementResultNRENDCListIEBinding binds CellMeasurementResultNRENDCList to ProtocolIE-Field {{ENDCResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusUpdateCellMeasurementResultNRENDCListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s12.CellMeasurementResultNRENDCListValueCodec
@@ -4389,7 +4389,7 @@ func (b ENDCResourceStatusUpdateCellMeasurementResultNRENDCListIEBinding) Get(fi
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusUpdateInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCResourceStatusUpdateIEValue].
+// ENDCResourceStatusUpdateInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusUpdateInterfaceInstanceIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -4433,7 +4433,7 @@ func (b ENDCResourceStatusUpdateInterfaceInstanceIndicationIEBinding) Get(field 
 	return b.get(&field.Value)
 }
 
-// ENDCResourceStatusUpdateCellMeasurementResultEUTRAENDCListIEBinding is the concrete IEBinding[CellMeasurementResultEUTRAENDCList, ENDCResourceStatusUpdateIEValue].
+// ENDCResourceStatusUpdateCellMeasurementResultEUTRAENDCListIEBinding binds CellMeasurementResultEUTRAENDCList to ProtocolIE-Field {{ENDCResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusUpdateCellMeasurementResultEUTRAENDCListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s12.CellMeasurementResultEUTRAENDCListValueCodec
@@ -4477,7 +4477,7 @@ func (b ENDCResourceStatusUpdateCellMeasurementResultEUTRAENDCListIEBinding) Get
 	return b.get(&field.Value)
 }
 
-// HandoverCancelUEX2APIDIEBinding is the concrete IEBinding[UEX2APID, HandoverCancelIEValue].
+// HandoverCancelUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{HandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type HandoverCancelUEX2APIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDValueCodec
@@ -4517,7 +4517,7 @@ func (b HandoverCancelUEX2APIDIEBinding) Get(field *HandoverCancelIEField) (*s11
 	return b.get(&field.Value)
 }
 
-// HandoverCancelCauseIEBinding is the concrete IEBinding[Cause, HandoverCancelIEValue].
+// HandoverCancelCauseIEBinding binds Cause to ProtocolIE-Field {{HandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type HandoverCancelCauseIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.CauseValueCodec
@@ -4557,7 +4557,7 @@ func (b HandoverCancelCauseIEBinding) Get(field *HandoverCancelIEField) (*s00.Ca
 	return b.get(&field.Value)
 }
 
-// HandoverCancelUEX2APIDExtensionIEBinding is the concrete IEBinding[UEX2APIDExtension, HandoverCancelIEValue].
+// HandoverCancelUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{HandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type HandoverCancelUEX2APIDExtensionIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDExtensionValueCodec
@@ -4599,7 +4599,7 @@ func (b HandoverCancelUEX2APIDExtensionIEBinding) Get(field *HandoverCancelIEFie
 	return b.get(&field.Value)
 }
 
-// HandoverCancelCandidateCellsToBeCancelledListIEBinding is the concrete IEBinding[CandidateCellsToBeCancelledList, HandoverCancelIEValue].
+// HandoverCancelCandidateCellsToBeCancelledListIEBinding binds CandidateCellsToBeCancelledList to ProtocolIE-Field {{HandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type HandoverCancelCandidateCellsToBeCancelledListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.CandidateCellsToBeCancelledListValueCodec
@@ -4641,7 +4641,7 @@ func (b HandoverCancelCandidateCellsToBeCancelledListIEBinding) Get(field *Hando
 	return b.get(&field.Value)
 }
 
-// HandoverRequestAcknowledgeUEX2APIDIEBinding is the concrete IEBinding[UEX2APID, HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeUEX2APIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDValueCodec
@@ -4681,7 +4681,7 @@ func (b HandoverRequestAcknowledgeUEX2APIDIEBinding) Get(field *HandoverRequestA
 	return b.get(&field.Value)
 }
 
-// HandoverRequestAcknowledgeERABsAdmittedListIEBinding is the concrete IEBinding[ERABsAdmittedList, HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeERABsAdmittedListIEBinding binds ERABsAdmittedList to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeERABsAdmittedListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.ERABsAdmittedListValueCodec
@@ -4723,7 +4723,7 @@ func (b HandoverRequestAcknowledgeERABsAdmittedListIEBinding) Get(field *Handove
 	return b.get(&field.Value)
 }
 
-// HandoverRequestAcknowledgeERABListIEBinding is the concrete IEBinding[ERABList, HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeERABListIEBinding binds ERABList to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeERABListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.ERABListValueCodec
@@ -4763,7 +4763,7 @@ func (b HandoverRequestAcknowledgeERABListIEBinding) Get(field *HandoverRequestA
 	return b.get(&field.Value)
 }
 
-// HandoverRequestAcknowledgeTargeteNBtoSourceENBTransparentContainerIEBinding is the concrete IEBinding[TargeteNBtoSourceENBTransparentContainer, HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeTargeteNBtoSourceENBTransparentContainerIEBinding binds TargeteNBtoSourceENBTransparentContainer to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeTargeteNBtoSourceENBTransparentContainerIEBinding struct {
 	info   s06.FieldInfo
 	codec  s09.TargeteNBtoSourceENBTransparentContainerValueCodec
@@ -4807,7 +4807,7 @@ func (b HandoverRequestAcknowledgeTargeteNBtoSourceENBTransparentContainerIEBind
 	return b.get(&field.Value)
 }
 
-// HandoverRequestAcknowledgeCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeCriticalityDiagnosticsIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.CriticalityDiagnosticsValueCodec
@@ -4851,7 +4851,7 @@ func (b HandoverRequestAcknowledgeCriticalityDiagnosticsIEBinding) Get(field *Ha
 	return b.get(&field.Value)
 }
 
-// HandoverRequestAcknowledgeUEContextKeptIndicatorIEBinding is the concrete IEBinding[UEContextKeptIndicator, HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeUEContextKeptIndicatorIEBinding binds UEContextKeptIndicator to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeUEContextKeptIndicatorIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.UEContextKeptIndicatorValueCodec
@@ -4895,7 +4895,7 @@ func (b HandoverRequestAcknowledgeUEContextKeptIndicatorIEBinding) Get(field *Ha
 	return b.get(&field.Value)
 }
 
-// HandoverRequestAcknowledgeUEX2APIDExtensionIEBinding is the concrete IEBinding[UEX2APIDExtension, HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeUEX2APIDExtensionIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDExtensionValueCodec
@@ -4937,7 +4937,7 @@ func (b HandoverRequestAcknowledgeUEX2APIDExtensionIEBinding) Get(field *Handove
 	return b.get(&field.Value)
 }
 
-// HandoverRequestAcknowledgeCHOinformationACKIEBinding is the concrete IEBinding[CHOinformationACK, HandoverRequestAcknowledgeIEValue].
+// HandoverRequestAcknowledgeCHOinformationACKIEBinding binds CHOinformationACK to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeCHOinformationACKIEBinding struct {
 	info   s06.FieldInfo
 	codec  s04.CHOinformationACKValueCodec
@@ -4979,7 +4979,7 @@ func (b HandoverRequestAcknowledgeCHOinformationACKIEBinding) Get(field *Handove
 	return b.get(&field.Value)
 }
 
-// LoadInformationCellInformationListIEBinding is the concrete IEBinding[CellInformationList, LoadInformationIEValue].
+// LoadInformationCellInformationListIEBinding binds CellInformationList to ProtocolIE-Field {{LoadInformation-IEs}} of TS 36.423 §9.3.8.
 type LoadInformationCellInformationListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s12.CellInformationListValueCodec
@@ -5021,7 +5021,7 @@ func (b LoadInformationCellInformationListIEBinding) Get(field *LoadInformationI
 	return b.get(&field.Value)
 }
 
-// ResourceStatusFailureMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ResourceStatusFailureIEValue].
+// ResourceStatusFailureMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{ResourceStatusFailure-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusFailureMeasurementIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.MeasurementIDValueCodec
@@ -5063,7 +5063,7 @@ func (b ResourceStatusFailureMeasurementIDIEBinding) Get(field *ResourceStatusFa
 	return b.get(&field.Value)
 }
 
-// ResourceStatusFailureCauseIEBinding is the concrete IEBinding[Cause, ResourceStatusFailureIEValue].
+// ResourceStatusFailureCauseIEBinding binds Cause to ProtocolIE-Field {{ResourceStatusFailure-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusFailureCauseIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.CauseValueCodec
@@ -5103,7 +5103,7 @@ func (b ResourceStatusFailureCauseIEBinding) Get(field *ResourceStatusFailureIEF
 	return b.get(&field.Value)
 }
 
-// ResourceStatusFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ResourceStatusFailureIEValue].
+// ResourceStatusFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ResourceStatusFailure-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusFailureCriticalityDiagnosticsIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.CriticalityDiagnosticsValueCodec
@@ -5145,7 +5145,7 @@ func (b ResourceStatusFailureCriticalityDiagnosticsIEBinding) Get(field *Resourc
 	return b.get(&field.Value)
 }
 
-// ResourceStatusFailureCompleteFailureCauseInformationListIEBinding is the concrete IEBinding[CompleteFailureCauseInformationList, ResourceStatusFailureIEValue].
+// ResourceStatusFailureCompleteFailureCauseInformationListIEBinding binds CompleteFailureCauseInformationList to ProtocolIE-Field {{ResourceStatusFailure-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusFailureCompleteFailureCauseInformationListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.CompleteFailureCauseInformationListValueCodec
@@ -5189,7 +5189,7 @@ func (b ResourceStatusFailureCompleteFailureCauseInformationListIEBinding) Get(f
 	return b.get(&field.Value)
 }
 
-// ResourceStatusRequestMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ResourceStatusRequestIEValue].
+// ResourceStatusRequestMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusRequestMeasurementIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.MeasurementIDValueCodec
@@ -5231,7 +5231,7 @@ func (b ResourceStatusRequestMeasurementIDIEBinding) Get(field *ResourceStatusRe
 	return b.get(&field.Value)
 }
 
-// ResourceStatusRequestRegistrationRequestIEBinding is the concrete IEBinding[RegistrationRequest, ResourceStatusRequestIEValue].
+// ResourceStatusRequestRegistrationRequestIEBinding binds RegistrationRequest to ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusRequestRegistrationRequestIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.RegistrationRequestValueCodec
@@ -5273,7 +5273,7 @@ func (b ResourceStatusRequestRegistrationRequestIEBinding) Get(field *ResourceSt
 	return b.get(&field.Value)
 }
 
-// ResourceStatusRequestReportCharacteristicsIEBinding is the concrete IEBinding[ReportCharacteristics, ResourceStatusRequestIEValue].
+// ResourceStatusRequestReportCharacteristicsIEBinding binds ReportCharacteristics to ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusRequestReportCharacteristicsIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.ReportCharacteristicsValueCodec
@@ -5315,7 +5315,7 @@ func (b ResourceStatusRequestReportCharacteristicsIEBinding) Get(field *Resource
 	return b.get(&field.Value)
 }
 
-// ResourceStatusRequestCellToReportListIEBinding is the concrete IEBinding[CellToReportList, ResourceStatusRequestIEValue].
+// ResourceStatusRequestCellToReportListIEBinding binds CellToReportList to ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusRequestCellToReportListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.CellToReportListValueCodec
@@ -5357,7 +5357,7 @@ func (b ResourceStatusRequestCellToReportListIEBinding) Get(field *ResourceStatu
 	return b.get(&field.Value)
 }
 
-// ResourceStatusRequestReportingPeriodicityIEBinding is the concrete IEBinding[ReportingPeriodicity, ResourceStatusRequestIEValue].
+// ResourceStatusRequestReportingPeriodicityIEBinding binds ReportingPeriodicity to ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusRequestReportingPeriodicityIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.ReportingPeriodicityValueCodec
@@ -5399,7 +5399,7 @@ func (b ResourceStatusRequestReportingPeriodicityIEBinding) Get(field *ResourceS
 	return b.get(&field.Value)
 }
 
-// ResourceStatusRequestPartialSuccessIndicatorIEBinding is the concrete IEBinding[PartialSuccessIndicator, ResourceStatusRequestIEValue].
+// ResourceStatusRequestPartialSuccessIndicatorIEBinding binds PartialSuccessIndicator to ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusRequestPartialSuccessIndicatorIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.PartialSuccessIndicatorValueCodec
@@ -5441,7 +5441,7 @@ func (b ResourceStatusRequestPartialSuccessIndicatorIEBinding) Get(field *Resour
 	return b.get(&field.Value)
 }
 
-// ResourceStatusRequestReportingPeriodicityRSRPMRIEBinding is the concrete IEBinding[ReportingPeriodicityRSRPMR, ResourceStatusRequestIEValue].
+// ResourceStatusRequestReportingPeriodicityRSRPMRIEBinding binds ReportingPeriodicityRSRPMR to ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusRequestReportingPeriodicityRSRPMRIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.ReportingPeriodicityRSRPMRValueCodec
@@ -5483,7 +5483,7 @@ func (b ResourceStatusRequestReportingPeriodicityRSRPMRIEBinding) Get(field *Res
 	return b.get(&field.Value)
 }
 
-// ResourceStatusRequestReportingPeriodicityCSIRIEBinding is the concrete IEBinding[ReportingPeriodicityCSIR, ResourceStatusRequestIEValue].
+// ResourceStatusRequestReportingPeriodicityCSIRIEBinding binds ReportingPeriodicityCSIR to ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusRequestReportingPeriodicityCSIRIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.ReportingPeriodicityCSIRValueCodec
@@ -5525,7 +5525,7 @@ func (b ResourceStatusRequestReportingPeriodicityCSIRIEBinding) Get(field *Resou
 	return b.get(&field.Value)
 }
 
-// ServedNRCellInformationExtIEsAdditionalPLMNsItemExtBinding is the concrete ExtensionBinding[AdditionalPLMNsItem, ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsAdditionalPLMNsItemExtBinding binds AdditionalPLMNsItem to ProtocolExtensionField {{ServedNRCell-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type ServedNRCellInformationExtIEsAdditionalPLMNsItemExtBinding struct {
 	info   s06.FieldInfo
 	codec  s00.AdditionalPLMNsItemValueCodec
@@ -5569,7 +5569,7 @@ func (b ServedNRCellInformationExtIEsAdditionalPLMNsItemExtBinding) Get(field *S
 	return b.get(&field.ExtensionValue)
 }
 
-// ServedNRCellInformationExtIEsBPLMNIDInfoNRExtBinding is the concrete ExtensionBinding[BPLMNIDInfoNR, ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsBPLMNIDInfoNRExtBinding binds BPLMNIDInfoNR to ProtocolExtensionField {{ServedNRCell-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type ServedNRCellInformationExtIEsBPLMNIDInfoNRExtBinding struct {
 	info   s06.FieldInfo
 	codec  s06.BPLMNIDInfoNRValueCodec
@@ -5611,7 +5611,7 @@ func (b ServedNRCellInformationExtIEsBPLMNIDInfoNRExtBinding) Get(field *ServedN
 	return b.get(&field.ExtensionValue)
 }
 
-// ServedNRCellInformationExtIEsSSBPositionsInBurstExtBinding is the concrete ExtensionBinding[SSBPositionsInBurst, ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsSSBPositionsInBurstExtBinding binds SSBPositionsInBurst to ProtocolExtensionField {{ServedNRCell-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type ServedNRCellInformationExtIEsSSBPositionsInBurstExtBinding struct {
 	info   s06.FieldInfo
 	codec  s05.SSBPositionsInBurstValueCodec
@@ -5655,7 +5655,7 @@ func (b ServedNRCellInformationExtIEsSSBPositionsInBurstExtBinding) Get(field *S
 	return b.get(&field.ExtensionValue)
 }
 
-// ServedNRCellInformationExtIEsNRCellPRACHConfigExtBinding is the concrete ExtensionBinding[NRCellPRACHConfig, ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsNRCellPRACHConfigExtBinding binds NRCellPRACHConfig to ProtocolExtensionField {{ServedNRCell-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type ServedNRCellInformationExtIEsNRCellPRACHConfigExtBinding struct {
 	info   s06.FieldInfo
 	codec  s00.NRCellPRACHConfigValueCodec
@@ -5697,7 +5697,7 @@ func (b ServedNRCellInformationExtIEsNRCellPRACHConfigExtBinding) Get(field *Ser
 	return b.get(&field.ExtensionValue)
 }
 
-// ServedNRCellInformationExtIEsCSIRSTransmissionIndicationExtBinding is the concrete ExtensionBinding[CSIRSTransmissionIndication, ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsCSIRSTransmissionIndicationExtBinding binds CSIRSTransmissionIndication to ProtocolExtensionField {{ServedNRCell-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type ServedNRCellInformationExtIEsCSIRSTransmissionIndicationExtBinding struct {
 	info   s06.FieldInfo
 	codec  s00.CSIRSTransmissionIndicationValueCodec
@@ -5741,7 +5741,7 @@ func (b ServedNRCellInformationExtIEsCSIRSTransmissionIndicationExtBinding) Get(
 	return b.get(&field.ExtensionValue)
 }
 
-// ServedNRCellInformationExtIEsSFNOffsetExtBinding is the concrete ExtensionBinding[SFNOffset, ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsSFNOffsetExtBinding binds SFNOffset to ProtocolExtensionField {{ServedNRCell-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type ServedNRCellInformationExtIEsSFNOffsetExtBinding struct {
 	info   s06.FieldInfo
 	codec  s05.SFNOffsetValueCodec
@@ -5783,7 +5783,7 @@ func (b ServedNRCellInformationExtIEsSFNOffsetExtBinding) Get(field *ServedNRCel
 	return b.get(&field.ExtensionValue)
 }
 
-// ServedNRCellInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding is the concrete ExtensionBinding[AdditionalMeasurementTimingConfigurationList, ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding binds AdditionalMeasurementTimingConfigurationList to ProtocolExtensionField {{ServedNRCell-Information-ExtIEs}} of TS 36.423 §9.3.8.
 type ServedNRCellInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding struct {
 	info   s06.FieldInfo
 	codec  s06.AdditionalMeasurementTimingConfigurationListValueCodec
@@ -5827,7 +5827,7 @@ func (b ServedNRCellInformationExtIEsAdditionalMeasurementTimingConfigurationLis
 	return b.get(&field.ExtensionValue)
 }
 
-// ServedNRCellInformationExtIEsExtField is the concrete ProtocolExtensionField[ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsExtField is ProtocolExtensionField {{ServedNRCell-Information-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ServedNRCellInformationExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5945,7 +5945,7 @@ func X2apInternalServedNRCellInformationExtIEsExtFieldUnmarshalAPERFrom(v *Serve
 	return nil
 }
 
-// SgNBActivityNotificationUEX2APIDIEBinding is the concrete IEBinding[UEX2APID, SgNBActivityNotificationIEValue].
+// SgNBActivityNotificationUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{SgNBActivityNotification-IEs}} of TS 36.423 §9.3.8.
 type SgNBActivityNotificationUEX2APIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDValueCodec
@@ -5985,7 +5985,7 @@ func (b SgNBActivityNotificationUEX2APIDIEBinding) Get(field *SgNBActivityNotifi
 	return b.get(&field.Value)
 }
 
-// SgNBActivityNotificationSgNBUEX2APIDIEBinding is the concrete IEBinding[SgNBUEX2APID, SgNBActivityNotificationIEValue].
+// SgNBActivityNotificationSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{SgNBActivityNotification-IEs}} of TS 36.423 §9.3.8.
 type SgNBActivityNotificationSgNBUEX2APIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.SgNBUEX2APIDValueCodec
@@ -6027,7 +6027,7 @@ func (b SgNBActivityNotificationSgNBUEX2APIDIEBinding) Get(field *SgNBActivityNo
 	return b.get(&field.Value)
 }
 
-// SgNBActivityNotificationUserPlaneTrafficActivityReportIEBinding is the concrete IEBinding[UserPlaneTrafficActivityReport, SgNBActivityNotificationIEValue].
+// SgNBActivityNotificationUserPlaneTrafficActivityReportIEBinding binds UserPlaneTrafficActivityReport to ProtocolIE-Field {{SgNBActivityNotification-IEs}} of TS 36.423 §9.3.8.
 type SgNBActivityNotificationUserPlaneTrafficActivityReportIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.UserPlaneTrafficActivityReportValueCodec
@@ -6071,7 +6071,7 @@ func (b SgNBActivityNotificationUserPlaneTrafficActivityReportIEBinding) Get(fie
 	return b.get(&field.Value)
 }
 
-// SgNBActivityNotificationERABActivityNotifyItemListIEBinding is the concrete IEBinding[ERABActivityNotifyItemList, SgNBActivityNotificationIEValue].
+// SgNBActivityNotificationERABActivityNotifyItemListIEBinding binds ERABActivityNotifyItemList to ProtocolIE-Field {{SgNBActivityNotification-IEs}} of TS 36.423 §9.3.8.
 type SgNBActivityNotificationERABActivityNotifyItemListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.ERABActivityNotifyItemListValueCodec
@@ -6115,7 +6115,7 @@ func (b SgNBActivityNotificationERABActivityNotifyItemListIEBinding) Get(field *
 	return b.get(&field.Value)
 }
 
-// SgNBActivityNotificationUEX2APIDExtensionIEBinding is the concrete IEBinding[UEX2APIDExtension, SgNBActivityNotificationIEValue].
+// SgNBActivityNotificationUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SgNBActivityNotification-IEs}} of TS 36.423 §9.3.8.
 type SgNBActivityNotificationUEX2APIDExtensionIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDExtensionValueCodec
@@ -9140,7 +9140,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuevalidateX2APIEContainer(
 	return report
 }
 
-// ERABsToBeReleasedSgNBChaConfItemIEContainer is the concrete ProtocolIEContainer[ERABsToBeReleasedSgNBChaConfItemIEValue].
+// ERABsToBeReleasedSgNBChaConfItemIEContainer is ProtocolIE-Container {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABsToBeReleasedSgNBChaConfItemIEField values.
 type ERABsToBeReleasedSgNBChaConfItemIEContainer []ERABsToBeReleasedSgNBChaConfItemIEField
 
 func X2apInternalNRNeighbourInformationExtIEsValuevalidateX2APExtensionContainer(fields NRNeighbourInformationExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
@@ -9170,13 +9170,13 @@ func X2apInternalServedNRCellInformationExtIEsValuevalidateX2APExtensionContaine
 	return X2apInternalServedNRCellInformationExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
 }
 
-// NRNeighbourInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[NRNeighbourInformationExtIEsValue].
+// NRNeighbourInformationExtIEsExtContainer is ProtocolExtensionContainer {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8: a list of NRNeighbourInformationExtIEsExtField values.
 type NRNeighbourInformationExtIEsExtContainer []NRNeighbourInformationExtIEsExtField
 
-// ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABsToBeReleasedSgNBChaConfItemIEValue].
+// ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
 type ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer = ERABsToBeReleasedSgNBChaConfItemIEField
 
-// ServedNRCellInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsExtContainer is ProtocolExtensionContainer {{ServedNRCell-Information-ExtIEs}} of TS 36.423 §9.3.8: a list of ServedNRCellInformationExtIEsExtField values.
 type ServedNRCellInformationExtIEsExtContainer []ServedNRCellInformationExtIEsExtField
 
 // handoverRequestAcknowledgeIEValueprotocolOpenValue is the concrete protocolOpenValue[HandoverRequestAcknowledgeIEValue].
@@ -10264,7 +10264,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValuevalid
 	return report
 }
 
-// NRNeighbourInformationExtIEsIEField is the concrete ProtocolIEField[NRNeighbourInformationExtIEsValue].
+// NRNeighbourInformationExtIEsIEField uses the ProtocolIE-Field shape for object set NRNeighbour-Information-ExtIEs of TS 36.423.
 type NRNeighbourInformationExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -10382,7 +10382,7 @@ func X2apInternalNRNeighbourInformationExtIEsIEFieldUnmarshalAPERFrom(v *NRNeigh
 	return nil
 }
 
-// NRNeighbourInformationExtIEsIEContainer is the concrete ProtocolIEContainer[NRNeighbourInformationExtIEsValue].
+// NRNeighbourInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set NRNeighbour-Information-ExtIEs of TS 36.423: a list of NRNeighbourInformationExtIEsIEField values.
 type NRNeighbourInformationExtIEsIEContainer []NRNeighbourInformationExtIEsIEField
 
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
@@ -10462,7 +10462,7 @@ func X2apInternalNRNeighbourInformationExtIEsValuevalidateX2APIEContainer(fields
 	return report
 }
 
-// ServedNRCellInformationExtIEsIEField is the concrete ProtocolIEField[ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsIEField uses the ProtocolIE-Field shape for object set ServedNRCell-Information-ExtIEs of TS 36.423.
 type ServedNRCellInformationExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -10580,7 +10580,7 @@ func X2apInternalServedNRCellInformationExtIEsIEFieldUnmarshalAPERFrom(v *Served
 	return nil
 }
 
-// ServedNRCellInformationExtIEsIEContainer is the concrete ProtocolIEContainer[ServedNRCellInformationExtIEsValue].
+// ServedNRCellInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set ServedNRCell-Information-ExtIEs of TS 36.423: a list of ServedNRCellInformationExtIEsIEField values.
 type ServedNRCellInformationExtIEsIEContainer []ServedNRCellInformationExtIEsIEField
 
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
@@ -13099,6 +13099,26 @@ func X2apInternalCompareX2APERABsAdmittedListComplete(v *ERABsAdmittedListComple
 	s.EnterValue()
 	defer s.LeaveValue()
 	s11.X2apInternalCompareX2APERABsAdmittedList(&v.Value, s)
+	s.End(f, v.replay, v.withoutReplay)
+}
+func X2apInternalCaptureX2APERABsAdmittedToBeAddedListComplete(v *ERABsAdmittedToBeAddedListComplete, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s11.X2apInternalCaptureX2APERABsAdmittedToBeAddedList(&v.Value, s)
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func X2apInternalCompareX2APERABsAdmittedToBeAddedListComplete(v *ERABsAdmittedToBeAddedListComplete, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s11.X2apInternalCompareX2APERABsAdmittedToBeAddedList(&v.Value, s)
 	s.End(f, v.replay, v.withoutReplay)
 }
 func X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItem(v *ERABsToBeReleasedSgNBChaConfItem, s *aper.SemanticCapture) {
@@ -36535,10 +36555,9 @@ func X2apInternalUnmarshalAPERAdditionalMeasurementTimingConfigurationListFrom(b
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERAdditionalMeasurementTimingConfigurationListInto(v *X2apInternalAsn1cAPERAdditionalMeasurementTimingConfigurationListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.AdditionalMeasurementTimingConfigurationList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -36560,7 +36579,6 @@ func X2apInternalUnmarshalAPERAdditionalMeasurementTimingConfigurationListInto(v
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -36667,10 +36685,9 @@ func X2apInternalUnmarshalAPERCSIRSMTCConfigurationListFrom(bb *aper.BitBuffer) 
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCSIRSMTCConfigurationListInto(v *X2apInternalAsn1cAPERCSIRSMTCConfigurationListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CSIRSMTCConfigurationList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 96, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -36692,7 +36709,6 @@ func X2apInternalUnmarshalAPERCSIRSMTCConfigurationListInto(v *X2apInternalAsn1c
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -36799,10 +36815,9 @@ func X2apInternalUnmarshalAPERCSIRSNeighbourListFrom(bb *aper.BitBuffer) (s06.CS
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCSIRSNeighbourListInto(v *X2apInternalAsn1cAPERCSIRSNeighbourListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CSIRSNeighbourList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -36824,7 +36839,6 @@ func X2apInternalUnmarshalAPERCSIRSNeighbourListInto(v *X2apInternalAsn1cAPERCSI
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -36931,10 +36945,9 @@ func X2apInternalUnmarshalAPERCSIRSMTCNeighbourListFrom(bb *aper.BitBuffer) (s06
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCSIRSMTCNeighbourListInto(v *X2apInternalAsn1cAPERCSIRSMTCNeighbourListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CSIRSMTCNeighbourList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -36956,7 +36969,6 @@ func X2apInternalUnmarshalAPERCSIRSMTCNeighbourListInto(v *X2apInternalAsn1cAPER
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -37077,10 +37089,9 @@ func X2apInternalUnmarshalAPERAdditionalPLMNsItemFrom(bb *aper.BitBuffer) (s00.A
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERAdditionalPLMNsItemInto(v *X2apInternalAsn1cAPERAdditionalPLMNsItemListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s00.AdditionalPLMNsItem, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -37100,7 +37111,6 @@ func X2apInternalUnmarshalAPERAdditionalPLMNsItemInto(v *X2apInternalAsn1cAPERAd
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -37207,10 +37217,9 @@ func X2apInternalUnmarshalAPERBroadcastPLMNsItemFrom(bb *aper.BitBuffer) (s00.Br
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERBroadcastPLMNsItemInto(v *X2apInternalAsn1cAPERBroadcastPLMNsItemListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s00.BroadcastPLMNsItem, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -37230,7 +37239,6 @@ func X2apInternalUnmarshalAPERBroadcastPLMNsItemInto(v *X2apInternalAsn1cAPERBro
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -37339,10 +37347,9 @@ func X2apInternalUnmarshalAPERBluetoothMeasConfigNameListFrom(bb *aper.BitBuffer
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERBluetoothMeasConfigNameListInto(v *X2apInternalAsn1cAPERBluetoothMeasConfigNameListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s00.BluetoothMeasConfigNameList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -37362,7 +37369,6 @@ func X2apInternalUnmarshalAPERBluetoothMeasConfigNameListInto(v *X2apInternalAsn
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -37469,10 +37475,9 @@ func X2apInternalUnmarshalAPERBPLMNIDInfoEUTRAFrom(bb *aper.BitBuffer) (s09.BPLM
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERBPLMNIDInfoEUTRAInto(v *X2apInternalAsn1cAPERBPLMNIDInfoEUTRAListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s09.BPLMNIDInfoEUTRA, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -37494,7 +37499,6 @@ func X2apInternalUnmarshalAPERBPLMNIDInfoEUTRAInto(v *X2apInternalAsn1cAPERBPLMN
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -37601,10 +37605,9 @@ func X2apInternalUnmarshalAPERBPLMNIDInfoNRFrom(bb *aper.BitBuffer) (s06.BPLMNID
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERBPLMNIDInfoNRInto(v *X2apInternalAsn1cAPERBPLMNIDInfoNRListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.BPLMNIDInfoNR, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -37626,7 +37629,6 @@ func X2apInternalUnmarshalAPERBPLMNIDInfoNRInto(v *X2apInternalAsn1cAPERBPLMNIDI
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -37733,10 +37735,9 @@ func X2apInternalUnmarshalAPERBroadcastextPLMNsFrom(bb *aper.BitBuffer) (s00.Bro
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERBroadcastextPLMNsInto(v *X2apInternalAsn1cAPERBroadcastextPLMNsListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s00.BroadcastextPLMNs, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -37756,7 +37757,6 @@ func X2apInternalUnmarshalAPERBroadcastextPLMNsInto(v *X2apInternalAsn1cAPERBroa
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -37863,10 +37863,9 @@ func X2apInternalUnmarshalAPERCellIdListforMDTFrom(bb *aper.BitBuffer) (s06.Cell
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCellIdListforMDTInto(v *X2apInternalAsn1cAPERCellIdListforMDTListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CellIdListforMDT, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -37888,7 +37887,6 @@ func X2apInternalUnmarshalAPERCellIdListforMDTInto(v *X2apInternalAsn1cAPERCellI
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -37995,10 +37993,9 @@ func X2apInternalUnmarshalAPERCellIdListforQMCFrom(bb *aper.BitBuffer) (s06.Cell
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCellIdListforQMCInto(v *X2apInternalAsn1cAPERCellIdListforQMCListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CellIdListforQMC, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38020,7 +38017,6 @@ func X2apInternalUnmarshalAPERCellIdListforQMCInto(v *X2apInternalAsn1cAPERCellI
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -38127,10 +38123,9 @@ func X2apInternalUnmarshalAPERCPACcandidatePSCellsListFrom(bb *aper.BitBuffer) (
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCPACcandidatePSCellsListInto(v *X2apInternalAsn1cAPERCPACcandidatePSCellsListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CPACcandidatePSCellsList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38152,7 +38147,6 @@ func X2apInternalUnmarshalAPERCPACcandidatePSCellsListInto(v *X2apInternalAsn1cA
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -38259,10 +38253,9 @@ func X2apInternalUnmarshalAPERCPCTargetSgNBReqdListFrom(bb *aper.BitBuffer) (s08
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCPCTargetSgNBReqdListInto(v *X2apInternalAsn1cAPERCPCTargetSgNBReqdListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.CPCTargetSgNBReqdList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38284,7 +38277,6 @@ func X2apInternalUnmarshalAPERCPCTargetSgNBReqdListInto(v *X2apInternalAsn1cAPER
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -38391,10 +38383,9 @@ func X2apInternalUnmarshalAPERCPCTargetSgNBConfListFrom(bb *aper.BitBuffer) (s06
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCPCTargetSgNBConfListInto(v *X2apInternalAsn1cAPERCPCTargetSgNBConfListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CPCTargetSgNBConfList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38416,7 +38407,6 @@ func X2apInternalUnmarshalAPERCPCTargetSgNBConfListInto(v *X2apInternalAsn1cAPER
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -38523,10 +38513,9 @@ func X2apInternalUnmarshalAPERCPCTargetSgNBModListFrom(bb *aper.BitBuffer) (s06.
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCPCTargetSgNBModListInto(v *X2apInternalAsn1cAPERCPCTargetSgNBModListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CPCTargetSgNBModList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38548,7 +38537,6 @@ func X2apInternalUnmarshalAPERCPCTargetSgNBModListInto(v *X2apInternalAsn1cAPERC
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -38655,10 +38643,9 @@ func X2apInternalUnmarshalAPERCNTypeRestrictionsFrom(bb *aper.BitBuffer) (s06.CN
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCNTypeRestrictionsInto(v *X2apInternalAsn1cAPERCNTypeRestrictionsListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CNTypeRestrictions, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38680,7 +38667,6 @@ func X2apInternalUnmarshalAPERCNTypeRestrictionsInto(v *X2apInternalAsn1cAPERCNT
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -38787,10 +38773,9 @@ func X2apInternalUnmarshalAPERCoMPHypothesisSetFrom(bb *aper.BitBuffer) (s06.CoM
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCoMPHypothesisSetInto(v *X2apInternalAsn1cAPERCoMPHypothesisSetListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CoMPHypothesisSet, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38812,7 +38797,6 @@ func X2apInternalUnmarshalAPERCoMPHypothesisSetInto(v *X2apInternalAsn1cAPERCoMP
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -38919,10 +38903,9 @@ func X2apInternalUnmarshalAPERCoMPInformationItemFrom(bb *aper.BitBuffer) (s06.C
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCoMPInformationItemInto(v *X2apInternalAsn1cAPERCoMPInformationItemListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CoMPInformationItem, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38944,7 +38927,6 @@ func X2apInternalUnmarshalAPERCoMPInformationItemInto(v *X2apInternalAsn1cAPERCo
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -39051,10 +39033,9 @@ func X2apInternalUnmarshalAPERCoMPInformationStartTimeFrom(bb *aper.BitBuffer) (
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCoMPInformationStartTimeInto(v *X2apInternalAsn1cAPERCoMPInformationStartTimeListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CoMPInformationStartTime, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 1, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39076,7 +39057,6 @@ func X2apInternalUnmarshalAPERCoMPInformationStartTimeInto(v *X2apInternalAsn1cA
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -39183,10 +39163,9 @@ func X2apInternalUnmarshalAPERCoverageModificationListFrom(bb *aper.BitBuffer) (
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCoverageModificationListInto(v *X2apInternalAsn1cAPERCoverageModificationListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.CoverageModificationList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39208,7 +39187,6 @@ func X2apInternalUnmarshalAPERCoverageModificationListInto(v *X2apInternalAsn1cA
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -39317,10 +39295,9 @@ func X2apInternalUnmarshalAPERCriticalityDiagnosticsIEListFrom(bb *aper.BitBuffe
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCriticalityDiagnosticsIEListInto(v *X2apInternalAsn1cAPERCriticalityDiagnosticsIEListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CriticalityDiagnosticsIEList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39342,7 +39319,6 @@ func X2apInternalUnmarshalAPERCriticalityDiagnosticsIEListInto(v *X2apInternalAs
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -39449,10 +39425,9 @@ func X2apInternalUnmarshalAPERCSIReportListFrom(bb *aper.BitBuffer) (s11.CSIRepo
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCSIReportListInto(v *X2apInternalAsn1cAPERCSIReportListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.CSIReportList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39474,7 +39449,6 @@ func X2apInternalUnmarshalAPERCSIReportListInto(v *X2apInternalAsn1cAPERCSIRepor
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -39581,10 +39555,9 @@ func X2apInternalUnmarshalAPERCSIReportPerCSIProcessFrom(bb *aper.BitBuffer) (s0
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCSIReportPerCSIProcessInto(v *X2apInternalAsn1cAPERCSIReportPerCSIProcessListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.CSIReportPerCSIProcess, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39606,7 +39579,6 @@ func X2apInternalUnmarshalAPERCSIReportPerCSIProcessInto(v *X2apInternalAsn1cAPE
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -39715,10 +39687,9 @@ func X2apInternalUnmarshalAPERCSIReportPerCSIProcessItemFrom(bb *aper.BitBuffer)
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCSIReportPerCSIProcessItemInto(v *X2apInternalAsn1cAPERCSIReportPerCSIProcessItemListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.CSIReportPerCSIProcessItem, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39740,7 +39711,6 @@ func X2apInternalUnmarshalAPERCSIReportPerCSIProcessItemInto(v *X2apInternalAsn1
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -39849,10 +39819,9 @@ func X2apInternalUnmarshalAPERCandidateCellsToBeCancelledListFrom(bb *aper.BitBu
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCandidateCellsToBeCancelledListInto(v *X2apInternalAsn1cAPERCandidateCellsToBeCancelledListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.CandidateCellsToBeCancelledList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39874,7 +39843,6 @@ func X2apInternalUnmarshalAPERCandidateCellsToBeCancelledListInto(v *X2apInterna
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -39981,10 +39949,9 @@ func X2apInternalUnmarshalAPEREPLMNsFrom(bb *aper.BitBuffer) (s00.EPLMNs, error)
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPEREPLMNsInto(v *X2apInternalAsn1cAPEREPLMNsListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s00.EPLMNs, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -40004,7 +39971,6 @@ func X2apInternalUnmarshalAPEREPLMNsInto(v *X2apInternalAsn1cAPEREPLMNsListValue
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -40113,10 +40079,9 @@ func X2apInternalUnmarshalAPERERABActivityNotifyItemListFrom(bb *aper.BitBuffer)
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERERABActivityNotifyItemListInto(v *X2apInternalAsn1cAPERERABActivityNotifyItemListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.ERABActivityNotifyItemList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -40138,7 +40103,6 @@ func X2apInternalUnmarshalAPERERABActivityNotifyItemListInto(v *X2apInternalAsn1
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -40245,10 +40209,9 @@ func X2apInternalUnmarshalAPERERABListFrom(bb *aper.BitBuffer) (s08.ERABList, er
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERERABListInto(v *X2apInternalAsn1cAPERERABListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.ERABList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -40270,7 +40233,6 @@ func X2apInternalUnmarshalAPERERABListInto(v *X2apInternalAsn1cAPERERABListListV
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -40377,10 +40339,9 @@ func X2apInternalUnmarshalAPERERABUsageReportListFrom(bb *aper.BitBuffer) (s08.E
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERERABUsageReportListInto(v *X2apInternalAsn1cAPERERABUsageReportListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.ERABUsageReportList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -40402,7 +40363,6 @@ func X2apInternalUnmarshalAPERERABUsageReportListInto(v *X2apInternalAsn1cAPERER
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -40511,10 +40471,9 @@ func X2apInternalUnmarshalAPERDynamicNAICSInformationPAListFrom(bb *aper.BitBuff
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERDynamicNAICSInformationPAListInto(v *X2apInternalAsn1cAPERDynamicNAICSInformationPAListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s00.DynamicNAICSInformationPAList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 3, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1136
+		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1140
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -40534,7 +40493,6 @@ func X2apInternalUnmarshalAPERDynamicNAICSInformationPAListInto(v *X2apInternalA
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -45821,10 +45779,9 @@ func X2apInternalUnmarshalAPERERABsAdmittedListFrom(bb *aper.BitBuffer) (s11.ERA
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERERABsAdmittedListInto(v *X2apInternalAsn1cAPERERABsAdmittedListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.ERABsAdmittedList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -45846,7 +45803,6 @@ func X2apInternalUnmarshalAPERERABsAdmittedListInto(v *X2apInternalAsn1cAPERERAB
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -45989,7 +45945,7 @@ func X2apInternalHandoverPreparationFailureUnmarshalAPERFrom(v *HandoverPreparat
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s11.HandoverPreparationFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46209,7 +46165,7 @@ func X2apInternalX2SetupFailureUnmarshalAPERFrom(v *X2SetupFailure, bb *aper.Bit
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s07.X2SetupFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46393,10 +46349,9 @@ func X2apInternalUnmarshalAPERCellInformationListFrom(bb *aper.BitBuffer) (s12.C
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCellInformationListInto(v *X2apInternalAsn1cAPERCellInformationListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s12.CellInformationList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46418,7 +46373,6 @@ func X2apInternalUnmarshalAPERCellInformationListInto(v *X2apInternalAsn1cAPERCe
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -46561,7 +46515,7 @@ func X2apInternalENBConfigurationUpdateFailureUnmarshalAPERFrom(v *ENBConfigurat
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s06.ENBConfigurationUpdateFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46745,10 +46699,9 @@ func X2apInternalUnmarshalAPERCellToReportListFrom(bb *aper.BitBuffer) (s08.Cell
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCellToReportListInto(v *X2apInternalAsn1cAPERCellToReportListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.CellToReportList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46770,7 +46723,6 @@ func X2apInternalUnmarshalAPERCellToReportListInto(v *X2apInternalAsn1cAPERCellT
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -46913,7 +46865,7 @@ func X2apInternalResourceStatusFailureUnmarshalAPERFrom(v *ResourceStatusFailure
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(ResourceStatusFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -47099,10 +47051,9 @@ func X2apInternalUnmarshalAPERCompleteFailureCauseInformationListFrom(bb *aper.B
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCompleteFailureCauseInformationListInto(v *X2apInternalAsn1cAPERCompleteFailureCauseInformationListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.CompleteFailureCauseInformationList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -47124,7 +47075,6 @@ func X2apInternalUnmarshalAPERCompleteFailureCauseInformationListInto(v *X2apInt
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -47267,7 +47217,7 @@ func X2apInternalMobilityChangeFailureUnmarshalAPERFrom(v *MobilityChangeFailure
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s07.MobilityChangeFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -47487,7 +47437,7 @@ func X2apInternalCellActivationFailureUnmarshalAPERFrom(v *CellActivationFailure
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s06.CellActivationFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -47572,6 +47522,55 @@ type X2apInternalAsn1cAPERERABsAdmittedToBeAddedListListValue struct {
 	Value s11.ERABsAdmittedToBeAddedList
 }
 
+// ERABsAdmittedToBeAddedListComplete carries a complete ERABsAdmittedToBeAddedList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
+type ERABsAdmittedToBeAddedListComplete struct {
+	replay           aper.Snapshot
+	stream           aper.WireSpan
+	received         bool
+	withoutReplay    bool
+	receivedAbsolute bool
+	receivedBytes    aper.WireSpan
+	receivedLocation aper.Location
+	Value            s11.ERABsAdmittedToBeAddedList
+	perPadding       aper.CompletePadding `json:"-"`
+}
+
+func X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERLegacy(v *ERABsAdmittedToBeAddedListComplete) ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := X2apInternalMarshalAPERERABsAdmittedToBeAddedListTo(v.Value, bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithPadding(v.perPadding)
+}
+
+// UnmarshalAPER decodes ERABsAdmittedToBeAddedList from APER format.
+func X2apInternalERABsAdmittedToBeAddedListCompleteUnmarshalAPERLegacy(v *ERABsAdmittedToBeAddedListComplete, data []byte) error {
+	return X2apInternalERABsAdmittedToBeAddedListCompleteUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
+}
+
+// UnmarshalAPERWithOptions decodes ERABsAdmittedToBeAddedList with explicit receiver options:
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func X2apInternalERABsAdmittedToBeAddedListCompleteUnmarshalAPERWithOptions(v *ERABsAdmittedToBeAddedListComplete, data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeAddedList")
+	}
+	bb.EnterComponent("ERABsAdmittedToBeAddedList")
+	value, err := X2apInternalUnmarshalAPERERABsAdmittedToBeAddedListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeAddedList")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "ERABsAdmittedToBeAddedList")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABsAdmittedToBeAddedList")
+	}
+	v.Value, v.perPadding = value, padding.Padding()
+	return nil
+}
+
 // MarshalAPERERABsAdmittedToBeAddedListTo appends a ERABsAdmittedToBeAddedList list to bb.
 func X2apInternalMarshalAPERERABsAdmittedToBeAddedListTo(list s11.ERABsAdmittedToBeAddedList, bb *aper.BitBuffer, fresh ...bool) error {
 	if err := bb.EnterDecodeValue(); err != nil {
@@ -47610,10 +47609,9 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedListFrom(bb *aper.BitBuffer)
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedListInto(v *X2apInternalAsn1cAPERERABsAdmittedToBeAddedListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.ERABsAdmittedToBeAddedList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -47635,7 +47633,6 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedListInto(v *X2apInternalAsn1
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -47778,7 +47775,7 @@ func X2apInternalSeNBAdditionRequestRejectUnmarshalAPERFrom(v *SeNBAdditionReque
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s12.SeNBAdditionRequestRejectIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -47998,7 +47995,7 @@ func X2apInternalSeNBModificationRequestRejectUnmarshalAPERFrom(v *SeNBModificat
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s12.SeNBModificationRequestRejectIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48218,7 +48215,7 @@ func X2apInternalSeNBModificationRefuseUnmarshalAPERFrom(v *SeNBModificationRefu
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s12.SeNBModificationRefuseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48438,7 +48435,7 @@ func X2apInternalX2RemovalFailureUnmarshalAPERFrom(v *X2RemovalFailure, bb *aper
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s07.X2RemovalFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48658,7 +48655,7 @@ func X2apInternalRetrieveUEContextFailureUnmarshalAPERFrom(v *RetrieveUEContextF
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s11.RetrieveUEContextFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48878,7 +48875,7 @@ func X2apInternalSgNBAdditionRequestRejectUnmarshalAPERFrom(v *SgNBAdditionReque
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s12.SgNBAdditionRequestRejectIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49098,7 +49095,7 @@ func X2apInternalSgNBModificationRequestRejectUnmarshalAPERFrom(v *SgNBModificat
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s12.SgNBModificationRequestRejectIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49318,7 +49315,7 @@ func X2apInternalSgNBModificationRefuseUnmarshalAPERFrom(v *SgNBModificationRefu
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s12.SgNBModificationRefuseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49538,7 +49535,7 @@ func X2apInternalSgNBReleaseRequestRejectUnmarshalAPERFrom(v *SgNBReleaseRequest
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s12.SgNBReleaseRequestRejectIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49794,7 +49791,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemUnmarshalAPERFrom(v *ERABsToBeR
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsToBeReleasedSgNBChaConfItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50076,7 +50073,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentUnmarshalAPERFro
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s13.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50298,7 +50295,7 @@ func X2apInternalSgNBChangeRefuseUnmarshalAPERFrom(v *SgNBChangeRefuse, bb *aper
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s12.SgNBChangeRefuseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50518,7 +50515,7 @@ func X2apInternalENDCX2SetupFailureUnmarshalAPERFrom(v *ENDCX2SetupFailure, bb *
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s06.ENDCX2SetupFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50738,7 +50735,7 @@ func X2apInternalENDCConfigurationUpdateFailureUnmarshalAPERFrom(v *ENDCConfigur
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s06.ENDCConfigurationUpdateFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50958,7 +50955,7 @@ func X2apInternalENDCCellActivationFailureUnmarshalAPERFrom(v *ENDCCellActivatio
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s06.ENDCCellActivationFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51142,10 +51139,9 @@ func X2apInternalUnmarshalAPERCellToReportNRENDCListFrom(bb *aper.BitBuffer) (s0
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCellToReportNRENDCListInto(v *X2apInternalAsn1cAPERCellToReportNRENDCListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.CellToReportNRENDCList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51167,7 +51163,6 @@ func X2apInternalUnmarshalAPERCellToReportNRENDCListInto(v *X2apInternalAsn1cAPE
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -51274,10 +51269,9 @@ func X2apInternalUnmarshalAPERCellToReportEUTRAENDCListFrom(bb *aper.BitBuffer) 
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCellToReportEUTRAENDCListInto(v *X2apInternalAsn1cAPERCellToReportEUTRAENDCListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.CellToReportEUTRAENDCList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51299,7 +51293,6 @@ func X2apInternalUnmarshalAPERCellToReportEUTRAENDCListInto(v *X2apInternalAsn1c
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -51442,7 +51435,7 @@ func X2apInternalENDCResourceStatusFailureUnmarshalAPERFrom(v *ENDCResourceStatu
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s06.ENDCResourceStatusFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51628,10 +51621,9 @@ func X2apInternalUnmarshalAPERCellMeasurementResultNRENDCListFrom(bb *aper.BitBu
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCellMeasurementResultNRENDCListInto(v *X2apInternalAsn1cAPERCellMeasurementResultNRENDCListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s12.CellMeasurementResultNRENDCList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51653,7 +51645,6 @@ func X2apInternalUnmarshalAPERCellMeasurementResultNRENDCListInto(v *X2apInterna
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -51762,10 +51753,9 @@ func X2apInternalUnmarshalAPERCellMeasurementResultEUTRAENDCListFrom(bb *aper.Bi
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERCellMeasurementResultEUTRAENDCListInto(v *X2apInternalAsn1cAPERCellMeasurementResultEUTRAENDCListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s12.CellMeasurementResultEUTRAENDCList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51787,7 +51777,6 @@ func X2apInternalUnmarshalAPERCellMeasurementResultEUTRAENDCListInto(v *X2apInte
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -51930,7 +51919,7 @@ func X2apInternalENDCX2RemovalFailureUnmarshalAPERFrom(v *ENDCX2RemovalFailure, 
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s06.ENDCX2RemovalFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52532,6 +52521,29 @@ func (v ERABsAdmittedListComplete) WithoutReplay() ERABsAdmittedListComplete {
 	v.receivedBytes = aper.WireSpan{}
 	v.receivedLocation = aper.Location{}
 	var zero ERABsAdmittedListComplete
+	v.perPadding = zero.perPadding
+	return v
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *ERABsAdmittedToBeAddedListComplete) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s00.X2apInternalReceivedFormAt(v.received, v.receivedBytes, "ERABsAdmittedToBeAddedListComplete", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "ERABsAdmittedToBeAddedListComplete", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v ERABsAdmittedToBeAddedListComplete) WithoutReplay() ERABsAdmittedToBeAddedListComplete {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero ERABsAdmittedToBeAddedListComplete
 	v.perPadding = zero.perPadding
 	return v
 }
@@ -55221,6 +55233,98 @@ func X2apInternalERABsAdmittedListCompleteMarshalAPERPlanned(v *ERABsAdmittedLis
 }
 
 // MarshalAPER encodes a complete value using one per-call semantic plan.
+func (v *ERABsAdmittedToBeAddedListComplete) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "ERABsAdmittedToBeAddedListComplete")
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "ERABsAdmittedToBeAddedListComplete")
+	}
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		X2apInternalCompareX2APERABsAdmittedToBeAddedListComplete(v, &s)
+		plan := s.Plan()
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, "ERABsAdmittedToBeAddedListComplete")
+		}
+		if plan.Unchanged(v.replay) && v.received {
+			out, err := v.receivedBytes.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, "ERABsAdmittedToBeAddedListComplete")
+		}
+		return X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERWithPlan(v, fresh, plan)
+	}
+	return X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERUnplanned(v, fresh, budget)
+}
+func X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERWithPlan(v *ERABsAdmittedToBeAddedListComplete, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	bb := aper.NewBudgetBuffer(&budget)
+	bb.SetReplayPlan(&plan)
+	out, err := X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERPlanned(v, &budget, fresh)
+	if failure := bb.CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsAdmittedToBeAddedListComplete")
+}
+func X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERUnplanned(v *ERABsAdmittedToBeAddedListComplete, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERPlanned(v, &budget, fresh)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsAdmittedToBeAddedListComplete")
+}
+func X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERBudget(v *ERABsAdmittedToBeAddedListComplete, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		X2apInternalCompareX2APERABsAdmittedToBeAddedListComplete(v, &s)
+		decisions := s.Plan()
+		if err := decisions.CommitBudget(budget); err != nil {
+			return nil, err
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return v.receivedBytes.EncodeBytes(budget)
+		}
+		return X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERChanged(v, budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return v.receivedBytes.EncodeBytes(budget)
+	}
+	return X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERChanged(v *ERABsAdmittedToBeAddedListComplete, budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	previous := bb.ReplayPlan()
+	bb.SetReplayPlan(&plan)
+	defer bb.SetReplayPlan(previous)
+	return X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsAdmittedToBeAddedListCompleteMarshalAPERPlanned(v *ERABsAdmittedToBeAddedListComplete, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	value := v
+	if fresh {
+		copyValue := v.WithoutReplay()
+		value = &copyValue
+	}
+	if err := X2apInternalMarshalAPERERABsAdmittedToBeAddedListTo(value.Value, bb, fresh); err != nil {
+		return nil, err
+	}
+	out, err := bb.CompleteBytesWithPadding(value.perPadding)
+	if err != nil {
+		return nil, err
+	}
+	if err := bb.CheckOutput(uint64(len(out))); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MarshalAPER encodes a complete value using one per-call semantic plan.
 func (v *ERABsToBeReleasedSgNBChaConfItem) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
 	if v == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, "ERABsToBeReleasedSgNBChaConfItem")
@@ -57145,6 +57249,30 @@ func (v *ERABsAdmittedListComplete) UnmarshalAPER(data []byte, options ...aper.D
 }
 
 // UnmarshalAPER decodes atomically into one immutable wire owner.
+func (v *ERABsAdmittedToBeAddedListComplete) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "ERABsAdmittedToBeAddedListComplete")
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	var decoded ERABsAdmittedToBeAddedListComplete
+	err := X2apInternalERABsAdmittedToBeAddedListCompleteUnmarshalAPERWithOptions(&decoded, data, settings)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
+		X2apInternalCaptureX2APERABsAdmittedToBeAddedListComplete(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(settings, err)
+	if err != nil {
+		*v = ERABsAdmittedToBeAddedListComplete{}
+		return report, aper.OperationError(err, "ERABsAdmittedToBeAddedListComplete")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "ERABsAdmittedToBeAddedListComplete")
+}
+
+// UnmarshalAPER decodes atomically into one immutable wire owner.
 func (v *ERABsToBeReleasedSgNBChaConfItem) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
 		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "ERABsToBeReleasedSgNBChaConfItem")
@@ -57615,6 +57743,11 @@ func MarshalAPERCompleteFailureCauseInformationList(v CompleteFailureCauseInform
 	return v.MarshalAPER(options...)
 }
 
+// MarshalAPERERABsAdmittedToBeAddedList encodes a complete named list.
+func MarshalAPERERABsAdmittedToBeAddedList(v ERABsAdmittedToBeAddedListComplete, options ...aper.EncodeOption) ([]byte, error) {
+	return v.MarshalAPER(options...)
+}
+
 // MarshalAPERCellToReportNRENDCList encodes a complete named list.
 func MarshalAPERCellToReportNRENDCList(v CellToReportNRENDCListComplete, options ...aper.EncodeOption) ([]byte, error) {
 	return v.MarshalAPER(options...)
@@ -57659,6 +57792,13 @@ func UnmarshalAPERCellToReportList(data []byte, options ...aper.DecodeOption) (C
 // UnmarshalAPERCompleteFailureCauseInformationList decodes a complete named list.
 func UnmarshalAPERCompleteFailureCauseInformationList(data []byte, options ...aper.DecodeOption) (CompleteFailureCauseInformationListComplete, aper.DecodeReport, error) {
 	var v CompleteFailureCauseInformationListComplete
+	report, err := v.UnmarshalAPER(data, options...)
+	return v, report, err
+}
+
+// UnmarshalAPERERABsAdmittedToBeAddedList decodes a complete named list.
+func UnmarshalAPERERABsAdmittedToBeAddedList(data []byte, options ...aper.DecodeOption) (ERABsAdmittedToBeAddedListComplete, aper.DecodeReport, error) {
+	var v ERABsAdmittedToBeAddedListComplete
 	report, err := v.UnmarshalAPER(data, options...)
 	return v, report, err
 }
@@ -58264,4 +58404,506 @@ func X2apInternalConstructT48SgNBModificationRequestRejectUnsuccessfulBindingF4i
 }
 func X2apInternalConstructT49ENDCConfigurationUpdateFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(v0 s00.ProcedureInfo, v1 func(*ENDCConfigurationUpdateFailure, *aper.DecodeBudget) (s12.ValidationReport, error), v2 func(*ENDCConfigurationUpdateFailure, bool, *aper.DecodeBudget) ([]byte, error), v3 func([]byte, aper.DecodeState) (ENDCConfigurationUpdateFailure, error), v4 func(ENDCConfigurationUpdateFailure) UnsuccessfulValue, v5 func(ENDCConfigurationUpdateFailure, aper.DecodeState) (ENDCConfigurationUpdateFailure, aper.Snapshot), v6 func(ENDCConfigurationUpdateFailure, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan, v7 s00.X2apInternalCodecContext) ENDCConfigurationUpdateFailureUnsuccessfulBinding {
 	return ENDCConfigurationUpdateFailureUnsuccessfulBinding{info: v0, validate: v1, encode: v2, decode: v3, inject: v4, capture: v5, compare: v6, context: v7}
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *ConditionalHandoverCancelIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(10):
+		if v.rowOldENBUEX2APID != nil {
+			return v.rowOldENBUEX2APID, true
+		}
+	case s00.ProtocolIEID(155):
+		if v.rowNewENBUEX2APIDExtension != nil {
+			return v.rowNewENBUEX2APIDExtension, true
+		}
+	case s00.ProtocolIEID(156):
+		if v.rowOldENBUEX2APIDExtension != nil {
+			return v.rowOldENBUEX2APIDExtension, true
+		}
+	case s00.ProtocolIEID(365):
+		if v.rowCandidateCellsToBeCancelledList != nil {
+			return v.rowCandidateCellsToBeCancelledList, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	case s00.ProtocolIEID(9):
+		if v.rowNewENBUEX2APID != nil {
+			return v.rowNewENBUEX2APID, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *ENDCResourceStatusRequestIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(28):
+		if v.rowRegistrationRequest != nil {
+			return v.rowRegistrationRequest, true
+		}
+	case s00.ProtocolIEID(30):
+		if v.rowReportingPeriodicity != nil {
+			return v.rowReportingPeriodicity, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(38):
+		if v.rowReportCharacteristics != nil {
+			return v.rowReportCharacteristics, true
+		}
+	case s00.ProtocolIEID(383):
+		if v.rowEUTRANNode1MeasurementID != nil {
+			return v.rowEUTRANNode1MeasurementID, true
+		}
+	case s00.ProtocolIEID(384):
+		if v.rowEUTRANNode2MeasurementID != nil {
+			return v.rowEUTRANNode2MeasurementID, true
+		}
+	case s00.ProtocolIEID(391):
+		if v.rowCellToReportNRENDC != nil {
+			return v.rowCellToReportNRENDC, true
+		}
+	case s00.ProtocolIEID(403):
+		if v.rowCellToReportEUTRAENDC != nil {
+			return v.rowCellToReportEUTRAENDC, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *ENDCResourceStatusUpdateIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(383):
+		if v.rowEUTRANNode1MeasurementID != nil {
+			return v.rowEUTRANNode1MeasurementID, true
+		}
+	case s00.ProtocolIEID(384):
+		if v.rowEUTRANNode2MeasurementID != nil {
+			return v.rowEUTRANNode2MeasurementID, true
+		}
+	case s00.ProtocolIEID(393):
+		if v.rowCellMeasurementResultNRENDC != nil {
+			return v.rowCellMeasurementResultNRENDC, true
+		}
+	case s00.ProtocolIEID(401):
+		if v.rowCellMeasurementResultEUTRAENDC != nil {
+			return v.rowCellMeasurementResultEUTRAENDC, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABsToBeReleasedSgNBChaConfItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(230):
+		if v.rowERABsToBeReleasedSgNBChaConfItem != nil {
+			return v.rowERABsToBeReleasedSgNBChaConfItem, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *HandoverCancelIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(10):
+		if v.rowOldENBUEX2APID != nil {
+			return v.rowOldENBUEX2APID, true
+		}
+	case s00.ProtocolIEID(155):
+		if v.rowNewENBUEX2APIDExtension != nil {
+			return v.rowNewENBUEX2APIDExtension, true
+		}
+	case s00.ProtocolIEID(156):
+		if v.rowOldENBUEX2APIDExtension != nil {
+			return v.rowOldENBUEX2APIDExtension, true
+		}
+	case s00.ProtocolIEID(365):
+		if v.rowCandidateCellsToBeCancelledList != nil {
+			return v.rowCandidateCellsToBeCancelledList, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	case s00.ProtocolIEID(9):
+		if v.rowNewENBUEX2APID != nil {
+			return v.rowNewENBUEX2APID, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *HandoverRequestAcknowledgeIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(1):
+		if v.rowERABsAdmittedList != nil {
+			return v.rowERABsAdmittedList, true
+		}
+	case s00.ProtocolIEID(10):
+		if v.rowOldENBUEX2APID != nil {
+			return v.rowOldENBUEX2APID, true
+		}
+	case s00.ProtocolIEID(12):
+		if v.rowTargeteNBtoSourceENBTransparentContainer != nil {
+			return v.rowTargeteNBtoSourceENBTransparentContainer, true
+		}
+	case s00.ProtocolIEID(154):
+		if v.rowUEContextKeptIndicator != nil {
+			return v.rowUEContextKeptIndicator, true
+		}
+	case s00.ProtocolIEID(155):
+		if v.rowNewENBUEX2APIDExtension != nil {
+			return v.rowNewENBUEX2APIDExtension, true
+		}
+	case s00.ProtocolIEID(156):
+		if v.rowOldENBUEX2APIDExtension != nil {
+			return v.rowOldENBUEX2APIDExtension, true
+		}
+	case s00.ProtocolIEID(158):
+		if v.rowSeNBUEX2APIDExtension != nil {
+			return v.rowSeNBUEX2APIDExtension, true
+		}
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(183):
+		if v.rowWTUEContextKeptIndicator != nil {
+			return v.rowWTUEContextKeptIndicator, true
+		}
+	case s00.ProtocolIEID(3):
+		if v.rowERABsNotAdmittedList != nil {
+			return v.rowERABsNotAdmittedList, true
+		}
+	case s00.ProtocolIEID(339):
+		if v.rowERABsTransferredToMeNB != nil {
+			return v.rowERABsTransferredToMeNB, true
+		}
+	case s00.ProtocolIEID(362):
+		if v.rowCHOinformationACK != nil {
+			return v.rowCHOinformationACK, true
+		}
+	case s00.ProtocolIEID(9):
+		if v.rowNewENBUEX2APID != nil {
+			return v.rowNewENBUEX2APID, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *LoadInformationIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(6):
+		if v.rowCellInformation != nil {
+			return v.rowCellInformation, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *NRNeighbourInformationExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(380):
+		if v.rowCSIRSTransmissionIndication != nil {
+			return v.rowCSIRSTransmissionIndication, true
+		}
+	case s00.ProtocolIEID(389):
+		if v.rowSSBPositionsInBurst != nil {
+			return v.rowSSBPositionsInBurst, true
+		}
+	case s00.ProtocolIEID(390):
+		if v.rowNRCellPRACHConfig != nil {
+			return v.rowNRCellPRACHConfig, true
+		}
+	case s00.ProtocolIEID(433):
+		if v.rowAdditionalMeasurementTimingConfigurationList != nil {
+			return v.rowAdditionalMeasurementTimingConfigurationList, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *ResourceStatusFailureIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(39):
+		if v.rowENB1MeasurementID != nil {
+			return v.rowENB1MeasurementID, true
+		}
+	case s00.ProtocolIEID(40):
+		if v.rowENB2MeasurementID != nil {
+			return v.rowENB2MeasurementID, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	case s00.ProtocolIEID(68):
+		if v.rowCompleteFailureCauseInformationList != nil {
+			return v.rowCompleteFailureCauseInformationList, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *ResourceStatusRequestIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(109):
+		if v.rowReportingPeriodicityRSRPMR != nil {
+			return v.rowReportingPeriodicityRSRPMR, true
+		}
+	case s00.ProtocolIEID(145):
+		if v.rowReportingPeriodicityCSIR != nil {
+			return v.rowReportingPeriodicityCSIR, true
+		}
+	case s00.ProtocolIEID(28):
+		if v.rowRegistrationRequest != nil {
+			return v.rowRegistrationRequest, true
+		}
+	case s00.ProtocolIEID(29):
+		if v.rowCellToReport != nil {
+			return v.rowCellToReport, true
+		}
+	case s00.ProtocolIEID(30):
+		if v.rowReportingPeriodicity != nil {
+			return v.rowReportingPeriodicity, true
+		}
+	case s00.ProtocolIEID(38):
+		if v.rowReportCharacteristics != nil {
+			return v.rowReportCharacteristics, true
+		}
+	case s00.ProtocolIEID(39):
+		if v.rowENB1MeasurementID != nil {
+			return v.rowENB1MeasurementID, true
+		}
+	case s00.ProtocolIEID(40):
+		if v.rowENB2MeasurementID != nil {
+			return v.rowENB2MeasurementID, true
+		}
+	case s00.ProtocolIEID(64):
+		if v.rowPartialSuccessIndicator != nil {
+			return v.rowPartialSuccessIndicator, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ServedNRCellInformationExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(334):
+		if v.rowAdditionalPLMNsItem != nil {
+			return v.rowAdditionalPLMNsItem, true
+		}
+	case s00.ProtocolIEID(337):
+		if v.rowBPLMNIDInfoNR != nil {
+			return v.rowBPLMNIDInfoNR, true
+		}
+	case s00.ProtocolIEID(380):
+		if v.rowCSIRSTransmissionIndication != nil {
+			return v.rowCSIRSTransmissionIndication, true
+		}
+	case s00.ProtocolIEID(389):
+		if v.rowSSBPositionsInBurst != nil {
+			return v.rowSSBPositionsInBurst, true
+		}
+	case s00.ProtocolIEID(390):
+		if v.rowNRCellPRACHConfig != nil {
+			return v.rowNRCellPRACHConfig, true
+		}
+	case s00.ProtocolIEID(406):
+		if v.rowSFNOffset != nil {
+			return v.rowSFNOffset, true
+		}
+	case s00.ProtocolIEID(433):
+		if v.rowAdditionalMeasurementTimingConfigurationList != nil {
+			return v.rowAdditionalMeasurementTimingConfigurationList, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *SgNBActivityNotificationIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(111):
+		if v.rowMeNBUEX2APID != nil {
+			return v.rowMeNBUEX2APID, true
+		}
+	case s00.ProtocolIEID(157):
+		if v.rowMeNBUEX2APIDExtension != nil {
+			return v.rowMeNBUEX2APIDExtension, true
+		}
+	case s00.ProtocolIEID(207):
+		if v.rowSgNBUEX2APID != nil {
+			return v.rowSgNBUEX2APID, true
+		}
+	case s00.ProtocolIEID(296):
+		if v.rowUEContextLevelUserPlaneActivity != nil {
+			return v.rowUEContextLevelUserPlaneActivity, true
+		}
+	case s00.ProtocolIEID(297):
+		if v.rowERABActivityNotifyItemList != nil {
+			return v.rowERABActivityNotifyItemList, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UnsuccessfulValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.code {
+	case s00.ProcedureCode(0):
+		if v.bodyHandoverPreparationFailure != nil {
+			return v.bodyHandoverPreparationFailure, true
+		}
+	case s00.ProcedureCode(12):
+		if v.bodyMobilityChangeFailure != nil {
+			return v.bodyMobilityChangeFailure, true
+		}
+	case s00.ProcedureCode(15):
+		if v.bodyCellActivationFailure != nil {
+			return v.bodyCellActivationFailure, true
+		}
+	case s00.ProcedureCode(18):
+		if v.bodyX2RemovalFailure != nil {
+			return v.bodyX2RemovalFailure, true
+		}
+	case s00.ProcedureCode(19):
+		if v.bodySeNBAdditionRequestReject != nil {
+			return v.bodySeNBAdditionRequestReject, true
+		}
+	case s00.ProcedureCode(21):
+		if v.bodySeNBModificationRequestReject != nil {
+			return v.bodySeNBModificationRequestReject, true
+		}
+	case s00.ProcedureCode(22):
+		if v.bodySeNBModificationRefuse != nil {
+			return v.bodySeNBModificationRefuse, true
+		}
+	case s00.ProcedureCode(26):
+		if v.bodyRetrieveUEContextFailure != nil {
+			return v.bodyRetrieveUEContextFailure, true
+		}
+	case s00.ProcedureCode(27):
+		if v.bodySgNBAdditionRequestReject != nil {
+			return v.bodySgNBAdditionRequestReject, true
+		}
+	case s00.ProcedureCode(29):
+		if v.bodySgNBModificationRequestReject != nil {
+			return v.bodySgNBModificationRequestReject, true
+		}
+	case s00.ProcedureCode(30):
+		if v.bodySgNBModificationRefuse != nil {
+			return v.bodySgNBModificationRefuse, true
+		}
+	case s00.ProcedureCode(31):
+		if v.bodySgNBReleaseRequestReject != nil {
+			return v.bodySgNBReleaseRequestReject, true
+		}
+	case s00.ProcedureCode(34):
+		if v.bodySgNBChangeRefuse != nil {
+			return v.bodySgNBChangeRefuse, true
+		}
+	case s00.ProcedureCode(36):
+		if v.bodyENDCX2SetupFailure != nil {
+			return v.bodyENDCX2SetupFailure, true
+		}
+	case s00.ProcedureCode(37):
+		if v.bodyENDCConfigurationUpdateFailure != nil {
+			return v.bodyENDCConfigurationUpdateFailure, true
+		}
+	case s00.ProcedureCode(39):
+		if v.bodyENDCCellActivationFailure != nil {
+			return v.bodyENDCCellActivationFailure, true
+		}
+	case s00.ProcedureCode(43):
+		if v.bodyENDCX2RemovalFailure != nil {
+			return v.bodyENDCX2RemovalFailure, true
+		}
+	case s00.ProcedureCode(54):
+		if v.bodyENDCResourceStatusFailure != nil {
+			return v.bodyENDCResourceStatusFailure, true
+		}
+	case s00.ProcedureCode(6):
+		if v.bodyX2SetupFailure != nil {
+			return v.bodyX2SetupFailure, true
+		}
+	case s00.ProcedureCode(8):
+		if v.bodyENBConfigurationUpdateFailure != nil {
+			return v.bodyENBConfigurationUpdateFailure, true
+		}
+	case s00.ProcedureCode(9):
+		if v.bodyResourceStatusFailure != nil {
+			return v.bodyResourceStatusFailure, true
+		}
+	}
+	return nil, false
 }

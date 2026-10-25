@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func eNBIDapiMust(v s00.ENBID, err error) s00.ENBID {
+func x2APPDUapiMust(v s20.X2APPDU, err error) s20.X2APPDU {
 	if err != nil {
 		panic(err)
 	}

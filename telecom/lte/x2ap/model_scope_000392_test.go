@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func cPCCancelIEFieldfreshMust(value s11.CPCCancelIEField, err error) s11.CPCCancelIEField {
+func accessAndMobilityIndicationfreshMust(value s20.AccessAndMobilityIndication, err error) s20.AccessAndMobilityIndication {
 	if err != nil {
 		panic(err)
 	}

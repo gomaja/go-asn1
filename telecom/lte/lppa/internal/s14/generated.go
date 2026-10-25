@@ -18,10 +18,10 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// AssistanceInformationControlIEContainer is the concrete ProtocolIEContainer[AssistanceInformationControlIEValue].
+// AssistanceInformationControlIEContainer is ProtocolIE-Container {{AssistanceInformationControl-IEs}} of TS 36.455: a list of AssistanceInformationControlIEField values.
 type AssistanceInformationControlIEContainer []AssistanceInformationControlIEField
 
-// AssistanceInformationControlIEField is the concrete ProtocolIEField[AssistanceInformationControlIEValue].
+// AssistanceInformationControlIEField is ProtocolIE-Field {{AssistanceInformationControl-IEs}} of TS 36.455: a field carrying a value of AssistanceInformationControlIEValue.
 type AssistanceInformationControlIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -372,7 +372,7 @@ func (c ResultsPerSSBIndexListValueCodec) encodeChanged(value ResultsPerSSBIndex
 	return out, aper.OperationError(err, c.path)
 }
 
-// AssistanceInformationControlAssistanceInformationIEBinding is the concrete IEBinding[AssistanceInformation, AssistanceInformationControlIEValue].
+// AssistanceInformationControlAssistanceInformationIEBinding binds AssistanceInformation to ProtocolIE-Field {{AssistanceInformationControl-IEs}} of TS 36.455.
 type AssistanceInformationControlAssistanceInformationIEBinding struct {
 	info   s00.FieldInfo
 	codec  AssistanceInformationValueCodec
@@ -527,7 +527,7 @@ func (c AssistanceInformationValueCodec) encodeChanged(value AssistanceInformati
 	return out, aper.OperationError(err, c.path)
 }
 
-// AssistanceInformationControlBroadcastIEBinding is the concrete IEBinding[Broadcast, AssistanceInformationControlIEValue].
+// AssistanceInformationControlBroadcastIEBinding binds Broadcast to ProtocolIE-Field {{AssistanceInformationControl-IEs}} of TS 36.455.
 type AssistanceInformationControlBroadcastIEBinding struct {
 	info   s00.FieldInfo
 	codec  s00.BroadcastValueCodec
@@ -1839,7 +1839,7 @@ func (v *AssistanceInformation) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	toleranceMark_systeminformation := bb.EnterComponent("SystemInformation")
 	v.SystemInformation = make(SystemInformation, 0)
 	_, errCollection_systeminformation := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_systeminformation, fragmentLength_systeminformation int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_systeminformation < 0 || fragmentLength_systeminformation < 0 || fragmentLength_systeminformation > int64(^uint(0)>>1) || fragmentOffset_systeminformation > int64(^uint(0)>>1)-fragmentLength_systeminformation {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1866,7 +1866,7 @@ func (v *AssistanceInformation) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.AssistanceInformationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2195,7 +2195,7 @@ func (v *ResultUTRANItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.ResultUTRANItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2524,7 +2524,7 @@ func (v *ResultsPerSSBIndexItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.ResultsPerSSBIndexItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2795,7 +2795,7 @@ func (v *SystemInformationElem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	toleranceMark_possibs := bb.EnterComponent("PosSIBs")
 	v.PosSIBs = make(s10.PosSIBs, 0)
 	_, errCollection_possibs := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_possibs, fragmentLength_possibs int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_possibs < 0 || fragmentLength_possibs < 0 || fragmentLength_possibs > int64(^uint(0)>>1) || fragmentOffset_possibs > int64(^uint(0)>>1)-fragmentLength_possibs {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2822,7 +2822,7 @@ func (v *SystemInformationElem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.SystemInformationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -4231,7 +4231,7 @@ func (t AssistanceInformationControlIETable) AssistanceInformation() AssistanceI
 			decoded, err := zero.decode(s00.ProtocolIEID(22), raw)
 			if err != nil {
 				var empty AssistanceInformation
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "AssistanceInformation")
 			}
 			value, ok := decoded.AsAssistanceInformation()
 			if !ok {
@@ -4293,7 +4293,7 @@ func (t AssistanceInformationControlIETable) Broadcast() AssistanceInformationCo
 			decoded, err := zero.decode(s00.ProtocolIEID(23), raw)
 			if err != nil {
 				var empty s00.Broadcast
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "Broadcast")
 			}
 			value, ok := decoded.AsBroadcast()
 			if !ok {
@@ -4476,6 +4476,25 @@ func SystemInformationElemCodec() SystemInformationElemValueCodec {
 	}(),
 	}
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *AssistanceInformationControlIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 22:
+		if v.rowAssistanceInformation != nil {
+			return v.rowAssistanceInformation, true
+		}
+	case 23:
+		if v.rowBroadcast != nil {
+			return v.rowBroadcast, true
+		}
+	}
+	return nil, false
+}
+
 func BridgeAssistanceInformationAPERValueFieldContext(v *AssistanceInformationAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }

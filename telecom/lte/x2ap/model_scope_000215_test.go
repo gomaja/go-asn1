@@ -6,7 +6,7 @@ import (
 	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func resourceStatusRequestIEFieldfreshMust(value s14.ResourceStatusRequestIEField, err error) s14.ResourceStatusRequestIEField {
+func eNBConfigurationUpdateFailurefreshMust(value s14.ENBConfigurationUpdateFailure, err error) s14.ENBConfigurationUpdateFailure {
 	if err != nil {
 		panic(err)
 	}

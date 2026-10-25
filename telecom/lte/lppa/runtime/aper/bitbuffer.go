@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/bitbuffer.go; SHA-256 1512fa51dc5fcdab7aad068d1e7e605192961a4364be89927dc3c8d8af16b0b1.
+// Runtime source: runtime/aper/bitbuffer.go; SHA-256 ba9ae1a5f40116e4d76d1fb90ba5790d1e26d7a40981bb919f7f875eb5b9d8c5.
 package aper
 
 import (
@@ -193,6 +193,8 @@ func NewDecodeBuffer(data []byte, budget *DecodeBudget) *BitBuffer {
 // NewNestedDecodeBuffer inherits the shared budget and receiver options while
 // constructing a child. Low-level callers may keep the reader and supplied
 // budget on the stack; sealed complete codecs use NewOwnedNestedDecodeBuffer.
+// A copy carries no input origin unless the caller maps it with
+// MapOriginalLocation. Without a mapping, padding reports omit wire spans.
 func NewNestedDecodeBuffer(data []byte, parent *BitBuffer) *BitBuffer {
 	invalid := len(data) > math.MaxInt/8
 	length := 0

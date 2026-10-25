@@ -24,10 +24,10 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// OTDOAInformationRequestIEContainer is the concrete ProtocolIEContainer[OTDOAInformationRequestIEValue].
+// OTDOAInformationRequestIEContainer is ProtocolIE-Container {{OTDOAInformationRequest-IEs}} of TS 36.455: a list of OTDOAInformationRequestIEField values.
 type OTDOAInformationRequestIEContainer []OTDOAInformationRequestIEField
 
-// OTDOAInformationRequestIEField is the concrete ProtocolIEField[OTDOAInformationRequestIEValue].
+// OTDOAInformationRequestIEField is ProtocolIE-Field {{OTDOAInformationRequest-IEs}} of TS 36.455: a field carrying a value of OTDOAInformationRequestIEValue.
 type OTDOAInformationRequestIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -142,10 +142,10 @@ func (v *OTDOAInformationRequestIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// OTDOAInformationResponseIEContainer is the concrete ProtocolIEContainer[OTDOAInformationResponseIEValue].
+// OTDOAInformationResponseIEContainer is ProtocolIE-Container {{OTDOAInformationResponse-IEs}} of TS 36.455: a list of OTDOAInformationResponseIEField values.
 type OTDOAInformationResponseIEContainer []OTDOAInformationResponseIEField
 
-// OTDOAInformationResponseIEField is the concrete ProtocolIEField[OTDOAInformationResponseIEValue].
+// OTDOAInformationResponseIEField is ProtocolIE-Field {{OTDOAInformationResponse-IEs}} of TS 36.455: a field carrying a value of OTDOAInformationResponseIEValue.
 type OTDOAInformationResponseIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -328,7 +328,7 @@ func BridgeOTDOAInformationResponseIEValueCompareLPPaProtocolIEContainer(v *OTDO
 	}
 }
 
-// OTDOAInformationRequestOTDOAInformationTypeIEBinding is the concrete IEBinding[OTDOAInformationType, OTDOAInformationRequestIEValue].
+// OTDOAInformationRequestOTDOAInformationTypeIEBinding binds OTDOAInformationType to ProtocolIE-Field {{OTDOAInformationRequest-IEs}} of TS 36.455.
 type OTDOAInformationRequestOTDOAInformationTypeIEBinding struct {
 	info   s00.FieldInfo
 	codec  s08.OTDOAInformationTypeValueCodec
@@ -381,7 +381,7 @@ func (b OTDOAInformationRequestOTDOAInformationTypeIEBinding) Get(field *OTDOAIn
 	return b.get(&field.Value)
 }
 
-// OTDOAInformationResponseOTDOACellsIEBinding is the concrete IEBinding[OTDOACells, OTDOAInformationResponseIEValue].
+// OTDOAInformationResponseOTDOACellsIEBinding binds OTDOACells to ProtocolIE-Field {{OTDOAInformationResponse-IEs}} of TS 36.455.
 type OTDOAInformationResponseOTDOACellsIEBinding struct {
 	info   s00.FieldInfo
 	codec  s16.OTDOACellsValueCodec
@@ -434,7 +434,7 @@ func (b OTDOAInformationResponseOTDOACellsIEBinding) Get(field *OTDOAInformation
 	return b.get(&field.Value)
 }
 
-// OTDOAInformationResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, OTDOAInformationResponseIEValue].
+// OTDOAInformationResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{OTDOAInformationResponse-IEs}} of TS 36.455.
 type OTDOAInformationResponseCriticalityDiagnosticsIEBinding struct {
 	info   s00.FieldInfo
 	codec  s09.CriticalityDiagnosticsValueCodec
@@ -487,7 +487,7 @@ func (b OTDOAInformationResponseCriticalityDiagnosticsIEBinding) Get(field *OTDO
 	return b.get(&field.Value)
 }
 
-// OTDOAInformationResponseAddOTDOACellsIEBinding is the concrete IEBinding[AddOTDOACells, OTDOAInformationResponseIEValue].
+// OTDOAInformationResponseAddOTDOACellsIEBinding binds AddOTDOACells to ProtocolIE-Field {{OTDOAInformationResponse-IEs}} of TS 36.455.
 type OTDOAInformationResponseAddOTDOACellsIEBinding struct {
 	info   s00.FieldInfo
 	codec  s15.AddOTDOACellsValueCodec
@@ -1122,10 +1122,9 @@ func BridgeUnmarshalAPERMeasurementQuantitiesFrom(bb *aper.BitBuffer) (s06.Measu
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPERMeasurementQuantitiesListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.MeasurementQuantities, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1133,7 +1132,7 @@ func BridgeUnmarshalAPERMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPERMeasurem
 			var elem s06.MeasurementQuantitiesItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s06.BridgeMeasurementQuantitiesItemIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1145,9 +1144,8 @@ func BridgeUnmarshalAPERMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPERMeasurem
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1225,10 +1223,9 @@ func BridgeUnmarshalAPERMeasuredResultsFrom(bb *aper.BitBuffer) (s13.MeasuredRes
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERMeasuredResultsInto(v *s13.BridgeAsn1cAPERMeasuredResultsListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s13.MeasuredResults, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1236,7 +1233,7 @@ func BridgeUnmarshalAPERMeasuredResultsInto(v *s13.BridgeAsn1cAPERMeasuredResult
 			var elem s13.MeasuredResultsValue
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s13.BridgeMeasuredResultsValueMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1248,9 +1245,8 @@ func BridgeUnmarshalAPERMeasuredResultsInto(v *s13.BridgeAsn1cAPERMeasuredResult
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1389,10 +1385,9 @@ func BridgeUnmarshalAPEROTDOACellsFrom(bb *aper.BitBuffer) (s16.OTDOACells, erro
 	return v.Value, nil
 }
 func BridgeUnmarshalAPEROTDOACellsInto(v *s16.BridgeAsn1cAPEROTDOACellsListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s16.OTDOACells, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1400,7 +1395,7 @@ func BridgeUnmarshalAPEROTDOACellsInto(v *s16.BridgeAsn1cAPEROTDOACellsListValue
 			var elem s16.OTDOACellsElem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s16.BridgeOTDOACellsElemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1412,9 +1407,8 @@ func BridgeUnmarshalAPEROTDOACellsInto(v *s16.BridgeAsn1cAPEROTDOACellsListValue
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1492,10 +1486,9 @@ func BridgeUnmarshalAPEROTDOACellInformationFrom(bb *aper.BitBuffer) (s15.OTDOAC
 	return v.Value, nil
 }
 func BridgeUnmarshalAPEROTDOACellInformationInto(v *s15.BridgeAsn1cAPEROTDOACellInformationListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s15.OTDOACellInformation, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1503,7 +1496,7 @@ func BridgeUnmarshalAPEROTDOACellInformationInto(v *s15.BridgeAsn1cAPEROTDOACell
 			var elem s15.OTDOACellInformationItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s15.BridgeOTDOACellInformationItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1515,9 +1508,8 @@ func BridgeUnmarshalAPEROTDOACellInformationInto(v *s15.BridgeAsn1cAPEROTDOACell
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2433,7 +2425,7 @@ func (v *OTDOAInformationRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(OTDOAInformationRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2569,6 +2561,15 @@ func BridgeMarshalAPEROTDOAInformationType(list OTDOAInformationTypeComplete) ([
 	return list.marshalAPERLegacy()
 }
 
+// UnmarshalAPEROTDOAInformationType decodes a OTDOAInformationType list from APER.
+func BridgeUnmarshalAPEROTDOAInformationType(data []byte) (OTDOAInformationTypeComplete, error) {
+	var value OTDOAInformationTypeComplete
+	if err := value.unmarshalAPERLegacy(data); err != nil {
+		return value, err
+	}
+	return value, nil
+}
+
 // UnmarshalAPEROTDOAInformationTypeFrom decodes a OTDOAInformationType list from bb.
 func BridgeUnmarshalAPEROTDOAInformationTypeFrom(bb *aper.BitBuffer) (s07.OTDOAInformationType, error) {
 	if err := bb.EnterDecodeValue(); err != nil {
@@ -2582,10 +2583,9 @@ func BridgeUnmarshalAPEROTDOAInformationTypeFrom(bb *aper.BitBuffer) (s07.OTDOAI
 	return v.Value, nil
 }
 func BridgeUnmarshalAPEROTDOAInformationTypeInto(v *s09.BridgeAsn1cAPEROTDOAInformationTypeListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s07.OTDOAInformationType, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2593,7 +2593,7 @@ func BridgeUnmarshalAPEROTDOAInformationTypeInto(v *s09.BridgeAsn1cAPEROTDOAInfo
 			var elem s07.OTDOAInformationTypeIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s07.BridgeOTDOAInformationTypeIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -2605,9 +2605,8 @@ func BridgeUnmarshalAPEROTDOAInformationTypeInto(v *s09.BridgeAsn1cAPEROTDOAInfo
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2762,7 +2761,7 @@ func (v *OTDOAInformationResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(OTDOAInformationResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4203,7 +4202,7 @@ func (t OTDOAInformationRequestIETable) OTDOAInformationTypeGroup() OTDOAInforma
 			decoded, err := zero.decode(s00.ProtocolIEID(9), raw)
 			if err != nil {
 				var empty s07.OTDOAInformationType
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "OTDOAInformationType")
 			}
 			value, ok := decoded.AsOTDOAInformationTypeGroup()
 			if !ok {
@@ -4310,7 +4309,7 @@ func (t OTDOAInformationResponseIETable) OTDOACells() OTDOAInformationResponseOT
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
 				var empty s16.OTDOACells
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "OTDOACells")
 			}
 			value, ok := decoded.AsOTDOACells()
 			if !ok {
@@ -4376,7 +4375,7 @@ func (t OTDOAInformationResponseIETable) CriticalityDiagnostics() OTDOAInformati
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {
 				var empty s09.CriticalityDiagnostics
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 			}
 			value, ok := decoded.AsCriticalityDiagnostics()
 			if !ok {
@@ -4443,7 +4442,7 @@ func (t OTDOAInformationResponseIETable) AddOTDOACells() OTDOAInformationRespons
 			decoded, err := zero.decode(s00.ProtocolIEID(18), raw)
 			if err != nil {
 				var empty s15.AddOTDOACells
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "AddOTDOACells")
 			}
 			value, ok := decoded.AsAddOTDOACells()
 			if !ok {
@@ -4660,6 +4659,43 @@ func OTDOACellsCodec() s16.OTDOACellsValueCodec {
 func OTDOAInformationTypeCodec() s08.OTDOAInformationTypeValueCodec {
 	return OTDOAInformationRequestIEs().OTDOAInformationTypeGroup().Codec()
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *OTDOAInformationRequestIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 9:
+		if v.rowOTDOAInformationTypeGroup != nil {
+			return v.rowOTDOAInformationTypeGroup, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *OTDOAInformationResponseIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 8:
+		if v.rowOTDOACells != nil {
+			return v.rowOTDOACells, true
+		}
+	case 1:
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case 18:
+		if v.rowAddOTDOACells != nil {
+			return v.rowAddOTDOACells, true
+		}
+	}
+	return nil, false
+}
+
 func BridgeMBSFNsubframeConfigurationCompleteFieldPerPadding(v *MBSFNsubframeConfigurationComplete) *aper.CompletePadding {
 	return &v.perPadding
 }

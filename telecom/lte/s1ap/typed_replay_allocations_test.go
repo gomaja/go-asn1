@@ -25,6 +25,7 @@ import (
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	io "io"
 	os "os"
+	reflect "reflect"
 	strings "strings"
 	testing "testing"
 )
@@ -155,6 +156,9 @@ func TestReplayCaptureAllocationBounds(t *testing.T) {
 		if _, err := values[i].UnmarshalAPER(wire); err != nil {
 			t.Fatal(err)
 		}
+	}
+	for i := range values {
+		selectedObserve(reflect.ValueOf(&values[i]))
 	}
 	encode := testing.AllocsPerRun(1, func() {
 		for i := range values {

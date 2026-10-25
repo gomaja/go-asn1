@@ -17,6 +17,7 @@ import (
 	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
 	s36 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s36"
 	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
+	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
 	testing "testing"
 )
@@ -100,7 +101,7 @@ func TestValidationAndBuildersRefuseEachIssue(t *testing.T) {
 		t.Fatalf("unknown IE changed source order: %v", err)
 	}
 	// Conditional source rows are deferred without inventing their context.
-	report, err := s49.ValidateHandoverRequired(&s34.HandoverRequired{})
+	report, err := s50.ValidateHandoverRequired(&s34.HandoverRequired{})
 	if err != nil || len(report.Deferred) == 0 || report.Complete {
 		t.Fatalf("conditional report=%+v err=%v", report, err)
 	}

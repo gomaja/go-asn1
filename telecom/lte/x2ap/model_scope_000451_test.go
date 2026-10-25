@@ -4,28 +4,21 @@ package x2ap
 
 import (
 	fmt "fmt"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// DecodeAPER decodes one complete APER value and retains its received representation.
-func (c ERABsToBeSetupItemIEFieldValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABsToBeSetupItemIEFieldAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil {
-		return ERABsToBeSetupItemIEFieldAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+// New validates the source value and constructs a value without received replay state.
+func (c ERABsToBeSetupItemIEFieldValueCodec) New(value s11.ERABsToBeSetupItemIEField) (ERABsToBeSetupItemIEFieldAPERValue, error) {
+	if c.encode == nil {
+		return ERABsToBeSetupItemIEFieldAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	data, settings := aper.OwnDecodeOptions(data, options...)
-	value, err := c.decode(data, settings)
-	if err == nil {
-		if c.capture == nil {
-			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
-		} else {
-			value, replay := c.capture(value, settings)
-			report, err := aper.FinishDecode(settings, nil)
-			if err != nil {
-				return ERABsToBeSetupItemIEFieldAPERValue{}, report, aper.OperationError(err, c.path)
-			}
-			return ERABsToBeSetupItemIEFieldAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-		}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABsToBeSetupItemIEFieldAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
-	return ERABsToBeSetupItemIEFieldAPERValue{}, report, aper.OperationError(err, c.path)
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABsToBeSetupItemIEFieldAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return ERABsToBeSetupItemIEFieldAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }

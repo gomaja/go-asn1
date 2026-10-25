@@ -28579,3 +28579,165 @@ func BridgeWUSAssistanceInformationExtIEsValueMethodReason(v WUSAssistanceInform
 func BridgeWUSAssistanceInformationExtIEsValueMethodRule(v WUSAssistanceInformationExtIEsValue) aper.SourceRule {
 	return v.rule()
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *RequestTypeExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 298:
+		if value, ok := v.AsRequestTypeAdditionalInfo(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SensorMeasurementConfigurationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SensorNameConfigExtIEValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ServedDCNsItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ServedGUMMEIsItemExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 170:
+		if value, ok := v.AsGUMMEIType(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SourceNgRanNodeIDExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SourceNodeIDExtensionIEIEValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SourceeNBIDExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SubscriptionBasedUEDifferentiationInfoExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SupportedTAsItemExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 232:
+		if value, ok := v.AsRATType(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SynchronisationInformationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TABasedMDTExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TABasedQMCExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TAIBasedMDTExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TAIBasedQMCExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TAIBroadcastItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TAICancelledItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TAIExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TAIItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TargetNgRanNodeIDExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TargetRNCIDExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TargeteNBIDExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TimeBasedHandoverInformationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TimeSynchronisationInfoExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 207:
+		if value, ok := v.AsMutingAvailabilityIndication(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TunnelInformationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// The field's Id distinguishes alternatives with the same Go type.
+func (v *UEAggregateMaximumBitratesExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 259:
+		if value, ok := v.AsExtendedUEaggregateMaximumBitRateDL(); ok {
+			return value, true
+		}
+	case 260:
+		if value, ok := v.AsExtendedUEaggregateMaximumBitRateUL(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UEAssociatedLogicalS1ConnectionItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UES1APIDPairExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UESecurityCapabilitiesExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UESidelinkAggregateMaximumBitratesExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ULCPSecurityInformationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *V2XServicesAuthorizedExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *WLANMeasurementConfigurationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *WUSAssistanceInformationExtIEsValue) Selected() (any, bool) { return nil, false }

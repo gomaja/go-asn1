@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 )
 
-func uRIAddressAPERValueapiMust(v s12.URIAddressAPERValue, err error) s12.URIAddressAPERValue {
+func expectedActivityPeriodAPERValueapiMust(v s00.ExpectedActivityPeriodAPERValue, err error) s00.ExpectedActivityPeriodAPERValue {
 	if err != nil {
 		panic(err)
 	}

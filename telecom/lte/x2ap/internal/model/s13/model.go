@@ -23,10 +23,10 @@ import (
 	big "math/big"
 )
 
-// CellActivationResponseIEContainer is the concrete ProtocolIEContainer[CellActivationResponseIEValue].
+// CellActivationResponseIEContainer is ProtocolIE-Container {{CellActivationResponse-IEs}} of TS 36.423 §9.3.8: a list of CellActivationResponseIEField values.
 type CellActivationResponseIEContainer []CellActivationResponseIEField
 
-// CellActivationResponseIEField is the concrete ProtocolIEField[CellActivationResponseIEValue].
+// CellActivationResponseIEField is ProtocolIE-Field {{CellActivationResponse-IEs}} of TS 36.423 §9.3.8: an information element field.
 type CellActivationResponseIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -144,10 +144,10 @@ func X2apInternalCellActivationResponseIEFieldUnmarshalAPERFrom(v *CellActivatio
 	return nil
 }
 
-// X2APMessageTransferIEContainer is the concrete ProtocolIEContainer[X2APMessageTransferIEValue].
+// X2APMessageTransferIEContainer is ProtocolIE-Container {{X2APMessageTransfer-IEs}} of TS 36.423 §9.3.8: a list of X2APMessageTransferIEField values.
 type X2APMessageTransferIEContainer []X2APMessageTransferIEField
 
-// X2APMessageTransferIEField is the concrete ProtocolIEField[X2APMessageTransferIEValue].
+// X2APMessageTransferIEField is ProtocolIE-Field {{X2APMessageTransfer-IEs}} of TS 36.423 §9.3.8: an information element field.
 type X2APMessageTransferIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -265,10 +265,10 @@ func X2apInternalX2APMessageTransferIEFieldUnmarshalAPERFrom(v *X2APMessageTrans
 	return nil
 }
 
-// X2RemovalRequestIEContainer is the concrete ProtocolIEContainer[X2RemovalRequestIEValue].
+// X2RemovalRequestIEContainer is ProtocolIE-Container {{X2RemovalRequest-IEs}} of TS 36.423 §9.3.8: a list of X2RemovalRequestIEField values.
 type X2RemovalRequestIEContainer []X2RemovalRequestIEField
 
-// X2RemovalRequestIEField is the concrete ProtocolIEField[X2RemovalRequestIEValue].
+// X2RemovalRequestIEField is ProtocolIE-Field {{X2RemovalRequest-IEs}} of TS 36.423 §9.3.8: an information element field.
 type X2RemovalRequestIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -386,10 +386,10 @@ func X2apInternalX2RemovalRequestIEFieldUnmarshalAPERFrom(v *X2RemovalRequestIEF
 	return nil
 }
 
-// ENDCCellActivationResponseIEContainer is the concrete ProtocolIEContainer[ENDCCellActivationResponseIEValue].
+// ENDCCellActivationResponseIEContainer is ProtocolIE-Container {{ENDCCellActivationResponse-IEs}} of TS 36.423 §9.3.8: a list of ENDCCellActivationResponseIEField values.
 type ENDCCellActivationResponseIEContainer []ENDCCellActivationResponseIEField
 
-// ENDCCellActivationResponseIEField is the concrete ProtocolIEField[ENDCCellActivationResponseIEValue].
+// ENDCCellActivationResponseIEField is ProtocolIE-Field {{ENDCCellActivationResponse-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCCellActivationResponseIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -805,7 +805,7 @@ func X2apInternalWLANMeasurementConfigurationValueCodecEncodeChanged(c WLANMeasu
 	return out, aper.OperationError(err, c.path)
 }
 
-// CellActivationResponseActivatedCellListIEBinding is the concrete IEBinding[ActivatedCellList, CellActivationResponseIEValue].
+// CellActivationResponseActivatedCellListIEBinding binds ActivatedCellList to ProtocolIE-Field {{CellActivationResponse-IEs}} of TS 36.423 §9.3.8.
 type CellActivationResponseActivatedCellListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.ActivatedCellListValueCodec
@@ -847,7 +847,7 @@ func (b CellActivationResponseActivatedCellListIEBinding) Get(field *CellActivat
 	return b.get(&field.Value)
 }
 
-// CellActivationResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, CellActivationResponseIEValue].
+// CellActivationResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{CellActivationResponse-IEs}} of TS 36.423 §9.3.8.
 type CellActivationResponseCriticalityDiagnosticsIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.CriticalityDiagnosticsValueCodec
@@ -889,7 +889,7 @@ func (b CellActivationResponseCriticalityDiagnosticsIEBinding) Get(field *CellAc
 	return b.get(&field.Value)
 }
 
-// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsAdditionalListofForwardingGTPTunnelEndpointExtBinding is the concrete ExtensionBinding[AdditionalListofForwardingGTPTunnelEndpoint, ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue].
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsAdditionalListofForwardingGTPTunnelEndpointExtBinding binds AdditionalListofForwardingGTPTunnelEndpoint to ProtocolExtensionField {{E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs}} of TS 36.423 §9.3.8.
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsAdditionalListofForwardingGTPTunnelEndpointExtBinding struct {
 	info   s06.FieldInfo
 	codec  s11.AdditionalListofForwardingGTPTunnelEndpointValueCodec
@@ -933,7 +933,7 @@ func (b ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsAdditionalListofFor
 	return b.get(&field.ExtensionValue)
 }
 
-// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtField is the concrete ProtocolExtensionField[ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue].
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtField is ProtocolExtensionField {{E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -1051,7 +1051,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtFieldUn
 	return nil
 }
 
-// ENDCCellActivationResponseActivatedNRCellListIEBinding is the concrete IEBinding[ActivatedNRCellList, ENDCCellActivationResponseIEValue].
+// ENDCCellActivationResponseActivatedNRCellListIEBinding binds ActivatedNRCellList to ProtocolIE-Field {{ENDCCellActivationResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationResponseActivatedNRCellListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.ActivatedNRCellListValueCodec
@@ -1093,7 +1093,7 @@ func (b ENDCCellActivationResponseActivatedNRCellListIEBinding) Get(field *ENDCC
 	return b.get(&field.Value)
 }
 
-// ENDCCellActivationResponseActivationIDIEBinding is the concrete IEBinding[ActivationID, ENDCCellActivationResponseIEValue].
+// ENDCCellActivationResponseActivationIDIEBinding binds ActivationID to ProtocolIE-Field {{ENDCCellActivationResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationResponseActivationIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.ActivationIDValueCodec
@@ -1135,7 +1135,7 @@ func (b ENDCCellActivationResponseActivationIDIEBinding) Get(field *ENDCCellActi
 	return b.get(&field.Value)
 }
 
-// ENDCCellActivationResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ENDCCellActivationResponseIEValue].
+// ENDCCellActivationResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCCellActivationResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationResponseCriticalityDiagnosticsIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.CriticalityDiagnosticsValueCodec
@@ -1179,7 +1179,7 @@ func (b ENDCCellActivationResponseCriticalityDiagnosticsIEBinding) Get(field *EN
 	return b.get(&field.Value)
 }
 
-// ENDCCellActivationResponseInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCCellActivationResponseIEValue].
+// ENDCCellActivationResponseInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCCellActivationResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationResponseInterfaceInstanceIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -1311,7 +1311,7 @@ func X2apInternalUEContextReferenceAtWTValueCodecEncodeChanged(c UEContextRefere
 	return out, aper.OperationError(err, c.path)
 }
 
-// X2APMessageTransferRNLHeaderIEBinding is the concrete IEBinding[RNLHeader, X2APMessageTransferIEValue].
+// X2APMessageTransferRNLHeaderIEBinding binds RNLHeader to ProtocolIE-Field {{X2APMessageTransfer-IEs}} of TS 36.423 §9.3.8.
 type X2APMessageTransferRNLHeaderIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.RNLHeaderValueCodec
@@ -1351,7 +1351,7 @@ func (b X2APMessageTransferRNLHeaderIEBinding) Get(field *X2APMessageTransferIEF
 	return b.get(&field.Value)
 }
 
-// X2APMessageTransferX2APMessageIEBinding is the concrete IEBinding[X2APMessage, X2APMessageTransferIEValue].
+// X2APMessageTransferX2APMessageIEBinding binds X2APMessage to ProtocolIE-Field {{X2APMessageTransfer-IEs}} of TS 36.423 §9.3.8.
 type X2APMessageTransferX2APMessageIEBinding struct {
 	info   s06.FieldInfo
 	codec  X2APMessageValueCodec
@@ -1479,7 +1479,7 @@ func X2apInternalX2APMessageValueCodecEncodeChanged(c X2APMessageValueCodec, val
 	return out, aper.OperationError(err, c.path)
 }
 
-// X2RemovalRequestGlobalENBIDIEBinding is the concrete IEBinding[GlobalENBID, X2RemovalRequestIEValue].
+// X2RemovalRequestGlobalENBIDIEBinding binds GlobalENBID to ProtocolIE-Field {{X2RemovalRequest-IEs}} of TS 36.423 §9.3.8.
 type X2RemovalRequestGlobalENBIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.GlobalENBIDValueCodec
@@ -1519,7 +1519,7 @@ func (b X2RemovalRequestGlobalENBIDIEBinding) Get(field *X2RemovalRequestIEField
 	return b.get(&field.Value)
 }
 
-// X2RemovalRequestX2BenefitValueIEBinding is the concrete IEBinding[X2BenefitValue, X2RemovalRequestIEValue].
+// X2RemovalRequestX2BenefitValueIEBinding binds X2BenefitValue to ProtocolIE-Field {{X2RemovalRequest-IEs}} of TS 36.423 §9.3.8.
 type X2RemovalRequestX2BenefitValueIEBinding struct {
 	info   s06.FieldInfo
 	codec  X2BenefitValueValueCodec
@@ -11696,7 +11696,7 @@ func X2apInternalWidebandCQIExtIEsValuevalidateX2APExtensionContainer(fields s04
 	return X2apInternalWidebandCQIExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
 }
 
-// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtContainer is the concrete ProtocolExtensionContainer[ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue].
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtContainer is ProtocolExtensionContainer {{E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs}} of TS 36.423 §9.3.8: a list of ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtField values.
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtContainer []ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtField
 
 // cellActivationResponseIEValueprotocolOpenValue is the concrete protocolOpenValue[CellActivationResponseIEValue].
@@ -16853,7 +16853,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsValueva
 	return report
 }
 
-// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEField is the concrete ProtocolIEField[ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue].
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEField uses the ProtocolIE-Field shape for object set E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs of TS 36.423.
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -16971,7 +16971,7 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEFieldUnm
 	return nil
 }
 
-// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEContainer is the concrete ProtocolIEContainer[ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue].
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEContainer uses the ProtocolIE-Container shape for object set E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs of TS 36.423: a list of ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEField values.
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEContainer []ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEField
 
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
@@ -50836,10 +50836,9 @@ func X2apInternalUnmarshalAPERAdditionalListofForwardingGTPTunnelEndpointFrom(bb
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERAdditionalListofForwardingGTPTunnelEndpointInto(v *X2apInternalAsn1cAPERAdditionalListofForwardingGTPTunnelEndpointListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.AdditionalListofForwardingGTPTunnelEndpoint, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50861,7 +50860,6 @@ func X2apInternalUnmarshalAPERAdditionalListofForwardingGTPTunnelEndpointInto(v 
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -51073,7 +51071,7 @@ func X2apInternalWLANMeasurementConfigurationUnmarshalAPERFrom(v *WLANMeasuremen
 		toleranceMark_wlanmeasconfignamelist := bb.EnterComponent("WlanMeasConfigNameList")
 		tmp_wlanmeasconfignamelist := make(WLANMeasConfigNameList, 0)
 		_, errCollection_wlanmeasconfignamelist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_wlanmeasconfignamelist, fragmentLength_wlanmeasconfignamelist int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
+			// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
 			if fragmentOffset_wlanmeasconfignamelist < 0 || fragmentLength_wlanmeasconfignamelist < 0 || fragmentLength_wlanmeasconfignamelist > int64(^uint(0)>>1) || fragmentOffset_wlanmeasconfignamelist > int64(^uint(0)>>1)-fragmentLength_wlanmeasconfignamelist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51122,7 +51120,7 @@ func X2apInternalWLANMeasurementConfigurationUnmarshalAPERFrom(v *WLANMeasuremen
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.WLANMeasurementConfigurationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52083,7 +52081,7 @@ func X2apInternalUEContextReferenceAtWTUnmarshalAPERFrom(v *UEContextReferenceAt
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.UEContextReferenceAtWTItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52269,10 +52267,9 @@ func X2apInternalUnmarshalAPERActivatedCellListFrom(bb *aper.BitBuffer) (s06.Act
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERActivatedCellListInto(v *X2apInternalAsn1cAPERActivatedCellListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.ActivatedCellList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52294,7 +52291,6 @@ func X2apInternalUnmarshalAPERActivatedCellListInto(v *X2apInternalAsn1cAPERActi
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -52401,10 +52397,9 @@ func X2apInternalUnmarshalAPERActivatedNRCellListFrom(bb *aper.BitBuffer) (s06.A
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERActivatedNRCellListInto(v *X2apInternalAsn1cAPERActivatedNRCellListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.ActivatedNRCellList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52426,7 +52421,6 @@ func X2apInternalUnmarshalAPERActivatedNRCellListInto(v *X2apInternalAsn1cAPERAc
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -52960,4 +52954,98 @@ func X2apInternalConstructT32WLANMeasConfigNameListValueCodecF4pathF6decodeF6enc
 }
 func X2apInternalConstructT38WLANMeasurementConfigurationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context(v0 aper.Path, v1 func([]byte, aper.DecodeState) (WLANMeasurementConfiguration, error), v2 func(WLANMeasurementConfiguration, bool, *aper.DecodeBudget) ([]byte, error), v3 func(WLANMeasurementConfiguration, aper.DecodeState) (WLANMeasurementConfiguration, aper.Snapshot), v4 func(WLANMeasurementConfiguration, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan, v5 s00.X2apInternalCodecContext) WLANMeasurementConfigurationValueCodec {
 	return WLANMeasurementConfigurationValueCodec{path: v0, decode: v1, encode: v2, capture: v3, compare: v4, context: v5}
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CellActivationResponseIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(58):
+		if v.rowActivatedCellList != nil {
+			return v.rowActivatedCellList, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCCellActivationResponseIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(256):
+		if v.rowActivationID != nil {
+			return v.rowActivationID, true
+		}
+	case s00.ProtocolIEID(268):
+		if v.rowActivatedNRCellList != nil {
+			return v.rowActivatedNRCellList, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(441):
+		if v.rowAdditionalListofForwardingGTPTunnelEndpoint != nil {
+			return v.rowAdditionalListofForwardingGTPTunnelEndpoint, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *X2APMessageTransferIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(101):
+		if v.rowRNLHeader != nil {
+			return v.rowRNLHeader, true
+		}
+	case s00.ProtocolIEID(102):
+		if v.rowX2APMessage != nil {
+			return v.rowX2APMessage, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *X2RemovalRequestIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(169):
+		if v.rowX2RemovalThreshold != nil {
+			return v.rowX2RemovalThreshold, true
+		}
+	case s00.ProtocolIEID(21):
+		if v.rowGlobalENBID != nil {
+			return v.rowGlobalENBID, true
+		}
+	}
+	return nil, false
 }

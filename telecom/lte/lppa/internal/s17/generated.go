@@ -19,10 +19,10 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// AssistanceInformationFeedbackIEContainer is the concrete ProtocolIEContainer[AssistanceInformationFeedbackIEValue].
+// AssistanceInformationFeedbackIEContainer is ProtocolIE-Container {{AssistanceInformationFeedback-IEs}} of TS 36.455: a list of AssistanceInformationFeedbackIEField values.
 type AssistanceInformationFeedbackIEContainer []AssistanceInformationFeedbackIEField
 
-// AssistanceInformationFeedbackIEField is the concrete ProtocolIEField[AssistanceInformationFeedbackIEValue].
+// AssistanceInformationFeedbackIEField is ProtocolIE-Field {{AssistanceInformationFeedback-IEs}} of TS 36.455: a field carrying a value of AssistanceInformationFeedbackIEValue.
 type AssistanceInformationFeedbackIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -205,7 +205,7 @@ func BridgeUTDOAInformationUpdateIEValueCompareLPPaProtocolIEContainer(v *s11.UT
 	}
 }
 
-// AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding is the concrete IEBinding[AssistanceInformationFailureList, AssistanceInformationFeedbackIEValue].
+// AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding binds AssistanceInformationFailureList to ProtocolIE-Field {{AssistanceInformationFeedback-IEs}} of TS 36.455.
 type AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding struct {
 	info   s00.FieldInfo
 	codec  s05.AssistanceInformationFailureListValueCodec
@@ -260,7 +260,7 @@ func (b AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding) 
 	return b.get(&field.Value)
 }
 
-// AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, AssistanceInformationFeedbackIEValue].
+// AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{AssistanceInformationFeedback-IEs}} of TS 36.455.
 type AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding struct {
 	info   s00.FieldInfo
 	codec  s09.CriticalityDiagnosticsValueCodec
@@ -1124,10 +1124,9 @@ func BridgeUnmarshalAPERAddOTDOACellsFrom(bb *aper.BitBuffer) (s15.AddOTDOACells
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERAddOTDOACellsInto(v *s15.BridgeAsn1cAPERAddOTDOACellsListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s15.AddOTDOACells, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 3840, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1135,7 +1134,7 @@ func BridgeUnmarshalAPERAddOTDOACellsInto(v *s15.BridgeAsn1cAPERAddOTDOACellsLis
 			var elem s15.AddOTDOACellsElem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s15.BridgeAddOTDOACellsElemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1147,9 +1146,8 @@ func BridgeUnmarshalAPERAddOTDOACellsInto(v *s15.BridgeAsn1cAPERAddOTDOACellsLis
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1227,10 +1225,9 @@ func BridgeUnmarshalAPERAddOTDOACellInformationFrom(bb *aper.BitBuffer) (s15.Add
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERAddOTDOACellInformationInto(v *s15.BridgeAsn1cAPERAddOTDOACellInformationListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s15.AddOTDOACellInformation, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1238,7 +1235,7 @@ func BridgeUnmarshalAPERAddOTDOACellInformationInto(v *s15.BridgeAsn1cAPERAddOTD
 			var elem s15.OTDOACellInformationItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s15.BridgeOTDOACellInformationItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1250,9 +1247,8 @@ func BridgeUnmarshalAPERAddOTDOACellInformationInto(v *s15.BridgeAsn1cAPERAddOTD
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1330,10 +1326,9 @@ func BridgeUnmarshalAPERAssistanceInformationFailureListFrom(bb *aper.BitBuffer)
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERAssistanceInformationFailureListInto(v *s09.BridgeAsn1cAPERAssistanceInformationFailureListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s05.AssistanceInformationFailureList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1341,7 +1336,7 @@ func BridgeUnmarshalAPERAssistanceInformationFailureListInto(v *s09.BridgeAsn1cA
 			var elem s05.AssistanceInformationFailureListElem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s05.BridgeAssistanceInformationFailureListElemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1353,9 +1348,8 @@ func BridgeUnmarshalAPERAssistanceInformationFailureListInto(v *s09.BridgeAsn1cA
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1433,10 +1427,9 @@ func BridgeUnmarshalAPERCriticalityDiagnosticsIEListFrom(bb *aper.BitBuffer) (s0
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERCriticalityDiagnosticsIEListInto(v *s09.BridgeAsn1cAPERCriticalityDiagnosticsIEListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s05.CriticalityDiagnosticsIEList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1444,7 +1437,7 @@ func BridgeUnmarshalAPERCriticalityDiagnosticsIEListInto(v *s09.BridgeAsn1cAPERC
 			var elem s05.CriticalityDiagnosticsIEListElem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s05.BridgeCriticalityDiagnosticsIEListElemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1456,9 +1449,8 @@ func BridgeUnmarshalAPERCriticalityDiagnosticsIEListInto(v *s09.BridgeAsn1cAPERC
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1536,10 +1528,9 @@ func BridgeUnmarshalAPERInterRATMeasurementQuantitiesFrom(bb *aper.BitBuffer) (s
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERInterRATMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPERInterRATMeasurementQuantitiesListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.InterRATMeasurementQuantities, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1547,7 +1538,7 @@ func BridgeUnmarshalAPERInterRATMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPER
 			var elem s06.InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s06.BridgeInterRATMeasurementQuantitiesItemIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1559,9 +1550,8 @@ func BridgeUnmarshalAPERInterRATMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPER
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1578,10 +1568,9 @@ func BridgeUnmarshalAPERMBSFNsubframeConfigurationFrom(bb *aper.BitBuffer) (s09.
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERMBSFNsubframeConfigurationInto(v *s09.BridgeAsn1cAPERMBSFNsubframeConfigurationListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s09.MBSFNsubframeConfiguration, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1589,7 +1578,7 @@ func BridgeUnmarshalAPERMBSFNsubframeConfigurationInto(v *s09.BridgeAsn1cAPERMBS
 			var elem s09.MBSFNsubframeConfigurationValue
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s09.BridgeMBSFNsubframeConfigurationValueMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1601,9 +1590,8 @@ func BridgeUnmarshalAPERMBSFNsubframeConfigurationInto(v *s09.BridgeAsn1cAPERMBS
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2537,7 +2525,7 @@ func (v *UTDOAInformationResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s10.UTDOAInformationResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2772,7 +2760,7 @@ func (v *UTDOAInformationUpdate) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s11.UTDOAInformationUpdateIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3007,7 +2995,7 @@ func (v *AssistanceInformationFeedback) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(AssistanceInformationFeedbackIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4136,7 +4124,7 @@ func (t AssistanceInformationFeedbackIETable) AssistanceInformationFailureList()
 			decoded, err := zero.decode(s00.ProtocolIEID(24), raw)
 			if err != nil {
 				var empty s05.AssistanceInformationFailureList
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "AssistanceInformationFailureList")
 			}
 			value, ok := decoded.AsAssistanceInformationFailureList()
 			if !ok {
@@ -4207,7 +4195,7 @@ func (t AssistanceInformationFeedbackIETable) CriticalityDiagnostics() Assistanc
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {
 				var empty s09.CriticalityDiagnostics
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 			}
 			value, ok := decoded.AsCriticalityDiagnostics()
 			if !ok {
@@ -4377,6 +4365,25 @@ func CriticalityDiagnosticsIEListCodec() s05.CriticalityDiagnosticsIEListValueCo
 	}()
 
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *AssistanceInformationFeedbackIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 24:
+		if v.rowAssistanceInformationFailureList != nil {
+			return v.rowAssistanceInformationFailureList, true
+		}
+	case 1:
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	}
+	return nil, false
+}
+
 func BridgeAddOTDOACellInformationCompleteFieldPerPadding(v *AddOTDOACellInformationComplete) *aper.CompletePadding {
 	return &v.perPadding
 }

@@ -15,10 +15,10 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// OTDOAInformationTypeIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[OTDOAInformationTypeIEValue].
+// OTDOAInformationTypeIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{OTDOA-Information-TypeIEs}} of TS 36.455: a single field carrying a value of OTDOAInformationTypeIEValue.
 type OTDOAInformationTypeIEValueProtocolIESingleContainer = OTDOAInformationTypeIEField
 
-// MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding is the concrete IEBinding[MeasurementQuantitiesItem, MeasurementQuantitiesItemIEValue].
+// MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding binds MeasurementQuantitiesItem to ProtocolIE-Field {{MeasurementQuantities-ItemIEs}} of TS 36.455.
 type MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding struct {
 	info   s00.FieldInfo
 	codec  MeasurementQuantitiesItemValueCodec
@@ -279,7 +279,7 @@ func (c NRCGIValueCodec) encodeChanged(value NRCGI,
 	return out, aper.OperationError(err, c.path)
 }
 
-// OTDOAInformationTypeOTDOAInformationTypeItemIEBinding is the concrete IEBinding[OTDOAInformationTypeItem, OTDOAInformationTypeIEValue].
+// OTDOAInformationTypeOTDOAInformationTypeItemIEBinding binds OTDOAInformationTypeItem to ProtocolIE-Field {{OTDOA-Information-TypeIEs}} of TS 36.455.
 type OTDOAInformationTypeOTDOAInformationTypeItemIEBinding struct {
 	info   s00.FieldInfo
 	codec  OTDOAInformationTypeItemValueCodec
@@ -432,7 +432,7 @@ func (c OTDOAInformationTypeItemValueCodec) encodeChanged(value OTDOAInformation
 	return out, aper.OperationError(err, c.path)
 }
 
-// OTDOAInformationTypeIEField is the concrete ProtocolIEField[OTDOAInformationTypeIEValue].
+// OTDOAInformationTypeIEField is ProtocolIE-Field {{OTDOA-Information-TypeIEs}} of TS 36.455: a field carrying a value of OTDOAInformationTypeIEValue.
 type OTDOAInformationTypeIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -947,7 +947,7 @@ func (c NPRSSubframePartBValueCodec) encodeChanged(value NPRSSubframePartB,
 	return out, aper.OperationError(err, c.path)
 }
 
-// OTDOAInformationTypeIEContainer is the concrete ProtocolIEContainer[OTDOAInformationTypeIEValue].
+// OTDOAInformationTypeIEContainer is ProtocolIE-Container {{OTDOA-Information-TypeIEs}} of TS 36.455: a list of OTDOAInformationTypeIEField values.
 type OTDOAInformationTypeIEContainer []OTDOAInformationTypeIEField
 
 // NRCGIAPERValue is the concrete APERValue[NRCGI].
@@ -1385,7 +1385,7 @@ func (v *NRCGI) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.NRCGIExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -3591,7 +3591,7 @@ func (v *OTDOAInformationTypeItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.OTDOAInformationTypeItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -4475,7 +4475,7 @@ func (t MeasurementQuantitiesItemIETable) MeasurementQuantitiesItem() Measuremen
 			decoded, err := s06.BridgeMeasurementQuantitiesItemIEValueMethodDecode(zero, s00.ProtocolIEID(11), raw)
 			if err != nil {
 				var empty s06.MeasurementQuantitiesItem
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementQuantitiesItem")
 			}
 			value, ok := decoded.AsMeasurementQuantitiesItem()
 			if !ok {
@@ -4588,7 +4588,7 @@ func (t OTDOAInformationTypeIETable) OTDOAInformationTypeItem() OTDOAInformation
 			decoded, err := zero.decode(s00.ProtocolIEID(10), raw)
 			if err != nil {
 				var empty OTDOAInformationTypeItem
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "OTDOAInformationTypeItem")
 			}
 			value, ok := decoded.AsOTDOAInformationTypeItem()
 			if !ok {
@@ -4803,6 +4803,21 @@ func NPRSSubframePartBCodec() NPRSSubframePartBValueCodec {
 func OTDOAInformationTypeItemCodec() OTDOAInformationTypeItemValueCodec {
 	return OTDOAInformationTypeIEs().OTDOAInformationTypeItem().Codec()
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *OTDOAInformationTypeIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 10:
+		if v.rowOTDOAInformationTypeItem != nil {
+			return v.rowOTDOAInformationTypeItem, true
+		}
+	}
+	return nil, false
+}
+
 func BridgeMeasurementQuantitiesItemIETableMethodInfoMeasurementQuantitiesItem(v MeasurementQuantitiesItemIETable) s00.FieldInfo {
 	return v.infoMeasurementQuantitiesItem()
 }

@@ -56,6 +56,44 @@ func BridgeInformationForCECapableUEsExtIEsValueCompareS1APProtocolExtensionCont
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
+func BridgeCancelledCellinEAIItemExtIEsValueCompareS1APProtocolExtensionContainer(v *s07.CancelledCellinEAIItemExtIEsExtContainer, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			s12.BridgeCancelledCellinEAIItemExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.End(f, aper.Snapshot{}, false)
+}
+func BridgeCancelledCellinTAIItemExtIEsValueCaptureS1APProtocolExtensionContainer(v *s07.CancelledCellinTAIItemExtIEsExtContainer, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeCancelledCellinTAIItemExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+	s.End(f, nil, false)
+}
 func BridgeCancelledCellinTAIItemExtIEsValueCompareS1APProtocolExtensionContainer(v *s07.CancelledCellinTAIItemExtIEsExtContainer, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
@@ -3527,25 +3565,8 @@ func BridgePC5QoSFlowItemExtIEsValueCompareS1APProtocolExtensionContainer(v *s10
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionContainer(v *s10.PC5QoSParametersExtIEsExtContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
+
+// DeactivateTraceIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{DeactivateTraceIEs}} codec of TS 36.413.
 func DeactivateTraceIEValueERABIEContainerListCodec(table s00.DeactivateTraceIEValueIETable) s08.DeactivateTraceIEValueERABIEContainerListValueCodec {
 	codec := DeactivateTraceIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s08.BridgeDeactivateTraceIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -3586,6 +3607,8 @@ func DeactivateTraceIEValueERABIEContainerListCodec(table s00.DeactivateTraceIEV
 	}()
 
 }
+
+// DownlinkNonUEAssociatedLPPaTransportIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{DownlinkNonUEAssociatedLPPaTransport-IEs}} codec of TS 36.413.
 func DownlinkNonUEAssociatedLPPaTransportIEValueERABIEContainerListCodec(table s00.DownlinkNonUEAssociatedLPPaTransportIEValueIETable) s08.DownlinkNonUEAssociatedLPPaTransportIEValueERABIEContainerListValueCodec {
 	codec := DownlinkNonUEAssociatedLPPaTransportIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s08.BridgeDownlinkNonUEAssociatedLPPaTransportIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -3626,6 +3649,8 @@ func DownlinkNonUEAssociatedLPPaTransportIEValueERABIEContainerListCodec(table s
 	}()
 
 }
+
+// DownlinkUEAssociatedLPPaTransportIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{DownlinkUEAssociatedLPPaTransport-IEs}} codec of TS 36.413.
 func DownlinkUEAssociatedLPPaTransportIEValueERABIEContainerListCodec(table s00.DownlinkUEAssociatedLPPaTransportIEValueIETable) s08.DownlinkUEAssociatedLPPaTransportIEValueERABIEContainerListValueCodec {
 	codec := DownlinkUEAssociatedLPPaTransportIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s08.BridgeDownlinkUEAssociatedLPPaTransportIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -3666,6 +3691,8 @@ func DownlinkUEAssociatedLPPaTransportIEValueERABIEContainerListCodec(table s00.
 	}()
 
 }
+
+// EventTriggerExtIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{EventTrigger-ExtIEs}} codec of TS 36.413.
 func EventTriggerExtIEValueERABIEContainerListCodec(table s00.EventTriggerExtIEValueIETable) s09.EventTriggerExtIEValueERABIEContainerListValueCodec {
 	codec := EventTriggerExtIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s09.BridgeEventTriggerExtIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -3706,6 +3733,8 @@ func EventTriggerExtIEValueERABIEContainerListCodec(table s00.EventTriggerExtIEV
 	}()
 
 }
+
+// HandoverSuccessIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{HandoverSuccessIEs}} codec of TS 36.413.
 func HandoverSuccessIEValueERABIEContainerListCodec(table s00.HandoverSuccessIEValueIETable) s09.HandoverSuccessIEValueERABIEContainerListValueCodec {
 	codec := HandoverSuccessIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s09.BridgeHandoverSuccessIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -3746,6 +3775,8 @@ func HandoverSuccessIEValueERABIEContainerListCodec(table s00.HandoverSuccessIEV
 	}()
 
 }
+
+// MMECPRelocationIndicationIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{MMECPRelocationIndicationIEs}} codec of TS 36.413.
 func MMECPRelocationIndicationIEValueERABIEContainerListCodec(table s00.MMECPRelocationIndicationIEValueIETable) s10.MMECPRelocationIndicationIEValueERABIEContainerListValueCodec {
 	codec := MMECPRelocationIndicationIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s10.BridgeMMECPRelocationIndicationIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -3786,6 +3817,8 @@ func MMECPRelocationIndicationIEValueERABIEContainerListCodec(table s00.MMECPRel
 	}()
 
 }
+
+// MeasurementThresholdL1LoggedMDTExtIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{MeasurementThresholdL1LoggedMDT-ExtIEs}} codec of TS 36.413.
 func MeasurementThresholdL1LoggedMDTExtIEValueERABIEContainerListCodec(table s00.MeasurementThresholdL1LoggedMDTExtIEValueIETable) s10.MeasurementThresholdL1LoggedMDTExtIEValueERABIEContainerListValueCodec {
 	codec := MeasurementThresholdL1LoggedMDTExtIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s10.BridgeMeasurementThresholdL1LoggedMDTExtIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -3826,6 +3859,8 @@ func MeasurementThresholdL1LoggedMDTExtIEValueERABIEContainerListCodec(table s00
 	}()
 
 }
+
+// NASDeliveryIndicationIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{NASDeliveryIndicationIEs}} codec of TS 36.413.
 func NASDeliveryIndicationIEValueERABIEContainerListCodec(table s00.NASDeliveryIndicationIEValueIETable) s10.NASDeliveryIndicationIEValueERABIEContainerListValueCodec {
 	codec := NASDeliveryIndicationIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s10.BridgeNASDeliveryIndicationIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -3866,6 +3901,67 @@ func NASDeliveryIndicationIEValueERABIEContainerListCodec(table s00.NASDeliveryI
 	}()
 
 }
+
+// CancelledCellinEAIItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CancelledCellinEAI-Item-ExtIEs}} codec of TS 36.413.
+func CancelledCellinEAIItemExtIEsValueExtensionFieldTableCodec(table s00.CancelledCellinEAIItemExtIEsValueExtensionTable) s07.CancelledCellinEAIItemExtIEsExtFieldValueCodec {
+	if !*s00.BridgeCancelledCellinEAIItemExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.CancelledCellinEAIItemExtIEsExtFieldValueCodec{}
+	}
+	return func() s07.CancelledCellinEAIItemExtIEsExtFieldValueCodec {
+		sealed := s07.CancelledCellinEAIItemExtIEsExtFieldValueCodec{}
+		*s07.BridgeCancelledCellinEAIItemExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CancelledCellinEAIItemExtIEsExtField, error) {
+			var field s07.CancelledCellinEAIItemExtIEsExtField
+			bb := aper.NewCompleteDecodeBuffer(data, options)
+			if err := bb.SetDecodeOptionsAligned(options); err != nil {
+				return field, err
+			}
+			if err := s07.BridgeCancelledCellinEAIItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+				return field, err
+			}
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
+				return field, err
+			}
+			return field, nil
+		}
+		*s07.BridgeCancelledCellinEAIItemExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s07.CancelledCellinEAIItemExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			if err := s07.BridgeCancelledCellinEAIItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		}
+		*s07.BridgeCancelledCellinEAIItemExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s07.CancelledCellinEAIItemExtIEsExtField, options aper.DecodeState) (s07.CancelledCellinEAIItemExtIEsExtField, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			s12.BridgeCancelledCellinEAIItemExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			var root aper.Snapshot
+			s.End(f, &root,
+				false)
+			return v, root
+		}
+		*s07.BridgeCancelledCellinEAIItemExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.CancelledCellinEAIItemExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			s12.BridgeCancelledCellinEAIItemExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
+			s.End(f, root,
+
+				false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s07.BridgeCancelledCellinEAIItemExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}()
+		return sealed
+	}()
+
+}
+
+// CancelledCellinTAIItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CancelledCellinTAI-Item-ExtIEs}} codec of TS 36.413.
 func CancelledCellinTAIItemExtIEsValueExtensionFieldTableCodec(table s00.CancelledCellinTAIItemExtIEsValueExtensionTable) s07.CancelledCellinTAIItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCancelledCellinTAIItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CancelledCellinTAIItemExtIEsExtFieldValueCodec{}
@@ -3897,7 +3993,7 @@ func CancelledCellinTAIItemExtIEsValueExtensionFieldTableCodec(table s00.Cancell
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s12.BridgeCancelledCellinTAIItemExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			BridgeCancelledCellinTAIItemExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
 			s.End(f, &root,
 				false)
@@ -3923,6 +4019,8 @@ func CancelledCellinTAIItemExtIEsValueExtensionFieldTableCodec(table s00.Cancell
 	}()
 
 }
+
+// Cdma2000OneXSRVCCInfoExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{Cdma2000OneXSRVCCInfo-ExtIEs}} codec of TS 36.413.
 func Cdma2000OneXSRVCCInfoExtIEsValueExtensionFieldTableCodec(table s00.Cdma2000OneXSRVCCInfoExtIEsValueExtensionTable) s07.Cdma2000OneXSRVCCInfoExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCdma2000OneXSRVCCInfoExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.Cdma2000OneXSRVCCInfoExtIEsExtFieldValueCodec{}
@@ -3980,6 +4078,8 @@ func Cdma2000OneXSRVCCInfoExtIEsValueExtensionFieldTableCodec(table s00.Cdma2000
 	}()
 
 }
+
+// CellBasedMDTExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CellBasedMDT-ExtIEs}} codec of TS 36.413.
 func CellBasedMDTExtIEsValueExtensionFieldTableCodec(table s00.CellBasedMDTExtIEsValueExtensionTable) s07.CellBasedMDTExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCellBasedMDTExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellBasedMDTExtIEsExtFieldValueCodec{}
@@ -4037,6 +4137,8 @@ func CellBasedMDTExtIEsValueExtensionFieldTableCodec(table s00.CellBasedMDTExtIE
 	}()
 
 }
+
+// CellBasedQMCExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CellBasedQMC-ExtIEs}} codec of TS 36.413.
 func CellBasedQMCExtIEsValueExtensionFieldTableCodec(table s00.CellBasedQMCExtIEsValueExtensionTable) s07.CellBasedQMCExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCellBasedQMCExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellBasedQMCExtIEsExtFieldValueCodec{}
@@ -4094,6 +4196,8 @@ func CellBasedQMCExtIEsValueExtensionFieldTableCodec(table s00.CellBasedQMCExtIE
 	}()
 
 }
+
+// CellIDBroadcastItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CellID-Broadcast-Item-ExtIEs}} codec of TS 36.413.
 func CellIDBroadcastItemExtIEsValueExtensionFieldTableCodec(table s00.CellIDBroadcastItemExtIEsValueExtensionTable) s07.CellIDBroadcastItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCellIDBroadcastItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellIDBroadcastItemExtIEsExtFieldValueCodec{}
@@ -4151,6 +4255,8 @@ func CellIDBroadcastItemExtIEsValueExtensionFieldTableCodec(table s00.CellIDBroa
 	}()
 
 }
+
+// CellIDCancelledItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CellID-Cancelled-Item-ExtIEs}} codec of TS 36.413.
 func CellIDCancelledItemExtIEsValueExtensionFieldTableCodec(table s00.CellIDCancelledItemExtIEsValueExtensionTable) s07.CellIDCancelledItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCellIDCancelledItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellIDCancelledItemExtIEsExtFieldValueCodec{}
@@ -4208,6 +4314,8 @@ func CellIDCancelledItemExtIEsValueExtensionFieldTableCodec(table s00.CellIDCanc
 	}()
 
 }
+
+// CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CellIdentifierAndCELevelForCECapableUEs-ExtIEs}} codec of TS 36.413.
 func CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionFieldTableCodec(table s00.CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTable) s07.CellIdentifierAndCELevelForCECapableUEsExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellIdentifierAndCELevelForCECapableUEsExtIEsExtFieldValueCodec{}
@@ -4265,6 +4373,8 @@ func CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionFieldTableCodec(
 	}()
 
 }
+
+// CellTypeExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CellType-ExtIEs}} codec of TS 36.413.
 func CellTypeExtIEsValueExtensionFieldTableCodec(table s00.CellTypeExtIEsValueExtensionTable) s07.CellTypeExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCellTypeExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellTypeExtIEsExtFieldValueCodec{}
@@ -4322,6 +4432,8 @@ func CellTypeExtIEsValueExtensionFieldTableCodec(table s00.CellTypeExtIEsValueEx
 	}()
 
 }
+
+// CompletedCellinEAIItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CompletedCellinEAI-Item-ExtIEs}} codec of TS 36.413.
 func CompletedCellinEAIItemExtIEsValueExtensionFieldTableCodec(table s00.CompletedCellinEAIItemExtIEsValueExtensionTable) s07.CompletedCellinEAIItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCompletedCellinEAIItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CompletedCellinEAIItemExtIEsExtFieldValueCodec{}
@@ -4379,6 +4491,8 @@ func CompletedCellinEAIItemExtIEsValueExtensionFieldTableCodec(table s00.Complet
 	}()
 
 }
+
+// CompletedCellinTAIItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CompletedCellinTAI-Item-ExtIEs}} codec of TS 36.413.
 func CompletedCellinTAIItemExtIEsValueExtensionFieldTableCodec(table s00.CompletedCellinTAIItemExtIEsValueExtensionTable) s07.CompletedCellinTAIItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCompletedCellinTAIItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CompletedCellinTAIItemExtIEsExtFieldValueCodec{}
@@ -4436,6 +4550,8 @@ func CompletedCellinTAIItemExtIEsValueExtensionFieldTableCodec(table s00.Complet
 	}()
 
 }
+
+// ConnectedengNBItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{ConnectedengNBItem-ExtIEs}} codec of TS 36.413.
 func ConnectedengNBItemExtIEsValueExtensionFieldTableCodec(table s00.ConnectedengNBItemExtIEsValueExtensionTable) s07.ConnectedengNBItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeConnectedengNBItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.ConnectedengNBItemExtIEsExtFieldValueCodec{}
@@ -4493,6 +4609,8 @@ func ConnectedengNBItemExtIEsValueExtensionFieldTableCodec(table s00.Connecteden
 	}()
 
 }
+
+// ContextatSourceExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{ContextatSource-ExtIEs}} codec of TS 36.413.
 func ContextatSourceExtIEsValueExtensionFieldTableCodec(table s00.ContextatSourceExtIEsValueExtensionTable) s07.ContextatSourceExtIEsExtFieldValueCodec {
 	if !*s00.BridgeContextatSourceExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.ContextatSourceExtIEsExtFieldValueCodec{}
@@ -4550,6 +4668,8 @@ func ContextatSourceExtIEsValueExtensionFieldTableCodec(table s00.ContextatSourc
 	}()
 
 }
+
+// CriticalityDiagnosticsExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CriticalityDiagnostics-ExtIEs}} codec of TS 36.413.
 func CriticalityDiagnosticsExtIEsValueExtensionFieldTableCodec(table s00.CriticalityDiagnosticsExtIEsValueExtensionTable) s07.CriticalityDiagnosticsExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCriticalityDiagnosticsExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CriticalityDiagnosticsExtIEsExtFieldValueCodec{}
@@ -4607,6 +4727,8 @@ func CriticalityDiagnosticsExtIEsValueExtensionFieldTableCodec(table s00.Critica
 	}()
 
 }
+
+// CriticalityDiagnosticsIEItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CriticalityDiagnostics-IE-Item-ExtIEs}} codec of TS 36.413.
 func CriticalityDiagnosticsIEItemExtIEsValueExtensionFieldTableCodec(table s00.CriticalityDiagnosticsIEItemExtIEsValueExtensionTable) s07.CriticalityDiagnosticsIEItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeCriticalityDiagnosticsIEItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CriticalityDiagnosticsIEItemExtIEsExtFieldValueCodec{}
@@ -4664,6 +4786,8 @@ func CriticalityDiagnosticsIEItemExtIEsValueExtensionFieldTableCodec(table s00.C
 	}()
 
 }
+
+// DAPSRequestInfoExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{DAPSRequestInfo-ExtIEs}} codec of TS 36.413.
 func DAPSRequestInfoExtIEsValueExtensionFieldTableCodec(table s00.DAPSRequestInfoExtIEsValueExtensionTable) s08.DAPSRequestInfoExtIEsExtFieldValueCodec {
 	if !*s00.BridgeDAPSRequestInfoExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.DAPSRequestInfoExtIEsExtFieldValueCodec{}
@@ -4721,6 +4845,8 @@ func DAPSRequestInfoExtIEsValueExtensionFieldTableCodec(table s00.DAPSRequestInf
 	}()
 
 }
+
+// DAPSResponseInfoExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{DAPSResponseInfo-ExtIEs}} codec of TS 36.413.
 func DAPSResponseInfoExtIEsValueExtensionFieldTableCodec(table s00.DAPSResponseInfoExtIEsValueExtensionTable) s08.DAPSResponseInfoExtIEsExtFieldValueCodec {
 	if !*s00.BridgeDAPSResponseInfoExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.DAPSResponseInfoExtIEsExtFieldValueCodec{}
@@ -4778,6 +4904,8 @@ func DAPSResponseInfoExtIEsValueExtensionFieldTableCodec(table s00.DAPSResponseI
 	}()
 
 }
+
+// DAPSResponseInfoItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{DAPSResponseInfoItem-ExtIEs}} codec of TS 36.413.
 func DAPSResponseInfoItemExtIEsValueExtensionFieldTableCodec(table s00.DAPSResponseInfoItemExtIEsValueExtensionTable) s08.DAPSResponseInfoItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeDAPSResponseInfoItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.DAPSResponseInfoItemExtIEsExtFieldValueCodec{}
@@ -4835,6 +4963,8 @@ func DAPSResponseInfoItemExtIEsValueExtensionFieldTableCodec(table s00.DAPSRespo
 	}()
 
 }
+
+// DLCPSecurityInformationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{DL-CP-SecurityInformation-ExtIEs}} codec of TS 36.413.
 func DLCPSecurityInformationExtIEsValueExtensionFieldTableCodec(table s00.DLCPSecurityInformationExtIEsValueExtensionTable) s08.DLCPSecurityInformationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeDLCPSecurityInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.DLCPSecurityInformationExtIEsExtFieldValueCodec{}
@@ -4892,6 +5022,8 @@ func DLCPSecurityInformationExtIEsValueExtensionFieldTableCodec(table s00.DLCPSe
 	}()
 
 }
+
+// ENBStatusTransferTransparentContainerExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{ENB-StatusTransfer-TransparentContainer-ExtIEs}} codec of TS 36.413.
 func ENBStatusTransferTransparentContainerExtIEsValueExtensionFieldTableCodec(table s00.ENBStatusTransferTransparentContainerExtIEsValueExtensionTable) s08.ENBStatusTransferTransparentContainerExtIEsExtFieldValueCodec {
 	if !*s00.BridgeENBStatusTransferTransparentContainerExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENBStatusTransferTransparentContainerExtIEsExtFieldValueCodec{}
@@ -4949,6 +5081,8 @@ func ENBStatusTransferTransparentContainerExtIEsValueExtensionFieldTableCodec(ta
 	}()
 
 }
+
+// ENBX2ExtTLAExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{ENBX2ExtTLA-ExtIEs}} codec of TS 36.413.
 func ENBX2ExtTLAExtIEsValueExtensionFieldTableCodec(table s00.ENBX2ExtTLAExtIEsValueExtensionTable) s08.ENBX2ExtTLAExtIEsExtFieldValueCodec {
 	if !*s00.BridgeENBX2ExtTLAExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENBX2ExtTLAExtIEsExtFieldValueCodec{}
@@ -5006,6 +5140,8 @@ func ENBX2ExtTLAExtIEsValueExtensionFieldTableCodec(table s00.ENBX2ExtTLAExtIEsV
 	}()
 
 }
+
+// ENDCSONConfigurationTransferExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{EN-DCSONConfigurationTransfer-ExtIEs}} codec of TS 36.413.
 func ENDCSONConfigurationTransferExtIEsValueExtensionFieldTableCodec(table s00.ENDCSONConfigurationTransferExtIEsValueExtensionTable) s08.ENDCSONConfigurationTransferExtIEsExtFieldValueCodec {
 	if !*s00.BridgeENDCSONConfigurationTransferExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENDCSONConfigurationTransferExtIEsExtFieldValueCodec{}
@@ -5063,6 +5199,8 @@ func ENDCSONConfigurationTransferExtIEsValueExtensionFieldTableCodec(table s00.E
 	}()
 
 }
+
+// ENDCSONeNBIdentificationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{EN-DCSONeNBIdentification-ExtIEs}} codec of TS 36.413.
 func ENDCSONeNBIdentificationExtIEsValueExtensionFieldTableCodec(table s00.ENDCSONeNBIdentificationExtIEsValueExtensionTable) s08.ENDCSONeNBIdentificationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeENDCSONeNBIdentificationExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENDCSONeNBIdentificationExtIEsExtFieldValueCodec{}
@@ -5120,6 +5258,8 @@ func ENDCSONeNBIdentificationExtIEsValueExtensionFieldTableCodec(table s00.ENDCS
 	}()
 
 }
+
+// ENDCSONengNBIdentificationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{EN-DCSONengNBIdentification-ExtIEs}} codec of TS 36.413.
 func ENDCSONengNBIdentificationExtIEsValueExtensionFieldTableCodec(table s00.ENDCSONengNBIdentificationExtIEsValueExtensionTable) s08.ENDCSONengNBIdentificationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeENDCSONengNBIdentificationExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENDCSONengNBIdentificationExtIEsExtFieldValueCodec{}
@@ -5177,6 +5317,8 @@ func ENDCSONengNBIdentificationExtIEsValueExtensionFieldTableCodec(table s00.END
 	}()
 
 }
+
+// ENDCTransferTypeReplyExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{EN-DCTransferTypeReply-ExtIEs}} codec of TS 36.413.
 func ENDCTransferTypeReplyExtIEsValueExtensionFieldTableCodec(table s00.ENDCTransferTypeReplyExtIEsValueExtensionTable) s08.ENDCTransferTypeReplyExtIEsExtFieldValueCodec {
 	if !*s00.BridgeENDCTransferTypeReplyExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENDCTransferTypeReplyExtIEsExtFieldValueCodec{}
@@ -5234,6 +5376,8 @@ func ENDCTransferTypeReplyExtIEsValueExtensionFieldTableCodec(table s00.ENDCTran
 	}()
 
 }
+
+// ENDCTransferTypeRequestExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{EN-DCTransferTypeRequest-ExtIEs}} codec of TS 36.413.
 func ENDCTransferTypeRequestExtIEsValueExtensionFieldTableCodec(table s00.ENDCTransferTypeRequestExtIEsValueExtensionTable) s08.ENDCTransferTypeRequestExtIEsExtFieldValueCodec {
 	if !*s00.BridgeENDCTransferTypeRequestExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENDCTransferTypeRequestExtIEsExtFieldValueCodec{}
@@ -5291,6 +5435,8 @@ func ENDCTransferTypeRequestExtIEsValueExtensionFieldTableCodec(table s00.ENDCTr
 	}()
 
 }
+
+// ERABAdmittedItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABAdmittedItem-ExtIEs}} codec of TS 36.413.
 func ERABAdmittedItemExtIEsValueExtensionFieldTableCodec(table s00.ERABAdmittedItemExtIEsValueExtensionTable) s08.ERABAdmittedItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABAdmittedItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABAdmittedItemExtIEsExtFieldValueCodec{}
@@ -5348,6 +5494,8 @@ func ERABAdmittedItemExtIEsValueExtensionFieldTableCodec(table s00.ERABAdmittedI
 	}()
 
 }
+
+// ERABDataForwardingItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABDataForwardingItem-ExtIEs}} codec of TS 36.413.
 func ERABDataForwardingItemExtIEsValueExtensionFieldTableCodec(table s00.ERABDataForwardingItemExtIEsValueExtensionTable) s08.ERABDataForwardingItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABDataForwardingItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABDataForwardingItemExtIEsExtFieldValueCodec{}
@@ -5405,6 +5553,8 @@ func ERABDataForwardingItemExtIEsValueExtensionFieldTableCodec(table s00.ERABDat
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeReqExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABFailedToResumeItemResumeReq-ExtIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeReqExtIEsValueExtensionFieldTableCodec(table s00.ERABFailedToResumeItemResumeReqExtIEsValueExtensionTable) s08.ERABFailedToResumeItemResumeReqExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABFailedToResumeItemResumeReqExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABFailedToResumeItemResumeReqExtIEsExtFieldValueCodec{}
@@ -5462,6 +5612,8 @@ func ERABFailedToResumeItemResumeReqExtIEsValueExtensionFieldTableCodec(table s0
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeResExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABFailedToResumeItemResumeRes-ExtIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeResExtIEsValueExtensionFieldTableCodec(table s00.ERABFailedToResumeItemResumeResExtIEsValueExtensionTable) s08.ERABFailedToResumeItemResumeResExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABFailedToResumeItemResumeResExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABFailedToResumeItemResumeResExtIEsExtFieldValueCodec{}
@@ -5519,6 +5671,8 @@ func ERABFailedToResumeItemResumeResExtIEsValueExtensionFieldTableCodec(table s0
 	}()
 
 }
+
+// ERABFailedToSetupItemHOReqAckExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABFailedToSetupItemHOReqAckExtIEs}} codec of TS 36.413.
 func ERABFailedToSetupItemHOReqAckExtIEsValueExtensionFieldTableCodec(table s00.ERABFailedToSetupItemHOReqAckExtIEsValueExtensionTable) s08.ERABFailedToSetupItemHOReqAckExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABFailedToSetupItemHOReqAckExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABFailedToSetupItemHOReqAckExtIEsExtFieldValueCodec{}
@@ -5576,6 +5730,8 @@ func ERABFailedToSetupItemHOReqAckExtIEsValueExtensionFieldTableCodec(table s00.
 	}()
 
 }
+
+// ERABItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABItem-ExtIEs}} codec of TS 36.413.
 func ERABItemExtIEsValueExtensionFieldTableCodec(table s00.ERABItemExtIEsValueExtensionTable) s08.ERABItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABItemExtIEsExtFieldValueCodec{}
@@ -5633,6 +5789,8 @@ func ERABItemExtIEsValueExtensionFieldTableCodec(table s00.ERABItemExtIEsValueEx
 	}()
 
 }
+
+// ERABModifyItemBearerModConfExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABModifyItemBearerModConfExtIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModConfExtIEsValueExtensionFieldTableCodec(table s00.ERABModifyItemBearerModConfExtIEsValueExtensionTable) s08.ERABModifyItemBearerModConfExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABModifyItemBearerModConfExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABModifyItemBearerModConfExtIEsExtFieldValueCodec{}
@@ -5690,6 +5848,8 @@ func ERABModifyItemBearerModConfExtIEsValueExtensionFieldTableCodec(table s00.ER
 	}()
 
 }
+
+// ERABModifyItemBearerModResExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABModifyItemBearerModResExtIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModResExtIEsValueExtensionFieldTableCodec(table s00.ERABModifyItemBearerModResExtIEsValueExtensionTable) s08.ERABModifyItemBearerModResExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABModifyItemBearerModResExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABModifyItemBearerModResExtIEsExtFieldValueCodec{}
@@ -5747,6 +5907,8 @@ func ERABModifyItemBearerModResExtIEsValueExtensionFieldTableCodec(table s00.ERA
 	}()
 
 }
+
+// ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABNotToBeModifiedItemBearerModInd-ExtIEs}} codec of TS 36.413.
 func ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionFieldTableCodec(table s00.ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionTable) s08.ERABNotToBeModifiedItemBearerModIndExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABNotToBeModifiedItemBearerModIndExtIEsExtFieldValueCodec{}
@@ -5804,6 +5966,8 @@ func ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionFieldTableCodec(tabl
 	}()
 
 }
+
+// ERABQoSParametersExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABQoSParameters-ExtIEs}} codec of TS 36.413.
 func ERABQoSParametersExtIEsValueExtensionFieldTableCodec(table s00.ERABQoSParametersExtIEsValueExtensionTable) s08.ERABQoSParametersExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABQoSParametersExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABQoSParametersExtIEsExtFieldValueCodec{}
@@ -5861,6 +6025,8 @@ func ERABQoSParametersExtIEsValueExtensionFieldTableCodec(table s00.ERABQoSParam
 	}()
 
 }
+
+// ERABReleaseItemBearerRelCompExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABReleaseItemBearerRelCompExtIEs}} codec of TS 36.413.
 func ERABReleaseItemBearerRelCompExtIEsValueExtensionFieldTableCodec(table s00.ERABReleaseItemBearerRelCompExtIEsValueExtensionTable) s08.ERABReleaseItemBearerRelCompExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABReleaseItemBearerRelCompExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABReleaseItemBearerRelCompExtIEsExtFieldValueCodec{}
@@ -5918,6 +6084,8 @@ func ERABReleaseItemBearerRelCompExtIEsValueExtensionFieldTableCodec(table s00.E
 	}()
 
 }
+
+// ERABSecurityResultItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABSecurityResultItem-ExtIEs}} codec of TS 36.413.
 func ERABSecurityResultItemExtIEsValueExtensionFieldTableCodec(table s00.ERABSecurityResultItemExtIEsValueExtensionTable) s08.ERABSecurityResultItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABSecurityResultItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABSecurityResultItemExtIEsExtFieldValueCodec{}
@@ -5975,6 +6143,8 @@ func ERABSecurityResultItemExtIEsValueExtensionFieldTableCodec(table s00.ERABSec
 	}()
 
 }
+
+// ERABSetupItemBearerSUResExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABSetupItemBearerSUResExtIEs}} codec of TS 36.413.
 func ERABSetupItemBearerSUResExtIEsValueExtensionFieldTableCodec(table s00.ERABSetupItemBearerSUResExtIEsValueExtensionTable) s08.ERABSetupItemBearerSUResExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABSetupItemBearerSUResExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABSetupItemBearerSUResExtIEsExtFieldValueCodec{}
@@ -6032,6 +6202,8 @@ func ERABSetupItemBearerSUResExtIEsValueExtensionFieldTableCodec(table s00.ERABS
 	}()
 
 }
+
+// ERABSetupItemCtxtSUResExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABSetupItemCtxtSUResExtIEs}} codec of TS 36.413.
 func ERABSetupItemCtxtSUResExtIEsValueExtensionFieldTableCodec(table s00.ERABSetupItemCtxtSUResExtIEsValueExtensionTable) s09.ERABSetupItemCtxtSUResExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABSetupItemCtxtSUResExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ERABSetupItemCtxtSUResExtIEsExtFieldValueCodec{}
@@ -6089,6 +6261,8 @@ func ERABSetupItemCtxtSUResExtIEsValueExtensionFieldTableCodec(table s00.ERABSet
 	}()
 
 }
+
+// ERABToBeModifiedItemBearerModIndExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABToBeModifiedItemBearerModInd-ExtIEs}} codec of TS 36.413.
 func ERABToBeModifiedItemBearerModIndExtIEsValueExtensionFieldTableCodec(table s00.ERABToBeModifiedItemBearerModIndExtIEsValueExtensionTable) s09.ERABToBeModifiedItemBearerModIndExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABToBeModifiedItemBearerModIndExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ERABToBeModifiedItemBearerModIndExtIEsExtFieldValueCodec{}
@@ -6146,6 +6320,8 @@ func ERABToBeModifiedItemBearerModIndExtIEsValueExtensionFieldTableCodec(table s
 	}()
 
 }
+
+// ERABToBeSwitchedULItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABToBeSwitchedULItem-ExtIEs}} codec of TS 36.413.
 func ERABToBeSwitchedULItemExtIEsValueExtensionFieldTableCodec(table s00.ERABToBeSwitchedULItemExtIEsValueExtensionTable) s09.ERABToBeSwitchedULItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABToBeSwitchedULItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ERABToBeSwitchedULItemExtIEsExtFieldValueCodec{}
@@ -6203,6 +6379,8 @@ func ERABToBeSwitchedULItemExtIEsValueExtensionFieldTableCodec(table s00.ERABToB
 	}()
 
 }
+
+// ERABToBeUpdatedItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABToBeUpdatedItem-ExtIEs}} codec of TS 36.413.
 func ERABToBeUpdatedItemExtIEsValueExtensionFieldTableCodec(table s00.ERABToBeUpdatedItemExtIEsValueExtensionTable) s09.ERABToBeUpdatedItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABToBeUpdatedItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ERABToBeUpdatedItemExtIEsExtFieldValueCodec{}
@@ -6260,6 +6438,8 @@ func ERABToBeUpdatedItemExtIEsValueExtensionFieldTableCodec(table s00.ERABToBeUp
 	}()
 
 }
+
+// ERABUsageReportItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{E-RABUsageReportItem-ExtIEs}} codec of TS 36.413.
 func ERABUsageReportItemExtIEsValueExtensionFieldTableCodec(table s00.ERABUsageReportItemExtIEsValueExtensionTable) s09.ERABUsageReportItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeERABUsageReportItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ERABUsageReportItemExtIEsExtFieldValueCodec{}
@@ -6317,6 +6497,8 @@ func ERABUsageReportItemExtIEsValueExtensionFieldTableCodec(table s00.ERABUsageR
 	}()
 
 }
+
+// EUTRANCGIExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{EUTRAN-CGI-ExtIEs}} codec of TS 36.413.
 func EUTRANCGIExtIEsValueExtensionFieldTableCodec(table s00.EUTRANCGIExtIEsValueExtensionTable) s09.EUTRANCGIExtIEsExtFieldValueCodec {
 	if !*s00.BridgeEUTRANCGIExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.EUTRANCGIExtIEsExtFieldValueCodec{}
@@ -6374,6 +6556,8 @@ func EUTRANCGIExtIEsValueExtensionFieldTableCodec(table s00.EUTRANCGIExtIEsValue
 	}()
 
 }
+
+// EmergencyAreaIDBroadcastItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{EmergencyAreaID-Broadcast-Item-ExtIEs}} codec of TS 36.413.
 func EmergencyAreaIDBroadcastItemExtIEsValueExtensionFieldTableCodec(table s00.EmergencyAreaIDBroadcastItemExtIEsValueExtensionTable) s09.EmergencyAreaIDBroadcastItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeEmergencyAreaIDBroadcastItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.EmergencyAreaIDBroadcastItemExtIEsExtFieldValueCodec{}
@@ -6431,6 +6615,8 @@ func EmergencyAreaIDBroadcastItemExtIEsValueExtensionFieldTableCodec(table s00.E
 	}()
 
 }
+
+// EmergencyAreaIDCancelledItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{EmergencyAreaID-Cancelled-Item-ExtIEs}} codec of TS 36.413.
 func EmergencyAreaIDCancelledItemExtIEsValueExtensionFieldTableCodec(table s00.EmergencyAreaIDCancelledItemExtIEsValueExtensionTable) s09.EmergencyAreaIDCancelledItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeEmergencyAreaIDCancelledItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.EmergencyAreaIDCancelledItemExtIEsExtFieldValueCodec{}
@@ -6488,6 +6674,8 @@ func EmergencyAreaIDCancelledItemExtIEsValueExtensionFieldTableCodec(table s00.E
 	}()
 
 }
+
+// EventL1LoggedMDTConfigExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{EventL1LoggedMDTConfig-ExtIEs}} codec of TS 36.413.
 func EventL1LoggedMDTConfigExtIEsValueExtensionFieldTableCodec(table s00.EventL1LoggedMDTConfigExtIEsValueExtensionTable) s09.EventL1LoggedMDTConfigExtIEsExtFieldValueCodec {
 	if !*s00.BridgeEventL1LoggedMDTConfigExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.EventL1LoggedMDTConfigExtIEsExtFieldValueCodec{}
@@ -6545,6 +6733,8 @@ func EventL1LoggedMDTConfigExtIEsValueExtensionFieldTableCodec(table s00.EventL1
 	}()
 
 }
+
+// ExpectedUEActivityBehaviourExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{ExpectedUEActivityBehaviour-ExtIEs}} codec of TS 36.413.
 func ExpectedUEActivityBehaviourExtIEsValueExtensionFieldTableCodec(table s00.ExpectedUEActivityBehaviourExtIEsValueExtensionTable) s09.ExpectedUEActivityBehaviourExtIEsExtFieldValueCodec {
 	if !*s00.BridgeExpectedUEActivityBehaviourExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ExpectedUEActivityBehaviourExtIEsExtFieldValueCodec{}
@@ -6602,6 +6792,8 @@ func ExpectedUEActivityBehaviourExtIEsValueExtensionFieldTableCodec(table s00.Ex
 	}()
 
 }
+
+// ExpectedUEBehaviourExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{ExpectedUEBehaviour-ExtIEs}} codec of TS 36.413.
 func ExpectedUEBehaviourExtIEsValueExtensionFieldTableCodec(table s00.ExpectedUEBehaviourExtIEsValueExtensionTable) s09.ExpectedUEBehaviourExtIEsExtFieldValueCodec {
 	if !*s00.BridgeExpectedUEBehaviourExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ExpectedUEBehaviourExtIEsExtFieldValueCodec{}
@@ -6659,6 +6851,8 @@ func ExpectedUEBehaviourExtIEsValueExtensionFieldTableCodec(table s00.ExpectedUE
 	}()
 
 }
+
+// FiveGSTAIExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{FiveGSTAI-ExtIEs}} codec of TS 36.413.
 func FiveGSTAIExtIEsValueExtensionFieldTableCodec(table s00.FiveGSTAIExtIEsValueExtensionTable) s09.FiveGSTAIExtIEsExtFieldValueCodec {
 	if !*s00.BridgeFiveGSTAIExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.FiveGSTAIExtIEsExtFieldValueCodec{}
@@ -6716,6 +6910,8 @@ func FiveGSTAIExtIEsValueExtensionFieldTableCodec(table s00.FiveGSTAIExtIEsValue
 	}()
 
 }
+
+// ForbiddenLAsItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{ForbiddenLAs-Item-ExtIEs}} codec of TS 36.413.
 func ForbiddenLAsItemExtIEsValueExtensionFieldTableCodec(table s00.ForbiddenLAsItemExtIEsValueExtensionTable) s09.ForbiddenLAsItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeForbiddenLAsItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ForbiddenLAsItemExtIEsExtFieldValueCodec{}
@@ -6773,6 +6969,8 @@ func ForbiddenLAsItemExtIEsValueExtensionFieldTableCodec(table s00.ForbiddenLAsI
 	}()
 
 }
+
+// ForbiddenTAsItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{ForbiddenTAs-Item-ExtIEs}} codec of TS 36.413.
 func ForbiddenTAsItemExtIEsValueExtensionFieldTableCodec(table s00.ForbiddenTAsItemExtIEsValueExtensionTable) s09.ForbiddenTAsItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeForbiddenTAsItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ForbiddenTAsItemExtIEsExtFieldValueCodec{}
@@ -6830,6 +7028,8 @@ func ForbiddenTAsItemExtIEsValueExtensionFieldTableCodec(table s00.ForbiddenTAsI
 	}()
 
 }
+
+// GBRQosInformationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{GBR-QosInformation-ExtIEs}} codec of TS 36.413.
 func GBRQosInformationExtIEsValueExtensionFieldTableCodec(table s00.GBRQosInformationExtIEsValueExtensionTable) s09.GBRQosInformationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeGBRQosInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GBRQosInformationExtIEsExtFieldValueCodec{}
@@ -6887,6 +7087,8 @@ func GBRQosInformationExtIEsValueExtensionFieldTableCodec(table s00.GBRQosInform
 	}()
 
 }
+
+// GERANCellIDExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{GERAN-Cell-ID-ExtIEs}} codec of TS 36.413.
 func GERANCellIDExtIEsValueExtensionFieldTableCodec(table s00.GERANCellIDExtIEsValueExtensionTable) s09.GERANCellIDExtIEsExtFieldValueCodec {
 	if !*s00.BridgeGERANCellIDExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GERANCellIDExtIEsExtFieldValueCodec{}
@@ -6944,6 +7146,8 @@ func GERANCellIDExtIEsValueExtensionFieldTableCodec(table s00.GERANCellIDExtIEsV
 	}()
 
 }
+
+// GNBExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{GNB-ExtIEs}} codec of TS 36.413.
 func GNBExtIEsValueExtensionFieldTableCodec(table s00.GNBExtIEsValueExtensionTable) s09.GNBExtIEsExtFieldValueCodec {
 	if !*s00.BridgeGNBExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GNBExtIEsExtFieldValueCodec{}
@@ -7001,6 +7205,8 @@ func GNBExtIEsValueExtensionFieldTableCodec(table s00.GNBExtIEsValueExtensionTab
 	}()
 
 }
+
+// GUMMEIExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{GUMMEI-ExtIEs}} codec of TS 36.413.
 func GUMMEIExtIEsValueExtensionFieldTableCodec(table s00.GUMMEIExtIEsValueExtensionTable) s09.GUMMEIExtIEsExtFieldValueCodec {
 	if !*s00.BridgeGUMMEIExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GUMMEIExtIEsExtFieldValueCodec{}
@@ -7058,6 +7264,8 @@ func GUMMEIExtIEsValueExtensionFieldTableCodec(table s00.GUMMEIExtIEsValueExtens
 	}()
 
 }
+
+// GlobalENBIDExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{GlobalENB-ID-ExtIEs}} codec of TS 36.413.
 func GlobalENBIDExtIEsValueExtensionFieldTableCodec(table s00.GlobalENBIDExtIEsValueExtensionTable) s09.GlobalENBIDExtIEsExtFieldValueCodec {
 	if !*s00.BridgeGlobalENBIDExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GlobalENBIDExtIEsExtFieldValueCodec{}
@@ -7115,6 +7323,8 @@ func GlobalENBIDExtIEsValueExtensionFieldTableCodec(table s00.GlobalENBIDExtIEsV
 	}()
 
 }
+
+// GlobalEnGNBIDExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{Global-en-gNB-ID-ExtIEs}} codec of TS 36.413.
 func GlobalEnGNBIDExtIEsValueExtensionFieldTableCodec(table s00.GlobalEnGNBIDExtIEsValueExtensionTable) s09.GlobalEnGNBIDExtIEsExtFieldValueCodec {
 	if !*s00.BridgeGlobalEnGNBIDExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GlobalEnGNBIDExtIEsExtFieldValueCodec{}
@@ -7172,6 +7382,8 @@ func GlobalEnGNBIDExtIEsValueExtensionFieldTableCodec(table s00.GlobalEnGNBIDExt
 	}()
 
 }
+
+// GlobalGNBIDExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{Global-GNB-ID-ExtIEs}} codec of TS 36.413.
 func GlobalGNBIDExtIEsValueExtensionFieldTableCodec(table s00.GlobalGNBIDExtIEsValueExtensionTable) s09.GlobalGNBIDExtIEsExtFieldValueCodec {
 	if !*s00.BridgeGlobalGNBIDExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GlobalGNBIDExtIEsExtFieldValueCodec{}
@@ -7229,6 +7441,8 @@ func GlobalGNBIDExtIEsValueExtensionFieldTableCodec(table s00.GlobalGNBIDExtIEsV
 	}()
 
 }
+
+// InformationForCECapableUEsExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{InformationForCECapableUEs-ExtIEs}} codec of TS 36.413.
 func InformationForCECapableUEsExtIEsValueExtensionFieldTableCodec(table s00.InformationForCECapableUEsExtIEsValueExtensionTable) s09.InformationForCECapableUEsExtIEsExtFieldValueCodec {
 	if !*s00.BridgeInformationForCECapableUEsExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.InformationForCECapableUEsExtIEsExtFieldValueCodec{}
@@ -7286,6 +7500,8 @@ func InformationForCECapableUEsExtIEsValueExtensionFieldTableCodec(table s00.Inf
 	}()
 
 }
+
+// InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{InformationOnRecommendedCellsAndENBsForPaging-ExtIEs}} codec of TS 36.413.
 func InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionFieldTableCodec(table s00.InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionTable) s09.InformationOnRecommendedCellsAndENBsForPagingExtIEsExtFieldValueCodec {
 	if !*s00.BridgeInformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.InformationOnRecommendedCellsAndENBsForPagingExtIEsExtFieldValueCodec{}
@@ -7343,6 +7559,8 @@ func InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionFieldTable
 	}()
 
 }
+
+// InterSystemMeasurementItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{InterSystemMeasurementItem-ExtIEs}} codec of TS 36.413.
 func InterSystemMeasurementItemExtIEsValueExtensionFieldTableCodec(table s00.InterSystemMeasurementItemExtIEsValueExtensionTable) s09.InterSystemMeasurementItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeInterSystemMeasurementItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.InterSystemMeasurementItemExtIEsExtFieldValueCodec{}
@@ -7400,6 +7618,8 @@ func InterSystemMeasurementItemExtIEsValueExtensionFieldTableCodec(table s00.Int
 	}()
 
 }
+
+// InterSystemMeasurementParametersExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{InterSystemMeasurementParameters-ExtIEs}} codec of TS 36.413.
 func InterSystemMeasurementParametersExtIEsValueExtensionFieldTableCodec(table s00.InterSystemMeasurementParametersExtIEsValueExtensionTable) s09.InterSystemMeasurementParametersExtIEsExtFieldValueCodec {
 	if !*s00.BridgeInterSystemMeasurementParametersExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.InterSystemMeasurementParametersExtIEsExtFieldValueCodec{}
@@ -7457,6 +7677,8 @@ func InterSystemMeasurementParametersExtIEsValueExtensionFieldTableCodec(table s
 	}()
 
 }
+
+// IntersystemMeasurementConfigurationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{IntersystemMeasurementConfiguration-ExtIEs}} codec of TS 36.413.
 func IntersystemMeasurementConfigurationExtIEsValueExtensionFieldTableCodec(table s00.IntersystemMeasurementConfigurationExtIEsValueExtensionTable) s09.IntersystemMeasurementConfigurationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeIntersystemMeasurementConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.IntersystemMeasurementConfigurationExtIEsExtFieldValueCodec{}
@@ -7514,6 +7736,8 @@ func IntersystemMeasurementConfigurationExtIEsValueExtensionFieldTableCodec(tabl
 	}()
 
 }
+
+// LAIExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{LAI-ExtIEs}} codec of TS 36.413.
 func LAIExtIEsValueExtensionFieldTableCodec(table s00.LAIExtIEsValueExtensionTable) s09.LAIExtIEsExtFieldValueCodec {
 	if !*s00.BridgeLAIExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.LAIExtIEsExtFieldValueCodec{}
@@ -7571,6 +7795,8 @@ func LAIExtIEsValueExtensionFieldTableCodec(table s00.LAIExtIEsValueExtensionTab
 	}()
 
 }
+
+// LTENTNTAIInformationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{LTE-NTN-TAI-Information-ExtIEs}} codec of TS 36.413.
 func LTENTNTAIInformationExtIEsValueExtensionFieldTableCodec(table s00.LTENTNTAIInformationExtIEsValueExtensionTable) s09.LTENTNTAIInformationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeLTENTNTAIInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.LTENTNTAIInformationExtIEsExtFieldValueCodec{}
@@ -7628,6 +7854,8 @@ func LTENTNTAIInformationExtIEsValueExtensionFieldTableCodec(table s00.LTENTNTAI
 	}()
 
 }
+
+// LastVisitedPSCellInformationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{LastVisitedPSCellInformation-ExtIEs}} codec of TS 36.413.
 func LastVisitedPSCellInformationExtIEsValueExtensionFieldTableCodec(table s00.LastVisitedPSCellInformationExtIEsValueExtensionTable) s09.LastVisitedPSCellInformationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeLastVisitedPSCellInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.LastVisitedPSCellInformationExtIEsExtFieldValueCodec{}
@@ -7685,6 +7913,8 @@ func LastVisitedPSCellInformationExtIEsValueExtensionFieldTableCodec(table s00.L
 	}()
 
 }
+
+// ListeningSubframePatternExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{ListeningSubframePattern-ExtIEs}} codec of TS 36.413.
 func ListeningSubframePatternExtIEsValueExtensionFieldTableCodec(table s00.ListeningSubframePatternExtIEsValueExtensionTable) s09.ListeningSubframePatternExtIEsExtFieldValueCodec {
 	if !*s00.BridgeListeningSubframePatternExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ListeningSubframePatternExtIEsExtFieldValueCodec{}
@@ -7742,6 +7972,8 @@ func ListeningSubframePatternExtIEsValueExtensionFieldTableCodec(table s00.Liste
 	}()
 
 }
+
+// LoggedMBSFNMDTExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{LoggedMBSFNMDT-ExtIEs}} codec of TS 36.413.
 func LoggedMBSFNMDTExtIEsValueExtensionFieldTableCodec(table s00.LoggedMBSFNMDTExtIEsValueExtensionTable) s09.LoggedMBSFNMDTExtIEsExtFieldValueCodec {
 	if !*s00.BridgeLoggedMBSFNMDTExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.LoggedMBSFNMDTExtIEsExtFieldValueCodec{}
@@ -7799,6 +8031,8 @@ func LoggedMBSFNMDTExtIEsValueExtensionFieldTableCodec(table s00.LoggedMBSFNMDTE
 	}()
 
 }
+
+// M1PeriodicReportingExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{M1PeriodicReporting-ExtIEs}} codec of TS 36.413.
 func M1PeriodicReportingExtIEsValueExtensionFieldTableCodec(table s00.M1PeriodicReportingExtIEsValueExtensionTable) s10.M1PeriodicReportingExtIEsExtFieldValueCodec {
 	if !*s00.BridgeM1PeriodicReportingExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M1PeriodicReportingExtIEsExtFieldValueCodec{}
@@ -7856,6 +8090,8 @@ func M1PeriodicReportingExtIEsValueExtensionFieldTableCodec(table s00.M1Periodic
 	}()
 
 }
+
+// M1ThresholdEventA2ExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{M1ThresholdEventA2-ExtIEs}} codec of TS 36.413.
 func M1ThresholdEventA2ExtIEsValueExtensionFieldTableCodec(table s00.M1ThresholdEventA2ExtIEsValueExtensionTable) s10.M1ThresholdEventA2ExtIEsExtFieldValueCodec {
 	if !*s00.BridgeM1ThresholdEventA2ExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M1ThresholdEventA2ExtIEsExtFieldValueCodec{}
@@ -7913,6 +8149,8 @@ func M1ThresholdEventA2ExtIEsValueExtensionFieldTableCodec(table s00.M1Threshold
 	}()
 
 }
+
+// M3ConfigurationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{M3Configuration-ExtIEs}} codec of TS 36.413.
 func M3ConfigurationExtIEsValueExtensionFieldTableCodec(table s00.M3ConfigurationExtIEsValueExtensionTable) s10.M3ConfigurationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeM3ConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M3ConfigurationExtIEsExtFieldValueCodec{}
@@ -7970,6 +8208,8 @@ func M3ConfigurationExtIEsValueExtensionFieldTableCodec(table s00.M3Configuratio
 	}()
 
 }
+
+// M4ConfigurationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{M4Configuration-ExtIEs}} codec of TS 36.413.
 func M4ConfigurationExtIEsValueExtensionFieldTableCodec(table s00.M4ConfigurationExtIEsValueExtensionTable) s10.M4ConfigurationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeM4ConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M4ConfigurationExtIEsExtFieldValueCodec{}
@@ -8027,6 +8267,8 @@ func M4ConfigurationExtIEsValueExtensionFieldTableCodec(table s00.M4Configuratio
 	}()
 
 }
+
+// M5ConfigurationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{M5Configuration-ExtIEs}} codec of TS 36.413.
 func M5ConfigurationExtIEsValueExtensionFieldTableCodec(table s00.M5ConfigurationExtIEsValueExtensionTable) s10.M5ConfigurationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeM5ConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M5ConfigurationExtIEsExtFieldValueCodec{}
@@ -8084,6 +8326,8 @@ func M5ConfigurationExtIEsValueExtensionFieldTableCodec(table s00.M5Configuratio
 	}()
 
 }
+
+// M6ConfigurationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{M6Configuration-ExtIEs}} codec of TS 36.413.
 func M6ConfigurationExtIEsValueExtensionFieldTableCodec(table s00.M6ConfigurationExtIEsValueExtensionTable) s10.M6ConfigurationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeM6ConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M6ConfigurationExtIEsExtFieldValueCodec{}
@@ -8141,6 +8385,8 @@ func M6ConfigurationExtIEsValueExtensionFieldTableCodec(table s00.M6Configuratio
 	}()
 
 }
+
+// M7ConfigurationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{M7Configuration-ExtIEs}} codec of TS 36.413.
 func M7ConfigurationExtIEsValueExtensionFieldTableCodec(table s00.M7ConfigurationExtIEsValueExtensionTable) s10.M7ConfigurationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeM7ConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M7ConfigurationExtIEsExtFieldValueCodec{}
@@ -8198,6 +8444,8 @@ func M7ConfigurationExtIEsValueExtensionFieldTableCodec(table s00.M7Configuratio
 	}()
 
 }
+
+// MBSFNResultToLogInfoExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{MBSFN-ResultToLogInfo-ExtIEs}} codec of TS 36.413.
 func MBSFNResultToLogInfoExtIEsValueExtensionFieldTableCodec(table s00.MBSFNResultToLogInfoExtIEsValueExtensionTable) s10.MBSFNResultToLogInfoExtIEsExtFieldValueCodec {
 	if !*s00.BridgeMBSFNResultToLogInfoExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.MBSFNResultToLogInfoExtIEsExtFieldValueCodec{}
@@ -8255,6 +8503,8 @@ func MBSFNResultToLogInfoExtIEsValueExtensionFieldTableCodec(table s00.MBSFNResu
 	}()
 
 }
+
+// MutingPatternInformationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{MutingPatternInformation-ExtIEs}} codec of TS 36.413.
 func MutingPatternInformationExtIEsValueExtensionFieldTableCodec(table s00.MutingPatternInformationExtIEsValueExtensionTable) s10.MutingPatternInformationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeMutingPatternInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.MutingPatternInformationExtIEsExtFieldValueCodec{}
@@ -8312,6 +8562,8 @@ func MutingPatternInformationExtIEsValueExtensionFieldTableCodec(table s00.Mutin
 	}()
 
 }
+
+// NBIoTPagingEDRXInformationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{NB-IoT-Paging-eDRXInformation-ExtIEs}} codec of TS 36.413.
 func NBIoTPagingEDRXInformationExtIEsValueExtensionFieldTableCodec(table s00.NBIoTPagingEDRXInformationExtIEsValueExtensionTable) s10.NBIoTPagingEDRXInformationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeNBIoTPagingEDRXInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NBIoTPagingEDRXInformationExtIEsExtFieldValueCodec{}
@@ -8369,6 +8621,8 @@ func NBIoTPagingEDRXInformationExtIEsValueExtensionFieldTableCodec(table s00.NBI
 	}()
 
 }
+
+// NGENBExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{NG-eNB-ExtIEs}} codec of TS 36.413.
 func NGENBExtIEsValueExtensionFieldTableCodec(table s00.NGENBExtIEsValueExtensionTable) s10.NGENBExtIEsExtFieldValueCodec {
 	if !*s00.BridgeNGENBExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NGENBExtIEsExtFieldValueCodec{}
@@ -8426,6 +8680,8 @@ func NGENBExtIEsValueExtensionFieldTableCodec(table s00.NGENBExtIEsValueExtensio
 	}()
 
 }
+
+// NRCGIExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{NR-CGI-ExtIEs}} codec of TS 36.413.
 func NRCGIExtIEsValueExtensionFieldTableCodec(table s00.NRCGIExtIEsValueExtensionTable) s10.NRCGIExtIEsExtFieldValueCodec {
 	if !*s00.BridgeNRCGIExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NRCGIExtIEsExtFieldValueCodec{}
@@ -8483,6 +8739,8 @@ func NRCGIExtIEsValueExtensionFieldTableCodec(table s00.NRCGIExtIEsValueExtensio
 	}()
 
 }
+
+// NRUESecurityCapabilitiesExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{NRUESecurityCapabilities-ExtIEs}} codec of TS 36.413.
 func NRUESecurityCapabilitiesExtIEsValueExtensionFieldTableCodec(table s00.NRUESecurityCapabilitiesExtIEsValueExtensionTable) s10.NRUESecurityCapabilitiesExtIEsExtFieldValueCodec {
 	if !*s00.BridgeNRUESecurityCapabilitiesExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NRUESecurityCapabilitiesExtIEsExtFieldValueCodec{}
@@ -8540,6 +8798,8 @@ func NRUESecurityCapabilitiesExtIEsValueExtensionFieldTableCodec(table s00.NRUES
 	}()
 
 }
+
+// NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{NRUESidelinkAggregateMaximumBitrate-ExtIEs}} codec of TS 36.413.
 func NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionFieldTableCodec(table s00.NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionTable) s10.NRUESidelinkAggregateMaximumBitrateExtIEsExtFieldValueCodec {
 	if !*s00.BridgeNRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NRUESidelinkAggregateMaximumBitrateExtIEsExtFieldValueCodec{}
@@ -8597,6 +8857,8 @@ func NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionFieldTableCodec(tabl
 	}()
 
 }
+
+// NRV2XServicesAuthorizedExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{NRV2XServicesAuthorized-ExtIEs}} codec of TS 36.413.
 func NRV2XServicesAuthorizedExtIEsValueExtensionFieldTableCodec(table s00.NRV2XServicesAuthorizedExtIEsValueExtensionTable) s10.NRV2XServicesAuthorizedExtIEsExtFieldValueCodec {
 	if !*s00.BridgeNRV2XServicesAuthorizedExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NRV2XServicesAuthorizedExtIEsExtFieldValueCodec{}
@@ -8654,6 +8916,8 @@ func NRV2XServicesAuthorizedExtIEsValueExtensionFieldTableCodec(table s00.NRV2XS
 	}()
 
 }
+
+// PC5FlowBitRatesExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{PC5FlowBitRates-ExtIEs}} codec of TS 36.413.
 func PC5FlowBitRatesExtIEsValueExtensionFieldTableCodec(table s00.PC5FlowBitRatesExtIEsValueExtensionTable) s10.PC5FlowBitRatesExtIEsExtFieldValueCodec {
 	if !*s00.BridgePC5FlowBitRatesExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PC5FlowBitRatesExtIEsExtFieldValueCodec{}
@@ -8711,6 +8975,8 @@ func PC5FlowBitRatesExtIEsValueExtensionFieldTableCodec(table s00.PC5FlowBitRate
 	}()
 
 }
+
+// PC5QoSFlowItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{PC5QoSFlowItem-ExtIEs}} codec of TS 36.413.
 func PC5QoSFlowItemExtIEsValueExtensionFieldTableCodec(table s00.PC5QoSFlowItemExtIEsValueExtensionTable) s10.PC5QoSFlowItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgePC5QoSFlowItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PC5QoSFlowItemExtIEsExtFieldValueCodec{}
@@ -8768,63 +9034,93 @@ func PC5QoSFlowItemExtIEsValueExtensionFieldTableCodec(table s00.PC5QoSFlowItemE
 	}()
 
 }
-func PC5QoSParametersExtIEsValueExtensionFieldTableCodec(table s00.PC5QoSParametersExtIEsValueExtensionTable) s10.PC5QoSParametersExtIEsExtFieldValueCodec {
-	if !*s00.BridgePC5QoSParametersExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.PC5QoSParametersExtIEsExtFieldValueCodec{}
+
+// CancelledCellinEAIItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CancelledCellinEAI-Item-ExtIEs}} codec of TS 36.413.
+func CancelledCellinEAIItemExtIEsValueExtensionTableCodec(table s00.CancelledCellinEAIItemExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CancelledCellinEAIItemExtIEsExtContainerValueCodec {
+	if !*s00.BridgeCancelledCellinEAIItemExtIEsValueExtensionTableFieldBound(&table) {
+		return s07.CancelledCellinEAIItemExtIEsExtContainerValueCodec{}
 	}
-	return func() s10.PC5QoSParametersExtIEsExtFieldValueCodec {
-		sealed := s10.PC5QoSParametersExtIEsExtFieldValueCodec{}
-		*s10.BridgePC5QoSParametersExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PC5QoSParametersExtIEsExtField, error) {
-			var field s10.PC5QoSParametersExtIEsExtField
+	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
+	return func() s07.CancelledCellinEAIItemExtIEsExtContainerValueCodec {
+		sealed := s07.CancelledCellinEAIItemExtIEsExtContainerValueCodec{}
+		*s07.BridgeCancelledCellinEAIItemExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CancelledCellinEAIItemExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return field, err
+				return nil, err
 			}
-			if err := s10.BridgePC5QoSParametersExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+			var fields s07.CancelledCellinEAIItemExtIEsExtContainer
+			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
+				for i := int64(0); i < length; i++ {
+					var field s07.CancelledCellinEAIItemExtIEsExtField
+					if err := s07.BridgeCancelledCellinEAIItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+						return err
+					}
+					if next, err := aper.AppendValues(bb, fields, field); err != nil {
+						return err
+					} else {
+						fields = next
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return nil, err
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
+				return nil, err
 			}
-			return field, nil
+			return fields, nil
 		}
-		*s10.BridgePC5QoSParametersExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s10.PC5QoSParametersExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s07.BridgeCancelledCellinEAIItemExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s07.CancelledCellinEAIItemExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
-			if err := s10.BridgePC5QoSParametersExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
+				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
+					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
+				}
+				for _, field := range fields[offset:][:length] {
+					if err := s07.BridgeCancelledCellinEAIItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+						return err
+					}
+				}
+				return nil
+			})
+			if err != nil {
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s10.BridgePC5QoSParametersExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s10.PC5QoSParametersExtIEsExtField, options aper.DecodeState) (s10.PC5QoSParametersExtIEsExtField, aper.Snapshot,
+		*s07.BridgeCancelledCellinEAIItemExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s07.CancelledCellinEAIItemExtIEsExtContainer, options aper.DecodeState) (s07.CancelledCellinEAIItemExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			s12.BridgeCancelledCellinEAIItemExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+
+			s.End(f, &root, false)
 			return v, root
 		}
-		*s10.BridgePC5QoSParametersExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s10.PC5QoSParametersExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s07.BridgeCancelledCellinEAIItemExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s07.CancelledCellinEAIItemExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
-
-				false)
+			f := s.
+				Begin()
+			BridgeCancelledCellinEAIItemExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s10.BridgePC5QoSParametersExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s07.BridgeCancelledCellinEAIItemExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
 			return sealed
 		}()
 		return sealed
 	}()
 
 }
+
+// CancelledCellinTAIItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CancelledCellinTAI-Item-ExtIEs}} codec of TS 36.413.
 func CancelledCellinTAIItemExtIEsValueExtensionTableCodec(table s00.CancelledCellinTAIItemExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CancelledCellinTAIItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCancelledCellinTAIItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CancelledCellinTAIItemExtIEsExtContainerValueCodec{}
@@ -8882,7 +9178,7 @@ func CancelledCellinTAIItemExtIEsValueExtensionTableCodec(table s00.CancelledCel
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s12.BridgeCancelledCellinTAIItemExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
+			BridgeCancelledCellinTAIItemExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
 			var root aper.Snapshot
 
 			s.End(f, &root, false)
@@ -8908,6 +9204,8 @@ func CancelledCellinTAIItemExtIEsValueExtensionTableCodec(table s00.CancelledCel
 	}()
 
 }
+
+// Cdma2000OneXSRVCCInfoExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{Cdma2000OneXSRVCCInfo-ExtIEs}} codec of TS 36.413.
 func Cdma2000OneXSRVCCInfoExtIEsValueExtensionTableCodec(table s00.Cdma2000OneXSRVCCInfoExtIEsValueExtensionTable, bounds aper.ListBounds) s07.Cdma2000OneXSRVCCInfoExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCdma2000OneXSRVCCInfoExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.Cdma2000OneXSRVCCInfoExtIEsExtContainerValueCodec{}
@@ -8991,6 +9289,8 @@ func Cdma2000OneXSRVCCInfoExtIEsValueExtensionTableCodec(table s00.Cdma2000OneXS
 	}()
 
 }
+
+// CellBasedMDTExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CellBasedMDT-ExtIEs}} codec of TS 36.413.
 func CellBasedMDTExtIEsValueExtensionTableCodec(table s00.CellBasedMDTExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CellBasedMDTExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCellBasedMDTExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellBasedMDTExtIEsExtContainerValueCodec{}
@@ -9074,6 +9374,8 @@ func CellBasedMDTExtIEsValueExtensionTableCodec(table s00.CellBasedMDTExtIEsValu
 	}()
 
 }
+
+// CellBasedQMCExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CellBasedQMC-ExtIEs}} codec of TS 36.413.
 func CellBasedQMCExtIEsValueExtensionTableCodec(table s00.CellBasedQMCExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CellBasedQMCExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCellBasedQMCExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellBasedQMCExtIEsExtContainerValueCodec{}
@@ -9157,6 +9459,8 @@ func CellBasedQMCExtIEsValueExtensionTableCodec(table s00.CellBasedQMCExtIEsValu
 	}()
 
 }
+
+// CellIDBroadcastItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CellID-Broadcast-Item-ExtIEs}} codec of TS 36.413.
 func CellIDBroadcastItemExtIEsValueExtensionTableCodec(table s00.CellIDBroadcastItemExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CellIDBroadcastItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCellIDBroadcastItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellIDBroadcastItemExtIEsExtContainerValueCodec{}
@@ -9240,6 +9544,8 @@ func CellIDBroadcastItemExtIEsValueExtensionTableCodec(table s00.CellIDBroadcast
 	}()
 
 }
+
+// CellIDCancelledItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CellID-Cancelled-Item-ExtIEs}} codec of TS 36.413.
 func CellIDCancelledItemExtIEsValueExtensionTableCodec(table s00.CellIDCancelledItemExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CellIDCancelledItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCellIDCancelledItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellIDCancelledItemExtIEsExtContainerValueCodec{}
@@ -9323,6 +9629,8 @@ func CellIDCancelledItemExtIEsValueExtensionTableCodec(table s00.CellIDCancelled
 	}()
 
 }
+
+// CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CellIdentifierAndCELevelForCECapableUEs-ExtIEs}} codec of TS 36.413.
 func CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTableCodec(table s00.CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CellIdentifierAndCELevelForCECapableUEsExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellIdentifierAndCELevelForCECapableUEsExtIEsExtContainerValueCodec{}
@@ -9406,6 +9714,8 @@ func CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTableCodec(table
 	}()
 
 }
+
+// CellTypeExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CellType-ExtIEs}} codec of TS 36.413.
 func CellTypeExtIEsValueExtensionTableCodec(table s00.CellTypeExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CellTypeExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCellTypeExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CellTypeExtIEsExtContainerValueCodec{}
@@ -9489,6 +9799,8 @@ func CellTypeExtIEsValueExtensionTableCodec(table s00.CellTypeExtIEsValueExtensi
 	}()
 
 }
+
+// CompletedCellinEAIItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CompletedCellinEAI-Item-ExtIEs}} codec of TS 36.413.
 func CompletedCellinEAIItemExtIEsValueExtensionTableCodec(table s00.CompletedCellinEAIItemExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CompletedCellinEAIItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCompletedCellinEAIItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CompletedCellinEAIItemExtIEsExtContainerValueCodec{}
@@ -9572,6 +9884,8 @@ func CompletedCellinEAIItemExtIEsValueExtensionTableCodec(table s00.CompletedCel
 	}()
 
 }
+
+// CompletedCellinTAIItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CompletedCellinTAI-Item-ExtIEs}} codec of TS 36.413.
 func CompletedCellinTAIItemExtIEsValueExtensionTableCodec(table s00.CompletedCellinTAIItemExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CompletedCellinTAIItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCompletedCellinTAIItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CompletedCellinTAIItemExtIEsExtContainerValueCodec{}
@@ -9655,6 +9969,8 @@ func CompletedCellinTAIItemExtIEsValueExtensionTableCodec(table s00.CompletedCel
 	}()
 
 }
+
+// ConnectedengNBItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{ConnectedengNBItem-ExtIEs}} codec of TS 36.413.
 func ConnectedengNBItemExtIEsValueExtensionTableCodec(table s00.ConnectedengNBItemExtIEsValueExtensionTable, bounds aper.ListBounds) s07.ConnectedengNBItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeConnectedengNBItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.ConnectedengNBItemExtIEsExtContainerValueCodec{}
@@ -9738,6 +10054,8 @@ func ConnectedengNBItemExtIEsValueExtensionTableCodec(table s00.ConnectedengNBIt
 	}()
 
 }
+
+// ContextatSourceExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{ContextatSource-ExtIEs}} codec of TS 36.413.
 func ContextatSourceExtIEsValueExtensionTableCodec(table s00.ContextatSourceExtIEsValueExtensionTable, bounds aper.ListBounds) s07.ContextatSourceExtIEsExtContainerValueCodec {
 	if !*s00.BridgeContextatSourceExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.ContextatSourceExtIEsExtContainerValueCodec{}
@@ -9821,6 +10139,8 @@ func ContextatSourceExtIEsValueExtensionTableCodec(table s00.ContextatSourceExtI
 	}()
 
 }
+
+// CriticalityDiagnosticsExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CriticalityDiagnostics-ExtIEs}} codec of TS 36.413.
 func CriticalityDiagnosticsExtIEsValueExtensionTableCodec(table s00.CriticalityDiagnosticsExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CriticalityDiagnosticsExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCriticalityDiagnosticsExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CriticalityDiagnosticsExtIEsExtContainerValueCodec{}
@@ -9904,6 +10224,8 @@ func CriticalityDiagnosticsExtIEsValueExtensionTableCodec(table s00.CriticalityD
 	}()
 
 }
+
+// CriticalityDiagnosticsIEItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CriticalityDiagnostics-IE-Item-ExtIEs}} codec of TS 36.413.
 func CriticalityDiagnosticsIEItemExtIEsValueExtensionTableCodec(table s00.CriticalityDiagnosticsIEItemExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CriticalityDiagnosticsIEItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeCriticalityDiagnosticsIEItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s07.CriticalityDiagnosticsIEItemExtIEsExtContainerValueCodec{}
@@ -9987,6 +10309,8 @@ func CriticalityDiagnosticsIEItemExtIEsValueExtensionTableCodec(table s00.Critic
 	}()
 
 }
+
+// DAPSRequestInfoExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{DAPSRequestInfo-ExtIEs}} codec of TS 36.413.
 func DAPSRequestInfoExtIEsValueExtensionTableCodec(table s00.DAPSRequestInfoExtIEsValueExtensionTable, bounds aper.ListBounds) s08.DAPSRequestInfoExtIEsExtContainerValueCodec {
 	if !*s00.BridgeDAPSRequestInfoExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.DAPSRequestInfoExtIEsExtContainerValueCodec{}
@@ -10070,6 +10394,8 @@ func DAPSRequestInfoExtIEsValueExtensionTableCodec(table s00.DAPSRequestInfoExtI
 	}()
 
 }
+
+// DAPSResponseInfoExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{DAPSResponseInfo-ExtIEs}} codec of TS 36.413.
 func DAPSResponseInfoExtIEsValueExtensionTableCodec(table s00.DAPSResponseInfoExtIEsValueExtensionTable, bounds aper.ListBounds) s08.DAPSResponseInfoExtIEsExtContainerValueCodec {
 	if !*s00.BridgeDAPSResponseInfoExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.DAPSResponseInfoExtIEsExtContainerValueCodec{}
@@ -10153,6 +10479,8 @@ func DAPSResponseInfoExtIEsValueExtensionTableCodec(table s00.DAPSResponseInfoEx
 	}()
 
 }
+
+// DAPSResponseInfoItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{DAPSResponseInfoItem-ExtIEs}} codec of TS 36.413.
 func DAPSResponseInfoItemExtIEsValueExtensionTableCodec(table s00.DAPSResponseInfoItemExtIEsValueExtensionTable, bounds aper.ListBounds) s08.DAPSResponseInfoItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeDAPSResponseInfoItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.DAPSResponseInfoItemExtIEsExtContainerValueCodec{}
@@ -10236,6 +10564,8 @@ func DAPSResponseInfoItemExtIEsValueExtensionTableCodec(table s00.DAPSResponseIn
 	}()
 
 }
+
+// DLCPSecurityInformationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{DL-CP-SecurityInformation-ExtIEs}} codec of TS 36.413.
 func DLCPSecurityInformationExtIEsValueExtensionTableCodec(table s00.DLCPSecurityInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s08.DLCPSecurityInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeDLCPSecurityInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.DLCPSecurityInformationExtIEsExtContainerValueCodec{}
@@ -10319,6 +10649,8 @@ func DLCPSecurityInformationExtIEsValueExtensionTableCodec(table s00.DLCPSecurit
 	}()
 
 }
+
+// ENBStatusTransferTransparentContainerExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{ENB-StatusTransfer-TransparentContainer-ExtIEs}} codec of TS 36.413.
 func ENBStatusTransferTransparentContainerExtIEsValueExtensionTableCodec(table s00.ENBStatusTransferTransparentContainerExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ENBStatusTransferTransparentContainerExtIEsExtContainerValueCodec {
 	if !*s00.BridgeENBStatusTransferTransparentContainerExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENBStatusTransferTransparentContainerExtIEsExtContainerValueCodec{}
@@ -10402,6 +10734,8 @@ func ENBStatusTransferTransparentContainerExtIEsValueExtensionTableCodec(table s
 	}()
 
 }
+
+// ENBX2ExtTLAExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{ENBX2ExtTLA-ExtIEs}} codec of TS 36.413.
 func ENBX2ExtTLAExtIEsValueExtensionTableCodec(table s00.ENBX2ExtTLAExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ENBX2ExtTLAExtIEsExtContainerValueCodec {
 	if !*s00.BridgeENBX2ExtTLAExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENBX2ExtTLAExtIEsExtContainerValueCodec{}
@@ -10485,6 +10819,8 @@ func ENBX2ExtTLAExtIEsValueExtensionTableCodec(table s00.ENBX2ExtTLAExtIEsValueE
 	}()
 
 }
+
+// ENDCSONConfigurationTransferExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{EN-DCSONConfigurationTransfer-ExtIEs}} codec of TS 36.413.
 func ENDCSONConfigurationTransferExtIEsValueExtensionTableCodec(table s00.ENDCSONConfigurationTransferExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ENDCSONConfigurationTransferExtIEsExtContainerValueCodec {
 	if !*s00.BridgeENDCSONConfigurationTransferExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENDCSONConfigurationTransferExtIEsExtContainerValueCodec{}
@@ -10568,6 +10904,8 @@ func ENDCSONConfigurationTransferExtIEsValueExtensionTableCodec(table s00.ENDCSO
 	}()
 
 }
+
+// ENDCSONeNBIdentificationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{EN-DCSONeNBIdentification-ExtIEs}} codec of TS 36.413.
 func ENDCSONeNBIdentificationExtIEsValueExtensionTableCodec(table s00.ENDCSONeNBIdentificationExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ENDCSONeNBIdentificationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeENDCSONeNBIdentificationExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENDCSONeNBIdentificationExtIEsExtContainerValueCodec{}
@@ -10651,6 +10989,8 @@ func ENDCSONeNBIdentificationExtIEsValueExtensionTableCodec(table s00.ENDCSONeNB
 	}()
 
 }
+
+// ENDCSONengNBIdentificationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{EN-DCSONengNBIdentification-ExtIEs}} codec of TS 36.413.
 func ENDCSONengNBIdentificationExtIEsValueExtensionTableCodec(table s00.ENDCSONengNBIdentificationExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ENDCSONengNBIdentificationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeENDCSONengNBIdentificationExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENDCSONengNBIdentificationExtIEsExtContainerValueCodec{}
@@ -10734,6 +11074,8 @@ func ENDCSONengNBIdentificationExtIEsValueExtensionTableCodec(table s00.ENDCSONe
 	}()
 
 }
+
+// ENDCTransferTypeReplyExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{EN-DCTransferTypeReply-ExtIEs}} codec of TS 36.413.
 func ENDCTransferTypeReplyExtIEsValueExtensionTableCodec(table s00.ENDCTransferTypeReplyExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ENDCTransferTypeReplyExtIEsExtContainerValueCodec {
 	if !*s00.BridgeENDCTransferTypeReplyExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENDCTransferTypeReplyExtIEsExtContainerValueCodec{}
@@ -10817,6 +11159,8 @@ func ENDCTransferTypeReplyExtIEsValueExtensionTableCodec(table s00.ENDCTransferT
 	}()
 
 }
+
+// ENDCTransferTypeRequestExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{EN-DCTransferTypeRequest-ExtIEs}} codec of TS 36.413.
 func ENDCTransferTypeRequestExtIEsValueExtensionTableCodec(table s00.ENDCTransferTypeRequestExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ENDCTransferTypeRequestExtIEsExtContainerValueCodec {
 	if !*s00.BridgeENDCTransferTypeRequestExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ENDCTransferTypeRequestExtIEsExtContainerValueCodec{}
@@ -10900,6 +11244,8 @@ func ENDCTransferTypeRequestExtIEsValueExtensionTableCodec(table s00.ENDCTransfe
 	}()
 
 }
+
+// ERABAdmittedItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABAdmittedItem-ExtIEs}} codec of TS 36.413.
 func ERABAdmittedItemExtIEsValueExtensionTableCodec(table s00.ERABAdmittedItemExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABAdmittedItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABAdmittedItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABAdmittedItemExtIEsExtContainerValueCodec{}
@@ -10983,6 +11329,8 @@ func ERABAdmittedItemExtIEsValueExtensionTableCodec(table s00.ERABAdmittedItemEx
 	}()
 
 }
+
+// ERABDataForwardingItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABDataForwardingItem-ExtIEs}} codec of TS 36.413.
 func ERABDataForwardingItemExtIEsValueExtensionTableCodec(table s00.ERABDataForwardingItemExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABDataForwardingItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABDataForwardingItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABDataForwardingItemExtIEsExtContainerValueCodec{}
@@ -11066,6 +11414,8 @@ func ERABDataForwardingItemExtIEsValueExtensionTableCodec(table s00.ERABDataForw
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeReqExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABFailedToResumeItemResumeReq-ExtIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeReqExtIEsValueExtensionTableCodec(table s00.ERABFailedToResumeItemResumeReqExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABFailedToResumeItemResumeReqExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABFailedToResumeItemResumeReqExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABFailedToResumeItemResumeReqExtIEsExtContainerValueCodec{}
@@ -11149,6 +11499,8 @@ func ERABFailedToResumeItemResumeReqExtIEsValueExtensionTableCodec(table s00.ERA
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeResExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABFailedToResumeItemResumeRes-ExtIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeResExtIEsValueExtensionTableCodec(table s00.ERABFailedToResumeItemResumeResExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABFailedToResumeItemResumeResExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABFailedToResumeItemResumeResExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABFailedToResumeItemResumeResExtIEsExtContainerValueCodec{}
@@ -11232,6 +11584,8 @@ func ERABFailedToResumeItemResumeResExtIEsValueExtensionTableCodec(table s00.ERA
 	}()
 
 }
+
+// ERABFailedToSetupItemHOReqAckExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABFailedToSetupItemHOReqAckExtIEs}} codec of TS 36.413.
 func ERABFailedToSetupItemHOReqAckExtIEsValueExtensionTableCodec(table s00.ERABFailedToSetupItemHOReqAckExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABFailedToSetupItemHOReqAckExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABFailedToSetupItemHOReqAckExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABFailedToSetupItemHOReqAckExtIEsExtContainerValueCodec{}
@@ -11315,6 +11669,8 @@ func ERABFailedToSetupItemHOReqAckExtIEsValueExtensionTableCodec(table s00.ERABF
 	}()
 
 }
+
+// ERABItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABItem-ExtIEs}} codec of TS 36.413.
 func ERABItemExtIEsValueExtensionTableCodec(table s00.ERABItemExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABItemExtIEsExtContainerValueCodec{}
@@ -11398,6 +11754,8 @@ func ERABItemExtIEsValueExtensionTableCodec(table s00.ERABItemExtIEsValueExtensi
 	}()
 
 }
+
+// ERABModifyItemBearerModConfExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABModifyItemBearerModConfExtIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModConfExtIEsValueExtensionTableCodec(table s00.ERABModifyItemBearerModConfExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABModifyItemBearerModConfExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABModifyItemBearerModConfExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABModifyItemBearerModConfExtIEsExtContainerValueCodec{}
@@ -11481,6 +11839,8 @@ func ERABModifyItemBearerModConfExtIEsValueExtensionTableCodec(table s00.ERABMod
 	}()
 
 }
+
+// ERABModifyItemBearerModResExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABModifyItemBearerModResExtIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModResExtIEsValueExtensionTableCodec(table s00.ERABModifyItemBearerModResExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABModifyItemBearerModResExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABModifyItemBearerModResExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABModifyItemBearerModResExtIEsExtContainerValueCodec{}
@@ -11564,6 +11924,8 @@ func ERABModifyItemBearerModResExtIEsValueExtensionTableCodec(table s00.ERABModi
 	}()
 
 }
+
+// ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABNotToBeModifiedItemBearerModInd-ExtIEs}} codec of TS 36.413.
 func ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionTableCodec(table s00.ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABNotToBeModifiedItemBearerModIndExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABNotToBeModifiedItemBearerModIndExtIEsExtContainerValueCodec{}
@@ -11647,6 +12009,8 @@ func ERABNotToBeModifiedItemBearerModIndExtIEsValueExtensionTableCodec(table s00
 	}()
 
 }
+
+// ERABQoSParametersExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABQoSParameters-ExtIEs}} codec of TS 36.413.
 func ERABQoSParametersExtIEsValueExtensionTableCodec(table s00.ERABQoSParametersExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABQoSParametersExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABQoSParametersExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABQoSParametersExtIEsExtContainerValueCodec{}
@@ -11730,6 +12094,8 @@ func ERABQoSParametersExtIEsValueExtensionTableCodec(table s00.ERABQoSParameters
 	}()
 
 }
+
+// ERABReleaseItemBearerRelCompExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABReleaseItemBearerRelCompExtIEs}} codec of TS 36.413.
 func ERABReleaseItemBearerRelCompExtIEsValueExtensionTableCodec(table s00.ERABReleaseItemBearerRelCompExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABReleaseItemBearerRelCompExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABReleaseItemBearerRelCompExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABReleaseItemBearerRelCompExtIEsExtContainerValueCodec{}
@@ -11813,6 +12179,8 @@ func ERABReleaseItemBearerRelCompExtIEsValueExtensionTableCodec(table s00.ERABRe
 	}()
 
 }
+
+// ERABSecurityResultItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABSecurityResultItem-ExtIEs}} codec of TS 36.413.
 func ERABSecurityResultItemExtIEsValueExtensionTableCodec(table s00.ERABSecurityResultItemExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABSecurityResultItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABSecurityResultItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABSecurityResultItemExtIEsExtContainerValueCodec{}
@@ -11896,6 +12264,8 @@ func ERABSecurityResultItemExtIEsValueExtensionTableCodec(table s00.ERABSecurity
 	}()
 
 }
+
+// ERABSetupItemBearerSUResExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABSetupItemBearerSUResExtIEs}} codec of TS 36.413.
 func ERABSetupItemBearerSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupItemBearerSUResExtIEsValueExtensionTable, bounds aper.ListBounds) s08.ERABSetupItemBearerSUResExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABSetupItemBearerSUResExtIEsValueExtensionTableFieldBound(&table) {
 		return s08.ERABSetupItemBearerSUResExtIEsExtContainerValueCodec{}
@@ -11979,6 +12349,8 @@ func ERABSetupItemBearerSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupI
 	}()
 
 }
+
+// ERABSetupItemCtxtSUResExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABSetupItemCtxtSUResExtIEs}} codec of TS 36.413.
 func ERABSetupItemCtxtSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupItemCtxtSUResExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ERABSetupItemCtxtSUResExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABSetupItemCtxtSUResExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ERABSetupItemCtxtSUResExtIEsExtContainerValueCodec{}
@@ -12062,6 +12434,8 @@ func ERABSetupItemCtxtSUResExtIEsValueExtensionTableCodec(table s00.ERABSetupIte
 	}()
 
 }
+
+// ERABToBeModifiedItemBearerModIndExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABToBeModifiedItemBearerModInd-ExtIEs}} codec of TS 36.413.
 func ERABToBeModifiedItemBearerModIndExtIEsValueExtensionTableCodec(table s00.ERABToBeModifiedItemBearerModIndExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ERABToBeModifiedItemBearerModIndExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABToBeModifiedItemBearerModIndExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ERABToBeModifiedItemBearerModIndExtIEsExtContainerValueCodec{}
@@ -12145,6 +12519,8 @@ func ERABToBeModifiedItemBearerModIndExtIEsValueExtensionTableCodec(table s00.ER
 	}()
 
 }
+
+// ERABToBeSwitchedULItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABToBeSwitchedULItem-ExtIEs}} codec of TS 36.413.
 func ERABToBeSwitchedULItemExtIEsValueExtensionTableCodec(table s00.ERABToBeSwitchedULItemExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ERABToBeSwitchedULItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABToBeSwitchedULItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ERABToBeSwitchedULItemExtIEsExtContainerValueCodec{}
@@ -12228,6 +12604,8 @@ func ERABToBeSwitchedULItemExtIEsValueExtensionTableCodec(table s00.ERABToBeSwit
 	}()
 
 }
+
+// ERABToBeUpdatedItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABToBeUpdatedItem-ExtIEs}} codec of TS 36.413.
 func ERABToBeUpdatedItemExtIEsValueExtensionTableCodec(table s00.ERABToBeUpdatedItemExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ERABToBeUpdatedItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABToBeUpdatedItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ERABToBeUpdatedItemExtIEsExtContainerValueCodec{}
@@ -12311,6 +12689,8 @@ func ERABToBeUpdatedItemExtIEsValueExtensionTableCodec(table s00.ERABToBeUpdated
 	}()
 
 }
+
+// ERABUsageReportItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{E-RABUsageReportItem-ExtIEs}} codec of TS 36.413.
 func ERABUsageReportItemExtIEsValueExtensionTableCodec(table s00.ERABUsageReportItemExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ERABUsageReportItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeERABUsageReportItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ERABUsageReportItemExtIEsExtContainerValueCodec{}
@@ -12394,6 +12774,8 @@ func ERABUsageReportItemExtIEsValueExtensionTableCodec(table s00.ERABUsageReport
 	}()
 
 }
+
+// EUTRANCGIExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{EUTRAN-CGI-ExtIEs}} codec of TS 36.413.
 func EUTRANCGIExtIEsValueExtensionTableCodec(table s00.EUTRANCGIExtIEsValueExtensionTable, bounds aper.ListBounds) s09.EUTRANCGIExtIEsExtContainerValueCodec {
 	if !*s00.BridgeEUTRANCGIExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.EUTRANCGIExtIEsExtContainerValueCodec{}
@@ -12477,6 +12859,8 @@ func EUTRANCGIExtIEsValueExtensionTableCodec(table s00.EUTRANCGIExtIEsValueExten
 	}()
 
 }
+
+// EmergencyAreaIDBroadcastItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{EmergencyAreaID-Broadcast-Item-ExtIEs}} codec of TS 36.413.
 func EmergencyAreaIDBroadcastItemExtIEsValueExtensionTableCodec(table s00.EmergencyAreaIDBroadcastItemExtIEsValueExtensionTable, bounds aper.ListBounds) s09.EmergencyAreaIDBroadcastItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeEmergencyAreaIDBroadcastItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.EmergencyAreaIDBroadcastItemExtIEsExtContainerValueCodec{}
@@ -12560,6 +12944,8 @@ func EmergencyAreaIDBroadcastItemExtIEsValueExtensionTableCodec(table s00.Emerge
 	}()
 
 }
+
+// EmergencyAreaIDCancelledItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{EmergencyAreaID-Cancelled-Item-ExtIEs}} codec of TS 36.413.
 func EmergencyAreaIDCancelledItemExtIEsValueExtensionTableCodec(table s00.EmergencyAreaIDCancelledItemExtIEsValueExtensionTable, bounds aper.ListBounds) s09.EmergencyAreaIDCancelledItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeEmergencyAreaIDCancelledItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.EmergencyAreaIDCancelledItemExtIEsExtContainerValueCodec{}
@@ -12643,6 +13029,8 @@ func EmergencyAreaIDCancelledItemExtIEsValueExtensionTableCodec(table s00.Emerge
 	}()
 
 }
+
+// EventL1LoggedMDTConfigExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{EventL1LoggedMDTConfig-ExtIEs}} codec of TS 36.413.
 func EventL1LoggedMDTConfigExtIEsValueExtensionTableCodec(table s00.EventL1LoggedMDTConfigExtIEsValueExtensionTable, bounds aper.ListBounds) s09.EventL1LoggedMDTConfigExtIEsExtContainerValueCodec {
 	if !*s00.BridgeEventL1LoggedMDTConfigExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.EventL1LoggedMDTConfigExtIEsExtContainerValueCodec{}
@@ -12726,6 +13114,8 @@ func EventL1LoggedMDTConfigExtIEsValueExtensionTableCodec(table s00.EventL1Logge
 	}()
 
 }
+
+// ExpectedUEActivityBehaviourExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{ExpectedUEActivityBehaviour-ExtIEs}} codec of TS 36.413.
 func ExpectedUEActivityBehaviourExtIEsValueExtensionTableCodec(table s00.ExpectedUEActivityBehaviourExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ExpectedUEActivityBehaviourExtIEsExtContainerValueCodec {
 	if !*s00.BridgeExpectedUEActivityBehaviourExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ExpectedUEActivityBehaviourExtIEsExtContainerValueCodec{}
@@ -12809,6 +13199,8 @@ func ExpectedUEActivityBehaviourExtIEsValueExtensionTableCodec(table s00.Expecte
 	}()
 
 }
+
+// ExpectedUEBehaviourExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{ExpectedUEBehaviour-ExtIEs}} codec of TS 36.413.
 func ExpectedUEBehaviourExtIEsValueExtensionTableCodec(table s00.ExpectedUEBehaviourExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ExpectedUEBehaviourExtIEsExtContainerValueCodec {
 	if !*s00.BridgeExpectedUEBehaviourExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ExpectedUEBehaviourExtIEsExtContainerValueCodec{}
@@ -12892,6 +13284,8 @@ func ExpectedUEBehaviourExtIEsValueExtensionTableCodec(table s00.ExpectedUEBehav
 	}()
 
 }
+
+// FiveGSTAIExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{FiveGSTAI-ExtIEs}} codec of TS 36.413.
 func FiveGSTAIExtIEsValueExtensionTableCodec(table s00.FiveGSTAIExtIEsValueExtensionTable, bounds aper.ListBounds) s09.FiveGSTAIExtIEsExtContainerValueCodec {
 	if !*s00.BridgeFiveGSTAIExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.FiveGSTAIExtIEsExtContainerValueCodec{}
@@ -12975,6 +13369,8 @@ func FiveGSTAIExtIEsValueExtensionTableCodec(table s00.FiveGSTAIExtIEsValueExten
 	}()
 
 }
+
+// ForbiddenLAsItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{ForbiddenLAs-Item-ExtIEs}} codec of TS 36.413.
 func ForbiddenLAsItemExtIEsValueExtensionTableCodec(table s00.ForbiddenLAsItemExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ForbiddenLAsItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeForbiddenLAsItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ForbiddenLAsItemExtIEsExtContainerValueCodec{}
@@ -13058,6 +13454,8 @@ func ForbiddenLAsItemExtIEsValueExtensionTableCodec(table s00.ForbiddenLAsItemEx
 	}()
 
 }
+
+// ForbiddenTAsItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{ForbiddenTAs-Item-ExtIEs}} codec of TS 36.413.
 func ForbiddenTAsItemExtIEsValueExtensionTableCodec(table s00.ForbiddenTAsItemExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ForbiddenTAsItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeForbiddenTAsItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ForbiddenTAsItemExtIEsExtContainerValueCodec{}
@@ -13141,6 +13539,8 @@ func ForbiddenTAsItemExtIEsValueExtensionTableCodec(table s00.ForbiddenTAsItemEx
 	}()
 
 }
+
+// GBRQosInformationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{GBR-QosInformation-ExtIEs}} codec of TS 36.413.
 func GBRQosInformationExtIEsValueExtensionTableCodec(table s00.GBRQosInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s09.GBRQosInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeGBRQosInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GBRQosInformationExtIEsExtContainerValueCodec{}
@@ -13224,6 +13624,8 @@ func GBRQosInformationExtIEsValueExtensionTableCodec(table s00.GBRQosInformation
 	}()
 
 }
+
+// GERANCellIDExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{GERAN-Cell-ID-ExtIEs}} codec of TS 36.413.
 func GERANCellIDExtIEsValueExtensionTableCodec(table s00.GERANCellIDExtIEsValueExtensionTable, bounds aper.ListBounds) s09.GERANCellIDExtIEsExtContainerValueCodec {
 	if !*s00.BridgeGERANCellIDExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GERANCellIDExtIEsExtContainerValueCodec{}
@@ -13307,6 +13709,8 @@ func GERANCellIDExtIEsValueExtensionTableCodec(table s00.GERANCellIDExtIEsValueE
 	}()
 
 }
+
+// GNBExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{GNB-ExtIEs}} codec of TS 36.413.
 func GNBExtIEsValueExtensionTableCodec(table s00.GNBExtIEsValueExtensionTable, bounds aper.ListBounds) s09.GNBExtIEsExtContainerValueCodec {
 	if !*s00.BridgeGNBExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GNBExtIEsExtContainerValueCodec{}
@@ -13390,6 +13794,8 @@ func GNBExtIEsValueExtensionTableCodec(table s00.GNBExtIEsValueExtensionTable, b
 	}()
 
 }
+
+// GUMMEIExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{GUMMEI-ExtIEs}} codec of TS 36.413.
 func GUMMEIExtIEsValueExtensionTableCodec(table s00.GUMMEIExtIEsValueExtensionTable, bounds aper.ListBounds) s09.GUMMEIExtIEsExtContainerValueCodec {
 	if !*s00.BridgeGUMMEIExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GUMMEIExtIEsExtContainerValueCodec{}
@@ -13473,6 +13879,8 @@ func GUMMEIExtIEsValueExtensionTableCodec(table s00.GUMMEIExtIEsValueExtensionTa
 	}()
 
 }
+
+// GlobalENBIDExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{GlobalENB-ID-ExtIEs}} codec of TS 36.413.
 func GlobalENBIDExtIEsValueExtensionTableCodec(table s00.GlobalENBIDExtIEsValueExtensionTable, bounds aper.ListBounds) s09.GlobalENBIDExtIEsExtContainerValueCodec {
 	if !*s00.BridgeGlobalENBIDExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GlobalENBIDExtIEsExtContainerValueCodec{}
@@ -13556,6 +13964,8 @@ func GlobalENBIDExtIEsValueExtensionTableCodec(table s00.GlobalENBIDExtIEsValueE
 	}()
 
 }
+
+// GlobalEnGNBIDExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{Global-en-gNB-ID-ExtIEs}} codec of TS 36.413.
 func GlobalEnGNBIDExtIEsValueExtensionTableCodec(table s00.GlobalEnGNBIDExtIEsValueExtensionTable, bounds aper.ListBounds) s09.GlobalEnGNBIDExtIEsExtContainerValueCodec {
 	if !*s00.BridgeGlobalEnGNBIDExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GlobalEnGNBIDExtIEsExtContainerValueCodec{}
@@ -13639,6 +14049,8 @@ func GlobalEnGNBIDExtIEsValueExtensionTableCodec(table s00.GlobalEnGNBIDExtIEsVa
 	}()
 
 }
+
+// GlobalGNBIDExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{Global-GNB-ID-ExtIEs}} codec of TS 36.413.
 func GlobalGNBIDExtIEsValueExtensionTableCodec(table s00.GlobalGNBIDExtIEsValueExtensionTable, bounds aper.ListBounds) s09.GlobalGNBIDExtIEsExtContainerValueCodec {
 	if !*s00.BridgeGlobalGNBIDExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.GlobalGNBIDExtIEsExtContainerValueCodec{}
@@ -13722,6 +14134,8 @@ func GlobalGNBIDExtIEsValueExtensionTableCodec(table s00.GlobalGNBIDExtIEsValueE
 	}()
 
 }
+
+// InformationForCECapableUEsExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{InformationForCECapableUEs-ExtIEs}} codec of TS 36.413.
 func InformationForCECapableUEsExtIEsValueExtensionTableCodec(table s00.InformationForCECapableUEsExtIEsValueExtensionTable, bounds aper.ListBounds) s09.InformationForCECapableUEsExtIEsExtContainerValueCodec {
 	if !*s00.BridgeInformationForCECapableUEsExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.InformationForCECapableUEsExtIEsExtContainerValueCodec{}
@@ -13805,6 +14219,8 @@ func InformationForCECapableUEsExtIEsValueExtensionTableCodec(table s00.Informat
 	}()
 
 }
+
+// InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{InformationOnRecommendedCellsAndENBsForPaging-ExtIEs}} codec of TS 36.413.
 func InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionTableCodec(table s00.InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionTable, bounds aper.ListBounds) s09.InformationOnRecommendedCellsAndENBsForPagingExtIEsExtContainerValueCodec {
 	if !*s00.BridgeInformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.InformationOnRecommendedCellsAndENBsForPagingExtIEsExtContainerValueCodec{}
@@ -13888,6 +14304,8 @@ func InformationOnRecommendedCellsAndENBsForPagingExtIEsValueExtensionTableCodec
 	}()
 
 }
+
+// InterSystemMeasurementItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{InterSystemMeasurementItem-ExtIEs}} codec of TS 36.413.
 func InterSystemMeasurementItemExtIEsValueExtensionTableCodec(table s00.InterSystemMeasurementItemExtIEsValueExtensionTable, bounds aper.ListBounds) s09.InterSystemMeasurementItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeInterSystemMeasurementItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.InterSystemMeasurementItemExtIEsExtContainerValueCodec{}
@@ -13971,6 +14389,8 @@ func InterSystemMeasurementItemExtIEsValueExtensionTableCodec(table s00.InterSys
 	}()
 
 }
+
+// InterSystemMeasurementParametersExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{InterSystemMeasurementParameters-ExtIEs}} codec of TS 36.413.
 func InterSystemMeasurementParametersExtIEsValueExtensionTableCodec(table s00.InterSystemMeasurementParametersExtIEsValueExtensionTable, bounds aper.ListBounds) s09.InterSystemMeasurementParametersExtIEsExtContainerValueCodec {
 	if !*s00.BridgeInterSystemMeasurementParametersExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.InterSystemMeasurementParametersExtIEsExtContainerValueCodec{}
@@ -14054,6 +14474,8 @@ func InterSystemMeasurementParametersExtIEsValueExtensionTableCodec(table s00.In
 	}()
 
 }
+
+// IntersystemMeasurementConfigurationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{IntersystemMeasurementConfiguration-ExtIEs}} codec of TS 36.413.
 func IntersystemMeasurementConfigurationExtIEsValueExtensionTableCodec(table s00.IntersystemMeasurementConfigurationExtIEsValueExtensionTable, bounds aper.ListBounds) s09.IntersystemMeasurementConfigurationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeIntersystemMeasurementConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.IntersystemMeasurementConfigurationExtIEsExtContainerValueCodec{}
@@ -14137,6 +14559,8 @@ func IntersystemMeasurementConfigurationExtIEsValueExtensionTableCodec(table s00
 	}()
 
 }
+
+// LAIExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{LAI-ExtIEs}} codec of TS 36.413.
 func LAIExtIEsValueExtensionTableCodec(table s00.LAIExtIEsValueExtensionTable, bounds aper.ListBounds) s09.LAIExtIEsExtContainerValueCodec {
 	if !*s00.BridgeLAIExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.LAIExtIEsExtContainerValueCodec{}
@@ -14220,6 +14644,8 @@ func LAIExtIEsValueExtensionTableCodec(table s00.LAIExtIEsValueExtensionTable, b
 	}()
 
 }
+
+// LTENTNTAIInformationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{LTE-NTN-TAI-Information-ExtIEs}} codec of TS 36.413.
 func LTENTNTAIInformationExtIEsValueExtensionTableCodec(table s00.LTENTNTAIInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s09.LTENTNTAIInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeLTENTNTAIInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.LTENTNTAIInformationExtIEsExtContainerValueCodec{}
@@ -14303,6 +14729,8 @@ func LTENTNTAIInformationExtIEsValueExtensionTableCodec(table s00.LTENTNTAIInfor
 	}()
 
 }
+
+// LastVisitedPSCellInformationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{LastVisitedPSCellInformation-ExtIEs}} codec of TS 36.413.
 func LastVisitedPSCellInformationExtIEsValueExtensionTableCodec(table s00.LastVisitedPSCellInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s09.LastVisitedPSCellInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeLastVisitedPSCellInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.LastVisitedPSCellInformationExtIEsExtContainerValueCodec{}
@@ -14386,6 +14814,8 @@ func LastVisitedPSCellInformationExtIEsValueExtensionTableCodec(table s00.LastVi
 	}()
 
 }
+
+// ListeningSubframePatternExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{ListeningSubframePattern-ExtIEs}} codec of TS 36.413.
 func ListeningSubframePatternExtIEsValueExtensionTableCodec(table s00.ListeningSubframePatternExtIEsValueExtensionTable, bounds aper.ListBounds) s09.ListeningSubframePatternExtIEsExtContainerValueCodec {
 	if !*s00.BridgeListeningSubframePatternExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.ListeningSubframePatternExtIEsExtContainerValueCodec{}
@@ -14469,6 +14899,8 @@ func ListeningSubframePatternExtIEsValueExtensionTableCodec(table s00.ListeningS
 	}()
 
 }
+
+// LoggedMBSFNMDTExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{LoggedMBSFNMDT-ExtIEs}} codec of TS 36.413.
 func LoggedMBSFNMDTExtIEsValueExtensionTableCodec(table s00.LoggedMBSFNMDTExtIEsValueExtensionTable, bounds aper.ListBounds) s09.LoggedMBSFNMDTExtIEsExtContainerValueCodec {
 	if !*s00.BridgeLoggedMBSFNMDTExtIEsValueExtensionTableFieldBound(&table) {
 		return s09.LoggedMBSFNMDTExtIEsExtContainerValueCodec{}
@@ -14552,6 +14984,8 @@ func LoggedMBSFNMDTExtIEsValueExtensionTableCodec(table s00.LoggedMBSFNMDTExtIEs
 	}()
 
 }
+
+// M1PeriodicReportingExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{M1PeriodicReporting-ExtIEs}} codec of TS 36.413.
 func M1PeriodicReportingExtIEsValueExtensionTableCodec(table s00.M1PeriodicReportingExtIEsValueExtensionTable, bounds aper.ListBounds) s10.M1PeriodicReportingExtIEsExtContainerValueCodec {
 	if !*s00.BridgeM1PeriodicReportingExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M1PeriodicReportingExtIEsExtContainerValueCodec{}
@@ -14635,6 +15069,8 @@ func M1PeriodicReportingExtIEsValueExtensionTableCodec(table s00.M1PeriodicRepor
 	}()
 
 }
+
+// M1ThresholdEventA2ExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{M1ThresholdEventA2-ExtIEs}} codec of TS 36.413.
 func M1ThresholdEventA2ExtIEsValueExtensionTableCodec(table s00.M1ThresholdEventA2ExtIEsValueExtensionTable, bounds aper.ListBounds) s10.M1ThresholdEventA2ExtIEsExtContainerValueCodec {
 	if !*s00.BridgeM1ThresholdEventA2ExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M1ThresholdEventA2ExtIEsExtContainerValueCodec{}
@@ -14718,6 +15154,8 @@ func M1ThresholdEventA2ExtIEsValueExtensionTableCodec(table s00.M1ThresholdEvent
 	}()
 
 }
+
+// M3ConfigurationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{M3Configuration-ExtIEs}} codec of TS 36.413.
 func M3ConfigurationExtIEsValueExtensionTableCodec(table s00.M3ConfigurationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.M3ConfigurationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeM3ConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M3ConfigurationExtIEsExtContainerValueCodec{}
@@ -14801,6 +15239,8 @@ func M3ConfigurationExtIEsValueExtensionTableCodec(table s00.M3ConfigurationExtI
 	}()
 
 }
+
+// M4ConfigurationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{M4Configuration-ExtIEs}} codec of TS 36.413.
 func M4ConfigurationExtIEsValueExtensionTableCodec(table s00.M4ConfigurationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.M4ConfigurationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeM4ConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M4ConfigurationExtIEsExtContainerValueCodec{}
@@ -14884,6 +15324,8 @@ func M4ConfigurationExtIEsValueExtensionTableCodec(table s00.M4ConfigurationExtI
 	}()
 
 }
+
+// M5ConfigurationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{M5Configuration-ExtIEs}} codec of TS 36.413.
 func M5ConfigurationExtIEsValueExtensionTableCodec(table s00.M5ConfigurationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.M5ConfigurationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeM5ConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M5ConfigurationExtIEsExtContainerValueCodec{}
@@ -14967,6 +15409,8 @@ func M5ConfigurationExtIEsValueExtensionTableCodec(table s00.M5ConfigurationExtI
 	}()
 
 }
+
+// M6ConfigurationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{M6Configuration-ExtIEs}} codec of TS 36.413.
 func M6ConfigurationExtIEsValueExtensionTableCodec(table s00.M6ConfigurationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.M6ConfigurationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeM6ConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M6ConfigurationExtIEsExtContainerValueCodec{}
@@ -15050,6 +15494,8 @@ func M6ConfigurationExtIEsValueExtensionTableCodec(table s00.M6ConfigurationExtI
 	}()
 
 }
+
+// M7ConfigurationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{M7Configuration-ExtIEs}} codec of TS 36.413.
 func M7ConfigurationExtIEsValueExtensionTableCodec(table s00.M7ConfigurationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.M7ConfigurationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeM7ConfigurationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.M7ConfigurationExtIEsExtContainerValueCodec{}
@@ -15133,6 +15579,8 @@ func M7ConfigurationExtIEsValueExtensionTableCodec(table s00.M7ConfigurationExtI
 	}()
 
 }
+
+// MBSFNResultToLogInfoExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{MBSFN-ResultToLogInfo-ExtIEs}} codec of TS 36.413.
 func MBSFNResultToLogInfoExtIEsValueExtensionTableCodec(table s00.MBSFNResultToLogInfoExtIEsValueExtensionTable, bounds aper.ListBounds) s10.MBSFNResultToLogInfoExtIEsExtContainerValueCodec {
 	if !*s00.BridgeMBSFNResultToLogInfoExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.MBSFNResultToLogInfoExtIEsExtContainerValueCodec{}
@@ -15216,6 +15664,8 @@ func MBSFNResultToLogInfoExtIEsValueExtensionTableCodec(table s00.MBSFNResultToL
 	}()
 
 }
+
+// MutingPatternInformationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{MutingPatternInformation-ExtIEs}} codec of TS 36.413.
 func MutingPatternInformationExtIEsValueExtensionTableCodec(table s00.MutingPatternInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.MutingPatternInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeMutingPatternInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.MutingPatternInformationExtIEsExtContainerValueCodec{}
@@ -15299,6 +15749,8 @@ func MutingPatternInformationExtIEsValueExtensionTableCodec(table s00.MutingPatt
 	}()
 
 }
+
+// NBIoTPagingEDRXInformationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{NB-IoT-Paging-eDRXInformation-ExtIEs}} codec of TS 36.413.
 func NBIoTPagingEDRXInformationExtIEsValueExtensionTableCodec(table s00.NBIoTPagingEDRXInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.NBIoTPagingEDRXInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeNBIoTPagingEDRXInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NBIoTPagingEDRXInformationExtIEsExtContainerValueCodec{}
@@ -15382,6 +15834,8 @@ func NBIoTPagingEDRXInformationExtIEsValueExtensionTableCodec(table s00.NBIoTPag
 	}()
 
 }
+
+// NGENBExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{NG-eNB-ExtIEs}} codec of TS 36.413.
 func NGENBExtIEsValueExtensionTableCodec(table s00.NGENBExtIEsValueExtensionTable, bounds aper.ListBounds) s10.NGENBExtIEsExtContainerValueCodec {
 	if !*s00.BridgeNGENBExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NGENBExtIEsExtContainerValueCodec{}
@@ -15465,6 +15919,8 @@ func NGENBExtIEsValueExtensionTableCodec(table s00.NGENBExtIEsValueExtensionTabl
 	}()
 
 }
+
+// NRCGIExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{NR-CGI-ExtIEs}} codec of TS 36.413.
 func NRCGIExtIEsValueExtensionTableCodec(table s00.NRCGIExtIEsValueExtensionTable, bounds aper.ListBounds) s10.NRCGIExtIEsExtContainerValueCodec {
 	if !*s00.BridgeNRCGIExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NRCGIExtIEsExtContainerValueCodec{}
@@ -15548,6 +16004,8 @@ func NRCGIExtIEsValueExtensionTableCodec(table s00.NRCGIExtIEsValueExtensionTabl
 	}()
 
 }
+
+// NRUESecurityCapabilitiesExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{NRUESecurityCapabilities-ExtIEs}} codec of TS 36.413.
 func NRUESecurityCapabilitiesExtIEsValueExtensionTableCodec(table s00.NRUESecurityCapabilitiesExtIEsValueExtensionTable, bounds aper.ListBounds) s10.NRUESecurityCapabilitiesExtIEsExtContainerValueCodec {
 	if !*s00.BridgeNRUESecurityCapabilitiesExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NRUESecurityCapabilitiesExtIEsExtContainerValueCodec{}
@@ -15631,6 +16089,8 @@ func NRUESecurityCapabilitiesExtIEsValueExtensionTableCodec(table s00.NRUESecuri
 	}()
 
 }
+
+// NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{NRUESidelinkAggregateMaximumBitrate-ExtIEs}} codec of TS 36.413.
 func NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionTableCodec(table s00.NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionTable, bounds aper.ListBounds) s10.NRUESidelinkAggregateMaximumBitrateExtIEsExtContainerValueCodec {
 	if !*s00.BridgeNRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NRUESidelinkAggregateMaximumBitrateExtIEsExtContainerValueCodec{}
@@ -15714,6 +16174,8 @@ func NRUESidelinkAggregateMaximumBitrateExtIEsValueExtensionTableCodec(table s00
 	}()
 
 }
+
+// NRV2XServicesAuthorizedExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{NRV2XServicesAuthorized-ExtIEs}} codec of TS 36.413.
 func NRV2XServicesAuthorizedExtIEsValueExtensionTableCodec(table s00.NRV2XServicesAuthorizedExtIEsValueExtensionTable, bounds aper.ListBounds) s10.NRV2XServicesAuthorizedExtIEsExtContainerValueCodec {
 	if !*s00.BridgeNRV2XServicesAuthorizedExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.NRV2XServicesAuthorizedExtIEsExtContainerValueCodec{}
@@ -15797,6 +16259,8 @@ func NRV2XServicesAuthorizedExtIEsValueExtensionTableCodec(table s00.NRV2XServic
 	}()
 
 }
+
+// PC5FlowBitRatesExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{PC5FlowBitRates-ExtIEs}} codec of TS 36.413.
 func PC5FlowBitRatesExtIEsValueExtensionTableCodec(table s00.PC5FlowBitRatesExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PC5FlowBitRatesExtIEsExtContainerValueCodec {
 	if !*s00.BridgePC5FlowBitRatesExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PC5FlowBitRatesExtIEsExtContainerValueCodec{}
@@ -15880,89 +16344,8 @@ func PC5FlowBitRatesExtIEsValueExtensionTableCodec(table s00.PC5FlowBitRatesExtI
 	}()
 
 }
-func PC5QoSFlowItemExtIEsValueExtensionTableCodec(table s00.PC5QoSFlowItemExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PC5QoSFlowItemExtIEsExtContainerValueCodec {
-	if !*s00.BridgePC5QoSFlowItemExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.PC5QoSFlowItemExtIEsExtContainerValueCodec{}
-	}
-	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s10.PC5QoSFlowItemExtIEsExtContainerValueCodec {
-		sealed := s10.PC5QoSFlowItemExtIEsExtContainerValueCodec{}
-		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PC5QoSFlowItemExtIEsExtContainer, error) {
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return nil, err
-			}
-			var fields s10.PC5QoSFlowItemExtIEsExtContainer
-			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
-				for i := int64(0); i < length; i++ {
-					var field s10.PC5QoSFlowItemExtIEsExtField
-					if err := s10.BridgePC5QoSFlowItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
-					}
-					if next, err := aper.AppendValues(bb, fields, field); err != nil {
-						return err
-					} else {
-						fields = next
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
-			}
-			return fields, nil
-		}
-		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s10.PC5QoSFlowItemExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
-				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
-					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
-				}
-				for _, field := range fields[offset:][:length] {
-					if err := s10.BridgePC5QoSFlowItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-						return err
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s10.PC5QoSFlowItemExtIEsExtContainer, options aper.DecodeState) (s10.PC5QoSFlowItemExtIEsExtContainer, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgePC5QoSFlowItemExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
-			var root aper.Snapshot
 
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s10.PC5QoSFlowItemExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
-			BridgePC5QoSFlowItemExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
+// DeactivateTraceIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{DeactivateTraceIEs}} codec of TS 36.413.
 func DeactivateTraceIEValueIEFieldTableCodec(table s00.DeactivateTraceIEValueIETable) s08.DeactivateTraceIEFieldValueCodec {
 	if !*s00.BridgeDeactivateTraceIEValueIETableFieldBound(&table) {
 		return s08.DeactivateTraceIEFieldValueCodec{}
@@ -16020,6 +16403,8 @@ func DeactivateTraceIEValueIEFieldTableCodec(table s00.DeactivateTraceIEValueIET
 	}()
 
 }
+
+// DownlinkNonUEAssociatedLPPaTransportIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{DownlinkNonUEAssociatedLPPaTransport-IEs}} codec of TS 36.413.
 func DownlinkNonUEAssociatedLPPaTransportIEValueIEFieldTableCodec(table s00.DownlinkNonUEAssociatedLPPaTransportIEValueIETable) s08.DownlinkNonUEAssociatedLPPaTransportIEFieldValueCodec {
 	if !*s00.BridgeDownlinkNonUEAssociatedLPPaTransportIEValueIETableFieldBound(&table) {
 		return s08.DownlinkNonUEAssociatedLPPaTransportIEFieldValueCodec{}
@@ -16077,6 +16462,8 @@ func DownlinkNonUEAssociatedLPPaTransportIEValueIEFieldTableCodec(table s00.Down
 	}()
 
 }
+
+// DownlinkUEAssociatedLPPaTransportIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{DownlinkUEAssociatedLPPaTransport-IEs}} codec of TS 36.413.
 func DownlinkUEAssociatedLPPaTransportIEValueIEFieldTableCodec(table s00.DownlinkUEAssociatedLPPaTransportIEValueIETable) s08.DownlinkUEAssociatedLPPaTransportIEFieldValueCodec {
 	if !*s00.BridgeDownlinkUEAssociatedLPPaTransportIEValueIETableFieldBound(&table) {
 		return s08.DownlinkUEAssociatedLPPaTransportIEFieldValueCodec{}
@@ -16134,6 +16521,8 @@ func DownlinkUEAssociatedLPPaTransportIEValueIEFieldTableCodec(table s00.Downlin
 	}()
 
 }
+
+// EventTriggerExtIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{EventTrigger-ExtIEs}} codec of TS 36.413.
 func EventTriggerExtIEValueIEFieldTableCodec(table s00.EventTriggerExtIEValueIETable) s09.EventTriggerExtIEFieldValueCodec {
 	if !*s00.BridgeEventTriggerExtIEValueIETableFieldBound(&table) {
 		return s09.EventTriggerExtIEFieldValueCodec{}
@@ -16191,6 +16580,8 @@ func EventTriggerExtIEValueIEFieldTableCodec(table s00.EventTriggerExtIEValueIET
 	}()
 
 }
+
+// HandoverSuccessIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{HandoverSuccessIEs}} codec of TS 36.413.
 func HandoverSuccessIEValueIEFieldTableCodec(table s00.HandoverSuccessIEValueIETable) s09.HandoverSuccessIEFieldValueCodec {
 	if !*s00.BridgeHandoverSuccessIEValueIETableFieldBound(&table) {
 		return s09.HandoverSuccessIEFieldValueCodec{}
@@ -16248,6 +16639,8 @@ func HandoverSuccessIEValueIEFieldTableCodec(table s00.HandoverSuccessIEValueIET
 	}()
 
 }
+
+// MMECPRelocationIndicationIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{MMECPRelocationIndicationIEs}} codec of TS 36.413.
 func MMECPRelocationIndicationIEValueIEFieldTableCodec(table s00.MMECPRelocationIndicationIEValueIETable) s10.MMECPRelocationIndicationIEFieldValueCodec {
 	if !*s00.BridgeMMECPRelocationIndicationIEValueIETableFieldBound(&table) {
 		return s10.MMECPRelocationIndicationIEFieldValueCodec{}
@@ -16305,6 +16698,8 @@ func MMECPRelocationIndicationIEValueIEFieldTableCodec(table s00.MMECPRelocation
 	}()
 
 }
+
+// MeasurementThresholdL1LoggedMDTExtIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{MeasurementThresholdL1LoggedMDT-ExtIEs}} codec of TS 36.413.
 func MeasurementThresholdL1LoggedMDTExtIEValueIEFieldTableCodec(table s00.MeasurementThresholdL1LoggedMDTExtIEValueIETable) s10.MeasurementThresholdL1LoggedMDTExtIEFieldValueCodec {
 	if !*s00.BridgeMeasurementThresholdL1LoggedMDTExtIEValueIETableFieldBound(&table) {
 		return s10.MeasurementThresholdL1LoggedMDTExtIEFieldValueCodec{}
@@ -16362,6 +16757,8 @@ func MeasurementThresholdL1LoggedMDTExtIEValueIEFieldTableCodec(table s00.Measur
 	}()
 
 }
+
+// NASDeliveryIndicationIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{NASDeliveryIndicationIEs}} codec of TS 36.413.
 func NASDeliveryIndicationIEValueIEFieldTableCodec(table s00.NASDeliveryIndicationIEValueIETable) s10.NASDeliveryIndicationIEFieldValueCodec {
 	if !*s00.BridgeNASDeliveryIndicationIEValueIETableFieldBound(&table) {
 		return s10.NASDeliveryIndicationIEFieldValueCodec{}
@@ -16419,6 +16816,8 @@ func NASDeliveryIndicationIEValueIEFieldTableCodec(table s00.NASDeliveryIndicati
 	}()
 
 }
+
+// DeactivateTraceIEValueIETableCodec constructs the ProtocolIE-Container {{DeactivateTraceIEs}} codec of TS 36.413.
 func DeactivateTraceIEValueIETableCodec(table s00.DeactivateTraceIEValueIETable, bounds aper.ListBounds) s08.DeactivateTraceIEContainerValueCodec {
 	if !*s00.BridgeDeactivateTraceIEValueIETableFieldBound(&table) {
 		return s08.DeactivateTraceIEContainerValueCodec{}
@@ -16498,6 +16897,8 @@ func DeactivateTraceIEValueIETableCodec(table s00.DeactivateTraceIEValueIETable,
 	}()
 
 }
+
+// DownlinkNonUEAssociatedLPPaTransportIEValueIETableCodec constructs the ProtocolIE-Container {{DownlinkNonUEAssociatedLPPaTransport-IEs}} codec of TS 36.413.
 func DownlinkNonUEAssociatedLPPaTransportIEValueIETableCodec(table s00.DownlinkNonUEAssociatedLPPaTransportIEValueIETable, bounds aper.ListBounds) s08.DownlinkNonUEAssociatedLPPaTransportIEContainerValueCodec {
 	if !*s00.BridgeDownlinkNonUEAssociatedLPPaTransportIEValueIETableFieldBound(&table) {
 		return s08.DownlinkNonUEAssociatedLPPaTransportIEContainerValueCodec{}
@@ -16577,6 +16978,8 @@ func DownlinkNonUEAssociatedLPPaTransportIEValueIETableCodec(table s00.DownlinkN
 	}()
 
 }
+
+// DownlinkUEAssociatedLPPaTransportIEValueIETableCodec constructs the ProtocolIE-Container {{DownlinkUEAssociatedLPPaTransport-IEs}} codec of TS 36.413.
 func DownlinkUEAssociatedLPPaTransportIEValueIETableCodec(table s00.DownlinkUEAssociatedLPPaTransportIEValueIETable, bounds aper.ListBounds) s08.DownlinkUEAssociatedLPPaTransportIEContainerValueCodec {
 	if !*s00.BridgeDownlinkUEAssociatedLPPaTransportIEValueIETableFieldBound(&table) {
 		return s08.DownlinkUEAssociatedLPPaTransportIEContainerValueCodec{}
@@ -16656,6 +17059,8 @@ func DownlinkUEAssociatedLPPaTransportIEValueIETableCodec(table s00.DownlinkUEAs
 	}()
 
 }
+
+// EventTriggerExtIEValueIETableCodec constructs the ProtocolIE-Container {{EventTrigger-ExtIEs}} codec of TS 36.413.
 func EventTriggerExtIEValueIETableCodec(table s00.EventTriggerExtIEValueIETable, bounds aper.ListBounds) s09.EventTriggerExtIEContainerValueCodec {
 	if !*s00.BridgeEventTriggerExtIEValueIETableFieldBound(&table) {
 		return s09.EventTriggerExtIEContainerValueCodec{}
@@ -16735,6 +17140,8 @@ func EventTriggerExtIEValueIETableCodec(table s00.EventTriggerExtIEValueIETable,
 	}()
 
 }
+
+// HandoverSuccessIEValueIETableCodec constructs the ProtocolIE-Container {{HandoverSuccessIEs}} codec of TS 36.413.
 func HandoverSuccessIEValueIETableCodec(table s00.HandoverSuccessIEValueIETable, bounds aper.ListBounds) s09.HandoverSuccessIEContainerValueCodec {
 	if !*s00.BridgeHandoverSuccessIEValueIETableFieldBound(&table) {
 		return s09.HandoverSuccessIEContainerValueCodec{}
@@ -16814,6 +17221,8 @@ func HandoverSuccessIEValueIETableCodec(table s00.HandoverSuccessIEValueIETable,
 	}()
 
 }
+
+// MMECPRelocationIndicationIEValueIETableCodec constructs the ProtocolIE-Container {{MMECPRelocationIndicationIEs}} codec of TS 36.413.
 func MMECPRelocationIndicationIEValueIETableCodec(table s00.MMECPRelocationIndicationIEValueIETable, bounds aper.ListBounds) s10.MMECPRelocationIndicationIEContainerValueCodec {
 	if !*s00.BridgeMMECPRelocationIndicationIEValueIETableFieldBound(&table) {
 		return s10.MMECPRelocationIndicationIEContainerValueCodec{}
@@ -16893,6 +17302,8 @@ func MMECPRelocationIndicationIEValueIETableCodec(table s00.MMECPRelocationIndic
 	}()
 
 }
+
+// MeasurementThresholdL1LoggedMDTExtIEValueIETableCodec constructs the ProtocolIE-Container {{MeasurementThresholdL1LoggedMDT-ExtIEs}} codec of TS 36.413.
 func MeasurementThresholdL1LoggedMDTExtIEValueIETableCodec(table s00.MeasurementThresholdL1LoggedMDTExtIEValueIETable, bounds aper.ListBounds) s10.MeasurementThresholdL1LoggedMDTExtIEContainerValueCodec {
 	if !*s00.BridgeMeasurementThresholdL1LoggedMDTExtIEValueIETableFieldBound(&table) {
 		return s10.MeasurementThresholdL1LoggedMDTExtIEContainerValueCodec{}
@@ -16972,6 +17383,8 @@ func MeasurementThresholdL1LoggedMDTExtIEValueIETableCodec(table s00.Measurement
 	}()
 
 }
+
+// NASDeliveryIndicationIEValueIETableCodec constructs the ProtocolIE-Container {{NASDeliveryIndicationIEs}} codec of TS 36.413.
 func NASDeliveryIndicationIEValueIETableCodec(table s00.NASDeliveryIndicationIEValueIETable, bounds aper.ListBounds) s10.NASDeliveryIndicationIEContainerValueCodec {
 	if !*s00.BridgeNASDeliveryIndicationIEValueIETableFieldBound(&table) {
 		return s10.NASDeliveryIndicationIEContainerValueCodec{}
@@ -17051,6 +17464,8 @@ func NASDeliveryIndicationIEValueIETableCodec(table s00.NASDeliveryIndicationIEV
 	}()
 
 }
+
+// DeactivateTraceIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{DeactivateTraceIEs}} codec of TS 36.413.
 func DeactivateTraceIEValueProtocolErrorIEContainerListCodec(table s00.DeactivateTraceIEValueIETable) s08.DeactivateTraceIEValueProtocolErrorIEContainerListValueCodec {
 	codec := DeactivateTraceIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s08.BridgeDeactivateTraceIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17097,6 +17512,8 @@ func DeactivateTraceIEValueProtocolErrorIEContainerListCodec(table s00.Deactivat
 	}()
 
 }
+
+// DownlinkNonUEAssociatedLPPaTransportIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{DownlinkNonUEAssociatedLPPaTransport-IEs}} codec of TS 36.413.
 func DownlinkNonUEAssociatedLPPaTransportIEValueProtocolErrorIEContainerListCodec(table s00.DownlinkNonUEAssociatedLPPaTransportIEValueIETable) s08.DownlinkNonUEAssociatedLPPaTransportIEValueProtocolErrorIEContainerListValueCodec {
 	codec := DownlinkNonUEAssociatedLPPaTransportIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s08.BridgeDownlinkNonUEAssociatedLPPaTransportIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17143,6 +17560,8 @@ func DownlinkNonUEAssociatedLPPaTransportIEValueProtocolErrorIEContainerListCode
 	}()
 
 }
+
+// DownlinkUEAssociatedLPPaTransportIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{DownlinkUEAssociatedLPPaTransport-IEs}} codec of TS 36.413.
 func DownlinkUEAssociatedLPPaTransportIEValueProtocolErrorIEContainerListCodec(table s00.DownlinkUEAssociatedLPPaTransportIEValueIETable) s08.DownlinkUEAssociatedLPPaTransportIEValueProtocolErrorIEContainerListValueCodec {
 	codec := DownlinkUEAssociatedLPPaTransportIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s08.BridgeDownlinkUEAssociatedLPPaTransportIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17189,6 +17608,8 @@ func DownlinkUEAssociatedLPPaTransportIEValueProtocolErrorIEContainerListCodec(t
 	}()
 
 }
+
+// EventTriggerExtIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{EventTrigger-ExtIEs}} codec of TS 36.413.
 func EventTriggerExtIEValueProtocolErrorIEContainerListCodec(table s00.EventTriggerExtIEValueIETable) s09.EventTriggerExtIEValueProtocolErrorIEContainerListValueCodec {
 	codec := EventTriggerExtIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s09.BridgeEventTriggerExtIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17235,6 +17656,8 @@ func EventTriggerExtIEValueProtocolErrorIEContainerListCodec(table s00.EventTrig
 	}()
 
 }
+
+// HandoverSuccessIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{HandoverSuccessIEs}} codec of TS 36.413.
 func HandoverSuccessIEValueProtocolErrorIEContainerListCodec(table s00.HandoverSuccessIEValueIETable) s09.HandoverSuccessIEValueProtocolErrorIEContainerListValueCodec {
 	codec := HandoverSuccessIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s09.BridgeHandoverSuccessIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17281,6 +17704,8 @@ func HandoverSuccessIEValueProtocolErrorIEContainerListCodec(table s00.HandoverS
 	}()
 
 }
+
+// MMECPRelocationIndicationIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{MMECPRelocationIndicationIEs}} codec of TS 36.413.
 func MMECPRelocationIndicationIEValueProtocolErrorIEContainerListCodec(table s00.MMECPRelocationIndicationIEValueIETable) s10.MMECPRelocationIndicationIEValueProtocolErrorIEContainerListValueCodec {
 	codec := MMECPRelocationIndicationIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s10.BridgeMMECPRelocationIndicationIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17327,6 +17752,8 @@ func MMECPRelocationIndicationIEValueProtocolErrorIEContainerListCodec(table s00
 	}()
 
 }
+
+// MeasurementThresholdL1LoggedMDTExtIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{MeasurementThresholdL1LoggedMDT-ExtIEs}} codec of TS 36.413.
 func MeasurementThresholdL1LoggedMDTExtIEValueProtocolErrorIEContainerListCodec(table s00.MeasurementThresholdL1LoggedMDTExtIEValueIETable) s10.MeasurementThresholdL1LoggedMDTExtIEValueProtocolErrorIEContainerListValueCodec {
 	codec := MeasurementThresholdL1LoggedMDTExtIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s10.BridgeMeasurementThresholdL1LoggedMDTExtIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17373,6 +17800,8 @@ func MeasurementThresholdL1LoggedMDTExtIEValueProtocolErrorIEContainerListCodec(
 	}()
 
 }
+
+// NASDeliveryIndicationIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{NASDeliveryIndicationIEs}} codec of TS 36.413.
 func NASDeliveryIndicationIEValueProtocolErrorIEContainerListCodec(table s00.NASDeliveryIndicationIEValueIETable) s10.NASDeliveryIndicationIEValueProtocolErrorIEContainerListValueCodec {
 	codec := NASDeliveryIndicationIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s10.BridgeNASDeliveryIndicationIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17419,6 +17848,8 @@ func NASDeliveryIndicationIEValueProtocolErrorIEContainerListCodec(table s00.NAS
 	}()
 
 }
+
+// DeactivateTraceIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {DeactivateTraceIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func DeactivateTraceIEValueProtocolIEContainerListCodec(table s00.DeactivateTraceIEValueIETable, bounds aper.ListBounds) s08.DeactivateTraceIEValueProtocolIEContainerListValueCodec {
 	codec := DeactivateTraceIEValueIETableCodec(table, bounds)
 	if *s08.BridgeDeactivateTraceIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17464,6 +17895,8 @@ func DeactivateTraceIEValueProtocolIEContainerListCodec(table s00.DeactivateTrac
 	}()
 
 }
+
+// DownlinkNonUEAssociatedLPPaTransportIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {DownlinkNonUEAssociatedLPPaTransport-IEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func DownlinkNonUEAssociatedLPPaTransportIEValueProtocolIEContainerListCodec(table s00.DownlinkNonUEAssociatedLPPaTransportIEValueIETable, bounds aper.ListBounds) s08.DownlinkNonUEAssociatedLPPaTransportIEValueProtocolIEContainerListValueCodec {
 	codec := DownlinkNonUEAssociatedLPPaTransportIEValueIETableCodec(table, bounds)
 	if *s08.BridgeDownlinkNonUEAssociatedLPPaTransportIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17509,6 +17942,8 @@ func DownlinkNonUEAssociatedLPPaTransportIEValueProtocolIEContainerListCodec(tab
 	}()
 
 }
+
+// DownlinkUEAssociatedLPPaTransportIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {DownlinkUEAssociatedLPPaTransport-IEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func DownlinkUEAssociatedLPPaTransportIEValueProtocolIEContainerListCodec(table s00.DownlinkUEAssociatedLPPaTransportIEValueIETable, bounds aper.ListBounds) s08.DownlinkUEAssociatedLPPaTransportIEValueProtocolIEContainerListValueCodec {
 	codec := DownlinkUEAssociatedLPPaTransportIEValueIETableCodec(table, bounds)
 	if *s08.BridgeDownlinkUEAssociatedLPPaTransportIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17554,6 +17989,8 @@ func DownlinkUEAssociatedLPPaTransportIEValueProtocolIEContainerListCodec(table 
 	}()
 
 }
+
+// EventTriggerExtIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {EventTrigger-ExtIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func EventTriggerExtIEValueProtocolIEContainerListCodec(table s00.EventTriggerExtIEValueIETable, bounds aper.ListBounds) s09.EventTriggerExtIEValueProtocolIEContainerListValueCodec {
 	codec := EventTriggerExtIEValueIETableCodec(table, bounds)
 	if *s09.BridgeEventTriggerExtIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17599,6 +18036,8 @@ func EventTriggerExtIEValueProtocolIEContainerListCodec(table s00.EventTriggerEx
 	}()
 
 }
+
+// HandoverSuccessIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {HandoverSuccessIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func HandoverSuccessIEValueProtocolIEContainerListCodec(table s00.HandoverSuccessIEValueIETable, bounds aper.ListBounds) s09.HandoverSuccessIEValueProtocolIEContainerListValueCodec {
 	codec := HandoverSuccessIEValueIETableCodec(table, bounds)
 	if *s09.BridgeHandoverSuccessIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17644,6 +18083,8 @@ func HandoverSuccessIEValueProtocolIEContainerListCodec(table s00.HandoverSucces
 	}()
 
 }
+
+// MMECPRelocationIndicationIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {MMECPRelocationIndicationIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func MMECPRelocationIndicationIEValueProtocolIEContainerListCodec(table s00.MMECPRelocationIndicationIEValueIETable, bounds aper.ListBounds) s10.MMECPRelocationIndicationIEValueProtocolIEContainerListValueCodec {
 	codec := MMECPRelocationIndicationIEValueIETableCodec(table, bounds)
 	if *s10.BridgeMMECPRelocationIndicationIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17689,6 +18130,8 @@ func MMECPRelocationIndicationIEValueProtocolIEContainerListCodec(table s00.MMEC
 	}()
 
 }
+
+// MeasurementThresholdL1LoggedMDTExtIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {MeasurementThresholdL1LoggedMDT-ExtIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func MeasurementThresholdL1LoggedMDTExtIEValueProtocolIEContainerListCodec(table s00.MeasurementThresholdL1LoggedMDTExtIEValueIETable, bounds aper.ListBounds) s10.MeasurementThresholdL1LoggedMDTExtIEValueProtocolIEContainerListValueCodec {
 	codec := MeasurementThresholdL1LoggedMDTExtIEValueIETableCodec(table, bounds)
 	if *s10.BridgeMeasurementThresholdL1LoggedMDTExtIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17734,6 +18177,8 @@ func MeasurementThresholdL1LoggedMDTExtIEValueProtocolIEContainerListCodec(table
 	}()
 
 }
+
+// NASDeliveryIndicationIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {NASDeliveryIndicationIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func NASDeliveryIndicationIEValueProtocolIEContainerListCodec(table s00.NASDeliveryIndicationIEValueIETable, bounds aper.ListBounds) s10.NASDeliveryIndicationIEValueProtocolIEContainerListValueCodec {
 	codec := NASDeliveryIndicationIEValueIETableCodec(table, bounds)
 	if *s10.BridgeNASDeliveryIndicationIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -17798,6 +18243,16 @@ func BridgeInformationForCECapableUEsExtIEsValueCompareS1APProtocolExtensionFiel
 	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
 	*s = s04.BridgeInformationForCECapableUEsExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s09.BridgeInformationForCECapableUEsExtIEsExtFieldFieldReplay(v), *s09.BridgeInformationForCECapableUEsExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeCancelledCellinTAIItemExtIEsValueCaptureS1APProtocolExtensionField(v *s07.CancelledCellinTAIItemExtIEsExtField, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
+	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
+	v.ExtensionValue = s03.BridgeCancelledCellinTAIItemExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
+	s.End(f, s07.BridgeCancelledCellinTAIItemExtIEsExtFieldFieldReplay(v), *s07.BridgeCancelledCellinTAIItemExtIEsExtFieldFieldWithoutReplay(v))
 }
 func BridgeCancelledCellinTAIItemExtIEsValueCompareS1APProtocolExtensionField(v *s07.CancelledCellinTAIItemExtIEsExtField, s *aper.SemanticComparison) {
 	if s.Err() != nil {
@@ -20141,22 +20596,6 @@ func BridgePC5FlowBitRatesExtIEsValueCompareS1APProtocolExtensionField(v *s10.PC
 	*s = s05.BridgePC5FlowBitRatesExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s10.BridgePC5FlowBitRatesExtIEsExtFieldFieldReplay(v), *s10.BridgePC5FlowBitRatesExtIEsExtFieldFieldWithoutReplay(v))
 }
-
-// pC5QoSFlowItemExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[PC5QoSFlowItemExtIEsValue].
-type PC5QoSFlowItemExtIEsValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s05.PC5QoSFlowItemExtIEsValue
-
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s05.PC5QoSFlowItemExtIEsValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
 func BridgePC5QoSFlowItemExtIEsValueCaptureS1APProtocolExtensionField(v *s10.PC5QoSFlowItemExtIEsExtField, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
@@ -20176,26 +20615,6 @@ func BridgePC5QoSFlowItemExtIEsValueCompareS1APProtocolExtensionField(v *s10.PC5
 	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
 	*s = s05.BridgePC5QoSFlowItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s10.BridgePC5QoSFlowItemExtIEsExtFieldFieldReplay(v), *s10.BridgePC5QoSFlowItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionField(v *s10.PC5QoSParametersExtIEsExtField, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
-	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s05.BridgePC5QoSParametersExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s10.BridgePC5QoSParametersExtIEsExtFieldFieldReplay(v), *s10.BridgePC5QoSParametersExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionField(v *s10.PC5QoSParametersExtIEsExtField, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
-	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
-	*s = s05.BridgePC5QoSParametersExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s10.BridgePC5QoSParametersExtIEsExtFieldFieldReplay(v), *s10.BridgePC5QoSParametersExtIEsExtFieldFieldWithoutReplay(v))
 }
 func BridgeDeactivateTraceIEValueCaptureS1APERABIEContainerList(v *s08.DeactivateTraceIEValueERABIEContainerList, s *aper.SemanticCapture) {
 	if s.Err() != nil {

@@ -6,7 +6,7 @@ import (
 	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func loadInformationIEFieldfreshMust(value s14.LoadInformationIEField, err error) s14.LoadInformationIEField {
+func x2SetupFailurefreshMust(value s14.X2SetupFailure, err error) s14.X2SetupFailure {
 	if err != nil {
 		panic(err)
 	}

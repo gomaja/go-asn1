@@ -6,7 +6,7 @@ import (
 	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func eNDCResourceStatusUpdateIEFieldfreshMust(value s14.ENDCResourceStatusUpdateIEField, err error) s14.ENDCResourceStatusUpdateIEField {
+func eNDCResourceStatusFailurefreshMust(value s14.ENDCResourceStatusFailure, err error) s14.ENDCResourceStatusFailure {
 	if err != nil {
 		panic(err)
 	}

@@ -8,25 +8,31 @@ import (
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func ListByteEncodePayload(value []byte,
+func ListByteDecodePayload(data []byte, codec ListBytePayloadCodec, limits s00.PayloadLimits) ([]byte, s00.PayloadReport,
 
-	codec ListBytePayloadCodec, limits s00.PayloadLimits) ([]byte, error) {
+	error) {
+	var zero []byte
+
 	if codec.decode == nil || codec.encode == nil {
-		return nil, aper.OperationError(fmt.Errorf("%w: payload binding: zero codec", aper.ErrInvalidValue), "Payload.binding")
+		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload binding: zero codec", aper.ErrInvalidValue), "Payload.binding")
 	}
 	limits = s00.X2apInternalEffectivePayloadLimits(limits)
-	wire, err := codec.encode(value, limits)
+	if uint64(len(data)) > limits.MaxInputBytes {
+		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload input: %d bytes exceed limit %d", aper.ErrLimit, len(data), limits.MaxInputBytes), "Payload.input")
+	}
+	if uint64(len(data)) > limits.MaxAllocatedBytes {
+		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload input copy: %d bytes exceed allocation limit %d", aper.ErrLimit, len(data), limits.MaxAllocatedBytes), "Payload.input")
+	}
+	if uint64(len(data)) > limits.MaxWork {
+		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload input copy work", aper.ErrLimit), "Payload.input")
+	}
+	owned := append([]byte(nil), data...)
+	value, report, err := codec.decode(owned, limits)
 	if err != nil {
-		return nil, fmt.Errorf("payload encode: %w", err)
+		return zero, report, fmt.Errorf("payload decode: %w", err)
 	}
-	if uint64(len(wire)) > limits.MaxOutputBytes {
-		return nil, aper.OperationError(fmt.Errorf("%w: payload output: %d bytes exceed limit %d", aper.ErrLimit, len(wire), limits.MaxOutputBytes), "Payload.output")
+	if uint64(len(report.Deviations)) > limits.MaxReports {
+		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload report: %d deviations exceed limit %d", aper.ErrLimit, len(report.Deviations), limits.MaxReports), "Payload.report")
 	}
-	if uint64(len(wire)) > limits.MaxAllocatedBytes {
-		return nil, aper.OperationError(fmt.Errorf("%w: payload output copy: %d bytes exceed allocation limit %d", aper.ErrLimit, len(wire), limits.MaxAllocatedBytes), "Payload.output")
-	}
-	if uint64(len(wire)) > limits.MaxWork {
-		return nil, aper.OperationError(fmt.Errorf("%w: payload output copy work", aper.ErrLimit), "Payload.output")
-	}
-	return append([]byte(nil), wire...), nil
+	return value, report, nil
 }

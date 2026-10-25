@@ -6,7 +6,7 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 )
 
-func privateIEIDfreshMust(value s00.PrivateIEID, err error) s00.PrivateIEID {
+func privateMessageIEsValuePrivateIEFieldfreshMust(value s00.PrivateMessageIEsValuePrivateIEField, err error) s00.PrivateMessageIEsValuePrivateIEField {
 	if err != nil {
 		panic(err)
 	}

@@ -13,52 +13,52 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// MeasurementQuantitiesValueExtIEsExtContainer is the concrete ProtocolExtensionContainer[MeasurementQuantitiesValueExtIEsValue].
+// MeasurementQuantitiesValueExtIEsExtContainer is ProtocolExtensionContainer {{MeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a list of MeasurementQuantitiesValueExtIEsExtField values.
 type MeasurementQuantitiesValueExtIEsExtContainer []MeasurementQuantitiesValueExtIEsExtField
 
-// NRCGIExtIEsExtContainer is the concrete ProtocolExtensionContainer[NRCGIExtIEsValue].
+// NRCGIExtIEsExtContainer is ProtocolExtensionContainer {{NR-CGI-ExtIEs}} of TS 36.455: a list of NRCGIExtIEsExtField values.
 type NRCGIExtIEsExtContainer []NRCGIExtIEsExtField
 
-// PRSFrequencyHoppingConfigurationItemIEsExtContainer is the concrete ProtocolExtensionContainer[PRSFrequencyHoppingConfigurationItemIEsValue].
+// PRSFrequencyHoppingConfigurationItemIEsExtContainer is ProtocolExtensionContainer {{PRSFrequencyHoppingConfiguration-Item-IEs}} of TS 36.455: a list of PRSFrequencyHoppingConfigurationItemIEsExtField values.
 type PRSFrequencyHoppingConfigurationItemIEsExtContainer []PRSFrequencyHoppingConfigurationItemIEsExtField
 
-// ResultRSRPItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultRSRPItemExtIEsValue].
+// ResultRSRPItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultRSRP-Item-ExtIEs}} of TS 36.455: a list of ResultRSRPItemExtIEsExtField values.
 type ResultRSRPItemExtIEsExtContainer []ResultRSRPItemExtIEsExtField
 
-// ResultRSRQItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultRSRQItemExtIEsValue].
+// ResultRSRQItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultRSRQ-Item-ExtIEs}} of TS 36.455: a list of ResultRSRQItemExtIEsExtField values.
 type ResultRSRQItemExtIEsExtContainer []ResultRSRQItemExtIEsExtField
 
-// ResultGERANItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultGERANItemExtIEsValue].
+// ResultGERANItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultGERAN-Item-ExtIEs}} of TS 36.455: a list of ResultGERANItemExtIEsExtField values.
 type ResultGERANItemExtIEsExtContainer []ResultGERANItemExtIEsExtField
 
-// ResultUTRANItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultUTRANItemExtIEsValue].
+// ResultUTRANItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultUTRAN-Item-ExtIEs}} of TS 36.455: a list of ResultUTRANItemExtIEsExtField values.
 type ResultUTRANItemExtIEsExtContainer []ResultUTRANItemExtIEsExtField
 
-// ResultsPerSSBIndexItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultsPerSSBIndexItemExtIEsValue].
+// ResultsPerSSBIndexItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultsPerSSB-Index-Item-ExtIEs}} of TS 36.455: a list of ResultsPerSSBIndexItemExtIEsExtField values.
 type ResultsPerSSBIndexItemExtIEsExtContainer []ResultsPerSSBIndexItemExtIEsExtField
 
-// TDDConfigurationExtIEsExtContainer is the concrete ProtocolExtensionContainer[TDDConfigurationExtIEsValue].
+// TDDConfigurationExtIEsExtContainer is ProtocolExtensionContainer {{TDDConfiguration-ExtIEs}} of TS 36.455: a list of TDDConfigurationExtIEsExtField values.
 type TDDConfigurationExtIEsExtContainer []TDDConfigurationExtIEsExtField
 
-// WLANMeasurementQuantitiesValueExtIEsExtContainer is the concrete ProtocolExtensionContainer[WLANMeasurementQuantitiesValueExtIEsValue].
+// WLANMeasurementQuantitiesValueExtIEsExtContainer is ProtocolExtensionContainer {{WLANMeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a list of WLANMeasurementQuantitiesValueExtIEsExtField values.
 type WLANMeasurementQuantitiesValueExtIEsExtContainer []WLANMeasurementQuantitiesValueExtIEsExtField
 
-// WLANMeasurementResultItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[WLANMeasurementResultItemExtIEsValue].
+// WLANMeasurementResultItemExtIEsExtContainer is ProtocolExtensionContainer {{WLANMeasurementResult-Item-ExtIEs}} of TS 36.455: a list of WLANMeasurementResultItemExtIEsExtField values.
 type WLANMeasurementResultItemExtIEsExtContainer []WLANMeasurementResultItemExtIEsExtField
 
-// OTDOACellsExtIEsExtContainer is the concrete ProtocolExtensionContainer[OTDOACellsExtIEsValue].
+// OTDOACellsExtIEsExtContainer is ProtocolExtensionContainer {{OTDOACells-ExtIEs}} of TS 36.455: a list of OTDOACellsExtIEsExtField values.
 type OTDOACellsExtIEsExtContainer []OTDOACellsExtIEsExtField
 
-// PosSIBsExtIEsExtContainer is the concrete ProtocolExtensionContainer[PosSIBsExtIEsValue].
+// PosSIBsExtIEsExtContainer is ProtocolExtensionContainer {{PosSIBs-ExtIEs}} of TS 36.455: a list of PosSIBsExtIEsExtField values.
 type PosSIBsExtIEsExtContainer []PosSIBsExtIEsExtField
 
-// PosSIBSegmentsExtIEsExtContainer is the concrete ProtocolExtensionContainer[PosSIBSegmentsExtIEsValue].
+// PosSIBSegmentsExtIEsExtContainer is ProtocolExtensionContainer {{PosSIB-Segments-ExtIEs}} of TS 36.455: a list of PosSIBSegmentsExtIEsExtField values.
 type PosSIBSegmentsExtIEsExtContainer []PosSIBSegmentsExtIEsExtField
 
-// SystemInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[SystemInformationExtIEsValue].
+// SystemInformationExtIEsExtContainer is ProtocolExtensionContainer {{SystemInformation-ExtIEs}} of TS 36.455: a list of SystemInformationExtIEsExtField values.
 type SystemInformationExtIEsExtContainer []SystemInformationExtIEsExtField
 
-// MeasurementQuantitiesValueExtIEsExtField is the concrete ProtocolExtensionField[MeasurementQuantitiesValueExtIEsValue].
+// MeasurementQuantitiesValueExtIEsExtField is ProtocolExtensionField {{MeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a field carrying a value of MeasurementQuantitiesValueExtIEsValue.
 type MeasurementQuantitiesValueExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -173,7 +173,7 @@ func (v *MeasurementQuantitiesValueExtIEsExtField) unmarshalAPERFrom(bb *aper.Bi
 	return nil
 }
 
-// NRCGIExtIEsExtField is the concrete ProtocolExtensionField[NRCGIExtIEsValue].
+// NRCGIExtIEsExtField is ProtocolExtensionField {{NR-CGI-ExtIEs}} of TS 36.455: a field carrying a value of NRCGIExtIEsValue.
 type NRCGIExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -288,7 +288,7 @@ func (v *NRCGIExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// PRSFrequencyHoppingConfigurationItemIEsExtField is the concrete ProtocolExtensionField[PRSFrequencyHoppingConfigurationItemIEsValue].
+// PRSFrequencyHoppingConfigurationItemIEsExtField is ProtocolExtensionField {{PRSFrequencyHoppingConfiguration-Item-IEs}} of TS 36.455: a field carrying a value of PRSFrequencyHoppingConfigurationItemIEsValue.
 type PRSFrequencyHoppingConfigurationItemIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -403,7 +403,7 @@ func (v *PRSFrequencyHoppingConfigurationItemIEsExtField) unmarshalAPERFrom(bb *
 	return nil
 }
 
-// ResultRSRPItemExtIEsExtField is the concrete ProtocolExtensionField[ResultRSRPItemExtIEsValue].
+// ResultRSRPItemExtIEsExtField is ProtocolExtensionField {{ResultRSRP-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultRSRPItemExtIEsValue.
 type ResultRSRPItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -518,7 +518,7 @@ func (v *ResultRSRPItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	return nil
 }
 
-// ResultRSRQItemExtIEsExtField is the concrete ProtocolExtensionField[ResultRSRQItemExtIEsValue].
+// ResultRSRQItemExtIEsExtField is ProtocolExtensionField {{ResultRSRQ-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultRSRQItemExtIEsValue.
 type ResultRSRQItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -633,7 +633,7 @@ func (v *ResultRSRQItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	return nil
 }
 
-// ResultGERANItemExtIEsExtField is the concrete ProtocolExtensionField[ResultGERANItemExtIEsValue].
+// ResultGERANItemExtIEsExtField is ProtocolExtensionField {{ResultGERAN-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultGERANItemExtIEsValue.
 type ResultGERANItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -748,7 +748,7 @@ func (v *ResultGERANItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	return nil
 }
 
-// ResultUTRANItemExtIEsExtField is the concrete ProtocolExtensionField[ResultUTRANItemExtIEsValue].
+// ResultUTRANItemExtIEsExtField is ProtocolExtensionField {{ResultUTRAN-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultUTRANItemExtIEsValue.
 type ResultUTRANItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -863,7 +863,7 @@ func (v *ResultUTRANItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	return nil
 }
 
-// ResultsPerSSBIndexItemExtIEsExtField is the concrete ProtocolExtensionField[ResultsPerSSBIndexItemExtIEsValue].
+// ResultsPerSSBIndexItemExtIEsExtField is ProtocolExtensionField {{ResultsPerSSB-Index-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultsPerSSBIndexItemExtIEsValue.
 type ResultsPerSSBIndexItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -978,7 +978,7 @@ func (v *ResultsPerSSBIndexItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuf
 	return nil
 }
 
-// TDDConfigurationExtIEsExtField is the concrete ProtocolExtensionField[TDDConfigurationExtIEsValue].
+// TDDConfigurationExtIEsExtField is ProtocolExtensionField {{TDDConfiguration-ExtIEs}} of TS 36.455: a field carrying a value of TDDConfigurationExtIEsValue.
 type TDDConfigurationExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1093,7 +1093,7 @@ func (v *TDDConfigurationExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// WLANMeasurementQuantitiesValueExtIEsExtField is the concrete ProtocolExtensionField[WLANMeasurementQuantitiesValueExtIEsValue].
+// WLANMeasurementQuantitiesValueExtIEsExtField is ProtocolExtensionField {{WLANMeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a field carrying a value of WLANMeasurementQuantitiesValueExtIEsValue.
 type WLANMeasurementQuantitiesValueExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1208,7 +1208,7 @@ func (v *WLANMeasurementQuantitiesValueExtIEsExtField) unmarshalAPERFrom(bb *ape
 	return nil
 }
 
-// WLANMeasurementResultItemExtIEsExtField is the concrete ProtocolExtensionField[WLANMeasurementResultItemExtIEsValue].
+// WLANMeasurementResultItemExtIEsExtField is ProtocolExtensionField {{WLANMeasurementResult-Item-ExtIEs}} of TS 36.455: a field carrying a value of WLANMeasurementResultItemExtIEsValue.
 type WLANMeasurementResultItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1323,7 +1323,7 @@ func (v *WLANMeasurementResultItemExtIEsExtField) unmarshalAPERFrom(bb *aper.Bit
 	return nil
 }
 
-// OTDOACellsExtIEsExtField is the concrete ProtocolExtensionField[OTDOACellsExtIEsValue].
+// OTDOACellsExtIEsExtField is ProtocolExtensionField {{OTDOACells-ExtIEs}} of TS 36.455: a field carrying a value of OTDOACellsExtIEsValue.
 type OTDOACellsExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1438,7 +1438,7 @@ func (v *OTDOACellsExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// PosSIBsExtIEsExtField is the concrete ProtocolExtensionField[PosSIBsExtIEsValue].
+// PosSIBsExtIEsExtField is ProtocolExtensionField {{PosSIBs-ExtIEs}} of TS 36.455: a field carrying a value of PosSIBsExtIEsValue.
 type PosSIBsExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1553,7 +1553,7 @@ func (v *PosSIBsExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// PosSIBSegmentsExtIEsExtField is the concrete ProtocolExtensionField[PosSIBSegmentsExtIEsValue].
+// PosSIBSegmentsExtIEsExtField is ProtocolExtensionField {{PosSIB-Segments-ExtIEs}} of TS 36.455: a field carrying a value of PosSIBSegmentsExtIEsValue.
 type PosSIBSegmentsExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1668,7 +1668,7 @@ func (v *PosSIBSegmentsExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	return nil
 }
 
-// SystemInformationExtIEsExtField is the concrete ProtocolExtensionField[SystemInformationExtIEsValue].
+// SystemInformationExtIEsExtField is ProtocolExtensionField {{SystemInformation-ExtIEs}} of TS 36.455: a field carrying a value of SystemInformationExtIEsValue.
 type SystemInformationExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1783,10 +1783,10 @@ func (v *SystemInformationExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 	return nil
 }
 
-// OTDOAInformationTypeItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[OTDOAInformationTypeItemExtIEsValue].
+// OTDOAInformationTypeItemExtIEsExtContainer is ProtocolExtensionContainer {{OTDOA-Information-Type-ItemExtIEs}} of TS 36.455: a list of OTDOAInformationTypeItemExtIEsExtField values.
 type OTDOAInformationTypeItemExtIEsExtContainer []OTDOAInformationTypeItemExtIEsExtField
 
-// OTDOAInformationTypeItemExtIEsExtField is the concrete ProtocolExtensionField[OTDOAInformationTypeItemExtIEsValue].
+// OTDOAInformationTypeItemExtIEsExtField is ProtocolExtensionField {{OTDOA-Information-Type-ItemExtIEs}} of TS 36.455: a field carrying a value of OTDOAInformationTypeItemExtIEsValue.
 type OTDOAInformationTypeItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -2424,7 +2424,7 @@ func BridgeInterRATMeasurementQuantitiesValueExtIEsValueCompareLPPaProtocolExten
 	s.End(f, *s03.BridgeInterRATMeasurementQuantitiesValueExtIEsExtFieldFieldReplay(v), *s03.BridgeInterRATMeasurementQuantitiesValueExtIEsExtFieldFieldWithoutReplay(v))
 }
 
-// InterRATMeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[InterRATMeasurementQuantitiesValueExtIEsValue].
+// InterRATMeasurementQuantitiesValueExtIEsIEField uses the ProtocolIE-Field shape for object set InterRATMeasurementQuantitiesValue-ExtIEs of TS 36.455.
 type InterRATMeasurementQuantitiesValueExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -2539,10 +2539,10 @@ func (v *InterRATMeasurementQuantitiesValueExtIEsIEField) unmarshalAPERFrom(bb *
 	return nil
 }
 
-// InterRATMeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[InterRATMeasurementQuantitiesValueExtIEsValue].
+// InterRATMeasurementQuantitiesValueExtIEsIEContainer uses the ProtocolIE-Container shape for object set InterRATMeasurementQuantitiesValue-ExtIEs of TS 36.455: a list of InterRATMeasurementQuantitiesValueExtIEsIEField values.
 type InterRATMeasurementQuantitiesValueExtIEsIEContainer []InterRATMeasurementQuantitiesValueExtIEsIEField
 
-// MeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[MeasurementQuantitiesValueExtIEsValue].
+// MeasurementQuantitiesValueExtIEsIEField uses the ProtocolIE-Field shape for object set MeasurementQuantitiesValue-ExtIEs of TS 36.455.
 type MeasurementQuantitiesValueExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -2657,10 +2657,10 @@ func (v *MeasurementQuantitiesValueExtIEsIEField) unmarshalAPERFrom(bb *aper.Bit
 	return nil
 }
 
-// MeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[MeasurementQuantitiesValueExtIEsValue].
+// MeasurementQuantitiesValueExtIEsIEContainer uses the ProtocolIE-Container shape for object set MeasurementQuantitiesValue-ExtIEs of TS 36.455: a list of MeasurementQuantitiesValueExtIEsIEField values.
 type MeasurementQuantitiesValueExtIEsIEContainer []MeasurementQuantitiesValueExtIEsIEField
 
-// NRCGIExtIEsIEField is the concrete ProtocolIEField[NRCGIExtIEsValue].
+// NRCGIExtIEsIEField uses the ProtocolIE-Field shape for object set NR-CGI-ExtIEs of TS 36.455.
 type NRCGIExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -2775,10 +2775,10 @@ func (v *NRCGIExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// NRCGIExtIEsIEContainer is the concrete ProtocolIEContainer[NRCGIExtIEsValue].
+// NRCGIExtIEsIEContainer uses the ProtocolIE-Container shape for object set NR-CGI-ExtIEs of TS 36.455: a list of NRCGIExtIEsIEField values.
 type NRCGIExtIEsIEContainer []NRCGIExtIEsIEField
 
-// OTDOACellsExtIEsIEField is the concrete ProtocolIEField[OTDOACellsExtIEsValue].
+// OTDOACellsExtIEsIEField uses the ProtocolIE-Field shape for object set OTDOACells-ExtIEs of TS 36.455.
 type OTDOACellsExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -2893,10 +2893,10 @@ func (v *OTDOACellsExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// OTDOACellsExtIEsIEContainer is the concrete ProtocolIEContainer[OTDOACellsExtIEsValue].
+// OTDOACellsExtIEsIEContainer uses the ProtocolIE-Container shape for object set OTDOACells-ExtIEs of TS 36.455: a list of OTDOACellsExtIEsIEField values.
 type OTDOACellsExtIEsIEContainer []OTDOACellsExtIEsIEField
 
-// OTDOAInformationTypeItemExtIEsIEField is the concrete ProtocolIEField[OTDOAInformationTypeItemExtIEsValue].
+// OTDOAInformationTypeItemExtIEsIEField uses the ProtocolIE-Field shape for object set OTDOA-Information-Type-ItemExtIEs of TS 36.455.
 type OTDOAInformationTypeItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3011,10 +3011,10 @@ func (v *OTDOAInformationTypeItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBu
 	return nil
 }
 
-// OTDOAInformationTypeItemExtIEsIEContainer is the concrete ProtocolIEContainer[OTDOAInformationTypeItemExtIEsValue].
+// OTDOAInformationTypeItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set OTDOA-Information-Type-ItemExtIEs of TS 36.455: a list of OTDOAInformationTypeItemExtIEsIEField values.
 type OTDOAInformationTypeItemExtIEsIEContainer []OTDOAInformationTypeItemExtIEsIEField
 
-// PRSFrequencyHoppingConfigurationItemIEsIEField is the concrete ProtocolIEField[PRSFrequencyHoppingConfigurationItemIEsValue].
+// PRSFrequencyHoppingConfigurationItemIEsIEField uses the ProtocolIE-Field shape for object set PRSFrequencyHoppingConfiguration-Item-IEs of TS 36.455.
 type PRSFrequencyHoppingConfigurationItemIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3129,10 +3129,10 @@ func (v *PRSFrequencyHoppingConfigurationItemIEsIEField) unmarshalAPERFrom(bb *a
 	return nil
 }
 
-// PRSFrequencyHoppingConfigurationItemIEsIEContainer is the concrete ProtocolIEContainer[PRSFrequencyHoppingConfigurationItemIEsValue].
+// PRSFrequencyHoppingConfigurationItemIEsIEContainer uses the ProtocolIE-Container shape for object set PRSFrequencyHoppingConfiguration-Item-IEs of TS 36.455: a list of PRSFrequencyHoppingConfigurationItemIEsIEField values.
 type PRSFrequencyHoppingConfigurationItemIEsIEContainer []PRSFrequencyHoppingConfigurationItemIEsIEField
 
-// PosSIBSegmentsExtIEsIEField is the concrete ProtocolIEField[PosSIBSegmentsExtIEsValue].
+// PosSIBSegmentsExtIEsIEField uses the ProtocolIE-Field shape for object set PosSIB-Segments-ExtIEs of TS 36.455.
 type PosSIBSegmentsExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3247,10 +3247,10 @@ func (v *PosSIBSegmentsExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 	return nil
 }
 
-// PosSIBSegmentsExtIEsIEContainer is the concrete ProtocolIEContainer[PosSIBSegmentsExtIEsValue].
+// PosSIBSegmentsExtIEsIEContainer uses the ProtocolIE-Container shape for object set PosSIB-Segments-ExtIEs of TS 36.455: a list of PosSIBSegmentsExtIEsIEField values.
 type PosSIBSegmentsExtIEsIEContainer []PosSIBSegmentsExtIEsIEField
 
-// PosSIBsExtIEsIEField is the concrete ProtocolIEField[PosSIBsExtIEsValue].
+// PosSIBsExtIEsIEField uses the ProtocolIE-Field shape for object set PosSIBs-ExtIEs of TS 36.455.
 type PosSIBsExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3365,10 +3365,10 @@ func (v *PosSIBsExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// PosSIBsExtIEsIEContainer is the concrete ProtocolIEContainer[PosSIBsExtIEsValue].
+// PosSIBsExtIEsIEContainer uses the ProtocolIE-Container shape for object set PosSIBs-ExtIEs of TS 36.455: a list of PosSIBsExtIEsIEField values.
 type PosSIBsExtIEsIEContainer []PosSIBsExtIEsIEField
 
-// ResultGERANItemExtIEsIEField is the concrete ProtocolIEField[ResultGERANItemExtIEsValue].
+// ResultGERANItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultGERAN-Item-ExtIEs of TS 36.455.
 type ResultGERANItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3483,10 +3483,10 @@ func (v *ResultGERANItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	return nil
 }
 
-// ResultGERANItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultGERANItemExtIEsValue].
+// ResultGERANItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultGERAN-Item-ExtIEs of TS 36.455: a list of ResultGERANItemExtIEsIEField values.
 type ResultGERANItemExtIEsIEContainer []ResultGERANItemExtIEsIEField
 
-// ResultRSRPItemExtIEsIEField is the concrete ProtocolIEField[ResultRSRPItemExtIEsValue].
+// ResultRSRPItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultRSRP-Item-ExtIEs of TS 36.455.
 type ResultRSRPItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3601,10 +3601,10 @@ func (v *ResultRSRPItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 	return nil
 }
 
-// ResultRSRPItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultRSRPItemExtIEsValue].
+// ResultRSRPItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultRSRP-Item-ExtIEs of TS 36.455: a list of ResultRSRPItemExtIEsIEField values.
 type ResultRSRPItemExtIEsIEContainer []ResultRSRPItemExtIEsIEField
 
-// ResultRSRQItemExtIEsIEField is the concrete ProtocolIEField[ResultRSRQItemExtIEsValue].
+// ResultRSRQItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultRSRQ-Item-ExtIEs of TS 36.455.
 type ResultRSRQItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3719,10 +3719,10 @@ func (v *ResultRSRQItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 	return nil
 }
 
-// ResultRSRQItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultRSRQItemExtIEsValue].
+// ResultRSRQItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultRSRQ-Item-ExtIEs of TS 36.455: a list of ResultRSRQItemExtIEsIEField values.
 type ResultRSRQItemExtIEsIEContainer []ResultRSRQItemExtIEsIEField
 
-// ResultUTRANItemExtIEsIEField is the concrete ProtocolIEField[ResultUTRANItemExtIEsValue].
+// ResultUTRANItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultUTRAN-Item-ExtIEs of TS 36.455.
 type ResultUTRANItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3837,10 +3837,10 @@ func (v *ResultUTRANItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	return nil
 }
 
-// ResultUTRANItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultUTRANItemExtIEsValue].
+// ResultUTRANItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultUTRAN-Item-ExtIEs of TS 36.455: a list of ResultUTRANItemExtIEsIEField values.
 type ResultUTRANItemExtIEsIEContainer []ResultUTRANItemExtIEsIEField
 
-// ResultsPerSSBIndexItemExtIEsIEField is the concrete ProtocolIEField[ResultsPerSSBIndexItemExtIEsValue].
+// ResultsPerSSBIndexItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultsPerSSB-Index-Item-ExtIEs of TS 36.455.
 type ResultsPerSSBIndexItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3955,10 +3955,10 @@ func (v *ResultsPerSSBIndexItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuff
 	return nil
 }
 
-// ResultsPerSSBIndexItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultsPerSSBIndexItemExtIEsValue].
+// ResultsPerSSBIndexItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultsPerSSB-Index-Item-ExtIEs of TS 36.455: a list of ResultsPerSSBIndexItemExtIEsIEField values.
 type ResultsPerSSBIndexItemExtIEsIEContainer []ResultsPerSSBIndexItemExtIEsIEField
 
-// SystemInformationExtIEsIEField is the concrete ProtocolIEField[SystemInformationExtIEsValue].
+// SystemInformationExtIEsIEField uses the ProtocolIE-Field shape for object set SystemInformation-ExtIEs of TS 36.455.
 type SystemInformationExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4073,10 +4073,10 @@ func (v *SystemInformationExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// SystemInformationExtIEsIEContainer is the concrete ProtocolIEContainer[SystemInformationExtIEsValue].
+// SystemInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set SystemInformation-ExtIEs of TS 36.455: a list of SystemInformationExtIEsIEField values.
 type SystemInformationExtIEsIEContainer []SystemInformationExtIEsIEField
 
-// TDDConfigurationExtIEsIEField is the concrete ProtocolIEField[TDDConfigurationExtIEsValue].
+// TDDConfigurationExtIEsIEField uses the ProtocolIE-Field shape for object set TDDConfiguration-ExtIEs of TS 36.455.
 type TDDConfigurationExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4191,10 +4191,10 @@ func (v *TDDConfigurationExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	return nil
 }
 
-// TDDConfigurationExtIEsIEContainer is the concrete ProtocolIEContainer[TDDConfigurationExtIEsValue].
+// TDDConfigurationExtIEsIEContainer uses the ProtocolIE-Container shape for object set TDDConfiguration-ExtIEs of TS 36.455: a list of TDDConfigurationExtIEsIEField values.
 type TDDConfigurationExtIEsIEContainer []TDDConfigurationExtIEsIEField
 
-// WLANMeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[WLANMeasurementQuantitiesValueExtIEsValue].
+// WLANMeasurementQuantitiesValueExtIEsIEField uses the ProtocolIE-Field shape for object set WLANMeasurementQuantitiesValue-ExtIEs of TS 36.455.
 type WLANMeasurementQuantitiesValueExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4309,10 +4309,10 @@ func (v *WLANMeasurementQuantitiesValueExtIEsIEField) unmarshalAPERFrom(bb *aper
 	return nil
 }
 
-// WLANMeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[WLANMeasurementQuantitiesValueExtIEsValue].
+// WLANMeasurementQuantitiesValueExtIEsIEContainer uses the ProtocolIE-Container shape for object set WLANMeasurementQuantitiesValue-ExtIEs of TS 36.455: a list of WLANMeasurementQuantitiesValueExtIEsIEField values.
 type WLANMeasurementQuantitiesValueExtIEsIEContainer []WLANMeasurementQuantitiesValueExtIEsIEField
 
-// WLANMeasurementResultItemExtIEsIEField is the concrete ProtocolIEField[WLANMeasurementResultItemExtIEsValue].
+// WLANMeasurementResultItemExtIEsIEField uses the ProtocolIE-Field shape for object set WLANMeasurementResult-Item-ExtIEs of TS 36.455.
 type WLANMeasurementResultItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4427,7 +4427,7 @@ func (v *WLANMeasurementResultItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitB
 	return nil
 }
 
-// WLANMeasurementResultItemExtIEsIEContainer is the concrete ProtocolIEContainer[WLANMeasurementResultItemExtIEsValue].
+// WLANMeasurementResultItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set WLANMeasurementResult-Item-ExtIEs of TS 36.455: a list of WLANMeasurementResultItemExtIEsIEField values.
 type WLANMeasurementResultItemExtIEsIEContainer []WLANMeasurementResultItemExtIEsIEField
 type MeasurementQuantitiesValueExtIETable struct{}
 

@@ -75,16 +75,16 @@ type AddOTDOACellsExtIETable = s03.AddOTDOACellsExtIETable
 
 var AddOTDOACellsExtIEs func() AddOTDOACellsExtIETable = s03.AddOTDOACellsExtIEs
 
-// AddOTDOACellsExtIEsExtContainer is the concrete ProtocolExtensionContainer[AddOTDOACellsExtIEsValue].
+// AddOTDOACellsExtIEsExtContainer is ProtocolExtensionContainer {{Add-OTDOACells-ExtIEs}} of TS 36.455: a list of AddOTDOACellsExtIEsExtField values.
 type AddOTDOACellsExtIEsExtContainer = s03.AddOTDOACellsExtIEsExtContainer
 
-// AddOTDOACellsExtIEsExtField is the concrete ProtocolExtensionField[AddOTDOACellsExtIEsValue].
+// AddOTDOACellsExtIEsExtField is ProtocolExtensionField {{Add-OTDOACells-ExtIEs}} of TS 36.455: a field carrying a value of AddOTDOACellsExtIEsValue.
 type AddOTDOACellsExtIEsExtField = s03.AddOTDOACellsExtIEsExtField
 
-// AddOTDOACellsExtIEsIEContainer is the concrete ProtocolIEContainer[AddOTDOACellsExtIEsValue].
+// AddOTDOACellsExtIEsIEContainer uses the ProtocolIE-Container shape for object set Add-OTDOACells-ExtIEs of TS 36.455: a list of AddOTDOACellsExtIEsIEField values.
 type AddOTDOACellsExtIEsIEContainer = s03.AddOTDOACellsExtIEsIEContainer
 
-// AddOTDOACellsExtIEsIEField is the concrete ProtocolIEField[AddOTDOACellsExtIEsValue].
+// AddOTDOACellsExtIEsIEField uses the ProtocolIE-Field shape for object set Add-OTDOACells-ExtIEs of TS 36.455.
 type AddOTDOACellsExtIEsIEField = s03.AddOTDOACellsExtIEsIEField
 type AddOTDOACellsExtIEsValue = s02.AddOTDOACellsExtIEsValue
 
@@ -106,10 +106,10 @@ type AssistanceInformationControl = s15.AssistanceInformationControl
 // AssistanceInformationControlAPERValue is the concrete APERValue[AssistanceInformationControl].
 type AssistanceInformationControlAPERValue = s15.AssistanceInformationControlAPERValue
 
-// AssistanceInformationControlAssistanceInformationIEBinding is the concrete IEBinding[AssistanceInformation, AssistanceInformationControlIEValue].
+// AssistanceInformationControlAssistanceInformationIEBinding binds AssistanceInformation to ProtocolIE-Field {{AssistanceInformationControl-IEs}} of TS 36.455.
 type AssistanceInformationControlAssistanceInformationIEBinding = s14.AssistanceInformationControlAssistanceInformationIEBinding
 
-// AssistanceInformationControlBroadcastIEBinding is the concrete IEBinding[Broadcast, AssistanceInformationControlIEValue].
+// AssistanceInformationControlBroadcastIEBinding binds Broadcast to ProtocolIE-Field {{AssistanceInformationControl-IEs}} of TS 36.455.
 type AssistanceInformationControlBroadcastIEBinding = s14.AssistanceInformationControlBroadcastIEBinding
 
 // AssistanceInformationControlCodec binds the complete APER value type.
@@ -117,10 +117,10 @@ var AssistanceInformationControlCodec func() AssistanceInformationControlValueCo
 
 type AssistanceInformationControlDescriptor = s24.AssistanceInformationControlDescriptor
 
-// AssistanceInformationControlIEContainer is the concrete ProtocolIEContainer[AssistanceInformationControlIEValue].
+// AssistanceInformationControlIEContainer is ProtocolIE-Container {{AssistanceInformationControl-IEs}} of TS 36.455: a list of AssistanceInformationControlIEField values.
 type AssistanceInformationControlIEContainer = s14.AssistanceInformationControlIEContainer
 
-// AssistanceInformationControlIEField is the concrete ProtocolIEField[AssistanceInformationControlIEValue].
+// AssistanceInformationControlIEField is ProtocolIE-Field {{AssistanceInformationControl-IEs}} of TS 36.455: a field carrying a value of AssistanceInformationControlIEValue.
 type AssistanceInformationControlIEField = s14.AssistanceInformationControlIEField
 type AssistanceInformationControlIETable = s14.AssistanceInformationControlIETable
 type AssistanceInformationControlIEValue = s14.AssistanceInformationControlIEValue
@@ -138,16 +138,16 @@ type AssistanceInformationExtIETable = s03.AssistanceInformationExtIETable
 
 var AssistanceInformationExtIEs func() AssistanceInformationExtIETable = s03.AssistanceInformationExtIEs
 
-// AssistanceInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[AssistanceInformationExtIEsValue].
+// AssistanceInformationExtIEsExtContainer is ProtocolExtensionContainer {{Assistance-Information-ExtIEs}} of TS 36.455: a list of AssistanceInformationExtIEsExtField values.
 type AssistanceInformationExtIEsExtContainer = s03.AssistanceInformationExtIEsExtContainer
 
-// AssistanceInformationExtIEsExtField is the concrete ProtocolExtensionField[AssistanceInformationExtIEsValue].
+// AssistanceInformationExtIEsExtField is ProtocolExtensionField {{Assistance-Information-ExtIEs}} of TS 36.455: a field carrying a value of AssistanceInformationExtIEsValue.
 type AssistanceInformationExtIEsExtField = s03.AssistanceInformationExtIEsExtField
 
-// AssistanceInformationExtIEsIEContainer is the concrete ProtocolIEContainer[AssistanceInformationExtIEsValue].
+// AssistanceInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set Assistance-Information-ExtIEs of TS 36.455: a list of AssistanceInformationExtIEsIEField values.
 type AssistanceInformationExtIEsIEContainer = s03.AssistanceInformationExtIEsIEContainer
 
-// AssistanceInformationExtIEsIEField is the concrete ProtocolIEField[AssistanceInformationExtIEsValue].
+// AssistanceInformationExtIEsIEField uses the ProtocolIE-Field shape for object set Assistance-Information-ExtIEs of TS 36.455.
 type AssistanceInformationExtIEsIEField = s03.AssistanceInformationExtIEsIEField
 type AssistanceInformationExtIEsValue = s02.AssistanceInformationExtIEsValue
 type AssistanceInformationFailureList = s05.AssistanceInformationFailureList
@@ -177,16 +177,16 @@ type AssistanceInformationFailureListExtIETable = s03.AssistanceInformationFailu
 
 var AssistanceInformationFailureListExtIEs func() AssistanceInformationFailureListExtIETable = s03.AssistanceInformationFailureListExtIEs
 
-// AssistanceInformationFailureListExtIEsExtContainer is the concrete ProtocolExtensionContainer[AssistanceInformationFailureListExtIEsValue].
+// AssistanceInformationFailureListExtIEsExtContainer is ProtocolExtensionContainer {{AssistanceInformationFailureList-ExtIEs}} of TS 36.455: a list of AssistanceInformationFailureListExtIEsExtField values.
 type AssistanceInformationFailureListExtIEsExtContainer = s03.AssistanceInformationFailureListExtIEsExtContainer
 
-// AssistanceInformationFailureListExtIEsExtField is the concrete ProtocolExtensionField[AssistanceInformationFailureListExtIEsValue].
+// AssistanceInformationFailureListExtIEsExtField is ProtocolExtensionField {{AssistanceInformationFailureList-ExtIEs}} of TS 36.455: a field carrying a value of AssistanceInformationFailureListExtIEsValue.
 type AssistanceInformationFailureListExtIEsExtField = s03.AssistanceInformationFailureListExtIEsExtField
 
-// AssistanceInformationFailureListExtIEsIEContainer is the concrete ProtocolIEContainer[AssistanceInformationFailureListExtIEsValue].
+// AssistanceInformationFailureListExtIEsIEContainer uses the ProtocolIE-Container shape for object set AssistanceInformationFailureList-ExtIEs of TS 36.455: a list of AssistanceInformationFailureListExtIEsIEField values.
 type AssistanceInformationFailureListExtIEsIEContainer = s03.AssistanceInformationFailureListExtIEsIEContainer
 
-// AssistanceInformationFailureListExtIEsIEField is the concrete ProtocolIEField[AssistanceInformationFailureListExtIEsValue].
+// AssistanceInformationFailureListExtIEsIEField uses the ProtocolIE-Field shape for object set AssistanceInformationFailureList-ExtIEs of TS 36.455.
 type AssistanceInformationFailureListExtIEsIEField = s03.AssistanceInformationFailureListExtIEsIEField
 type AssistanceInformationFailureListExtIEsValue = s02.AssistanceInformationFailureListExtIEsValue
 
@@ -199,20 +199,20 @@ type AssistanceInformationFeedback = s17.AssistanceInformationFeedback
 // AssistanceInformationFeedbackAPERValue is the concrete APERValue[AssistanceInformationFeedback].
 type AssistanceInformationFeedbackAPERValue = s17.AssistanceInformationFeedbackAPERValue
 
-// AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding is the concrete IEBinding[AssistanceInformationFailureList, AssistanceInformationFeedbackIEValue].
+// AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding binds AssistanceInformationFailureList to ProtocolIE-Field {{AssistanceInformationFeedback-IEs}} of TS 36.455.
 type AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding = s17.AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding
 
 // AssistanceInformationFeedbackCodec binds the complete APER value type.
 var AssistanceInformationFeedbackCodec func() AssistanceInformationFeedbackValueCodec = s23.AssistanceInformationFeedbackCodec
 
-// AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, AssistanceInformationFeedbackIEValue].
+// AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{AssistanceInformationFeedback-IEs}} of TS 36.455.
 type AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding = s17.AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding
 type AssistanceInformationFeedbackDescriptor = s23.AssistanceInformationFeedbackDescriptor
 
-// AssistanceInformationFeedbackIEContainer is the concrete ProtocolIEContainer[AssistanceInformationFeedbackIEValue].
+// AssistanceInformationFeedbackIEContainer is ProtocolIE-Container {{AssistanceInformationFeedback-IEs}} of TS 36.455: a list of AssistanceInformationFeedbackIEField values.
 type AssistanceInformationFeedbackIEContainer = s17.AssistanceInformationFeedbackIEContainer
 
-// AssistanceInformationFeedbackIEField is the concrete ProtocolIEField[AssistanceInformationFeedbackIEValue].
+// AssistanceInformationFeedbackIEField is ProtocolIE-Field {{AssistanceInformationFeedback-IEs}} of TS 36.455: a field carrying a value of AssistanceInformationFeedbackIEValue.
 type AssistanceInformationFeedbackIEField = s17.AssistanceInformationFeedbackIEField
 type AssistanceInformationFeedbackIETable = s17.AssistanceInformationFeedbackIETable
 type AssistanceInformationFeedbackIEValue = s17.AssistanceInformationFeedbackIEValue
@@ -240,16 +240,16 @@ type AssistanceInformationMetaDataExtIETable = s03.AssistanceInformationMetaData
 
 var AssistanceInformationMetaDataExtIEs func() AssistanceInformationMetaDataExtIETable = s03.AssistanceInformationMetaDataExtIEs
 
-// AssistanceInformationMetaDataExtIEsExtContainer is the concrete ProtocolExtensionContainer[AssistanceInformationMetaDataExtIEsValue].
+// AssistanceInformationMetaDataExtIEsExtContainer is ProtocolExtensionContainer {{AssistanceInformationMetaData-ExtIEs}} of TS 36.455: a list of AssistanceInformationMetaDataExtIEsExtField values.
 type AssistanceInformationMetaDataExtIEsExtContainer = s03.AssistanceInformationMetaDataExtIEsExtContainer
 
-// AssistanceInformationMetaDataExtIEsExtField is the concrete ProtocolExtensionField[AssistanceInformationMetaDataExtIEsValue].
+// AssistanceInformationMetaDataExtIEsExtField is ProtocolExtensionField {{AssistanceInformationMetaData-ExtIEs}} of TS 36.455: a field carrying a value of AssistanceInformationMetaDataExtIEsValue.
 type AssistanceInformationMetaDataExtIEsExtField = s03.AssistanceInformationMetaDataExtIEsExtField
 
-// AssistanceInformationMetaDataExtIEsIEContainer is the concrete ProtocolIEContainer[AssistanceInformationMetaDataExtIEsValue].
+// AssistanceInformationMetaDataExtIEsIEContainer uses the ProtocolIE-Container shape for object set AssistanceInformationMetaData-ExtIEs of TS 36.455: a list of AssistanceInformationMetaDataExtIEsIEField values.
 type AssistanceInformationMetaDataExtIEsIEContainer = s03.AssistanceInformationMetaDataExtIEsIEContainer
 
-// AssistanceInformationMetaDataExtIEsIEField is the concrete ProtocolIEField[AssistanceInformationMetaDataExtIEsValue].
+// AssistanceInformationMetaDataExtIEsIEField uses the ProtocolIE-Field shape for object set AssistanceInformationMetaData-ExtIEs of TS 36.455.
 type AssistanceInformationMetaDataExtIEsIEField = s03.AssistanceInformationMetaDataExtIEsIEField
 type AssistanceInformationMetaDataExtIEsValue = s02.AssistanceInformationMetaDataExtIEsValue
 
@@ -464,16 +464,16 @@ type CriticalityDiagnosticsExtIETable = s03.CriticalityDiagnosticsExtIETable
 
 var CriticalityDiagnosticsExtIEs func() CriticalityDiagnosticsExtIETable = s03.CriticalityDiagnosticsExtIEs
 
-// CriticalityDiagnosticsExtIEsExtContainer is the concrete ProtocolExtensionContainer[CriticalityDiagnosticsExtIEsValue].
+// CriticalityDiagnosticsExtIEsExtContainer is ProtocolExtensionContainer {{CriticalityDiagnostics-ExtIEs}} of TS 36.455: a list of CriticalityDiagnosticsExtIEsExtField values.
 type CriticalityDiagnosticsExtIEsExtContainer = s03.CriticalityDiagnosticsExtIEsExtContainer
 
-// CriticalityDiagnosticsExtIEsExtField is the concrete ProtocolExtensionField[CriticalityDiagnosticsExtIEsValue].
+// CriticalityDiagnosticsExtIEsExtField is ProtocolExtensionField {{CriticalityDiagnostics-ExtIEs}} of TS 36.455: a field carrying a value of CriticalityDiagnosticsExtIEsValue.
 type CriticalityDiagnosticsExtIEsExtField = s03.CriticalityDiagnosticsExtIEsExtField
 
-// CriticalityDiagnosticsExtIEsIEContainer is the concrete ProtocolIEContainer[CriticalityDiagnosticsExtIEsValue].
+// CriticalityDiagnosticsExtIEsIEContainer uses the ProtocolIE-Container shape for object set CriticalityDiagnostics-ExtIEs of TS 36.455: a list of CriticalityDiagnosticsExtIEsIEField values.
 type CriticalityDiagnosticsExtIEsIEContainer = s03.CriticalityDiagnosticsExtIEsIEContainer
 
-// CriticalityDiagnosticsExtIEsIEField is the concrete ProtocolIEField[CriticalityDiagnosticsExtIEsValue].
+// CriticalityDiagnosticsExtIEsIEField uses the ProtocolIE-Field shape for object set CriticalityDiagnostics-ExtIEs of TS 36.455.
 type CriticalityDiagnosticsExtIEsIEField = s03.CriticalityDiagnosticsExtIEsIEField
 type CriticalityDiagnosticsExtIEsValue = s02.CriticalityDiagnosticsExtIEsValue
 type CriticalityDiagnosticsIEList = s05.CriticalityDiagnosticsIEList
@@ -503,16 +503,16 @@ type CriticalityDiagnosticsIEListExtIETable = s03.CriticalityDiagnosticsIEListEx
 
 var CriticalityDiagnosticsIEListExtIEs func() CriticalityDiagnosticsIEListExtIETable = s03.CriticalityDiagnosticsIEListExtIEs
 
-// CriticalityDiagnosticsIEListExtIEsExtContainer is the concrete ProtocolExtensionContainer[CriticalityDiagnosticsIEListExtIEsValue].
+// CriticalityDiagnosticsIEListExtIEsExtContainer is ProtocolExtensionContainer {{CriticalityDiagnostics-IE-List-ExtIEs}} of TS 36.455: a list of CriticalityDiagnosticsIEListExtIEsExtField values.
 type CriticalityDiagnosticsIEListExtIEsExtContainer = s03.CriticalityDiagnosticsIEListExtIEsExtContainer
 
-// CriticalityDiagnosticsIEListExtIEsExtField is the concrete ProtocolExtensionField[CriticalityDiagnosticsIEListExtIEsValue].
+// CriticalityDiagnosticsIEListExtIEsExtField is ProtocolExtensionField {{CriticalityDiagnostics-IE-List-ExtIEs}} of TS 36.455: a field carrying a value of CriticalityDiagnosticsIEListExtIEsValue.
 type CriticalityDiagnosticsIEListExtIEsExtField = s03.CriticalityDiagnosticsIEListExtIEsExtField
 
-// CriticalityDiagnosticsIEListExtIEsIEContainer is the concrete ProtocolIEContainer[CriticalityDiagnosticsIEListExtIEsValue].
+// CriticalityDiagnosticsIEListExtIEsIEContainer uses the ProtocolIE-Container shape for object set CriticalityDiagnostics-IE-List-ExtIEs of TS 36.455: a list of CriticalityDiagnosticsIEListExtIEsIEField values.
 type CriticalityDiagnosticsIEListExtIEsIEContainer = s03.CriticalityDiagnosticsIEListExtIEsIEContainer
 
-// CriticalityDiagnosticsIEListExtIEsIEField is the concrete ProtocolIEField[CriticalityDiagnosticsIEListExtIEsValue].
+// CriticalityDiagnosticsIEListExtIEsIEField uses the ProtocolIE-Field shape for object set CriticalityDiagnostics-IE-List-ExtIEs of TS 36.455.
 type CriticalityDiagnosticsIEListExtIEsIEField = s03.CriticalityDiagnosticsIEListExtIEsIEField
 type CriticalityDiagnosticsIEListExtIEsValue = s02.CriticalityDiagnosticsIEListExtIEsValue
 
@@ -575,16 +575,16 @@ type ECGIExtIETable = s03.ECGIExtIETable
 
 var ECGIExtIEs func() ECGIExtIETable = s03.ECGIExtIEs
 
-// ECGIExtIEsExtContainer is the concrete ProtocolExtensionContainer[ECGIExtIEsValue].
+// ECGIExtIEsExtContainer is ProtocolExtensionContainer {{ECGI-ExtIEs}} of TS 36.455: a list of ECGIExtIEsExtField values.
 type ECGIExtIEsExtContainer = s03.ECGIExtIEsExtContainer
 
-// ECGIExtIEsExtField is the concrete ProtocolExtensionField[ECGIExtIEsValue].
+// ECGIExtIEsExtField is ProtocolExtensionField {{ECGI-ExtIEs}} of TS 36.455: a field carrying a value of ECGIExtIEsValue.
 type ECGIExtIEsExtField = s03.ECGIExtIEsExtField
 
-// ECGIExtIEsIEContainer is the concrete ProtocolIEContainer[ECGIExtIEsValue].
+// ECGIExtIEsIEContainer uses the ProtocolIE-Container shape for object set ECGI-ExtIEs of TS 36.455: a list of ECGIExtIEsIEField values.
 type ECGIExtIEsIEContainer = s03.ECGIExtIEsIEContainer
 
-// ECGIExtIEsIEField is the concrete ProtocolIEField[ECGIExtIEsValue].
+// ECGIExtIEsIEField uses the ProtocolIE-Field shape for object set ECGI-ExtIEs of TS 36.455.
 type ECGIExtIEsIEField = s03.ECGIExtIEsIEField
 type ECGIExtIEsValue = s02.ECGIExtIEsValue
 
@@ -597,7 +597,7 @@ type ECIDMeasurementFailureIndication = s11.ECIDMeasurementFailureIndication
 // ECIDMeasurementFailureIndicationAPERValue is the concrete APERValue[ECIDMeasurementFailureIndication].
 type ECIDMeasurementFailureIndicationAPERValue = s11.ECIDMeasurementFailureIndicationAPERValue
 
-// ECIDMeasurementFailureIndicationCauseIEBinding is the concrete IEBinding[Cause, ECIDMeasurementFailureIndicationIEValue].
+// ECIDMeasurementFailureIndicationCauseIEBinding binds Cause to ProtocolIE-Field {{E-CIDMeasurementFailureIndication-IEs}} of TS 36.455.
 type ECIDMeasurementFailureIndicationCauseIEBinding = s06.ECIDMeasurementFailureIndicationCauseIEBinding
 
 // ECIDMeasurementFailureIndicationCodec binds the complete APER value type.
@@ -605,10 +605,10 @@ var ECIDMeasurementFailureIndicationCodec func() ECIDMeasurementFailureIndicatio
 
 type ECIDMeasurementFailureIndicationDescriptor = s23.ECIDMeasurementFailureIndicationDescriptor
 
-// ECIDMeasurementFailureIndicationIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementFailureIndicationIEValue].
+// ECIDMeasurementFailureIndicationIEContainer is ProtocolIE-Container {{E-CIDMeasurementFailureIndication-IEs}} of TS 36.455: a list of ECIDMeasurementFailureIndicationIEField values.
 type ECIDMeasurementFailureIndicationIEContainer = s06.ECIDMeasurementFailureIndicationIEContainer
 
-// ECIDMeasurementFailureIndicationIEField is the concrete ProtocolIEField[ECIDMeasurementFailureIndicationIEValue].
+// ECIDMeasurementFailureIndicationIEField is ProtocolIE-Field {{E-CIDMeasurementFailureIndication-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementFailureIndicationIEValue.
 type ECIDMeasurementFailureIndicationIEField = s06.ECIDMeasurementFailureIndicationIEField
 type ECIDMeasurementFailureIndicationIETable = s06.ECIDMeasurementFailureIndicationIETable
 type ECIDMeasurementFailureIndicationIEValue = s06.ECIDMeasurementFailureIndicationIEValue
@@ -618,7 +618,7 @@ var ECIDMeasurementFailureIndicationIEs func() ECIDMeasurementFailureIndicationI
 // ECIDMeasurementFailureIndicationInitiatingBinding is the concrete InitiatingBinding[ECIDMeasurementFailureIndication].
 type ECIDMeasurementFailureIndicationInitiatingBinding = s21.ECIDMeasurementFailureIndicationInitiatingBinding
 
-// ECIDMeasurementFailureIndicationMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementFailureIndicationIEValue].
+// ECIDMeasurementFailureIndicationMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementFailureIndication-IEs}} of TS 36.455.
 type ECIDMeasurementFailureIndicationMeasurementIDIEBinding = s06.ECIDMeasurementFailureIndicationMeasurementIDIEBinding
 
 var ECIDMeasurementFailureIndicationProcedure func() ECIDMeasurementFailureIndicationDescriptor = s23.ECIDMeasurementFailureIndicationProcedure
@@ -633,26 +633,26 @@ type ECIDMeasurementInitiationFailure = s11.ECIDMeasurementInitiationFailure
 // ECIDMeasurementInitiationFailureAPERValue is the concrete APERValue[ECIDMeasurementInitiationFailure].
 type ECIDMeasurementInitiationFailureAPERValue = s11.ECIDMeasurementInitiationFailureAPERValue
 
-// ECIDMeasurementInitiationFailureCauseIEBinding is the concrete IEBinding[Cause, ECIDMeasurementInitiationFailureIEValue].
+// ECIDMeasurementInitiationFailureCauseIEBinding binds Cause to ProtocolIE-Field {{E-CIDMeasurementInitiationFailure-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationFailureCauseIEBinding = s09.ECIDMeasurementInitiationFailureCauseIEBinding
 
 // ECIDMeasurementInitiationFailureCodec binds the complete APER value type.
 var ECIDMeasurementInitiationFailureCodec func() ECIDMeasurementInitiationFailureValueCodec = s24.ECIDMeasurementInitiationFailureCodec
 
-// ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ECIDMeasurementInitiationFailureIEValue].
+// ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{E-CIDMeasurementInitiationFailure-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding = s09.ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding
 
-// ECIDMeasurementInitiationFailureIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementInitiationFailureIEValue].
+// ECIDMeasurementInitiationFailureIEContainer is ProtocolIE-Container {{E-CIDMeasurementInitiationFailure-IEs}} of TS 36.455: a list of ECIDMeasurementInitiationFailureIEField values.
 type ECIDMeasurementInitiationFailureIEContainer = s09.ECIDMeasurementInitiationFailureIEContainer
 
-// ECIDMeasurementInitiationFailureIEField is the concrete ProtocolIEField[ECIDMeasurementInitiationFailureIEValue].
+// ECIDMeasurementInitiationFailureIEField is ProtocolIE-Field {{E-CIDMeasurementInitiationFailure-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementInitiationFailureIEValue.
 type ECIDMeasurementInitiationFailureIEField = s09.ECIDMeasurementInitiationFailureIEField
 type ECIDMeasurementInitiationFailureIETable = s10.ECIDMeasurementInitiationFailureIETable
 type ECIDMeasurementInitiationFailureIEValue = s09.ECIDMeasurementInitiationFailureIEValue
 
 var ECIDMeasurementInitiationFailureIEs func() ECIDMeasurementInitiationFailureIETable = s10.ECIDMeasurementInitiationFailureIEs
 
-// ECIDMeasurementInitiationFailureMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementInitiationFailureIEValue].
+// ECIDMeasurementInitiationFailureMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementInitiationFailure-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationFailureMeasurementIDIEBinding = s10.ECIDMeasurementInitiationFailureMeasurementIDIEBinding
 
 // ECIDMeasurementInitiationFailureUnsuccessfulBinding is the concrete UnsuccessfulBinding[ECIDMeasurementInitiationFailure].
@@ -672,10 +672,10 @@ type ECIDMeasurementInitiationRequestAPERValue = s21.ECIDMeasurementInitiationRe
 // ECIDMeasurementInitiationRequestCodec binds the complete APER value type.
 var ECIDMeasurementInitiationRequestCodec func() ECIDMeasurementInitiationRequestValueCodec = s24.ECIDMeasurementInitiationRequestCodec
 
-// ECIDMeasurementInitiationRequestIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestIEContainer is ProtocolIE-Container {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455: a list of ECIDMeasurementInitiationRequestIEField values.
 type ECIDMeasurementInitiationRequestIEContainer = s21.ECIDMeasurementInitiationRequestIEContainer
 
-// ECIDMeasurementInitiationRequestIEField is the concrete ProtocolIEField[ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestIEField is ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementInitiationRequestIEValue.
 type ECIDMeasurementInitiationRequestIEField = s21.ECIDMeasurementInitiationRequestIEField
 type ECIDMeasurementInitiationRequestIETable = s21.ECIDMeasurementInitiationRequestIETable
 type ECIDMeasurementInitiationRequestIEValue = s21.ECIDMeasurementInitiationRequestIEValue
@@ -685,25 +685,25 @@ var ECIDMeasurementInitiationRequestIEs func() ECIDMeasurementInitiationRequestI
 // ECIDMeasurementInitiationRequestInitiatingBinding is the concrete InitiatingBinding[ECIDMeasurementInitiationRequest].
 type ECIDMeasurementInitiationRequestInitiatingBinding = s21.ECIDMeasurementInitiationRequestInitiatingBinding
 
-// ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding is the concrete IEBinding[InterRATMeasurementQuantities, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding binds InterRATMeasurementQuantities to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding = s21.ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding
 
-// ECIDMeasurementInitiationRequestMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestMeasurementIDIEBinding = s21.ECIDMeasurementInitiationRequestMeasurementIDIEBinding
 
-// ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding is the concrete IEBinding[MeasurementPeriodicity, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding binds MeasurementPeriodicity to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding = s21.ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding
 
-// ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding is the concrete IEBinding[MeasurementQuantities, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding binds MeasurementQuantities to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding = s21.ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding
 
-// ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding is the concrete IEBinding[ReportCharacteristics, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding binds ReportCharacteristics to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding = s21.ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding
 
 // ECIDMeasurementInitiationRequestValueCodec is the concrete ValueCodec[ECIDMeasurementInitiationRequest].
 type ECIDMeasurementInitiationRequestValueCodec = s21.ECIDMeasurementInitiationRequestValueCodec
 
-// ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding is the concrete IEBinding[WLANMeasurementQuantities, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding binds WLANMeasurementQuantities to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding = s21.ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding
 
 // ECIDMeasurementInitiationResponse represents the ASN.1 type E-CIDMeasurementInitiationResponse (SEQUENCE).
@@ -712,32 +712,32 @@ type ECIDMeasurementInitiationResponse = s22.ECIDMeasurementInitiationResponse
 // ECIDMeasurementInitiationResponseAPERValue is the concrete APERValue[ECIDMeasurementInitiationResponse].
 type ECIDMeasurementInitiationResponseAPERValue = s22.ECIDMeasurementInitiationResponseAPERValue
 
-// ECIDMeasurementInitiationResponseCellPortionIDIEBinding is the concrete IEBinding[CellPortionID, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseCellPortionIDIEBinding binds CellPortionID to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseCellPortionIDIEBinding = s22.ECIDMeasurementInitiationResponseCellPortionIDIEBinding
 
 // ECIDMeasurementInitiationResponseCodec binds the complete APER value type.
 var ECIDMeasurementInitiationResponseCodec func() ECIDMeasurementInitiationResponseValueCodec = s24.ECIDMeasurementInitiationResponseCodec
 
-// ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding = s22.ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding
 
-// ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding is the concrete IEBinding[ECIDMeasurementResult, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding binds ECIDMeasurementResult to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding = s22.ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding
 
-// ECIDMeasurementInitiationResponseIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseIEContainer is ProtocolIE-Container {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455: a list of ECIDMeasurementInitiationResponseIEField values.
 type ECIDMeasurementInitiationResponseIEContainer = s22.ECIDMeasurementInitiationResponseIEContainer
 
-// ECIDMeasurementInitiationResponseIEField is the concrete ProtocolIEField[ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseIEField is ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementInitiationResponseIEValue.
 type ECIDMeasurementInitiationResponseIEField = s22.ECIDMeasurementInitiationResponseIEField
 type ECIDMeasurementInitiationResponseIETable = s22.ECIDMeasurementInitiationResponseIETable
 type ECIDMeasurementInitiationResponseIEValue = s22.ECIDMeasurementInitiationResponseIEValue
 
 var ECIDMeasurementInitiationResponseIEs func() ECIDMeasurementInitiationResponseIETable = s22.ECIDMeasurementInitiationResponseIEs
 
-// ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding is the concrete IEBinding[InterRATMeasurementResult, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding binds InterRATMeasurementResult to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding = s22.ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding
 
-// ECIDMeasurementInitiationResponseMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseMeasurementIDIEBinding = s22.ECIDMeasurementInitiationResponseMeasurementIDIEBinding
 
 // ECIDMeasurementInitiationResponseSuccessfulBinding is the concrete SuccessfulBinding[ECIDMeasurementInitiationResponse].
@@ -746,7 +746,7 @@ type ECIDMeasurementInitiationResponseSuccessfulBinding = s23.ECIDMeasurementIni
 // ECIDMeasurementInitiationResponseValueCodec is the concrete ValueCodec[ECIDMeasurementInitiationResponse].
 type ECIDMeasurementInitiationResponseValueCodec = s22.ECIDMeasurementInitiationResponseValueCodec
 
-// ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding is the concrete IEBinding[WLANMeasurementResult, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding binds WLANMeasurementResult to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding = s22.ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding
 
 // ECIDMeasurementReport represents the ASN.1 type E-CIDMeasurementReport (SEQUENCE).
@@ -755,7 +755,7 @@ type ECIDMeasurementReport = s13.ECIDMeasurementReport
 // ECIDMeasurementReportAPERValue is the concrete APERValue[ECIDMeasurementReport].
 type ECIDMeasurementReportAPERValue = s13.ECIDMeasurementReportAPERValue
 
-// ECIDMeasurementReportCellPortionIDIEBinding is the concrete IEBinding[CellPortionID, ECIDMeasurementReportIEValue].
+// ECIDMeasurementReportCellPortionIDIEBinding binds CellPortionID to ProtocolIE-Field {{E-CIDMeasurementReport-IEs}} of TS 36.455.
 type ECIDMeasurementReportCellPortionIDIEBinding = s13.ECIDMeasurementReportCellPortionIDIEBinding
 
 // ECIDMeasurementReportCodec binds the complete APER value type.
@@ -763,13 +763,13 @@ var ECIDMeasurementReportCodec func() ECIDMeasurementReportValueCodec = s23.ECID
 
 type ECIDMeasurementReportDescriptor = s23.ECIDMeasurementReportDescriptor
 
-// ECIDMeasurementReportECIDMeasurementResultIEBinding is the concrete IEBinding[ECIDMeasurementResult, ECIDMeasurementReportIEValue].
+// ECIDMeasurementReportECIDMeasurementResultIEBinding binds ECIDMeasurementResult to ProtocolIE-Field {{E-CIDMeasurementReport-IEs}} of TS 36.455.
 type ECIDMeasurementReportECIDMeasurementResultIEBinding = s13.ECIDMeasurementReportECIDMeasurementResultIEBinding
 
-// ECIDMeasurementReportIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementReportIEValue].
+// ECIDMeasurementReportIEContainer is ProtocolIE-Container {{E-CIDMeasurementReport-IEs}} of TS 36.455: a list of ECIDMeasurementReportIEField values.
 type ECIDMeasurementReportIEContainer = s13.ECIDMeasurementReportIEContainer
 
-// ECIDMeasurementReportIEField is the concrete ProtocolIEField[ECIDMeasurementReportIEValue].
+// ECIDMeasurementReportIEField is ProtocolIE-Field {{E-CIDMeasurementReport-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementReportIEValue.
 type ECIDMeasurementReportIEField = s13.ECIDMeasurementReportIEField
 type ECIDMeasurementReportIETable = s13.ECIDMeasurementReportIETable
 type ECIDMeasurementReportIEValue = s13.ECIDMeasurementReportIEValue
@@ -779,7 +779,7 @@ var ECIDMeasurementReportIEs func() ECIDMeasurementReportIETable = s13.ECIDMeasu
 // ECIDMeasurementReportInitiatingBinding is the concrete InitiatingBinding[ECIDMeasurementReport].
 type ECIDMeasurementReportInitiatingBinding = s21.ECIDMeasurementReportInitiatingBinding
 
-// ECIDMeasurementReportMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementReportIEValue].
+// ECIDMeasurementReportMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementReport-IEs}} of TS 36.455.
 type ECIDMeasurementReportMeasurementIDIEBinding = s13.ECIDMeasurementReportMeasurementIDIEBinding
 
 var ECIDMeasurementReportProcedure func() ECIDMeasurementReportDescriptor = s23.ECIDMeasurementReportProcedure
@@ -808,10 +808,10 @@ type ECIDMeasurementTerminationCommandAPERValue = s06.ECIDMeasurementTermination
 // ECIDMeasurementTerminationCommandCodec binds the complete APER value type.
 var ECIDMeasurementTerminationCommandCodec func() ECIDMeasurementTerminationCommandValueCodec = s23.ECIDMeasurementTerminationCommandCodec
 
-// ECIDMeasurementTerminationCommandIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementTerminationCommandIEValue].
+// ECIDMeasurementTerminationCommandIEContainer is ProtocolIE-Container {{E-CIDMeasurementTerminationCommand-IEs}} of TS 36.455: a list of ECIDMeasurementTerminationCommandIEField values.
 type ECIDMeasurementTerminationCommandIEContainer = s03.ECIDMeasurementTerminationCommandIEContainer
 
-// ECIDMeasurementTerminationCommandIEField is the concrete ProtocolIEField[ECIDMeasurementTerminationCommandIEValue].
+// ECIDMeasurementTerminationCommandIEField is ProtocolIE-Field {{E-CIDMeasurementTerminationCommand-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementTerminationCommandIEValue.
 type ECIDMeasurementTerminationCommandIEField = s03.ECIDMeasurementTerminationCommandIEField
 type ECIDMeasurementTerminationCommandIETable = s03.ECIDMeasurementTerminationCommandIETable
 type ECIDMeasurementTerminationCommandIEValue = s02.ECIDMeasurementTerminationCommandIEValue
@@ -821,7 +821,7 @@ var ECIDMeasurementTerminationCommandIEs func() ECIDMeasurementTerminationComman
 // ECIDMeasurementTerminationCommandInitiatingBinding is the concrete InitiatingBinding[ECIDMeasurementTerminationCommand].
 type ECIDMeasurementTerminationCommandInitiatingBinding = s21.ECIDMeasurementTerminationCommandInitiatingBinding
 
-// ECIDMeasurementTerminationCommandMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementTerminationCommandIEValue].
+// ECIDMeasurementTerminationCommandMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementTerminationCommand-IEs}} of TS 36.455.
 type ECIDMeasurementTerminationCommandMeasurementIDIEBinding = s03.ECIDMeasurementTerminationCommandMeasurementIDIEBinding
 
 // ECIDMeasurementTerminationCommandValueCodec is the concrete ValueCodec[ECIDMeasurementTerminationCommand].
@@ -861,20 +861,20 @@ type ErrorIndication = s11.ErrorIndication
 // ErrorIndicationAPERValue is the concrete APERValue[ErrorIndication].
 type ErrorIndicationAPERValue = s11.ErrorIndicationAPERValue
 
-// ErrorIndicationCauseIEBinding is the concrete IEBinding[Cause, ErrorIndicationIEValue].
+// ErrorIndicationCauseIEBinding binds Cause to ProtocolIE-Field {{ErrorIndication-IEs}} of TS 36.455.
 type ErrorIndicationCauseIEBinding = s10.ErrorIndicationCauseIEBinding
 
 // ErrorIndicationCodec binds the complete APER value type.
 var ErrorIndicationCodec func() ErrorIndicationValueCodec = s23.ErrorIndicationCodec
 
-// ErrorIndicationCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ErrorIndicationIEValue].
+// ErrorIndicationCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ErrorIndication-IEs}} of TS 36.455.
 type ErrorIndicationCriticalityDiagnosticsIEBinding = s10.ErrorIndicationCriticalityDiagnosticsIEBinding
 type ErrorIndicationDescriptor = s23.ErrorIndicationDescriptor
 
-// ErrorIndicationIEContainer is the concrete ProtocolIEContainer[ErrorIndicationIEValue].
+// ErrorIndicationIEContainer is ProtocolIE-Container {{ErrorIndication-IEs}} of TS 36.455: a list of ErrorIndicationIEField values.
 type ErrorIndicationIEContainer = s10.ErrorIndicationIEContainer
 
-// ErrorIndicationIEField is the concrete ProtocolIEField[ErrorIndicationIEValue].
+// ErrorIndicationIEField is ProtocolIE-Field {{ErrorIndication-IEs}} of TS 36.455: a field carrying a value of ErrorIndicationIEValue.
 type ErrorIndicationIEField = s10.ErrorIndicationIEField
 type ErrorIndicationIETable = s10.ErrorIndicationIETable
 type ErrorIndicationIEValue = s10.ErrorIndicationIEValue
@@ -888,7 +888,6 @@ var ErrorIndicationProcedure func() ErrorIndicationDescriptor = s23.ErrorIndicat
 
 // ErrorIndicationValueCodec is the concrete ValueCodec[ErrorIndication].
 type ErrorIndicationValueCodec = s11.ErrorIndicationValueCodec
-type ExtensionBinding[T any, V s23.ProtocolOpenValueConstraint[V]] = s23.ExtensionBinding[T, V]
 type FieldInfo = s00.FieldInfo
 
 // HESSID represents the ASN.1 type HESSID (OCTET_STRING).
@@ -902,7 +901,6 @@ var HESSIDCodec func() HESSIDValueCodec = s02.HESSIDCodec
 
 // HESSIDValueCodec is the concrete ValueCodec[HESSID].
 type HESSIDValueCodec = s00.HESSIDValueCodec
-type IEBinding[T any, V s23.ProtocolOpenValueConstraint[V]] = s23.IEBinding[T, V]
 
 // IdAddOTDOACells is the integer constant for id-AddOTDOACells.
 const IdAddOTDOACells = s00.IdAddOTDOACells
@@ -1083,20 +1081,20 @@ type InterRATMeasurementQuantitiesItemAPERValue = s06.InterRATMeasurementQuantit
 // InterRATMeasurementQuantitiesItemCodec binds the complete APER value type.
 var InterRATMeasurementQuantitiesItemCodec func() InterRATMeasurementQuantitiesItemValueCodec = s06.InterRATMeasurementQuantitiesItemCodec
 
-// InterRATMeasurementQuantitiesItemIEContainer is the concrete ProtocolIEContainer[InterRATMeasurementQuantitiesItemIEValue].
+// InterRATMeasurementQuantitiesItemIEContainer is ProtocolIE-Container {{InterRATMeasurementQuantities-ItemIEs}} of TS 36.455: a list of InterRATMeasurementQuantitiesItemIEField values.
 type InterRATMeasurementQuantitiesItemIEContainer = s06.InterRATMeasurementQuantitiesItemIEContainer
 
-// InterRATMeasurementQuantitiesItemIEField is the concrete ProtocolIEField[InterRATMeasurementQuantitiesItemIEValue].
+// InterRATMeasurementQuantitiesItemIEField is ProtocolIE-Field {{InterRATMeasurementQuantities-ItemIEs}} of TS 36.455: a field carrying a value of InterRATMeasurementQuantitiesItemIEValue.
 type InterRATMeasurementQuantitiesItemIEField = s06.InterRATMeasurementQuantitiesItemIEField
 type InterRATMeasurementQuantitiesItemIETable = s06.InterRATMeasurementQuantitiesItemIETable
 type InterRATMeasurementQuantitiesItemIEValue = s06.InterRATMeasurementQuantitiesItemIEValue
 
-// InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[InterRATMeasurementQuantitiesItemIEValue].
+// InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{InterRATMeasurementQuantities-ItemIEs}} of TS 36.455: a single field carrying a value of InterRATMeasurementQuantitiesItemIEValue.
 type InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer = s06.InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer
 
 var InterRATMeasurementQuantitiesItemIEs func() InterRATMeasurementQuantitiesItemIETable = s06.InterRATMeasurementQuantitiesItemIEs
 
-// InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding is the concrete IEBinding[InterRATMeasurementQuantitiesItem, InterRATMeasurementQuantitiesItemIEValue].
+// InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding binds InterRATMeasurementQuantitiesItem to ProtocolIE-Field {{InterRATMeasurementQuantities-ItemIEs}} of TS 36.455.
 type InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding = s06.InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding
 
 // InterRATMeasurementQuantitiesItemValueCodec is the concrete ValueCodec[InterRATMeasurementQuantitiesItem].
@@ -1115,16 +1113,16 @@ type InterRATMeasurementQuantitiesValueExtIETable = s03.InterRATMeasurementQuant
 
 var InterRATMeasurementQuantitiesValueExtIEs func() InterRATMeasurementQuantitiesValueExtIETable = s03.InterRATMeasurementQuantitiesValueExtIEs
 
-// InterRATMeasurementQuantitiesValueExtIEsExtContainer is the concrete ProtocolExtensionContainer[InterRATMeasurementQuantitiesValueExtIEsValue].
+// InterRATMeasurementQuantitiesValueExtIEsExtContainer is ProtocolExtensionContainer {{InterRATMeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a list of InterRATMeasurementQuantitiesValueExtIEsExtField values.
 type InterRATMeasurementQuantitiesValueExtIEsExtContainer = s03.InterRATMeasurementQuantitiesValueExtIEsExtContainer
 
-// InterRATMeasurementQuantitiesValueExtIEsExtField is the concrete ProtocolExtensionField[InterRATMeasurementQuantitiesValueExtIEsValue].
+// InterRATMeasurementQuantitiesValueExtIEsExtField is ProtocolExtensionField {{InterRATMeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a field carrying a value of InterRATMeasurementQuantitiesValueExtIEsValue.
 type InterRATMeasurementQuantitiesValueExtIEsExtField = s03.InterRATMeasurementQuantitiesValueExtIEsExtField
 
-// InterRATMeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[InterRATMeasurementQuantitiesValueExtIEsValue].
+// InterRATMeasurementQuantitiesValueExtIEsIEContainer uses the ProtocolIE-Container shape for object set InterRATMeasurementQuantitiesValue-ExtIEs of TS 36.455: a list of InterRATMeasurementQuantitiesValueExtIEsIEField values.
 type InterRATMeasurementQuantitiesValueExtIEsIEContainer = s04.InterRATMeasurementQuantitiesValueExtIEsIEContainer
 
-// InterRATMeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[InterRATMeasurementQuantitiesValueExtIEsValue].
+// InterRATMeasurementQuantitiesValueExtIEsIEField uses the ProtocolIE-Field shape for object set InterRATMeasurementQuantitiesValue-ExtIEs of TS 36.455.
 type InterRATMeasurementQuantitiesValueExtIEsIEField = s04.InterRATMeasurementQuantitiesValueExtIEsIEField
 type InterRATMeasurementQuantitiesValueExtIEsValue = s02.InterRATMeasurementQuantitiesValueExtIEsValue
 
@@ -1452,20 +1450,20 @@ type MeasurementQuantitiesItemAPERValue = s06.MeasurementQuantitiesItemAPERValue
 // MeasurementQuantitiesItemCodec binds the complete APER value type.
 var MeasurementQuantitiesItemCodec func() MeasurementQuantitiesItemValueCodec = s07.MeasurementQuantitiesItemCodec
 
-// MeasurementQuantitiesItemIEContainer is the concrete ProtocolIEContainer[MeasurementQuantitiesItemIEValue].
+// MeasurementQuantitiesItemIEContainer is ProtocolIE-Container {{MeasurementQuantities-ItemIEs}} of TS 36.455: a list of MeasurementQuantitiesItemIEField values.
 type MeasurementQuantitiesItemIEContainer = s06.MeasurementQuantitiesItemIEContainer
 
-// MeasurementQuantitiesItemIEField is the concrete ProtocolIEField[MeasurementQuantitiesItemIEValue].
+// MeasurementQuantitiesItemIEField is ProtocolIE-Field {{MeasurementQuantities-ItemIEs}} of TS 36.455: a field carrying a value of MeasurementQuantitiesItemIEValue.
 type MeasurementQuantitiesItemIEField = s06.MeasurementQuantitiesItemIEField
 type MeasurementQuantitiesItemIETable = s07.MeasurementQuantitiesItemIETable
 type MeasurementQuantitiesItemIEValue = s06.MeasurementQuantitiesItemIEValue
 
-// MeasurementQuantitiesItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[MeasurementQuantitiesItemIEValue].
+// MeasurementQuantitiesItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{MeasurementQuantities-ItemIEs}} of TS 36.455: a single field carrying a value of MeasurementQuantitiesItemIEValue.
 type MeasurementQuantitiesItemIEValueProtocolIESingleContainer = s06.MeasurementQuantitiesItemIEValueProtocolIESingleContainer
 
 var MeasurementQuantitiesItemIEs func() MeasurementQuantitiesItemIETable = s07.MeasurementQuantitiesItemIEs
 
-// MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding is the concrete IEBinding[MeasurementQuantitiesItem, MeasurementQuantitiesItemIEValue].
+// MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding binds MeasurementQuantitiesItem to ProtocolIE-Field {{MeasurementQuantities-ItemIEs}} of TS 36.455.
 type MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding = s07.MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding
 
 // MeasurementQuantitiesItemValueCodec is the concrete ValueCodec[MeasurementQuantitiesItem].
@@ -1487,16 +1485,16 @@ type MeasurementQuantitiesValueExtIETable = s04.MeasurementQuantitiesValueExtIET
 
 var MeasurementQuantitiesValueExtIEs func() MeasurementQuantitiesValueExtIETable = s04.MeasurementQuantitiesValueExtIEs
 
-// MeasurementQuantitiesValueExtIEsExtContainer is the concrete ProtocolExtensionContainer[MeasurementQuantitiesValueExtIEsValue].
+// MeasurementQuantitiesValueExtIEsExtContainer is ProtocolExtensionContainer {{MeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a list of MeasurementQuantitiesValueExtIEsExtField values.
 type MeasurementQuantitiesValueExtIEsExtContainer = s04.MeasurementQuantitiesValueExtIEsExtContainer
 
-// MeasurementQuantitiesValueExtIEsExtField is the concrete ProtocolExtensionField[MeasurementQuantitiesValueExtIEsValue].
+// MeasurementQuantitiesValueExtIEsExtField is ProtocolExtensionField {{MeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a field carrying a value of MeasurementQuantitiesValueExtIEsValue.
 type MeasurementQuantitiesValueExtIEsExtField = s04.MeasurementQuantitiesValueExtIEsExtField
 
-// MeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[MeasurementQuantitiesValueExtIEsValue].
+// MeasurementQuantitiesValueExtIEsIEContainer uses the ProtocolIE-Container shape for object set MeasurementQuantitiesValue-ExtIEs of TS 36.455: a list of MeasurementQuantitiesValueExtIEsIEField values.
 type MeasurementQuantitiesValueExtIEsIEContainer = s04.MeasurementQuantitiesValueExtIEsIEContainer
 
-// MeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[MeasurementQuantitiesValueExtIEsValue].
+// MeasurementQuantitiesValueExtIEsIEField uses the ProtocolIE-Field shape for object set MeasurementQuantitiesValue-ExtIEs of TS 36.455.
 type MeasurementQuantitiesValueExtIEsIEField = s04.MeasurementQuantitiesValueExtIEsIEField
 type MeasurementQuantitiesValueExtIEsValue = s02.MeasurementQuantitiesValueExtIEsValue
 
@@ -1607,16 +1605,16 @@ type NRCGIExtIETable = s04.NRCGIExtIETable
 
 var NRCGIExtIEs func() NRCGIExtIETable = s04.NRCGIExtIEs
 
-// NRCGIExtIEsExtContainer is the concrete ProtocolExtensionContainer[NRCGIExtIEsValue].
+// NRCGIExtIEsExtContainer is ProtocolExtensionContainer {{NR-CGI-ExtIEs}} of TS 36.455: a list of NRCGIExtIEsExtField values.
 type NRCGIExtIEsExtContainer = s04.NRCGIExtIEsExtContainer
 
-// NRCGIExtIEsExtField is the concrete ProtocolExtensionField[NRCGIExtIEsValue].
+// NRCGIExtIEsExtField is ProtocolExtensionField {{NR-CGI-ExtIEs}} of TS 36.455: a field carrying a value of NRCGIExtIEsValue.
 type NRCGIExtIEsExtField = s04.NRCGIExtIEsExtField
 
-// NRCGIExtIEsIEContainer is the concrete ProtocolIEContainer[NRCGIExtIEsValue].
+// NRCGIExtIEsIEContainer uses the ProtocolIE-Container shape for object set NR-CGI-ExtIEs of TS 36.455: a list of NRCGIExtIEsIEField values.
 type NRCGIExtIEsIEContainer = s04.NRCGIExtIEsIEContainer
 
-// NRCGIExtIEsIEField is the concrete ProtocolIEField[NRCGIExtIEsValue].
+// NRCGIExtIEsIEField uses the ProtocolIE-Field shape for object set NR-CGI-ExtIEs of TS 36.455.
 type NRCGIExtIEsIEField = s04.NRCGIExtIEsIEField
 type NRCGIExtIEsValue = s02.NRCGIExtIEsValue
 
@@ -2107,16 +2105,16 @@ type OTDOACellsExtIETable = s04.OTDOACellsExtIETable
 
 var OTDOACellsExtIEs func() OTDOACellsExtIETable = s04.OTDOACellsExtIEs
 
-// OTDOACellsExtIEsExtContainer is the concrete ProtocolExtensionContainer[OTDOACellsExtIEsValue].
+// OTDOACellsExtIEsExtContainer is ProtocolExtensionContainer {{OTDOACells-ExtIEs}} of TS 36.455: a list of OTDOACellsExtIEsExtField values.
 type OTDOACellsExtIEsExtContainer = s04.OTDOACellsExtIEsExtContainer
 
-// OTDOACellsExtIEsExtField is the concrete ProtocolExtensionField[OTDOACellsExtIEsValue].
+// OTDOACellsExtIEsExtField is ProtocolExtensionField {{OTDOACells-ExtIEs}} of TS 36.455: a field carrying a value of OTDOACellsExtIEsValue.
 type OTDOACellsExtIEsExtField = s04.OTDOACellsExtIEsExtField
 
-// OTDOACellsExtIEsIEContainer is the concrete ProtocolIEContainer[OTDOACellsExtIEsValue].
+// OTDOACellsExtIEsIEContainer uses the ProtocolIE-Container shape for object set OTDOACells-ExtIEs of TS 36.455: a list of OTDOACellsExtIEsIEField values.
 type OTDOACellsExtIEsIEContainer = s04.OTDOACellsExtIEsIEContainer
 
-// OTDOACellsExtIEsIEField is the concrete ProtocolIEField[OTDOACellsExtIEsValue].
+// OTDOACellsExtIEsIEField uses the ProtocolIE-Field shape for object set OTDOACells-ExtIEs of TS 36.455.
 type OTDOACellsExtIEsIEField = s04.OTDOACellsExtIEsIEField
 type OTDOACellsExtIEsValue = s02.OTDOACellsExtIEsValue
 
@@ -2132,19 +2130,19 @@ type OTDOAInformationFailure = s12.OTDOAInformationFailure
 // OTDOAInformationFailureAPERValue is the concrete APERValue[OTDOAInformationFailure].
 type OTDOAInformationFailureAPERValue = s12.OTDOAInformationFailureAPERValue
 
-// OTDOAInformationFailureCauseIEBinding is the concrete IEBinding[Cause, OTDOAInformationFailureIEValue].
+// OTDOAInformationFailureCauseIEBinding binds Cause to ProtocolIE-Field {{OTDOAInformationFailure-IEs}} of TS 36.455.
 type OTDOAInformationFailureCauseIEBinding = s10.OTDOAInformationFailureCauseIEBinding
 
 // OTDOAInformationFailureCodec binds the complete APER value type.
 var OTDOAInformationFailureCodec func() OTDOAInformationFailureValueCodec = s24.OTDOAInformationFailureCodec
 
-// OTDOAInformationFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, OTDOAInformationFailureIEValue].
+// OTDOAInformationFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{OTDOAInformationFailure-IEs}} of TS 36.455.
 type OTDOAInformationFailureCriticalityDiagnosticsIEBinding = s10.OTDOAInformationFailureCriticalityDiagnosticsIEBinding
 
-// OTDOAInformationFailureIEContainer is the concrete ProtocolIEContainer[OTDOAInformationFailureIEValue].
+// OTDOAInformationFailureIEContainer is ProtocolIE-Container {{OTDOAInformationFailure-IEs}} of TS 36.455: a list of OTDOAInformationFailureIEField values.
 type OTDOAInformationFailureIEContainer = s10.OTDOAInformationFailureIEContainer
 
-// OTDOAInformationFailureIEField is the concrete ProtocolIEField[OTDOAInformationFailureIEValue].
+// OTDOAInformationFailureIEField is ProtocolIE-Field {{OTDOAInformationFailure-IEs}} of TS 36.455: a field carrying a value of OTDOAInformationFailureIEValue.
 type OTDOAInformationFailureIEField = s10.OTDOAInformationFailureIEField
 type OTDOAInformationFailureIETable = s10.OTDOAInformationFailureIETable
 type OTDOAInformationFailureIEValue = s10.OTDOAInformationFailureIEValue
@@ -2209,10 +2207,10 @@ type OTDOAInformationRequestAPERValue = s18.OTDOAInformationRequestAPERValue
 // OTDOAInformationRequestCodec binds the complete APER value type.
 var OTDOAInformationRequestCodec func() OTDOAInformationRequestValueCodec = s24.OTDOAInformationRequestCodec
 
-// OTDOAInformationRequestIEContainer is the concrete ProtocolIEContainer[OTDOAInformationRequestIEValue].
+// OTDOAInformationRequestIEContainer is ProtocolIE-Container {{OTDOAInformationRequest-IEs}} of TS 36.455: a list of OTDOAInformationRequestIEField values.
 type OTDOAInformationRequestIEContainer = s18.OTDOAInformationRequestIEContainer
 
-// OTDOAInformationRequestIEField is the concrete ProtocolIEField[OTDOAInformationRequestIEValue].
+// OTDOAInformationRequestIEField is ProtocolIE-Field {{OTDOAInformationRequest-IEs}} of TS 36.455: a field carrying a value of OTDOAInformationRequestIEValue.
 type OTDOAInformationRequestIEField = s18.OTDOAInformationRequestIEField
 type OTDOAInformationRequestIETable = s18.OTDOAInformationRequestIETable
 type OTDOAInformationRequestIEValue = s18.OTDOAInformationRequestIEValue
@@ -2222,7 +2220,7 @@ var OTDOAInformationRequestIEs func() OTDOAInformationRequestIETable = s18.OTDOA
 // OTDOAInformationRequestInitiatingBinding is the concrete InitiatingBinding[OTDOAInformationRequest].
 type OTDOAInformationRequestInitiatingBinding = s21.OTDOAInformationRequestInitiatingBinding
 
-// OTDOAInformationRequestOTDOAInformationTypeIEBinding is the concrete IEBinding[OTDOAInformationType, OTDOAInformationRequestIEValue].
+// OTDOAInformationRequestOTDOAInformationTypeIEBinding binds OTDOAInformationType to ProtocolIE-Field {{OTDOAInformationRequest-IEs}} of TS 36.455.
 type OTDOAInformationRequestOTDOAInformationTypeIEBinding = s18.OTDOAInformationRequestOTDOAInformationTypeIEBinding
 
 // OTDOAInformationRequestValueCodec is the concrete ValueCodec[OTDOAInformationRequest].
@@ -2234,26 +2232,26 @@ type OTDOAInformationResponse = s18.OTDOAInformationResponse
 // OTDOAInformationResponseAPERValue is the concrete APERValue[OTDOAInformationResponse].
 type OTDOAInformationResponseAPERValue = s18.OTDOAInformationResponseAPERValue
 
-// OTDOAInformationResponseAddOTDOACellsIEBinding is the concrete IEBinding[AddOTDOACells, OTDOAInformationResponseIEValue].
+// OTDOAInformationResponseAddOTDOACellsIEBinding binds AddOTDOACells to ProtocolIE-Field {{OTDOAInformationResponse-IEs}} of TS 36.455.
 type OTDOAInformationResponseAddOTDOACellsIEBinding = s18.OTDOAInformationResponseAddOTDOACellsIEBinding
 
 // OTDOAInformationResponseCodec binds the complete APER value type.
 var OTDOAInformationResponseCodec func() OTDOAInformationResponseValueCodec = s24.OTDOAInformationResponseCodec
 
-// OTDOAInformationResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, OTDOAInformationResponseIEValue].
+// OTDOAInformationResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{OTDOAInformationResponse-IEs}} of TS 36.455.
 type OTDOAInformationResponseCriticalityDiagnosticsIEBinding = s18.OTDOAInformationResponseCriticalityDiagnosticsIEBinding
 
-// OTDOAInformationResponseIEContainer is the concrete ProtocolIEContainer[OTDOAInformationResponseIEValue].
+// OTDOAInformationResponseIEContainer is ProtocolIE-Container {{OTDOAInformationResponse-IEs}} of TS 36.455: a list of OTDOAInformationResponseIEField values.
 type OTDOAInformationResponseIEContainer = s18.OTDOAInformationResponseIEContainer
 
-// OTDOAInformationResponseIEField is the concrete ProtocolIEField[OTDOAInformationResponseIEValue].
+// OTDOAInformationResponseIEField is ProtocolIE-Field {{OTDOAInformationResponse-IEs}} of TS 36.455: a field carrying a value of OTDOAInformationResponseIEValue.
 type OTDOAInformationResponseIEField = s18.OTDOAInformationResponseIEField
 type OTDOAInformationResponseIETable = s18.OTDOAInformationResponseIETable
 type OTDOAInformationResponseIEValue = s18.OTDOAInformationResponseIEValue
 
 var OTDOAInformationResponseIEs func() OTDOAInformationResponseIETable = s18.OTDOAInformationResponseIEs
 
-// OTDOAInformationResponseOTDOACellsIEBinding is the concrete IEBinding[OTDOACells, OTDOAInformationResponseIEValue].
+// OTDOAInformationResponseOTDOACellsIEBinding binds OTDOACells to ProtocolIE-Field {{OTDOAInformationResponse-IEs}} of TS 36.455.
 type OTDOAInformationResponseOTDOACellsIEBinding = s18.OTDOAInformationResponseOTDOACellsIEBinding
 
 // OTDOAInformationResponseSuccessfulBinding is the concrete SuccessfulBinding[OTDOAInformationResponse].
@@ -2273,15 +2271,15 @@ var OTDOAInformationTypeCodec func() OTDOAInformationTypeValueCodec = s18.OTDOAI
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type OTDOAInformationTypeComplete = s18.OTDOAInformationTypeComplete
 
-// OTDOAInformationTypeIEContainer is the concrete ProtocolIEContainer[OTDOAInformationTypeIEValue].
+// OTDOAInformationTypeIEContainer is ProtocolIE-Container {{OTDOA-Information-TypeIEs}} of TS 36.455: a list of OTDOAInformationTypeIEField values.
 type OTDOAInformationTypeIEContainer = s07.OTDOAInformationTypeIEContainer
 
-// OTDOAInformationTypeIEField is the concrete ProtocolIEField[OTDOAInformationTypeIEValue].
+// OTDOAInformationTypeIEField is ProtocolIE-Field {{OTDOA-Information-TypeIEs}} of TS 36.455: a field carrying a value of OTDOAInformationTypeIEValue.
 type OTDOAInformationTypeIEField = s07.OTDOAInformationTypeIEField
 type OTDOAInformationTypeIETable = s07.OTDOAInformationTypeIETable
 type OTDOAInformationTypeIEValue = s07.OTDOAInformationTypeIEValue
 
-// OTDOAInformationTypeIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[OTDOAInformationTypeIEValue].
+// OTDOAInformationTypeIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{OTDOA-Information-TypeIEs}} of TS 36.455: a single field carrying a value of OTDOAInformationTypeIEValue.
 type OTDOAInformationTypeIEValueProtocolIESingleContainer = s07.OTDOAInformationTypeIEValueProtocolIESingleContainer
 
 var OTDOAInformationTypeIEs func() OTDOAInformationTypeIETable = s07.OTDOAInformationTypeIEs
@@ -2299,23 +2297,23 @@ type OTDOAInformationTypeItemExtIETable = s04.OTDOAInformationTypeItemExtIETable
 
 var OTDOAInformationTypeItemExtIEs func() OTDOAInformationTypeItemExtIETable = s04.OTDOAInformationTypeItemExtIEs
 
-// OTDOAInformationTypeItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[OTDOAInformationTypeItemExtIEsValue].
+// OTDOAInformationTypeItemExtIEsExtContainer is ProtocolExtensionContainer {{OTDOA-Information-Type-ItemExtIEs}} of TS 36.455: a list of OTDOAInformationTypeItemExtIEsExtField values.
 type OTDOAInformationTypeItemExtIEsExtContainer = s04.OTDOAInformationTypeItemExtIEsExtContainer
 
-// OTDOAInformationTypeItemExtIEsExtField is the concrete ProtocolExtensionField[OTDOAInformationTypeItemExtIEsValue].
+// OTDOAInformationTypeItemExtIEsExtField is ProtocolExtensionField {{OTDOA-Information-Type-ItemExtIEs}} of TS 36.455: a field carrying a value of OTDOAInformationTypeItemExtIEsValue.
 type OTDOAInformationTypeItemExtIEsExtField = s04.OTDOAInformationTypeItemExtIEsExtField
 
-// OTDOAInformationTypeItemExtIEsIEContainer is the concrete ProtocolIEContainer[OTDOAInformationTypeItemExtIEsValue].
+// OTDOAInformationTypeItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set OTDOA-Information-Type-ItemExtIEs of TS 36.455: a list of OTDOAInformationTypeItemExtIEsIEField values.
 type OTDOAInformationTypeItemExtIEsIEContainer = s04.OTDOAInformationTypeItemExtIEsIEContainer
 
-// OTDOAInformationTypeItemExtIEsIEField is the concrete ProtocolIEField[OTDOAInformationTypeItemExtIEsValue].
+// OTDOAInformationTypeItemExtIEsIEField uses the ProtocolIE-Field shape for object set OTDOA-Information-Type-ItemExtIEs of TS 36.455.
 type OTDOAInformationTypeItemExtIEsIEField = s04.OTDOAInformationTypeItemExtIEsIEField
 type OTDOAInformationTypeItemExtIEsValue = s02.OTDOAInformationTypeItemExtIEsValue
 
 // OTDOAInformationTypeItemValueCodec is the concrete ValueCodec[OTDOAInformationTypeItem].
 type OTDOAInformationTypeItemValueCodec = s07.OTDOAInformationTypeItemValueCodec
 
-// OTDOAInformationTypeOTDOAInformationTypeItemIEBinding is the concrete IEBinding[OTDOAInformationTypeItem, OTDOAInformationTypeIEValue].
+// OTDOAInformationTypeOTDOAInformationTypeItemIEBinding binds OTDOAInformationTypeItem to ProtocolIE-Field {{OTDOA-Information-TypeIEs}} of TS 36.455.
 type OTDOAInformationTypeOTDOAInformationTypeItemIEBinding = s07.OTDOAInformationTypeOTDOAInformationTypeItemIEBinding
 
 // OTDOAInformationTypeValueCodec is the concrete ValueCodec[OTDOAInformationType].
@@ -2468,16 +2466,16 @@ type PRSFrequencyHoppingConfigurationItemIETable = s04.PRSFrequencyHoppingConfig
 
 var PRSFrequencyHoppingConfigurationItemIEs func() PRSFrequencyHoppingConfigurationItemIETable = s04.PRSFrequencyHoppingConfigurationItemIEs
 
-// PRSFrequencyHoppingConfigurationItemIEsExtContainer is the concrete ProtocolExtensionContainer[PRSFrequencyHoppingConfigurationItemIEsValue].
+// PRSFrequencyHoppingConfigurationItemIEsExtContainer is ProtocolExtensionContainer {{PRSFrequencyHoppingConfiguration-Item-IEs}} of TS 36.455: a list of PRSFrequencyHoppingConfigurationItemIEsExtField values.
 type PRSFrequencyHoppingConfigurationItemIEsExtContainer = s04.PRSFrequencyHoppingConfigurationItemIEsExtContainer
 
-// PRSFrequencyHoppingConfigurationItemIEsExtField is the concrete ProtocolExtensionField[PRSFrequencyHoppingConfigurationItemIEsValue].
+// PRSFrequencyHoppingConfigurationItemIEsExtField is ProtocolExtensionField {{PRSFrequencyHoppingConfiguration-Item-IEs}} of TS 36.455: a field carrying a value of PRSFrequencyHoppingConfigurationItemIEsValue.
 type PRSFrequencyHoppingConfigurationItemIEsExtField = s04.PRSFrequencyHoppingConfigurationItemIEsExtField
 
-// PRSFrequencyHoppingConfigurationItemIEsIEContainer is the concrete ProtocolIEContainer[PRSFrequencyHoppingConfigurationItemIEsValue].
+// PRSFrequencyHoppingConfigurationItemIEsIEContainer uses the ProtocolIE-Container shape for object set PRSFrequencyHoppingConfiguration-Item-IEs of TS 36.455: a list of PRSFrequencyHoppingConfigurationItemIEsIEField values.
 type PRSFrequencyHoppingConfigurationItemIEsIEContainer = s04.PRSFrequencyHoppingConfigurationItemIEsIEContainer
 
-// PRSFrequencyHoppingConfigurationItemIEsIEField is the concrete ProtocolIEField[PRSFrequencyHoppingConfigurationItemIEsValue].
+// PRSFrequencyHoppingConfigurationItemIEsIEField uses the ProtocolIE-Field shape for object set PRSFrequencyHoppingConfiguration-Item-IEs of TS 36.455.
 type PRSFrequencyHoppingConfigurationItemIEsIEField = s04.PRSFrequencyHoppingConfigurationItemIEsIEField
 type PRSFrequencyHoppingConfigurationItemIEsValue = s02.PRSFrequencyHoppingConfigurationItemIEsValue
 
@@ -2631,16 +2629,16 @@ type PosSIBSegmentsExtIETable = s04.PosSIBSegmentsExtIETable
 
 var PosSIBSegmentsExtIEs func() PosSIBSegmentsExtIETable = s04.PosSIBSegmentsExtIEs
 
-// PosSIBSegmentsExtIEsExtContainer is the concrete ProtocolExtensionContainer[PosSIBSegmentsExtIEsValue].
+// PosSIBSegmentsExtIEsExtContainer is ProtocolExtensionContainer {{PosSIB-Segments-ExtIEs}} of TS 36.455: a list of PosSIBSegmentsExtIEsExtField values.
 type PosSIBSegmentsExtIEsExtContainer = s04.PosSIBSegmentsExtIEsExtContainer
 
-// PosSIBSegmentsExtIEsExtField is the concrete ProtocolExtensionField[PosSIBSegmentsExtIEsValue].
+// PosSIBSegmentsExtIEsExtField is ProtocolExtensionField {{PosSIB-Segments-ExtIEs}} of TS 36.455: a field carrying a value of PosSIBSegmentsExtIEsValue.
 type PosSIBSegmentsExtIEsExtField = s04.PosSIBSegmentsExtIEsExtField
 
-// PosSIBSegmentsExtIEsIEContainer is the concrete ProtocolIEContainer[PosSIBSegmentsExtIEsValue].
+// PosSIBSegmentsExtIEsIEContainer uses the ProtocolIE-Container shape for object set PosSIB-Segments-ExtIEs of TS 36.455: a list of PosSIBSegmentsExtIEsIEField values.
 type PosSIBSegmentsExtIEsIEContainer = s04.PosSIBSegmentsExtIEsIEContainer
 
-// PosSIBSegmentsExtIEsIEField is the concrete ProtocolIEField[PosSIBSegmentsExtIEsValue].
+// PosSIBSegmentsExtIEsIEField uses the ProtocolIE-Field shape for object set PosSIB-Segments-ExtIEs of TS 36.455.
 type PosSIBSegmentsExtIEsIEField = s04.PosSIBSegmentsExtIEsIEField
 type PosSIBSegmentsExtIEsValue = s02.PosSIBSegmentsExtIEsValue
 
@@ -2717,16 +2715,16 @@ type PosSIBsExtIETable = s04.PosSIBsExtIETable
 
 var PosSIBsExtIEs func() PosSIBsExtIETable = s04.PosSIBsExtIEs
 
-// PosSIBsExtIEsExtContainer is the concrete ProtocolExtensionContainer[PosSIBsExtIEsValue].
+// PosSIBsExtIEsExtContainer is ProtocolExtensionContainer {{PosSIBs-ExtIEs}} of TS 36.455: a list of PosSIBsExtIEsExtField values.
 type PosSIBsExtIEsExtContainer = s04.PosSIBsExtIEsExtContainer
 
-// PosSIBsExtIEsExtField is the concrete ProtocolExtensionField[PosSIBsExtIEsValue].
+// PosSIBsExtIEsExtField is ProtocolExtensionField {{PosSIBs-ExtIEs}} of TS 36.455: a field carrying a value of PosSIBsExtIEsValue.
 type PosSIBsExtIEsExtField = s04.PosSIBsExtIEsExtField
 
-// PosSIBsExtIEsIEContainer is the concrete ProtocolIEContainer[PosSIBsExtIEsValue].
+// PosSIBsExtIEsIEContainer uses the ProtocolIE-Container shape for object set PosSIBs-ExtIEs of TS 36.455: a list of PosSIBsExtIEsIEField values.
 type PosSIBsExtIEsIEContainer = s04.PosSIBsExtIEsIEContainer
 
-// PosSIBsExtIEsIEField is the concrete ProtocolIEField[PosSIBsExtIEsValue].
+// PosSIBsExtIEsIEField uses the ProtocolIE-Field shape for object set PosSIBs-ExtIEs of TS 36.455.
 type PosSIBsExtIEsIEField = s04.PosSIBsExtIEsIEField
 type PosSIBsExtIEsValue = s03.PosSIBsExtIEsValue
 
@@ -2748,8 +2746,6 @@ const PresenceOptional = s00.PresenceOptional
 
 // PresenceValueCodec is the concrete ValueCodec[Presence].
 type PresenceValueCodec = s01.PresenceValueCodec
-type PrivateIEContainer[V s23.ProtocolPrivateValueConstraint[V]] = s23.PrivateIEContainer[V]
-type PrivateIEField[V s23.ProtocolPrivateValueConstraint[V]] = s23.PrivateIEField[V]
 
 // PrivateIEID represents the ASN.1 CHOICE type PrivateIE-ID.
 type PrivateIEID = s08.PrivateIEID
@@ -2785,10 +2781,10 @@ var PrivateMessageIEs func() PrivateMessageIETable = s08.PrivateMessageIEs
 
 type PrivateMessageIEsValue = s08.PrivateMessageIEsValue
 
-// PrivateMessageIEsValuePrivateIEContainer is the concrete PrivateIEContainer[PrivateMessageIEsValue].
+// PrivateMessageIEsValuePrivateIEContainer is PrivateIE-Container {{PrivateMessage-IEs}} of TS 36.455: a list of PrivateMessageIEsValuePrivateIEField values.
 type PrivateMessageIEsValuePrivateIEContainer = s08.PrivateMessageIEsValuePrivateIEContainer
 
-// PrivateMessageIEsValuePrivateIEField is the concrete PrivateIEField[PrivateMessageIEsValue].
+// PrivateMessageIEsValuePrivateIEField is PrivateIE-Field {{PrivateMessage-IEs}} of TS 36.455: a field carrying a value of PrivateMessageIEsValue.
 type PrivateMessageIEsValuePrivateIEField = s08.PrivateMessageIEsValuePrivateIEField
 
 // PrivateMessageInitiatingBinding is the concrete InitiatingBinding[PrivateMessage].
@@ -2811,14 +2807,6 @@ var ProcedureCodeCodec func() ProcedureCodeValueCodec = s04.ProcedureCodeCodec
 // ProcedureCodeValueCodec is the concrete ValueCodec[ProcedureCode].
 type ProcedureCodeValueCodec = s01.ProcedureCodeValueCodec
 type ProcedureInfo = s00.ProcedureInfo
-type ProtocolExtensionContainer[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolExtensionContainer[V]
-type ProtocolExtensionField[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolExtensionField[V]
-type ProtocolIEContainer[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolIEContainer[V]
-type ProtocolIEContainerList[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolIEContainerList[V]
-type ProtocolIEContainerPair[A s23.ProtocolOpenValueConstraint[A], B s23.ProtocolOpenValueConstraint[B]] = s23.ProtocolIEContainerPair[A, B]
-type ProtocolIEContainerPairList[A s23.ProtocolOpenValueConstraint[A], B s23.ProtocolOpenValueConstraint[B]] = s23.ProtocolIEContainerPairList[A, B]
-type ProtocolIEField[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolIEField[V]
-type ProtocolIEFieldPair[A s23.ProtocolOpenValueConstraint[A], B s23.ProtocolOpenValueConstraint[B]] = s23.ProtocolIEFieldPair[A, B]
 
 // ProtocolIEID represents the ASN.1 type ProtocolIE-ID (INTEGER).
 type ProtocolIEID = s00.ProtocolIEID
@@ -2831,7 +2819,6 @@ var ProtocolIEIDCodec func() ProtocolIEIDValueCodec = s04.ProtocolIEIDCodec
 
 // ProtocolIEIDValueCodec is the concrete ValueCodec[ProtocolIEID].
 type ProtocolIEIDValueCodec = s01.ProtocolIEIDValueCodec
-type ProtocolIESingleContainer[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolIESingleContainer[V]
 
 // RSSI represents the ASN.1 type RSSI (INTEGER).
 type RSSI = s00.RSSI
@@ -2914,16 +2901,16 @@ type ResultGERANItemExtIETable = s04.ResultGERANItemExtIETable
 
 var ResultGERANItemExtIEs func() ResultGERANItemExtIETable = s04.ResultGERANItemExtIEs
 
-// ResultGERANItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultGERANItemExtIEsValue].
+// ResultGERANItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultGERAN-Item-ExtIEs}} of TS 36.455: a list of ResultGERANItemExtIEsExtField values.
 type ResultGERANItemExtIEsExtContainer = s04.ResultGERANItemExtIEsExtContainer
 
-// ResultGERANItemExtIEsExtField is the concrete ProtocolExtensionField[ResultGERANItemExtIEsValue].
+// ResultGERANItemExtIEsExtField is ProtocolExtensionField {{ResultGERAN-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultGERANItemExtIEsValue.
 type ResultGERANItemExtIEsExtField = s04.ResultGERANItemExtIEsExtField
 
-// ResultGERANItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultGERANItemExtIEsValue].
+// ResultGERANItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultGERAN-Item-ExtIEs of TS 36.455: a list of ResultGERANItemExtIEsIEField values.
 type ResultGERANItemExtIEsIEContainer = s04.ResultGERANItemExtIEsIEContainer
 
-// ResultGERANItemExtIEsIEField is the concrete ProtocolIEField[ResultGERANItemExtIEsValue].
+// ResultGERANItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultGERAN-Item-ExtIEs of TS 36.455.
 type ResultGERANItemExtIEsIEField = s04.ResultGERANItemExtIEsIEField
 type ResultGERANItemExtIEsValue = s03.ResultGERANItemExtIEsValue
 
@@ -2957,22 +2944,22 @@ type ResultNRItemExtIETable = s19.ResultNRItemExtIETable
 
 var ResultNRItemExtIEs func() ResultNRItemExtIETable = s19.ResultNRItemExtIEs
 
-// ResultNRItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultNR-Item-ExtIEs}} of TS 36.455: a list of ResultNRItemExtIEsExtField values.
 type ResultNRItemExtIEsExtContainer = s19.ResultNRItemExtIEsExtContainer
 
-// ResultNRItemExtIEsExtField is the concrete ProtocolExtensionField[ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsExtField is ProtocolExtensionField {{ResultNR-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultNRItemExtIEsValue.
 type ResultNRItemExtIEsExtField = s19.ResultNRItemExtIEsExtField
 
-// ResultNRItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultNR-Item-ExtIEs of TS 36.455: a list of ResultNRItemExtIEsIEField values.
 type ResultNRItemExtIEsIEContainer = s19.ResultNRItemExtIEsIEContainer
 
-// ResultNRItemExtIEsIEField is the concrete ProtocolIEField[ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultNR-Item-ExtIEs of TS 36.455.
 type ResultNRItemExtIEsIEField = s19.ResultNRItemExtIEsIEField
 
-// ResultNRItemExtIEsNRCGIExtBinding is the concrete ExtensionBinding[NRCGI, ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsNRCGIExtBinding binds NRCGI to ProtocolExtensionField {{ResultNR-Item-ExtIEs}} of TS 36.455.
 type ResultNRItemExtIEsNRCGIExtBinding = s19.ResultNRItemExtIEsNRCGIExtBinding
 
-// ResultNRItemExtIEsResultsPerSSBIndexListExtBinding is the concrete ExtensionBinding[ResultsPerSSBIndexList, ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsResultsPerSSBIndexListExtBinding binds ResultsPerSSBIndexList to ProtocolExtensionField {{ResultNR-Item-ExtIEs}} of TS 36.455.
 type ResultNRItemExtIEsResultsPerSSBIndexListExtBinding = s19.ResultNRItemExtIEsResultsPerSSBIndexListExtBinding
 type ResultNRItemExtIEsValue = s19.ResultNRItemExtIEsValue
 
@@ -3006,16 +2993,16 @@ type ResultRSRPItemExtIETable = s04.ResultRSRPItemExtIETable
 
 var ResultRSRPItemExtIEs func() ResultRSRPItemExtIETable = s04.ResultRSRPItemExtIEs
 
-// ResultRSRPItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultRSRPItemExtIEsValue].
+// ResultRSRPItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultRSRP-Item-ExtIEs}} of TS 36.455: a list of ResultRSRPItemExtIEsExtField values.
 type ResultRSRPItemExtIEsExtContainer = s04.ResultRSRPItemExtIEsExtContainer
 
-// ResultRSRPItemExtIEsExtField is the concrete ProtocolExtensionField[ResultRSRPItemExtIEsValue].
+// ResultRSRPItemExtIEsExtField is ProtocolExtensionField {{ResultRSRP-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultRSRPItemExtIEsValue.
 type ResultRSRPItemExtIEsExtField = s04.ResultRSRPItemExtIEsExtField
 
-// ResultRSRPItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultRSRPItemExtIEsValue].
+// ResultRSRPItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultRSRP-Item-ExtIEs of TS 36.455: a list of ResultRSRPItemExtIEsIEField values.
 type ResultRSRPItemExtIEsIEContainer = s04.ResultRSRPItemExtIEsIEContainer
 
-// ResultRSRPItemExtIEsIEField is the concrete ProtocolIEField[ResultRSRPItemExtIEsValue].
+// ResultRSRPItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultRSRP-Item-ExtIEs of TS 36.455.
 type ResultRSRPItemExtIEsIEField = s04.ResultRSRPItemExtIEsIEField
 type ResultRSRPItemExtIEsValue = s03.ResultRSRPItemExtIEsValue
 
@@ -3049,16 +3036,16 @@ type ResultRSRQItemExtIETable = s04.ResultRSRQItemExtIETable
 
 var ResultRSRQItemExtIEs func() ResultRSRQItemExtIETable = s04.ResultRSRQItemExtIEs
 
-// ResultRSRQItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultRSRQItemExtIEsValue].
+// ResultRSRQItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultRSRQ-Item-ExtIEs}} of TS 36.455: a list of ResultRSRQItemExtIEsExtField values.
 type ResultRSRQItemExtIEsExtContainer = s04.ResultRSRQItemExtIEsExtContainer
 
-// ResultRSRQItemExtIEsExtField is the concrete ProtocolExtensionField[ResultRSRQItemExtIEsValue].
+// ResultRSRQItemExtIEsExtField is ProtocolExtensionField {{ResultRSRQ-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultRSRQItemExtIEsValue.
 type ResultRSRQItemExtIEsExtField = s04.ResultRSRQItemExtIEsExtField
 
-// ResultRSRQItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultRSRQItemExtIEsValue].
+// ResultRSRQItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultRSRQ-Item-ExtIEs of TS 36.455: a list of ResultRSRQItemExtIEsIEField values.
 type ResultRSRQItemExtIEsIEContainer = s04.ResultRSRQItemExtIEsIEContainer
 
-// ResultRSRQItemExtIEsIEField is the concrete ProtocolIEField[ResultRSRQItemExtIEsValue].
+// ResultRSRQItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultRSRQ-Item-ExtIEs of TS 36.455.
 type ResultRSRQItemExtIEsIEField = s04.ResultRSRQItemExtIEsIEField
 type ResultRSRQItemExtIEsValue = s03.ResultRSRQItemExtIEsValue
 
@@ -3092,16 +3079,16 @@ type ResultUTRANItemExtIETable = s04.ResultUTRANItemExtIETable
 
 var ResultUTRANItemExtIEs func() ResultUTRANItemExtIETable = s04.ResultUTRANItemExtIEs
 
-// ResultUTRANItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultUTRANItemExtIEsValue].
+// ResultUTRANItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultUTRAN-Item-ExtIEs}} of TS 36.455: a list of ResultUTRANItemExtIEsExtField values.
 type ResultUTRANItemExtIEsExtContainer = s04.ResultUTRANItemExtIEsExtContainer
 
-// ResultUTRANItemExtIEsExtField is the concrete ProtocolExtensionField[ResultUTRANItemExtIEsValue].
+// ResultUTRANItemExtIEsExtField is ProtocolExtensionField {{ResultUTRAN-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultUTRANItemExtIEsValue.
 type ResultUTRANItemExtIEsExtField = s04.ResultUTRANItemExtIEsExtField
 
-// ResultUTRANItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultUTRANItemExtIEsValue].
+// ResultUTRANItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultUTRAN-Item-ExtIEs of TS 36.455: a list of ResultUTRANItemExtIEsIEField values.
 type ResultUTRANItemExtIEsIEContainer = s04.ResultUTRANItemExtIEsIEContainer
 
-// ResultUTRANItemExtIEsIEField is the concrete ProtocolIEField[ResultUTRANItemExtIEsValue].
+// ResultUTRANItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultUTRAN-Item-ExtIEs of TS 36.455.
 type ResultUTRANItemExtIEsIEField = s04.ResultUTRANItemExtIEsIEField
 type ResultUTRANItemExtIEsValue = s03.ResultUTRANItemExtIEsValue
 
@@ -3142,16 +3129,16 @@ type ResultsPerSSBIndexItemExtIETable = s04.ResultsPerSSBIndexItemExtIETable
 
 var ResultsPerSSBIndexItemExtIEs func() ResultsPerSSBIndexItemExtIETable = s04.ResultsPerSSBIndexItemExtIEs
 
-// ResultsPerSSBIndexItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultsPerSSBIndexItemExtIEsValue].
+// ResultsPerSSBIndexItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultsPerSSB-Index-Item-ExtIEs}} of TS 36.455: a list of ResultsPerSSBIndexItemExtIEsExtField values.
 type ResultsPerSSBIndexItemExtIEsExtContainer = s04.ResultsPerSSBIndexItemExtIEsExtContainer
 
-// ResultsPerSSBIndexItemExtIEsExtField is the concrete ProtocolExtensionField[ResultsPerSSBIndexItemExtIEsValue].
+// ResultsPerSSBIndexItemExtIEsExtField is ProtocolExtensionField {{ResultsPerSSB-Index-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultsPerSSBIndexItemExtIEsValue.
 type ResultsPerSSBIndexItemExtIEsExtField = s04.ResultsPerSSBIndexItemExtIEsExtField
 
-// ResultsPerSSBIndexItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultsPerSSBIndexItemExtIEsValue].
+// ResultsPerSSBIndexItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultsPerSSB-Index-Item-ExtIEs of TS 36.455: a list of ResultsPerSSBIndexItemExtIEsIEField values.
 type ResultsPerSSBIndexItemExtIEsIEContainer = s04.ResultsPerSSBIndexItemExtIEsIEContainer
 
-// ResultsPerSSBIndexItemExtIEsIEField is the concrete ProtocolIEField[ResultsPerSSBIndexItemExtIEsValue].
+// ResultsPerSSBIndexItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultsPerSSB-Index-Item-ExtIEs of TS 36.455.
 type ResultsPerSSBIndexItemExtIEsIEField = s04.ResultsPerSSBIndexItemExtIEsIEField
 type ResultsPerSSBIndexItemExtIEsValue = s03.ResultsPerSSBIndexItemExtIEsValue
 
@@ -3319,16 +3306,16 @@ type SystemInformationExtIETable = s04.SystemInformationExtIETable
 
 var SystemInformationExtIEs func() SystemInformationExtIETable = s04.SystemInformationExtIEs
 
-// SystemInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[SystemInformationExtIEsValue].
+// SystemInformationExtIEsExtContainer is ProtocolExtensionContainer {{SystemInformation-ExtIEs}} of TS 36.455: a list of SystemInformationExtIEsExtField values.
 type SystemInformationExtIEsExtContainer = s04.SystemInformationExtIEsExtContainer
 
-// SystemInformationExtIEsExtField is the concrete ProtocolExtensionField[SystemInformationExtIEsValue].
+// SystemInformationExtIEsExtField is ProtocolExtensionField {{SystemInformation-ExtIEs}} of TS 36.455: a field carrying a value of SystemInformationExtIEsValue.
 type SystemInformationExtIEsExtField = s04.SystemInformationExtIEsExtField
 
-// SystemInformationExtIEsIEContainer is the concrete ProtocolIEContainer[SystemInformationExtIEsValue].
+// SystemInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set SystemInformation-ExtIEs of TS 36.455: a list of SystemInformationExtIEsIEField values.
 type SystemInformationExtIEsIEContainer = s04.SystemInformationExtIEsIEContainer
 
-// SystemInformationExtIEsIEField is the concrete ProtocolIEField[SystemInformationExtIEsValue].
+// SystemInformationExtIEsIEField uses the ProtocolIE-Field shape for object set SystemInformation-ExtIEs of TS 36.455.
 type SystemInformationExtIEsIEField = s04.SystemInformationExtIEsIEField
 type SystemInformationExtIEsValue = s03.SystemInformationExtIEsValue
 
@@ -3360,16 +3347,16 @@ type TDDConfigurationExtIETable = s04.TDDConfigurationExtIETable
 
 var TDDConfigurationExtIEs func() TDDConfigurationExtIETable = s04.TDDConfigurationExtIEs
 
-// TDDConfigurationExtIEsExtContainer is the concrete ProtocolExtensionContainer[TDDConfigurationExtIEsValue].
+// TDDConfigurationExtIEsExtContainer is ProtocolExtensionContainer {{TDDConfiguration-ExtIEs}} of TS 36.455: a list of TDDConfigurationExtIEsExtField values.
 type TDDConfigurationExtIEsExtContainer = s04.TDDConfigurationExtIEsExtContainer
 
-// TDDConfigurationExtIEsExtField is the concrete ProtocolExtensionField[TDDConfigurationExtIEsValue].
+// TDDConfigurationExtIEsExtField is ProtocolExtensionField {{TDDConfiguration-ExtIEs}} of TS 36.455: a field carrying a value of TDDConfigurationExtIEsValue.
 type TDDConfigurationExtIEsExtField = s04.TDDConfigurationExtIEsExtField
 
-// TDDConfigurationExtIEsIEContainer is the concrete ProtocolIEContainer[TDDConfigurationExtIEsValue].
+// TDDConfigurationExtIEsIEContainer uses the ProtocolIE-Container shape for object set TDDConfiguration-ExtIEs of TS 36.455: a list of TDDConfigurationExtIEsIEField values.
 type TDDConfigurationExtIEsIEContainer = s04.TDDConfigurationExtIEsIEContainer
 
-// TDDConfigurationExtIEsIEField is the concrete ProtocolIEField[TDDConfigurationExtIEsValue].
+// TDDConfigurationExtIEsIEField uses the ProtocolIE-Field shape for object set TDDConfiguration-ExtIEs of TS 36.455.
 type TDDConfigurationExtIEsIEField = s04.TDDConfigurationExtIEsIEField
 type TDDConfigurationExtIEsValue = s03.TDDConfigurationExtIEsValue
 
@@ -3468,19 +3455,19 @@ type UTDOAInformationFailure = s16.UTDOAInformationFailure
 // UTDOAInformationFailureAPERValue is the concrete APERValue[UTDOAInformationFailure].
 type UTDOAInformationFailureAPERValue = s16.UTDOAInformationFailureAPERValue
 
-// UTDOAInformationFailureCauseIEBinding is the concrete IEBinding[Cause, UTDOAInformationFailureIEValue].
+// UTDOAInformationFailureCauseIEBinding binds Cause to ProtocolIE-Field {{UTDOAInformationFailure-IEs}} of TS 36.455.
 type UTDOAInformationFailureCauseIEBinding = s10.UTDOAInformationFailureCauseIEBinding
 
 // UTDOAInformationFailureCodec binds the complete APER value type.
 var UTDOAInformationFailureCodec func() UTDOAInformationFailureValueCodec = s24.UTDOAInformationFailureCodec
 
-// UTDOAInformationFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, UTDOAInformationFailureIEValue].
+// UTDOAInformationFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{UTDOAInformationFailure-IEs}} of TS 36.455.
 type UTDOAInformationFailureCriticalityDiagnosticsIEBinding = s10.UTDOAInformationFailureCriticalityDiagnosticsIEBinding
 
-// UTDOAInformationFailureIEContainer is the concrete ProtocolIEContainer[UTDOAInformationFailureIEValue].
+// UTDOAInformationFailureIEContainer is ProtocolIE-Container {{UTDOAInformationFailure-IEs}} of TS 36.455: a list of UTDOAInformationFailureIEField values.
 type UTDOAInformationFailureIEContainer = s10.UTDOAInformationFailureIEContainer
 
-// UTDOAInformationFailureIEField is the concrete ProtocolIEField[UTDOAInformationFailureIEValue].
+// UTDOAInformationFailureIEField is ProtocolIE-Field {{UTDOAInformationFailure-IEs}} of TS 36.455: a field carrying a value of UTDOAInformationFailureIEValue.
 type UTDOAInformationFailureIEField = s10.UTDOAInformationFailureIEField
 type UTDOAInformationFailureIETable = s10.UTDOAInformationFailureIETable
 type UTDOAInformationFailureIEValue = s10.UTDOAInformationFailureIEValue
@@ -3502,10 +3489,10 @@ type UTDOAInformationRequestAPERValue = s16.UTDOAInformationRequestAPERValue
 // UTDOAInformationRequestCodec binds the complete APER value type.
 var UTDOAInformationRequestCodec func() UTDOAInformationRequestValueCodec = s24.UTDOAInformationRequestCodec
 
-// UTDOAInformationRequestIEContainer is the concrete ProtocolIEContainer[UTDOAInformationRequestIEValue].
+// UTDOAInformationRequestIEContainer is ProtocolIE-Container {{UTDOAInformationRequest-IEs}} of TS 36.455: a list of UTDOAInformationRequestIEField values.
 type UTDOAInformationRequestIEContainer = s09.UTDOAInformationRequestIEContainer
 
-// UTDOAInformationRequestIEField is the concrete ProtocolIEField[UTDOAInformationRequestIEValue].
+// UTDOAInformationRequestIEField is ProtocolIE-Field {{UTDOAInformationRequest-IEs}} of TS 36.455: a field carrying a value of UTDOAInformationRequestIEValue.
 type UTDOAInformationRequestIEField = s09.UTDOAInformationRequestIEField
 type UTDOAInformationRequestIETable = s09.UTDOAInformationRequestIETable
 type UTDOAInformationRequestIEValue = s09.UTDOAInformationRequestIEValue
@@ -3515,7 +3502,7 @@ var UTDOAInformationRequestIEs func() UTDOAInformationRequestIETable = s09.UTDOA
 // UTDOAInformationRequestInitiatingBinding is the concrete InitiatingBinding[UTDOAInformationRequest].
 type UTDOAInformationRequestInitiatingBinding = s21.UTDOAInformationRequestInitiatingBinding
 
-// UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding is the concrete IEBinding[RequestedSRSTransmissionCharacteristics, UTDOAInformationRequestIEValue].
+// UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding binds RequestedSRSTransmissionCharacteristics to ProtocolIE-Field {{UTDOAInformationRequest-IEs}} of TS 36.455.
 type UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding = s09.UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding
 
 // UTDOAInformationRequestValueCodec is the concrete ValueCodec[UTDOAInformationRequest].
@@ -3530,13 +3517,13 @@ type UTDOAInformationResponseAPERValue = s17.UTDOAInformationResponseAPERValue
 // UTDOAInformationResponseCodec binds the complete APER value type.
 var UTDOAInformationResponseCodec func() UTDOAInformationResponseValueCodec = s24.UTDOAInformationResponseCodec
 
-// UTDOAInformationResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, UTDOAInformationResponseIEValue].
+// UTDOAInformationResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{UTDOAInformationResponse-IEs}} of TS 36.455.
 type UTDOAInformationResponseCriticalityDiagnosticsIEBinding = s10.UTDOAInformationResponseCriticalityDiagnosticsIEBinding
 
-// UTDOAInformationResponseIEContainer is the concrete ProtocolIEContainer[UTDOAInformationResponseIEValue].
+// UTDOAInformationResponseIEContainer is ProtocolIE-Container {{UTDOAInformationResponse-IEs}} of TS 36.455: a list of UTDOAInformationResponseIEField values.
 type UTDOAInformationResponseIEContainer = s10.UTDOAInformationResponseIEContainer
 
-// UTDOAInformationResponseIEField is the concrete ProtocolIEField[UTDOAInformationResponseIEValue].
+// UTDOAInformationResponseIEField is ProtocolIE-Field {{UTDOAInformationResponse-IEs}} of TS 36.455: a field carrying a value of UTDOAInformationResponseIEValue.
 type UTDOAInformationResponseIEField = s10.UTDOAInformationResponseIEField
 type UTDOAInformationResponseIETable = s10.UTDOAInformationResponseIETable
 type UTDOAInformationResponseIEValue = s10.UTDOAInformationResponseIEValue
@@ -3546,7 +3533,7 @@ var UTDOAInformationResponseIEs func() UTDOAInformationResponseIETable = s10.UTD
 // UTDOAInformationResponseSuccessfulBinding is the concrete SuccessfulBinding[UTDOAInformationResponse].
 type UTDOAInformationResponseSuccessfulBinding = s23.UTDOAInformationResponseSuccessfulBinding
 
-// UTDOAInformationResponseULConfigurationIEBinding is the concrete IEBinding[ULConfiguration, UTDOAInformationResponseIEValue].
+// UTDOAInformationResponseULConfigurationIEBinding binds ULConfiguration to ProtocolIE-Field {{UTDOAInformationResponse-IEs}} of TS 36.455.
 type UTDOAInformationResponseULConfigurationIEBinding = s10.UTDOAInformationResponseULConfigurationIEBinding
 
 // UTDOAInformationResponseValueCodec is the concrete ValueCodec[UTDOAInformationResponse].
@@ -3563,10 +3550,10 @@ var UTDOAInformationUpdateCodec func() UTDOAInformationUpdateValueCodec = s24.UT
 
 type UTDOAInformationUpdateDescriptor = s24.UTDOAInformationUpdateDescriptor
 
-// UTDOAInformationUpdateIEContainer is the concrete ProtocolIEContainer[UTDOAInformationUpdateIEValue].
+// UTDOAInformationUpdateIEContainer is ProtocolIE-Container {{UTDOAInformationUpdate-IEs}} of TS 36.455: a list of UTDOAInformationUpdateIEField values.
 type UTDOAInformationUpdateIEContainer = s11.UTDOAInformationUpdateIEContainer
 
-// UTDOAInformationUpdateIEField is the concrete ProtocolIEField[UTDOAInformationUpdateIEValue].
+// UTDOAInformationUpdateIEField is ProtocolIE-Field {{UTDOAInformationUpdate-IEs}} of TS 36.455: a field carrying a value of UTDOAInformationUpdateIEValue.
 type UTDOAInformationUpdateIEField = s11.UTDOAInformationUpdateIEField
 type UTDOAInformationUpdateIETable = s11.UTDOAInformationUpdateIETable
 type UTDOAInformationUpdateIEValue = s11.UTDOAInformationUpdateIEValue
@@ -3578,7 +3565,7 @@ type UTDOAInformationUpdateInitiatingBinding = s21.UTDOAInformationUpdateInitiat
 
 var UTDOAInformationUpdateProcedure func() UTDOAInformationUpdateDescriptor = s24.UTDOAInformationUpdateProcedure
 
-// UTDOAInformationUpdateULConfigurationIEBinding is the concrete IEBinding[ULConfiguration, UTDOAInformationUpdateIEValue].
+// UTDOAInformationUpdateULConfigurationIEBinding binds ULConfiguration to ProtocolIE-Field {{UTDOAInformationUpdate-IEs}} of TS 36.455.
 type UTDOAInformationUpdateULConfigurationIEBinding = s11.UTDOAInformationUpdateULConfigurationIEBinding
 
 // UTDOAInformationUpdateValueCodec is the concrete ValueCodec[UTDOAInformationUpdate].
@@ -3846,15 +3833,15 @@ type WLANMeasurementQuantitiesItemAPERValue = s20.WLANMeasurementQuantitiesItemA
 // WLANMeasurementQuantitiesItemCodec binds the complete APER value type.
 var WLANMeasurementQuantitiesItemCodec func() WLANMeasurementQuantitiesItemValueCodec = s20.WLANMeasurementQuantitiesItemCodec
 
-// WLANMeasurementQuantitiesItemIEContainer is the concrete ProtocolIEContainer[WLANMeasurementQuantitiesItemIEValue].
+// WLANMeasurementQuantitiesItemIEContainer is ProtocolIE-Container {{WLANMeasurementQuantities-ItemIEs}} of TS 36.455: a list of WLANMeasurementQuantitiesItemIEField values.
 type WLANMeasurementQuantitiesItemIEContainer = s20.WLANMeasurementQuantitiesItemIEContainer
 
-// WLANMeasurementQuantitiesItemIEField is the concrete ProtocolIEField[WLANMeasurementQuantitiesItemIEValue].
+// WLANMeasurementQuantitiesItemIEField is ProtocolIE-Field {{WLANMeasurementQuantities-ItemIEs}} of TS 36.455: a field carrying a value of WLANMeasurementQuantitiesItemIEValue.
 type WLANMeasurementQuantitiesItemIEField = s20.WLANMeasurementQuantitiesItemIEField
 type WLANMeasurementQuantitiesItemIETable = s20.WLANMeasurementQuantitiesItemIETable
 type WLANMeasurementQuantitiesItemIEValue = s20.WLANMeasurementQuantitiesItemIEValue
 
-// WLANMeasurementQuantitiesItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[WLANMeasurementQuantitiesItemIEValue].
+// WLANMeasurementQuantitiesItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{WLANMeasurementQuantities-ItemIEs}} of TS 36.455: a single field carrying a value of WLANMeasurementQuantitiesItemIEValue.
 type WLANMeasurementQuantitiesItemIEValueProtocolIESingleContainer = s20.WLANMeasurementQuantitiesItemIEValueProtocolIESingleContainer
 
 var WLANMeasurementQuantitiesItemIEs func() WLANMeasurementQuantitiesItemIETable = s20.WLANMeasurementQuantitiesItemIEs
@@ -3862,7 +3849,7 @@ var WLANMeasurementQuantitiesItemIEs func() WLANMeasurementQuantitiesItemIETable
 // WLANMeasurementQuantitiesItemValueCodec is the concrete ValueCodec[WLANMeasurementQuantitiesItem].
 type WLANMeasurementQuantitiesItemValueCodec = s20.WLANMeasurementQuantitiesItemValueCodec
 
-// WLANMeasurementQuantitiesItemWLANMeasurementQuantitiesItemIEBinding is the concrete IEBinding[WLANMeasurementQuantitiesItem, WLANMeasurementQuantitiesItemIEValue].
+// WLANMeasurementQuantitiesItemWLANMeasurementQuantitiesItemIEBinding binds WLANMeasurementQuantitiesItem to ProtocolIE-Field {{WLANMeasurementQuantities-ItemIEs}} of TS 36.455.
 type WLANMeasurementQuantitiesItemWLANMeasurementQuantitiesItemIEBinding = s20.WLANMeasurementQuantitiesItemWLANMeasurementQuantitiesItemIEBinding
 
 // WLANMeasurementQuantitiesValue represents the ASN.1 ENUMERATED type WLANMeasurementQuantitiesValue.
@@ -3878,16 +3865,16 @@ type WLANMeasurementQuantitiesValueExtIETable = s04.WLANMeasurementQuantitiesVal
 
 var WLANMeasurementQuantitiesValueExtIEs func() WLANMeasurementQuantitiesValueExtIETable = s04.WLANMeasurementQuantitiesValueExtIEs
 
-// WLANMeasurementQuantitiesValueExtIEsExtContainer is the concrete ProtocolExtensionContainer[WLANMeasurementQuantitiesValueExtIEsValue].
+// WLANMeasurementQuantitiesValueExtIEsExtContainer is ProtocolExtensionContainer {{WLANMeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a list of WLANMeasurementQuantitiesValueExtIEsExtField values.
 type WLANMeasurementQuantitiesValueExtIEsExtContainer = s04.WLANMeasurementQuantitiesValueExtIEsExtContainer
 
-// WLANMeasurementQuantitiesValueExtIEsExtField is the concrete ProtocolExtensionField[WLANMeasurementQuantitiesValueExtIEsValue].
+// WLANMeasurementQuantitiesValueExtIEsExtField is ProtocolExtensionField {{WLANMeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a field carrying a value of WLANMeasurementQuantitiesValueExtIEsValue.
 type WLANMeasurementQuantitiesValueExtIEsExtField = s04.WLANMeasurementQuantitiesValueExtIEsExtField
 
-// WLANMeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[WLANMeasurementQuantitiesValueExtIEsValue].
+// WLANMeasurementQuantitiesValueExtIEsIEContainer uses the ProtocolIE-Container shape for object set WLANMeasurementQuantitiesValue-ExtIEs of TS 36.455: a list of WLANMeasurementQuantitiesValueExtIEsIEField values.
 type WLANMeasurementQuantitiesValueExtIEsIEContainer = s04.WLANMeasurementQuantitiesValueExtIEsIEContainer
 
-// WLANMeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[WLANMeasurementQuantitiesValueExtIEsValue].
+// WLANMeasurementQuantitiesValueExtIEsIEField uses the ProtocolIE-Field shape for object set WLANMeasurementQuantitiesValue-ExtIEs of TS 36.455.
 type WLANMeasurementQuantitiesValueExtIEsIEField = s04.WLANMeasurementQuantitiesValueExtIEsIEField
 type WLANMeasurementQuantitiesValueExtIEsValue = s03.WLANMeasurementQuantitiesValueExtIEsValue
 
@@ -3921,16 +3908,16 @@ type WLANMeasurementResultItemExtIETable = s04.WLANMeasurementResultItemExtIETab
 
 var WLANMeasurementResultItemExtIEs func() WLANMeasurementResultItemExtIETable = s04.WLANMeasurementResultItemExtIEs
 
-// WLANMeasurementResultItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[WLANMeasurementResultItemExtIEsValue].
+// WLANMeasurementResultItemExtIEsExtContainer is ProtocolExtensionContainer {{WLANMeasurementResult-Item-ExtIEs}} of TS 36.455: a list of WLANMeasurementResultItemExtIEsExtField values.
 type WLANMeasurementResultItemExtIEsExtContainer = s04.WLANMeasurementResultItemExtIEsExtContainer
 
-// WLANMeasurementResultItemExtIEsExtField is the concrete ProtocolExtensionField[WLANMeasurementResultItemExtIEsValue].
+// WLANMeasurementResultItemExtIEsExtField is ProtocolExtensionField {{WLANMeasurementResult-Item-ExtIEs}} of TS 36.455: a field carrying a value of WLANMeasurementResultItemExtIEsValue.
 type WLANMeasurementResultItemExtIEsExtField = s04.WLANMeasurementResultItemExtIEsExtField
 
-// WLANMeasurementResultItemExtIEsIEContainer is the concrete ProtocolIEContainer[WLANMeasurementResultItemExtIEsValue].
+// WLANMeasurementResultItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set WLANMeasurementResult-Item-ExtIEs of TS 36.455: a list of WLANMeasurementResultItemExtIEsIEField values.
 type WLANMeasurementResultItemExtIEsIEContainer = s04.WLANMeasurementResultItemExtIEsIEContainer
 
-// WLANMeasurementResultItemExtIEsIEField is the concrete ProtocolIEField[WLANMeasurementResultItemExtIEsValue].
+// WLANMeasurementResultItemExtIEsIEField uses the ProtocolIE-Field shape for object set WLANMeasurementResult-Item-ExtIEs of TS 36.455.
 type WLANMeasurementResultItemExtIEsIEField = s04.WLANMeasurementResultItemExtIEsIEField
 type WLANMeasurementResultItemExtIEsValue = s03.WLANMeasurementResultItemExtIEsValue
 

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func traceStartIEFieldfreshMust(value s16.TraceStartIEField, err error) s16.TraceStartIEField {
+func deactivateTracefreshMust(value s20.DeactivateTrace, err error) s20.DeactivateTrace {
 	if err != nil {
 		panic(err)
 	}

@@ -17,7 +17,7 @@ import (
 // TS 36.413 V19.2.0 §§9.3.3 and 9.3.7: the private object set is empty;
 // each selected value remains opaque and is reported at its value member.
 func TestPrivateIEObservationAndSharedLimits(t *testing.T) {
-	id := privateIEIDFreshMust(s25.NewPrivateIEIDLocal(1))
+	id := privateIEIDFreshMust(s26.NewPrivateIEIDLocal(1))
 	field := privateMessageIEsValuePrivateIEFieldFreshMust(s25.PrivateMessageIEs().NewOpaque(id, s00.CriticalityIgnore, []byte{0x80}))
 	codec := s26.PrivateMessageIEsValuePrivateFieldTableCodec(s25.PrivateMessageIEs().Table())
 	wire := sliceByteFreshMust(codec.EncodeAPER(privateMessageIEsValuePrivateIEFieldAPERValueFreshMust(codec.New(field))))
@@ -47,7 +47,7 @@ func TestPrivateIEObservationAndSharedLimits(t *testing.T) {
 }
 func TestPrivateIDComparisonWorkIsCharged(t *testing.T) {
 	oid := objectIdentifierFreshMust(runtime.ParseObjectIdentifier("1.2" + strings.Repeat(".1", 4000)))
-	id := privateIEIDFreshMust(s25.NewPrivateIEIDGlobal(oid))
+	id := privateIEIDFreshMust(s26.NewPrivateIEIDGlobal(oid))
 	field := privateMessageIEsValuePrivateIEFieldFreshMust(s25.PrivateMessageIEs().NewOpaque(id, s00.CriticalityIgnore, []byte{0x80}))
 	budget := ptrDecodeBudgetFreshMust(aper.NewOperationBudget(aper.Limits{MaxWork: 2048}))
 	if s25.BridgePrivateMessageIEsValueMethodMatchesID(field.Value, id, budget) {

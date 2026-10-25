@@ -11,6 +11,7 @@ import (
 	s31 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s31"
 	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
 	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
+	s44 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s44"
 	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
@@ -39,7 +40,7 @@ func TestNestedWithoutReplayCopy(t *testing.T) {
 
 	// The same source value passes through a table union and an outcome body.
 	field := s1SetupRequestIEFieldFreshMust(s43.S1SetupRequestIEs().GlobalENBID().New(parent))
-	body := s43.S1SetupRequest{ProtocolIEs: s43.S1SetupRequestIEContainer{field}}
+	body := s44.S1SetupRequest{ProtocolIEs: s43.S1SetupRequestIEContainer{field}}
 	outer := s52.S1APPDU{Choice: s00.S1APPDUChoiceInitiatingMessage, InitiatingMessage: &s51.InitiatingMessage{ProcedureCode: s00.IdS1Setup, Criticality: s00.CriticalityReject, Value: func() s51.InitiatingValue {
 		sealed := s51.InitiatingValue{}
 		*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.IdS1Setup
