@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/contained.go; SHA-256 6be2237b0a4f4a279a231fa0cc72eabd3c1a97f8905041d066c27e8ee12f74be.
+// Runtime source: runtime/uper/contained.go; SHA-256 beb3aae64455a2eb8c5e1a867e7ccd5487789aadcfbb54f58c06f87e5f5bb99c.
 package uper
 
 import (
@@ -224,6 +224,9 @@ func CaptureDeferredBits(bb *BitBuffer, root string) (FinalPadding, error) {
 
 // Deferral records one contained value that a decode kept raw.
 type Deferral struct {
+	// Deferred is the immutable retained value held by the typed shell.
+	// Bytes returns a copy; snapshots share this existing object.
+	Deferred *Deferred `json:"-"`
 	// Path is the generated field path of the value in the form used by
 	// runtime.DecodePathError, starting with the top-level type name.
 	Path string
@@ -364,7 +367,7 @@ func (site ContainedSite) deferContained(kind ContainerKind, raw []byte, bitLeng
 		if site.path <= len(trace.path) {
 			trace.path = trace.path[:site.path]
 		}
-		pending := pendingDeferral{record: Deferral{Path: trace.relativePath(), Kind: kind, BitLength: bitLength}}
+		pending := pendingDeferral{record: Deferral{Path: trace.relativePath(), Kind: kind, BitLength: bitLength, Deferred: deferred}}
 		if err != nil {
 			pending.err = &runtime.DecodePathError{Path: pending.record.Path, Err: err}
 			deferred.err, pending.record.Err = pending.err, pending.err

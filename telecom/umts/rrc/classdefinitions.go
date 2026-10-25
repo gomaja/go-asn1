@@ -5,21 +5,21 @@ package rrc
 import (
 	"fmt"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/per"
+	"github.com/gomaja/go-asn1/telecom/umts/rrc/runtime"
+	"github.com/gomaja/go-asn1/telecom/umts/rrc/runtime/uper"
 )
 
 // Ensure imports are used.
 var (
 	_ runtime.BitString
-	_ = per.NewBitBuffer
+	_ = uper.NewBitBuffer
 )
 
 // DLDCCHMessage represents the ASN.1 type DL-DCCH-Message (SEQUENCE).
 type DLDCCHMessage struct {
 	IntegrityCheckInfo *IntegrityCheckInfo `asn1:"tag:0,context,implicit,optional" json:"IntegrityCheckInfo,omitempty"`
 	Message            DLDCCHMessageType   `asn1:"tag:1,context,explicit"`
-	PERPadding_        per.FinalPadding    `asn1:"-" json:"-"`
+	PERPadding_        uper.FinalPadding   `asn1:"-" json:"-"`
 }
 
 // DLDCCHMessageType choice constants.
@@ -61,8 +61,8 @@ const (
 // DLDCCHMessageType represents the ASN.1 CHOICE type DL-DCCH-MessageType.
 type DLDCCHMessageType struct {
 	Choice                              int
-	PERPadding_                         per.FinalPadding                     `json:"-"`
-	PEROpenTypePadding_                 per.CompletePadding                  `json:"-"`
+	PERPadding_                         uper.FinalPadding                    `json:"-"`
+	PEROpenTypePadding_                 uper.CompletePadding                 `json:"-"`
 	ActiveSetUpdate                     *ActiveSetUpdate                     `json:"ActiveSetUpdate,omitempty"`
 	AssistanceDataDelivery              *AssistanceDataDelivery              `json:"AssistanceDataDelivery,omitempty"`
 	CellChangeOrderFromUTRAN            *CellChangeOrderFromUTRAN            `json:"CellChangeOrderFromUTRAN,omitempty"`
@@ -357,7 +357,7 @@ func NewDLDCCHMessageTypeSpare1(v struct{}) DLDCCHMessageType {
 type ULDCCHMessage struct {
 	IntegrityCheckInfo *IntegrityCheckInfo `asn1:"tag:0,context,implicit,optional" json:"IntegrityCheckInfo,omitempty"`
 	Message            ULDCCHMessageType   `asn1:"tag:1,context,explicit"`
-	PERPadding_        per.FinalPadding    `asn1:"-" json:"-"`
+	PERPadding_        uper.FinalPadding   `asn1:"-" json:"-"`
 }
 
 // ULDCCHMessageType choice constants.
@@ -399,8 +399,8 @@ const (
 // ULDCCHMessageType represents the ASN.1 CHOICE type UL-DCCH-MessageType.
 type ULDCCHMessageType struct {
 	Choice                                   int
-	PERPadding_                              per.FinalPadding                          `json:"-"`
-	PEROpenTypePadding_                      per.CompletePadding                       `json:"-"`
+	PERPadding_                              uper.FinalPadding                         `json:"-"`
+	PEROpenTypePadding_                      uper.CompletePadding                      `json:"-"`
 	ActiveSetUpdateComplete                  *ActiveSetUpdateComplete                  `json:"ActiveSetUpdateComplete,omitempty"`
 	ActiveSetUpdateFailure                   *ActiveSetUpdateFailure                   `json:"ActiveSetUpdateFailure,omitempty"`
 	CellChangeOrderFromUTRANFailure          *CellChangeOrderFromUTRANFailure          `json:"CellChangeOrderFromUTRANFailure,omitempty"`
@@ -714,8 +714,8 @@ const (
 // ULDCCHMessageTypeExt represents the ASN.1 CHOICE type UL-DCCH-MessageType-ext.
 type ULDCCHMessageTypeExt struct {
 	Choice                int
-	PERPadding_           per.FinalPadding       `json:"-"`
-	PEROpenTypePadding_   per.CompletePadding    `json:"-"`
+	PERPadding_           uper.FinalPadding      `json:"-"`
+	PEROpenTypePadding_   uper.CompletePadding   `json:"-"`
 	UeInformationResponse *UEInformationResponse `json:"UeInformationResponse,omitempty"`
 	Spare15               *struct{}              `json:"Spare15,omitempty"`
 	Spare14               *struct{}              `json:"Spare14,omitempty"`
@@ -866,7 +866,7 @@ func NewULDCCHMessageTypeExtSpare1(v struct{}) ULDCCHMessageTypeExt {
 type DLCCCHMessage struct {
 	IntegrityCheckInfo *IntegrityCheckInfo `asn1:"tag:0,context,implicit,optional" json:"IntegrityCheckInfo,omitempty"`
 	Message            DLCCCHMessageType   `asn1:"tag:1,context,explicit"`
-	PERPadding_        per.FinalPadding    `asn1:"-" json:"-"`
+	PERPadding_        uper.FinalPadding   `asn1:"-" json:"-"`
 }
 
 // DLCCCHMessageType choice constants.
@@ -884,8 +884,8 @@ const (
 // DLCCCHMessageType represents the ASN.1 CHOICE type DL-CCCH-MessageType.
 type DLCCCHMessageType struct {
 	Choice               int
-	PERPadding_          per.FinalPadding                     `json:"-"`
-	PEROpenTypePadding_  per.CompletePadding                  `json:"-"`
+	PERPadding_          uper.FinalPadding                    `json:"-"`
+	PEROpenTypePadding_  uper.CompletePadding                 `json:"-"`
 	CellUpdateConfirm    *CellUpdateConfirmCCCH               `json:"CellUpdateConfirm,omitempty"`
 	RrcConnectionReject  *RRCConnectionReject                 `json:"RrcConnectionReject,omitempty"`
 	RrcConnectionRelease *RRCConnectionReleaseCCCH            `json:"RrcConnectionRelease,omitempty"`
@@ -964,7 +964,7 @@ func NewDLCCCHMessageTypeSpare1(v struct{}) DLCCCHMessageType {
 type ULCCCHMessage struct {
 	IntegrityCheckInfo *IntegrityCheckInfo `asn1:"tag:0,context,implicit,optional" json:"IntegrityCheckInfo,omitempty"`
 	Message            ULCCCHMessageType   `asn1:"tag:1,context,explicit"`
-	PERPadding_        per.FinalPadding    `asn1:"-" json:"-"`
+	PERPadding_        uper.FinalPadding   `asn1:"-" json:"-"`
 }
 
 // ULCCCHMessageType choice constants.
@@ -978,8 +978,8 @@ const (
 // ULCCCHMessageType represents the ASN.1 CHOICE type UL-CCCH-MessageType.
 type ULCCCHMessageType struct {
 	Choice               int
-	PERPadding_          per.FinalPadding      `json:"-"`
-	PEROpenTypePadding_  per.CompletePadding   `json:"-"`
+	PERPadding_          uper.FinalPadding     `json:"-"`
+	PEROpenTypePadding_  uper.CompletePadding  `json:"-"`
 	CellUpdate           *CellUpdate           `json:"CellUpdate,omitempty"`
 	RrcConnectionRequest *RRCConnectionRequest `json:"RrcConnectionRequest,omitempty"`
 	UraUpdate            *URAUpdate            `json:"UraUpdate,omitempty"`
@@ -1029,12 +1029,12 @@ const (
 // ULCCCHMessageTypeR11 represents the ASN.1 CHOICE type UL-CCCH-MessageType-r11.
 type ULCCCHMessageTypeR11 struct {
 	Choice              int
-	PERPadding_         per.FinalPadding    `json:"-"`
-	PEROpenTypePadding_ per.CompletePadding `json:"-"`
-	CellUpdate          *CellUpdateFDDR11   `json:"CellUpdate,omitempty"`
-	Spare3              *struct{}           `json:"Spare3,omitempty"`
-	Spare2              *struct{}           `json:"Spare2,omitempty"`
-	Spare1              *struct{}           `json:"Spare1,omitempty"`
+	PERPadding_         uper.FinalPadding    `json:"-"`
+	PEROpenTypePadding_ uper.CompletePadding `json:"-"`
+	CellUpdate          *CellUpdateFDDR11    `json:"CellUpdate,omitempty"`
+	Spare3              *struct{}            `json:"Spare3,omitempty"`
+	Spare2              *struct{}            `json:"Spare2,omitempty"`
+	Spare1              *struct{}            `json:"Spare1,omitempty"`
 }
 
 // NewULCCCHMessageTypeR11CellUpdate creates a ULCCCHMessageTypeR11 with the cellUpdate alternative.
@@ -1071,8 +1071,8 @@ func NewULCCCHMessageTypeR11Spare1(v struct{}) ULCCCHMessageTypeR11 {
 
 // PCCHMessage represents the ASN.1 type PCCH-Message (SEQUENCE).
 type PCCHMessage struct {
-	Message     PCCHMessageType  `asn1:"tag:0,context,explicit"`
-	PERPadding_ per.FinalPadding `asn1:"-" json:"-"`
+	Message     PCCHMessageType   `asn1:"tag:0,context,explicit"`
+	PERPadding_ uper.FinalPadding `asn1:"-" json:"-"`
 }
 
 // PCCHMessageType choice constants.
@@ -1084,10 +1084,10 @@ const (
 // PCCHMessageType represents the ASN.1 CHOICE type PCCH-MessageType.
 type PCCHMessageType struct {
 	Choice              int
-	PERPadding_         per.FinalPadding    `json:"-"`
-	PEROpenTypePadding_ per.CompletePadding `json:"-"`
-	PagingType1         *PagingType1        `json:"PagingType1,omitempty"`
-	Spare               *struct{}           `json:"Spare,omitempty"`
+	PERPadding_         uper.FinalPadding    `json:"-"`
+	PEROpenTypePadding_ uper.CompletePadding `json:"-"`
+	PagingType1         *PagingType1         `json:"PagingType1,omitempty"`
+	Spare               *struct{}            `json:"Spare,omitempty"`
 }
 
 // NewPCCHMessageTypePagingType1 creates a PCCHMessageType with the pagingType1 alternative.
@@ -1109,7 +1109,7 @@ func NewPCCHMessageTypeSpare(v struct{}) PCCHMessageType {
 // DLSHCCHMessage represents the ASN.1 type DL-SHCCH-Message (SEQUENCE).
 type DLSHCCHMessage struct {
 	Message     DLSHCCHMessageType `asn1:"tag:0,context,explicit"`
-	PERPadding_ per.FinalPadding   `asn1:"-" json:"-"`
+	PERPadding_ uper.FinalPadding  `asn1:"-" json:"-"`
 }
 
 // DLSHCCHMessageType choice constants.
@@ -1121,8 +1121,8 @@ const (
 // DLSHCCHMessageType represents the ASN.1 CHOICE type DL-SHCCH-MessageType.
 type DLSHCCHMessageType struct {
 	Choice                          int
-	PERPadding_                     per.FinalPadding                 `json:"-"`
-	PEROpenTypePadding_             per.CompletePadding              `json:"-"`
+	PERPadding_                     uper.FinalPadding                `json:"-"`
+	PEROpenTypePadding_             uper.CompletePadding             `json:"-"`
 	PhysicalSharedChannelAllocation *PhysicalSharedChannelAllocation `json:"PhysicalSharedChannelAllocation,omitempty"`
 	Spare                           *struct{}                        `json:"Spare,omitempty"`
 }
@@ -1146,7 +1146,7 @@ func NewDLSHCCHMessageTypeSpare(v struct{}) DLSHCCHMessageType {
 // ULSHCCHMessage represents the ASN.1 type UL-SHCCH-Message (SEQUENCE).
 type ULSHCCHMessage struct {
 	Message     ULSHCCHMessageType `asn1:"tag:0,context,explicit"`
-	PERPadding_ per.FinalPadding   `asn1:"-" json:"-"`
+	PERPadding_ uper.FinalPadding  `asn1:"-" json:"-"`
 }
 
 // ULSHCCHMessageType choice constants.
@@ -1158,8 +1158,8 @@ const (
 // ULSHCCHMessageType represents the ASN.1 CHOICE type UL-SHCCH-MessageType.
 type ULSHCCHMessageType struct {
 	Choice               int
-	PERPadding_          per.FinalPadding      `json:"-"`
-	PEROpenTypePadding_  per.CompletePadding   `json:"-"`
+	PERPadding_          uper.FinalPadding     `json:"-"`
+	PEROpenTypePadding_  uper.CompletePadding  `json:"-"`
 	PuschCapacityRequest *PUSCHCapacityRequest `json:"PuschCapacityRequest,omitempty"`
 	Spare                *struct{}             `json:"Spare,omitempty"`
 }
@@ -1183,7 +1183,7 @@ func NewULSHCCHMessageTypeSpare(v struct{}) ULSHCCHMessageType {
 // BCCHFACHMessage represents the ASN.1 type BCCH-FACH-Message (SEQUENCE).
 type BCCHFACHMessage struct {
 	Message     BCCHFACHMessageType `asn1:"tag:0,context,explicit"`
-	PERPadding_ per.FinalPadding    `asn1:"-" json:"-"`
+	PERPadding_ uper.FinalPadding   `asn1:"-" json:"-"`
 }
 
 // BCCHFACHMessageType choice constants.
@@ -1197,8 +1197,8 @@ const (
 // BCCHFACHMessageType represents the ASN.1 CHOICE type BCCH-FACH-MessageType.
 type BCCHFACHMessageType struct {
 	Choice                            int
-	PERPadding_                       per.FinalPadding                   `json:"-"`
-	PEROpenTypePadding_               per.CompletePadding                `json:"-"`
+	PERPadding_                       uper.FinalPadding                  `json:"-"`
+	PEROpenTypePadding_               uper.CompletePadding               `json:"-"`
 	Dummy                             *SystemInformationFACH             `json:"Dummy,omitempty"`
 	SystemInformationChangeIndication *SystemInformationChangeIndication `json:"SystemInformationChangeIndication,omitempty"`
 	Spare2                            *struct{}                          `json:"Spare2,omitempty"`
@@ -1240,19 +1240,19 @@ func NewBCCHFACHMessageTypeSpare1(v struct{}) BCCHFACHMessageType {
 // BCCHBCHMessage represents the ASN.1 type BCCH-BCH-Message (SEQUENCE).
 type BCCHBCHMessage struct {
 	Message     SystemInformationBCH `asn1:"tag:0,context,implicit"`
-	PERPadding_ per.FinalPadding     `asn1:"-" json:"-"`
+	PERPadding_ uper.FinalPadding    `asn1:"-" json:"-"`
 }
 
 // BCCHBCH2Message represents the ASN.1 type BCCH-BCH2-Message (SEQUENCE).
 type BCCHBCH2Message struct {
 	Message     SystemInformation2BCH `asn1:"tag:0,context,implicit"`
-	PERPadding_ per.FinalPadding      `asn1:"-" json:"-"`
+	PERPadding_ uper.FinalPadding     `asn1:"-" json:"-"`
 }
 
 // MCCHMessage represents the ASN.1 type MCCH-Message (SEQUENCE).
 type MCCHMessage struct {
-	Message     MCCHMessageType  `asn1:"tag:0,context,explicit"`
-	PERPadding_ per.FinalPadding `asn1:"-" json:"-"`
+	Message     MCCHMessageType   `asn1:"tag:0,context,explicit"`
+	PERPadding_ uper.FinalPadding `asn1:"-" json:"-"`
 }
 
 // MCCHMessageType choice constants.
@@ -1278,8 +1278,8 @@ const (
 // MCCHMessageType represents the ASN.1 CHOICE type MCCH-MessageType.
 type MCCHMessageType struct {
 	Choice                               int
-	PERPadding_                          per.FinalPadding                      `json:"-"`
-	PEROpenTypePadding_                  per.CompletePadding                   `json:"-"`
+	PERPadding_                          uper.FinalPadding                     `json:"-"`
+	PEROpenTypePadding_                  uper.CompletePadding                  `json:"-"`
 	MbmsAccessInformation                *MBMSAccessInformation                `json:"MbmsAccessInformation,omitempty"`
 	MbmsCommonPTMRBInformation           *MBMSCommonPTMRBInformation           `json:"MbmsCommonPTMRBInformation,omitempty"`
 	MbmsCurrentCellPTMRBInformation      *MBMSCurrentCellPTMRBInformation      `json:"MbmsCurrentCellPTMRBInformation,omitempty"`
@@ -1428,8 +1428,8 @@ func NewMCCHMessageTypeSpare1(v struct{}) MCCHMessageType {
 
 // MSCHMessage represents the ASN.1 type MSCH-Message (SEQUENCE).
 type MSCHMessage struct {
-	Message     MSCHMessageType  `asn1:"tag:0,context,explicit"`
-	PERPadding_ per.FinalPadding `asn1:"-" json:"-"`
+	Message     MSCHMessageType   `asn1:"tag:0,context,explicit"`
+	PERPadding_ uper.FinalPadding `asn1:"-" json:"-"`
 }
 
 // MSCHMessageType choice constants.
@@ -1443,8 +1443,8 @@ const (
 // MSCHMessageType represents the ASN.1 CHOICE type MSCH-MessageType.
 type MSCHMessageType struct {
 	Choice                    int
-	PERPadding_               per.FinalPadding           `json:"-"`
-	PEROpenTypePadding_       per.CompletePadding        `json:"-"`
+	PERPadding_               uper.FinalPadding          `json:"-"`
+	PEROpenTypePadding_       uper.CompletePadding       `json:"-"`
 	MbmsSchedulingInformation *MBMSSchedulingInformation `json:"MbmsSchedulingInformation,omitempty"`
 	Spare3                    *struct{}                  `json:"Spare3,omitempty"`
 	Spare2                    *struct{}                  `json:"Spare2,omitempty"`
@@ -1485,16 +1485,16 @@ func NewMSCHMessageTypeSpare1(v struct{}) MSCHMessageType {
 
 // MarshalUPER encodes DLDCCHMessage to UPER format.
 func (v *DLDCCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *DLDCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *DLDCCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IntegrityCheckInfo != nil); err != nil {
+	if err := uper.EncodeBoolean(bb, v.IntegrityCheckInfo != nil); err != nil {
 		return err
 	}
 	if v.IntegrityCheckInfo != nil {
@@ -1510,20 +1510,20 @@ func (v *DLDCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes DLDCCHMessage from UPER format.
 func (v *DLDCCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes DLDCCHMessage with explicit receiver options.
-func (v *DLDCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *DLDCCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "DLDCCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLDCCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "DLDCCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "DLDCCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DLDCCHMessage")
 	}
@@ -1531,14 +1531,14 @@ func (v *DLDCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decode
 	return nil
 }
 
-func (v *DLDCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *DLDCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = DLDCCHMessage{}
 	// Read preamble bitmap for optional root fields
-	opt_integritycheckinfo, err := per.DecodeBoolean(bb)
+	opt_integritycheckinfo, err := uper.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
@@ -1559,14 +1559,14 @@ func (v *DLDCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes DLDCCHMessageType to UPER format.
 func (v *DLDCCHMessageType) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *DLDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *DLDCCHMessageType) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("DLDCCHMessageType: choice %d must be positive", v.Choice)
 	}
@@ -1574,7 +1574,7 @@ func (v *DLDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 31); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 31); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -1804,20 +1804,20 @@ func (v *DLDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes DLDCCHMessageType from UPER format.
 func (v *DLDCCHMessageType) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes DLDCCHMessageType with explicit receiver options.
-func (v *DLDCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *DLDCCHMessageType) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "DLDCCHMessageType")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLDCCHMessageType")
 	}
-	padding, err := per.CaptureFinalBits(bb, "DLDCCHMessageType")
+	padding, err := uper.CaptureFinalBits(bb, "DLDCCHMessageType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DLDCCHMessageType")
 	}
@@ -1825,13 +1825,13 @@ func (v *DLDCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.De
 	return nil
 }
 
-func (v *DLDCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *DLDCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = DLDCCHMessageType{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 31)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 31)
 	if err != nil {
 		return err
 	}
@@ -2039,16 +2039,16 @@ func (v *DLDCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes ULDCCHMessage to UPER format.
 func (v *ULDCCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *ULDCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *ULDCCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IntegrityCheckInfo != nil); err != nil {
+	if err := uper.EncodeBoolean(bb, v.IntegrityCheckInfo != nil); err != nil {
 		return err
 	}
 	if v.IntegrityCheckInfo != nil {
@@ -2064,20 +2064,20 @@ func (v *ULDCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes ULDCCHMessage from UPER format.
 func (v *ULDCCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes ULDCCHMessage with explicit receiver options.
-func (v *ULDCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *ULDCCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ULDCCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "ULDCCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessage")
 	}
@@ -2085,14 +2085,14 @@ func (v *ULDCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decode
 	return nil
 }
 
-func (v *ULDCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *ULDCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ULDCCHMessage{}
 	// Read preamble bitmap for optional root fields
-	opt_integritycheckinfo, err := per.DecodeBoolean(bb)
+	opt_integritycheckinfo, err := uper.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
@@ -2113,14 +2113,14 @@ func (v *ULDCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes ULDCCHMessageType to UPER format.
 func (v *ULDCCHMessageType) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *ULDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *ULDCCHMessageType) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULDCCHMessageType: choice %d must be positive", v.Choice)
 	}
@@ -2128,7 +2128,7 @@ func (v *ULDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 31); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 31); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -2364,20 +2364,20 @@ func (v *ULDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes ULDCCHMessageType from UPER format.
 func (v *ULDCCHMessageType) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes ULDCCHMessageType with explicit receiver options.
-func (v *ULDCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *ULDCCHMessageType) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessageType")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessageType")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ULDCCHMessageType")
+	padding, err := uper.CaptureFinalBits(bb, "ULDCCHMessageType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessageType")
 	}
@@ -2385,13 +2385,13 @@ func (v *ULDCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.De
 	return nil
 }
 
-func (v *ULDCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *ULDCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ULDCCHMessageType{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 31)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 31)
 	if err != nil {
 		return err
 	}
@@ -2605,14 +2605,14 @@ func (v *ULDCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes ULDCCHMessageTypeExt to UPER format.
 func (v *ULDCCHMessageTypeExt) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *ULDCCHMessageTypeExt) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *ULDCCHMessageTypeExt) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULDCCHMessageTypeExt: choice %d must be positive", v.Choice)
 	}
@@ -2620,7 +2620,7 @@ func (v *ULDCCHMessageTypeExt) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 15); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 15); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -2654,20 +2654,20 @@ func (v *ULDCCHMessageTypeExt) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes ULDCCHMessageTypeExt from UPER format.
 func (v *ULDCCHMessageTypeExt) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes ULDCCHMessageTypeExt with explicit receiver options.
-func (v *ULDCCHMessageTypeExt) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *ULDCCHMessageTypeExt) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessageTypeExt")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessageTypeExt")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ULDCCHMessageTypeExt")
+	padding, err := uper.CaptureFinalBits(bb, "ULDCCHMessageTypeExt")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessageTypeExt")
 	}
@@ -2675,13 +2675,13 @@ func (v *ULDCCHMessageTypeExt) UnmarshalUPERWithOptions(data []byte, options per
 	return nil
 }
 
-func (v *ULDCCHMessageTypeExt) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *ULDCCHMessageTypeExt) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ULDCCHMessageTypeExt{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 15)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 15)
 	if err != nil {
 		return err
 	}
@@ -2733,16 +2733,16 @@ func (v *ULDCCHMessageTypeExt) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes DLCCCHMessage to UPER format.
 func (v *DLCCCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *DLCCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *DLCCCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IntegrityCheckInfo != nil); err != nil {
+	if err := uper.EncodeBoolean(bb, v.IntegrityCheckInfo != nil); err != nil {
 		return err
 	}
 	if v.IntegrityCheckInfo != nil {
@@ -2758,20 +2758,20 @@ func (v *DLCCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes DLCCCHMessage from UPER format.
 func (v *DLCCCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes DLCCCHMessage with explicit receiver options.
-func (v *DLCCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *DLCCCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "DLCCCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLCCCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "DLCCCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "DLCCCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DLCCCHMessage")
 	}
@@ -2779,14 +2779,14 @@ func (v *DLCCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decode
 	return nil
 }
 
-func (v *DLCCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *DLCCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = DLCCCHMessage{}
 	// Read preamble bitmap for optional root fields
-	opt_integritycheckinfo, err := per.DecodeBoolean(bb)
+	opt_integritycheckinfo, err := uper.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
@@ -2807,14 +2807,14 @@ func (v *DLCCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes DLCCCHMessageType to UPER format.
 func (v *DLCCCHMessageType) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *DLCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *DLCCCHMessageType) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("DLCCCHMessageType: choice %d must be positive", v.Choice)
 	}
@@ -2822,7 +2822,7 @@ func (v *DLCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -2878,20 +2878,20 @@ func (v *DLCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes DLCCCHMessageType from UPER format.
 func (v *DLCCCHMessageType) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes DLCCCHMessageType with explicit receiver options.
-func (v *DLCCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *DLCCCHMessageType) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "DLCCCHMessageType")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLCCCHMessageType")
 	}
-	padding, err := per.CaptureFinalBits(bb, "DLCCCHMessageType")
+	padding, err := uper.CaptureFinalBits(bb, "DLCCCHMessageType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DLCCCHMessageType")
 	}
@@ -2899,13 +2899,13 @@ func (v *DLCCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.De
 	return nil
 }
 
-func (v *DLCCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *DLCCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = DLCCCHMessageType{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 7)
 	if err != nil {
 		return err
 	}
@@ -2963,16 +2963,16 @@ func (v *DLCCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes ULCCCHMessage to UPER format.
 func (v *ULCCCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *ULCCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *ULCCCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.IntegrityCheckInfo != nil); err != nil {
+	if err := uper.EncodeBoolean(bb, v.IntegrityCheckInfo != nil); err != nil {
 		return err
 	}
 	if v.IntegrityCheckInfo != nil {
@@ -2988,20 +2988,20 @@ func (v *ULCCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes ULCCCHMessage from UPER format.
 func (v *ULCCCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes ULCCCHMessage with explicit receiver options.
-func (v *ULCCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *ULCCCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ULCCCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "ULCCCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessage")
 	}
@@ -3009,14 +3009,14 @@ func (v *ULCCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decode
 	return nil
 }
 
-func (v *ULCCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *ULCCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ULCCCHMessage{}
 	// Read preamble bitmap for optional root fields
-	opt_integritycheckinfo, err := per.DecodeBoolean(bb)
+	opt_integritycheckinfo, err := uper.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
@@ -3037,14 +3037,14 @@ func (v *ULCCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes ULCCCHMessageType to UPER format.
 func (v *ULCCCHMessageType) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *ULCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *ULCCCHMessageType) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULCCCHMessageType: choice %d must be positive", v.Choice)
 	}
@@ -3052,7 +3052,7 @@ func (v *ULCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -3092,20 +3092,20 @@ func (v *ULCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes ULCCCHMessageType from UPER format.
 func (v *ULCCCHMessageType) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes ULCCCHMessageType with explicit receiver options.
-func (v *ULCCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *ULCCCHMessageType) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessageType")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessageType")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ULCCCHMessageType")
+	padding, err := uper.CaptureFinalBits(bb, "ULCCCHMessageType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessageType")
 	}
@@ -3113,13 +3113,13 @@ func (v *ULCCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.De
 	return nil
 }
 
-func (v *ULCCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *ULCCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ULCCCHMessageType{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
 	}
@@ -3163,14 +3163,14 @@ func (v *ULCCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes ULCCCHMessageTypeR11 to UPER format.
 func (v *ULCCCHMessageTypeR11) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *ULCCCHMessageTypeR11) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *ULCCCHMessageTypeR11) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULCCCHMessageTypeR11: choice %d must be positive", v.Choice)
 	}
@@ -3178,7 +3178,7 @@ func (v *ULCCCHMessageTypeR11) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -3200,20 +3200,20 @@ func (v *ULCCCHMessageTypeR11) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes ULCCCHMessageTypeR11 from UPER format.
 func (v *ULCCCHMessageTypeR11) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes ULCCCHMessageTypeR11 with explicit receiver options.
-func (v *ULCCCHMessageTypeR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *ULCCCHMessageTypeR11) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessageTypeR11")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessageTypeR11")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ULCCCHMessageTypeR11")
+	padding, err := uper.CaptureFinalBits(bb, "ULCCCHMessageTypeR11")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessageTypeR11")
 	}
@@ -3221,13 +3221,13 @@ func (v *ULCCCHMessageTypeR11) UnmarshalUPERWithOptions(data []byte, options per
 	return nil
 }
 
-func (v *ULCCCHMessageTypeR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *ULCCCHMessageTypeR11) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ULCCCHMessageTypeR11{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
 	}
@@ -3255,14 +3255,14 @@ func (v *ULCCCHMessageTypeR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes PCCHMessage to UPER format.
 func (v *PCCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *PCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *PCCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if err := v.Message.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding message: %w", err)
 	}
@@ -3271,20 +3271,20 @@ func (v *PCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes PCCHMessage from UPER format.
 func (v *PCCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes PCCHMessage with explicit receiver options.
-func (v *PCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *PCCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "PCCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PCCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "PCCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "PCCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PCCHMessage")
 	}
@@ -3292,7 +3292,7 @@ func (v *PCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOp
 	return nil
 }
 
-func (v *PCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *PCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -3306,14 +3306,14 @@ func (v *PCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes PCCHMessageType to UPER format.
 func (v *PCCHMessageType) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *PCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *PCCHMessageType) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("PCCHMessageType: choice %d must be positive", v.Choice)
 	}
@@ -3321,7 +3321,7 @@ func (v *PCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -3341,20 +3341,20 @@ func (v *PCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes PCCHMessageType from UPER format.
 func (v *PCCHMessageType) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes PCCHMessageType with explicit receiver options.
-func (v *PCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *PCCHMessageType) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "PCCHMessageType")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PCCHMessageType")
 	}
-	padding, err := per.CaptureFinalBits(bb, "PCCHMessageType")
+	padding, err := uper.CaptureFinalBits(bb, "PCCHMessageType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PCCHMessageType")
 	}
@@ -3362,13 +3362,13 @@ func (v *PCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.Deco
 	return nil
 }
 
-func (v *PCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *PCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = PCCHMessageType{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
@@ -3392,14 +3392,14 @@ func (v *PCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes DLSHCCHMessage to UPER format.
 func (v *DLSHCCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *DLSHCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *DLSHCCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if err := v.Message.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding message: %w", err)
 	}
@@ -3408,20 +3408,20 @@ func (v *DLSHCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes DLSHCCHMessage from UPER format.
 func (v *DLSHCCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes DLSHCCHMessage with explicit receiver options.
-func (v *DLSHCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *DLSHCCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "DLSHCCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLSHCCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "DLSHCCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "DLSHCCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DLSHCCHMessage")
 	}
@@ -3429,7 +3429,7 @@ func (v *DLSHCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decod
 	return nil
 }
 
-func (v *DLSHCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *DLSHCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -3443,14 +3443,14 @@ func (v *DLSHCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes DLSHCCHMessageType to UPER format.
 func (v *DLSHCCHMessageType) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *DLSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *DLSHCCHMessageType) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("DLSHCCHMessageType: choice %d must be positive", v.Choice)
 	}
@@ -3458,7 +3458,7 @@ func (v *DLSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -3478,20 +3478,20 @@ func (v *DLSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes DLSHCCHMessageType from UPER format.
 func (v *DLSHCCHMessageType) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes DLSHCCHMessageType with explicit receiver options.
-func (v *DLSHCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *DLSHCCHMessageType) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "DLSHCCHMessageType")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLSHCCHMessageType")
 	}
-	padding, err := per.CaptureFinalBits(bb, "DLSHCCHMessageType")
+	padding, err := uper.CaptureFinalBits(bb, "DLSHCCHMessageType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DLSHCCHMessageType")
 	}
@@ -3499,13 +3499,13 @@ func (v *DLSHCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.D
 	return nil
 }
 
-func (v *DLSHCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *DLSHCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = DLSHCCHMessageType{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
@@ -3529,14 +3529,14 @@ func (v *DLSHCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes ULSHCCHMessage to UPER format.
 func (v *ULSHCCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *ULSHCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *ULSHCCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if err := v.Message.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding message: %w", err)
 	}
@@ -3545,20 +3545,20 @@ func (v *ULSHCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes ULSHCCHMessage from UPER format.
 func (v *ULSHCCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes ULSHCCHMessage with explicit receiver options.
-func (v *ULSHCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *ULSHCCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "ULSHCCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULSHCCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ULSHCCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "ULSHCCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ULSHCCHMessage")
 	}
@@ -3566,7 +3566,7 @@ func (v *ULSHCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decod
 	return nil
 }
 
-func (v *ULSHCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *ULSHCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -3580,14 +3580,14 @@ func (v *ULSHCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes ULSHCCHMessageType to UPER format.
 func (v *ULSHCCHMessageType) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *ULSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *ULSHCCHMessageType) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULSHCCHMessageType: choice %d must be positive", v.Choice)
 	}
@@ -3595,7 +3595,7 @@ func (v *ULSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -3615,20 +3615,20 @@ func (v *ULSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes ULSHCCHMessageType from UPER format.
 func (v *ULSHCCHMessageType) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes ULSHCCHMessageType with explicit receiver options.
-func (v *ULSHCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *ULSHCCHMessageType) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "ULSHCCHMessageType")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULSHCCHMessageType")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ULSHCCHMessageType")
+	padding, err := uper.CaptureFinalBits(bb, "ULSHCCHMessageType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ULSHCCHMessageType")
 	}
@@ -3636,13 +3636,13 @@ func (v *ULSHCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.D
 	return nil
 }
 
-func (v *ULSHCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *ULSHCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ULSHCCHMessageType{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
@@ -3666,14 +3666,14 @@ func (v *ULSHCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes BCCHFACHMessage to UPER format.
 func (v *BCCHFACHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *BCCHFACHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *BCCHFACHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if err := v.Message.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding message: %w", err)
 	}
@@ -3682,20 +3682,20 @@ func (v *BCCHFACHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes BCCHFACHMessage from UPER format.
 func (v *BCCHFACHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes BCCHFACHMessage with explicit receiver options.
-func (v *BCCHFACHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *BCCHFACHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHFACHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHFACHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "BCCHFACHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "BCCHFACHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "BCCHFACHMessage")
 	}
@@ -3703,7 +3703,7 @@ func (v *BCCHFACHMessage) UnmarshalUPERWithOptions(data []byte, options per.Deco
 	return nil
 }
 
-func (v *BCCHFACHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *BCCHFACHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -3717,14 +3717,14 @@ func (v *BCCHFACHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes BCCHFACHMessageType to UPER format.
 func (v *BCCHFACHMessageType) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *BCCHFACHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *BCCHFACHMessageType) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("BCCHFACHMessageType: choice %d must be positive", v.Choice)
 	}
@@ -3732,7 +3732,7 @@ func (v *BCCHFACHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -3760,20 +3760,20 @@ func (v *BCCHFACHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes BCCHFACHMessageType from UPER format.
 func (v *BCCHFACHMessageType) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes BCCHFACHMessageType with explicit receiver options.
-func (v *BCCHFACHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *BCCHFACHMessageType) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHFACHMessageType")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHFACHMessageType")
 	}
-	padding, err := per.CaptureFinalBits(bb, "BCCHFACHMessageType")
+	padding, err := uper.CaptureFinalBits(bb, "BCCHFACHMessageType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "BCCHFACHMessageType")
 	}
@@ -3781,13 +3781,13 @@ func (v *BCCHFACHMessageType) UnmarshalUPERWithOptions(data []byte, options per.
 	return nil
 }
 
-func (v *BCCHFACHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *BCCHFACHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = BCCHFACHMessageType{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
 	}
@@ -3819,14 +3819,14 @@ func (v *BCCHFACHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes BCCHBCHMessage to UPER format.
 func (v *BCCHBCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *BCCHBCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *BCCHBCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if err := v.Message.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding message: %w", err)
 	}
@@ -3835,20 +3835,20 @@ func (v *BCCHBCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes BCCHBCHMessage from UPER format.
 func (v *BCCHBCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes BCCHBCHMessage with explicit receiver options.
-func (v *BCCHBCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *BCCHBCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHBCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHBCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "BCCHBCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "BCCHBCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "BCCHBCHMessage")
 	}
@@ -3856,7 +3856,7 @@ func (v *BCCHBCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decod
 	return nil
 }
 
-func (v *BCCHBCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *BCCHBCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -3870,14 +3870,14 @@ func (v *BCCHBCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes BCCHBCH2Message to UPER format.
 func (v *BCCHBCH2Message) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *BCCHBCH2Message) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *BCCHBCH2Message) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if err := v.Message.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding message: %w", err)
 	}
@@ -3886,20 +3886,20 @@ func (v *BCCHBCH2Message) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes BCCHBCH2Message from UPER format.
 func (v *BCCHBCH2Message) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes BCCHBCH2Message with explicit receiver options.
-func (v *BCCHBCH2Message) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *BCCHBCH2Message) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHBCH2Message")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHBCH2Message")
 	}
-	padding, err := per.CaptureFinalBits(bb, "BCCHBCH2Message")
+	padding, err := uper.CaptureFinalBits(bb, "BCCHBCH2Message")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "BCCHBCH2Message")
 	}
@@ -3907,7 +3907,7 @@ func (v *BCCHBCH2Message) UnmarshalUPERWithOptions(data []byte, options per.Deco
 	return nil
 }
 
-func (v *BCCHBCH2Message) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *BCCHBCH2Message) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -3921,14 +3921,14 @@ func (v *BCCHBCH2Message) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes MCCHMessage to UPER format.
 func (v *MCCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *MCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *MCCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if err := v.Message.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding message: %w", err)
 	}
@@ -3937,20 +3937,20 @@ func (v *MCCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes MCCHMessage from UPER format.
 func (v *MCCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes MCCHMessage with explicit receiver options.
-func (v *MCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *MCCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "MCCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MCCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "MCCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "MCCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MCCHMessage")
 	}
@@ -3958,7 +3958,7 @@ func (v *MCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOp
 	return nil
 }
 
-func (v *MCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *MCCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -3972,14 +3972,14 @@ func (v *MCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes MCCHMessageType to UPER format.
 func (v *MCCHMessageType) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *MCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *MCCHMessageType) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MCCHMessageType: choice %d must be positive", v.Choice)
 	}
@@ -3987,7 +3987,7 @@ func (v *MCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 15); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 15); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -4057,20 +4057,20 @@ func (v *MCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes MCCHMessageType from UPER format.
 func (v *MCCHMessageType) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes MCCHMessageType with explicit receiver options.
-func (v *MCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *MCCHMessageType) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "MCCHMessageType")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MCCHMessageType")
 	}
-	padding, err := per.CaptureFinalBits(bb, "MCCHMessageType")
+	padding, err := uper.CaptureFinalBits(bb, "MCCHMessageType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MCCHMessageType")
 	}
@@ -4078,13 +4078,13 @@ func (v *MCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.Deco
 	return nil
 }
 
-func (v *MCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *MCCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = MCCHMessageType{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 15)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 15)
 	if err != nil {
 		return err
 	}
@@ -4160,14 +4160,14 @@ func (v *MCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes MSCHMessage to UPER format.
 func (v *MSCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *MSCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *MSCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if err := v.Message.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding message: %w", err)
 	}
@@ -4176,20 +4176,20 @@ func (v *MSCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes MSCHMessage from UPER format.
 func (v *MSCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes MSCHMessage with explicit receiver options.
-func (v *MSCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *MSCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "MSCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MSCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "MSCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "MSCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MSCHMessage")
 	}
@@ -4197,7 +4197,7 @@ func (v *MSCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOp
 	return nil
 }
 
-func (v *MSCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *MSCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -4211,14 +4211,14 @@ func (v *MSCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes MSCHMessageType to UPER format.
 func (v *MSCHMessageType) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *MSCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *MSCHMessageType) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MSCHMessageType: choice %d must be positive", v.Choice)
 	}
@@ -4226,7 +4226,7 @@ func (v *MSCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
+	if err := uper.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -4248,20 +4248,20 @@ func (v *MSCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes MSCHMessageType from UPER format.
 func (v *MSCHMessageType) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes MSCHMessageType with explicit receiver options.
-func (v *MSCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *MSCHMessageType) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "MSCHMessageType")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MSCHMessageType")
 	}
-	padding, err := per.CaptureFinalBits(bb, "MSCHMessageType")
+	padding, err := uper.CaptureFinalBits(bb, "MSCHMessageType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MSCHMessageType")
 	}
@@ -4269,13 +4269,13 @@ func (v *MSCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.Deco
 	return nil
 }
 
-func (v *MSCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *MSCHMessageType) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = MSCHMessageType{}
-	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
+	idx, err := uper.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
 	}

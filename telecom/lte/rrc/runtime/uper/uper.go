@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/uper.go; SHA-256 99e0d4a04fbe48cc5ab9a9da5a2beba3f77f86eaa75724c3e0a745491f922cd8.
+// Runtime source: runtime/uper/uper.go; SHA-256 47902255b01f848332f794c7aa811a887ebee7e257408b128828d7172b8a3aaf.
 package uper
 
 import (
@@ -729,6 +729,7 @@ func decodeLengthDelimitedBits(bb *BitBuffer, aligned bool) ([]byte, int, error)
 }
 
 func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64) ([]byte, int, error) {
+	var paddingRuns []paddingRun
 	result := []byte{} // present empty is not absent (go-asn1#91); no allocation
 	total, err := decodeLengthFragmentsBounded(bb, false, maximum, func(_ int64, length int64) error {
 
@@ -743,6 +744,11 @@ func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64
 		if err != nil {
 			return err
 		}
+		// Preceding fragments occupy whole octets within the bounded input.
+		if len(result) > math.MaxInt/8 {
+			return fmt.Errorf("%w: fragment offset exceeds host int", ErrInvalidValue)
+		}
+		paddingRuns = bb.appendPaddingRuns(paddingRuns, fragment, len(result)*8)
 		result = append(result, fragment...)
 		return nil
 	})
@@ -753,6 +759,7 @@ func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64
 	if total > maximumInt {
 		return nil, 0, fmt.Errorf("%w: BIT STRING length %d overflows int", ErrInvalidValue, total)
 	}
+	bb.rememberPaddingRuns(result, paddingRuns)
 	return result, int(total), nil
 }
 

@@ -689,11 +689,19 @@ func (v *HandoverPreparationInformationNBIEs) UnmarshalUPERFrom(bb *uper.BitBuff
 	}
 	if opt_noncriticalextension {
 		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
-		var dec_noncriticalextension HandoverPreparationInformationNBV1380IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return runtime.WrapDecodePath(err, "NonCriticalExtension")
+		inlinePadding_noncriticalextension, inlineRecovered_noncriticalextension, inlineErr_noncriticalextension := bb.RecoverEmptyInlineBitmap(2)
+		if inlineErr_noncriticalextension != nil {
+			return runtime.WrapDecodePath(inlineErr_noncriticalextension, "NonCriticalExtension")
 		}
-		v.NonCriticalExtension = &dec_noncriticalextension
+		if inlineRecovered_noncriticalextension {
+			v.NonCriticalExtension = &HandoverPreparationInformationNBV1380IEs{PERPadding_: inlinePadding_noncriticalextension}
+		} else {
+			var dec_noncriticalextension HandoverPreparationInformationNBV1380IEs
+			if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+				return runtime.WrapDecodePath(err, "NonCriticalExtension")
+			}
+			v.NonCriticalExtension = &dec_noncriticalextension
+		}
 		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
@@ -726,6 +734,7 @@ func (v *HandoverPreparationInformationNBV1380IEs) MarshalUPERTo(bb *uper.BitBuf
 			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
 		}
 	}
+	uper.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -777,11 +786,19 @@ func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPERFrom(bb *uper.Bi
 	}
 	if opt_noncriticalextension {
 		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
-		var dec_noncriticalextension HandoverPreparationInformationNBExtR14IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return runtime.WrapDecodePath(err, "NonCriticalExtension")
+		inlinePadding_noncriticalextension, inlineRecovered_noncriticalextension, inlineErr_noncriticalextension := bb.RecoverEmptyInlineBitmap(2)
+		if inlineErr_noncriticalextension != nil {
+			return runtime.WrapDecodePath(inlineErr_noncriticalextension, "NonCriticalExtension")
 		}
-		v.NonCriticalExtension = &dec_noncriticalextension
+		if inlineRecovered_noncriticalextension {
+			v.NonCriticalExtension = &HandoverPreparationInformationNBExtR14IEs{PERPadding_: inlinePadding_noncriticalextension}
+		} else {
+			var dec_noncriticalextension HandoverPreparationInformationNBExtR14IEs
+			if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+				return runtime.WrapDecodePath(err, "NonCriticalExtension")
+			}
+			v.NonCriticalExtension = &dec_noncriticalextension
+		}
 		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
@@ -818,6 +835,7 @@ func (v *HandoverPreparationInformationNBExtR14IEs) MarshalUPERTo(bb *uper.BitBu
 			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
 		}
 	}
+	uper.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -941,9 +959,11 @@ func (v *UEPagingCoverageInformationNB) UnmarshalUPERFrom(bb *uper.BitBuffer) er
 	}
 	defer bb.LeaveDecodeValue()
 	*v = UEPagingCoverageInformationNB{}
+	paddingMark_criticalextensions := bb.PaddingComponent("CriticalExtensions")
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalExtensions")
 	}
+	bb.LeaveComponent(paddingMark_criticalextensions)
 	return nil
 }
 
@@ -974,6 +994,7 @@ func (v *UEPagingCoverageInformationNBIEs) MarshalUPERTo(bb *uper.BitBuffer) err
 			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
 		}
 	}
+	uper.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -1023,11 +1044,21 @@ func (v *UEPagingCoverageInformationNBIEs) UnmarshalUPERFrom(bb *uper.BitBuffer)
 		v.NpdcchNumRepetitionPagingR13 = &val_npdcchnumrepetitionpagingr13
 	}
 	if opt_noncriticalextension {
-		var dec_noncriticalextension UEPagingCoverageInformationNBV1700IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return runtime.WrapDecodePath(err, "NonCriticalExtension")
+		paddingMark_noncriticalextension := bb.PaddingComponent("NonCriticalExtension")
+		inlinePadding_noncriticalextension, inlineRecovered_noncriticalextension, inlineErr_noncriticalextension := bb.RecoverEmptyInlineBitmap(2)
+		if inlineErr_noncriticalextension != nil {
+			return runtime.WrapDecodePath(inlineErr_noncriticalextension, "NonCriticalExtension")
 		}
-		v.NonCriticalExtension = &dec_noncriticalextension
+		if inlineRecovered_noncriticalextension {
+			v.NonCriticalExtension = &UEPagingCoverageInformationNBV1700IEs{PERPadding_: inlinePadding_noncriticalextension}
+		} else {
+			var dec_noncriticalextension UEPagingCoverageInformationNBV1700IEs
+			if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+				return runtime.WrapDecodePath(err, "NonCriticalExtension")
+			}
+			v.NonCriticalExtension = &dec_noncriticalextension
+		}
+		bb.LeaveComponent(paddingMark_noncriticalextension)
 	}
 	return nil
 }
@@ -1059,6 +1090,7 @@ func (v *UEPagingCoverageInformationNBV1700IEs) MarshalUPERTo(bb *uper.BitBuffer
 			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
 		}
 	}
+	uper.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -1260,11 +1292,19 @@ func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPERFrom(bb *uper.Bit
 	bb.LeaveComponent(toleranceMark_ueradioaccesscapabilityinfor13)
 	if opt_noncriticalextension {
 		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
-		var dec_noncriticalextension UERadioAccessCapabilityInformationNBV1380IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return runtime.WrapDecodePath(err, "NonCriticalExtension")
+		inlinePadding_noncriticalextension, inlineRecovered_noncriticalextension, inlineErr_noncriticalextension := bb.RecoverEmptyInlineBitmap(2)
+		if inlineErr_noncriticalextension != nil {
+			return runtime.WrapDecodePath(inlineErr_noncriticalextension, "NonCriticalExtension")
 		}
-		v.NonCriticalExtension = &dec_noncriticalextension
+		if inlineRecovered_noncriticalextension {
+			v.NonCriticalExtension = &UERadioAccessCapabilityInformationNBV1380IEs{PERPadding_: inlinePadding_noncriticalextension}
+		} else {
+			var dec_noncriticalextension UERadioAccessCapabilityInformationNBV1380IEs
+			if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+				return runtime.WrapDecodePath(err, "NonCriticalExtension")
+			}
+			v.NonCriticalExtension = &dec_noncriticalextension
+		}
 		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
@@ -1297,6 +1337,7 @@ func (v *UERadioAccessCapabilityInformationNBV1380IEs) MarshalUPERTo(bb *uper.Bi
 			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
 		}
 	}
+	uper.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -1348,11 +1389,19 @@ func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPERFrom(bb *upe
 	}
 	if opt_noncriticalextension {
 		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
-		var dec_noncriticalextension UERadioAccessCapabilityInformationNBR14IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return runtime.WrapDecodePath(err, "NonCriticalExtension")
+		inlinePadding_noncriticalextension, inlineRecovered_noncriticalextension, inlineErr_noncriticalextension := bb.RecoverEmptyInlineBitmap(2)
+		if inlineErr_noncriticalextension != nil {
+			return runtime.WrapDecodePath(inlineErr_noncriticalextension, "NonCriticalExtension")
 		}
-		v.NonCriticalExtension = &dec_noncriticalextension
+		if inlineRecovered_noncriticalextension {
+			v.NonCriticalExtension = &UERadioAccessCapabilityInformationNBR14IEs{PERPadding_: inlinePadding_noncriticalextension}
+		} else {
+			var dec_noncriticalextension UERadioAccessCapabilityInformationNBR14IEs
+			if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+				return runtime.WrapDecodePath(err, "NonCriticalExtension")
+			}
+			v.NonCriticalExtension = &dec_noncriticalextension
+		}
 		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
@@ -1389,6 +1438,7 @@ func (v *UERadioAccessCapabilityInformationNBR14IEs) MarshalUPERTo(bb *uper.BitB
 			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
 		}
 	}
+	uper.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -1788,12 +1838,12 @@ func (v *ASConfigNB) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:602
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:607
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:604
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:609
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1826,7 +1876,7 @@ func (v *ASConfigNB) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 					}
 					return nil
 				}()
-				decoded, padding, err := extAdditions.CompleteKnownAddition(extBB, 0, extData, checkpoint, decodeErr)
+				decoded, padding, err := extAdditions.CompleteKnownAddition(extBB, 0, extData, checkpoint, decodeErr, true)
 				if err != nil {
 					return err
 				}
@@ -1853,7 +1903,7 @@ func (v *ASConfigNB) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 						}
 						v.SourceDLCarrierFreqV1550 = &dec_sourcedlcarrierfreqv1550
 					}
-					padding, err := uper.CaptureOpenTypePadding(extBB)
+					padding, err := uper.CaptureExtensionPadding(extBB, 0, true)
 					if err != nil {
 						return runtime.WrapDecodePath(err, "ExtData_[0]")
 					}
@@ -1864,7 +1914,7 @@ func (v *ASConfigNB) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 				}
 			}
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:652
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:657
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2019,13 +2069,13 @@ func (v *ASContextNB) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:671
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:676
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:674
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:679
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2195,7 +2245,7 @@ func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if opt_additionalreestabinfolistr13 {
 		tmp_additionalreestabinfolistr13 := make(AdditionalReestabInfoList, 0)
 		_, errCollection_additionalreestabinfolistr13 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_additionalreestabinfolistr13, fragmentLength_additionalreestabinfolistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1121
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1127
 			if fragmentOffset_additionalreestabinfolistr13 < 0 || fragmentLength_additionalreestabinfolistr13 < 0 || fragmentLength_additionalreestabinfolistr13 > int64(^uint(0)>>1) || fragmentOffset_additionalreestabinfolistr13 > int64(^uint(0)>>1)-fragmentLength_additionalreestabinfolistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2219,13 +2269,13 @@ func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:671
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:676
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:674
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:679
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2378,13 +2428,13 @@ func (v *RRMConfigNB) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:671
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:676
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:674
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:679
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2783,11 +2833,13 @@ func (v *UEPagingCoverageInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case UEPagingCoverageInformationNBCriticalExtensionsChoiceC1:
+		paddingMark_c1 := bb.PaddingComponent("C1")
 		var dec_c1 UEPagingCoverageInformationNBCriticalExtensionsC1
 		if err := dec_c1.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "C1")
 		}
 		v.C1 = &dec_c1
+		bb.LeaveComponent(paddingMark_c1)
 	case UEPagingCoverageInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
 		var dec_criticalextensionsfuture UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
@@ -2875,11 +2927,13 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceUePagingCoverageInformationR13:
+		paddingMark_uepagingcoverageinformationr13 := bb.PaddingComponent("UePagingCoverageInformationR13")
 		var dec_uepagingcoverageinformationr13 UEPagingCoverageInformationNBIEs
 		if err := dec_uepagingcoverageinformationr13.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UePagingCoverageInformationR13")
 		}
 		v.UePagingCoverageInformationR13 = &dec_uepagingcoverageinformationr13
+		bb.LeaveComponent(paddingMark_uepagingcoverageinformationr13)
 	case UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceSpare3:
 		v.Spare3 = new(struct{})
 	case UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceSpare2:

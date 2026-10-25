@@ -120,7 +120,7 @@ func (v *VarANRMeasConfigNBR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	toleranceMark_anrcarrierlistr16 := bb.EnterComponent("AnrCarrierListR16")
 	v.AnrCarrierListR16 = make(ANRCarrierListNBR16, 0)
 	_, errCollection_anrcarrierlistr16 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_anrcarrierlistr16, fragmentLength_anrcarrierlistr16 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1121
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1127
 		if fragmentOffset_anrcarrierlistr16 < 0 || fragmentLength_anrcarrierlistr16 < 0 || fragmentLength_anrcarrierlistr16 > int64(^uint(0)>>1) || fragmentOffset_anrcarrierlistr16 > int64(^uint(0)>>1)-fragmentLength_anrcarrierlistr16 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -223,7 +223,7 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	*v = VarANRMeasReportNBR16{}
 	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr16 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1121
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1127
 		if fragmentOffset_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr16 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr16 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -252,7 +252,7 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	v.RelativeTimeStampR16 = val_relativetimestampr16
 	v.MeasResultListR16 = make(VarANRMeasReportNBR16MeasResultListR16, 0)
 	_, errCollection_measresultlistr16 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_measresultlistr16, fragmentLength_measresultlistr16 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1121
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1127
 		if fragmentOffset_measresultlistr16 < 0 || fragmentLength_measresultlistr16 < 0 || fragmentLength_measresultlistr16 > int64(^uint(0)>>1) || fragmentOffset_measresultlistr16 > int64(^uint(0)>>1)-fragmentLength_measresultlistr16 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -337,7 +337,7 @@ func (v *VarRLFReportNBR16) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	bb.LeaveComponent(toleranceMark_rlfreportr16)
 	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr16 := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1121
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1127
 		if fragmentOffset_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr16 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr16 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -449,7 +449,7 @@ func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb *uper.BitBuffer)
 func unmarshalUPERVarANRMeasReportNBR16MeasResultListR16Into(v *asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue, bb *uper.BitBuffer) error {
 	v.Value = make(VarANRMeasReportNBR16MeasResultListR16, 0)
 	_, errCollection_value := uper.DecodeCollection(bb, uper.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1121
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1127
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}

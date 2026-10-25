@@ -12,7 +12,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa"
 	lppaaper "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc"
@@ -22,6 +21,7 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/x2ap"
 	x2aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
+	umtsuper "github.com/gomaja/go-asn1/telecom/umts/rrc/runtime/uper"
 )
 
 type trainingRecord struct {
@@ -96,9 +96,9 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 		option := len(rec.PaddedBITStringContaining) != 0 || len(rec.TrailingBitsAfterBasicProduction) != 0 ||
 			(strings.HasSuffix(rec.Issue, "/59") && strings.Contains(rec.Expected, "receiver tolerance"))
 		var err error
-		var tolerated per.ToleranceLog
+		var tolerated umtsuper.ToleranceLog
 		if option {
-			err = value.UnmarshalUPERWithOptions(wire, per.DecodeOptions{TrailingBitsTolerance: &tolerated})
+			err = value.UnmarshalUPERWithOptions(wire, umtsuper.DecodeOptions{TrailingBitsTolerance: &tolerated, ContainedBitsTolerance: &umtsuper.ContainedBitsPolicy{Log: &tolerated}})
 		} else {
 			err = value.UnmarshalUPER(wire)
 		}
@@ -110,18 +110,18 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 			return false, false, fmt.Sprintf("round trip: %v", err)
 		}
 		if option {
-			reported := map[per.ToleranceKind]int{}
+			reported := map[umtsuper.ToleranceKind]int{}
 			for _, record := range tolerated.Snapshot() {
 				reported[record.Kind] += record.Bits.BitLength
 			}
 			if len(rec.PaddedBITStringContaining) != 0 || strings.Contains(rec.Expected, "6 padding bits reported") {
 				p := value.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.InterRATHandoverInfoR3AddExtPERPadding_
 				count := p.Trailing().BitLength
-				if count == 0 || reported[per.ToleratedContainedBits] != count {
+				if count == 0 || reported[umtsuper.ToleratedContainedBits] != count {
 					return false, false, "contained bits were not reported"
 				}
 			}
-			if trailing := value.PERPadding_.Trailing().BitLength; len(rec.TrailingBitsAfterBasicProduction) != 0 && (trailing == 0 || reported[per.ToleratedTrailingBits] != trailing) {
+			if trailing := value.PERPadding_.Trailing().BitLength; len(rec.TrailingBitsAfterBasicProduction) != 0 && (trailing == 0 || reported[umtsuper.ToleratedTrailingBits] != trailing) {
 				return false, false, "top-level trailing bits were not reported"
 			}
 		}

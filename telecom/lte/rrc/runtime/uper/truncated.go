@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/truncated.go; SHA-256 2a5589b50d041aad2564bb14f5dc513cbdbd983023bef876f12e0b44d65ea567.
+// Runtime source: runtime/uper/truncated.go; SHA-256 f0a4de4f8ee834c0c52cdecdd661b9ff262564ed4c8382dd10c4ed9c4e7ebcc9.
 package uper
 
 import (
@@ -245,7 +245,9 @@ func (a *ExtensionAdditions) Record(final FinalPadding) FinalPadding {
 	return FinalPadding{bits: &merged}
 }
 
-// Truncated reports whether the decoded value had an extension addition cut
+// Truncated also reports a final inline OPTIONAL bitmap recovered under
+// InlineBitmapRecoveryTolerance; InferredInlineBitmap distinguishes it.
+// Otherwise it reports whether the decoded value had an extension addition cut
 // by the end of the input (TruncatedExtensionTolerance), so that an
 // unchanged value re-encodes to the received input.
 func (f FinalPadding) Truncated() bool {
@@ -268,13 +270,18 @@ type truncatedExtension struct {
 	kept         bool
 	cut          bool
 	recovered    bool
+	// inline marks inferred absent fields in a partial OPTIONAL bitmap.
+	inline bool
 	// phase is the recovered value's starting position modulo eight.
 	// Only bounded recovery uses it; an outer-input cut retains its
 	// whole-input comparison for go-asn1#114.
 	phase int
 }
 
-// AppendTruncatedExtension completes the encoding of a SEQUENCE or SET value
+// AppendTruncatedExtension also replays an inferred all-absent inline bitmap
+// (InlineBitmapRecoveryTolerance), only while its complete encoded prefix
+// matches the received prefix followed by the missing zero bitmap bits.
+// It otherwise completes the encoding of a SEQUENCE or SET value
 // whose PERPadding_ is final. A value decoded with an extension addition cut
 // by the end of the input (TruncatedExtensionTolerance) re-encodes to the
 // received input, octet for octet, while its encoding, and everything bb
@@ -403,7 +410,7 @@ func (bb *BitBuffer) CheckpointKnownAddition() KnownAdditionCheckpoint {
 // open types; only nested truncation is recoverable. Resource limits, padding,
 // constraints and unsupported constructs fail. Failed candidates roll back
 // pending records, never their resource usage.
-func (a *ExtensionAdditions) CompleteKnownAddition(child *BitBuffer, index int64, data []byte, checkpoint KnownAdditionCheckpoint, err error) (decoded bool, padding CompletePadding, result error) {
+func (a *ExtensionAdditions) CompleteKnownAddition(child *BitBuffer, index int64, data []byte, checkpoint KnownAdditionCheckpoint, err error, group bool) (decoded bool, padding CompletePadding, result error) {
 	defer child.LeaveOpenType()
 	trace := child.trace
 	if trace != nil {
@@ -413,7 +420,7 @@ func (a *ExtensionAdditions) CompleteKnownAddition(child *BitBuffer, index int64
 		err = limitErr
 	}
 	if err == nil {
-		padding, err = CaptureOpenTypePadding(child)
+		padding, err = CaptureExtensionPadding(child, index, group)
 		if err != nil {
 			err = runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", index))
 		}
@@ -550,19 +557,20 @@ func (a *ExtensionAdditions) RecoveryEnabled(bb *BitBuffer) bool {
 	return bb.trace != nil && bb.trace.recovery != nil
 }
 
-// RecoveryComponent enters a path only under bounded-addition recovery. A
-// disabled option returns an inert mark, preserving strict decode costs.
+// RecoveryComponent enters a path under bounded-addition recovery or an
+// explicitly enabled completion-record policy. Disabled options return an
+// inert mark, preserving strict decode costs.
 func (bb *BitBuffer) RecoveryComponent(name string) int {
-	if bb.trace == nil || bb.trace.recovery == nil {
+	if bb.trace == nil || bb.trace.recovery == nil && bb.trace.padding == nil && bb.trace.empty == nil && bb.trace.inline == nil {
 		return -1
 	}
 	return bb.trace.enter(pathSegment{name: name})
 }
 
-// RecoveryIndex enters a list index only under bounded-addition recovery.
-// Like RecoveryComponent, its inert mark leaves other policies unchanged.
+// RecoveryIndex is the list-index counterpart of RecoveryComponent.
+// It leaves the path unchanged when these record policies are disabled.
 func (bb *BitBuffer) RecoveryIndex(index int64) int {
-	if bb.trace == nil || bb.trace.recovery == nil {
+	if bb.trace == nil || bb.trace.recovery == nil && bb.trace.padding == nil && bb.trace.empty == nil && bb.trace.inline == nil {
 		return -1
 	}
 	return bb.trace.enter(pathSegment{index: index})

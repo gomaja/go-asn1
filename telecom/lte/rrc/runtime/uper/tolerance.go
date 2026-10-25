@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/tolerance.go; SHA-256 66e84a89c283893c7e5723b9d1a96bd214614f07a37df8d1907d862d964a93d7.
+// Runtime source: runtime/uper/tolerance.go; SHA-256 e96f5060458a0dccd91a67dd3eba0d1ce286cac9439758bf92076d896742b760.
 package uper
 
 import (
@@ -39,10 +39,26 @@ const (
 	// X.691 (02/2021) 11.2.1–11.2.2 and 19.9 require a complete encoding;
 	// ExtensionRecoveryTolerance explicitly accepts this error (go-asn1#142).
 	ToleratedIncompleteExtension
+	// ToleratedNonzeroEmptyEncoding records the nonzero replacement octet
+	// forbidden by X.691 (02/2021) §11.1.3.1, accepted only on explicit opt-in.
+	ToleratedNonzeroEmptyEncoding
+	// ToleratedIncompleteInlineBitmap records the all-zero received part of
+	// an incomplete final inline nonCriticalExtension OPTIONAL bitmap.
+	// Inferring its missing zeros deviates from X.691 (02/2021) §§19.2–19.4.
+	ToleratedIncompleteInlineBitmap
+	// ToleratedNonzeroPadding records completion bits required to be zero
+	// by X.691 (02/2021) §§11.1.3.1 and 11.2.1.
+	ToleratedNonzeroPadding
 )
 
 func (kind ToleranceKind) String() string {
 	switch kind {
+	case ToleratedIncompleteInlineBitmap:
+		return "incomplete inline bitmap"
+	case ToleratedNonzeroPadding:
+		return "nonzero padding"
+	case ToleratedNonzeroEmptyEncoding:
+		return "nonzero empty encoding"
 	case ToleratedTrailingBits:
 		return "trailing bits"
 	case ToleratedContainedBits:
@@ -58,11 +74,21 @@ func (kind ToleranceKind) String() string {
 
 // Tolerance records one bit run that a tolerant decode accepted.
 type Tolerance struct {
+	// PaddingKind identifies the complete encoding for ToleratedNonzeroPadding.
+	PaddingKind PaddingKind `json:",omitempty"`
+	// InputSpans locates padding in the original input. Empty means unknown;
+	// Offset still gives the exact position within the decoded child buffer.
+	InputSpans []InputBitSpan `json:",omitempty"`
 	// Path is the generated field path in the form used by
 	// runtime.DecodePathError, starting with the top-level type name.
 	Path string
 	Kind ToleranceKind
-	// Offset is the position of the first accepted bit within the enclosing
+	// For ToleratedIncompleteInlineBitmap, Offset is the input end position,
+	// Bits contains only received bitmap bits, and Missing counts inferred
+	// absent bitmap positions (X.691 (02/2021) §§19.2–19.4).
+	// For nonzero padding and empty encodings, Offset is local to the decoded
+	// buffer; InputSpans supplies known original-input positions for padding.
+	// For the other kinds, Offset is the position within the enclosing
 	// complete encoding: the top-level input or the OCTET STRING contents for
 	// ToleratedTrailingBits, the BIT STRING contents for
 	// ToleratedContainedBits, and the top-level input for
@@ -109,6 +135,7 @@ func (log *ToleranceLog) Snapshot() []Tolerance {
 	snapshot := make([]Tolerance, len(log.records))
 	for i, record := range log.records {
 		record.Bits.Bytes = append([]byte(nil), record.Bits.Bytes...)
+		record.InputSpans = append([]InputBitSpan(nil), record.InputSpans...)
 		snapshot[i] = record
 	}
 	return snapshot
@@ -132,9 +159,13 @@ func (log *ToleranceLog) append(records []Tolerance) {
 // for tolerance or deferral, so a strict eager decode pays one nil check per
 // tracked component.
 type decodeTrace struct {
-	trailing *ToleranceLog
-	path     []pathSegment
-	pending  []Tolerance
+	inline        *ToleranceLog
+	inlineBlocked bool
+	padding       *paddingTrace
+	empty         *ToleranceLog
+	trailing      *ToleranceLog
+	path          []pathSegment
+	pending       []Tolerance
 	// deferred holds the deferral records of the decode, published to
 	// deferrals together with pending.
 	deferred  []pendingDeferral
@@ -250,6 +281,12 @@ func (bb *BitBuffer) publishTolerances(records []Tolerance) {
 	for _, record := range records {
 		log := bb.trailingTolerance()
 		switch record.Kind {
+		case ToleratedIncompleteInlineBitmap:
+			log = bb.trace.inline
+		case ToleratedNonzeroPadding:
+			log = bb.trace.padding.log
+		case ToleratedNonzeroEmptyEncoding:
+			log = bb.trace.empty
 		case ToleratedTruncatedExtension:
 			log = bb.trace.truncated
 		case ToleratedIncompleteExtension:
@@ -350,7 +387,7 @@ func AppendContainedBits(bb *BitBuffer, kept FinalPadding) error {
 //
 // A value that consumed no bits is completed by one zero octet (X.691
 // (02/2021) 11.1.3.1 and 11.1.4). That octet is part of the complete
-// encoding, never a tolerated suffix, and must be zero in either mode.
+// encoding, never a tolerated suffix, and is zero unless EmptyEncodingTolerance explicitly accepts and records a nonzero octet.
 //
 // The decode's deferral records are published with its tolerance records.
 // A decode whose ContainedDecoding is unknown, or defers without a
@@ -391,13 +428,17 @@ func captureFinalBits(bb *BitBuffer, context string) (FinalPadding, error) {
 		final = finalPaddingOf(padding)
 	} else {
 		valueBits := bb.bitPos
+		var emptyPadding CompletePadding
 		if valueBits == 0 {
 			mandated, err := bb.ReadBits(8)
 			if err != nil {
 				return FinalPadding{}, err
 			}
 			if mandated != 0 {
-				return FinalPadding{}, fmt.Errorf("%w: %s zero-bit complete encoding is nonzero", ErrInvalidValue, context)
+				emptyPadding, err = bb.captureEmptyOctet(mandated, context)
+				if err != nil {
+					return FinalPadding{}, err
+				}
 			}
 		}
 		offset, remaining := bb.bitPos, bb.BitsRemaining()
@@ -409,6 +450,7 @@ func captureFinalBits(bb *BitBuffer, context string) (FinalPadding, error) {
 		if final, err = keepTrailing(bb, valueBits, trailing); err != nil {
 			return FinalPadding{}, err
 		}
+		final.bits.padding = emptyPadding
 		bb.recordTolerance(ToleratedTrailingBits, offset, trailing)
 	}
 	return final, nil
@@ -497,6 +539,9 @@ var paddingTable = func() (table [255]finalBits) {
 var paddingTableOffset = [8]uint8{0, 1, 3, 7, 15, 31, 63, 127}
 
 func finalPaddingOf(padding CompletePadding) FinalPadding {
+	if padding.count == 8 && padding.bits != 0 {
+		return FinalPadding{bits: &emptyPaddingTable[padding.bits]}
+	}
 	if padding.bits == 0 || padding.count > 7 {
 		return FinalPadding{}
 	}
@@ -508,7 +553,9 @@ func finalPaddingOf(padding CompletePadding) FinalPadding {
 }
 
 // Bits returns the observed terminal padding right-aligned and its width.
-// It is zero when a tolerated suffix replaced the padding.
+// It is zero when a tolerated suffix replaced ordinary completion padding.
+// A nonzero replacement octet for an empty encoding retains width 8 even
+// when a separately tolerated suffix follows it.
 func (f FinalPadding) Bits() (value, count uint8) { return f.Padding().Bits() }
 
 // Padding returns the observed terminal padding.
@@ -560,4 +607,26 @@ func (bb *BitBuffer) trailingTolerance() *ToleranceLog {
 		return nil
 	}
 	return bb.trace.trailing
+}
+
+// emptyPaddingTable retains replacement octets without changing the common
+// one-to-seven-bit padding table or allocating per decoded empty value.
+var emptyPaddingTable = func() (table [256]finalBits) {
+	for value := range table {
+		table[value].padding = CompletePadding{bits: uint8(value), count: 8}
+	}
+	return table
+}()
+
+// X.691 (02/2021) §11.1.3.1 requires the replacement octet to be zero.
+// Only this explicit receiver option accepts a departure; other errors remain.
+func (bb *BitBuffer) captureEmptyOctet(value uint64, context string) (CompletePadding, error) {
+	if value == 0 || value > 255 {
+		return CompletePadding{}, fmt.Errorf("%w: invalid empty-encoding replacement octet", ErrInvalidValue)
+	}
+	if bb.trace == nil || bb.trace.empty == nil {
+		return CompletePadding{}, fmt.Errorf("%w: %s zero-bit complete encoding is nonzero", ErrInvalidValue, context)
+	}
+	bb.recordTolerance(ToleratedNonzeroEmptyEncoding, 0, TrailingBits{Bytes: []byte{byte(value)}, BitLength: 8})
+	return CompletePadding{bits: uint8(value), count: 8}, nil
 }

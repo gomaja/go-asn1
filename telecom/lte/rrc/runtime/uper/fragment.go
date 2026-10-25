@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/fragment.go; SHA-256 b6eefc1214670dabd7ecc585d5b9bc6370fed0c6a2065f9e4fdafda356c0c04c.
+// Runtime source: runtime/uper/fragment.go; SHA-256 bf3be7b9223542c89b3e761dffb0d2a1fa1a303785ae554070f6f22cd2b16469.
 package uper
 
 import (
@@ -89,8 +89,13 @@ func decodeLengthFragmentsBounded(bb *BitBuffer, aligned bool, maximum int64, de
 		if length > maximum-offset {
 			return 0, fmt.Errorf("%w: fragmented length %d exceeds upper bound %d", ErrConstraintViolation, offset+length, maximum)
 		}
-		if err := decodeFragment(offset, length); err != nil {
-			return 0, err
+		// X.691 (02/2021) §11.9.3.8.3 requires another determinant
+		// after a fragment marked more: none of its elements is terminal.
+		inlineTail := bb.EnterInlineBitmapTail(!more)
+		fragmentErr := decodeFragment(offset, length)
+		bb.LeaveInlineBitmapTail(inlineTail)
+		if fragmentErr != nil {
+			return 0, fragmentErr
 		}
 		offset += length
 		if !more {
@@ -303,6 +308,7 @@ func decodeLengthDelimitedOctets(bb *BitBuffer, aligned bool) ([]byte, error) {
 }
 
 func decodeLengthDelimitedOctetsBounded(bb *BitBuffer, aligned bool, maximum int64) ([]byte, error) {
+	var paddingRuns []paddingRun
 	result := []byte{} // present empty is not absent (go-asn1#91); no allocation
 	_, err := decodeLengthFragmentsBounded(bb, false, maximum, func(_ int64, length int64) error {
 		if length < 0 || length > int64(math.MaxInt) {
@@ -315,12 +321,18 @@ func decodeLengthDelimitedOctetsBounded(bb *BitBuffer, aligned bool, maximum int
 		if err != nil {
 			return err
 		}
+		// Preceding fragments occupy whole octets within the bounded input.
+		if len(result) > math.MaxInt/8 {
+			return fmt.Errorf("%w: fragment offset exceeds host int", ErrInvalidValue)
+		}
+		paddingRuns = bb.appendPaddingRuns(paddingRuns, fragment, len(result)*8)
 		result = append(result, fragment...)
 		return nil
 	})
 	if err != nil {
 		return nil, err
 	}
+	bb.rememberPaddingRuns(result, paddingRuns)
 	return result, nil
 }
 

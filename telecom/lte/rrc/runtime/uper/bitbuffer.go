@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer.go; SHA-256 b5afb1ac966e5b6f7509d90901d138c804a3e46f1084f329e3eb309da3f9c3d3.
+// Runtime source: runtime/uper/bitbuffer.go; SHA-256 b31294e9576ce1699538237f0bcbf8a0cb3173cf54fec2c3f5dee7a4b0ceca18.
 package uper
 
 import (
@@ -15,8 +15,8 @@ type BitBuffer struct {
 	bitLen        int  // total bits available (read mode only)
 	invalidLength bool // input octets cannot be represented as an int bit length
 	contained     ContainedDecoding
-	// outermost is set on the buffer of a top-level decode under
-	// TruncatedExtensionTolerance: only the end of its input can cut an
+	// outermost also marks the original input for padding observations.
+	// Under TruncatedExtensionTolerance: only the end of its input can cut an
 	// extension addition short. A nested buffer, bounded by an open type or
 	// contained string that arrived in full, never has it.
 	outermost bool
@@ -48,6 +48,22 @@ type DecodeOptions struct {
 	// Decoded values keep the accepted bits, so they re-encode to the
 	// original octets. Generated APER decoders reject it.
 	TrailingBitsTolerance *ToleranceLog
+	// EmptyEncodingTolerance accepts and records a nonzero octet replacing
+	// an empty complete encoding. X.691 (02/2021) §11.1.3.1 requires zero.
+	// This receiver choice does not apply to BIT STRING containment (§11.1.3.2).
+	EmptyEncodingTolerance *ToleranceLog
+	// InlineBitmapRecoveryTolerance infers absent components only when the
+	// outermost input ends inside the all-zero OPTIONAL bitmap of a final
+	// inline nonCriticalExtension. X.691 (02/2021) §§19.2–19.4 require the
+	// complete bitmap; this is an explicit receiver choice (go-asn1#207).
+	// Records give the end position, received bitmap bits and missing width.
+	// Full open types and contained values remain ineligible. An unchanged
+	// value replays received bytes; an edit emits a fresh conformant map.
+	InlineBitmapRecoveryTolerance *ToleranceLog
+	// PaddingObservations records each accepted nonzero terminal padding run,
+	// forbidden to senders by X.691 (02/2021) §§11.1.3.1 and 11.2.1.
+	// It changes no acceptance or replay rule; nil collects nothing.
+	PaddingObservations *ToleranceLog
 	// TruncatedExtensionTolerance, when non-nil, accepts an extension
 	// addition or extension addition group of a SEQUENCE or SET whose open
 	// type, length determinant or contents, the end of the input cuts short
@@ -120,9 +136,10 @@ func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) error {
 	*bb.decodeBudget() = DecodeBudget{limits: limits, report: options.Usage}
 	bb.budget.publish()
 	bb.contained, bb.trace = options.ContainedDecoding, nil
-	bb.zeroWidthLimit, bb.outermost = options.MaxZeroWidthCharacters, options.TruncatedExtensionTolerance != nil
-	if options.TrailingBitsTolerance != nil || options.ContainedDecoding != Eager || options.TruncatedExtensionTolerance != nil || options.ExtensionRecoveryTolerance != nil {
-		bb.trace = &decodeTrace{trailing: options.TrailingBitsTolerance, deferrals: options.Deferrals, truncated: options.TruncatedExtensionTolerance, recovery: options.ExtensionRecoveryTolerance}
+	bb.zeroWidthLimit, bb.outermost = options.MaxZeroWidthCharacters, options.TruncatedExtensionTolerance != nil || options.InlineBitmapRecoveryTolerance != nil || options.PaddingObservations != nil
+	if options.InlineBitmapRecoveryTolerance != nil || options.PaddingObservations != nil || options.EmptyEncodingTolerance != nil || options.TrailingBitsTolerance != nil || options.ContainedDecoding != Eager || options.TruncatedExtensionTolerance != nil || options.ExtensionRecoveryTolerance != nil {
+		bb.trace = &decodeTrace{inline: options.InlineBitmapRecoveryTolerance, empty: options.EmptyEncodingTolerance, trailing: options.TrailingBitsTolerance, deferrals: options.Deferrals, truncated: options.TruncatedExtensionTolerance, recovery: options.ExtensionRecoveryTolerance}
+		bb.startPaddingObservations(options.PaddingObservations)
 		if options.ExtensionRecoveryTolerance != nil && !bb.invalidLength && bb.bitLen >= 0 {
 			limit := uint64(bb.bitLen)
 			if limit > math.MaxUint64/recoveryWorkInputMultiple {
@@ -164,13 +181,23 @@ func NewBitBufferFromBytes(data []byte) *BitBuffer {
 // Generated entry points keep this storage on the stack; nested buffers share
 // it. A nil budget is allocated lazily on the first read.
 func NewDecodeBuffer(data []byte, budget *DecodeBudget) *BitBuffer {
+	state := newDecodeBuffer(data, budget)
+	return &state
+}
+
+// newDecodeBuffer keeps bounds checks and default-limit initialization in the
+// runtime instead of copying them into every generated entry point. Returning
+// the state by value lets the public constructor keep caller-owned storage.
+//
+//go:noinline
+func newDecodeBuffer(data []byte, budget *DecodeBudget) BitBuffer {
 	if budget != nil {
 		*budget = DecodeBudget{limits: DefaultDecodeLimits()}
 	}
 	if len(data) > math.MaxInt/8 {
-		return &BitBuffer{data: data, invalidLength: true, budget: budget}
+		return BitBuffer{data: data, invalidLength: true, budget: budget}
 	}
-	return &BitBuffer{
+	return BitBuffer{
 		data:   data,
 		bitLen: len(data) * 8,
 		budget: budget,
@@ -371,6 +398,7 @@ func (bb *BitBuffer) ReadBytes(n int) ([]byte, error) {
 		}
 	}
 	bb.bitPos += n * 8
+	bb.rememberPaddingRead(result, bb.bitPos-n*8, n*8)
 	return result, nil
 }
 
@@ -421,7 +449,7 @@ func (bb *BitBuffer) completeBytesWithTrailing(kept *finalBits) ([]byte, error) 
 	// A zero-bit value keeps its mandated zero octet before the suffix
 	// (X.691 (02/2021) 11.1.3.1 and 11.1.4), as CaptureFinalBits read it.
 	if bb.bitPos == 0 {
-		if err := bb.WriteBits(0, 8); err != nil {
+		if err := bb.WriteBits(uint64(kept.padding.bits), 8); err != nil {
 			return nil, err
 		}
 	}
@@ -444,6 +472,7 @@ type CompleteValue[T any] struct {
 // Bits returns the observed terminal bits right-aligned and their width.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require zero padding on encode.
 // Observed all-zero padding is not retained, so its width is reported as 0.
+// A nonzero replacement octet accepted under EmptyEncodingTolerance has width 8.
 func (p CompletePadding) Bits() (value, count uint8) {
 	return p.bits, p.count
 }
@@ -470,11 +499,17 @@ func (bb *BitBuffer) CompleteBytesWithPadding(padding CompletePadding) ([]byte, 
 	if padding.bits == 0 {
 		return bb.CompleteBytes(), nil
 	}
-	if bb.bitPos < 0 || padding.count > 7 {
+	if bb.bitPos < 0 || padding.count > 8 {
 		return nil, fmt.Errorf("%w: invalid complete-encoding padding", ErrInvalidValue)
 	}
-	if padding.bits >= 1<<padding.count {
+	if uint16(padding.bits) >= uint16(1)<<padding.count {
 		return nil, fmt.Errorf("%w: invalid complete-encoding padding", ErrInvalidValue)
+	}
+	if padding.count == 8 {
+		if bb.bitPos == 0 {
+			return []byte{padding.bits}, nil
+		}
+		return bb.CompleteBytes(), nil
 	}
 	if bb.bitPos == 0 || int(padding.count) != (8-bb.bitPos%8)%8 {
 		return bb.CompleteBytes(), nil
@@ -523,6 +558,14 @@ func ValidateFinalPadding(bb *BitBuffer) error {
 }
 
 func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, error) {
+	kind := FinalEncodingPadding
+	if context == "open type" {
+		kind = OpenTypePadding
+	}
+	return captureTrailingPaddingKind(bb, context, kind)
+}
+
+func captureTrailingPaddingKind(bb *BitBuffer, context string, kind PaddingKind) (CompletePadding, error) {
 	if bb.invalidLength {
 		return CompletePadding{}, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
 	}
@@ -550,7 +593,7 @@ func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, err
 		return CompletePadding{}, err
 	}
 	if bb.BitPos() == 8 && remaining == 8 && padding != 0 {
-		return CompletePadding{}, fmt.Errorf("%w: %s zero-bit complete encoding is nonzero", ErrInvalidValue, context)
+		return bb.captureEmptyOctet(padding, context)
 	}
 	// Zero padding, and the zero octet of an empty value, are what a new
 	// encoding has, so nothing is retained.
@@ -560,6 +603,7 @@ func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, err
 	if padding > math.MaxUint8 {
 		return CompletePadding{}, fmt.Errorf("%w: padding value exceeds byte", ErrInvalidValue)
 	}
+	bb.observePadding(kind, bb.bitPos-remaining, uint8(padding), remaining)
 	return CompletePadding{bits: uint8(padding), count: uint8(remaining)}, nil
 }
 
@@ -649,6 +693,7 @@ func (bb *BitBuffer) ReadBitsToBytes(bitLen int) ([]byte, error) {
 		result[i] = part & byte(0xff<<uint(8-width))
 		bb.bitPos += width
 	}
+	bb.rememberPaddingRead(result, bb.bitPos-bitLen, bitLen)
 	return result, nil
 }
 
