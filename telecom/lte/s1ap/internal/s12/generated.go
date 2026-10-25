@@ -1112,44 +1112,6 @@ func BridgeCSGMembershipInfoExtIEsValueCaptureS1APProtocolExtensionContainer(v *
 	}
 	s.End(f, nil, false)
 }
-func BridgeCSGMembershipInfoExtIEsValueCompareS1APProtocolExtensionContainer(v *s07.CSGMembershipInfoExtIEsExtContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeCSGMembershipInfoExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeCancelledCellinEAIItemExtIEsValueCaptureS1APProtocolExtensionContainer(v *s07.CancelledCellinEAIItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeCancelledCellinEAIItemExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
 
 // TunnelInformationExtIEsExtContainer is ProtocolExtensionContainer {{Tunnel-Information-ExtIEs}} of TS 36.413: a list of TunnelInformationExtIEsExtField values.
 type TunnelInformationExtIEsExtContainer []TunnelInformationExtIEsExtField
@@ -3524,10 +3486,10 @@ func AdditionalGUTIExtIEsValueExtensionFieldTableCodec(table s00.AdditionalGUTIE
 				return field, err
 			}
 			if err := s07.BridgeAdditionalGUTIExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "AdditionalGUTIExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "AdditionalGUTIExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "AdditionalGUTIExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -3544,18 +3506,19 @@ func AdditionalGUTIExtIEsValueExtensionFieldTableCodec(table s00.AdditionalGUTIE
 			f := s.Begin()
 			BridgeAdditionalGUTIExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeAdditionalGUTIExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.AdditionalGUTIExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeAdditionalGUTIExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeAdditionalGUTIExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -3583,10 +3546,10 @@ func AllocationAndRetentionPriorityExtIEsValueExtensionFieldTableCodec(table s00
 				return field, err
 			}
 			if err := s07.BridgeAllocationAndRetentionPriorityExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "AllocationAndRetentionPriorityExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "AllocationAndRetentionPriorityExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "AllocationAndRetentionPriorityExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -3603,18 +3566,19 @@ func AllocationAndRetentionPriorityExtIEsValueExtensionFieldTableCodec(table s00
 			f := s.Begin()
 			BridgeAllocationAndRetentionPriorityExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeAllocationAndRetentionPriorityExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.AllocationAndRetentionPriorityExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeAllocationAndRetentionPriorityExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeAllocationAndRetentionPriorityExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -3642,10 +3606,10 @@ func AssistanceDataForPagingExtIEsValueExtensionFieldTableCodec(table s00.Assist
 				return field, err
 			}
 			if err := s07.BridgeAssistanceDataForPagingExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "AssistanceDataForPagingExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "AssistanceDataForPagingExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "AssistanceDataForPagingExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -3662,18 +3626,19 @@ func AssistanceDataForPagingExtIEsValueExtensionFieldTableCodec(table s00.Assist
 			f := s.Begin()
 			BridgeAssistanceDataForPagingExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeAssistanceDataForPagingExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.AssistanceDataForPagingExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeAssistanceDataForPagingExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeAssistanceDataForPagingExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -3701,10 +3666,10 @@ func AssistanceDataForRecommendedCellsExtIEsValueExtensionFieldTableCodec(table 
 				return field, err
 			}
 			if err := s07.BridgeAssistanceDataForRecommendedCellsExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCellsExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "AssistanceDataForRecommendedCellsExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCellsExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -3721,18 +3686,19 @@ func AssistanceDataForRecommendedCellsExtIEsValueExtensionFieldTableCodec(table 
 			f := s.Begin()
 			BridgeAssistanceDataForRecommendedCellsExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeAssistanceDataForRecommendedCellsExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.AssistanceDataForRecommendedCellsExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeAssistanceDataForRecommendedCellsExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeAssistanceDataForRecommendedCellsExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -3760,10 +3726,10 @@ func BearersSubjectToDLDiscardingItemExtIEsValueExtensionFieldTableCodec(table s
 				return field, err
 			}
 			if err := s07.BridgeBearersSubjectToDLDiscardingItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingItemExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "BearersSubjectToDLDiscardingItemExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingItemExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -3780,18 +3746,19 @@ func BearersSubjectToDLDiscardingItemExtIEsValueExtensionFieldTableCodec(table s
 			f := s.Begin()
 			BridgeBearersSubjectToDLDiscardingItemExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeBearersSubjectToDLDiscardingItemExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.BearersSubjectToDLDiscardingItemExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeBearersSubjectToDLDiscardingItemExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeBearersSubjectToDLDiscardingItemExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -3819,10 +3786,10 @@ func BearersSubjectToEarlyStatusTransferItemExtIEsValueExtensionFieldTableCodec(
 				return field, err
 			}
 			if err := s07.BridgeBearersSubjectToEarlyStatusTransferItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferItemExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "BearersSubjectToEarlyStatusTransferItemExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferItemExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -3839,18 +3806,19 @@ func BearersSubjectToEarlyStatusTransferItemExtIEsValueExtensionFieldTableCodec(
 			f := s.Begin()
 			BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeBearersSubjectToEarlyStatusTransferItemExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.BearersSubjectToEarlyStatusTransferItemExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeBearersSubjectToEarlyStatusTransferItemExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -3878,10 +3846,10 @@ func BluetoothMeasurementConfigurationExtIEsValueExtensionFieldTableCodec(table 
 				return field, err
 			}
 			if err := s07.BridgeBluetoothMeasurementConfigurationExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "BluetoothMeasurementConfigurationExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "BluetoothMeasurementConfigurationExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "BluetoothMeasurementConfigurationExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -3898,18 +3866,19 @@ func BluetoothMeasurementConfigurationExtIEsValueExtensionFieldTableCodec(table 
 			f := s.Begin()
 			BridgeBluetoothMeasurementConfigurationExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeBluetoothMeasurementConfigurationExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.BluetoothMeasurementConfigurationExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeBluetoothMeasurementConfigurationExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeBluetoothMeasurementConfigurationExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -3937,10 +3906,10 @@ func CGIExtIEsValueExtensionFieldTableCodec(table s00.CGIExtIEsValueExtensionTab
 				return field, err
 			}
 			if err := s07.BridgeCGIExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "CGIExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "CGIExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "CGIExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -3957,18 +3926,19 @@ func CGIExtIEsValueExtensionFieldTableCodec(table s00.CGIExtIEsValueExtensionTab
 			f := s.Begin()
 			BridgeCGIExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeCGIExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.CGIExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeCGIExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeCGIExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -3996,10 +3966,10 @@ func CNTypeRestrictionsItemExtIEsValueExtensionFieldTableCodec(table s00.CNTypeR
 				return field, err
 			}
 			if err := s07.BridgeCNTypeRestrictionsItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "CNTypeRestrictionsItemExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "CNTypeRestrictionsItemExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "CNTypeRestrictionsItemExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -4016,18 +3986,19 @@ func CNTypeRestrictionsItemExtIEsValueExtensionFieldTableCodec(table s00.CNTypeR
 			f := s.Begin()
 			BridgeCNTypeRestrictionsItemExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeCNTypeRestrictionsItemExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.CNTypeRestrictionsItemExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeCNTypeRestrictionsItemExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeCNTypeRestrictionsItemExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -4055,10 +4026,10 @@ func COUNTValueExtendedExtIEsValueExtensionFieldTableCodec(table s00.COUNTValueE
 				return field, err
 			}
 			if err := s07.BridgeCOUNTValueExtendedExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "COUNTValueExtendedExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "COUNTValueExtendedExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "COUNTValueExtendedExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -4075,18 +4046,19 @@ func COUNTValueExtendedExtIEsValueExtensionFieldTableCodec(table s00.COUNTValueE
 			f := s.Begin()
 			BridgeCOUNTValueExtendedExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeCOUNTValueExtendedExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.COUNTValueExtendedExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeCOUNTValueExtendedExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeCOUNTValueExtendedExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -4114,10 +4086,10 @@ func COUNTvalueExtIEsValueExtensionFieldTableCodec(table s00.COUNTvalueExtIEsVal
 				return field, err
 			}
 			if err := s07.BridgeCOUNTvalueExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "COUNTvalueExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "COUNTvalueExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "COUNTvalueExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -4134,18 +4106,19 @@ func COUNTvalueExtIEsValueExtensionFieldTableCodec(table s00.COUNTvalueExtIEsVal
 			f := s.Begin()
 			BridgeCOUNTvalueExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeCOUNTvalueExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.COUNTvalueExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeCOUNTvalueExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeCOUNTvalueExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -4173,10 +4146,10 @@ func COUNTvaluePDCPSNlength18ExtIEsValueExtensionFieldTableCodec(table s00.COUNT
 				return field, err
 			}
 			if err := s07.BridgeCOUNTvaluePDCPSNlength18ExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18ExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "COUNTvaluePDCPSNlength18ExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18ExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -4193,18 +4166,19 @@ func COUNTvaluePDCPSNlength18ExtIEsValueExtensionFieldTableCodec(table s00.COUNT
 			f := s.Begin()
 			BridgeCOUNTvaluePDCPSNlength18ExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeCOUNTvaluePDCPSNlength18ExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.COUNTvaluePDCPSNlength18ExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeCOUNTvaluePDCPSNlength18ExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeCOUNTvaluePDCPSNlength18ExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
@@ -4232,10 +4206,10 @@ func CSGIdListItemExtIEsValueExtensionFieldTableCodec(table s00.CSGIdListItemExt
 				return field, err
 			}
 			if err := s07.BridgeCSGIdListItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+				return field, runtime.WrapDecodePath(err, "CSGIdListItemExtIEsExtField")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "CSGIdListItemExtIEsExtField"); err != nil {
+				return field, runtime.WrapDecodePath(err, "CSGIdListItemExtIEsExtField")
 			}
 			return field, nil
 		}
@@ -4252,80 +4226,22 @@ func CSGIdListItemExtIEsValueExtensionFieldTableCodec(table s00.CSGIdListItemExt
 			f := s.Begin()
 			BridgeCSGIdListItemExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root,
-				false)
+			s.
+				End(f, &root, false)
 			return v, root
 		}
 		*s07.BridgeCSGIdListItemExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.CSGIdListItemExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
+			f :=
+				s.Begin()
 			BridgeCSGIdListItemExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
+			s.End(f,
 
-				false)
+				root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeCSGIdListItemExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// CSGMembershipInfoExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{CSGMembershipInfo-ExtIEs}} codec of TS 36.413.
-func CSGMembershipInfoExtIEsValueExtensionFieldTableCodec(table s00.CSGMembershipInfoExtIEsValueExtensionTable) s07.CSGMembershipInfoExtIEsExtFieldValueCodec {
-	if !*s00.BridgeCSGMembershipInfoExtIEsValueExtensionTableFieldBound(&table) {
-		return s07.CSGMembershipInfoExtIEsExtFieldValueCodec{}
-	}
-	return func() s07.CSGMembershipInfoExtIEsExtFieldValueCodec {
-		sealed := s07.CSGMembershipInfoExtIEsExtFieldValueCodec{}
-		*s07.BridgeCSGMembershipInfoExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CSGMembershipInfoExtIEsExtField, error) {
-			var field s07.CSGMembershipInfoExtIEsExtField
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return field, err
-			}
-			if err := s07.BridgeCSGMembershipInfoExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
-				return field, err
-			}
-			return field, nil
-		}
-		*s07.BridgeCSGMembershipInfoExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s07.CSGMembershipInfoExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			if err := s07.BridgeCSGMembershipInfoExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s07.BridgeCSGMembershipInfoExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s07.CSGMembershipInfoExtIEsExtField, options aper.DecodeState) (s07.CSGMembershipInfoExtIEsExtField, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeCSGMembershipInfoExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root,
-				false)
-			return v, root
-		}
-		*s07.BridgeCSGMembershipInfoExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s07.CSGMembershipInfoExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeCSGMembershipInfoExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
-			s.End(f, root,
-
-				false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s07.BridgeCSGMembershipInfoExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -4353,8 +4269,11 @@ func AdditionalGUTIExtIEsValueExtensionTableCodec(table s00.AdditionalGUTIExtIEs
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.AdditionalGUTIExtIEsExtField
-					if err := s07.BridgeAdditionalGUTIExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeAdditionalGUTIExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -4365,10 +4284,10 @@ func AdditionalGUTIExtIEsValueExtensionTableCodec(table s00.AdditionalGUTIExtIEs
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "AdditionalGUTIExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "AdditionalGUTIExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "AdditionalGUTIExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -4404,9 +4323,9 @@ func AdditionalGUTIExtIEsValueExtensionTableCodec(table s00.AdditionalGUTIExtIEs
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeAdditionalGUTIExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -4438,8 +4357,11 @@ func AllocationAndRetentionPriorityExtIEsValueExtensionTableCodec(table s00.Allo
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.AllocationAndRetentionPriorityExtIEsExtField
-					if err := s07.BridgeAllocationAndRetentionPriorityExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeAllocationAndRetentionPriorityExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -4450,10 +4372,10 @@ func AllocationAndRetentionPriorityExtIEsValueExtensionTableCodec(table s00.Allo
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "AllocationAndRetentionPriorityExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "AllocationAndRetentionPriorityExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "AllocationAndRetentionPriorityExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -4489,9 +4411,9 @@ func AllocationAndRetentionPriorityExtIEsValueExtensionTableCodec(table s00.Allo
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeAllocationAndRetentionPriorityExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -4523,8 +4445,11 @@ func AssistanceDataForPagingExtIEsValueExtensionTableCodec(table s00.AssistanceD
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.AssistanceDataForPagingExtIEsExtField
-					if err := s07.BridgeAssistanceDataForPagingExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeAssistanceDataForPagingExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -4535,10 +4460,10 @@ func AssistanceDataForPagingExtIEsValueExtensionTableCodec(table s00.AssistanceD
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "AssistanceDataForPagingExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "AssistanceDataForPagingExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "AssistanceDataForPagingExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -4574,9 +4499,9 @@ func AssistanceDataForPagingExtIEsValueExtensionTableCodec(table s00.AssistanceD
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeAssistanceDataForPagingExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -4608,8 +4533,11 @@ func AssistanceDataForRecommendedCellsExtIEsValueExtensionTableCodec(table s00.A
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.AssistanceDataForRecommendedCellsExtIEsExtField
-					if err := s07.BridgeAssistanceDataForRecommendedCellsExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeAssistanceDataForRecommendedCellsExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -4620,10 +4548,10 @@ func AssistanceDataForRecommendedCellsExtIEsValueExtensionTableCodec(table s00.A
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCellsExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "AssistanceDataForRecommendedCellsExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCellsExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -4659,9 +4587,9 @@ func AssistanceDataForRecommendedCellsExtIEsValueExtensionTableCodec(table s00.A
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeAssistanceDataForRecommendedCellsExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -4693,8 +4621,11 @@ func BearersSubjectToDLDiscardingItemExtIEsValueExtensionTableCodec(table s00.Be
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.BearersSubjectToDLDiscardingItemExtIEsExtField
-					if err := s07.BridgeBearersSubjectToDLDiscardingItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeBearersSubjectToDLDiscardingItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -4705,10 +4636,10 @@ func BearersSubjectToDLDiscardingItemExtIEsValueExtensionTableCodec(table s00.Be
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingItemExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "BearersSubjectToDLDiscardingItemExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingItemExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -4744,9 +4675,9 @@ func BearersSubjectToDLDiscardingItemExtIEsValueExtensionTableCodec(table s00.Be
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeBearersSubjectToDLDiscardingItemExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -4778,8 +4709,11 @@ func BearersSubjectToEarlyStatusTransferItemExtIEsValueExtensionTableCodec(table
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.BearersSubjectToEarlyStatusTransferItemExtIEsExtField
-					if err := s07.BridgeBearersSubjectToEarlyStatusTransferItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeBearersSubjectToEarlyStatusTransferItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -4790,10 +4724,10 @@ func BearersSubjectToEarlyStatusTransferItemExtIEsValueExtensionTableCodec(table
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferItemExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "BearersSubjectToEarlyStatusTransferItemExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferItemExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -4829,9 +4763,9 @@ func BearersSubjectToEarlyStatusTransferItemExtIEsValueExtensionTableCodec(table
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -4863,8 +4797,11 @@ func BluetoothMeasurementConfigurationExtIEsValueExtensionTableCodec(table s00.B
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.BluetoothMeasurementConfigurationExtIEsExtField
-					if err := s07.BridgeBluetoothMeasurementConfigurationExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeBluetoothMeasurementConfigurationExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -4875,10 +4812,10 @@ func BluetoothMeasurementConfigurationExtIEsValueExtensionTableCodec(table s00.B
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "BluetoothMeasurementConfigurationExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "BluetoothMeasurementConfigurationExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "BluetoothMeasurementConfigurationExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -4914,9 +4851,9 @@ func BluetoothMeasurementConfigurationExtIEsValueExtensionTableCodec(table s00.B
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeBluetoothMeasurementConfigurationExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -4948,8 +4885,11 @@ func CGIExtIEsValueExtensionTableCodec(table s00.CGIExtIEsValueExtensionTable, b
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.CGIExtIEsExtField
-					if err := s07.BridgeCGIExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeCGIExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -4960,10 +4900,10 @@ func CGIExtIEsValueExtensionTableCodec(table s00.CGIExtIEsValueExtensionTable, b
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "CGIExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "CGIExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "CGIExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -4999,9 +4939,9 @@ func CGIExtIEsValueExtensionTableCodec(table s00.CGIExtIEsValueExtensionTable, b
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeCGIExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -5033,8 +4973,11 @@ func CNTypeRestrictionsItemExtIEsValueExtensionTableCodec(table s00.CNTypeRestri
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.CNTypeRestrictionsItemExtIEsExtField
-					if err := s07.BridgeCNTypeRestrictionsItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeCNTypeRestrictionsItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -5045,10 +4988,10 @@ func CNTypeRestrictionsItemExtIEsValueExtensionTableCodec(table s00.CNTypeRestri
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "CNTypeRestrictionsItemExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "CNTypeRestrictionsItemExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "CNTypeRestrictionsItemExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -5084,9 +5027,9 @@ func CNTypeRestrictionsItemExtIEsValueExtensionTableCodec(table s00.CNTypeRestri
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeCNTypeRestrictionsItemExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -5118,8 +5061,11 @@ func COUNTValueExtendedExtIEsValueExtensionTableCodec(table s00.COUNTValueExtend
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.COUNTValueExtendedExtIEsExtField
-					if err := s07.BridgeCOUNTValueExtendedExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeCOUNTValueExtendedExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -5130,10 +5076,10 @@ func COUNTValueExtendedExtIEsValueExtensionTableCodec(table s00.COUNTValueExtend
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "COUNTValueExtendedExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "COUNTValueExtendedExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "COUNTValueExtendedExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -5169,9 +5115,9 @@ func COUNTValueExtendedExtIEsValueExtensionTableCodec(table s00.COUNTValueExtend
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeCOUNTValueExtendedExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -5203,8 +5149,11 @@ func COUNTvalueExtIEsValueExtensionTableCodec(table s00.COUNTvalueExtIEsValueExt
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.COUNTvalueExtIEsExtField
-					if err := s07.BridgeCOUNTvalueExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeCOUNTvalueExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -5215,10 +5164,10 @@ func COUNTvalueExtIEsValueExtensionTableCodec(table s00.COUNTvalueExtIEsValueExt
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "COUNTvalueExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "COUNTvalueExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "COUNTvalueExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -5254,9 +5203,9 @@ func COUNTvalueExtIEsValueExtensionTableCodec(table s00.COUNTvalueExtIEsValueExt
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeCOUNTvalueExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -5288,8 +5237,11 @@ func COUNTvaluePDCPSNlength18ExtIEsValueExtensionTableCodec(table s00.COUNTvalue
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.COUNTvaluePDCPSNlength18ExtIEsExtField
-					if err := s07.BridgeCOUNTvaluePDCPSNlength18ExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeCOUNTvaluePDCPSNlength18ExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -5300,10 +5252,10 @@ func COUNTvaluePDCPSNlength18ExtIEsValueExtensionTableCodec(table s00.COUNTvalue
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18ExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "COUNTvaluePDCPSNlength18ExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18ExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -5339,9 +5291,9 @@ func COUNTvaluePDCPSNlength18ExtIEsValueExtensionTableCodec(table s00.COUNTvalue
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeCOUNTvaluePDCPSNlength18ExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -5373,8 +5325,11 @@ func CSGIdListItemExtIEsValueExtensionTableCodec(table s00.CSGIdListItemExtIEsVa
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
 					var field s07.CSGIdListItemExtIEsExtField
-					if err := s07.BridgeCSGIdListItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
+					mark := bb.EnterIndex(int64(len(fields)))
+					err := s07.BridgeCSGIdListItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb)
+					bb.LeaveComponent(mark)
+					if err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", len(fields)))
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
 						return err
@@ -5385,10 +5340,10 @@ func CSGIdListItemExtIEsValueExtensionTableCodec(table s00.CSGIdListItemExtIEsVa
 				return nil
 			})
 			if err != nil {
-				return nil, err
+				return nil, runtime.WrapDecodePath(err, "CSGIdListItemExtIEsExtContainer")
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
+			if _, err := aper.CaptureFinalBits(bb, "CSGIdListItemExtIEsExtContainer"); err != nil {
+				return nil, runtime.WrapDecodePath(err, "CSGIdListItemExtIEsExtContainer")
 			}
 			return fields, nil
 		}
@@ -5424,98 +5379,13 @@ func CSGIdListItemExtIEsValueExtensionTableCodec(table s00.CSGIdListItemExtIEsVa
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
+			f := s.Begin()
 			BridgeCSGIdListItemExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
 		*s07.BridgeCSGIdListItemExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// CSGMembershipInfoExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{CSGMembershipInfo-ExtIEs}} codec of TS 36.413.
-func CSGMembershipInfoExtIEsValueExtensionTableCodec(table s00.CSGMembershipInfoExtIEsValueExtensionTable, bounds aper.ListBounds) s07.CSGMembershipInfoExtIEsExtContainerValueCodec {
-	if !*s00.BridgeCSGMembershipInfoExtIEsValueExtensionTableFieldBound(&table) {
-		return s07.CSGMembershipInfoExtIEsExtContainerValueCodec{}
-	}
-	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s07.CSGMembershipInfoExtIEsExtContainerValueCodec {
-		sealed := s07.CSGMembershipInfoExtIEsExtContainerValueCodec{}
-		*s07.BridgeCSGMembershipInfoExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.CSGMembershipInfoExtIEsExtContainer, error) {
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return nil, err
-			}
-			var fields s07.CSGMembershipInfoExtIEsExtContainer
-			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
-				for i := int64(0); i < length; i++ {
-					var field s07.CSGMembershipInfoExtIEsExtField
-					if err := s07.BridgeCSGMembershipInfoExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
-					}
-					if next, err := aper.AppendValues(bb, fields, field); err != nil {
-						return err
-					} else {
-						fields = next
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
-				return nil, err
-			}
-			return fields, nil
-		}
-		*s07.BridgeCSGMembershipInfoExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s07.CSGMembershipInfoExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
-				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
-					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
-				}
-				for _, field := range fields[offset:][:length] {
-					if err := s07.BridgeCSGMembershipInfoExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-						return err
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s07.BridgeCSGMembershipInfoExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s07.CSGMembershipInfoExtIEsExtContainer, options aper.DecodeState) (s07.CSGMembershipInfoExtIEsExtContainer, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeCSGMembershipInfoExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
-			var root aper.Snapshot
-
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s07.BridgeCSGMembershipInfoExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s07.CSGMembershipInfoExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.
-				Begin()
-			BridgeCSGMembershipInfoExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s07.BridgeCSGMembershipInfoExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
@@ -5804,26 +5674,6 @@ func BridgeCSGMembershipInfoExtIEsValueCompareS1APProtocolExtensionField(v *s07.
 	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
 	*s = s02.BridgeCSGMembershipInfoExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s07.BridgeCSGMembershipInfoExtIEsExtFieldFieldReplay(v), *s07.BridgeCSGMembershipInfoExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgeCancelledCellinEAIItemExtIEsValueCaptureS1APProtocolExtensionField(v *s07.CancelledCellinEAIItemExtIEsExtField, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
-	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
-	v.ExtensionValue = s02.BridgeCancelledCellinEAIItemExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s07.BridgeCancelledCellinEAIItemExtIEsExtFieldFieldReplay(v), *s07.BridgeCancelledCellinEAIItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgeCancelledCellinEAIItemExtIEsValueCompareS1APProtocolExtensionField(v *s07.CancelledCellinEAIItemExtIEsExtField, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
-	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
-	*s = s02.BridgeCancelledCellinEAIItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s07.BridgeCancelledCellinEAIItemExtIEsExtFieldFieldReplay(v), *s07.BridgeCancelledCellinEAIItemExtIEsExtFieldFieldWithoutReplay(v))
 }
 
 // TimeSynchronisationInfoExtIEsIEField uses the ProtocolIE-Field shape for object set TimeSynchronisationInfo-ExtIEs of TS 36.413.

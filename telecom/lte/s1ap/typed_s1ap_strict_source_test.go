@@ -8,10 +8,9 @@ import (
 	s11 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s11"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s14"
 	s21 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s21"
-	s33 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s33"
 	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
-	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
-	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
+	s44 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s44"
+	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
@@ -19,7 +18,7 @@ import (
 
 // X.691 (02/2021) §30.5.3 limits ENBname to the intrinsic PrintableString set.
 func TestIntrinsicPrintableAlphabet(t *testing.T) {
-	codec := s43.S1SetupRequestIEs().ENBname().Codec()
+	codec := s44.S1SetupRequestIEs().ENBname().Codec()
 	for _, symbol := range []byte{'@', '_', 0, 0x1f, 0x7f, 0xff} {
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
 			_, report, err := codec.DecodeAPER([]byte{0, 0, symbol}, options...)
@@ -46,7 +45,7 @@ func TestValidationSkipsInactiveAggregateChoiceArm(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	inactive := s33.TargetRNCID{IEExtensions: s11.TargetRNCIDExtIEsExtContainer{field}}
+	inactive := s34.TargetRNCID{IEExtensions: s11.TargetRNCIDExtIEsExtContainer{field}}
 	value := s34.TargetID{Choice: s00.TargetIDChoiceCGI, CGI: &s14.CGI{}, TargetRNCID: &inactive}
 	report := s21.ValidationReport{Complete: true}
 	s50.BridgeWalkValidationTargetID(&value, &report, "TargetID", false)
@@ -63,7 +62,7 @@ func TestValidationSkipsInactiveAggregateChoiceArm(t *testing.T) {
 // TS 36.413 V19.2.0 §9.3.4: URI-Address uses the intrinsic VisibleString set.
 // X.691 (02/2021) §30.5.3 excludes control and non-ISO-646 characters.
 func TestIntrinsicVisibleAlphabet(t *testing.T) {
-	codec := s47.TraceActivationExtIEs().TraceCollectionEntityURI().Codec()
+	codec := s48.TraceActivationExtIEs().TraceCollectionEntityURI().Codec()
 	for _, symbol := range []byte{0, 0x1f, 0x7f, 0xff} {
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
 			_, report, err := codec.DecodeAPER([]byte{1, symbol}, options...)

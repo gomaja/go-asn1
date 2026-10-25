@@ -11,9 +11,9 @@ import (
 	s22 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s22"
 	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
 	s29 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s29"
-	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
-	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
+	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	strings "strings"
@@ -43,24 +43,24 @@ func TestFieldIDMustMatchTypedValue(t *testing.T) {
 	field := errorIndicationIEFieldConsistencyMust(table.CriticalityDiagnostics().New(s22.CriticalityDiagnostics{}))
 	field.Id = table.Cause().Info().ID
 	body := s28.ErrorIndication{ProtocolIEs: s28.ErrorIndicationIEContainer{field}}
-	message := s51.InitiatingMessage{ProcedureCode: s51.ErrorIndicationProcedure().Info().Code, Criticality: s00.CriticalityIgnore, Value: func() s51.InitiatingValue {
-		sealed := s51.InitiatingValue{}
-		*s51.BridgeInitiatingValueFieldCode(&sealed) = s51.ErrorIndicationProcedure().Info().Code
-		*s51.BridgeInitiatingValueFieldBodyErrorIndication(&sealed) = &body
+	message := s52.InitiatingMessage{ProcedureCode: s52.ErrorIndicationProcedure().Info().Code, Criticality: s00.CriticalityIgnore, Value: func() s52.InitiatingValue {
+		sealed := s52.InitiatingValue{}
+		*s52.BridgeInitiatingValueFieldCode(&sealed) = s52.ErrorIndicationProcedure().Info().Code
+		*s52.BridgeInitiatingValueFieldBodyErrorIndication(&sealed) = &body
 		return sealed
 	}()}
-	pdu := s52.S1APPDU{Choice: s00.S1APPDUChoiceInitiatingMessage, InitiatingMessage: &message}
-	report, err := s52.ValidateMessage(&pdu)
+	pdu := s53.S1APPDU{Choice: s00.S1APPDUChoiceInitiatingMessage, InitiatingMessage: &message}
+	report, err := s53.ValidateMessage(&pdu)
 	if err != nil {
 		t.Fatal(err)
 	}
 	requireSelectorIssue(t, report, field.Id)
-	_, err = s49.NewErrorIndication(body.ProtocolIEs)
+	_, err = s50.NewErrorIndication(body.ProtocolIEs)
 	var build *s21.BuildError
 	if !errors.As(err, &build) {
 		t.Errorf("builder accepted mismatched selector: %v", err)
 	}
-	_, err = s51.ErrorIndicationProcedure().Initiating().Build(body)
+	_, err = s52.ErrorIndicationProcedure().Initiating().Build(body)
 	if !errors.As(err, &build) {
 		t.Errorf("procedure builder accepted mismatched selector: %v", err)
 	}
@@ -77,7 +77,7 @@ func TestFieldIDMustMatchTypedValue(t *testing.T) {
 	opaque := errorIndicationIEFieldConsistencyMust(table.NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
 	opaque.Id = table.Cause().Info().ID
 	body.ProtocolIEs[0] = opaque
-	report, err = s49.ValidateErrorIndication(&body)
+	report, err = s50.ValidateErrorIndication(&body)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -87,7 +87,7 @@ func TestFieldIDMustMatchTypedValue(t *testing.T) {
 	// Retagging to another unknown ID also changes the original selector.
 	opaque.Id = 65531
 	body.ProtocolIEs[0] = opaque
-	report, err = s49.ValidateErrorIndication(&body)
+	report, err = s50.ValidateErrorIndication(&body)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -102,12 +102,12 @@ func TestExtensionIDMustMatchTypedValue(t *testing.T) {
 	report := s21.ValidationReport{Complete: true}
 	// This source container is itself a transparent-container value, so the
 	// standalone source walk exercises its extension boundary directly.
-	item := s29.ERABInformationListItem{IEExtensions: s28.ERABInformationListItemExtIEsExtContainer{field}}
-	s49.BridgeWalkValidationERABInformationListItem(&item, &report, "ERABInformationListItem", false)
+	item := s29.ERABInformationListItem{IEExtensions: s29.ERABInformationListItemExtIEsExtContainer{field}}
+	s50.BridgeWalkValidationERABInformationListItem(&item, &report, "ERABInformationListItem", false)
 	requireSelectorIssue(t, report, field.Id)
 	for _, fresh := range []bool{false, true} {
 		bb := aper.NewBitBuffer()
-		requireSelectorEncodeError(t, s28.BridgeERABInformationListItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh))
+		requireSelectorEncodeError(t, s29.BridgeERABInformationListItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh))
 		if bb.BitsWritten() != 0 {
 			t.Fatal("extension refusal wrote bits")
 		}
@@ -120,23 +120,23 @@ func TestExtensionIDMustMatchTypedValue(t *testing.T) {
 	value, _ := outer.Value.AsCriticalityDiagnostics()
 	value.IEExtensions[0].Id = 65531
 	body := s28.ErrorIndication{ProtocolIEs: s28.ErrorIndicationIEContainer{outer}}
-	report, err := s49.ValidateErrorIndication(&body)
+	report, err := s50.ValidateErrorIndication(&body)
 	if err != nil {
 		t.Fatal(err)
 	}
 	requireSelectorIssue(t, report, 65531)
 	var build *s21.BuildError
-	if _, err := s49.NewErrorIndication(body.ProtocolIEs); !errors.As(err, &build) {
+	if _, err := s50.NewErrorIndication(body.ProtocolIEs); !errors.As(err, &build) {
 		t.Fatalf("nested builder refusal=%v", err)
 	}
-	message := s51.InitiatingMessage{ProcedureCode: s51.ErrorIndicationProcedure().Info().Code, Criticality: s00.CriticalityIgnore, Value: func() s51.InitiatingValue {
-		sealed := s51.InitiatingValue{}
-		*s51.BridgeInitiatingValueFieldCode(&sealed) = s51.ErrorIndicationProcedure().Info().Code
-		*s51.BridgeInitiatingValueFieldBodyErrorIndication(&sealed) = &body
+	message := s52.InitiatingMessage{ProcedureCode: s52.ErrorIndicationProcedure().Info().Code, Criticality: s00.CriticalityIgnore, Value: func() s52.InitiatingValue {
+		sealed := s52.InitiatingValue{}
+		*s52.BridgeInitiatingValueFieldCode(&sealed) = s52.ErrorIndicationProcedure().Info().Code
+		*s52.BridgeInitiatingValueFieldBodyErrorIndication(&sealed) = &body
 		return sealed
 	}()}
-	pdu := s52.S1APPDU{Choice: s00.S1APPDUChoiceInitiatingMessage, InitiatingMessage: &message}
-	report, err = s52.ValidateMessage(&pdu)
+	pdu := s53.S1APPDU{Choice: s00.S1APPDUChoiceInitiatingMessage, InitiatingMessage: &message}
+	report, err = s53.ValidateMessage(&pdu)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -194,7 +194,7 @@ func TestExtensionSelectorBoundaryReplayAndFresh(t *testing.T) {
 	opaque := eRABInformationListItemExtIEsExtFieldConsistencyMust(table.NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
 	for _, tc := range []struct {
 		name  string
-		field s28.ERABInformationListItemExtIEsExtField
+		field s29.ERABInformationListItemExtIEsExtField
 	}{{"typed", known}, {"opaque", opaque}} {
 		for _, origin := range []string{"built", "decoded", "literal"} {
 			t.Run(tc.name+"/"+origin, func(t *testing.T) {
@@ -208,17 +208,17 @@ func TestExtensionSelectorBoundaryReplayAndFresh(t *testing.T) {
 					field = owned.Value
 				}
 				if origin == "literal" {
-					field = s28.ERABInformationListItemExtIEsExtField{Id: field.Id, Criticality: field.Criticality, ExtensionValue: field.ExtensionValue}
+					field = s29.ERABInformationListItemExtIEsExtField{Id: field.Id, Criticality: field.Criticality, ExtensionValue: field.ExtensionValue}
 				}
 				for _, wrong := range []s00.ProtocolExtensionID{318, 65531} {
 					field.Id = wrong
 					for _, fresh := range []bool{false, true} {
 						bb := aper.NewBitBuffer()
-						requireSelectorEncodeError(t, s28.BridgeERABInformationListItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh))
+						requireSelectorEncodeError(t, s29.BridgeERABInformationListItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh))
 						if bb.BitPos() != 0 {
 							t.Fatal("extension refusal wrote bits")
 						}
-						owned := s28.ERABInformationListItemExtIEsExtFieldAPERValue{Value: field}
+						owned := s29.ERABInformationListItemExtIEsExtFieldAPERValue{Value: field}
 						var options []aper.EncodeOption
 						if fresh {
 							options = []aper.EncodeOption{aper.WithoutReplay()}

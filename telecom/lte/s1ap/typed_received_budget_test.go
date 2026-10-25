@@ -7,7 +7,7 @@ import (
 	errors "errors"
 	fmt "fmt"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s00"
-	s17 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s17"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s18"
 	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
@@ -55,13 +55,13 @@ func TestExtensionBitmapReservesAllReplayArrays(t *testing.T) {
 				t.Fatal(err)
 			}
 			before := state.Usage().AllocatedBytes
-			var decoded s17.EUTRANcellLoadReportingResponse
+			var decoded s18.EUTRANcellLoadReportingResponse
 			data, state = aper.StartDecode(wire)
-			if err := s17.BridgeEUTRANcellLoadReportingResponseMethodUnmarshalAPERWithOptions(&decoded, data, state); err != nil {
+			if err := s18.BridgeEUTRANcellLoadReportingResponseMethodUnmarshalAPERWithOptions(&decoded, data, state); err != nil {
 				t.Fatal(err)
 			}
 			capture := aper.SemanticCaptureFor(state)
-			s17.BridgeCaptureS1APEUTRANcellLoadReportingResponse(&decoded, &capture)
+			s18.BridgeCaptureS1APEUTRANcellLoadReportingResponse(&decoded, &capture)
 			if _, err := aper.FinishDecode(state, nil); err != nil {
 				t.Fatal(err)
 			}
@@ -75,7 +75,7 @@ func TestExtensionBitmapReservesAllReplayArrays(t *testing.T) {
 			ceiling := allocated - 1
 			for _, limit := range []uint64{ceiling - 1, ceiling, ceiling + 1, ceiling + 2} {
 				for _, reused := range []bool{false, true} {
-					var value s17.EUTRANcellLoadReportingResponse
+					var value s18.EUTRANcellLoadReportingResponse
 					if reused {
 						if _, err := value.UnmarshalAPER(wire); err != nil {
 							t.Fatal(err)

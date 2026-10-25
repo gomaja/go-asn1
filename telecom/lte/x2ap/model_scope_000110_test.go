@@ -554,7 +554,7 @@ func TestWithoutReplayEverySourceType(t *testing.T) {
 		{"ServedEUTRAcellsToModifyListENDCConfUpdElem", "0000000000000000000000000000000000000000000000000000000000", &s16.ServedEUTRAcellsToModifyListENDCConfUpdElem{}},
 		{"ServedNRCellInformation", "0000000000000000000000000000000000000000000000000000000000000000", &s16.ServedNRCellInformation{}},
 		{"ServedNRCellInformationNrModeInfo", "00000000000000000000000000000000", &s16.ServedNRCellInformationNrModeInfo{}},
-		{"ServedNRCellsToActivateComplete", "0000000000000000000000", &s18.ServedNRCellsToActivateComplete{}},
+		{"ServedNRCellsToActivateComplete", "0000000000000000000000", &s17.ServedNRCellsToActivateComplete{}},
 		{"ServedNRCellsToActivateItem", "000000000000000000", &s05.ServedNRCellsToActivateItem{}},
 		{"ServedNRCellsToModifyItem", "00000000000000000000000000000000000000000000000000000000000000000000000000000000", &s16.ServedNRCellsToModifyItem{}},
 		{"ServedNRcellsENDCX2ManagementListComplete", "00000000000000000000000000000000000000000000000000000000000000000000", &s18.ServedNRcellsENDCX2ManagementListComplete{}},

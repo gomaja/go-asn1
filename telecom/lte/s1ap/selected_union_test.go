@@ -28,6 +28,7 @@ import (
 	s24 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s24"
 	s25 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s25"
 	s26 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s26"
+	s27 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s27"
 	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
 	s29 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s29"
 	s30 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s30"
@@ -52,6 +53,7 @@ import (
 	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
+	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	reflect "reflect"
 	strings "strings"
@@ -278,7 +280,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s15.BearersSubjectToEarlyStatusTransferItemIEValue {
 				sealed := s15.BearersSubjectToEarlyStatusTransferItemIEValue{}
 				*s15.BridgeBearersSubjectToEarlyStatusTransferItemIEValueFieldId(&sealed) = s00.ProtocolIEID(322)
-				*s15.BridgeBearersSubjectToEarlyStatusTransferItemIEValueFieldRowBearersSubjectToEarlyStatusTransferItem(&sealed) = new(s14.BearersSubjectToEarlyStatusTransferItem)
+				*s15.BridgeBearersSubjectToEarlyStatusTransferItemIEValueFieldRowBearersSubjectToEarlyStatusTransferItem(&sealed) = new(s15.BearersSubjectToEarlyStatusTransferItem)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -776,7 +778,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s31.ConnectionEstablishmentIndicationIEValue {
 				sealed := s31.ConnectionEstablishmentIndicationIEValue{}
 				*s31.BridgeConnectionEstablishmentIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(278)
-				*s31.BridgeConnectionEstablishmentIndicationIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s30.SubscriptionBasedUEDifferentiationInfo)
+				*s31.BridgeConnectionEstablishmentIndicationIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s31.SubscriptionBasedUEDifferentiationInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -972,201 +974,201 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("DownlinkNASTransportIEValue", func(t *testing.T) {
-		selectedAssert((*s42.DownlinkNASTransportIEValue)(nil))
-		selectedAssert(&s42.DownlinkNASTransportIEValue{})
-		opaque := func() s42.DownlinkNASTransportIEValue {
-			sealed := s42.DownlinkNASTransportIEValue{}
-			*s42.BridgeDownlinkNASTransportIEValueFieldIsOpaque(&sealed) = true
-			*s42.BridgeDownlinkNASTransportIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s43.DownlinkNASTransportIEValue)(nil))
+		selectedAssert(&s43.DownlinkNASTransportIEValue{})
+		opaque := func() s43.DownlinkNASTransportIEValue {
+			sealed := s43.DownlinkNASTransportIEValue{}
+			*s43.BridgeDownlinkNASTransportIEValueFieldIsOpaque(&sealed) = true
+			*s43.BridgeDownlinkNASTransportIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(26)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowNASPDU(&sealed) = new(s00.NASPDU)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(26)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowNASPDU(&sealed) = new(s00.NASPDU)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(41)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowHandoverRestrictionList(&sealed) = new(s42.HandoverRestrictionList)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(41)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowHandoverRestrictionList(&sealed) = new(s43.HandoverRestrictionList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(106)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowSubscriberProfileIDforRFP(&sealed) = new(s00.SubscriberProfileIDforRFP)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(106)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowSubscriberProfileIDforRFP(&sealed) = new(s00.SubscriberProfileIDforRFP)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(124)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowSRVCCOperationPossible(&sealed) = new(s00.SRVCCOperationPossible)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(124)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowSRVCCOperationPossible(&sealed) = new(s00.SRVCCOperationPossible)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(74)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowUERadioCapability(&sealed) = new(s00.UERadioCapability)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(74)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowUERadioCapability(&sealed) = new(s00.UERadioCapability)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(249)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowDLNASPDUDeliveryAckRequest(&sealed) = new(s00.DLNASPDUDeliveryAckRequest)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(249)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowDLNASPDUDeliveryAckRequest(&sealed) = new(s00.DLNASPDUDeliveryAckRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(251)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowEnhancedCoverageRestricted(&sealed) = new(s00.EnhancedCoverageRestricted)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(251)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowEnhancedCoverageRestricted(&sealed) = new(s00.EnhancedCoverageRestricted)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(269)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowNRUESecurityCapabilities(&sealed) = new(s19.NRUESecurityCapabilities)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(269)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowNRUESecurityCapabilities(&sealed) = new(s19.NRUESecurityCapabilities)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(271)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowCEModeBRestricted(&sealed) = new(s00.CEModeBRestricted)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(271)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowCEModeBRestricted(&sealed) = new(s00.CEModeBRestricted)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(275)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowUECapabilityInfoRequest(&sealed) = new(s00.UECapabilityInfoRequest)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(275)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowUECapabilityInfoRequest(&sealed) = new(s00.UECapabilityInfoRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(280)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowEndIndication(&sealed) = new(s00.EndIndication)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(280)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowEndIndication(&sealed) = new(s00.EndIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(283)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowPendingDataIndication(&sealed) = new(s00.PendingDataIndication)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(283)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowPendingDataIndication(&sealed) = new(s00.PendingDataIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(278)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s30.SubscriptionBasedUEDifferentiationInfo)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(278)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s31.SubscriptionBasedUEDifferentiationInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(299)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowAdditionalRRMPriorityIndex(&sealed) = new(s00.AdditionalRRMPriorityIndex)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(299)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowAdditionalRRMPriorityIndex(&sealed) = new(s00.AdditionalRRMPriorityIndex)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(314)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowUERadioCapabilityID(&sealed) = new(s00.UERadioCapabilityID)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(314)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowUERadioCapabilityID(&sealed) = new(s00.UERadioCapabilityID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(192)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowMaskedIMEISV(&sealed) = new(s00.MaskedIMEISV)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(192)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowMaskedIMEISV(&sealed) = new(s00.MaskedIMEISV)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.DownlinkNASTransportIEValue {
-				sealed := s42.DownlinkNASTransportIEValue{}
-				*s42.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(354)
-				*s42.BridgeDownlinkNASTransportIEValueFieldRowCoarseUELocation(&sealed) = new(s00.CoarseUELocation)
+			value := func() s43.DownlinkNASTransportIEValue {
+				sealed := s43.DownlinkNASTransportIEValue{}
+				*s43.BridgeDownlinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(354)
+				*s43.BridgeDownlinkNASTransportIEValueFieldRowCoarseUELocation(&sealed) = new(s00.CoarseUELocation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -1330,71 +1332,71 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ENBCPRelocationIndicationIEValue", func(t *testing.T) {
-		selectedAssert((*s37.ENBCPRelocationIndicationIEValue)(nil))
-		selectedAssert(&s37.ENBCPRelocationIndicationIEValue{})
-		opaque := func() s37.ENBCPRelocationIndicationIEValue {
-			sealed := s37.ENBCPRelocationIndicationIEValue{}
-			*s37.BridgeENBCPRelocationIndicationIEValueFieldIsOpaque(&sealed) = true
-			*s37.BridgeENBCPRelocationIndicationIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s38.ENBCPRelocationIndicationIEValue)(nil))
+		selectedAssert(&s38.ENBCPRelocationIndicationIEValue{})
+		opaque := func() s38.ENBCPRelocationIndicationIEValue {
+			sealed := s38.ENBCPRelocationIndicationIEValue{}
+			*s38.BridgeENBCPRelocationIndicationIEValueFieldIsOpaque(&sealed) = true
+			*s38.BridgeENBCPRelocationIndicationIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s37.ENBCPRelocationIndicationIEValue {
-				sealed := s37.ENBCPRelocationIndicationIEValue{}
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s38.ENBCPRelocationIndicationIEValue {
+				sealed := s38.ENBCPRelocationIndicationIEValue{}
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s37.ENBCPRelocationIndicationIEValue {
-				sealed := s37.ENBCPRelocationIndicationIEValue{}
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(96)
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldRowSTMSI(&sealed) = new(s28.STMSI)
+			value := func() s38.ENBCPRelocationIndicationIEValue {
+				sealed := s38.ENBCPRelocationIndicationIEValue{}
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(96)
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldRowSTMSI(&sealed) = new(s28.STMSI)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s37.ENBCPRelocationIndicationIEValue {
-				sealed := s37.ENBCPRelocationIndicationIEValue{}
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(100)
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldRowEUTRANCGI(&sealed) = new(s17.EUTRANCGI)
+			value := func() s38.ENBCPRelocationIndicationIEValue {
+				sealed := s38.ENBCPRelocationIndicationIEValue{}
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(100)
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldRowEUTRANCGI(&sealed) = new(s17.EUTRANCGI)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s37.ENBCPRelocationIndicationIEValue {
-				sealed := s37.ENBCPRelocationIndicationIEValue{}
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(67)
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldRowTAI(&sealed) = new(s31.TAI)
+			value := func() s38.ENBCPRelocationIndicationIEValue {
+				sealed := s38.ENBCPRelocationIndicationIEValue{}
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(67)
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldRowTAI(&sealed) = new(s32.TAI)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s37.ENBCPRelocationIndicationIEValue {
-				sealed := s37.ENBCPRelocationIndicationIEValue{}
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(254)
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldRowULCPSecurityInformation(&sealed) = new(s37.ULCPSecurityInformation)
+			value := func() s38.ENBCPRelocationIndicationIEValue {
+				sealed := s38.ENBCPRelocationIndicationIEValue{}
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(254)
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldRowULCPSecurityInformation(&sealed) = new(s38.ULCPSecurityInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s37.ENBCPRelocationIndicationIEValue {
-				sealed := s37.ENBCPRelocationIndicationIEValue{}
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(339)
-				*s37.BridgeENBCPRelocationIndicationIEValueFieldRowLTENTNTAIInformation(&sealed) = new(s18.LTENTNTAIInformation)
+			value := func() s38.ENBCPRelocationIndicationIEValue {
+				sealed := s38.ENBCPRelocationIndicationIEValue{}
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(339)
+				*s38.BridgeENBCPRelocationIndicationIEValueFieldRowLTENTNTAIInformation(&sealed) = new(s18.LTENTNTAIInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -1508,81 +1510,81 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ENBConfigurationUpdateIEValue", func(t *testing.T) {
-		selectedAssert((*s43.ENBConfigurationUpdateIEValue)(nil))
-		selectedAssert(&s43.ENBConfigurationUpdateIEValue{})
-		opaque := func() s43.ENBConfigurationUpdateIEValue {
-			sealed := s43.ENBConfigurationUpdateIEValue{}
-			*s43.BridgeENBConfigurationUpdateIEValueFieldIsOpaque(&sealed) = true
-			*s43.BridgeENBConfigurationUpdateIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s44.ENBConfigurationUpdateIEValue)(nil))
+		selectedAssert(&s44.ENBConfigurationUpdateIEValue{})
+		opaque := func() s44.ENBConfigurationUpdateIEValue {
+			sealed := s44.ENBConfigurationUpdateIEValue{}
+			*s44.BridgeENBConfigurationUpdateIEValueFieldIsOpaque(&sealed) = true
+			*s44.BridgeENBConfigurationUpdateIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s43.ENBConfigurationUpdateIEValue {
-				sealed := s43.ENBConfigurationUpdateIEValue{}
-				*s43.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(60)
-				*s43.BridgeENBConfigurationUpdateIEValueFieldRowENBname(&sealed) = new(s00.ENBname)
+			value := func() s44.ENBConfigurationUpdateIEValue {
+				sealed := s44.ENBConfigurationUpdateIEValue{}
+				*s44.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(60)
+				*s44.BridgeENBConfigurationUpdateIEValueFieldRowENBname(&sealed) = new(s00.ENBname)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.ENBConfigurationUpdateIEValue {
-				sealed := s43.ENBConfigurationUpdateIEValue{}
-				*s43.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(64)
-				*s43.BridgeENBConfigurationUpdateIEValueFieldRowSupportedTAs(&sealed) = new(s31.SupportedTAs)
+			value := func() s44.ENBConfigurationUpdateIEValue {
+				sealed := s44.ENBConfigurationUpdateIEValue{}
+				*s44.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(64)
+				*s44.BridgeENBConfigurationUpdateIEValueFieldRowSupportedTAs(&sealed) = new(s31.SupportedTAs)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.ENBConfigurationUpdateIEValue {
-				sealed := s43.ENBConfigurationUpdateIEValue{}
-				*s43.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(128)
-				*s43.BridgeENBConfigurationUpdateIEValueFieldRowCSGIdList(&sealed) = new(s14.CSGIdList)
+			value := func() s44.ENBConfigurationUpdateIEValue {
+				sealed := s44.ENBConfigurationUpdateIEValue{}
+				*s44.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(128)
+				*s44.BridgeENBConfigurationUpdateIEValueFieldRowCSGIdList(&sealed) = new(s14.CSGIdList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.ENBConfigurationUpdateIEValue {
-				sealed := s43.ENBConfigurationUpdateIEValue{}
-				*s43.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(137)
-				*s43.BridgeENBConfigurationUpdateIEValueFieldRowDefaultPagingDRX(&sealed) = new(s00.PagingDRX)
+			value := func() s44.ENBConfigurationUpdateIEValue {
+				sealed := s44.ENBConfigurationUpdateIEValue{}
+				*s44.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(137)
+				*s44.BridgeENBConfigurationUpdateIEValueFieldRowDefaultPagingDRX(&sealed) = new(s00.PagingDRX)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.ENBConfigurationUpdateIEValue {
-				sealed := s43.ENBConfigurationUpdateIEValue{}
-				*s43.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(234)
-				*s43.BridgeENBConfigurationUpdateIEValueFieldRowNBIoTDefaultPagingDRX(&sealed) = new(s00.NBIoTDefaultPagingDRX)
+			value := func() s44.ENBConfigurationUpdateIEValue {
+				sealed := s44.ENBConfigurationUpdateIEValue{}
+				*s44.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(234)
+				*s44.BridgeENBConfigurationUpdateIEValueFieldRowNBIoTDefaultPagingDRX(&sealed) = new(s00.NBIoTDefaultPagingDRX)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.ENBConfigurationUpdateIEValue {
-				sealed := s43.ENBConfigurationUpdateIEValue{}
-				*s43.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(292)
-				*s43.BridgeENBConfigurationUpdateIEValueFieldRowConnectedengNBToAddList(&sealed) = new(s31.ConnectedengNBList)
+			value := func() s44.ENBConfigurationUpdateIEValue {
+				sealed := s44.ENBConfigurationUpdateIEValue{}
+				*s44.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(292)
+				*s44.BridgeENBConfigurationUpdateIEValueFieldRowConnectedengNBToAddList(&sealed) = new(s31.ConnectedengNBList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.ENBConfigurationUpdateIEValue {
-				sealed := s43.ENBConfigurationUpdateIEValue{}
-				*s43.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(293)
-				*s43.BridgeENBConfigurationUpdateIEValueFieldRowConnectedengNBToRemoveList(&sealed) = new(s31.ConnectedengNBList)
+			value := func() s44.ENBConfigurationUpdateIEValue {
+				sealed := s44.ENBConfigurationUpdateIEValue{}
+				*s44.BridgeENBConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(293)
+				*s44.BridgeENBConfigurationUpdateIEValueFieldRowConnectedengNBToRemoveList(&sealed) = new(s31.ConnectedengNBList)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -1590,21 +1592,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ENBDirectInformationTransferIEValue", func(t *testing.T) {
-		selectedAssert((*s33.ENBDirectInformationTransferIEValue)(nil))
-		selectedAssert(&s33.ENBDirectInformationTransferIEValue{})
-		opaque := func() s33.ENBDirectInformationTransferIEValue {
-			sealed := s33.ENBDirectInformationTransferIEValue{}
-			*s33.BridgeENBDirectInformationTransferIEValueFieldIsOpaque(&sealed) = true
-			*s33.BridgeENBDirectInformationTransferIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s34.ENBDirectInformationTransferIEValue)(nil))
+		selectedAssert(&s34.ENBDirectInformationTransferIEValue{})
+		opaque := func() s34.ENBDirectInformationTransferIEValue {
+			sealed := s34.ENBDirectInformationTransferIEValue{}
+			*s34.BridgeENBDirectInformationTransferIEValueFieldIsOpaque(&sealed) = true
+			*s34.BridgeENBDirectInformationTransferIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s33.ENBDirectInformationTransferIEValue {
-				sealed := s33.ENBDirectInformationTransferIEValue{}
-				*s33.BridgeENBDirectInformationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(121)
-				*s33.BridgeENBDirectInformationTransferIEValueFieldRowInterSystemInformationTransferTypeEDT(&sealed) = new(s33.InterSystemInformationTransferType)
+			value := func() s34.ENBDirectInformationTransferIEValue {
+				sealed := s34.ENBDirectInformationTransferIEValue{}
+				*s34.BridgeENBDirectInformationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(121)
+				*s34.BridgeENBDirectInformationTransferIEValueFieldRowInterSystemInformationTransferTypeEDT(&sealed) = new(s34.InterSystemInformationTransferType)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -1612,41 +1614,41 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ENBEarlyStatusTransferIEValue", func(t *testing.T) {
-		selectedAssert((*s37.ENBEarlyStatusTransferIEValue)(nil))
-		selectedAssert(&s37.ENBEarlyStatusTransferIEValue{})
-		opaque := func() s37.ENBEarlyStatusTransferIEValue {
-			sealed := s37.ENBEarlyStatusTransferIEValue{}
-			*s37.BridgeENBEarlyStatusTransferIEValueFieldIsOpaque(&sealed) = true
-			*s37.BridgeENBEarlyStatusTransferIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s38.ENBEarlyStatusTransferIEValue)(nil))
+		selectedAssert(&s38.ENBEarlyStatusTransferIEValue{})
+		opaque := func() s38.ENBEarlyStatusTransferIEValue {
+			sealed := s38.ENBEarlyStatusTransferIEValue{}
+			*s38.BridgeENBEarlyStatusTransferIEValueFieldIsOpaque(&sealed) = true
+			*s38.BridgeENBEarlyStatusTransferIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s37.ENBEarlyStatusTransferIEValue {
-				sealed := s37.ENBEarlyStatusTransferIEValue{}
-				*s37.BridgeENBEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s37.BridgeENBEarlyStatusTransferIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s38.ENBEarlyStatusTransferIEValue {
+				sealed := s38.ENBEarlyStatusTransferIEValue{}
+				*s38.BridgeENBEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s38.BridgeENBEarlyStatusTransferIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s37.ENBEarlyStatusTransferIEValue {
-				sealed := s37.ENBEarlyStatusTransferIEValue{}
-				*s37.BridgeENBEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s37.BridgeENBEarlyStatusTransferIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s38.ENBEarlyStatusTransferIEValue {
+				sealed := s38.ENBEarlyStatusTransferIEValue{}
+				*s38.BridgeENBEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s38.BridgeENBEarlyStatusTransferIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s37.ENBEarlyStatusTransferIEValue {
-				sealed := s37.ENBEarlyStatusTransferIEValue{}
-				*s37.BridgeENBEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(321)
-				*s37.BridgeENBEarlyStatusTransferIEValueFieldRowENBEarlyStatusTransferTransparentContainer(&sealed) = new(s37.ENBEarlyStatusTransferTransparentContainer)
+			value := func() s38.ENBEarlyStatusTransferIEValue {
+				sealed := s38.ENBEarlyStatusTransferIEValue{}
+				*s38.BridgeENBEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(321)
+				*s38.BridgeENBEarlyStatusTransferIEValueFieldRowENBEarlyStatusTransferTransparentContainer(&sealed) = new(s38.ENBEarlyStatusTransferTransparentContainer)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -1654,21 +1656,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ENBEarlyStatusTransferTransparentContainerExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s37.ENBEarlyStatusTransferTransparentContainerExtIEsValue)(nil))
-		selectedAssert(&s37.ENBEarlyStatusTransferTransparentContainerExtIEsValue{})
-		opaque := func() s37.ENBEarlyStatusTransferTransparentContainerExtIEsValue {
-			sealed := s37.ENBEarlyStatusTransferTransparentContainerExtIEsValue{}
-			*s37.BridgeENBEarlyStatusTransferTransparentContainerExtIEsValueFieldIsOpaque(&sealed) = true
-			*s37.BridgeENBEarlyStatusTransferTransparentContainerExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s38.ENBEarlyStatusTransferTransparentContainerExtIEsValue)(nil))
+		selectedAssert(&s38.ENBEarlyStatusTransferTransparentContainerExtIEsValue{})
+		opaque := func() s38.ENBEarlyStatusTransferTransparentContainerExtIEsValue {
+			sealed := s38.ENBEarlyStatusTransferTransparentContainerExtIEsValue{}
+			*s38.BridgeENBEarlyStatusTransferTransparentContainerExtIEsValueFieldIsOpaque(&sealed) = true
+			*s38.BridgeENBEarlyStatusTransferTransparentContainerExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s37.ENBEarlyStatusTransferTransparentContainerExtIEsValue {
-				sealed := s37.ENBEarlyStatusTransferTransparentContainerExtIEsValue{}
-				*s37.BridgeENBEarlyStatusTransferTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(352)
-				*s37.BridgeENBEarlyStatusTransferTransparentContainerExtIEsValueFieldRowBearersSubjectToDLDiscardingList(&sealed) = new(s15.BearersSubjectToDLDiscardingList)
+			value := func() s38.ENBEarlyStatusTransferTransparentContainerExtIEsValue {
+				sealed := s38.ENBEarlyStatusTransferTransparentContainerExtIEsValue{}
+				*s38.BridgeENBEarlyStatusTransferTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(352)
+				*s38.BridgeENBEarlyStatusTransferTransparentContainerExtIEsValueFieldRowBearersSubjectToDLDiscardingList(&sealed) = new(s15.BearersSubjectToDLDiscardingList)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -1676,41 +1678,41 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ENBStatusTransferIEValue", func(t *testing.T) {
-		selectedAssert((*s21.ENBStatusTransferIEValue)(nil))
-		selectedAssert(&s21.ENBStatusTransferIEValue{})
-		opaque := func() s21.ENBStatusTransferIEValue {
-			sealed := s21.ENBStatusTransferIEValue{}
-			*s21.BridgeENBStatusTransferIEValueFieldIsOpaque(&sealed) = true
-			*s21.BridgeENBStatusTransferIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s22.ENBStatusTransferIEValue)(nil))
+		selectedAssert(&s22.ENBStatusTransferIEValue{})
+		opaque := func() s22.ENBStatusTransferIEValue {
+			sealed := s22.ENBStatusTransferIEValue{}
+			*s22.BridgeENBStatusTransferIEValueFieldIsOpaque(&sealed) = true
+			*s22.BridgeENBStatusTransferIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s21.ENBStatusTransferIEValue {
-				sealed := s21.ENBStatusTransferIEValue{}
-				*s21.BridgeENBStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s21.BridgeENBStatusTransferIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s22.ENBStatusTransferIEValue {
+				sealed := s22.ENBStatusTransferIEValue{}
+				*s22.BridgeENBStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s22.BridgeENBStatusTransferIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s21.ENBStatusTransferIEValue {
-				sealed := s21.ENBStatusTransferIEValue{}
-				*s21.BridgeENBStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s21.BridgeENBStatusTransferIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s22.ENBStatusTransferIEValue {
+				sealed := s22.ENBStatusTransferIEValue{}
+				*s22.BridgeENBStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s22.BridgeENBStatusTransferIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s21.ENBStatusTransferIEValue {
-				sealed := s21.ENBStatusTransferIEValue{}
-				*s21.BridgeENBStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(90)
-				*s21.BridgeENBStatusTransferIEValueFieldRowENBStatusTransferTransparentContainer(&sealed) = new(s21.ENBStatusTransferTransparentContainer)
+			value := func() s22.ENBStatusTransferIEValue {
+				sealed := s22.ENBStatusTransferIEValue{}
+				*s22.BridgeENBStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(90)
+				*s22.BridgeENBStatusTransferIEValueFieldRowENBStatusTransferTransparentContainer(&sealed) = new(s21.ENBStatusTransferTransparentContainer)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -1916,21 +1918,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("ERABFailedToResumeItemResumeResIEValue", func(t *testing.T) {
-		selectedAssert((*s15.ERABFailedToResumeItemResumeResIEValue)(nil))
-		selectedAssert(&s15.ERABFailedToResumeItemResumeResIEValue{})
-		opaque := func() s15.ERABFailedToResumeItemResumeResIEValue {
-			sealed := s15.ERABFailedToResumeItemResumeResIEValue{}
-			*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldIsOpaque(&sealed) = true
-			*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s16.ERABFailedToResumeItemResumeResIEValue)(nil))
+		selectedAssert(&s16.ERABFailedToResumeItemResumeResIEValue{})
+		opaque := func() s16.ERABFailedToResumeItemResumeResIEValue {
+			sealed := s16.ERABFailedToResumeItemResumeResIEValue{}
+			*s16.BridgeERABFailedToResumeItemResumeResIEValueFieldIsOpaque(&sealed) = true
+			*s16.BridgeERABFailedToResumeItemResumeResIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s15.ERABFailedToResumeItemResumeResIEValue {
-				sealed := s15.ERABFailedToResumeItemResumeResIEValue{}
-				*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldId(&sealed) = s00.ProtocolIEID(238)
-				*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldRowERABFailedToResumeItemResumeRes(&sealed) = new(s15.ERABFailedToResumeItemResumeRes)
+			value := func() s16.ERABFailedToResumeItemResumeResIEValue {
+				sealed := s16.ERABFailedToResumeItemResumeResIEValue{}
+				*s16.BridgeERABFailedToResumeItemResumeResIEValueFieldId(&sealed) = s00.ProtocolIEID(238)
+				*s16.BridgeERABFailedToResumeItemResumeResIEValueFieldRowERABFailedToResumeItemResumeRes(&sealed) = new(s16.ERABFailedToResumeItemResumeRes)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -1994,51 +1996,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ERABInformationListItemExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s28.ERABInformationListItemExtIEsValue)(nil))
-		selectedAssert(&s28.ERABInformationListItemExtIEsValue{})
-		opaque := func() s28.ERABInformationListItemExtIEsValue {
-			sealed := s28.ERABInformationListItemExtIEsValue{}
-			*s28.BridgeERABInformationListItemExtIEsValueFieldIsOpaque(&sealed) = true
-			*s28.BridgeERABInformationListItemExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s29.ERABInformationListItemExtIEsValue)(nil))
+		selectedAssert(&s29.ERABInformationListItemExtIEsValue{})
+		opaque := func() s29.ERABInformationListItemExtIEsValue {
+			sealed := s29.ERABInformationListItemExtIEsValue{}
+			*s29.BridgeERABInformationListItemExtIEsValueFieldIsOpaque(&sealed) = true
+			*s29.BridgeERABInformationListItemExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s28.ERABInformationListItemExtIEsValue {
-				sealed := s28.ERABInformationListItemExtIEsValue{}
-				*s28.BridgeERABInformationListItemExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(317)
-				*s28.BridgeERABInformationListItemExtIEsValueFieldRowDAPSRequestInfo(&sealed) = new(s14.DAPSRequestInfo)
+			value := func() s29.ERABInformationListItemExtIEsValue {
+				sealed := s29.ERABInformationListItemExtIEsValue{}
+				*s29.BridgeERABInformationListItemExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(317)
+				*s29.BridgeERABInformationListItemExtIEsValueFieldRowDAPSRequestInfo(&sealed) = new(s14.DAPSRequestInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s28.ERABInformationListItemExtIEsValue {
-				sealed := s28.ERABInformationListItemExtIEsValue{}
-				*s28.BridgeERABInformationListItemExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(328)
-				*s28.BridgeERABInformationListItemExtIEsValueFieldRowSourceTransportLayerAddress(&sealed) = new(s00.TransportLayerAddress)
+			value := func() s29.ERABInformationListItemExtIEsValue {
+				sealed := s29.ERABInformationListItemExtIEsValue{}
+				*s29.BridgeERABInformationListItemExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(328)
+				*s29.BridgeERABInformationListItemExtIEsValueFieldRowSourceTransportLayerAddress(&sealed) = new(s00.TransportLayerAddress)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s28.ERABInformationListItemExtIEsValue {
-				sealed := s28.ERABInformationListItemExtIEsValue{}
-				*s28.BridgeERABInformationListItemExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(332)
-				*s28.BridgeERABInformationListItemExtIEsValueFieldRowSecurityIndication(&sealed) = new(s28.SecurityIndication)
+			value := func() s29.ERABInformationListItemExtIEsValue {
+				sealed := s29.ERABInformationListItemExtIEsValue{}
+				*s29.BridgeERABInformationListItemExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(332)
+				*s29.BridgeERABInformationListItemExtIEsValueFieldRowSecurityIndication(&sealed) = new(s29.SecurityIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s28.ERABInformationListItemExtIEsValue {
-				sealed := s28.ERABInformationListItemExtIEsValue{}
-				*s28.BridgeERABInformationListItemExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(340)
-				*s28.BridgeERABInformationListItemExtIEsValueFieldRowSourceNodeTransportLayerAddress(&sealed) = new(s00.TransportLayerAddress)
+			value := func() s29.ERABInformationListItemExtIEsValue {
+				sealed := s29.ERABInformationListItemExtIEsValue{}
+				*s29.BridgeERABInformationListItemExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(340)
+				*s29.BridgeERABInformationListItemExtIEsValueFieldRowSourceNodeTransportLayerAddress(&sealed) = new(s00.TransportLayerAddress)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -2080,81 +2082,81 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ERABModificationConfirmIEValue", func(t *testing.T) {
-		selectedAssert((*s39.ERABModificationConfirmIEValue)(nil))
-		selectedAssert(&s39.ERABModificationConfirmIEValue{})
-		opaque := func() s39.ERABModificationConfirmIEValue {
-			sealed := s39.ERABModificationConfirmIEValue{}
-			*s39.BridgeERABModificationConfirmIEValueFieldIsOpaque(&sealed) = true
-			*s39.BridgeERABModificationConfirmIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s40.ERABModificationConfirmIEValue)(nil))
+		selectedAssert(&s40.ERABModificationConfirmIEValue{})
+		opaque := func() s40.ERABModificationConfirmIEValue {
+			sealed := s40.ERABModificationConfirmIEValue{}
+			*s40.BridgeERABModificationConfirmIEValueFieldIsOpaque(&sealed) = true
+			*s40.BridgeERABModificationConfirmIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s39.ERABModificationConfirmIEValue {
-				sealed := s39.ERABModificationConfirmIEValue{}
-				*s39.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s39.BridgeERABModificationConfirmIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s40.ERABModificationConfirmIEValue {
+				sealed := s40.ERABModificationConfirmIEValue{}
+				*s40.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s40.BridgeERABModificationConfirmIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.ERABModificationConfirmIEValue {
-				sealed := s39.ERABModificationConfirmIEValue{}
-				*s39.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s39.BridgeERABModificationConfirmIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s40.ERABModificationConfirmIEValue {
+				sealed := s40.ERABModificationConfirmIEValue{}
+				*s40.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s40.BridgeERABModificationConfirmIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.ERABModificationConfirmIEValue {
-				sealed := s39.ERABModificationConfirmIEValue{}
-				*s39.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(203)
-				*s39.BridgeERABModificationConfirmIEValueFieldRowERABModifyListBearerModConf(&sealed) = new(s16.ERABModifyListBearerModConf)
+			value := func() s40.ERABModificationConfirmIEValue {
+				sealed := s40.ERABModificationConfirmIEValue{}
+				*s40.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(203)
+				*s40.BridgeERABModificationConfirmIEValueFieldRowERABModifyListBearerModConf(&sealed) = new(s16.ERABModifyListBearerModConf)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.ERABModificationConfirmIEValue {
-				sealed := s39.ERABModificationConfirmIEValue{}
-				*s39.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(205)
-				*s39.BridgeERABModificationConfirmIEValueFieldRowERABFailedToModifyListBearerModConf(&sealed) = new(s16.ERABList)
+			value := func() s40.ERABModificationConfirmIEValue {
+				sealed := s40.ERABModificationConfirmIEValue{}
+				*s40.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(205)
+				*s40.BridgeERABModificationConfirmIEValueFieldRowERABFailedToModifyListBearerModConf(&sealed) = new(s16.ERABList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.ERABModificationConfirmIEValue {
-				sealed := s39.ERABModificationConfirmIEValue{}
-				*s39.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(210)
-				*s39.BridgeERABModificationConfirmIEValueFieldRowERABToBeReleasedListBearerModConf(&sealed) = new(s16.ERABList)
+			value := func() s40.ERABModificationConfirmIEValue {
+				sealed := s40.ERABModificationConfirmIEValue{}
+				*s40.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(210)
+				*s40.BridgeERABModificationConfirmIEValueFieldRowERABToBeReleasedListBearerModConf(&sealed) = new(s16.ERABList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.ERABModificationConfirmIEValue {
-				sealed := s39.ERABModificationConfirmIEValue{}
-				*s39.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s39.BridgeERABModificationConfirmIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s40.ERABModificationConfirmIEValue {
+				sealed := s40.ERABModificationConfirmIEValue{}
+				*s40.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s40.BridgeERABModificationConfirmIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.ERABModificationConfirmIEValue {
-				sealed := s39.ERABModificationConfirmIEValue{}
-				*s39.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(146)
-				*s39.BridgeERABModificationConfirmIEValueFieldRowCSGMembershipStatus(&sealed) = new(s00.CSGMembershipStatus)
+			value := func() s40.ERABModificationConfirmIEValue {
+				sealed := s40.ERABModificationConfirmIEValue{}
+				*s40.BridgeERABModificationConfirmIEValueFieldId(&sealed) = s00.ProtocolIEID(146)
+				*s40.BridgeERABModificationConfirmIEValueFieldRowCSGMembershipStatus(&sealed) = new(s00.CSGMembershipStatus)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -2162,91 +2164,91 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ERABModificationIndicationIEValue", func(t *testing.T) {
-		selectedAssert((*s44.ERABModificationIndicationIEValue)(nil))
-		selectedAssert(&s44.ERABModificationIndicationIEValue{})
-		opaque := func() s44.ERABModificationIndicationIEValue {
-			sealed := s44.ERABModificationIndicationIEValue{}
-			*s44.BridgeERABModificationIndicationIEValueFieldIsOpaque(&sealed) = true
-			*s44.BridgeERABModificationIndicationIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s45.ERABModificationIndicationIEValue)(nil))
+		selectedAssert(&s45.ERABModificationIndicationIEValue{})
+		opaque := func() s45.ERABModificationIndicationIEValue {
+			sealed := s45.ERABModificationIndicationIEValue{}
+			*s45.BridgeERABModificationIndicationIEValueFieldIsOpaque(&sealed) = true
+			*s45.BridgeERABModificationIndicationIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s44.ERABModificationIndicationIEValue {
-				sealed := s44.ERABModificationIndicationIEValue{}
-				*s44.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s44.BridgeERABModificationIndicationIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s45.ERABModificationIndicationIEValue {
+				sealed := s45.ERABModificationIndicationIEValue{}
+				*s45.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s45.BridgeERABModificationIndicationIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s44.ERABModificationIndicationIEValue {
-				sealed := s44.ERABModificationIndicationIEValue{}
-				*s44.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s44.BridgeERABModificationIndicationIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s45.ERABModificationIndicationIEValue {
+				sealed := s45.ERABModificationIndicationIEValue{}
+				*s45.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s45.BridgeERABModificationIndicationIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s44.ERABModificationIndicationIEValue {
-				sealed := s44.ERABModificationIndicationIEValue{}
-				*s44.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(199)
-				*s44.BridgeERABModificationIndicationIEValueFieldRowERABToBeModifiedListBearerModInd(&sealed) = new(s17.ERABToBeModifiedListBearerModInd)
+			value := func() s45.ERABModificationIndicationIEValue {
+				sealed := s45.ERABModificationIndicationIEValue{}
+				*s45.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(199)
+				*s45.BridgeERABModificationIndicationIEValueFieldRowERABToBeModifiedListBearerModInd(&sealed) = new(s17.ERABToBeModifiedListBearerModInd)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s44.ERABModificationIndicationIEValue {
-				sealed := s44.ERABModificationIndicationIEValue{}
-				*s44.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(201)
-				*s44.BridgeERABModificationIndicationIEValueFieldRowERABNotToBeModifiedListBearerModInd(&sealed) = new(s16.ERABNotToBeModifiedListBearerModInd)
+			value := func() s45.ERABModificationIndicationIEValue {
+				sealed := s45.ERABModificationIndicationIEValue{}
+				*s45.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(201)
+				*s45.BridgeERABModificationIndicationIEValueFieldRowERABNotToBeModifiedListBearerModInd(&sealed) = new(s16.ERABNotToBeModifiedListBearerModInd)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s44.ERABModificationIndicationIEValue {
-				sealed := s44.ERABModificationIndicationIEValue{}
-				*s44.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(226)
-				*s44.BridgeERABModificationIndicationIEValueFieldRowCSGMembershipInfo(&sealed) = new(s14.CSGMembershipInfo)
+			value := func() s45.ERABModificationIndicationIEValue {
+				sealed := s45.ERABModificationIndicationIEValue{}
+				*s45.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(226)
+				*s45.BridgeERABModificationIndicationIEValueFieldRowCSGMembershipInfo(&sealed) = new(s14.CSGMembershipInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s44.ERABModificationIndicationIEValue {
-				sealed := s44.ERABModificationIndicationIEValue{}
-				*s44.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(176)
-				*s44.BridgeERABModificationIndicationIEValueFieldRowTunnelInformationForBBF(&sealed) = new(s35.TunnelInformation)
+			value := func() s45.ERABModificationIndicationIEValue {
+				sealed := s45.ERABModificationIndicationIEValue{}
+				*s45.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(176)
+				*s45.BridgeERABModificationIndicationIEValueFieldRowTunnelInformationForBBF(&sealed) = new(s35.TunnelInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s44.ERABModificationIndicationIEValue {
-				sealed := s44.ERABModificationIndicationIEValue{}
-				*s44.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(264)
-				*s44.BridgeERABModificationIndicationIEValueFieldRowSecondaryRATDataUsageReportList(&sealed) = new(s28.SecondaryRATDataUsageReportList)
+			value := func() s45.ERABModificationIndicationIEValue {
+				sealed := s45.ERABModificationIndicationIEValue{}
+				*s45.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(264)
+				*s45.BridgeERABModificationIndicationIEValueFieldRowSecondaryRATDataUsageReportList(&sealed) = new(s28.SecondaryRATDataUsageReportList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s44.ERABModificationIndicationIEValue {
-				sealed := s44.ERABModificationIndicationIEValue{}
-				*s44.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
-				*s44.BridgeERABModificationIndicationIEValueFieldRowUserLocationInformation(&sealed) = new(s44.UserLocationInformation)
+			value := func() s45.ERABModificationIndicationIEValue {
+				sealed := s45.ERABModificationIndicationIEValue{}
+				*s45.BridgeERABModificationIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
+				*s45.BridgeERABModificationIndicationIEValueFieldRowUserLocationInformation(&sealed) = new(s45.UserLocationInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -2322,61 +2324,61 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ERABModifyRequestIEValue", func(t *testing.T) {
-		selectedAssert((*s40.ERABModifyRequestIEValue)(nil))
-		selectedAssert(&s40.ERABModifyRequestIEValue{})
-		opaque := func() s40.ERABModifyRequestIEValue {
-			sealed := s40.ERABModifyRequestIEValue{}
-			*s40.BridgeERABModifyRequestIEValueFieldIsOpaque(&sealed) = true
-			*s40.BridgeERABModifyRequestIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s41.ERABModifyRequestIEValue)(nil))
+		selectedAssert(&s41.ERABModifyRequestIEValue{})
+		opaque := func() s41.ERABModifyRequestIEValue {
+			sealed := s41.ERABModifyRequestIEValue{}
+			*s41.BridgeERABModifyRequestIEValueFieldIsOpaque(&sealed) = true
+			*s41.BridgeERABModifyRequestIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s40.ERABModifyRequestIEValue {
-				sealed := s40.ERABModifyRequestIEValue{}
-				*s40.BridgeERABModifyRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s40.BridgeERABModifyRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s41.ERABModifyRequestIEValue {
+				sealed := s41.ERABModifyRequestIEValue{}
+				*s41.BridgeERABModifyRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s41.BridgeERABModifyRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.ERABModifyRequestIEValue {
-				sealed := s40.ERABModifyRequestIEValue{}
-				*s40.BridgeERABModifyRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s40.BridgeERABModifyRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s41.ERABModifyRequestIEValue {
+				sealed := s41.ERABModifyRequestIEValue{}
+				*s41.BridgeERABModifyRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s41.BridgeERABModifyRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.ERABModifyRequestIEValue {
-				sealed := s40.ERABModifyRequestIEValue{}
-				*s40.BridgeERABModifyRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
-				*s40.BridgeERABModifyRequestIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s35.UEAggregateMaximumBitrate)
+			value := func() s41.ERABModifyRequestIEValue {
+				sealed := s41.ERABModifyRequestIEValue{}
+				*s41.BridgeERABModifyRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
+				*s41.BridgeERABModifyRequestIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s36.UEAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.ERABModifyRequestIEValue {
-				sealed := s40.ERABModifyRequestIEValue{}
-				*s40.BridgeERABModifyRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(30)
-				*s40.BridgeERABModifyRequestIEValueFieldRowERABToBeModifiedListBearerModReq(&sealed) = new(s25.ERABToBeModifiedListBearerModReq)
+			value := func() s41.ERABModifyRequestIEValue {
+				sealed := s41.ERABModifyRequestIEValue{}
+				*s41.BridgeERABModifyRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(30)
+				*s41.BridgeERABModifyRequestIEValueFieldRowERABToBeModifiedListBearerModReq(&sealed) = new(s25.ERABToBeModifiedListBearerModReq)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.ERABModifyRequestIEValue {
-				sealed := s40.ERABModifyRequestIEValue{}
-				*s40.BridgeERABModifyRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(268)
-				*s40.BridgeERABModifyRequestIEValueFieldRowSecondaryRATDataUsageRequest(&sealed) = new(s00.SecondaryRATDataUsageRequest)
+			value := func() s41.ERABModifyRequestIEValue {
+				sealed := s41.ERABModifyRequestIEValue{}
+				*s41.BridgeERABModifyRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(268)
+				*s41.BridgeERABModifyRequestIEValueFieldRowSecondaryRATDataUsageRequest(&sealed) = new(s00.SecondaryRATDataUsageRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -2458,7 +2460,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s45.ERABModifyResponseIEValue {
 				sealed := s45.ERABModifyResponseIEValue{}
 				*s45.BridgeERABModifyResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
-				*s45.BridgeERABModifyResponseIEValueFieldRowUserLocationInformation(&sealed) = new(s44.UserLocationInformation)
+				*s45.BridgeERABModifyResponseIEValueFieldRowUserLocationInformation(&sealed) = new(s45.UserLocationInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -2532,61 +2534,61 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ERABReleaseCommandIEValue", func(t *testing.T) {
-		selectedAssert((*s39.ERABReleaseCommandIEValue)(nil))
-		selectedAssert(&s39.ERABReleaseCommandIEValue{})
-		opaque := func() s39.ERABReleaseCommandIEValue {
-			sealed := s39.ERABReleaseCommandIEValue{}
-			*s39.BridgeERABReleaseCommandIEValueFieldIsOpaque(&sealed) = true
-			*s39.BridgeERABReleaseCommandIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s40.ERABReleaseCommandIEValue)(nil))
+		selectedAssert(&s40.ERABReleaseCommandIEValue{})
+		opaque := func() s40.ERABReleaseCommandIEValue {
+			sealed := s40.ERABReleaseCommandIEValue{}
+			*s40.BridgeERABReleaseCommandIEValueFieldIsOpaque(&sealed) = true
+			*s40.BridgeERABReleaseCommandIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s39.ERABReleaseCommandIEValue {
-				sealed := s39.ERABReleaseCommandIEValue{}
-				*s39.BridgeERABReleaseCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s39.BridgeERABReleaseCommandIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s40.ERABReleaseCommandIEValue {
+				sealed := s40.ERABReleaseCommandIEValue{}
+				*s40.BridgeERABReleaseCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s40.BridgeERABReleaseCommandIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.ERABReleaseCommandIEValue {
-				sealed := s39.ERABReleaseCommandIEValue{}
-				*s39.BridgeERABReleaseCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s39.BridgeERABReleaseCommandIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s40.ERABReleaseCommandIEValue {
+				sealed := s40.ERABReleaseCommandIEValue{}
+				*s40.BridgeERABReleaseCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s40.BridgeERABReleaseCommandIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.ERABReleaseCommandIEValue {
-				sealed := s39.ERABReleaseCommandIEValue{}
-				*s39.BridgeERABReleaseCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
-				*s39.BridgeERABReleaseCommandIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s35.UEAggregateMaximumBitrate)
+			value := func() s40.ERABReleaseCommandIEValue {
+				sealed := s40.ERABReleaseCommandIEValue{}
+				*s40.BridgeERABReleaseCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
+				*s40.BridgeERABReleaseCommandIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s36.UEAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.ERABReleaseCommandIEValue {
-				sealed := s39.ERABReleaseCommandIEValue{}
-				*s39.BridgeERABReleaseCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(33)
-				*s39.BridgeERABReleaseCommandIEValueFieldRowERABToBeReleasedList(&sealed) = new(s16.ERABList)
+			value := func() s40.ERABReleaseCommandIEValue {
+				sealed := s40.ERABReleaseCommandIEValue{}
+				*s40.BridgeERABReleaseCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(33)
+				*s40.BridgeERABReleaseCommandIEValueFieldRowERABToBeReleasedList(&sealed) = new(s16.ERABList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.ERABReleaseCommandIEValue {
-				sealed := s39.ERABReleaseCommandIEValue{}
-				*s39.BridgeERABReleaseCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(26)
-				*s39.BridgeERABReleaseCommandIEValueFieldRowNASPDU(&sealed) = new(s00.NASPDU)
+			value := func() s40.ERABReleaseCommandIEValue {
+				sealed := s40.ERABReleaseCommandIEValue{}
+				*s40.BridgeERABReleaseCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(26)
+				*s40.BridgeERABReleaseCommandIEValueFieldRowNASPDU(&sealed) = new(s00.NASPDU)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -2638,7 +2640,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s45.ERABReleaseIndicationIEValue {
 				sealed := s45.ERABReleaseIndicationIEValue{}
 				*s45.BridgeERABReleaseIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
-				*s45.BridgeERABReleaseIndicationIEValueFieldRowUserLocationInformation(&sealed) = new(s44.UserLocationInformation)
+				*s45.BridgeERABReleaseIndicationIEValueFieldRowUserLocationInformation(&sealed) = new(s45.UserLocationInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -2754,7 +2756,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s45.ERABReleaseResponseIEValue {
 				sealed := s45.ERABReleaseResponseIEValue{}
 				*s45.BridgeERABReleaseResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
-				*s45.BridgeERABReleaseResponseIEValueFieldRowUserLocationInformation(&sealed) = new(s44.UserLocationInformation)
+				*s45.BridgeERABReleaseResponseIEValueFieldRowUserLocationInformation(&sealed) = new(s45.UserLocationInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -2852,21 +2854,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("ERABSetupItemCtxtSUResIEValue", func(t *testing.T) {
-		selectedAssert((*s16.ERABSetupItemCtxtSUResIEValue)(nil))
-		selectedAssert(&s16.ERABSetupItemCtxtSUResIEValue{})
-		opaque := func() s16.ERABSetupItemCtxtSUResIEValue {
-			sealed := s16.ERABSetupItemCtxtSUResIEValue{}
-			*s16.BridgeERABSetupItemCtxtSUResIEValueFieldIsOpaque(&sealed) = true
-			*s16.BridgeERABSetupItemCtxtSUResIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s17.ERABSetupItemCtxtSUResIEValue)(nil))
+		selectedAssert(&s17.ERABSetupItemCtxtSUResIEValue{})
+		opaque := func() s17.ERABSetupItemCtxtSUResIEValue {
+			sealed := s17.ERABSetupItemCtxtSUResIEValue{}
+			*s17.BridgeERABSetupItemCtxtSUResIEValueFieldIsOpaque(&sealed) = true
+			*s17.BridgeERABSetupItemCtxtSUResIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s16.ERABSetupItemCtxtSUResIEValue {
-				sealed := s16.ERABSetupItemCtxtSUResIEValue{}
-				*s16.BridgeERABSetupItemCtxtSUResIEValueFieldId(&sealed) = s00.ProtocolIEID(50)
-				*s16.BridgeERABSetupItemCtxtSUResIEValueFieldRowERABSetupItemCtxtSURes(&sealed) = new(s16.ERABSetupItemCtxtSURes)
+			value := func() s17.ERABSetupItemCtxtSUResIEValue {
+				sealed := s17.ERABSetupItemCtxtSUResIEValue{}
+				*s17.BridgeERABSetupItemCtxtSUResIEValueFieldId(&sealed) = s00.ProtocolIEID(50)
+				*s17.BridgeERABSetupItemCtxtSUResIEValueFieldRowERABSetupItemCtxtSURes(&sealed) = new(s17.ERABSetupItemCtxtSURes)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -2874,51 +2876,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ERABSetupRequestIEValue", func(t *testing.T) {
-		selectedAssert((*s40.ERABSetupRequestIEValue)(nil))
-		selectedAssert(&s40.ERABSetupRequestIEValue{})
-		opaque := func() s40.ERABSetupRequestIEValue {
-			sealed := s40.ERABSetupRequestIEValue{}
-			*s40.BridgeERABSetupRequestIEValueFieldIsOpaque(&sealed) = true
-			*s40.BridgeERABSetupRequestIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s41.ERABSetupRequestIEValue)(nil))
+		selectedAssert(&s41.ERABSetupRequestIEValue{})
+		opaque := func() s41.ERABSetupRequestIEValue {
+			sealed := s41.ERABSetupRequestIEValue{}
+			*s41.BridgeERABSetupRequestIEValueFieldIsOpaque(&sealed) = true
+			*s41.BridgeERABSetupRequestIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s40.ERABSetupRequestIEValue {
-				sealed := s40.ERABSetupRequestIEValue{}
-				*s40.BridgeERABSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s40.BridgeERABSetupRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s41.ERABSetupRequestIEValue {
+				sealed := s41.ERABSetupRequestIEValue{}
+				*s41.BridgeERABSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s41.BridgeERABSetupRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.ERABSetupRequestIEValue {
-				sealed := s40.ERABSetupRequestIEValue{}
-				*s40.BridgeERABSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s40.BridgeERABSetupRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s41.ERABSetupRequestIEValue {
+				sealed := s41.ERABSetupRequestIEValue{}
+				*s41.BridgeERABSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s41.BridgeERABSetupRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.ERABSetupRequestIEValue {
-				sealed := s40.ERABSetupRequestIEValue{}
-				*s40.BridgeERABSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
-				*s40.BridgeERABSetupRequestIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s35.UEAggregateMaximumBitrate)
+			value := func() s41.ERABSetupRequestIEValue {
+				sealed := s41.ERABSetupRequestIEValue{}
+				*s41.BridgeERABSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
+				*s41.BridgeERABSetupRequestIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s36.UEAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.ERABSetupRequestIEValue {
-				sealed := s40.ERABSetupRequestIEValue{}
-				*s40.BridgeERABSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(16)
-				*s40.BridgeERABSetupRequestIEValueFieldRowERABToBeSetupListBearerSUReq(&sealed) = new(s29.ERABToBeSetupListBearerSUReq)
+			value := func() s41.ERABSetupRequestIEValue {
+				sealed := s41.ERABSetupRequestIEValue{}
+				*s41.BridgeERABSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(16)
+				*s41.BridgeERABSetupRequestIEValueFieldRowERABToBeSetupListBearerSUReq(&sealed) = new(s30.ERABToBeSetupListBearerSUReq)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -2926,71 +2928,71 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ERABSetupResponseIEValue", func(t *testing.T) {
-		selectedAssert((*s45.ERABSetupResponseIEValue)(nil))
-		selectedAssert(&s45.ERABSetupResponseIEValue{})
-		opaque := func() s45.ERABSetupResponseIEValue {
-			sealed := s45.ERABSetupResponseIEValue{}
-			*s45.BridgeERABSetupResponseIEValueFieldIsOpaque(&sealed) = true
-			*s45.BridgeERABSetupResponseIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s46.ERABSetupResponseIEValue)(nil))
+		selectedAssert(&s46.ERABSetupResponseIEValue{})
+		opaque := func() s46.ERABSetupResponseIEValue {
+			sealed := s46.ERABSetupResponseIEValue{}
+			*s46.BridgeERABSetupResponseIEValueFieldIsOpaque(&sealed) = true
+			*s46.BridgeERABSetupResponseIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s45.ERABSetupResponseIEValue {
-				sealed := s45.ERABSetupResponseIEValue{}
-				*s45.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s45.BridgeERABSetupResponseIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s46.ERABSetupResponseIEValue {
+				sealed := s46.ERABSetupResponseIEValue{}
+				*s46.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s46.BridgeERABSetupResponseIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.ERABSetupResponseIEValue {
-				sealed := s45.ERABSetupResponseIEValue{}
-				*s45.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s45.BridgeERABSetupResponseIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s46.ERABSetupResponseIEValue {
+				sealed := s46.ERABSetupResponseIEValue{}
+				*s46.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s46.BridgeERABSetupResponseIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.ERABSetupResponseIEValue {
-				sealed := s45.ERABSetupResponseIEValue{}
-				*s45.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(28)
-				*s45.BridgeERABSetupResponseIEValueFieldRowERABSetupListBearerSURes(&sealed) = new(s17.ERABSetupListBearerSURes)
+			value := func() s46.ERABSetupResponseIEValue {
+				sealed := s46.ERABSetupResponseIEValue{}
+				*s46.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(28)
+				*s46.BridgeERABSetupResponseIEValueFieldRowERABSetupListBearerSURes(&sealed) = new(s17.ERABSetupListBearerSURes)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.ERABSetupResponseIEValue {
-				sealed := s45.ERABSetupResponseIEValue{}
-				*s45.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(29)
-				*s45.BridgeERABSetupResponseIEValueFieldRowERABFailedToSetupListBearerSURes(&sealed) = new(s16.ERABList)
+			value := func() s46.ERABSetupResponseIEValue {
+				sealed := s46.ERABSetupResponseIEValue{}
+				*s46.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(29)
+				*s46.BridgeERABSetupResponseIEValueFieldRowERABFailedToSetupListBearerSURes(&sealed) = new(s16.ERABList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.ERABSetupResponseIEValue {
-				sealed := s45.ERABSetupResponseIEValue{}
-				*s45.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s45.BridgeERABSetupResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s46.ERABSetupResponseIEValue {
+				sealed := s46.ERABSetupResponseIEValue{}
+				*s46.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s46.BridgeERABSetupResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.ERABSetupResponseIEValue {
-				sealed := s45.ERABSetupResponseIEValue{}
-				*s45.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
-				*s45.BridgeERABSetupResponseIEValueFieldRowUserLocationInformation(&sealed) = new(s44.UserLocationInformation)
+			value := func() s46.ERABSetupResponseIEValue {
+				sealed := s46.ERABSetupResponseIEValue{}
+				*s46.BridgeERABSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
+				*s46.BridgeERABSetupResponseIEValueFieldRowUserLocationInformation(&sealed) = new(s45.UserLocationInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -3076,61 +3078,61 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ERABToBeSetupItemBearerSUReqExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s28.ERABToBeSetupItemBearerSUReqExtIEsValue)(nil))
-		selectedAssert(&s28.ERABToBeSetupItemBearerSUReqExtIEsValue{})
-		opaque := func() s28.ERABToBeSetupItemBearerSUReqExtIEsValue {
-			sealed := s28.ERABToBeSetupItemBearerSUReqExtIEsValue{}
-			*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldIsOpaque(&sealed) = true
-			*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s29.ERABToBeSetupItemBearerSUReqExtIEsValue)(nil))
+		selectedAssert(&s29.ERABToBeSetupItemBearerSUReqExtIEsValue{})
+		opaque := func() s29.ERABToBeSetupItemBearerSUReqExtIEsValue {
+			sealed := s29.ERABToBeSetupItemBearerSUReqExtIEsValue{}
+			*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldIsOpaque(&sealed) = true
+			*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s28.ERABToBeSetupItemBearerSUReqExtIEsValue {
-				sealed := s28.ERABToBeSetupItemBearerSUReqExtIEsValue{}
-				*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(156)
-				*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldRowCorrelationID(&sealed) = new(s00.CorrelationID)
+			value := func() s29.ERABToBeSetupItemBearerSUReqExtIEsValue {
+				sealed := s29.ERABToBeSetupItemBearerSUReqExtIEsValue{}
+				*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(156)
+				*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldRowCorrelationID(&sealed) = new(s00.CorrelationID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s28.ERABToBeSetupItemBearerSUReqExtIEsValue {
-				sealed := s28.ERABToBeSetupItemBearerSUReqExtIEsValue{}
-				*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(183)
-				*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldRowSIPTOCorrelationID(&sealed) = new(s00.CorrelationID)
+			value := func() s29.ERABToBeSetupItemBearerSUReqExtIEsValue {
+				sealed := s29.ERABToBeSetupItemBearerSUReqExtIEsValue{}
+				*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(183)
+				*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldRowSIPTOCorrelationID(&sealed) = new(s00.CorrelationID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s28.ERABToBeSetupItemBearerSUReqExtIEsValue {
-				sealed := s28.ERABToBeSetupItemBearerSUReqExtIEsValue{}
-				*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(233)
-				*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldRowBearerType(&sealed) = new(s00.BearerType)
+			value := func() s29.ERABToBeSetupItemBearerSUReqExtIEsValue {
+				sealed := s29.ERABToBeSetupItemBearerSUReqExtIEsValue{}
+				*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(233)
+				*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldRowBearerType(&sealed) = new(s00.BearerType)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s28.ERABToBeSetupItemBearerSUReqExtIEsValue {
-				sealed := s28.ERABToBeSetupItemBearerSUReqExtIEsValue{}
-				*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(305)
-				*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldRowEthernetType(&sealed) = new(s00.EthernetType)
+			value := func() s29.ERABToBeSetupItemBearerSUReqExtIEsValue {
+				sealed := s29.ERABToBeSetupItemBearerSUReqExtIEsValue{}
+				*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(305)
+				*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldRowEthernetType(&sealed) = new(s00.EthernetType)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s28.ERABToBeSetupItemBearerSUReqExtIEsValue {
-				sealed := s28.ERABToBeSetupItemBearerSUReqExtIEsValue{}
-				*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(332)
-				*s28.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldRowSecurityIndication(&sealed) = new(s28.SecurityIndication)
+			value := func() s29.ERABToBeSetupItemBearerSUReqExtIEsValue {
+				sealed := s29.ERABToBeSetupItemBearerSUReqExtIEsValue{}
+				*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(332)
+				*s29.BridgeERABToBeSetupItemBearerSUReqExtIEsValueFieldRowSecurityIndication(&sealed) = new(s29.SecurityIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -3138,21 +3140,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ERABToBeSetupItemBearerSUReqIEValue", func(t *testing.T) {
-		selectedAssert((*s29.ERABToBeSetupItemBearerSUReqIEValue)(nil))
-		selectedAssert(&s29.ERABToBeSetupItemBearerSUReqIEValue{})
-		opaque := func() s29.ERABToBeSetupItemBearerSUReqIEValue {
-			sealed := s29.ERABToBeSetupItemBearerSUReqIEValue{}
-			*s29.BridgeERABToBeSetupItemBearerSUReqIEValueFieldIsOpaque(&sealed) = true
-			*s29.BridgeERABToBeSetupItemBearerSUReqIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s30.ERABToBeSetupItemBearerSUReqIEValue)(nil))
+		selectedAssert(&s30.ERABToBeSetupItemBearerSUReqIEValue{})
+		opaque := func() s30.ERABToBeSetupItemBearerSUReqIEValue {
+			sealed := s30.ERABToBeSetupItemBearerSUReqIEValue{}
+			*s30.BridgeERABToBeSetupItemBearerSUReqIEValueFieldIsOpaque(&sealed) = true
+			*s30.BridgeERABToBeSetupItemBearerSUReqIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s29.ERABToBeSetupItemBearerSUReqIEValue {
-				sealed := s29.ERABToBeSetupItemBearerSUReqIEValue{}
-				*s29.BridgeERABToBeSetupItemBearerSUReqIEValueFieldId(&sealed) = s00.ProtocolIEID(17)
-				*s29.BridgeERABToBeSetupItemBearerSUReqIEValueFieldRowERABToBeSetupItemBearerSUReq(&sealed) = new(s29.ERABToBeSetupItemBearerSUReq)
+			value := func() s30.ERABToBeSetupItemBearerSUReqIEValue {
+				sealed := s30.ERABToBeSetupItemBearerSUReqIEValue{}
+				*s30.BridgeERABToBeSetupItemBearerSUReqIEValueFieldId(&sealed) = s00.ProtocolIEID(17)
+				*s30.BridgeERABToBeSetupItemBearerSUReqIEValueFieldRowERABToBeSetupItemBearerSUReq(&sealed) = new(s29.ERABToBeSetupItemBearerSUReq)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -3214,7 +3216,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s29.ERABToBeSetupItemCtxtSUReqExtIEsValue {
 				sealed := s29.ERABToBeSetupItemCtxtSUReqExtIEsValue{}
 				*s29.BridgeERABToBeSetupItemCtxtSUReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(332)
-				*s29.BridgeERABToBeSetupItemCtxtSUReqExtIEsValueFieldRowSecurityIndication(&sealed) = new(s28.SecurityIndication)
+				*s29.BridgeERABToBeSetupItemCtxtSUReqExtIEsValueFieldRowSecurityIndication(&sealed) = new(s29.SecurityIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -3222,21 +3224,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ERABToBeSetupItemCtxtSUReqIEValue", func(t *testing.T) {
-		selectedAssert((*s29.ERABToBeSetupItemCtxtSUReqIEValue)(nil))
-		selectedAssert(&s29.ERABToBeSetupItemCtxtSUReqIEValue{})
-		opaque := func() s29.ERABToBeSetupItemCtxtSUReqIEValue {
-			sealed := s29.ERABToBeSetupItemCtxtSUReqIEValue{}
-			*s29.BridgeERABToBeSetupItemCtxtSUReqIEValueFieldIsOpaque(&sealed) = true
-			*s29.BridgeERABToBeSetupItemCtxtSUReqIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s30.ERABToBeSetupItemCtxtSUReqIEValue)(nil))
+		selectedAssert(&s30.ERABToBeSetupItemCtxtSUReqIEValue{})
+		opaque := func() s30.ERABToBeSetupItemCtxtSUReqIEValue {
+			sealed := s30.ERABToBeSetupItemCtxtSUReqIEValue{}
+			*s30.BridgeERABToBeSetupItemCtxtSUReqIEValueFieldIsOpaque(&sealed) = true
+			*s30.BridgeERABToBeSetupItemCtxtSUReqIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s29.ERABToBeSetupItemCtxtSUReqIEValue {
-				sealed := s29.ERABToBeSetupItemCtxtSUReqIEValue{}
-				*s29.BridgeERABToBeSetupItemCtxtSUReqIEValueFieldId(&sealed) = s00.ProtocolIEID(52)
-				*s29.BridgeERABToBeSetupItemCtxtSUReqIEValueFieldRowERABToBeSetupItemCtxtSUReq(&sealed) = new(s29.ERABToBeSetupItemCtxtSUReq)
+			value := func() s30.ERABToBeSetupItemCtxtSUReqIEValue {
+				sealed := s30.ERABToBeSetupItemCtxtSUReqIEValue{}
+				*s30.BridgeERABToBeSetupItemCtxtSUReqIEValueFieldId(&sealed) = s00.ProtocolIEID(52)
+				*s30.BridgeERABToBeSetupItemCtxtSUReqIEValueFieldRowERABToBeSetupItemCtxtSUReq(&sealed) = new(s30.ERABToBeSetupItemCtxtSUReq)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -3288,7 +3290,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s29.ERABToBeSetupItemHOReqExtIEsValue {
 				sealed := s29.ERABToBeSetupItemHOReqExtIEsValue{}
 				*s29.BridgeERABToBeSetupItemHOReqExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(332)
-				*s29.BridgeERABToBeSetupItemHOReqExtIEsValueFieldRowSecurityIndication(&sealed) = new(s28.SecurityIndication)
+				*s29.BridgeERABToBeSetupItemHOReqExtIEsValueFieldRowSecurityIndication(&sealed) = new(s29.SecurityIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -3310,7 +3312,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s30.ERABToBeSetupItemHOReqIEValue {
 				sealed := s30.ERABToBeSetupItemHOReqIEValue{}
 				*s30.BridgeERABToBeSetupItemHOReqIEValueFieldId(&sealed) = s00.ProtocolIEID(27)
-				*s30.BridgeERABToBeSetupItemHOReqIEValueFieldRowERABToBeSetupItemHOReq(&sealed) = new(s29.ERABToBeSetupItemHOReq)
+				*s30.BridgeERABToBeSetupItemHOReqIEValueFieldRowERABToBeSetupItemHOReq(&sealed) = new(s30.ERABToBeSetupItemHOReq)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -3332,7 +3334,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s29.ERABToBeSwitchedDLItemExtIEsValue {
 				sealed := s29.ERABToBeSwitchedDLItemExtIEsValue{}
 				*s29.BridgeERABToBeSwitchedDLItemExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(332)
-				*s29.BridgeERABToBeSwitchedDLItemExtIEsValueFieldRowSecurityIndication(&sealed) = new(s28.SecurityIndication)
+				*s29.BridgeERABToBeSwitchedDLItemExtIEsValueFieldRowSecurityIndication(&sealed) = new(s29.SecurityIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -3854,101 +3856,101 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("HandoverCommandIEValue", func(t *testing.T) {
-		selectedAssert((*s40.HandoverCommandIEValue)(nil))
-		selectedAssert(&s40.HandoverCommandIEValue{})
-		opaque := func() s40.HandoverCommandIEValue {
-			sealed := s40.HandoverCommandIEValue{}
-			*s40.BridgeHandoverCommandIEValueFieldIsOpaque(&sealed) = true
-			*s40.BridgeHandoverCommandIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s41.HandoverCommandIEValue)(nil))
+		selectedAssert(&s41.HandoverCommandIEValue{})
+		opaque := func() s41.HandoverCommandIEValue {
+			sealed := s41.HandoverCommandIEValue{}
+			*s41.BridgeHandoverCommandIEValueFieldIsOpaque(&sealed) = true
+			*s41.BridgeHandoverCommandIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s40.HandoverCommandIEValue {
-				sealed := s40.HandoverCommandIEValue{}
-				*s40.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s40.BridgeHandoverCommandIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s41.HandoverCommandIEValue {
+				sealed := s41.HandoverCommandIEValue{}
+				*s41.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s41.BridgeHandoverCommandIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.HandoverCommandIEValue {
-				sealed := s40.HandoverCommandIEValue{}
-				*s40.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s40.BridgeHandoverCommandIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s41.HandoverCommandIEValue {
+				sealed := s41.HandoverCommandIEValue{}
+				*s41.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s41.BridgeHandoverCommandIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.HandoverCommandIEValue {
-				sealed := s40.HandoverCommandIEValue{}
-				*s40.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(1)
-				*s40.BridgeHandoverCommandIEValueFieldRowHandoverType(&sealed) = new(s00.HandoverType)
+			value := func() s41.HandoverCommandIEValue {
+				sealed := s41.HandoverCommandIEValue{}
+				*s41.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(1)
+				*s41.BridgeHandoverCommandIEValueFieldRowHandoverType(&sealed) = new(s00.HandoverType)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.HandoverCommandIEValue {
-				sealed := s40.HandoverCommandIEValue{}
-				*s40.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(135)
-				*s40.BridgeHandoverCommandIEValueFieldRowNASSecurityParametersfromEUTRAN(&sealed) = new(s00.NASSecurityParametersfromEUTRAN)
+			value := func() s41.HandoverCommandIEValue {
+				sealed := s41.HandoverCommandIEValue{}
+				*s41.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(135)
+				*s41.BridgeHandoverCommandIEValueFieldRowNASSecurityParametersfromEUTRAN(&sealed) = new(s00.NASSecurityParametersfromEUTRAN)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.HandoverCommandIEValue {
-				sealed := s40.HandoverCommandIEValue{}
-				*s40.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(12)
-				*s40.BridgeHandoverCommandIEValueFieldRowERABSubjecttoDataForwardingList(&sealed) = new(s17.ERABSubjecttoDataForwardingList)
+			value := func() s41.HandoverCommandIEValue {
+				sealed := s41.HandoverCommandIEValue{}
+				*s41.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(12)
+				*s41.BridgeHandoverCommandIEValueFieldRowERABSubjecttoDataForwardingList(&sealed) = new(s17.ERABSubjecttoDataForwardingList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.HandoverCommandIEValue {
-				sealed := s40.HandoverCommandIEValue{}
-				*s40.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(13)
-				*s40.BridgeHandoverCommandIEValueFieldRowERABtoReleaseListHOCmd(&sealed) = new(s16.ERABList)
+			value := func() s41.HandoverCommandIEValue {
+				sealed := s41.HandoverCommandIEValue{}
+				*s41.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(13)
+				*s41.BridgeHandoverCommandIEValueFieldRowERABtoReleaseListHOCmd(&sealed) = new(s16.ERABList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.HandoverCommandIEValue {
-				sealed := s40.HandoverCommandIEValue{}
-				*s40.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(123)
-				*s40.BridgeHandoverCommandIEValueFieldRowTargetToSourceTransparentContainer(&sealed) = new(s00.TargetToSourceTransparentContainer)
+			value := func() s41.HandoverCommandIEValue {
+				sealed := s41.HandoverCommandIEValue{}
+				*s41.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(123)
+				*s41.BridgeHandoverCommandIEValueFieldRowTargetToSourceTransparentContainer(&sealed) = new(s00.TargetToSourceTransparentContainer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.HandoverCommandIEValue {
-				sealed := s40.HandoverCommandIEValue{}
-				*s40.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(139)
-				*s40.BridgeHandoverCommandIEValueFieldRowTargetToSourceTransparentContainerSecondary(&sealed) = new(s00.TargetToSourceTransparentContainer)
+			value := func() s41.HandoverCommandIEValue {
+				sealed := s41.HandoverCommandIEValue{}
+				*s41.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(139)
+				*s41.BridgeHandoverCommandIEValueFieldRowTargetToSourceTransparentContainerSecondary(&sealed) = new(s00.TargetToSourceTransparentContainer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s40.HandoverCommandIEValue {
-				sealed := s40.HandoverCommandIEValue{}
-				*s40.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s40.BridgeHandoverCommandIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s41.HandoverCommandIEValue {
+				sealed := s41.HandoverCommandIEValue{}
+				*s41.BridgeHandoverCommandIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s41.BridgeHandoverCommandIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4042,7 +4044,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s35.HandoverNotifyIEValue {
 				sealed := s35.HandoverNotifyIEValue{}
 				*s35.BridgeHandoverNotifyIEValueFieldId(&sealed) = s00.ProtocolIEID(67)
-				*s35.BridgeHandoverNotifyIEValueFieldRowTAI(&sealed) = new(s31.TAI)
+				*s35.BridgeHandoverNotifyIEValueFieldRowTAI(&sealed) = new(s32.TAI)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4298,7 +4300,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s48.HandoverRequestIEValue {
 				sealed := s48.HandoverRequestIEValue{}
 				*s48.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
-				*s48.BridgeHandoverRequestIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s35.UEAggregateMaximumBitrate)
+				*s48.BridgeHandoverRequestIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s36.UEAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4338,7 +4340,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s48.HandoverRequestIEValue {
 				sealed := s48.HandoverRequestIEValue{}
 				*s48.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(41)
-				*s48.BridgeHandoverRequestIEValueFieldRowHandoverRestrictionList(&sealed) = new(s42.HandoverRestrictionList)
+				*s48.BridgeHandoverRequestIEValueFieldRowHandoverRestrictionList(&sealed) = new(s43.HandoverRestrictionList)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4348,7 +4350,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s48.HandoverRequestIEValue {
 				sealed := s48.HandoverRequestIEValue{}
 				*s48.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(25)
-				*s48.BridgeHandoverRequestIEValueFieldRowTraceActivation(&sealed) = new(s47.TraceActivation)
+				*s48.BridgeHandoverRequestIEValueFieldRowTraceActivation(&sealed) = new(s48.TraceActivation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4378,7 +4380,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s48.HandoverRequestIEValue {
 				sealed := s48.HandoverRequestIEValue{}
 				*s48.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(40)
-				*s48.BridgeHandoverRequestIEValueFieldRowSecurityContext(&sealed) = new(s28.SecurityContext)
+				*s48.BridgeHandoverRequestIEValueFieldRowSecurityContext(&sealed) = new(s29.SecurityContext)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4498,7 +4500,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s48.HandoverRequestIEValue {
 				sealed := s48.HandoverRequestIEValue{}
 				*s48.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(240)
-				*s48.BridgeHandoverRequestIEValueFieldRowV2XServicesAuthorized(&sealed) = new(s46.V2XServicesAuthorized)
+				*s48.BridgeHandoverRequestIEValueFieldRowV2XServicesAuthorized(&sealed) = new(s47.V2XServicesAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4508,7 +4510,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s48.HandoverRequestIEValue {
 				sealed := s48.HandoverRequestIEValue{}
 				*s48.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(248)
-				*s48.BridgeHandoverRequestIEValueFieldRowUESidelinkAggregateMaximumBitrate(&sealed) = new(s37.UESidelinkAggregateMaximumBitrate)
+				*s48.BridgeHandoverRequestIEValueFieldRowUESidelinkAggregateMaximumBitrate(&sealed) = new(s38.UESidelinkAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4568,7 +4570,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s48.HandoverRequestIEValue {
 				sealed := s48.HandoverRequestIEValue{}
 				*s48.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(278)
-				*s48.BridgeHandoverRequestIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s30.SubscriptionBasedUEDifferentiationInfo)
+				*s48.BridgeHandoverRequestIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s31.SubscriptionBasedUEDifferentiationInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4598,7 +4600,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s48.HandoverRequestIEValue {
 				sealed := s48.HandoverRequestIEValue{}
 				*s48.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(306)
-				*s48.BridgeHandoverRequestIEValueFieldRowNRV2XServicesAuthorized(&sealed) = new(s19.NRV2XServicesAuthorized)
+				*s48.BridgeHandoverRequestIEValueFieldRowNRV2XServicesAuthorized(&sealed) = new(s20.NRV2XServicesAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4608,7 +4610,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s48.HandoverRequestIEValue {
 				sealed := s48.HandoverRequestIEValue{}
 				*s48.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(307)
-				*s48.BridgeHandoverRequestIEValueFieldRowNRUESidelinkAggregateMaximumBitrate(&sealed) = new(s19.NRUESidelinkAggregateMaximumBitrate)
+				*s48.BridgeHandoverRequestIEValueFieldRowNRUESidelinkAggregateMaximumBitrate(&sealed) = new(s20.NRUESidelinkAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4798,71 +4800,71 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("HandoverRestrictionListExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s42.HandoverRestrictionListExtIEsValue)(nil))
-		selectedAssert(&s42.HandoverRestrictionListExtIEsValue{})
-		opaque := func() s42.HandoverRestrictionListExtIEsValue {
-			sealed := s42.HandoverRestrictionListExtIEsValue{}
-			*s42.BridgeHandoverRestrictionListExtIEsValueFieldIsOpaque(&sealed) = true
-			*s42.BridgeHandoverRestrictionListExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s43.HandoverRestrictionListExtIEsValue)(nil))
+		selectedAssert(&s43.HandoverRestrictionListExtIEsValue{})
+		opaque := func() s43.HandoverRestrictionListExtIEsValue {
+			sealed := s43.HandoverRestrictionListExtIEsValue{}
+			*s43.BridgeHandoverRestrictionListExtIEsValueFieldIsOpaque(&sealed) = true
+			*s43.BridgeHandoverRestrictionListExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s42.HandoverRestrictionListExtIEsValue {
-				sealed := s42.HandoverRestrictionListExtIEsValue{}
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(261)
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldRowNRrestrictioninEPSasSecondaryRAT(&sealed) = new(s00.NRrestrictioninEPSasSecondaryRAT)
+			value := func() s43.HandoverRestrictionListExtIEsValue {
+				sealed := s43.HandoverRestrictionListExtIEsValue{}
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(261)
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldRowNRrestrictioninEPSasSecondaryRAT(&sealed) = new(s00.NRrestrictioninEPSasSecondaryRAT)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.HandoverRestrictionListExtIEsValue {
-				sealed := s42.HandoverRestrictionListExtIEsValue{}
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(270)
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldRowUnlicensedSpectrumRestriction(&sealed) = new(s00.UnlicensedSpectrumRestriction)
+			value := func() s43.HandoverRestrictionListExtIEsValue {
+				sealed := s43.HandoverRestrictionListExtIEsValue{}
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(270)
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldRowUnlicensedSpectrumRestriction(&sealed) = new(s00.UnlicensedSpectrumRestriction)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.HandoverRestrictionListExtIEsValue {
-				sealed := s42.HandoverRestrictionListExtIEsValue{}
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(282)
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldRowCNTypeRestrictions(&sealed) = new(s14.CNTypeRestrictions)
+			value := func() s43.HandoverRestrictionListExtIEsValue {
+				sealed := s43.HandoverRestrictionListExtIEsValue{}
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(282)
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldRowCNTypeRestrictions(&sealed) = new(s14.CNTypeRestrictions)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.HandoverRestrictionListExtIEsValue {
-				sealed := s42.HandoverRestrictionListExtIEsValue{}
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(287)
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldRowNRrestrictionin5GS(&sealed) = new(s00.NRrestrictionin5GS)
+			value := func() s43.HandoverRestrictionListExtIEsValue {
+				sealed := s43.HandoverRestrictionListExtIEsValue{}
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(287)
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldRowNRrestrictionin5GS(&sealed) = new(s00.NRrestrictionin5GS)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.HandoverRestrictionListExtIEsValue {
-				sealed := s42.HandoverRestrictionListExtIEsValue{}
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(290)
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldRowLastNGRANPLMNIdentity(&sealed) = new(s00.PLMNidentity)
+			value := func() s43.HandoverRestrictionListExtIEsValue {
+				sealed := s43.HandoverRestrictionListExtIEsValue{}
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(290)
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldRowLastNGRANPLMNIdentity(&sealed) = new(s00.PLMNidentity)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s42.HandoverRestrictionListExtIEsValue {
-				sealed := s42.HandoverRestrictionListExtIEsValue{}
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(336)
-				*s42.BridgeHandoverRestrictionListExtIEsValueFieldRowRATRestrictions(&sealed) = new(s20.RATRestrictions)
+			value := func() s43.HandoverRestrictionListExtIEsValue {
+				sealed := s43.HandoverRestrictionListExtIEsValue{}
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(336)
+				*s43.BridgeHandoverRestrictionListExtIEsValueFieldRowRATRestrictions(&sealed) = new(s20.RATRestrictions)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -4902,101 +4904,101 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ImmediateMDTExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s47.ImmediateMDTExtIEsValue)(nil))
-		selectedAssert(&s47.ImmediateMDTExtIEsValue{})
-		opaque := func() s47.ImmediateMDTExtIEsValue {
-			sealed := s47.ImmediateMDTExtIEsValue{}
-			*s47.BridgeImmediateMDTExtIEsValueFieldIsOpaque(&sealed) = true
-			*s47.BridgeImmediateMDTExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s48.ImmediateMDTExtIEsValue)(nil))
+		selectedAssert(&s48.ImmediateMDTExtIEsValue{})
+		opaque := func() s48.ImmediateMDTExtIEsValue {
+			sealed := s48.ImmediateMDTExtIEsValue{}
+			*s48.BridgeImmediateMDTExtIEsValueFieldIsOpaque(&sealed) = true
+			*s48.BridgeImmediateMDTExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s47.ImmediateMDTExtIEsValue {
-				sealed := s47.ImmediateMDTExtIEsValue{}
-				*s47.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(171)
-				*s47.BridgeImmediateMDTExtIEsValueFieldRowM3Configuration(&sealed) = new(s19.M3Configuration)
+			value := func() s48.ImmediateMDTExtIEsValue {
+				sealed := s48.ImmediateMDTExtIEsValue{}
+				*s48.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(171)
+				*s48.BridgeImmediateMDTExtIEsValueFieldRowM3Configuration(&sealed) = new(s19.M3Configuration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.ImmediateMDTExtIEsValue {
-				sealed := s47.ImmediateMDTExtIEsValue{}
-				*s47.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(172)
-				*s47.BridgeImmediateMDTExtIEsValueFieldRowM4Configuration(&sealed) = new(s19.M4Configuration)
+			value := func() s48.ImmediateMDTExtIEsValue {
+				sealed := s48.ImmediateMDTExtIEsValue{}
+				*s48.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(172)
+				*s48.BridgeImmediateMDTExtIEsValueFieldRowM4Configuration(&sealed) = new(s19.M4Configuration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.ImmediateMDTExtIEsValue {
-				sealed := s47.ImmediateMDTExtIEsValue{}
-				*s47.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(173)
-				*s47.BridgeImmediateMDTExtIEsValueFieldRowM5Configuration(&sealed) = new(s19.M5Configuration)
+			value := func() s48.ImmediateMDTExtIEsValue {
+				sealed := s48.ImmediateMDTExtIEsValue{}
+				*s48.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(173)
+				*s48.BridgeImmediateMDTExtIEsValueFieldRowM5Configuration(&sealed) = new(s19.M5Configuration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.ImmediateMDTExtIEsValue {
-				sealed := s47.ImmediateMDTExtIEsValue{}
-				*s47.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(174)
-				*s47.BridgeImmediateMDTExtIEsValueFieldRowMDTLocationInfo(&sealed) = new(s00.MDTLocationInfo)
+			value := func() s48.ImmediateMDTExtIEsValue {
+				sealed := s48.ImmediateMDTExtIEsValue{}
+				*s48.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(174)
+				*s48.BridgeImmediateMDTExtIEsValueFieldRowMDTLocationInfo(&sealed) = new(s00.MDTLocationInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.ImmediateMDTExtIEsValue {
-				sealed := s47.ImmediateMDTExtIEsValue{}
-				*s47.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(220)
-				*s47.BridgeImmediateMDTExtIEsValueFieldRowM6Configuration(&sealed) = new(s19.M6Configuration)
+			value := func() s48.ImmediateMDTExtIEsValue {
+				sealed := s48.ImmediateMDTExtIEsValue{}
+				*s48.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(220)
+				*s48.BridgeImmediateMDTExtIEsValueFieldRowM6Configuration(&sealed) = new(s19.M6Configuration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.ImmediateMDTExtIEsValue {
-				sealed := s47.ImmediateMDTExtIEsValue{}
-				*s47.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(221)
-				*s47.BridgeImmediateMDTExtIEsValueFieldRowM7Configuration(&sealed) = new(s19.M7Configuration)
+			value := func() s48.ImmediateMDTExtIEsValue {
+				sealed := s48.ImmediateMDTExtIEsValue{}
+				*s48.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(221)
+				*s48.BridgeImmediateMDTExtIEsValueFieldRowM7Configuration(&sealed) = new(s19.M7Configuration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.ImmediateMDTExtIEsValue {
-				sealed := s47.ImmediateMDTExtIEsValue{}
-				*s47.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(284)
-				*s47.BridgeImmediateMDTExtIEsValueFieldRowBluetoothMeasurementConfiguration(&sealed) = new(s14.BluetoothMeasurementConfiguration)
+			value := func() s48.ImmediateMDTExtIEsValue {
+				sealed := s48.ImmediateMDTExtIEsValue{}
+				*s48.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(284)
+				*s48.BridgeImmediateMDTExtIEsValueFieldRowBluetoothMeasurementConfiguration(&sealed) = new(s14.BluetoothMeasurementConfiguration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.ImmediateMDTExtIEsValue {
-				sealed := s47.ImmediateMDTExtIEsValue{}
-				*s47.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(285)
-				*s47.BridgeImmediateMDTExtIEsValueFieldRowWLANMeasurementConfiguration(&sealed) = new(s47.WLANMeasurementConfiguration)
+			value := func() s48.ImmediateMDTExtIEsValue {
+				sealed := s48.ImmediateMDTExtIEsValue{}
+				*s48.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(285)
+				*s48.BridgeImmediateMDTExtIEsValueFieldRowWLANMeasurementConfiguration(&sealed) = new(s48.WLANMeasurementConfiguration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.ImmediateMDTExtIEsValue {
-				sealed := s47.ImmediateMDTExtIEsValue{}
-				*s47.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(345)
-				*s47.BridgeImmediateMDTExtIEsValueFieldRowSensorMeasurementConfiguration(&sealed) = new(s30.SensorMeasurementConfiguration)
+			value := func() s48.ImmediateMDTExtIEsValue {
+				sealed := s48.ImmediateMDTExtIEsValue{}
+				*s48.BridgeImmediateMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(345)
+				*s48.BridgeImmediateMDTExtIEsValueFieldRowSensorMeasurementConfiguration(&sealed) = new(s31.SensorMeasurementConfiguration)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -5028,51 +5030,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("InitialContextSetupFailureIEValue", func(t *testing.T) {
-		selectedAssert((*s22.InitialContextSetupFailureIEValue)(nil))
-		selectedAssert(&s22.InitialContextSetupFailureIEValue{})
-		opaque := func() s22.InitialContextSetupFailureIEValue {
-			sealed := s22.InitialContextSetupFailureIEValue{}
-			*s22.BridgeInitialContextSetupFailureIEValueFieldIsOpaque(&sealed) = true
-			*s22.BridgeInitialContextSetupFailureIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s23.InitialContextSetupFailureIEValue)(nil))
+		selectedAssert(&s23.InitialContextSetupFailureIEValue{})
+		opaque := func() s23.InitialContextSetupFailureIEValue {
+			sealed := s23.InitialContextSetupFailureIEValue{}
+			*s23.BridgeInitialContextSetupFailureIEValueFieldIsOpaque(&sealed) = true
+			*s23.BridgeInitialContextSetupFailureIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s22.InitialContextSetupFailureIEValue {
-				sealed := s22.InitialContextSetupFailureIEValue{}
-				*s22.BridgeInitialContextSetupFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s22.BridgeInitialContextSetupFailureIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s23.InitialContextSetupFailureIEValue {
+				sealed := s23.InitialContextSetupFailureIEValue{}
+				*s23.BridgeInitialContextSetupFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s23.BridgeInitialContextSetupFailureIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s22.InitialContextSetupFailureIEValue {
-				sealed := s22.InitialContextSetupFailureIEValue{}
-				*s22.BridgeInitialContextSetupFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s22.BridgeInitialContextSetupFailureIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s23.InitialContextSetupFailureIEValue {
+				sealed := s23.InitialContextSetupFailureIEValue{}
+				*s23.BridgeInitialContextSetupFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s23.BridgeInitialContextSetupFailureIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s22.InitialContextSetupFailureIEValue {
-				sealed := s22.InitialContextSetupFailureIEValue{}
-				*s22.BridgeInitialContextSetupFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(2)
-				*s22.BridgeInitialContextSetupFailureIEValueFieldRowCause(&sealed) = new(s14.Cause)
+			value := func() s23.InitialContextSetupFailureIEValue {
+				sealed := s23.InitialContextSetupFailureIEValue{}
+				*s23.BridgeInitialContextSetupFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(2)
+				*s23.BridgeInitialContextSetupFailureIEValueFieldRowCause(&sealed) = new(s14.Cause)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s22.InitialContextSetupFailureIEValue {
-				sealed := s22.InitialContextSetupFailureIEValue{}
-				*s22.BridgeInitialContextSetupFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s22.BridgeInitialContextSetupFailureIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s23.InitialContextSetupFailureIEValue {
+				sealed := s23.InitialContextSetupFailureIEValue{}
+				*s23.BridgeInitialContextSetupFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s23.BridgeInitialContextSetupFailureIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -5080,401 +5082,401 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("InitialContextSetupRequestIEValue", func(t *testing.T) {
-		selectedAssert((*s48.InitialContextSetupRequestIEValue)(nil))
-		selectedAssert(&s48.InitialContextSetupRequestIEValue{})
-		opaque := func() s48.InitialContextSetupRequestIEValue {
-			sealed := s48.InitialContextSetupRequestIEValue{}
-			*s48.BridgeInitialContextSetupRequestIEValueFieldIsOpaque(&sealed) = true
-			*s48.BridgeInitialContextSetupRequestIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s49.InitialContextSetupRequestIEValue)(nil))
+		selectedAssert(&s49.InitialContextSetupRequestIEValue{})
+		opaque := func() s49.InitialContextSetupRequestIEValue {
+			sealed := s49.InitialContextSetupRequestIEValue{}
+			*s49.BridgeInitialContextSetupRequestIEValueFieldIsOpaque(&sealed) = true
+			*s49.BridgeInitialContextSetupRequestIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s35.UEAggregateMaximumBitrate)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s36.UEAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(24)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowERABToBeSetupListCtxtSUReq(&sealed) = new(s29.ERABToBeSetupListCtxtSUReq)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(24)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowERABToBeSetupListCtxtSUReq(&sealed) = new(s30.ERABToBeSetupListCtxtSUReq)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(107)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowUESecurityCapabilities(&sealed) = new(s37.UESecurityCapabilities)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(107)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowUESecurityCapabilities(&sealed) = new(s37.UESecurityCapabilities)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(73)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowSecurityKey(&sealed) = new(s00.SecurityKey)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(73)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowSecurityKey(&sealed) = new(s00.SecurityKey)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(25)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowTraceActivation(&sealed) = new(s47.TraceActivation)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(25)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowTraceActivation(&sealed) = new(s48.TraceActivation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(41)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowHandoverRestrictionList(&sealed) = new(s42.HandoverRestrictionList)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(41)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowHandoverRestrictionList(&sealed) = new(s43.HandoverRestrictionList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(74)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowUERadioCapability(&sealed) = new(s00.UERadioCapability)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(74)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowUERadioCapability(&sealed) = new(s00.UERadioCapability)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(106)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowSubscriberProfileIDforRFP(&sealed) = new(s00.SubscriberProfileIDforRFP)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(106)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowSubscriberProfileIDforRFP(&sealed) = new(s00.SubscriberProfileIDforRFP)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(108)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowCSFallbackIndicator(&sealed) = new(s00.CSFallbackIndicator)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(108)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowCSFallbackIndicator(&sealed) = new(s00.CSFallbackIndicator)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(124)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowSRVCCOperationPossible(&sealed) = new(s00.SRVCCOperationPossible)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(124)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowSRVCCOperationPossible(&sealed) = new(s00.SRVCCOperationPossible)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(146)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowCSGMembershipStatus(&sealed) = new(s00.CSGMembershipStatus)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(146)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowCSGMembershipStatus(&sealed) = new(s00.CSGMembershipStatus)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(159)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowRegisteredLAI(&sealed) = new(s18.LAI)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(159)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowRegisteredLAI(&sealed) = new(s18.LAI)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(75)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowGUMMEIID(&sealed) = new(s18.GUMMEI)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(75)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowGUMMEIID(&sealed) = new(s18.GUMMEI)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(158)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowMMEUES1APID2(&sealed) = new(s00.MMEUES1APID)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(158)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowMMEUES1APID2(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(165)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowManagementBasedMDTAllowed(&sealed) = new(s00.ManagementBasedMDTAllowed)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(165)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowManagementBasedMDTAllowed(&sealed) = new(s00.ManagementBasedMDTAllowed)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(177)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowManagementBasedMDTPLMNList(&sealed) = new(s00.MDTPLMNList)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(177)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowManagementBasedMDTPLMNList(&sealed) = new(s00.MDTPLMNList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(187)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowAdditionalCSFallbackIndicator(&sealed) = new(s00.AdditionalCSFallbackIndicator)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(187)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowAdditionalCSFallbackIndicator(&sealed) = new(s00.AdditionalCSFallbackIndicator)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(192)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowMaskedIMEISV(&sealed) = new(s00.MaskedIMEISV)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(192)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowMaskedIMEISV(&sealed) = new(s00.MaskedIMEISV)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(196)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowExpectedUEBehaviour(&sealed) = new(s18.ExpectedUEBehaviour)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(196)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowExpectedUEBehaviour(&sealed) = new(s18.ExpectedUEBehaviour)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(195)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowProSeAuthorized(&sealed) = new(s20.ProSeAuthorized)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(195)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowProSeAuthorized(&sealed) = new(s20.ProSeAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(241)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowUEUserPlaneCIoTSupportIndicator(&sealed) = new(s00.UEUserPlaneCIoTSupportIndicator)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(241)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowUEUserPlaneCIoTSupportIndicator(&sealed) = new(s00.UEUserPlaneCIoTSupportIndicator)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(240)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowV2XServicesAuthorized(&sealed) = new(s46.V2XServicesAuthorized)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(240)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowV2XServicesAuthorized(&sealed) = new(s47.V2XServicesAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(248)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowUESidelinkAggregateMaximumBitrate(&sealed) = new(s37.UESidelinkAggregateMaximumBitrate)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(248)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowUESidelinkAggregateMaximumBitrate(&sealed) = new(s38.UESidelinkAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(251)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowEnhancedCoverageRestricted(&sealed) = new(s00.EnhancedCoverageRestricted)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(251)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowEnhancedCoverageRestricted(&sealed) = new(s00.EnhancedCoverageRestricted)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(269)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowNRUESecurityCapabilities(&sealed) = new(s19.NRUESecurityCapabilities)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(269)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowNRUESecurityCapabilities(&sealed) = new(s19.NRUESecurityCapabilities)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(271)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowCEModeBRestricted(&sealed) = new(s00.CEModeBRestricted)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(271)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowCEModeBRestricted(&sealed) = new(s00.CEModeBRestricted)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(277)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowAerialUEsubscriptionInformation(&sealed) = new(s00.AerialUEsubscriptionInformation)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(277)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowAerialUEsubscriptionInformation(&sealed) = new(s00.AerialUEsubscriptionInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(283)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowPendingDataIndication(&sealed) = new(s00.PendingDataIndication)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(283)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowPendingDataIndication(&sealed) = new(s00.PendingDataIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(278)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s30.SubscriptionBasedUEDifferentiationInfo)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(278)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s31.SubscriptionBasedUEDifferentiationInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(299)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowAdditionalRRMPriorityIndex(&sealed) = new(s00.AdditionalRRMPriorityIndex)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(299)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowAdditionalRRMPriorityIndex(&sealed) = new(s00.AdditionalRRMPriorityIndex)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(301)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowIABAuthorized(&sealed) = new(s00.IABAuthorized)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(301)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowIABAuthorized(&sealed) = new(s00.IABAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(306)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowNRV2XServicesAuthorized(&sealed) = new(s19.NRV2XServicesAuthorized)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(306)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowNRV2XServicesAuthorized(&sealed) = new(s20.NRV2XServicesAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(307)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowNRUESidelinkAggregateMaximumBitrate(&sealed) = new(s19.NRUESidelinkAggregateMaximumBitrate)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(307)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowNRUESidelinkAggregateMaximumBitrate(&sealed) = new(s20.NRUESidelinkAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(308)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowPC5QoSParameters(&sealed) = new(s24.PC5QoSParameters)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(308)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowPC5QoSParameters(&sealed) = new(s24.PC5QoSParameters)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(314)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowUERadioCapabilityID(&sealed) = new(s00.UERadioCapabilityID)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(314)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowUERadioCapabilityID(&sealed) = new(s00.UERadioCapabilityID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(354)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowCoarseUELocation(&sealed) = new(s00.CoarseUELocation)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(354)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowCoarseUELocation(&sealed) = new(s00.CoarseUELocation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.InitialContextSetupRequestIEValue {
-				sealed := s48.InitialContextSetupRequestIEValue{}
-				*s48.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(355)
-				*s48.BridgeInitialContextSetupRequestIEValueFieldRowTimeRefDistribution(&sealed) = new(s00.TimeRefDistribution)
+			value := func() s49.InitialContextSetupRequestIEValue {
+				sealed := s49.InitialContextSetupRequestIEValue{}
+				*s49.BridgeInitialContextSetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(355)
+				*s49.BridgeInitialContextSetupRequestIEValueFieldRowTimeRefDistribution(&sealed) = new(s00.TimeRefDistribution)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -5482,61 +5484,61 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("InitialContextSetupResponseIEValue", func(t *testing.T) {
-		selectedAssert((*s39.InitialContextSetupResponseIEValue)(nil))
-		selectedAssert(&s39.InitialContextSetupResponseIEValue{})
-		opaque := func() s39.InitialContextSetupResponseIEValue {
-			sealed := s39.InitialContextSetupResponseIEValue{}
-			*s39.BridgeInitialContextSetupResponseIEValueFieldIsOpaque(&sealed) = true
-			*s39.BridgeInitialContextSetupResponseIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s40.InitialContextSetupResponseIEValue)(nil))
+		selectedAssert(&s40.InitialContextSetupResponseIEValue{})
+		opaque := func() s40.InitialContextSetupResponseIEValue {
+			sealed := s40.InitialContextSetupResponseIEValue{}
+			*s40.BridgeInitialContextSetupResponseIEValueFieldIsOpaque(&sealed) = true
+			*s40.BridgeInitialContextSetupResponseIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s39.InitialContextSetupResponseIEValue {
-				sealed := s39.InitialContextSetupResponseIEValue{}
-				*s39.BridgeInitialContextSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s39.BridgeInitialContextSetupResponseIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s40.InitialContextSetupResponseIEValue {
+				sealed := s40.InitialContextSetupResponseIEValue{}
+				*s40.BridgeInitialContextSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s40.BridgeInitialContextSetupResponseIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.InitialContextSetupResponseIEValue {
-				sealed := s39.InitialContextSetupResponseIEValue{}
-				*s39.BridgeInitialContextSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s39.BridgeInitialContextSetupResponseIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s40.InitialContextSetupResponseIEValue {
+				sealed := s40.InitialContextSetupResponseIEValue{}
+				*s40.BridgeInitialContextSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s40.BridgeInitialContextSetupResponseIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.InitialContextSetupResponseIEValue {
-				sealed := s39.InitialContextSetupResponseIEValue{}
-				*s39.BridgeInitialContextSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(51)
-				*s39.BridgeInitialContextSetupResponseIEValueFieldRowERABSetupListCtxtSURes(&sealed) = new(s17.ERABSetupListCtxtSURes)
+			value := func() s40.InitialContextSetupResponseIEValue {
+				sealed := s40.InitialContextSetupResponseIEValue{}
+				*s40.BridgeInitialContextSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(51)
+				*s40.BridgeInitialContextSetupResponseIEValueFieldRowERABSetupListCtxtSURes(&sealed) = new(s17.ERABSetupListCtxtSURes)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.InitialContextSetupResponseIEValue {
-				sealed := s39.InitialContextSetupResponseIEValue{}
-				*s39.BridgeInitialContextSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(48)
-				*s39.BridgeInitialContextSetupResponseIEValueFieldRowERABFailedToSetupListCtxtSURes(&sealed) = new(s16.ERABList)
+			value := func() s40.InitialContextSetupResponseIEValue {
+				sealed := s40.InitialContextSetupResponseIEValue{}
+				*s40.BridgeInitialContextSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(48)
+				*s40.BridgeInitialContextSetupResponseIEValueFieldRowERABFailedToSetupListCtxtSURes(&sealed) = new(s16.ERABList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.InitialContextSetupResponseIEValue {
-				sealed := s39.InitialContextSetupResponseIEValue{}
-				*s39.BridgeInitialContextSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s39.BridgeInitialContextSetupResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s40.InitialContextSetupResponseIEValue {
+				sealed := s40.InitialContextSetupResponseIEValue{}
+				*s40.BridgeInitialContextSetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s40.BridgeInitialContextSetupResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -5578,7 +5580,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s35.InitialUEMessageIEValue {
 				sealed := s35.InitialUEMessageIEValue{}
 				*s35.BridgeInitialUEMessageIEValueFieldId(&sealed) = s00.ProtocolIEID(67)
-				*s35.BridgeInitialUEMessageIEValueFieldRowTAI(&sealed) = new(s31.TAI)
+				*s35.BridgeInitialUEMessageIEValueFieldRowTAI(&sealed) = new(s32.TAI)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -5806,691 +5808,691 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("InitiatingValue", func(t *testing.T) {
-		selectedAssert((*s51.InitiatingValue)(nil))
-		selectedAssert(&s51.InitiatingValue{})
-		opaque := func() s51.InitiatingValue {
-			sealed := s51.InitiatingValue{}
-			*s51.BridgeInitiatingValueFieldIsOpaque(&sealed) = true
-			*s51.BridgeInitiatingValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s52.InitiatingValue)(nil))
+		selectedAssert(&s52.InitiatingValue{})
+		opaque := func() s52.InitiatingValue {
+			sealed := s52.InitiatingValue{}
+			*s52.BridgeInitiatingValueFieldIsOpaque(&sealed) = true
+			*s52.BridgeInitiatingValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(0)
-				*s51.BridgeInitiatingValueFieldBodyHandoverRequired(&sealed) = new(s34.HandoverRequired)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(0)
+				*s52.BridgeInitiatingValueFieldBodyHandoverRequired(&sealed) = new(s35.HandoverRequired)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(1)
-				*s51.BridgeInitiatingValueFieldBodyHandoverRequest(&sealed) = new(s49.HandoverRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(1)
+				*s52.BridgeInitiatingValueFieldBodyHandoverRequest(&sealed) = new(s49.HandoverRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(2)
-				*s51.BridgeInitiatingValueFieldBodyHandoverNotify(&sealed) = new(s35.HandoverNotify)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(2)
+				*s52.BridgeInitiatingValueFieldBodyHandoverNotify(&sealed) = new(s36.HandoverNotify)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(3)
-				*s51.BridgeInitiatingValueFieldBodyPathSwitchRequest(&sealed) = new(s41.PathSwitchRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(3)
+				*s52.BridgeInitiatingValueFieldBodyPathSwitchRequest(&sealed) = new(s41.PathSwitchRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(4)
-				*s51.BridgeInitiatingValueFieldBodyHandoverCancel(&sealed) = new(s25.HandoverCancel)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(4)
+				*s52.BridgeInitiatingValueFieldBodyHandoverCancel(&sealed) = new(s25.HandoverCancel)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(5)
-				*s51.BridgeInitiatingValueFieldBodyERABSetupRequest(&sealed) = new(s40.ERABSetupRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(5)
+				*s52.BridgeInitiatingValueFieldBodyERABSetupRequest(&sealed) = new(s41.ERABSetupRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(6)
-				*s51.BridgeInitiatingValueFieldBodyERABModifyRequest(&sealed) = new(s40.ERABModifyRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(6)
+				*s52.BridgeInitiatingValueFieldBodyERABModifyRequest(&sealed) = new(s41.ERABModifyRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(7)
-				*s51.BridgeInitiatingValueFieldBodyERABReleaseCommand(&sealed) = new(s39.ERABReleaseCommand)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(7)
+				*s52.BridgeInitiatingValueFieldBodyERABReleaseCommand(&sealed) = new(s40.ERABReleaseCommand)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(8)
-				*s51.BridgeInitiatingValueFieldBodyERABReleaseIndication(&sealed) = new(s46.ERABReleaseIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(8)
+				*s52.BridgeInitiatingValueFieldBodyERABReleaseIndication(&sealed) = new(s46.ERABReleaseIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(9)
-				*s51.BridgeInitiatingValueFieldBodyInitialContextSetupRequest(&sealed) = new(s49.InitialContextSetupRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(9)
+				*s52.BridgeInitiatingValueFieldBodyInitialContextSetupRequest(&sealed) = new(s49.InitialContextSetupRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(10)
-				*s51.BridgeInitiatingValueFieldBodyPaging(&sealed) = new(s49.Paging)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(10)
+				*s52.BridgeInitiatingValueFieldBodyPaging(&sealed) = new(s50.Paging)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(11)
-				*s51.BridgeInitiatingValueFieldBodyDownlinkNASTransport(&sealed) = new(s42.DownlinkNASTransport)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(11)
+				*s52.BridgeInitiatingValueFieldBodyDownlinkNASTransport(&sealed) = new(s43.DownlinkNASTransport)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(12)
-				*s51.BridgeInitiatingValueFieldBodyInitialUEMessage(&sealed) = new(s35.InitialUEMessage)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(12)
+				*s52.BridgeInitiatingValueFieldBodyInitialUEMessage(&sealed) = new(s36.InitialUEMessage)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(13)
-				*s51.BridgeInitiatingValueFieldBodyUplinkNASTransport(&sealed) = new(s44.UplinkNASTransport)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(13)
+				*s52.BridgeInitiatingValueFieldBodyUplinkNASTransport(&sealed) = new(s45.UplinkNASTransport)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(14)
-				*s51.BridgeInitiatingValueFieldBodyReset(&sealed) = new(s36.Reset)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(14)
+				*s52.BridgeInitiatingValueFieldBodyReset(&sealed) = new(s36.Reset)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(15)
-				*s51.BridgeInitiatingValueFieldBodyErrorIndication(&sealed) = new(s28.ErrorIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(15)
+				*s52.BridgeInitiatingValueFieldBodyErrorIndication(&sealed) = new(s28.ErrorIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(16)
-				*s51.BridgeInitiatingValueFieldBodyNASNonDeliveryIndication(&sealed) = new(s25.NASNonDeliveryIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(16)
+				*s52.BridgeInitiatingValueFieldBodyNASNonDeliveryIndication(&sealed) = new(s26.NASNonDeliveryIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(17)
-				*s51.BridgeInitiatingValueFieldBodyS1SetupRequest(&sealed) = new(s44.S1SetupRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(17)
+				*s52.BridgeInitiatingValueFieldBodyS1SetupRequest(&sealed) = new(s44.S1SetupRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(18)
-				*s51.BridgeInitiatingValueFieldBodyUEContextReleaseRequest(&sealed) = new(s43.UEContextReleaseRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(18)
+				*s52.BridgeInitiatingValueFieldBodyUEContextReleaseRequest(&sealed) = new(s43.UEContextReleaseRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(19)
-				*s51.BridgeInitiatingValueFieldBodyDownlinkS1cdma2000tunnelling(&sealed) = new(s40.DownlinkS1cdma2000tunnelling)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(19)
+				*s52.BridgeInitiatingValueFieldBodyDownlinkS1cdma2000tunnelling(&sealed) = new(s41.DownlinkS1cdma2000tunnelling)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(20)
-				*s51.BridgeInitiatingValueFieldBodyUplinkS1cdma2000tunnelling(&sealed) = new(s44.UplinkS1cdma2000tunnelling)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(20)
+				*s52.BridgeInitiatingValueFieldBodyUplinkS1cdma2000tunnelling(&sealed) = new(s45.UplinkS1cdma2000tunnelling)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(21)
-				*s51.BridgeInitiatingValueFieldBodyUEContextModificationRequest(&sealed) = new(s47.UEContextModificationRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(21)
+				*s52.BridgeInitiatingValueFieldBodyUEContextModificationRequest(&sealed) = new(s48.UEContextModificationRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(22)
-				*s51.BridgeInitiatingValueFieldBodyUECapabilityInfoIndication(&sealed) = new(s36.UECapabilityInfoIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(22)
+				*s52.BridgeInitiatingValueFieldBodyUECapabilityInfoIndication(&sealed) = new(s36.UECapabilityInfoIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(23)
-				*s51.BridgeInitiatingValueFieldBodyUEContextReleaseCommand(&sealed) = new(s37.UEContextReleaseCommand)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(23)
+				*s52.BridgeInitiatingValueFieldBodyUEContextReleaseCommand(&sealed) = new(s37.UEContextReleaseCommand)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(24)
-				*s51.BridgeInitiatingValueFieldBodyENBStatusTransfer(&sealed) = new(s24.ENBStatusTransfer)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(24)
+				*s52.BridgeInitiatingValueFieldBodyENBStatusTransfer(&sealed) = new(s24.ENBStatusTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(25)
-				*s51.BridgeInitiatingValueFieldBodyMMEStatusTransfer(&sealed) = new(s25.MMEStatusTransfer)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(25)
+				*s52.BridgeInitiatingValueFieldBodyMMEStatusTransfer(&sealed) = new(s26.MMEStatusTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(26)
-				*s51.BridgeInitiatingValueFieldBodyDeactivateTrace(&sealed) = new(s15.DeactivateTrace)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(26)
+				*s52.BridgeInitiatingValueFieldBodyDeactivateTrace(&sealed) = new(s15.DeactivateTrace)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(27)
-				*s51.BridgeInitiatingValueFieldBodyTraceStart(&sealed) = new(s49.TraceStart)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(27)
+				*s52.BridgeInitiatingValueFieldBodyTraceStart(&sealed) = new(s49.TraceStart)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(28)
-				*s51.BridgeInitiatingValueFieldBodyTraceFailureIndication(&sealed) = new(s35.TraceFailureIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(28)
+				*s52.BridgeInitiatingValueFieldBodyTraceFailureIndication(&sealed) = new(s35.TraceFailureIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(29)
-				*s51.BridgeInitiatingValueFieldBodyENBConfigurationUpdate(&sealed) = new(s43.ENBConfigurationUpdate)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(29)
+				*s52.BridgeInitiatingValueFieldBodyENBConfigurationUpdate(&sealed) = new(s44.ENBConfigurationUpdate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(30)
-				*s51.BridgeInitiatingValueFieldBodyMMEConfigurationUpdate(&sealed) = new(s43.MMEConfigurationUpdate)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(30)
+				*s52.BridgeInitiatingValueFieldBodyMMEConfigurationUpdate(&sealed) = new(s44.MMEConfigurationUpdate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(31)
-				*s51.BridgeInitiatingValueFieldBodyLocationReportingControl(&sealed) = new(s26.LocationReportingControl)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(31)
+				*s52.BridgeInitiatingValueFieldBodyLocationReportingControl(&sealed) = new(s26.LocationReportingControl)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(32)
-				*s51.BridgeInitiatingValueFieldBodyLocationReportingFailureIndication(&sealed) = new(s25.LocationReportingFailureIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(32)
+				*s52.BridgeInitiatingValueFieldBodyLocationReportingFailureIndication(&sealed) = new(s25.LocationReportingFailureIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(33)
-				*s51.BridgeInitiatingValueFieldBodyLocationReport(&sealed) = new(s33.LocationReport)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(33)
+				*s52.BridgeInitiatingValueFieldBodyLocationReport(&sealed) = new(s33.LocationReport)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(34)
-				*s51.BridgeInitiatingValueFieldBodyOverloadStart(&sealed) = new(s41.OverloadStart)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(34)
+				*s52.BridgeInitiatingValueFieldBodyOverloadStart(&sealed) = new(s42.OverloadStart)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(35)
-				*s51.BridgeInitiatingValueFieldBodyOverloadStop(&sealed) = new(s41.OverloadStop)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(35)
+				*s52.BridgeInitiatingValueFieldBodyOverloadStop(&sealed) = new(s42.OverloadStop)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(36)
-				*s51.BridgeInitiatingValueFieldBodyWriteReplaceWarningRequest(&sealed) = new(s50.WriteReplaceWarningRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(36)
+				*s52.BridgeInitiatingValueFieldBodyWriteReplaceWarningRequest(&sealed) = new(s51.WriteReplaceWarningRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(37)
-				*s51.BridgeInitiatingValueFieldBodyENBDirectInformationTransfer(&sealed) = new(s34.ENBDirectInformationTransfer)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(37)
+				*s52.BridgeInitiatingValueFieldBodyENBDirectInformationTransfer(&sealed) = new(s34.ENBDirectInformationTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(38)
-				*s51.BridgeInitiatingValueFieldBodyMMEDirectInformationTransfer(&sealed) = new(s34.MMEDirectInformationTransfer)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(38)
+				*s52.BridgeInitiatingValueFieldBodyMMEDirectInformationTransfer(&sealed) = new(s34.MMEDirectInformationTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(39)
-				*s51.BridgeInitiatingValueFieldBodyPrivateMessage(&sealed) = new(s26.PrivateMessage)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(39)
+				*s52.BridgeInitiatingValueFieldBodyPrivateMessage(&sealed) = new(s26.PrivateMessage)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(40)
-				*s51.BridgeInitiatingValueFieldBodyENBConfigurationTransfer(&sealed) = new(s51.ENBConfigurationTransfer)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(40)
+				*s52.BridgeInitiatingValueFieldBodyENBConfigurationTransfer(&sealed) = new(s52.ENBConfigurationTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(41)
-				*s51.BridgeInitiatingValueFieldBodyMMEConfigurationTransfer(&sealed) = new(s51.MMEConfigurationTransfer)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(41)
+				*s52.BridgeInitiatingValueFieldBodyMMEConfigurationTransfer(&sealed) = new(s52.MMEConfigurationTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(42)
-				*s51.BridgeInitiatingValueFieldBodyCellTrafficTrace(&sealed) = new(s21.CellTrafficTrace)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(42)
+				*s52.BridgeInitiatingValueFieldBodyCellTrafficTrace(&sealed) = new(s21.CellTrafficTrace)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(43)
-				*s51.BridgeInitiatingValueFieldBodyKillRequest(&sealed) = new(s33.KillRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(43)
+				*s52.BridgeInitiatingValueFieldBodyKillRequest(&sealed) = new(s33.KillRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(44)
-				*s51.BridgeInitiatingValueFieldBodyDownlinkUEAssociatedLPPaTransport(&sealed) = new(s15.DownlinkUEAssociatedLPPaTransport)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(44)
+				*s52.BridgeInitiatingValueFieldBodyDownlinkUEAssociatedLPPaTransport(&sealed) = new(s15.DownlinkUEAssociatedLPPaTransport)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(45)
-				*s51.BridgeInitiatingValueFieldBodyUplinkUEAssociatedLPPaTransport(&sealed) = new(s44.UplinkUEAssociatedLPPaTransport)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(45)
+				*s52.BridgeInitiatingValueFieldBodyUplinkUEAssociatedLPPaTransport(&sealed) = new(s45.UplinkUEAssociatedLPPaTransport)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(46)
-				*s51.BridgeInitiatingValueFieldBodyDownlinkNonUEAssociatedLPPaTransport(&sealed) = new(s15.DownlinkNonUEAssociatedLPPaTransport)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(46)
+				*s52.BridgeInitiatingValueFieldBodyDownlinkNonUEAssociatedLPPaTransport(&sealed) = new(s15.DownlinkNonUEAssociatedLPPaTransport)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(47)
-				*s51.BridgeInitiatingValueFieldBodyUplinkNonUEAssociatedLPPaTransport(&sealed) = new(s44.UplinkNonUEAssociatedLPPaTransport)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(47)
+				*s52.BridgeInitiatingValueFieldBodyUplinkNonUEAssociatedLPPaTransport(&sealed) = new(s45.UplinkNonUEAssociatedLPPaTransport)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(48)
-				*s51.BridgeInitiatingValueFieldBodyUERadioCapabilityMatchRequest(&sealed) = new(s36.UERadioCapabilityMatchRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(48)
+				*s52.BridgeInitiatingValueFieldBodyUERadioCapabilityMatchRequest(&sealed) = new(s37.UERadioCapabilityMatchRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(49)
-				*s51.BridgeInitiatingValueFieldBodyPWSRestartIndication(&sealed) = new(s44.PWSRestartIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(49)
+				*s52.BridgeInitiatingValueFieldBodyPWSRestartIndication(&sealed) = new(s44.PWSRestartIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(50)
-				*s51.BridgeInitiatingValueFieldBodyERABModificationIndication(&sealed) = new(s46.ERABModificationIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(50)
+				*s52.BridgeInitiatingValueFieldBodyERABModificationIndication(&sealed) = new(s46.ERABModificationIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(51)
-				*s51.BridgeInitiatingValueFieldBodyPWSFailureIndication(&sealed) = new(s42.PWSFailureIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(51)
+				*s52.BridgeInitiatingValueFieldBodyPWSFailureIndication(&sealed) = new(s43.PWSFailureIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(52)
-				*s51.BridgeInitiatingValueFieldBodyRerouteNASRequest(&sealed) = new(s26.RerouteNASRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(52)
+				*s52.BridgeInitiatingValueFieldBodyRerouteNASRequest(&sealed) = new(s27.RerouteNASRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(53)
-				*s51.BridgeInitiatingValueFieldBodyUEContextModificationIndication(&sealed) = new(s36.UEContextModificationIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(53)
+				*s52.BridgeInitiatingValueFieldBodyUEContextModificationIndication(&sealed) = new(s37.UEContextModificationIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(54)
-				*s51.BridgeInitiatingValueFieldBodyConnectionEstablishmentIndication(&sealed) = new(s31.ConnectionEstablishmentIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(54)
+				*s52.BridgeInitiatingValueFieldBodyConnectionEstablishmentIndication(&sealed) = new(s31.ConnectionEstablishmentIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(55)
-				*s51.BridgeInitiatingValueFieldBodyUEContextSuspendRequest(&sealed) = new(s46.UEContextSuspendRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(55)
+				*s52.BridgeInitiatingValueFieldBodyUEContextSuspendRequest(&sealed) = new(s47.UEContextSuspendRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(56)
-				*s51.BridgeInitiatingValueFieldBodyUEContextResumeRequest(&sealed) = new(s38.UEContextResumeRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(56)
+				*s52.BridgeInitiatingValueFieldBodyUEContextResumeRequest(&sealed) = new(s39.UEContextResumeRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(57)
-				*s51.BridgeInitiatingValueFieldBodyNASDeliveryIndication(&sealed) = new(s19.NASDeliveryIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(57)
+				*s52.BridgeInitiatingValueFieldBodyNASDeliveryIndication(&sealed) = new(s19.NASDeliveryIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(58)
-				*s51.BridgeInitiatingValueFieldBodyRetrieveUEInformation(&sealed) = new(s28.RetrieveUEInformation)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(58)
+				*s52.BridgeInitiatingValueFieldBodyRetrieveUEInformation(&sealed) = new(s28.RetrieveUEInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(59)
-				*s51.BridgeInitiatingValueFieldBodyUEInformationTransfer(&sealed) = new(s36.UEInformationTransfer)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(59)
+				*s52.BridgeInitiatingValueFieldBodyUEInformationTransfer(&sealed) = new(s37.UEInformationTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(60)
-				*s51.BridgeInitiatingValueFieldBodyENBCPRelocationIndication(&sealed) = new(s37.ENBCPRelocationIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(60)
+				*s52.BridgeInitiatingValueFieldBodyENBCPRelocationIndication(&sealed) = new(s38.ENBCPRelocationIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(61)
-				*s51.BridgeInitiatingValueFieldBodyMMECPRelocationIndication(&sealed) = new(s19.MMECPRelocationIndication)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(61)
+				*s52.BridgeInitiatingValueFieldBodyMMECPRelocationIndication(&sealed) = new(s19.MMECPRelocationIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(62)
-				*s51.BridgeInitiatingValueFieldBodySecondaryRATDataUsageReport(&sealed) = new(s46.SecondaryRATDataUsageReport)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(62)
+				*s52.BridgeInitiatingValueFieldBodySecondaryRATDataUsageReport(&sealed) = new(s47.SecondaryRATDataUsageReport)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(63)
-				*s51.BridgeInitiatingValueFieldBodyUERadioCapabilityIDMappingRequest(&sealed) = new(s36.UERadioCapabilityIDMappingRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(63)
+				*s52.BridgeInitiatingValueFieldBodyUERadioCapabilityIDMappingRequest(&sealed) = new(s37.UERadioCapabilityIDMappingRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(64)
-				*s51.BridgeInitiatingValueFieldBodyHandoverSuccess(&sealed) = new(s18.HandoverSuccess)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(64)
+				*s52.BridgeInitiatingValueFieldBodyHandoverSuccess(&sealed) = new(s18.HandoverSuccess)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(65)
-				*s51.BridgeInitiatingValueFieldBodyENBEarlyStatusTransfer(&sealed) = new(s38.ENBEarlyStatusTransfer)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(65)
+				*s52.BridgeInitiatingValueFieldBodyENBEarlyStatusTransfer(&sealed) = new(s38.ENBEarlyStatusTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(66)
-				*s51.BridgeInitiatingValueFieldBodyMMEEarlyStatusTransfer(&sealed) = new(s38.MMEEarlyStatusTransfer)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(66)
+				*s52.BridgeInitiatingValueFieldBodyMMEEarlyStatusTransfer(&sealed) = new(s38.MMEEarlyStatusTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.InitiatingValue {
-				sealed := s51.InitiatingValue{}
-				*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(67)
-				*s51.BridgeInitiatingValueFieldBodyS1RemovalRequest(&sealed) = new(s26.S1RemovalRequest)
+			value := func() s52.InitiatingValue {
+				sealed := s52.InitiatingValue{}
+				*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(67)
+				*s52.BridgeInitiatingValueFieldBodyS1RemovalRequest(&sealed) = new(s27.S1RemovalRequest)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -6568,7 +6570,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s33.KillRequestIEValue {
 				sealed := s33.KillRequestIEValue{}
 				*s33.BridgeKillRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(113)
-				*s33.BridgeKillRequestIEValueFieldRowWarningAreaList(&sealed) = new(s32.WarningAreaList)
+				*s33.BridgeKillRequestIEValueFieldRowWarningAreaList(&sealed) = new(s33.WarningAreaList)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -6586,51 +6588,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("KillResponseIEValue", func(t *testing.T) {
-		selectedAssert((*s32.KillResponseIEValue)(nil))
-		selectedAssert(&s32.KillResponseIEValue{})
-		opaque := func() s32.KillResponseIEValue {
-			sealed := s32.KillResponseIEValue{}
-			*s32.BridgeKillResponseIEValueFieldIsOpaque(&sealed) = true
-			*s32.BridgeKillResponseIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s33.KillResponseIEValue)(nil))
+		selectedAssert(&s33.KillResponseIEValue{})
+		opaque := func() s33.KillResponseIEValue {
+			sealed := s33.KillResponseIEValue{}
+			*s33.BridgeKillResponseIEValueFieldIsOpaque(&sealed) = true
+			*s33.BridgeKillResponseIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s32.KillResponseIEValue {
-				sealed := s32.KillResponseIEValue{}
-				*s32.BridgeKillResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(111)
-				*s32.BridgeKillResponseIEValueFieldRowMessageIdentifier(&sealed) = new(s00.MessageIdentifier)
+			value := func() s33.KillResponseIEValue {
+				sealed := s33.KillResponseIEValue{}
+				*s33.BridgeKillResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(111)
+				*s33.BridgeKillResponseIEValueFieldRowMessageIdentifier(&sealed) = new(s00.MessageIdentifier)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s32.KillResponseIEValue {
-				sealed := s32.KillResponseIEValue{}
-				*s32.BridgeKillResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(112)
-				*s32.BridgeKillResponseIEValueFieldRowSerialNumber(&sealed) = new(s00.SerialNumber)
+			value := func() s33.KillResponseIEValue {
+				sealed := s33.KillResponseIEValue{}
+				*s33.BridgeKillResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(112)
+				*s33.BridgeKillResponseIEValueFieldRowSerialNumber(&sealed) = new(s00.SerialNumber)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s32.KillResponseIEValue {
-				sealed := s32.KillResponseIEValue{}
-				*s32.BridgeKillResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(141)
-				*s32.BridgeKillResponseIEValueFieldRowBroadcastCancelledAreaList(&sealed) = new(s32.BroadcastCancelledAreaList)
+			value := func() s33.KillResponseIEValue {
+				sealed := s33.KillResponseIEValue{}
+				*s33.BridgeKillResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(141)
+				*s33.BridgeKillResponseIEValueFieldRowBroadcastCancelledAreaList(&sealed) = new(s33.BroadcastCancelledAreaList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s32.KillResponseIEValue {
-				sealed := s32.KillResponseIEValue{}
-				*s32.BridgeKillResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s32.BridgeKillResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s33.KillResponseIEValue {
+				sealed := s33.KillResponseIEValue{}
+				*s33.BridgeKillResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s33.BridgeKillResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -6662,41 +6664,41 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("LastVisitedEUTRANCellInformationExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s41.LastVisitedEUTRANCellInformationExtIEsValue)(nil))
-		selectedAssert(&s41.LastVisitedEUTRANCellInformationExtIEsValue{})
-		opaque := func() s41.LastVisitedEUTRANCellInformationExtIEsValue {
-			sealed := s41.LastVisitedEUTRANCellInformationExtIEsValue{}
-			*s41.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldIsOpaque(&sealed) = true
-			*s41.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s42.LastVisitedEUTRANCellInformationExtIEsValue)(nil))
+		selectedAssert(&s42.LastVisitedEUTRANCellInformationExtIEsValue{})
+		opaque := func() s42.LastVisitedEUTRANCellInformationExtIEsValue {
+			sealed := s42.LastVisitedEUTRANCellInformationExtIEsValue{}
+			*s42.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldIsOpaque(&sealed) = true
+			*s42.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s41.LastVisitedEUTRANCellInformationExtIEsValue {
-				sealed := s41.LastVisitedEUTRANCellInformationExtIEsValue{}
-				*s41.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(167)
-				*s41.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldRowTimeUEStayedInCellEnhancedGranularity(&sealed) = new(s00.TimeUEStayedInCellEnhancedGranularity)
+			value := func() s42.LastVisitedEUTRANCellInformationExtIEsValue {
+				sealed := s42.LastVisitedEUTRANCellInformationExtIEsValue{}
+				*s42.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(167)
+				*s42.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldRowTimeUEStayedInCellEnhancedGranularity(&sealed) = new(s00.TimeUEStayedInCellEnhancedGranularity)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s41.LastVisitedEUTRANCellInformationExtIEsValue {
-				sealed := s41.LastVisitedEUTRANCellInformationExtIEsValue{}
-				*s41.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(168)
-				*s41.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldRowHOCause(&sealed) = new(s14.Cause)
+			value := func() s42.LastVisitedEUTRANCellInformationExtIEsValue {
+				sealed := s42.LastVisitedEUTRANCellInformationExtIEsValue{}
+				*s42.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(168)
+				*s42.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldRowHOCause(&sealed) = new(s14.Cause)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s41.LastVisitedEUTRANCellInformationExtIEsValue {
-				sealed := s41.LastVisitedEUTRANCellInformationExtIEsValue{}
-				*s41.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(329)
-				*s41.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldRowLastVisitedPSCellList(&sealed) = new(s20.LastVisitedPSCellList)
+			value := func() s42.LastVisitedEUTRANCellInformationExtIEsValue {
+				sealed := s42.LastVisitedEUTRANCellInformationExtIEsValue{}
+				*s42.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(329)
+				*s42.BridgeLastVisitedEUTRANCellInformationExtIEsValueFieldRowLastVisitedPSCellList(&sealed) = new(s20.LastVisitedPSCellList)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -6728,81 +6730,81 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("LocationReportIEValue", func(t *testing.T) {
-		selectedAssert((*s31.LocationReportIEValue)(nil))
-		selectedAssert(&s31.LocationReportIEValue{})
-		opaque := func() s31.LocationReportIEValue {
-			sealed := s31.LocationReportIEValue{}
-			*s31.BridgeLocationReportIEValueFieldIsOpaque(&sealed) = true
-			*s31.BridgeLocationReportIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s32.LocationReportIEValue)(nil))
+		selectedAssert(&s32.LocationReportIEValue{})
+		opaque := func() s32.LocationReportIEValue {
+			sealed := s32.LocationReportIEValue{}
+			*s32.BridgeLocationReportIEValueFieldIsOpaque(&sealed) = true
+			*s32.BridgeLocationReportIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s31.LocationReportIEValue {
-				sealed := s31.LocationReportIEValue{}
-				*s31.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s31.BridgeLocationReportIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s32.LocationReportIEValue {
+				sealed := s32.LocationReportIEValue{}
+				*s32.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s32.BridgeLocationReportIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s31.LocationReportIEValue {
-				sealed := s31.LocationReportIEValue{}
-				*s31.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s31.BridgeLocationReportIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s32.LocationReportIEValue {
+				sealed := s32.LocationReportIEValue{}
+				*s32.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s32.BridgeLocationReportIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s31.LocationReportIEValue {
-				sealed := s31.LocationReportIEValue{}
-				*s31.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(100)
-				*s31.BridgeLocationReportIEValueFieldRowEUTRANCGI(&sealed) = new(s17.EUTRANCGI)
+			value := func() s32.LocationReportIEValue {
+				sealed := s32.LocationReportIEValue{}
+				*s32.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(100)
+				*s32.BridgeLocationReportIEValueFieldRowEUTRANCGI(&sealed) = new(s17.EUTRANCGI)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s31.LocationReportIEValue {
-				sealed := s31.LocationReportIEValue{}
-				*s31.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(67)
-				*s31.BridgeLocationReportIEValueFieldRowTAI(&sealed) = new(s31.TAI)
+			value := func() s32.LocationReportIEValue {
+				sealed := s32.LocationReportIEValue{}
+				*s32.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(67)
+				*s32.BridgeLocationReportIEValueFieldRowTAI(&sealed) = new(s32.TAI)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s31.LocationReportIEValue {
-				sealed := s31.LocationReportIEValue{}
-				*s31.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(98)
-				*s31.BridgeLocationReportIEValueFieldRowRequestType(&sealed) = new(s26.RequestType)
+			value := func() s32.LocationReportIEValue {
+				sealed := s32.LocationReportIEValue{}
+				*s32.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(98)
+				*s32.BridgeLocationReportIEValueFieldRowRequestType(&sealed) = new(s26.RequestType)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s31.LocationReportIEValue {
-				sealed := s31.LocationReportIEValue{}
-				*s31.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(288)
-				*s31.BridgeLocationReportIEValueFieldRowPSCellInformation(&sealed) = new(s20.PSCellInformation)
+			value := func() s32.LocationReportIEValue {
+				sealed := s32.LocationReportIEValue{}
+				*s32.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(288)
+				*s32.BridgeLocationReportIEValueFieldRowPSCellInformation(&sealed) = new(s20.PSCellInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s31.LocationReportIEValue {
-				sealed := s31.LocationReportIEValue{}
-				*s31.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(339)
-				*s31.BridgeLocationReportIEValueFieldRowLTENTNTAIInformation(&sealed) = new(s18.LTENTNTAIInformation)
+			value := func() s32.LocationReportIEValue {
+				sealed := s32.LocationReportIEValue{}
+				*s32.BridgeLocationReportIEValueFieldId(&sealed) = s00.ProtocolIEID(339)
+				*s32.BridgeLocationReportIEValueFieldRowLTENTNTAIInformation(&sealed) = new(s18.LTENTNTAIInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -6852,41 +6854,41 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("LocationReportingFailureIndicationIEValue", func(t *testing.T) {
-		selectedAssert((*s18.LocationReportingFailureIndicationIEValue)(nil))
-		selectedAssert(&s18.LocationReportingFailureIndicationIEValue{})
-		opaque := func() s18.LocationReportingFailureIndicationIEValue {
-			sealed := s18.LocationReportingFailureIndicationIEValue{}
-			*s18.BridgeLocationReportingFailureIndicationIEValueFieldIsOpaque(&sealed) = true
-			*s18.BridgeLocationReportingFailureIndicationIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s19.LocationReportingFailureIndicationIEValue)(nil))
+		selectedAssert(&s19.LocationReportingFailureIndicationIEValue{})
+		opaque := func() s19.LocationReportingFailureIndicationIEValue {
+			sealed := s19.LocationReportingFailureIndicationIEValue{}
+			*s19.BridgeLocationReportingFailureIndicationIEValueFieldIsOpaque(&sealed) = true
+			*s19.BridgeLocationReportingFailureIndicationIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s18.LocationReportingFailureIndicationIEValue {
-				sealed := s18.LocationReportingFailureIndicationIEValue{}
-				*s18.BridgeLocationReportingFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s18.BridgeLocationReportingFailureIndicationIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s19.LocationReportingFailureIndicationIEValue {
+				sealed := s19.LocationReportingFailureIndicationIEValue{}
+				*s19.BridgeLocationReportingFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s19.BridgeLocationReportingFailureIndicationIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s18.LocationReportingFailureIndicationIEValue {
-				sealed := s18.LocationReportingFailureIndicationIEValue{}
-				*s18.BridgeLocationReportingFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s18.BridgeLocationReportingFailureIndicationIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s19.LocationReportingFailureIndicationIEValue {
+				sealed := s19.LocationReportingFailureIndicationIEValue{}
+				*s19.BridgeLocationReportingFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s19.BridgeLocationReportingFailureIndicationIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s18.LocationReportingFailureIndicationIEValue {
-				sealed := s18.LocationReportingFailureIndicationIEValue{}
-				*s18.BridgeLocationReportingFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(2)
-				*s18.BridgeLocationReportingFailureIndicationIEValueFieldRowCause(&sealed) = new(s14.Cause)
+			value := func() s19.LocationReportingFailureIndicationIEValue {
+				sealed := s19.LocationReportingFailureIndicationIEValue{}
+				*s19.BridgeLocationReportingFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(2)
+				*s19.BridgeLocationReportingFailureIndicationIEValueFieldRowCause(&sealed) = new(s14.Cause)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -6906,51 +6908,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("LoggedMDTExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s47.LoggedMDTExtIEsValue)(nil))
-		selectedAssert(&s47.LoggedMDTExtIEsValue{})
-		opaque := func() s47.LoggedMDTExtIEsValue {
-			sealed := s47.LoggedMDTExtIEsValue{}
-			*s47.BridgeLoggedMDTExtIEsValueFieldIsOpaque(&sealed) = true
-			*s47.BridgeLoggedMDTExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s48.LoggedMDTExtIEsValue)(nil))
+		selectedAssert(&s48.LoggedMDTExtIEsValue{})
+		opaque := func() s48.LoggedMDTExtIEsValue {
+			sealed := s48.LoggedMDTExtIEsValue{}
+			*s48.BridgeLoggedMDTExtIEsValueFieldIsOpaque(&sealed) = true
+			*s48.BridgeLoggedMDTExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s47.LoggedMDTExtIEsValue {
-				sealed := s47.LoggedMDTExtIEsValue{}
-				*s47.BridgeLoggedMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(284)
-				*s47.BridgeLoggedMDTExtIEsValueFieldRowBluetoothMeasurementConfiguration(&sealed) = new(s14.BluetoothMeasurementConfiguration)
+			value := func() s48.LoggedMDTExtIEsValue {
+				sealed := s48.LoggedMDTExtIEsValue{}
+				*s48.BridgeLoggedMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(284)
+				*s48.BridgeLoggedMDTExtIEsValueFieldRowBluetoothMeasurementConfiguration(&sealed) = new(s14.BluetoothMeasurementConfiguration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.LoggedMDTExtIEsValue {
-				sealed := s47.LoggedMDTExtIEsValue{}
-				*s47.BridgeLoggedMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(285)
-				*s47.BridgeLoggedMDTExtIEsValueFieldRowWLANMeasurementConfiguration(&sealed) = new(s47.WLANMeasurementConfiguration)
+			value := func() s48.LoggedMDTExtIEsValue {
+				sealed := s48.LoggedMDTExtIEsValue{}
+				*s48.BridgeLoggedMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(285)
+				*s48.BridgeLoggedMDTExtIEsValueFieldRowWLANMeasurementConfiguration(&sealed) = new(s48.WLANMeasurementConfiguration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.LoggedMDTExtIEsValue {
-				sealed := s47.LoggedMDTExtIEsValue{}
-				*s47.BridgeLoggedMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(344)
-				*s47.BridgeLoggedMDTExtIEsValueFieldRowLoggedMDTTrigger(&sealed) = new(s19.LoggedMDTTrigger)
+			value := func() s48.LoggedMDTExtIEsValue {
+				sealed := s48.LoggedMDTExtIEsValue{}
+				*s48.BridgeLoggedMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(344)
+				*s48.BridgeLoggedMDTExtIEsValueFieldRowLoggedMDTTrigger(&sealed) = new(s19.LoggedMDTTrigger)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.LoggedMDTExtIEsValue {
-				sealed := s47.LoggedMDTExtIEsValue{}
-				*s47.BridgeLoggedMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(345)
-				*s47.BridgeLoggedMDTExtIEsValueFieldRowSensorMeasurementConfiguration(&sealed) = new(s30.SensorMeasurementConfiguration)
+			value := func() s48.LoggedMDTExtIEsValue {
+				sealed := s48.LoggedMDTExtIEsValue{}
+				*s48.BridgeLoggedMDTExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(345)
+				*s48.BridgeLoggedMDTExtIEsValueFieldRowSensorMeasurementConfiguration(&sealed) = new(s31.SensorMeasurementConfiguration)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -7170,41 +7172,41 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("MMEConfigurationTransferIEValue", func(t *testing.T) {
-		selectedAssert((*s51.MMEConfigurationTransferIEValue)(nil))
-		selectedAssert(&s51.MMEConfigurationTransferIEValue{})
-		opaque := func() s51.MMEConfigurationTransferIEValue {
-			sealed := s51.MMEConfigurationTransferIEValue{}
-			*s51.BridgeMMEConfigurationTransferIEValueFieldIsOpaque(&sealed) = true
-			*s51.BridgeMMEConfigurationTransferIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s52.MMEConfigurationTransferIEValue)(nil))
+		selectedAssert(&s52.MMEConfigurationTransferIEValue{})
+		opaque := func() s52.MMEConfigurationTransferIEValue {
+			sealed := s52.MMEConfigurationTransferIEValue{}
+			*s52.BridgeMMEConfigurationTransferIEValueFieldIsOpaque(&sealed) = true
+			*s52.BridgeMMEConfigurationTransferIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s51.MMEConfigurationTransferIEValue {
-				sealed := s51.MMEConfigurationTransferIEValue{}
-				*s51.BridgeMMEConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(130)
-				*s51.BridgeMMEConfigurationTransferIEValueFieldRowSONConfigurationTransferMCT(&sealed) = new(s51.SONConfigurationTransfer)
+			value := func() s52.MMEConfigurationTransferIEValue {
+				sealed := s52.MMEConfigurationTransferIEValue{}
+				*s52.BridgeMMEConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(130)
+				*s52.BridgeMMEConfigurationTransferIEValueFieldRowSONConfigurationTransferMCT(&sealed) = new(s51.SONConfigurationTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.MMEConfigurationTransferIEValue {
-				sealed := s51.MMEConfigurationTransferIEValue{}
-				*s51.BridgeMMEConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(295)
-				*s51.BridgeMMEConfigurationTransferIEValueFieldRowENDCSONConfigurationTransferMCT(&sealed) = new(s51.ENDCSONConfigurationTransfer)
+			value := func() s52.MMEConfigurationTransferIEValue {
+				sealed := s52.MMEConfigurationTransferIEValue{}
+				*s52.BridgeMMEConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(295)
+				*s52.BridgeMMEConfigurationTransferIEValueFieldRowENDCSONConfigurationTransferMCT(&sealed) = new(s51.ENDCSONConfigurationTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s51.MMEConfigurationTransferIEValue {
-				sealed := s51.MMEConfigurationTransferIEValue{}
-				*s51.BridgeMMEConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(309)
-				*s51.BridgeMMEConfigurationTransferIEValueFieldRowIntersystemSONConfigurationTransferMCT(&sealed) = new(s00.IntersystemSONConfigurationTransfer)
+			value := func() s52.MMEConfigurationTransferIEValue {
+				sealed := s52.MMEConfigurationTransferIEValue{}
+				*s52.BridgeMMEConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(309)
+				*s52.BridgeMMEConfigurationTransferIEValueFieldRowIntersystemSONConfigurationTransferMCT(&sealed) = new(s00.IntersystemSONConfigurationTransfer)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -7212,21 +7214,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("MMEConfigurationUpdateAcknowledgeIEValue", func(t *testing.T) {
-		selectedAssert((*s22.MMEConfigurationUpdateAcknowledgeIEValue)(nil))
-		selectedAssert(&s22.MMEConfigurationUpdateAcknowledgeIEValue{})
-		opaque := func() s22.MMEConfigurationUpdateAcknowledgeIEValue {
-			sealed := s22.MMEConfigurationUpdateAcknowledgeIEValue{}
-			*s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueFieldIsOpaque(&sealed) = true
-			*s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s23.MMEConfigurationUpdateAcknowledgeIEValue)(nil))
+		selectedAssert(&s23.MMEConfigurationUpdateAcknowledgeIEValue{})
+		opaque := func() s23.MMEConfigurationUpdateAcknowledgeIEValue {
+			sealed := s23.MMEConfigurationUpdateAcknowledgeIEValue{}
+			*s23.BridgeMMEConfigurationUpdateAcknowledgeIEValueFieldIsOpaque(&sealed) = true
+			*s23.BridgeMMEConfigurationUpdateAcknowledgeIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s22.MMEConfigurationUpdateAcknowledgeIEValue {
-				sealed := s22.MMEConfigurationUpdateAcknowledgeIEValue{}
-				*s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s23.MMEConfigurationUpdateAcknowledgeIEValue {
+				sealed := s23.MMEConfigurationUpdateAcknowledgeIEValue{}
+				*s23.BridgeMMEConfigurationUpdateAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s23.BridgeMMEConfigurationUpdateAcknowledgeIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -7300,7 +7302,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s43.MMEConfigurationUpdateIEValue {
 				sealed := s43.MMEConfigurationUpdateIEValue{}
 				*s43.BridgeMMEConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(105)
-				*s43.BridgeMMEConfigurationUpdateIEValueFieldRowServedGUMMEIs(&sealed) = new(s30.ServedGUMMEIs)
+				*s43.BridgeMMEConfigurationUpdateIEValueFieldRowServedGUMMEIs(&sealed) = new(s31.ServedGUMMEIs)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -7320,7 +7322,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s43.MMEConfigurationUpdateIEValue {
 				sealed := s43.MMEConfigurationUpdateIEValue{}
 				*s43.BridgeMMEConfigurationUpdateIEValueFieldId(&sealed) = s00.ProtocolIEID(247)
-				*s43.BridgeMMEConfigurationUpdateIEValueFieldRowServedDCNs(&sealed) = new(s30.ServedDCNs)
+				*s43.BridgeMMEConfigurationUpdateIEValueFieldRowServedDCNs(&sealed) = new(s31.ServedDCNs)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -7342,7 +7344,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s34.MMEDirectInformationTransferIEValue {
 				sealed := s34.MMEDirectInformationTransferIEValue{}
 				*s34.BridgeMMEDirectInformationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(122)
-				*s34.BridgeMMEDirectInformationTransferIEValueFieldRowInterSystemInformationTransferTypeMDT(&sealed) = new(s33.InterSystemInformationTransferType)
+				*s34.BridgeMMEDirectInformationTransferIEValueFieldRowInterSystemInformationTransferTypeMDT(&sealed) = new(s34.InterSystemInformationTransferType)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -7350,41 +7352,41 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("MMEEarlyStatusTransferIEValue", func(t *testing.T) {
-		selectedAssert((*s37.MMEEarlyStatusTransferIEValue)(nil))
-		selectedAssert(&s37.MMEEarlyStatusTransferIEValue{})
-		opaque := func() s37.MMEEarlyStatusTransferIEValue {
-			sealed := s37.MMEEarlyStatusTransferIEValue{}
-			*s37.BridgeMMEEarlyStatusTransferIEValueFieldIsOpaque(&sealed) = true
-			*s37.BridgeMMEEarlyStatusTransferIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s38.MMEEarlyStatusTransferIEValue)(nil))
+		selectedAssert(&s38.MMEEarlyStatusTransferIEValue{})
+		opaque := func() s38.MMEEarlyStatusTransferIEValue {
+			sealed := s38.MMEEarlyStatusTransferIEValue{}
+			*s38.BridgeMMEEarlyStatusTransferIEValueFieldIsOpaque(&sealed) = true
+			*s38.BridgeMMEEarlyStatusTransferIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s37.MMEEarlyStatusTransferIEValue {
-				sealed := s37.MMEEarlyStatusTransferIEValue{}
-				*s37.BridgeMMEEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s37.BridgeMMEEarlyStatusTransferIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s38.MMEEarlyStatusTransferIEValue {
+				sealed := s38.MMEEarlyStatusTransferIEValue{}
+				*s38.BridgeMMEEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s38.BridgeMMEEarlyStatusTransferIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s37.MMEEarlyStatusTransferIEValue {
-				sealed := s37.MMEEarlyStatusTransferIEValue{}
-				*s37.BridgeMMEEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s37.BridgeMMEEarlyStatusTransferIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s38.MMEEarlyStatusTransferIEValue {
+				sealed := s38.MMEEarlyStatusTransferIEValue{}
+				*s38.BridgeMMEEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s38.BridgeMMEEarlyStatusTransferIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s37.MMEEarlyStatusTransferIEValue {
-				sealed := s37.MMEEarlyStatusTransferIEValue{}
-				*s37.BridgeMMEEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(321)
-				*s37.BridgeMMEEarlyStatusTransferIEValueFieldRowENBEarlyStatusTransferTransparentContainer(&sealed) = new(s37.ENBEarlyStatusTransferTransparentContainer)
+			value := func() s38.MMEEarlyStatusTransferIEValue {
+				sealed := s38.MMEEarlyStatusTransferIEValue{}
+				*s38.BridgeMMEEarlyStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(321)
+				*s38.BridgeMMEEarlyStatusTransferIEValueFieldRowENBEarlyStatusTransferTransparentContainer(&sealed) = new(s38.ENBEarlyStatusTransferTransparentContainer)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -7392,41 +7394,41 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("MMEStatusTransferIEValue", func(t *testing.T) {
-		selectedAssert((*s21.MMEStatusTransferIEValue)(nil))
-		selectedAssert(&s21.MMEStatusTransferIEValue{})
-		opaque := func() s21.MMEStatusTransferIEValue {
-			sealed := s21.MMEStatusTransferIEValue{}
-			*s21.BridgeMMEStatusTransferIEValueFieldIsOpaque(&sealed) = true
-			*s21.BridgeMMEStatusTransferIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s22.MMEStatusTransferIEValue)(nil))
+		selectedAssert(&s22.MMEStatusTransferIEValue{})
+		opaque := func() s22.MMEStatusTransferIEValue {
+			sealed := s22.MMEStatusTransferIEValue{}
+			*s22.BridgeMMEStatusTransferIEValueFieldIsOpaque(&sealed) = true
+			*s22.BridgeMMEStatusTransferIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s21.MMEStatusTransferIEValue {
-				sealed := s21.MMEStatusTransferIEValue{}
-				*s21.BridgeMMEStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s21.BridgeMMEStatusTransferIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s22.MMEStatusTransferIEValue {
+				sealed := s22.MMEStatusTransferIEValue{}
+				*s22.BridgeMMEStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s22.BridgeMMEStatusTransferIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s21.MMEStatusTransferIEValue {
-				sealed := s21.MMEStatusTransferIEValue{}
-				*s21.BridgeMMEStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s21.BridgeMMEStatusTransferIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s22.MMEStatusTransferIEValue {
+				sealed := s22.MMEStatusTransferIEValue{}
+				*s22.BridgeMMEStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s22.BridgeMMEStatusTransferIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s21.MMEStatusTransferIEValue {
-				sealed := s21.MMEStatusTransferIEValue{}
-				*s21.BridgeMMEStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(90)
-				*s21.BridgeMMEStatusTransferIEValueFieldRowENBStatusTransferTransparentContainer(&sealed) = new(s21.ENBStatusTransferTransparentContainer)
+			value := func() s22.MMEStatusTransferIEValue {
+				sealed := s22.MMEStatusTransferIEValue{}
+				*s22.BridgeMMEStatusTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(90)
+				*s22.BridgeMMEStatusTransferIEValueFieldRowENBStatusTransferTransparentContainer(&sealed) = new(s21.ENBStatusTransferTransparentContainer)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -7614,41 +7616,41 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("OverloadStartIEValue", func(t *testing.T) {
-		selectedAssert((*s41.OverloadStartIEValue)(nil))
-		selectedAssert(&s41.OverloadStartIEValue{})
-		opaque := func() s41.OverloadStartIEValue {
-			sealed := s41.OverloadStartIEValue{}
-			*s41.BridgeOverloadStartIEValueFieldIsOpaque(&sealed) = true
-			*s41.BridgeOverloadStartIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s42.OverloadStartIEValue)(nil))
+		selectedAssert(&s42.OverloadStartIEValue{})
+		opaque := func() s42.OverloadStartIEValue {
+			sealed := s42.OverloadStartIEValue{}
+			*s42.BridgeOverloadStartIEValueFieldIsOpaque(&sealed) = true
+			*s42.BridgeOverloadStartIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s41.OverloadStartIEValue {
-				sealed := s41.OverloadStartIEValue{}
-				*s41.BridgeOverloadStartIEValueFieldId(&sealed) = s00.ProtocolIEID(101)
-				*s41.BridgeOverloadStartIEValueFieldRowOverloadResponse(&sealed) = new(s20.OverloadResponse)
+			value := func() s42.OverloadStartIEValue {
+				sealed := s42.OverloadStartIEValue{}
+				*s42.BridgeOverloadStartIEValueFieldId(&sealed) = s00.ProtocolIEID(101)
+				*s42.BridgeOverloadStartIEValueFieldRowOverloadResponse(&sealed) = new(s20.OverloadResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s41.OverloadStartIEValue {
-				sealed := s41.OverloadStartIEValue{}
-				*s41.BridgeOverloadStartIEValueFieldId(&sealed) = s00.ProtocolIEID(154)
-				*s41.BridgeOverloadStartIEValueFieldRowGUMMEIList(&sealed) = new(s18.GUMMEIList)
+			value := func() s42.OverloadStartIEValue {
+				sealed := s42.OverloadStartIEValue{}
+				*s42.BridgeOverloadStartIEValueFieldId(&sealed) = s00.ProtocolIEID(154)
+				*s42.BridgeOverloadStartIEValueFieldRowGUMMEIList(&sealed) = new(s18.GUMMEIList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s41.OverloadStartIEValue {
-				sealed := s41.OverloadStartIEValue{}
-				*s41.BridgeOverloadStartIEValueFieldId(&sealed) = s00.ProtocolIEID(161)
-				*s41.BridgeOverloadStartIEValueFieldRowTrafficLoadReductionIndication(&sealed) = new(s00.TrafficLoadReductionIndication)
+			value := func() s42.OverloadStartIEValue {
+				sealed := s42.OverloadStartIEValue{}
+				*s42.BridgeOverloadStartIEValueFieldId(&sealed) = s00.ProtocolIEID(161)
+				*s42.BridgeOverloadStartIEValueFieldRowTrafficLoadReductionIndication(&sealed) = new(s00.TrafficLoadReductionIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -7656,21 +7658,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("OverloadStopIEValue", func(t *testing.T) {
-		selectedAssert((*s41.OverloadStopIEValue)(nil))
-		selectedAssert(&s41.OverloadStopIEValue{})
-		opaque := func() s41.OverloadStopIEValue {
-			sealed := s41.OverloadStopIEValue{}
-			*s41.BridgeOverloadStopIEValueFieldIsOpaque(&sealed) = true
-			*s41.BridgeOverloadStopIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s42.OverloadStopIEValue)(nil))
+		selectedAssert(&s42.OverloadStopIEValue{})
+		opaque := func() s42.OverloadStopIEValue {
+			sealed := s42.OverloadStopIEValue{}
+			*s42.BridgeOverloadStopIEValueFieldIsOpaque(&sealed) = true
+			*s42.BridgeOverloadStopIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s41.OverloadStopIEValue {
-				sealed := s41.OverloadStopIEValue{}
-				*s41.BridgeOverloadStopIEValueFieldId(&sealed) = s00.ProtocolIEID(154)
-				*s41.BridgeOverloadStopIEValueFieldRowGUMMEIList(&sealed) = new(s18.GUMMEIList)
+			value := func() s42.OverloadStopIEValue {
+				sealed := s42.OverloadStopIEValue{}
+				*s42.BridgeOverloadStopIEValueFieldId(&sealed) = s00.ProtocolIEID(154)
+				*s42.BridgeOverloadStopIEValueFieldRowGUMMEIList(&sealed) = new(s18.GUMMEIList)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -7846,201 +7848,201 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("PagingIEValue", func(t *testing.T) {
-		selectedAssert((*s49.PagingIEValue)(nil))
-		selectedAssert(&s49.PagingIEValue{})
-		opaque := func() s49.PagingIEValue {
-			sealed := s49.PagingIEValue{}
-			*s49.BridgePagingIEValueFieldIsOpaque(&sealed) = true
-			*s49.BridgePagingIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s50.PagingIEValue)(nil))
+		selectedAssert(&s50.PagingIEValue{})
+		opaque := func() s50.PagingIEValue {
+			sealed := s50.PagingIEValue{}
+			*s50.BridgePagingIEValueFieldIsOpaque(&sealed) = true
+			*s50.BridgePagingIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(80)
-				*s49.BridgePagingIEValueFieldRowUEIdentityIndexValue(&sealed) = new(s00.UEIdentityIndexValue)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(80)
+				*s50.BridgePagingIEValueFieldRowUEIdentityIndexValue(&sealed) = new(s00.UEIdentityIndexValue)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(43)
-				*s49.BridgePagingIEValueFieldRowUEPagingID(&sealed) = new(s28.UEPagingID)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(43)
+				*s50.BridgePagingIEValueFieldRowUEPagingID(&sealed) = new(s28.UEPagingID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(44)
-				*s49.BridgePagingIEValueFieldRowPagingDRX(&sealed) = new(s00.PagingDRX)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(44)
+				*s50.BridgePagingIEValueFieldRowPagingDRX(&sealed) = new(s00.PagingDRX)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(109)
-				*s49.BridgePagingIEValueFieldRowCNDomain(&sealed) = new(s00.CNDomain)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(109)
+				*s50.BridgePagingIEValueFieldRowCNDomain(&sealed) = new(s00.CNDomain)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(46)
-				*s49.BridgePagingIEValueFieldRowTAIList(&sealed) = new(s33.TAIList)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(46)
+				*s50.BridgePagingIEValueFieldRowTAIList(&sealed) = new(s34.TAIList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(128)
-				*s49.BridgePagingIEValueFieldRowCSGIdList(&sealed) = new(s14.CSGIdList)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(128)
+				*s50.BridgePagingIEValueFieldRowCSGIdList(&sealed) = new(s14.CSGIdList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(151)
-				*s49.BridgePagingIEValueFieldRowPagingPriority(&sealed) = new(s00.PagingPriority)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(151)
+				*s50.BridgePagingIEValueFieldRowPagingPriority(&sealed) = new(s00.PagingPriority)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(198)
-				*s49.BridgePagingIEValueFieldRowUERadioCapabilityForPaging(&sealed) = new(s00.UERadioCapabilityForPaging)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(198)
+				*s50.BridgePagingIEValueFieldRowUERadioCapabilityForPaging(&sealed) = new(s00.UERadioCapabilityForPaging)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(211)
-				*s49.BridgePagingIEValueFieldRowAssistanceDataForPaging(&sealed) = new(s26.AssistanceDataForPaging)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(211)
+				*s50.BridgePagingIEValueFieldRowAssistanceDataForPaging(&sealed) = new(s26.AssistanceDataForPaging)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(227)
-				*s49.BridgePagingIEValueFieldRowPagingEDRXInformation(&sealed) = new(s20.PagingEDRXInformation)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(227)
+				*s50.BridgePagingIEValueFieldRowPagingEDRXInformation(&sealed) = new(s20.PagingEDRXInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(231)
-				*s49.BridgePagingIEValueFieldRowExtendedUEIdentityIndexValue(&sealed) = new(s00.ExtendedUEIdentityIndexValue)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(231)
+				*s50.BridgePagingIEValueFieldRowExtendedUEIdentityIndexValue(&sealed) = new(s00.ExtendedUEIdentityIndexValue)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(239)
-				*s49.BridgePagingIEValueFieldRowNBIoTPagingEDRXInformation(&sealed) = new(s19.NBIoTPagingEDRXInformation)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(239)
+				*s50.BridgePagingIEValueFieldRowNBIoTPagingEDRXInformation(&sealed) = new(s19.NBIoTPagingEDRXInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(244)
-				*s49.BridgePagingIEValueFieldRowNBIoTUEIdentityIndexValue(&sealed) = new(s00.NBIoTUEIdentityIndexValue)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(244)
+				*s50.BridgePagingIEValueFieldRowNBIoTUEIdentityIndexValue(&sealed) = new(s00.NBIoTUEIdentityIndexValue)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(251)
-				*s49.BridgePagingIEValueFieldRowEnhancedCoverageRestricted(&sealed) = new(s00.EnhancedCoverageRestricted)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(251)
+				*s50.BridgePagingIEValueFieldRowEnhancedCoverageRestricted(&sealed) = new(s00.EnhancedCoverageRestricted)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(271)
-				*s49.BridgePagingIEValueFieldRowCEModeBRestricted(&sealed) = new(s00.CEModeBRestricted)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(271)
+				*s50.BridgePagingIEValueFieldRowCEModeBRestricted(&sealed) = new(s00.CEModeBRestricted)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(304)
-				*s49.BridgePagingIEValueFieldRowDataSize(&sealed) = new(s00.DataSize)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(304)
+				*s50.BridgePagingIEValueFieldRowDataSize(&sealed) = new(s00.DataSize)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(323)
-				*s49.BridgePagingIEValueFieldRowWUSAssistanceInformation(&sealed) = new(s49.WUSAssistanceInformation)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(323)
+				*s50.BridgePagingIEValueFieldRowWUSAssistanceInformation(&sealed) = new(s49.WUSAssistanceInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(324)
-				*s49.BridgePagingIEValueFieldRowNBIoTPagingDRX(&sealed) = new(s00.NBIoTPagingDRX)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(324)
+				*s50.BridgePagingIEValueFieldRowNBIoTPagingDRX(&sealed) = new(s00.NBIoTPagingDRX)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s49.PagingIEValue {
-				sealed := s49.PagingIEValue{}
-				*s49.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(331)
-				*s49.BridgePagingIEValueFieldRowPagingCause(&sealed) = new(s00.PagingCause)
+			value := func() s50.PagingIEValue {
+				sealed := s50.PagingIEValue{}
+				*s50.BridgePagingIEValueFieldId(&sealed) = s00.ProtocolIEID(331)
+				*s50.BridgePagingIEValueFieldRowPagingCause(&sealed) = new(s00.PagingCause)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -8048,291 +8050,291 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("PathSwitchRequestAcknowledgeIEValue", func(t *testing.T) {
-		selectedAssert((*s46.PathSwitchRequestAcknowledgeIEValue)(nil))
-		selectedAssert(&s46.PathSwitchRequestAcknowledgeIEValue{})
-		opaque := func() s46.PathSwitchRequestAcknowledgeIEValue {
-			sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-			*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldIsOpaque(&sealed) = true
-			*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s47.PathSwitchRequestAcknowledgeIEValue)(nil))
+		selectedAssert(&s47.PathSwitchRequestAcknowledgeIEValue{})
+		opaque := func() s47.PathSwitchRequestAcknowledgeIEValue {
+			sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+			*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldIsOpaque(&sealed) = true
+			*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s35.UEAggregateMaximumBitrate)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s36.UEAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(95)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowERABToBeSwitchedULList(&sealed) = new(s17.ERABToBeSwitchedULList)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(95)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowERABToBeSwitchedULList(&sealed) = new(s17.ERABToBeSwitchedULList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(33)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowERABToBeReleasedList(&sealed) = new(s16.ERABList)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(33)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowERABToBeReleasedList(&sealed) = new(s16.ERABList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(40)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowSecurityContext(&sealed) = new(s28.SecurityContext)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(40)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowSecurityContext(&sealed) = new(s29.SecurityContext)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(158)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowMMEUES1APID2(&sealed) = new(s00.MMEUES1APID)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(158)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowMMEUES1APID2(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(146)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowCSGMembershipStatus(&sealed) = new(s00.CSGMembershipStatus)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(146)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowCSGMembershipStatus(&sealed) = new(s00.CSGMembershipStatus)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(195)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowProSeAuthorized(&sealed) = new(s20.ProSeAuthorized)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(195)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowProSeAuthorized(&sealed) = new(s20.ProSeAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(241)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowUEUserPlaneCIoTSupportIndicator(&sealed) = new(s00.UEUserPlaneCIoTSupportIndicator)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(241)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowUEUserPlaneCIoTSupportIndicator(&sealed) = new(s00.UEUserPlaneCIoTSupportIndicator)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(240)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowV2XServicesAuthorized(&sealed) = new(s46.V2XServicesAuthorized)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(240)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowV2XServicesAuthorized(&sealed) = new(s47.V2XServicesAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(248)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowUESidelinkAggregateMaximumBitrate(&sealed) = new(s37.UESidelinkAggregateMaximumBitrate)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(248)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowUESidelinkAggregateMaximumBitrate(&sealed) = new(s38.UESidelinkAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(251)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowEnhancedCoverageRestricted(&sealed) = new(s00.EnhancedCoverageRestricted)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(251)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowEnhancedCoverageRestricted(&sealed) = new(s00.EnhancedCoverageRestricted)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(269)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowNRUESecurityCapabilities(&sealed) = new(s19.NRUESecurityCapabilities)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(269)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowNRUESecurityCapabilities(&sealed) = new(s19.NRUESecurityCapabilities)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(271)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowCEModeBRestricted(&sealed) = new(s00.CEModeBRestricted)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(271)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowCEModeBRestricted(&sealed) = new(s00.CEModeBRestricted)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(277)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowAerialUEsubscriptionInformation(&sealed) = new(s00.AerialUEsubscriptionInformation)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(277)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowAerialUEsubscriptionInformation(&sealed) = new(s00.AerialUEsubscriptionInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(283)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowPendingDataIndication(&sealed) = new(s00.PendingDataIndication)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(283)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowPendingDataIndication(&sealed) = new(s00.PendingDataIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(278)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s30.SubscriptionBasedUEDifferentiationInfo)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(278)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s31.SubscriptionBasedUEDifferentiationInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(41)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowHandoverRestrictionList(&sealed) = new(s42.HandoverRestrictionList)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(41)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowHandoverRestrictionList(&sealed) = new(s43.HandoverRestrictionList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(299)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowAdditionalRRMPriorityIndex(&sealed) = new(s00.AdditionalRRMPriorityIndex)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(299)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowAdditionalRRMPriorityIndex(&sealed) = new(s00.AdditionalRRMPriorityIndex)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(306)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowNRV2XServicesAuthorized(&sealed) = new(s19.NRV2XServicesAuthorized)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(306)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowNRV2XServicesAuthorized(&sealed) = new(s20.NRV2XServicesAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(307)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowNRUESidelinkAggregateMaximumBitrate(&sealed) = new(s19.NRUESidelinkAggregateMaximumBitrate)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(307)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowNRUESidelinkAggregateMaximumBitrate(&sealed) = new(s20.NRUESidelinkAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(308)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowPC5QoSParameters(&sealed) = new(s24.PC5QoSParameters)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(308)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowPC5QoSParameters(&sealed) = new(s24.PC5QoSParameters)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(314)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowUERadioCapabilityID(&sealed) = new(s00.UERadioCapabilityID)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(314)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowUERadioCapabilityID(&sealed) = new(s00.UERadioCapabilityID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(107)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowUESecurityCapabilities(&sealed) = new(s37.UESecurityCapabilities)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(107)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowUESecurityCapabilities(&sealed) = new(s37.UESecurityCapabilities)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(341)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowERABToBeUpdatedList(&sealed) = new(s29.ERABToBeUpdatedList)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(341)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowERABToBeUpdatedList(&sealed) = new(s29.ERABToBeUpdatedList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.PathSwitchRequestAcknowledgeIEValue {
-				sealed := s46.PathSwitchRequestAcknowledgeIEValue{}
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(355)
-				*s46.BridgePathSwitchRequestAcknowledgeIEValueFieldRowTimeRefDistribution(&sealed) = new(s00.TimeRefDistribution)
+			value := func() s47.PathSwitchRequestAcknowledgeIEValue {
+				sealed := s47.PathSwitchRequestAcknowledgeIEValue{}
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(355)
+				*s47.BridgePathSwitchRequestAcknowledgeIEValueFieldRowTimeRefDistribution(&sealed) = new(s00.TimeRefDistribution)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -8446,7 +8448,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s41.PathSwitchRequestIEValue {
 				sealed := s41.PathSwitchRequestIEValue{}
 				*s41.BridgePathSwitchRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(67)
-				*s41.BridgePathSwitchRequestIEValueFieldRowTAI(&sealed) = new(s31.TAI)
+				*s41.BridgePathSwitchRequestIEValueFieldRowTAI(&sealed) = new(s32.TAI)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -8842,31 +8844,31 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("ResetAcknowledgeIEValue", func(t *testing.T) {
-		selectedAssert((*s44.ResetAcknowledgeIEValue)(nil))
-		selectedAssert(&s44.ResetAcknowledgeIEValue{})
-		opaque := func() s44.ResetAcknowledgeIEValue {
-			sealed := s44.ResetAcknowledgeIEValue{}
-			*s44.BridgeResetAcknowledgeIEValueFieldIsOpaque(&sealed) = true
-			*s44.BridgeResetAcknowledgeIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s45.ResetAcknowledgeIEValue)(nil))
+		selectedAssert(&s45.ResetAcknowledgeIEValue{})
+		opaque := func() s45.ResetAcknowledgeIEValue {
+			sealed := s45.ResetAcknowledgeIEValue{}
+			*s45.BridgeResetAcknowledgeIEValueFieldIsOpaque(&sealed) = true
+			*s45.BridgeResetAcknowledgeIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s44.ResetAcknowledgeIEValue {
-				sealed := s44.ResetAcknowledgeIEValue{}
-				*s44.BridgeResetAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(93)
-				*s44.BridgeResetAcknowledgeIEValueFieldRowUEAssociatedLogicalS1ConnectionListResAck(&sealed) = new(s36.UEAssociatedLogicalS1ConnectionListResAck)
+			value := func() s45.ResetAcknowledgeIEValue {
+				sealed := s45.ResetAcknowledgeIEValue{}
+				*s45.BridgeResetAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(93)
+				*s45.BridgeResetAcknowledgeIEValueFieldRowUEAssociatedLogicalS1ConnectionListResAck(&sealed) = new(s36.UEAssociatedLogicalS1ConnectionListResAck)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s44.ResetAcknowledgeIEValue {
-				sealed := s44.ResetAcknowledgeIEValue{}
-				*s44.BridgeResetAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s44.BridgeResetAcknowledgeIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s45.ResetAcknowledgeIEValue {
+				sealed := s45.ResetAcknowledgeIEValue{}
+				*s45.BridgeResetAcknowledgeIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s45.BridgeResetAcknowledgeIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -9056,91 +9058,91 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("S1SetupRequestIEValue", func(t *testing.T) {
-		selectedAssert((*s43.S1SetupRequestIEValue)(nil))
-		selectedAssert(&s43.S1SetupRequestIEValue{})
-		opaque := func() s43.S1SetupRequestIEValue {
-			sealed := s43.S1SetupRequestIEValue{}
-			*s43.BridgeS1SetupRequestIEValueFieldIsOpaque(&sealed) = true
-			*s43.BridgeS1SetupRequestIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s44.S1SetupRequestIEValue)(nil))
+		selectedAssert(&s44.S1SetupRequestIEValue{})
+		opaque := func() s44.S1SetupRequestIEValue {
+			sealed := s44.S1SetupRequestIEValue{}
+			*s44.BridgeS1SetupRequestIEValueFieldIsOpaque(&sealed) = true
+			*s44.BridgeS1SetupRequestIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s43.S1SetupRequestIEValue {
-				sealed := s43.S1SetupRequestIEValue{}
-				*s43.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(59)
-				*s43.BridgeS1SetupRequestIEValueFieldRowGlobalENBID(&sealed) = new(s18.GlobalENBID)
+			value := func() s44.S1SetupRequestIEValue {
+				sealed := s44.S1SetupRequestIEValue{}
+				*s44.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(59)
+				*s44.BridgeS1SetupRequestIEValueFieldRowGlobalENBID(&sealed) = new(s18.GlobalENBID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupRequestIEValue {
-				sealed := s43.S1SetupRequestIEValue{}
-				*s43.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(60)
-				*s43.BridgeS1SetupRequestIEValueFieldRowENBname(&sealed) = new(s00.ENBname)
+			value := func() s44.S1SetupRequestIEValue {
+				sealed := s44.S1SetupRequestIEValue{}
+				*s44.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(60)
+				*s44.BridgeS1SetupRequestIEValueFieldRowENBname(&sealed) = new(s00.ENBname)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupRequestIEValue {
-				sealed := s43.S1SetupRequestIEValue{}
-				*s43.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(64)
-				*s43.BridgeS1SetupRequestIEValueFieldRowSupportedTAs(&sealed) = new(s31.SupportedTAs)
+			value := func() s44.S1SetupRequestIEValue {
+				sealed := s44.S1SetupRequestIEValue{}
+				*s44.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(64)
+				*s44.BridgeS1SetupRequestIEValueFieldRowSupportedTAs(&sealed) = new(s31.SupportedTAs)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupRequestIEValue {
-				sealed := s43.S1SetupRequestIEValue{}
-				*s43.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(137)
-				*s43.BridgeS1SetupRequestIEValueFieldRowDefaultPagingDRX(&sealed) = new(s00.PagingDRX)
+			value := func() s44.S1SetupRequestIEValue {
+				sealed := s44.S1SetupRequestIEValue{}
+				*s44.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(137)
+				*s44.BridgeS1SetupRequestIEValueFieldRowDefaultPagingDRX(&sealed) = new(s00.PagingDRX)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupRequestIEValue {
-				sealed := s43.S1SetupRequestIEValue{}
-				*s43.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(128)
-				*s43.BridgeS1SetupRequestIEValueFieldRowCSGIdList(&sealed) = new(s14.CSGIdList)
+			value := func() s44.S1SetupRequestIEValue {
+				sealed := s44.S1SetupRequestIEValue{}
+				*s44.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(128)
+				*s44.BridgeS1SetupRequestIEValueFieldRowCSGIdList(&sealed) = new(s14.CSGIdList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupRequestIEValue {
-				sealed := s43.S1SetupRequestIEValue{}
-				*s43.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(228)
-				*s43.BridgeS1SetupRequestIEValueFieldRowUERetentionInformation(&sealed) = new(s00.UERetentionInformation)
+			value := func() s44.S1SetupRequestIEValue {
+				sealed := s44.S1SetupRequestIEValue{}
+				*s44.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(228)
+				*s44.BridgeS1SetupRequestIEValueFieldRowUERetentionInformation(&sealed) = new(s00.UERetentionInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupRequestIEValue {
-				sealed := s43.S1SetupRequestIEValue{}
-				*s43.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(234)
-				*s43.BridgeS1SetupRequestIEValueFieldRowNBIoTDefaultPagingDRX(&sealed) = new(s00.NBIoTDefaultPagingDRX)
+			value := func() s44.S1SetupRequestIEValue {
+				sealed := s44.S1SetupRequestIEValue{}
+				*s44.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(234)
+				*s44.BridgeS1SetupRequestIEValueFieldRowNBIoTDefaultPagingDRX(&sealed) = new(s00.NBIoTDefaultPagingDRX)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupRequestIEValue {
-				sealed := s43.S1SetupRequestIEValue{}
-				*s43.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(291)
-				*s43.BridgeS1SetupRequestIEValueFieldRowConnectedengNBList(&sealed) = new(s31.ConnectedengNBList)
+			value := func() s44.S1SetupRequestIEValue {
+				sealed := s44.S1SetupRequestIEValue{}
+				*s44.BridgeS1SetupRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(291)
+				*s44.BridgeS1SetupRequestIEValueFieldRowConnectedengNBList(&sealed) = new(s31.ConnectedengNBList)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -9148,91 +9150,91 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("S1SetupResponseIEValue", func(t *testing.T) {
-		selectedAssert((*s43.S1SetupResponseIEValue)(nil))
-		selectedAssert(&s43.S1SetupResponseIEValue{})
-		opaque := func() s43.S1SetupResponseIEValue {
-			sealed := s43.S1SetupResponseIEValue{}
-			*s43.BridgeS1SetupResponseIEValueFieldIsOpaque(&sealed) = true
-			*s43.BridgeS1SetupResponseIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s44.S1SetupResponseIEValue)(nil))
+		selectedAssert(&s44.S1SetupResponseIEValue{})
+		opaque := func() s44.S1SetupResponseIEValue {
+			sealed := s44.S1SetupResponseIEValue{}
+			*s44.BridgeS1SetupResponseIEValueFieldIsOpaque(&sealed) = true
+			*s44.BridgeS1SetupResponseIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s43.S1SetupResponseIEValue {
-				sealed := s43.S1SetupResponseIEValue{}
-				*s43.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(61)
-				*s43.BridgeS1SetupResponseIEValueFieldRowMMEname(&sealed) = new(s00.MMEname)
+			value := func() s44.S1SetupResponseIEValue {
+				sealed := s44.S1SetupResponseIEValue{}
+				*s44.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(61)
+				*s44.BridgeS1SetupResponseIEValueFieldRowMMEname(&sealed) = new(s00.MMEname)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupResponseIEValue {
-				sealed := s43.S1SetupResponseIEValue{}
-				*s43.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(105)
-				*s43.BridgeS1SetupResponseIEValueFieldRowServedGUMMEIs(&sealed) = new(s30.ServedGUMMEIs)
+			value := func() s44.S1SetupResponseIEValue {
+				sealed := s44.S1SetupResponseIEValue{}
+				*s44.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(105)
+				*s44.BridgeS1SetupResponseIEValueFieldRowServedGUMMEIs(&sealed) = new(s31.ServedGUMMEIs)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupResponseIEValue {
-				sealed := s43.S1SetupResponseIEValue{}
-				*s43.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(87)
-				*s43.BridgeS1SetupResponseIEValueFieldRowRelativeMMECapacity(&sealed) = new(s00.RelativeMMECapacity)
+			value := func() s44.S1SetupResponseIEValue {
+				sealed := s44.S1SetupResponseIEValue{}
+				*s44.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(87)
+				*s44.BridgeS1SetupResponseIEValueFieldRowRelativeMMECapacity(&sealed) = new(s00.RelativeMMECapacity)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupResponseIEValue {
-				sealed := s43.S1SetupResponseIEValue{}
-				*s43.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(163)
-				*s43.BridgeS1SetupResponseIEValueFieldRowMMERelaySupportIndicator(&sealed) = new(s00.MMERelaySupportIndicator)
+			value := func() s44.S1SetupResponseIEValue {
+				sealed := s44.S1SetupResponseIEValue{}
+				*s44.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(163)
+				*s44.BridgeS1SetupResponseIEValueFieldRowMMERelaySupportIndicator(&sealed) = new(s00.MMERelaySupportIndicator)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupResponseIEValue {
-				sealed := s43.S1SetupResponseIEValue{}
-				*s43.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s43.BridgeS1SetupResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s44.S1SetupResponseIEValue {
+				sealed := s44.S1SetupResponseIEValue{}
+				*s44.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s44.BridgeS1SetupResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupResponseIEValue {
-				sealed := s43.S1SetupResponseIEValue{}
-				*s43.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(228)
-				*s43.BridgeS1SetupResponseIEValueFieldRowUERetentionInformation(&sealed) = new(s00.UERetentionInformation)
+			value := func() s44.S1SetupResponseIEValue {
+				sealed := s44.S1SetupResponseIEValue{}
+				*s44.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(228)
+				*s44.BridgeS1SetupResponseIEValueFieldRowUERetentionInformation(&sealed) = new(s00.UERetentionInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupResponseIEValue {
-				sealed := s43.S1SetupResponseIEValue{}
-				*s43.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(247)
-				*s43.BridgeS1SetupResponseIEValueFieldRowServedDCNs(&sealed) = new(s30.ServedDCNs)
+			value := func() s44.S1SetupResponseIEValue {
+				sealed := s44.S1SetupResponseIEValue{}
+				*s44.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(247)
+				*s44.BridgeS1SetupResponseIEValueFieldRowServedDCNs(&sealed) = new(s31.ServedDCNs)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s43.S1SetupResponseIEValue {
-				sealed := s43.S1SetupResponseIEValue{}
-				*s43.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(303)
-				*s43.BridgeS1SetupResponseIEValueFieldRowIABSupported(&sealed) = new(s00.IABSupported)
+			value := func() s44.S1SetupResponseIEValue {
+				sealed := s44.S1SetupResponseIEValue{}
+				*s44.BridgeS1SetupResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(303)
+				*s44.BridgeS1SetupResponseIEValueFieldRowIABSupported(&sealed) = new(s00.IABSupported)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -9240,41 +9242,41 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("SONConfigurationTransferExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s50.SONConfigurationTransferExtIEsValue)(nil))
-		selectedAssert(&s50.SONConfigurationTransferExtIEsValue{})
-		opaque := func() s50.SONConfigurationTransferExtIEsValue {
-			sealed := s50.SONConfigurationTransferExtIEsValue{}
-			*s50.BridgeSONConfigurationTransferExtIEsValueFieldIsOpaque(&sealed) = true
-			*s50.BridgeSONConfigurationTransferExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s51.SONConfigurationTransferExtIEsValue)(nil))
+		selectedAssert(&s51.SONConfigurationTransferExtIEsValue{})
+		opaque := func() s51.SONConfigurationTransferExtIEsValue {
+			sealed := s51.SONConfigurationTransferExtIEsValue{}
+			*s51.BridgeSONConfigurationTransferExtIEsValueFieldIsOpaque(&sealed) = true
+			*s51.BridgeSONConfigurationTransferExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s50.SONConfigurationTransferExtIEsValue {
-				sealed := s50.SONConfigurationTransferExtIEsValue{}
-				*s50.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(152)
-				*s50.BridgeSONConfigurationTransferExtIEsValueFieldRowX2TNLConfigurationInfo(&sealed) = new(s50.X2TNLConfigurationInfo)
+			value := func() s51.SONConfigurationTransferExtIEsValue {
+				sealed := s51.SONConfigurationTransferExtIEsValue{}
+				*s51.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(152)
+				*s51.BridgeSONConfigurationTransferExtIEsValueFieldRowX2TNLConfigurationInfo(&sealed) = new(s51.X2TNLConfigurationInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SONConfigurationTransferExtIEsValue {
-				sealed := s50.SONConfigurationTransferExtIEsValue{}
-				*s50.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(209)
-				*s50.BridgeSONConfigurationTransferExtIEsValueFieldRowSynchronisationInformation(&sealed) = new(s31.SynchronisationInformation)
+			value := func() s51.SONConfigurationTransferExtIEsValue {
+				sealed := s51.SONConfigurationTransferExtIEsValue{}
+				*s51.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(209)
+				*s51.BridgeSONConfigurationTransferExtIEsValueFieldRowSynchronisationInformation(&sealed) = new(s31.SynchronisationInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SONConfigurationTransferExtIEsValue {
-				sealed := s50.SONConfigurationTransferExtIEsValue{}
-				*s50.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(356)
-				*s50.BridgeSONConfigurationTransferExtIEsValueFieldRowRequestedTNLInfo(&sealed) = new(s26.RequestedTNLInfo)
+			value := func() s51.SONConfigurationTransferExtIEsValue {
+				sealed := s51.SONConfigurationTransferExtIEsValue{}
+				*s51.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(356)
+				*s51.BridgeSONConfigurationTransferExtIEsValueFieldRowRequestedTNLInfo(&sealed) = new(s26.RequestedTNLInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -9304,31 +9306,31 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("SONInformationReplyExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s34.SONInformationReplyExtIEsValue)(nil))
-		selectedAssert(&s34.SONInformationReplyExtIEsValue{})
-		opaque := func() s34.SONInformationReplyExtIEsValue {
-			sealed := s34.SONInformationReplyExtIEsValue{}
-			*s34.BridgeSONInformationReplyExtIEsValueFieldIsOpaque(&sealed) = true
-			*s34.BridgeSONInformationReplyExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s35.SONInformationReplyExtIEsValue)(nil))
+		selectedAssert(&s35.SONInformationReplyExtIEsValue{})
+		opaque := func() s35.SONInformationReplyExtIEsValue {
+			sealed := s35.SONInformationReplyExtIEsValue{}
+			*s35.BridgeSONInformationReplyExtIEsValueFieldIsOpaque(&sealed) = true
+			*s35.BridgeSONInformationReplyExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s34.SONInformationReplyExtIEsValue {
-				sealed := s34.SONInformationReplyExtIEsValue{}
-				*s34.BridgeSONInformationReplyExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(149)
-				*s34.BridgeSONInformationReplyExtIEsValueFieldRowTimeSynchronisationInfo(&sealed) = new(s34.TimeSynchronisationInfo)
+			value := func() s35.SONInformationReplyExtIEsValue {
+				sealed := s35.SONInformationReplyExtIEsValue{}
+				*s35.BridgeSONInformationReplyExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(149)
+				*s35.BridgeSONInformationReplyExtIEsValueFieldRowTimeSynchronisationInfo(&sealed) = new(s35.TimeSynchronisationInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SONInformationReplyExtIEsValue {
-				sealed := s34.SONInformationReplyExtIEsValue{}
-				*s34.BridgeSONInformationReplyExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(208)
-				*s34.BridgeSONInformationReplyExtIEsValueFieldRowMutingPatternInformation(&sealed) = new(s19.MutingPatternInformation)
+			value := func() s35.SONInformationReplyExtIEsValue {
+				sealed := s35.SONInformationReplyExtIEsValue{}
+				*s35.BridgeSONInformationReplyExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(208)
+				*s35.BridgeSONInformationReplyExtIEsValueFieldRowMutingPatternInformation(&sealed) = new(s19.MutingPatternInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -9360,71 +9362,71 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("SecondaryRATDataUsageReportIEValue", func(t *testing.T) {
-		selectedAssert((*s45.SecondaryRATDataUsageReportIEValue)(nil))
-		selectedAssert(&s45.SecondaryRATDataUsageReportIEValue{})
-		opaque := func() s45.SecondaryRATDataUsageReportIEValue {
-			sealed := s45.SecondaryRATDataUsageReportIEValue{}
-			*s45.BridgeSecondaryRATDataUsageReportIEValueFieldIsOpaque(&sealed) = true
-			*s45.BridgeSecondaryRATDataUsageReportIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s46.SecondaryRATDataUsageReportIEValue)(nil))
+		selectedAssert(&s46.SecondaryRATDataUsageReportIEValue{})
+		opaque := func() s46.SecondaryRATDataUsageReportIEValue {
+			sealed := s46.SecondaryRATDataUsageReportIEValue{}
+			*s46.BridgeSecondaryRATDataUsageReportIEValueFieldIsOpaque(&sealed) = true
+			*s46.BridgeSecondaryRATDataUsageReportIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s45.SecondaryRATDataUsageReportIEValue {
-				sealed := s45.SecondaryRATDataUsageReportIEValue{}
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s46.SecondaryRATDataUsageReportIEValue {
+				sealed := s46.SecondaryRATDataUsageReportIEValue{}
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.SecondaryRATDataUsageReportIEValue {
-				sealed := s45.SecondaryRATDataUsageReportIEValue{}
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s46.SecondaryRATDataUsageReportIEValue {
+				sealed := s46.SecondaryRATDataUsageReportIEValue{}
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.SecondaryRATDataUsageReportIEValue {
-				sealed := s45.SecondaryRATDataUsageReportIEValue{}
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(264)
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldRowSecondaryRATDataUsageReportList(&sealed) = new(s28.SecondaryRATDataUsageReportList)
+			value := func() s46.SecondaryRATDataUsageReportIEValue {
+				sealed := s46.SecondaryRATDataUsageReportIEValue{}
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(264)
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldRowSecondaryRATDataUsageReportList(&sealed) = new(s28.SecondaryRATDataUsageReportList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.SecondaryRATDataUsageReportIEValue {
-				sealed := s45.SecondaryRATDataUsageReportIEValue{}
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(266)
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldRowHandoverFlag(&sealed) = new(s00.HandoverFlag)
+			value := func() s46.SecondaryRATDataUsageReportIEValue {
+				sealed := s46.SecondaryRATDataUsageReportIEValue{}
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(266)
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldRowHandoverFlag(&sealed) = new(s00.HandoverFlag)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.SecondaryRATDataUsageReportIEValue {
-				sealed := s45.SecondaryRATDataUsageReportIEValue{}
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldRowUserLocationInformation(&sealed) = new(s44.UserLocationInformation)
+			value := func() s46.SecondaryRATDataUsageReportIEValue {
+				sealed := s46.SecondaryRATDataUsageReportIEValue{}
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldRowUserLocationInformation(&sealed) = new(s45.UserLocationInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.SecondaryRATDataUsageReportIEValue {
-				sealed := s45.SecondaryRATDataUsageReportIEValue{}
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(297)
-				*s45.BridgeSecondaryRATDataUsageReportIEValueFieldRowTimeSinceSecondaryNodeRelease(&sealed) = new(s00.TimeSinceSecondaryNodeRelease)
+			value := func() s46.SecondaryRATDataUsageReportIEValue {
+				sealed := s46.SecondaryRATDataUsageReportIEValue{}
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldId(&sealed) = s00.ProtocolIEID(297)
+				*s46.BridgeSecondaryRATDataUsageReportIEValueFieldRowTimeSinceSecondaryNodeRelease(&sealed) = new(s00.TimeSinceSecondaryNodeRelease)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -9608,131 +9610,131 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("SourceeNBToTargeteNBTransparentContainerExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue)(nil))
-		selectedAssert(&s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{})
-		opaque := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-			sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-			*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldIsOpaque(&sealed) = true
-			*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue)(nil))
+		selectedAssert(&s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{})
+		opaque := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+			sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+			*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldIsOpaque(&sealed) = true
+			*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(175)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowMobilityInformation(&sealed) = new(s00.S1APIEsMobilityInformation)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(175)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowMobilityInformation(&sealed) = new(s00.S1APIEsMobilityInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(194)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowUEHistoryInformationFromTheUE(&sealed) = new(s00.UEHistoryInformationFromTheUE)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(194)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowUEHistoryInformationFromTheUE(&sealed) = new(s00.UEHistoryInformationFromTheUE)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(296)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowIMSvoiceEPSfallbackfrom5G(&sealed) = new(s00.IMSvoiceEPSfallbackfrom5G)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(296)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowIMSvoiceEPSfallbackfrom5G(&sealed) = new(s00.IMSvoiceEPSfallbackfrom5G)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(299)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowAdditionalRRMPriorityIndex(&sealed) = new(s00.AdditionalRRMPriorityIndex)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(299)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowAdditionalRRMPriorityIndex(&sealed) = new(s00.AdditionalRRMPriorityIndex)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(300)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowContextatSource(&sealed) = new(s19.ContextatSource)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(300)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowContextatSource(&sealed) = new(s19.ContextatSource)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(311)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowIntersystemMeasurementConfiguration(&sealed) = new(s24.IntersystemMeasurementConfiguration)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(311)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowIntersystemMeasurementConfiguration(&sealed) = new(s24.IntersystemMeasurementConfiguration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(312)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowSourceNodeID(&sealed) = new(s30.SourceNodeID)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(312)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowSourceNodeID(&sealed) = new(s31.SourceNodeID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(326)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowEmergencyIndicator(&sealed) = new(s00.EmergencyIndicator)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(326)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowEmergencyIndicator(&sealed) = new(s00.EmergencyIndicator)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(337)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowUEContextReferenceatSourceeNB(&sealed) = new(s00.ENBUES1APID)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(337)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowUEContextReferenceatSourceeNB(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(343)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowSourceSNID(&sealed) = new(s19.GlobalRANNODEID)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(343)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowSourceSNID(&sealed) = new(s19.GlobalRANNODEID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(79)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowDirectForwardingPathAvailability(&sealed) = new(s00.DirectForwardingPathAvailability)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(79)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowDirectForwardingPathAvailability(&sealed) = new(s00.DirectForwardingPathAvailability)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
-				sealed := s34.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(350)
-				*s34.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowTimeBasedHandoverInformation(&sealed) = new(s34.TimeBasedHandoverInformation)
+			value := func() s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue {
+				sealed := s35.SourceeNBToTargeteNBTransparentContainerExtIEsValue{}
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(350)
+				*s35.BridgeSourceeNBToTargeteNBTransparentContainerExtIEsValueFieldRowTimeBasedHandoverInformation(&sealed) = new(s35.TimeBasedHandoverInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -9752,241 +9754,241 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("SuccessfulValue", func(t *testing.T) {
-		selectedAssert((*s50.SuccessfulValue)(nil))
-		selectedAssert(&s50.SuccessfulValue{})
-		opaque := func() s50.SuccessfulValue {
-			sealed := s50.SuccessfulValue{}
-			*s50.BridgeSuccessfulValueFieldIsOpaque(&sealed) = true
-			*s50.BridgeSuccessfulValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s51.SuccessfulValue)(nil))
+		selectedAssert(&s51.SuccessfulValue{})
+		opaque := func() s51.SuccessfulValue {
+			sealed := s51.SuccessfulValue{}
+			*s51.BridgeSuccessfulValueFieldIsOpaque(&sealed) = true
+			*s51.BridgeSuccessfulValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(0)
-				*s50.BridgeSuccessfulValueFieldBodyHandoverCommand(&sealed) = new(s40.HandoverCommand)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(0)
+				*s51.BridgeSuccessfulValueFieldBodyHandoverCommand(&sealed) = new(s41.HandoverCommand)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(1)
-				*s50.BridgeSuccessfulValueFieldBodyHandoverRequestAcknowledge(&sealed) = new(s39.HandoverRequestAcknowledge)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(1)
+				*s51.BridgeSuccessfulValueFieldBodyHandoverRequestAcknowledge(&sealed) = new(s39.HandoverRequestAcknowledge)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(3)
-				*s50.BridgeSuccessfulValueFieldBodyPathSwitchRequestAcknowledge(&sealed) = new(s47.PathSwitchRequestAcknowledge)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(3)
+				*s51.BridgeSuccessfulValueFieldBodyPathSwitchRequestAcknowledge(&sealed) = new(s48.PathSwitchRequestAcknowledge)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(4)
-				*s50.BridgeSuccessfulValueFieldBodyHandoverCancelAcknowledge(&sealed) = new(s25.HandoverCancelAcknowledge)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(4)
+				*s51.BridgeSuccessfulValueFieldBodyHandoverCancelAcknowledge(&sealed) = new(s25.HandoverCancelAcknowledge)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(5)
-				*s50.BridgeSuccessfulValueFieldBodyERABSetupResponse(&sealed) = new(s46.ERABSetupResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(5)
+				*s51.BridgeSuccessfulValueFieldBodyERABSetupResponse(&sealed) = new(s47.ERABSetupResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(6)
-				*s50.BridgeSuccessfulValueFieldBodyERABModifyResponse(&sealed) = new(s46.ERABModifyResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(6)
+				*s51.BridgeSuccessfulValueFieldBodyERABModifyResponse(&sealed) = new(s46.ERABModifyResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(7)
-				*s50.BridgeSuccessfulValueFieldBodyERABReleaseResponse(&sealed) = new(s46.ERABReleaseResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(7)
+				*s51.BridgeSuccessfulValueFieldBodyERABReleaseResponse(&sealed) = new(s46.ERABReleaseResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(9)
-				*s50.BridgeSuccessfulValueFieldBodyInitialContextSetupResponse(&sealed) = new(s40.InitialContextSetupResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(9)
+				*s51.BridgeSuccessfulValueFieldBodyInitialContextSetupResponse(&sealed) = new(s40.InitialContextSetupResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(14)
-				*s50.BridgeSuccessfulValueFieldBodyResetAcknowledge(&sealed) = new(s44.ResetAcknowledge)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(14)
+				*s51.BridgeSuccessfulValueFieldBodyResetAcknowledge(&sealed) = new(s45.ResetAcknowledge)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(17)
-				*s50.BridgeSuccessfulValueFieldBodyS1SetupResponse(&sealed) = new(s43.S1SetupResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(17)
+				*s51.BridgeSuccessfulValueFieldBodyS1SetupResponse(&sealed) = new(s44.S1SetupResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(21)
-				*s50.BridgeSuccessfulValueFieldBodyUEContextModificationResponse(&sealed) = new(s36.UEContextModificationResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(21)
+				*s51.BridgeSuccessfulValueFieldBodyUEContextModificationResponse(&sealed) = new(s37.UEContextModificationResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(23)
-				*s50.BridgeSuccessfulValueFieldBodyUEContextReleaseComplete(&sealed) = new(s46.UEContextReleaseComplete)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(23)
+				*s51.BridgeSuccessfulValueFieldBodyUEContextReleaseComplete(&sealed) = new(s47.UEContextReleaseComplete)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(29)
-				*s50.BridgeSuccessfulValueFieldBodyENBConfigurationUpdateAcknowledge(&sealed) = new(s24.ENBConfigurationUpdateAcknowledge)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(29)
+				*s51.BridgeSuccessfulValueFieldBodyENBConfigurationUpdateAcknowledge(&sealed) = new(s24.ENBConfigurationUpdateAcknowledge)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(30)
-				*s50.BridgeSuccessfulValueFieldBodyMMEConfigurationUpdateAcknowledge(&sealed) = new(s25.MMEConfigurationUpdateAcknowledge)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(30)
+				*s51.BridgeSuccessfulValueFieldBodyMMEConfigurationUpdateAcknowledge(&sealed) = new(s25.MMEConfigurationUpdateAcknowledge)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(36)
-				*s50.BridgeSuccessfulValueFieldBodyWriteReplaceWarningResponse(&sealed) = new(s50.WriteReplaceWarningResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(36)
+				*s51.BridgeSuccessfulValueFieldBodyWriteReplaceWarningResponse(&sealed) = new(s51.WriteReplaceWarningResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(43)
-				*s50.BridgeSuccessfulValueFieldBodyKillResponse(&sealed) = new(s33.KillResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(43)
+				*s51.BridgeSuccessfulValueFieldBodyKillResponse(&sealed) = new(s33.KillResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(48)
-				*s50.BridgeSuccessfulValueFieldBodyUERadioCapabilityMatchResponse(&sealed) = new(s37.UERadioCapabilityMatchResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(48)
+				*s51.BridgeSuccessfulValueFieldBodyUERadioCapabilityMatchResponse(&sealed) = new(s37.UERadioCapabilityMatchResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(50)
-				*s50.BridgeSuccessfulValueFieldBodyERABModificationConfirm(&sealed) = new(s39.ERABModificationConfirm)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(50)
+				*s51.BridgeSuccessfulValueFieldBodyERABModificationConfirm(&sealed) = new(s40.ERABModificationConfirm)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(53)
-				*s50.BridgeSuccessfulValueFieldBodyUEContextModificationConfirm(&sealed) = new(s36.UEContextModificationConfirm)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(53)
+				*s51.BridgeSuccessfulValueFieldBodyUEContextModificationConfirm(&sealed) = new(s36.UEContextModificationConfirm)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(55)
-				*s50.BridgeSuccessfulValueFieldBodyUEContextSuspendResponse(&sealed) = new(s36.UEContextSuspendResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(55)
+				*s51.BridgeSuccessfulValueFieldBodyUEContextSuspendResponse(&sealed) = new(s37.UEContextSuspendResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(56)
-				*s50.BridgeSuccessfulValueFieldBodyUEContextResumeResponse(&sealed) = new(s38.UEContextResumeResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(56)
+				*s51.BridgeSuccessfulValueFieldBodyUEContextResumeResponse(&sealed) = new(s39.UEContextResumeResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(63)
-				*s50.BridgeSuccessfulValueFieldBodyUERadioCapabilityIDMappingResponse(&sealed) = new(s36.UERadioCapabilityIDMappingResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(63)
+				*s51.BridgeSuccessfulValueFieldBodyUERadioCapabilityIDMappingResponse(&sealed) = new(s37.UERadioCapabilityIDMappingResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(67)
-				*s50.BridgeSuccessfulValueFieldBodyS1RemovalResponse(&sealed) = new(s26.S1RemovalResponse)
+			value := func() s51.SuccessfulValue {
+				sealed := s51.SuccessfulValue{}
+				*s51.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(67)
+				*s51.BridgeSuccessfulValueFieldBodyS1RemovalResponse(&sealed) = new(s27.S1RemovalResponse)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -10124,21 +10126,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("TAIItemIEValue", func(t *testing.T) {
-		selectedAssert((*s33.TAIItemIEValue)(nil))
-		selectedAssert(&s33.TAIItemIEValue{})
-		opaque := func() s33.TAIItemIEValue {
-			sealed := s33.TAIItemIEValue{}
-			*s33.BridgeTAIItemIEValueFieldIsOpaque(&sealed) = true
-			*s33.BridgeTAIItemIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s34.TAIItemIEValue)(nil))
+		selectedAssert(&s34.TAIItemIEValue{})
+		opaque := func() s34.TAIItemIEValue {
+			sealed := s34.TAIItemIEValue{}
+			*s34.BridgeTAIItemIEValueFieldIsOpaque(&sealed) = true
+			*s34.BridgeTAIItemIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s33.TAIItemIEValue {
-				sealed := s33.TAIItemIEValue{}
-				*s33.BridgeTAIItemIEValueFieldId(&sealed) = s00.ProtocolIEID(47)
-				*s33.BridgeTAIItemIEValueFieldRowTAIItem(&sealed) = new(s33.TAIItem)
+			value := func() s34.TAIItemIEValue {
+				sealed := s34.TAIItemIEValue{}
+				*s34.BridgeTAIItemIEValueFieldId(&sealed) = s00.ProtocolIEID(47)
+				*s34.BridgeTAIItemIEValueFieldRowTAIItem(&sealed) = new(s34.TAIItem)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -10182,51 +10184,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("TargeteNBToSourceeNBTransparentContainerExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue)(nil))
-		selectedAssert(&s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue{})
-		opaque := func() s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue {
-			sealed := s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue{}
-			*s39.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldIsOpaque(&sealed) = true
-			*s39.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue)(nil))
+		selectedAssert(&s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue{})
+		opaque := func() s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue {
+			sealed := s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue{}
+			*s40.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldIsOpaque(&sealed) = true
+			*s40.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue {
-				sealed := s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue{}
-				*s39.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(318)
-				*s39.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldRowDAPSResponseInfoList(&sealed) = new(s14.DAPSResponseInfoList)
+			value := func() s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue {
+				sealed := s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue{}
+				*s40.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(318)
+				*s40.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldRowDAPSResponseInfoList(&sealed) = new(s15.DAPSResponseInfoList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue {
-				sealed := s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue{}
-				*s39.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(330)
-				*s39.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldRowRACSIndication(&sealed) = new(s00.RACSIndication)
+			value := func() s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue {
+				sealed := s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue{}
+				*s40.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(330)
+				*s40.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldRowRACSIndication(&sealed) = new(s00.RACSIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue {
-				sealed := s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue{}
-				*s39.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(335)
-				*s39.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldRowERABSecurityResultList(&sealed) = new(s30.ERABSecurityResultList)
+			value := func() s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue {
+				sealed := s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue{}
+				*s40.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(335)
+				*s40.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldRowERABSecurityResultList(&sealed) = new(s30.ERABSecurityResultList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue {
-				sealed := s39.TargeteNBToSourceeNBTransparentContainerExtIEsValue{}
-				*s39.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(79)
-				*s39.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldRowDirectForwardingPathAvailability(&sealed) = new(s00.DirectForwardingPathAvailability)
+			value := func() s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue {
+				sealed := s40.TargeteNBToSourceeNBTransparentContainerExtIEsValue{}
+				*s40.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(79)
+				*s40.BridgeTargeteNBToSourceeNBTransparentContainerExtIEsValueFieldRowDirectForwardingPathAvailability(&sealed) = new(s00.DirectForwardingPathAvailability)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -10268,51 +10270,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("TraceActivationExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s47.TraceActivationExtIEsValue)(nil))
-		selectedAssert(&s47.TraceActivationExtIEsValue{})
-		opaque := func() s47.TraceActivationExtIEsValue {
-			sealed := s47.TraceActivationExtIEsValue{}
-			*s47.BridgeTraceActivationExtIEsValueFieldIsOpaque(&sealed) = true
-			*s47.BridgeTraceActivationExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s48.TraceActivationExtIEsValue)(nil))
+		selectedAssert(&s48.TraceActivationExtIEsValue{})
+		opaque := func() s48.TraceActivationExtIEsValue {
+			sealed := s48.TraceActivationExtIEsValue{}
+			*s48.BridgeTraceActivationExtIEsValueFieldIsOpaque(&sealed) = true
+			*s48.BridgeTraceActivationExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s47.TraceActivationExtIEsValue {
-				sealed := s47.TraceActivationExtIEsValue{}
-				*s47.BridgeTraceActivationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(162)
-				*s47.BridgeTraceActivationExtIEsValueFieldRowMDTConfiguration(&sealed) = new(s47.MDTConfiguration)
+			value := func() s48.TraceActivationExtIEsValue {
+				sealed := s48.TraceActivationExtIEsValue{}
+				*s48.BridgeTraceActivationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(162)
+				*s48.BridgeTraceActivationExtIEsValueFieldRowMDTConfiguration(&sealed) = new(s48.MDTConfiguration)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.TraceActivationExtIEsValue {
-				sealed := s47.TraceActivationExtIEsValue{}
-				*s47.BridgeTraceActivationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(262)
-				*s47.BridgeTraceActivationExtIEsValueFieldRowUEAppLayerMeasConfig(&sealed) = new(s35.UEAppLayerMeasConfig)
+			value := func() s48.TraceActivationExtIEsValue {
+				sealed := s48.TraceActivationExtIEsValue{}
+				*s48.BridgeTraceActivationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(262)
+				*s48.BridgeTraceActivationExtIEsValueFieldRowUEAppLayerMeasConfig(&sealed) = new(s36.UEAppLayerMeasConfig)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.TraceActivationExtIEsValue {
-				sealed := s47.TraceActivationExtIEsValue{}
-				*s47.BridgeTraceActivationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(316)
-				*s47.BridgeTraceActivationExtIEsValueFieldRowMDTConfigurationNR(&sealed) = new(s00.MDTConfigurationNR)
+			value := func() s48.TraceActivationExtIEsValue {
+				sealed := s48.TraceActivationExtIEsValue{}
+				*s48.BridgeTraceActivationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(316)
+				*s48.BridgeTraceActivationExtIEsValueFieldRowMDTConfigurationNR(&sealed) = new(s00.MDTConfigurationNR)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s47.TraceActivationExtIEsValue {
-				sealed := s47.TraceActivationExtIEsValue{}
-				*s47.BridgeTraceActivationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(325)
-				*s47.BridgeTraceActivationExtIEsValueFieldRowTraceCollectionEntityURI(&sealed) = new(s00.URIAddress)
+			value := func() s48.TraceActivationExtIEsValue {
+				sealed := s48.TraceActivationExtIEsValue{}
+				*s48.BridgeTraceActivationExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(325)
+				*s48.BridgeTraceActivationExtIEsValueFieldRowTraceCollectionEntityURI(&sealed) = new(s00.URIAddress)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -10320,51 +10322,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("TraceFailureIndicationIEValue", func(t *testing.T) {
-		selectedAssert((*s20.TraceFailureIndicationIEValue)(nil))
-		selectedAssert(&s20.TraceFailureIndicationIEValue{})
-		opaque := func() s20.TraceFailureIndicationIEValue {
-			sealed := s20.TraceFailureIndicationIEValue{}
-			*s20.BridgeTraceFailureIndicationIEValueFieldIsOpaque(&sealed) = true
-			*s20.BridgeTraceFailureIndicationIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s21.TraceFailureIndicationIEValue)(nil))
+		selectedAssert(&s21.TraceFailureIndicationIEValue{})
+		opaque := func() s21.TraceFailureIndicationIEValue {
+			sealed := s21.TraceFailureIndicationIEValue{}
+			*s21.BridgeTraceFailureIndicationIEValueFieldIsOpaque(&sealed) = true
+			*s21.BridgeTraceFailureIndicationIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s20.TraceFailureIndicationIEValue {
-				sealed := s20.TraceFailureIndicationIEValue{}
-				*s20.BridgeTraceFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s20.BridgeTraceFailureIndicationIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s21.TraceFailureIndicationIEValue {
+				sealed := s21.TraceFailureIndicationIEValue{}
+				*s21.BridgeTraceFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s21.BridgeTraceFailureIndicationIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s20.TraceFailureIndicationIEValue {
-				sealed := s20.TraceFailureIndicationIEValue{}
-				*s20.BridgeTraceFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s20.BridgeTraceFailureIndicationIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s21.TraceFailureIndicationIEValue {
+				sealed := s21.TraceFailureIndicationIEValue{}
+				*s21.BridgeTraceFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s21.BridgeTraceFailureIndicationIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s20.TraceFailureIndicationIEValue {
-				sealed := s20.TraceFailureIndicationIEValue{}
-				*s20.BridgeTraceFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(86)
-				*s20.BridgeTraceFailureIndicationIEValueFieldRowEUTRANTraceID(&sealed) = new(s00.EUTRANTraceID)
+			value := func() s21.TraceFailureIndicationIEValue {
+				sealed := s21.TraceFailureIndicationIEValue{}
+				*s21.BridgeTraceFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(86)
+				*s21.BridgeTraceFailureIndicationIEValueFieldRowEUTRANTraceID(&sealed) = new(s00.EUTRANTraceID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s20.TraceFailureIndicationIEValue {
-				sealed := s20.TraceFailureIndicationIEValue{}
-				*s20.BridgeTraceFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(2)
-				*s20.BridgeTraceFailureIndicationIEValueFieldRowCause(&sealed) = new(s14.Cause)
+			value := func() s21.TraceFailureIndicationIEValue {
+				sealed := s21.TraceFailureIndicationIEValue{}
+				*s21.BridgeTraceFailureIndicationIEValueFieldId(&sealed) = s00.ProtocolIEID(2)
+				*s21.BridgeTraceFailureIndicationIEValueFieldRowCause(&sealed) = new(s14.Cause)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -10372,41 +10374,41 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("TraceStartIEValue", func(t *testing.T) {
-		selectedAssert((*s48.TraceStartIEValue)(nil))
-		selectedAssert(&s48.TraceStartIEValue{})
-		opaque := func() s48.TraceStartIEValue {
-			sealed := s48.TraceStartIEValue{}
-			*s48.BridgeTraceStartIEValueFieldIsOpaque(&sealed) = true
-			*s48.BridgeTraceStartIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s49.TraceStartIEValue)(nil))
+		selectedAssert(&s49.TraceStartIEValue{})
+		opaque := func() s49.TraceStartIEValue {
+			sealed := s49.TraceStartIEValue{}
+			*s49.BridgeTraceStartIEValueFieldIsOpaque(&sealed) = true
+			*s49.BridgeTraceStartIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s48.TraceStartIEValue {
-				sealed := s48.TraceStartIEValue{}
-				*s48.BridgeTraceStartIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s48.BridgeTraceStartIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s49.TraceStartIEValue {
+				sealed := s49.TraceStartIEValue{}
+				*s49.BridgeTraceStartIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s49.BridgeTraceStartIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.TraceStartIEValue {
-				sealed := s48.TraceStartIEValue{}
-				*s48.BridgeTraceStartIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s48.BridgeTraceStartIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s49.TraceStartIEValue {
+				sealed := s49.TraceStartIEValue{}
+				*s49.BridgeTraceStartIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s49.BridgeTraceStartIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s48.TraceStartIEValue {
-				sealed := s48.TraceStartIEValue{}
-				*s48.BridgeTraceStartIEValueFieldId(&sealed) = s00.ProtocolIEID(25)
-				*s48.BridgeTraceStartIEValueFieldRowTraceActivation(&sealed) = new(s47.TraceActivation)
+			value := func() s49.TraceStartIEValue {
+				sealed := s49.TraceStartIEValue{}
+				*s49.BridgeTraceStartIEValueFieldId(&sealed) = s00.ProtocolIEID(25)
+				*s49.BridgeTraceStartIEValueFieldRowTraceActivation(&sealed) = new(s48.TraceActivation)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -10492,21 +10494,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("UEAssociatedLogicalS1ConnectionItemResAckIEValue", func(t *testing.T) {
-		selectedAssert((*s35.UEAssociatedLogicalS1ConnectionItemResAckIEValue)(nil))
-		selectedAssert(&s35.UEAssociatedLogicalS1ConnectionItemResAckIEValue{})
-		opaque := func() s35.UEAssociatedLogicalS1ConnectionItemResAckIEValue {
-			sealed := s35.UEAssociatedLogicalS1ConnectionItemResAckIEValue{}
-			*s35.BridgeUEAssociatedLogicalS1ConnectionItemResAckIEValueFieldIsOpaque(&sealed) = true
-			*s35.BridgeUEAssociatedLogicalS1ConnectionItemResAckIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s36.UEAssociatedLogicalS1ConnectionItemResAckIEValue)(nil))
+		selectedAssert(&s36.UEAssociatedLogicalS1ConnectionItemResAckIEValue{})
+		opaque := func() s36.UEAssociatedLogicalS1ConnectionItemResAckIEValue {
+			sealed := s36.UEAssociatedLogicalS1ConnectionItemResAckIEValue{}
+			*s36.BridgeUEAssociatedLogicalS1ConnectionItemResAckIEValueFieldIsOpaque(&sealed) = true
+			*s36.BridgeUEAssociatedLogicalS1ConnectionItemResAckIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s35.UEAssociatedLogicalS1ConnectionItemResAckIEValue {
-				sealed := s35.UEAssociatedLogicalS1ConnectionItemResAckIEValue{}
-				*s35.BridgeUEAssociatedLogicalS1ConnectionItemResAckIEValueFieldId(&sealed) = s00.ProtocolIEID(91)
-				*s35.BridgeUEAssociatedLogicalS1ConnectionItemResAckIEValueFieldRowUEAssociatedLogicalS1ConnectionItem(&sealed) = new(s35.UEAssociatedLogicalS1ConnectionItem)
+			value := func() s36.UEAssociatedLogicalS1ConnectionItemResAckIEValue {
+				sealed := s36.UEAssociatedLogicalS1ConnectionItemResAckIEValue{}
+				*s36.BridgeUEAssociatedLogicalS1ConnectionItemResAckIEValueFieldId(&sealed) = s00.ProtocolIEID(91)
+				*s36.BridgeUEAssociatedLogicalS1ConnectionItemResAckIEValueFieldRowUEAssociatedLogicalS1ConnectionItem(&sealed) = new(s36.UEAssociatedLogicalS1ConnectionItem)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -10514,21 +10516,21 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("UEAssociatedLogicalS1ConnectionItemResIEValue", func(t *testing.T) {
-		selectedAssert((*s35.UEAssociatedLogicalS1ConnectionItemResIEValue)(nil))
-		selectedAssert(&s35.UEAssociatedLogicalS1ConnectionItemResIEValue{})
-		opaque := func() s35.UEAssociatedLogicalS1ConnectionItemResIEValue {
-			sealed := s35.UEAssociatedLogicalS1ConnectionItemResIEValue{}
-			*s35.BridgeUEAssociatedLogicalS1ConnectionItemResIEValueFieldIsOpaque(&sealed) = true
-			*s35.BridgeUEAssociatedLogicalS1ConnectionItemResIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s36.UEAssociatedLogicalS1ConnectionItemResIEValue)(nil))
+		selectedAssert(&s36.UEAssociatedLogicalS1ConnectionItemResIEValue{})
+		opaque := func() s36.UEAssociatedLogicalS1ConnectionItemResIEValue {
+			sealed := s36.UEAssociatedLogicalS1ConnectionItemResIEValue{}
+			*s36.BridgeUEAssociatedLogicalS1ConnectionItemResIEValueFieldIsOpaque(&sealed) = true
+			*s36.BridgeUEAssociatedLogicalS1ConnectionItemResIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s35.UEAssociatedLogicalS1ConnectionItemResIEValue {
-				sealed := s35.UEAssociatedLogicalS1ConnectionItemResIEValue{}
-				*s35.BridgeUEAssociatedLogicalS1ConnectionItemResIEValueFieldId(&sealed) = s00.ProtocolIEID(91)
-				*s35.BridgeUEAssociatedLogicalS1ConnectionItemResIEValueFieldRowUEAssociatedLogicalS1ConnectionItem(&sealed) = new(s35.UEAssociatedLogicalS1ConnectionItem)
+			value := func() s36.UEAssociatedLogicalS1ConnectionItemResIEValue {
+				sealed := s36.UEAssociatedLogicalS1ConnectionItemResIEValue{}
+				*s36.BridgeUEAssociatedLogicalS1ConnectionItemResIEValueFieldId(&sealed) = s00.ProtocolIEID(91)
+				*s36.BridgeUEAssociatedLogicalS1ConnectionItemResIEValueFieldRowUEAssociatedLogicalS1ConnectionItem(&sealed) = new(s36.UEAssociatedLogicalS1ConnectionItem)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -10774,251 +10776,251 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("UEContextModificationRequestIEValue", func(t *testing.T) {
-		selectedAssert((*s46.UEContextModificationRequestIEValue)(nil))
-		selectedAssert(&s46.UEContextModificationRequestIEValue{})
-		opaque := func() s46.UEContextModificationRequestIEValue {
-			sealed := s46.UEContextModificationRequestIEValue{}
-			*s46.BridgeUEContextModificationRequestIEValueFieldIsOpaque(&sealed) = true
-			*s46.BridgeUEContextModificationRequestIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s47.UEContextModificationRequestIEValue)(nil))
+		selectedAssert(&s47.UEContextModificationRequestIEValue{})
+		opaque := func() s47.UEContextModificationRequestIEValue {
+			sealed := s47.UEContextModificationRequestIEValue{}
+			*s47.BridgeUEContextModificationRequestIEValueFieldIsOpaque(&sealed) = true
+			*s47.BridgeUEContextModificationRequestIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(73)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowSecurityKey(&sealed) = new(s00.SecurityKey)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(73)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowSecurityKey(&sealed) = new(s00.SecurityKey)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(106)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowSubscriberProfileIDforRFP(&sealed) = new(s00.SubscriberProfileIDforRFP)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(106)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowSubscriberProfileIDforRFP(&sealed) = new(s00.SubscriberProfileIDforRFP)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s35.UEAggregateMaximumBitrate)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(66)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowUEaggregateMaximumBitrate(&sealed) = new(s36.UEAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(108)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowCSFallbackIndicator(&sealed) = new(s00.CSFallbackIndicator)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(108)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowCSFallbackIndicator(&sealed) = new(s00.CSFallbackIndicator)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(107)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowUESecurityCapabilities(&sealed) = new(s37.UESecurityCapabilities)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(107)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowUESecurityCapabilities(&sealed) = new(s37.UESecurityCapabilities)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(146)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowCSGMembershipStatus(&sealed) = new(s00.CSGMembershipStatus)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(146)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowCSGMembershipStatus(&sealed) = new(s00.CSGMembershipStatus)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(159)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowRegisteredLAI(&sealed) = new(s18.LAI)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(159)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowRegisteredLAI(&sealed) = new(s18.LAI)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(187)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowAdditionalCSFallbackIndicator(&sealed) = new(s00.AdditionalCSFallbackIndicator)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(187)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowAdditionalCSFallbackIndicator(&sealed) = new(s00.AdditionalCSFallbackIndicator)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(195)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowProSeAuthorized(&sealed) = new(s20.ProSeAuthorized)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(195)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowProSeAuthorized(&sealed) = new(s20.ProSeAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(124)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowSRVCCOperationPossible(&sealed) = new(s00.SRVCCOperationPossible)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(124)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowSRVCCOperationPossible(&sealed) = new(s00.SRVCCOperationPossible)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(243)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowSRVCCOperationNotPossible(&sealed) = new(s00.SRVCCOperationNotPossible)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(243)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowSRVCCOperationNotPossible(&sealed) = new(s00.SRVCCOperationNotPossible)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(240)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowV2XServicesAuthorized(&sealed) = new(s46.V2XServicesAuthorized)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(240)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowV2XServicesAuthorized(&sealed) = new(s47.V2XServicesAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(248)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowUESidelinkAggregateMaximumBitrate(&sealed) = new(s37.UESidelinkAggregateMaximumBitrate)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(248)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowUESidelinkAggregateMaximumBitrate(&sealed) = new(s38.UESidelinkAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(269)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowNRUESecurityCapabilities(&sealed) = new(s19.NRUESecurityCapabilities)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(269)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowNRUESecurityCapabilities(&sealed) = new(s19.NRUESecurityCapabilities)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(277)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowAerialUEsubscriptionInformation(&sealed) = new(s00.AerialUEsubscriptionInformation)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(277)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowAerialUEsubscriptionInformation(&sealed) = new(s00.AerialUEsubscriptionInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(299)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowAdditionalRRMPriorityIndex(&sealed) = new(s00.AdditionalRRMPriorityIndex)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(299)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowAdditionalRRMPriorityIndex(&sealed) = new(s00.AdditionalRRMPriorityIndex)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(301)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowIABAuthorized(&sealed) = new(s00.IABAuthorized)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(301)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowIABAuthorized(&sealed) = new(s00.IABAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(306)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowNRV2XServicesAuthorized(&sealed) = new(s19.NRV2XServicesAuthorized)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(306)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowNRV2XServicesAuthorized(&sealed) = new(s20.NRV2XServicesAuthorized)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(307)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowNRUESidelinkAggregateMaximumBitrate(&sealed) = new(s19.NRUESidelinkAggregateMaximumBitrate)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(307)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowNRUESidelinkAggregateMaximumBitrate(&sealed) = new(s20.NRUESidelinkAggregateMaximumBitrate)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(308)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowPC5QoSParameters(&sealed) = new(s24.PC5QoSParameters)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(308)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowPC5QoSParameters(&sealed) = new(s24.PC5QoSParameters)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(314)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowUERadioCapabilityID(&sealed) = new(s00.UERadioCapabilityID)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(314)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowUERadioCapabilityID(&sealed) = new(s00.UERadioCapabilityID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s46.UEContextModificationRequestIEValue {
-				sealed := s46.UEContextModificationRequestIEValue{}
-				*s46.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(355)
-				*s46.BridgeUEContextModificationRequestIEValueFieldRowTimeRefDistribution(&sealed) = new(s00.TimeRefDistribution)
+			value := func() s47.UEContextModificationRequestIEValue {
+				sealed := s47.UEContextModificationRequestIEValue{}
+				*s47.BridgeUEContextModificationRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(355)
+				*s47.BridgeUEContextModificationRequestIEValueFieldRowTimeRefDistribution(&sealed) = new(s00.TimeRefDistribution)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -11100,91 +11102,91 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("UEContextReleaseCompleteIEValue", func(t *testing.T) {
-		selectedAssert((*s45.UEContextReleaseCompleteIEValue)(nil))
-		selectedAssert(&s45.UEContextReleaseCompleteIEValue{})
-		opaque := func() s45.UEContextReleaseCompleteIEValue {
-			sealed := s45.UEContextReleaseCompleteIEValue{}
-			*s45.BridgeUEContextReleaseCompleteIEValueFieldIsOpaque(&sealed) = true
-			*s45.BridgeUEContextReleaseCompleteIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s46.UEContextReleaseCompleteIEValue)(nil))
+		selectedAssert(&s46.UEContextReleaseCompleteIEValue{})
+		opaque := func() s46.UEContextReleaseCompleteIEValue {
+			sealed := s46.UEContextReleaseCompleteIEValue{}
+			*s46.BridgeUEContextReleaseCompleteIEValueFieldIsOpaque(&sealed) = true
+			*s46.BridgeUEContextReleaseCompleteIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s45.UEContextReleaseCompleteIEValue {
-				sealed := s45.UEContextReleaseCompleteIEValue{}
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s46.UEContextReleaseCompleteIEValue {
+				sealed := s46.UEContextReleaseCompleteIEValue{}
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextReleaseCompleteIEValue {
-				sealed := s45.UEContextReleaseCompleteIEValue{}
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s46.UEContextReleaseCompleteIEValue {
+				sealed := s46.UEContextReleaseCompleteIEValue{}
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextReleaseCompleteIEValue {
-				sealed := s45.UEContextReleaseCompleteIEValue{}
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s46.UEContextReleaseCompleteIEValue {
+				sealed := s46.UEContextReleaseCompleteIEValue{}
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextReleaseCompleteIEValue {
-				sealed := s45.UEContextReleaseCompleteIEValue{}
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldRowUserLocationInformation(&sealed) = new(s44.UserLocationInformation)
+			value := func() s46.UEContextReleaseCompleteIEValue {
+				sealed := s46.UEContextReleaseCompleteIEValue{}
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldRowUserLocationInformation(&sealed) = new(s45.UserLocationInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextReleaseCompleteIEValue {
-				sealed := s45.UEContextReleaseCompleteIEValue{}
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(213)
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldRowInformationOnRecommendedCellsAndENBsForPaging(&sealed) = new(s33.InformationOnRecommendedCellsAndENBsForPaging)
+			value := func() s46.UEContextReleaseCompleteIEValue {
+				sealed := s46.UEContextReleaseCompleteIEValue{}
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(213)
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldRowInformationOnRecommendedCellsAndENBsForPaging(&sealed) = new(s34.InformationOnRecommendedCellsAndENBsForPaging)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextReleaseCompleteIEValue {
-				sealed := s45.UEContextReleaseCompleteIEValue{}
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(212)
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldRowCellIdentifierAndCELevelForCECapableUEs(&sealed) = new(s17.CellIdentifierAndCELevelForCECapableUEs)
+			value := func() s46.UEContextReleaseCompleteIEValue {
+				sealed := s46.UEContextReleaseCompleteIEValue{}
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(212)
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldRowCellIdentifierAndCELevelForCECapableUEs(&sealed) = new(s17.CellIdentifierAndCELevelForCECapableUEs)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextReleaseCompleteIEValue {
-				sealed := s45.UEContextReleaseCompleteIEValue{}
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(264)
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldRowSecondaryRATDataUsageReportList(&sealed) = new(s28.SecondaryRATDataUsageReportList)
+			value := func() s46.UEContextReleaseCompleteIEValue {
+				sealed := s46.UEContextReleaseCompleteIEValue{}
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(264)
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldRowSecondaryRATDataUsageReportList(&sealed) = new(s28.SecondaryRATDataUsageReportList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextReleaseCompleteIEValue {
-				sealed := s45.UEContextReleaseCompleteIEValue{}
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(297)
-				*s45.BridgeUEContextReleaseCompleteIEValueFieldRowTimeSinceSecondaryNodeRelease(&sealed) = new(s00.TimeSinceSecondaryNodeRelease)
+			value := func() s46.UEContextReleaseCompleteIEValue {
+				sealed := s46.UEContextReleaseCompleteIEValue{}
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldId(&sealed) = s00.ProtocolIEID(297)
+				*s46.BridgeUEContextReleaseCompleteIEValueFieldRowTimeSinceSecondaryNodeRelease(&sealed) = new(s00.TimeSinceSecondaryNodeRelease)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -11254,51 +11256,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("UEContextResumeFailureIEValue", func(t *testing.T) {
-		selectedAssert((*s23.UEContextResumeFailureIEValue)(nil))
-		selectedAssert(&s23.UEContextResumeFailureIEValue{})
-		opaque := func() s23.UEContextResumeFailureIEValue {
-			sealed := s23.UEContextResumeFailureIEValue{}
-			*s23.BridgeUEContextResumeFailureIEValueFieldIsOpaque(&sealed) = true
-			*s23.BridgeUEContextResumeFailureIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s24.UEContextResumeFailureIEValue)(nil))
+		selectedAssert(&s24.UEContextResumeFailureIEValue{})
+		opaque := func() s24.UEContextResumeFailureIEValue {
+			sealed := s24.UEContextResumeFailureIEValue{}
+			*s24.BridgeUEContextResumeFailureIEValueFieldIsOpaque(&sealed) = true
+			*s24.BridgeUEContextResumeFailureIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s23.UEContextResumeFailureIEValue {
-				sealed := s23.UEContextResumeFailureIEValue{}
-				*s23.BridgeUEContextResumeFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s23.BridgeUEContextResumeFailureIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s24.UEContextResumeFailureIEValue {
+				sealed := s24.UEContextResumeFailureIEValue{}
+				*s24.BridgeUEContextResumeFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s24.BridgeUEContextResumeFailureIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s23.UEContextResumeFailureIEValue {
-				sealed := s23.UEContextResumeFailureIEValue{}
-				*s23.BridgeUEContextResumeFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s23.BridgeUEContextResumeFailureIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s24.UEContextResumeFailureIEValue {
+				sealed := s24.UEContextResumeFailureIEValue{}
+				*s24.BridgeUEContextResumeFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s24.BridgeUEContextResumeFailureIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s23.UEContextResumeFailureIEValue {
-				sealed := s23.UEContextResumeFailureIEValue{}
-				*s23.BridgeUEContextResumeFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(2)
-				*s23.BridgeUEContextResumeFailureIEValueFieldRowCause(&sealed) = new(s14.Cause)
+			value := func() s24.UEContextResumeFailureIEValue {
+				sealed := s24.UEContextResumeFailureIEValue{}
+				*s24.BridgeUEContextResumeFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(2)
+				*s24.BridgeUEContextResumeFailureIEValueFieldRowCause(&sealed) = new(s14.Cause)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s23.UEContextResumeFailureIEValue {
-				sealed := s23.UEContextResumeFailureIEValue{}
-				*s23.BridgeUEContextResumeFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s23.BridgeUEContextResumeFailureIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s24.UEContextResumeFailureIEValue {
+				sealed := s24.UEContextResumeFailureIEValue{}
+				*s24.BridgeUEContextResumeFailureIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s24.BridgeUEContextResumeFailureIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -11306,51 +11308,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("UEContextResumeRequestIEValue", func(t *testing.T) {
-		selectedAssert((*s38.UEContextResumeRequestIEValue)(nil))
-		selectedAssert(&s38.UEContextResumeRequestIEValue{})
-		opaque := func() s38.UEContextResumeRequestIEValue {
-			sealed := s38.UEContextResumeRequestIEValue{}
-			*s38.BridgeUEContextResumeRequestIEValueFieldIsOpaque(&sealed) = true
-			*s38.BridgeUEContextResumeRequestIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s39.UEContextResumeRequestIEValue)(nil))
+		selectedAssert(&s39.UEContextResumeRequestIEValue{})
+		opaque := func() s39.UEContextResumeRequestIEValue {
+			sealed := s39.UEContextResumeRequestIEValue{}
+			*s39.BridgeUEContextResumeRequestIEValueFieldIsOpaque(&sealed) = true
+			*s39.BridgeUEContextResumeRequestIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s38.UEContextResumeRequestIEValue {
-				sealed := s38.UEContextResumeRequestIEValue{}
-				*s38.BridgeUEContextResumeRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s38.BridgeUEContextResumeRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s39.UEContextResumeRequestIEValue {
+				sealed := s39.UEContextResumeRequestIEValue{}
+				*s39.BridgeUEContextResumeRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s39.BridgeUEContextResumeRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s38.UEContextResumeRequestIEValue {
-				sealed := s38.UEContextResumeRequestIEValue{}
-				*s38.BridgeUEContextResumeRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s38.BridgeUEContextResumeRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s39.UEContextResumeRequestIEValue {
+				sealed := s39.UEContextResumeRequestIEValue{}
+				*s39.BridgeUEContextResumeRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s39.BridgeUEContextResumeRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s38.UEContextResumeRequestIEValue {
-				sealed := s38.UEContextResumeRequestIEValue{}
-				*s38.BridgeUEContextResumeRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(235)
-				*s38.BridgeUEContextResumeRequestIEValueFieldRowERABFailedToResumeListResumeReq(&sealed) = new(s16.ERABFailedToResumeListResumeReq)
+			value := func() s39.UEContextResumeRequestIEValue {
+				sealed := s39.UEContextResumeRequestIEValue{}
+				*s39.BridgeUEContextResumeRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(235)
+				*s39.BridgeUEContextResumeRequestIEValueFieldRowERABFailedToResumeListResumeReq(&sealed) = new(s16.ERABFailedToResumeListResumeReq)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s38.UEContextResumeRequestIEValue {
-				sealed := s38.UEContextResumeRequestIEValue{}
-				*s38.BridgeUEContextResumeRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(245)
-				*s38.BridgeUEContextResumeRequestIEValueFieldRowRRCResumeCause(&sealed) = new(s00.RRCEstablishmentCause)
+			value := func() s39.UEContextResumeRequestIEValue {
+				sealed := s39.UEContextResumeRequestIEValue{}
+				*s39.BridgeUEContextResumeRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(245)
+				*s39.BridgeUEContextResumeRequestIEValueFieldRowRRCResumeCause(&sealed) = new(s00.RRCEstablishmentCause)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -11358,71 +11360,71 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("UEContextResumeResponseIEValue", func(t *testing.T) {
-		selectedAssert((*s38.UEContextResumeResponseIEValue)(nil))
-		selectedAssert(&s38.UEContextResumeResponseIEValue{})
-		opaque := func() s38.UEContextResumeResponseIEValue {
-			sealed := s38.UEContextResumeResponseIEValue{}
-			*s38.BridgeUEContextResumeResponseIEValueFieldIsOpaque(&sealed) = true
-			*s38.BridgeUEContextResumeResponseIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s39.UEContextResumeResponseIEValue)(nil))
+		selectedAssert(&s39.UEContextResumeResponseIEValue{})
+		opaque := func() s39.UEContextResumeResponseIEValue {
+			sealed := s39.UEContextResumeResponseIEValue{}
+			*s39.BridgeUEContextResumeResponseIEValueFieldIsOpaque(&sealed) = true
+			*s39.BridgeUEContextResumeResponseIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s38.UEContextResumeResponseIEValue {
-				sealed := s38.UEContextResumeResponseIEValue{}
-				*s38.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s38.BridgeUEContextResumeResponseIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s39.UEContextResumeResponseIEValue {
+				sealed := s39.UEContextResumeResponseIEValue{}
+				*s39.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s39.BridgeUEContextResumeResponseIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s38.UEContextResumeResponseIEValue {
-				sealed := s38.UEContextResumeResponseIEValue{}
-				*s38.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s38.BridgeUEContextResumeResponseIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s39.UEContextResumeResponseIEValue {
+				sealed := s39.UEContextResumeResponseIEValue{}
+				*s39.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s39.BridgeUEContextResumeResponseIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s38.UEContextResumeResponseIEValue {
-				sealed := s38.UEContextResumeResponseIEValue{}
-				*s38.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(237)
-				*s38.BridgeUEContextResumeResponseIEValueFieldRowERABFailedToResumeListResumeRes(&sealed) = new(s16.ERABFailedToResumeListResumeRes)
+			value := func() s39.UEContextResumeResponseIEValue {
+				sealed := s39.UEContextResumeResponseIEValue{}
+				*s39.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(237)
+				*s39.BridgeUEContextResumeResponseIEValueFieldRowERABFailedToResumeListResumeRes(&sealed) = new(s16.ERABFailedToResumeListResumeRes)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s38.UEContextResumeResponseIEValue {
-				sealed := s38.UEContextResumeResponseIEValue{}
-				*s38.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s38.BridgeUEContextResumeResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s39.UEContextResumeResponseIEValue {
+				sealed := s39.UEContextResumeResponseIEValue{}
+				*s39.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s39.BridgeUEContextResumeResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s38.UEContextResumeResponseIEValue {
-				sealed := s38.UEContextResumeResponseIEValue{}
-				*s38.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(40)
-				*s38.BridgeUEContextResumeResponseIEValueFieldRowSecurityContext(&sealed) = new(s28.SecurityContext)
+			value := func() s39.UEContextResumeResponseIEValue {
+				sealed := s39.UEContextResumeResponseIEValue{}
+				*s39.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(40)
+				*s39.BridgeUEContextResumeResponseIEValueFieldRowSecurityContext(&sealed) = new(s29.SecurityContext)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s38.UEContextResumeResponseIEValue {
-				sealed := s38.UEContextResumeResponseIEValue{}
-				*s38.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(283)
-				*s38.BridgeUEContextResumeResponseIEValueFieldRowPendingDataIndication(&sealed) = new(s00.PendingDataIndication)
+			value := func() s39.UEContextResumeResponseIEValue {
+				sealed := s39.UEContextResumeResponseIEValue{}
+				*s39.BridgeUEContextResumeResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(283)
+				*s39.BridgeUEContextResumeResponseIEValueFieldRowPendingDataIndication(&sealed) = new(s00.PendingDataIndication)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -11430,81 +11432,81 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("UEContextSuspendRequestIEValue", func(t *testing.T) {
-		selectedAssert((*s45.UEContextSuspendRequestIEValue)(nil))
-		selectedAssert(&s45.UEContextSuspendRequestIEValue{})
-		opaque := func() s45.UEContextSuspendRequestIEValue {
-			sealed := s45.UEContextSuspendRequestIEValue{}
-			*s45.BridgeUEContextSuspendRequestIEValueFieldIsOpaque(&sealed) = true
-			*s45.BridgeUEContextSuspendRequestIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s46.UEContextSuspendRequestIEValue)(nil))
+		selectedAssert(&s46.UEContextSuspendRequestIEValue{})
+		opaque := func() s46.UEContextSuspendRequestIEValue {
+			sealed := s46.UEContextSuspendRequestIEValue{}
+			*s46.BridgeUEContextSuspendRequestIEValueFieldIsOpaque(&sealed) = true
+			*s46.BridgeUEContextSuspendRequestIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s45.UEContextSuspendRequestIEValue {
-				sealed := s45.UEContextSuspendRequestIEValue{}
-				*s45.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s45.BridgeUEContextSuspendRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s46.UEContextSuspendRequestIEValue {
+				sealed := s46.UEContextSuspendRequestIEValue{}
+				*s46.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s46.BridgeUEContextSuspendRequestIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextSuspendRequestIEValue {
-				sealed := s45.UEContextSuspendRequestIEValue{}
-				*s45.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s45.BridgeUEContextSuspendRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s46.UEContextSuspendRequestIEValue {
+				sealed := s46.UEContextSuspendRequestIEValue{}
+				*s46.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s46.BridgeUEContextSuspendRequestIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextSuspendRequestIEValue {
-				sealed := s45.UEContextSuspendRequestIEValue{}
-				*s45.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(213)
-				*s45.BridgeUEContextSuspendRequestIEValueFieldRowInformationOnRecommendedCellsAndENBsForPaging(&sealed) = new(s33.InformationOnRecommendedCellsAndENBsForPaging)
+			value := func() s46.UEContextSuspendRequestIEValue {
+				sealed := s46.UEContextSuspendRequestIEValue{}
+				*s46.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(213)
+				*s46.BridgeUEContextSuspendRequestIEValueFieldRowInformationOnRecommendedCellsAndENBsForPaging(&sealed) = new(s34.InformationOnRecommendedCellsAndENBsForPaging)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextSuspendRequestIEValue {
-				sealed := s45.UEContextSuspendRequestIEValue{}
-				*s45.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(212)
-				*s45.BridgeUEContextSuspendRequestIEValueFieldRowCellIdentifierAndCELevelForCECapableUEs(&sealed) = new(s17.CellIdentifierAndCELevelForCECapableUEs)
+			value := func() s46.UEContextSuspendRequestIEValue {
+				sealed := s46.UEContextSuspendRequestIEValue{}
+				*s46.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(212)
+				*s46.BridgeUEContextSuspendRequestIEValueFieldRowCellIdentifierAndCELevelForCECapableUEs(&sealed) = new(s17.CellIdentifierAndCELevelForCECapableUEs)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextSuspendRequestIEValue {
-				sealed := s45.UEContextSuspendRequestIEValue{}
-				*s45.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(264)
-				*s45.BridgeUEContextSuspendRequestIEValueFieldRowSecondaryRATDataUsageReportList(&sealed) = new(s28.SecondaryRATDataUsageReportList)
+			value := func() s46.UEContextSuspendRequestIEValue {
+				sealed := s46.UEContextSuspendRequestIEValue{}
+				*s46.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(264)
+				*s46.BridgeUEContextSuspendRequestIEValueFieldRowSecondaryRATDataUsageReportList(&sealed) = new(s28.SecondaryRATDataUsageReportList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextSuspendRequestIEValue {
-				sealed := s45.UEContextSuspendRequestIEValue{}
-				*s45.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
-				*s45.BridgeUEContextSuspendRequestIEValueFieldRowUserLocationInformation(&sealed) = new(s44.UserLocationInformation)
+			value := func() s46.UEContextSuspendRequestIEValue {
+				sealed := s46.UEContextSuspendRequestIEValue{}
+				*s46.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(189)
+				*s46.BridgeUEContextSuspendRequestIEValueFieldRowUserLocationInformation(&sealed) = new(s45.UserLocationInformation)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s45.UEContextSuspendRequestIEValue {
-				sealed := s45.UEContextSuspendRequestIEValue{}
-				*s45.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(297)
-				*s45.BridgeUEContextSuspendRequestIEValueFieldRowTimeSinceSecondaryNodeRelease(&sealed) = new(s00.TimeSinceSecondaryNodeRelease)
+			value := func() s46.UEContextSuspendRequestIEValue {
+				sealed := s46.UEContextSuspendRequestIEValue{}
+				*s46.BridgeUEContextSuspendRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(297)
+				*s46.BridgeUEContextSuspendRequestIEValueFieldRowTimeSinceSecondaryNodeRelease(&sealed) = new(s00.TimeSinceSecondaryNodeRelease)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -11512,51 +11514,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("UEContextSuspendResponseIEValue", func(t *testing.T) {
-		selectedAssert((*s28.UEContextSuspendResponseIEValue)(nil))
-		selectedAssert(&s28.UEContextSuspendResponseIEValue{})
-		opaque := func() s28.UEContextSuspendResponseIEValue {
-			sealed := s28.UEContextSuspendResponseIEValue{}
-			*s28.BridgeUEContextSuspendResponseIEValueFieldIsOpaque(&sealed) = true
-			*s28.BridgeUEContextSuspendResponseIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s29.UEContextSuspendResponseIEValue)(nil))
+		selectedAssert(&s29.UEContextSuspendResponseIEValue{})
+		opaque := func() s29.UEContextSuspendResponseIEValue {
+			sealed := s29.UEContextSuspendResponseIEValue{}
+			*s29.BridgeUEContextSuspendResponseIEValueFieldIsOpaque(&sealed) = true
+			*s29.BridgeUEContextSuspendResponseIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s28.UEContextSuspendResponseIEValue {
-				sealed := s28.UEContextSuspendResponseIEValue{}
-				*s28.BridgeUEContextSuspendResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
-				*s28.BridgeUEContextSuspendResponseIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
+			value := func() s29.UEContextSuspendResponseIEValue {
+				sealed := s29.UEContextSuspendResponseIEValue{}
+				*s29.BridgeUEContextSuspendResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(0)
+				*s29.BridgeUEContextSuspendResponseIEValueFieldRowMMEUES1APID(&sealed) = new(s00.MMEUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s28.UEContextSuspendResponseIEValue {
-				sealed := s28.UEContextSuspendResponseIEValue{}
-				*s28.BridgeUEContextSuspendResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
-				*s28.BridgeUEContextSuspendResponseIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
+			value := func() s29.UEContextSuspendResponseIEValue {
+				sealed := s29.UEContextSuspendResponseIEValue{}
+				*s29.BridgeUEContextSuspendResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(8)
+				*s29.BridgeUEContextSuspendResponseIEValueFieldRowENBUES1APID(&sealed) = new(s00.ENBUES1APID)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s28.UEContextSuspendResponseIEValue {
-				sealed := s28.UEContextSuspendResponseIEValue{}
-				*s28.BridgeUEContextSuspendResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s28.BridgeUEContextSuspendResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s29.UEContextSuspendResponseIEValue {
+				sealed := s29.UEContextSuspendResponseIEValue{}
+				*s29.BridgeUEContextSuspendResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s29.BridgeUEContextSuspendResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s28.UEContextSuspendResponseIEValue {
-				sealed := s28.UEContextSuspendResponseIEValue{}
-				*s28.BridgeUEContextSuspendResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(40)
-				*s28.BridgeUEContextSuspendResponseIEValueFieldRowSecurityContext(&sealed) = new(s28.SecurityContext)
+			value := func() s29.UEContextSuspendResponseIEValue {
+				sealed := s29.UEContextSuspendResponseIEValue{}
+				*s29.BridgeUEContextSuspendResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(40)
+				*s29.BridgeUEContextSuspendResponseIEValueFieldRowSecurityContext(&sealed) = new(s29.SecurityContext)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -11608,7 +11610,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s31.UEInformationTransferIEValue {
 				sealed := s31.UEInformationTransferIEValue{}
 				*s31.BridgeUEInformationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(278)
-				*s31.BridgeUEInformationTransferIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s30.SubscriptionBasedUEDifferentiationInfo)
+				*s31.BridgeUEInformationTransferIEValueFieldRowSubscriptionBasedUEDifferentiationInfo(&sealed) = new(s31.SubscriptionBasedUEDifferentiationInfo)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -11852,111 +11854,111 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		unions++
 	})
 	t.Run("UnsuccessfulValue", func(t *testing.T) {
-		selectedAssert((*s36.UnsuccessfulValue)(nil))
-		selectedAssert(&s36.UnsuccessfulValue{})
-		opaque := func() s36.UnsuccessfulValue {
-			sealed := s36.UnsuccessfulValue{}
-			*s36.BridgeUnsuccessfulValueFieldIsOpaque(&sealed) = true
-			*s36.BridgeUnsuccessfulValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s37.UnsuccessfulValue)(nil))
+		selectedAssert(&s37.UnsuccessfulValue{})
+		opaque := func() s37.UnsuccessfulValue {
+			sealed := s37.UnsuccessfulValue{}
+			*s37.BridgeUnsuccessfulValueFieldIsOpaque(&sealed) = true
+			*s37.BridgeUnsuccessfulValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(0)
-				*s36.BridgeUnsuccessfulValueFieldBodyHandoverPreparationFailure(&sealed) = new(s25.HandoverPreparationFailure)
+			value := func() s37.UnsuccessfulValue {
+				sealed := s37.UnsuccessfulValue{}
+				*s37.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(0)
+				*s37.BridgeUnsuccessfulValueFieldBodyHandoverPreparationFailure(&sealed) = new(s25.HandoverPreparationFailure)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(1)
-				*s36.BridgeUnsuccessfulValueFieldBodyHandoverFailure(&sealed) = new(s25.HandoverFailure)
+			value := func() s37.UnsuccessfulValue {
+				sealed := s37.UnsuccessfulValue{}
+				*s37.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(1)
+				*s37.BridgeUnsuccessfulValueFieldBodyHandoverFailure(&sealed) = new(s25.HandoverFailure)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(3)
-				*s36.BridgeUnsuccessfulValueFieldBodyPathSwitchRequestFailure(&sealed) = new(s26.PathSwitchRequestFailure)
+			value := func() s37.UnsuccessfulValue {
+				sealed := s37.UnsuccessfulValue{}
+				*s37.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(3)
+				*s37.BridgeUnsuccessfulValueFieldBodyPathSwitchRequestFailure(&sealed) = new(s26.PathSwitchRequestFailure)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(9)
-				*s36.BridgeUnsuccessfulValueFieldBodyInitialContextSetupFailure(&sealed) = new(s25.InitialContextSetupFailure)
+			value := func() s37.UnsuccessfulValue {
+				sealed := s37.UnsuccessfulValue{}
+				*s37.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(9)
+				*s37.BridgeUnsuccessfulValueFieldBodyInitialContextSetupFailure(&sealed) = new(s25.InitialContextSetupFailure)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(17)
-				*s36.BridgeUnsuccessfulValueFieldBodyS1SetupFailure(&sealed) = new(s26.S1SetupFailure)
+			value := func() s37.UnsuccessfulValue {
+				sealed := s37.UnsuccessfulValue{}
+				*s37.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(17)
+				*s37.BridgeUnsuccessfulValueFieldBodyS1SetupFailure(&sealed) = new(s27.S1SetupFailure)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(21)
-				*s36.BridgeUnsuccessfulValueFieldBodyUEContextModificationFailure(&sealed) = new(s36.UEContextModificationFailure)
+			value := func() s37.UnsuccessfulValue {
+				sealed := s37.UnsuccessfulValue{}
+				*s37.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(21)
+				*s37.BridgeUnsuccessfulValueFieldBodyUEContextModificationFailure(&sealed) = new(s36.UEContextModificationFailure)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(29)
-				*s36.BridgeUnsuccessfulValueFieldBodyENBConfigurationUpdateFailure(&sealed) = new(s24.ENBConfigurationUpdateFailure)
+			value := func() s37.UnsuccessfulValue {
+				sealed := s37.UnsuccessfulValue{}
+				*s37.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(29)
+				*s37.BridgeUnsuccessfulValueFieldBodyENBConfigurationUpdateFailure(&sealed) = new(s24.ENBConfigurationUpdateFailure)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(30)
-				*s36.BridgeUnsuccessfulValueFieldBodyMMEConfigurationUpdateFailure(&sealed) = new(s25.MMEConfigurationUpdateFailure)
+			value := func() s37.UnsuccessfulValue {
+				sealed := s37.UnsuccessfulValue{}
+				*s37.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(30)
+				*s37.BridgeUnsuccessfulValueFieldBodyMMEConfigurationUpdateFailure(&sealed) = new(s26.MMEConfigurationUpdateFailure)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(56)
-				*s36.BridgeUnsuccessfulValueFieldBodyUEContextResumeFailure(&sealed) = new(s36.UEContextResumeFailure)
+			value := func() s37.UnsuccessfulValue {
+				sealed := s37.UnsuccessfulValue{}
+				*s37.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(56)
+				*s37.BridgeUnsuccessfulValueFieldBodyUEContextResumeFailure(&sealed) = new(s37.UEContextResumeFailure)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(67)
-				*s36.BridgeUnsuccessfulValueFieldBodyS1RemovalFailure(&sealed) = new(s26.S1RemovalFailure)
+			value := func() s37.UnsuccessfulValue {
+				sealed := s37.UnsuccessfulValue{}
+				*s37.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(67)
+				*s37.BridgeUnsuccessfulValueFieldBodyS1RemovalFailure(&sealed) = new(s27.S1RemovalFailure)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -12018,7 +12020,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s32.UplinkNASTransportIEValue {
 				sealed := s32.UplinkNASTransportIEValue{}
 				*s32.BridgeUplinkNASTransportIEValueFieldId(&sealed) = s00.ProtocolIEID(67)
-				*s32.BridgeUplinkNASTransportIEValueFieldRowTAI(&sealed) = new(s31.TAI)
+				*s32.BridgeUplinkNASTransportIEValueFieldRowTAI(&sealed) = new(s32.TAI)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -12364,7 +12366,7 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 			value := func() s33.WriteReplaceWarningRequestIEValue {
 				sealed := s33.WriteReplaceWarningRequestIEValue{}
 				*s33.BridgeWriteReplaceWarningRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(113)
-				*s33.BridgeWriteReplaceWarningRequestIEValueFieldRowWarningAreaList(&sealed) = new(s32.WarningAreaList)
+				*s33.BridgeWriteReplaceWarningRequestIEValueFieldRowWarningAreaList(&sealed) = new(s33.WarningAreaList)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -12462,51 +12464,51 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("WriteReplaceWarningResponseIEValue", func(t *testing.T) {
-		selectedAssert((*s32.WriteReplaceWarningResponseIEValue)(nil))
-		selectedAssert(&s32.WriteReplaceWarningResponseIEValue{})
-		opaque := func() s32.WriteReplaceWarningResponseIEValue {
-			sealed := s32.WriteReplaceWarningResponseIEValue{}
-			*s32.BridgeWriteReplaceWarningResponseIEValueFieldIsOpaque(&sealed) = true
-			*s32.BridgeWriteReplaceWarningResponseIEValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s33.WriteReplaceWarningResponseIEValue)(nil))
+		selectedAssert(&s33.WriteReplaceWarningResponseIEValue{})
+		opaque := func() s33.WriteReplaceWarningResponseIEValue {
+			sealed := s33.WriteReplaceWarningResponseIEValue{}
+			*s33.BridgeWriteReplaceWarningResponseIEValueFieldIsOpaque(&sealed) = true
+			*s33.BridgeWriteReplaceWarningResponseIEValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s32.WriteReplaceWarningResponseIEValue {
-				sealed := s32.WriteReplaceWarningResponseIEValue{}
-				*s32.BridgeWriteReplaceWarningResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(111)
-				*s32.BridgeWriteReplaceWarningResponseIEValueFieldRowMessageIdentifier(&sealed) = new(s00.MessageIdentifier)
+			value := func() s33.WriteReplaceWarningResponseIEValue {
+				sealed := s33.WriteReplaceWarningResponseIEValue{}
+				*s33.BridgeWriteReplaceWarningResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(111)
+				*s33.BridgeWriteReplaceWarningResponseIEValueFieldRowMessageIdentifier(&sealed) = new(s00.MessageIdentifier)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s32.WriteReplaceWarningResponseIEValue {
-				sealed := s32.WriteReplaceWarningResponseIEValue{}
-				*s32.BridgeWriteReplaceWarningResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(112)
-				*s32.BridgeWriteReplaceWarningResponseIEValueFieldRowSerialNumber(&sealed) = new(s00.SerialNumber)
+			value := func() s33.WriteReplaceWarningResponseIEValue {
+				sealed := s33.WriteReplaceWarningResponseIEValue{}
+				*s33.BridgeWriteReplaceWarningResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(112)
+				*s33.BridgeWriteReplaceWarningResponseIEValueFieldRowSerialNumber(&sealed) = new(s00.SerialNumber)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s32.WriteReplaceWarningResponseIEValue {
-				sealed := s32.WriteReplaceWarningResponseIEValue{}
-				*s32.BridgeWriteReplaceWarningResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(120)
-				*s32.BridgeWriteReplaceWarningResponseIEValueFieldRowBroadcastCompletedAreaList(&sealed) = new(s32.BroadcastCompletedAreaList)
+			value := func() s33.WriteReplaceWarningResponseIEValue {
+				sealed := s33.WriteReplaceWarningResponseIEValue{}
+				*s33.BridgeWriteReplaceWarningResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(120)
+				*s33.BridgeWriteReplaceWarningResponseIEValueFieldRowBroadcastCompletedAreaList(&sealed) = new(s32.BroadcastCompletedAreaList)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s32.WriteReplaceWarningResponseIEValue {
-				sealed := s32.WriteReplaceWarningResponseIEValue{}
-				*s32.BridgeWriteReplaceWarningResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s32.BridgeWriteReplaceWarningResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
+			value := func() s33.WriteReplaceWarningResponseIEValue {
+				sealed := s33.WriteReplaceWarningResponseIEValue{}
+				*s33.BridgeWriteReplaceWarningResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
+				*s33.BridgeWriteReplaceWarningResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = new(s22.CriticalityDiagnostics)
 				return sealed
 			}()
 			selectedAssert(&value)
@@ -12514,31 +12516,31 @@ func TestSelectedEveryUnionAndRow(t *testing.T) {
 		}
 	})
 	t.Run("X2TNLConfigurationInfoExtIEsValue", func(t *testing.T) {
-		selectedAssert((*s38.X2TNLConfigurationInfoExtIEsValue)(nil))
-		selectedAssert(&s38.X2TNLConfigurationInfoExtIEsValue{})
-		opaque := func() s38.X2TNLConfigurationInfoExtIEsValue {
-			sealed := s38.X2TNLConfigurationInfoExtIEsValue{}
-			*s38.BridgeX2TNLConfigurationInfoExtIEsValueFieldIsOpaque(&sealed) = true
-			*s38.BridgeX2TNLConfigurationInfoExtIEsValueFieldOpaque(&sealed) = opaqueValue
+		selectedAssert((*s39.X2TNLConfigurationInfoExtIEsValue)(nil))
+		selectedAssert(&s39.X2TNLConfigurationInfoExtIEsValue{})
+		opaque := func() s39.X2TNLConfigurationInfoExtIEsValue {
+			sealed := s39.X2TNLConfigurationInfoExtIEsValue{}
+			*s39.BridgeX2TNLConfigurationInfoExtIEsValueFieldIsOpaque(&sealed) = true
+			*s39.BridgeX2TNLConfigurationInfoExtIEsValueFieldOpaque(&sealed) = opaqueValue
 			return sealed
 		}()
 		selectedAssertOpaque(&opaque)
 		unions++
 		{
-			value := func() s38.X2TNLConfigurationInfoExtIEsValue {
-				sealed := s38.X2TNLConfigurationInfoExtIEsValue{}
-				*s38.BridgeX2TNLConfigurationInfoExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(153)
-				*s38.BridgeX2TNLConfigurationInfoExtIEsValueFieldRowENBX2ExtendedTransportLayerAddresses(&sealed) = new(s15.ENBX2ExtTLAs)
+			value := func() s39.X2TNLConfigurationInfoExtIEsValue {
+				sealed := s39.X2TNLConfigurationInfoExtIEsValue{}
+				*s39.BridgeX2TNLConfigurationInfoExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(153)
+				*s39.BridgeX2TNLConfigurationInfoExtIEsValueFieldRowENBX2ExtendedTransportLayerAddresses(&sealed) = new(s15.ENBX2ExtTLAs)
 				return sealed
 			}()
 			selectedAssert(&value)
 			rows++
 		}
 		{
-			value := func() s38.X2TNLConfigurationInfoExtIEsValue {
-				sealed := s38.X2TNLConfigurationInfoExtIEsValue{}
-				*s38.BridgeX2TNLConfigurationInfoExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(193)
-				*s38.BridgeX2TNLConfigurationInfoExtIEsValueFieldRowENBIndirectX2TransportLayerAddresses(&sealed) = new(s00.ENBIndirectX2TransportLayerAddresses)
+			value := func() s39.X2TNLConfigurationInfoExtIEsValue {
+				sealed := s39.X2TNLConfigurationInfoExtIEsValue{}
+				*s39.BridgeX2TNLConfigurationInfoExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(193)
+				*s39.BridgeX2TNLConfigurationInfoExtIEsValueFieldRowENBIndirectX2TransportLayerAddresses(&sealed) = new(s00.ENBIndirectX2TransportLayerAddresses)
 				return sealed
 			}()
 			selectedAssert(&value)

@@ -12,15 +12,14 @@ import (
 	s21 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s21"
 	s22 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s22"
 	s23 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s23"
-	s25 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s25"
+	s26 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s26"
 	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
-	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
 	s44 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s44"
 	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
-	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	strings "strings"
@@ -39,15 +38,15 @@ func TestReceiverModeReportsAndAtomicReuse(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	body, err := s49.NewErrorIndication(s28.ErrorIndicationIEContainer{unknown, known})
+	body, err := s50.NewErrorIndication(s28.ErrorIndicationIEContainer{unknown, known})
 	if err != nil {
 		t.Fatal(err)
 	}
-	message, err := s51.ErrorIndicationProcedure().Initiating().Build(body)
+	message, err := s52.ErrorIndicationProcedure().Initiating().Build(body)
 	if err != nil {
 		t.Fatal(err)
 	}
-	value, err := s52.NewS1APPDUInitiatingMessage(message)
+	value, err := s53.NewS1APPDUInitiatingMessage(message)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -56,7 +55,7 @@ func TestReceiverModeReportsAndAtomicReuse(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		var reused s52.S1APPDU
+		var reused s53.S1APPDU
 		for range 2 {
 			report, err := reused.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Deviations) != 0 || len(report.Observations) != 1 {
@@ -84,11 +83,11 @@ func TestReceiverModeReportsAndAtomicReuse(t *testing.T) {
 				t.Fatalf("failed value retained: %+v", reused)
 			}
 		}
-		codecValue, report, err := s52.S1APPDUCodec().DecodeAPER(wire, options...)
+		codecValue, report, err := s53.S1APPDUCodec().DecodeAPER(wire, options...)
 		if err != nil || len(report.Observations) != 1 {
 			t.Fatalf("codec report=%+v err=%v", report, err)
 		}
-		replay, err := s52.S1APPDUCodec().EncodeAPER(codecValue)
+		replay, err := s53.S1APPDUCodec().EncodeAPER(codecValue)
 		if err != nil || !bytes.Equal(wire, replay) {
 			t.Fatalf("codec replay=%x err=%v", replay, err)
 		}
@@ -100,7 +99,7 @@ func TestValidationHandlingProvenance(t *testing.T) {
 		t.Fatal(err)
 	}
 	body := s28.ErrorIndication{ProtocolIEs: s28.ErrorIndicationIEContainer{field}}
-	report, err := s49.ValidateErrorIndication(&body)
+	report, err := s50.ValidateErrorIndication(&body)
 	if err != nil || len(report.Issues) != 1 {
 		t.Fatalf("report=%+v err=%v", report, err)
 	}
@@ -108,12 +107,12 @@ func TestValidationHandlingProvenance(t *testing.T) {
 	if issue.Code != s00.NotAllowed || issue.Severity != s00.ValidationSeverityUnrecognized || len(issue.RelatedRules) != 2 || issue.RelatedRules[0].Clause != "§10.3.1" || issue.RelatedRules[1].Clause != "§10.3.4.2" {
 		t.Fatalf("handling: %+v", issue)
 	}
-	message, err := s50.NewOpaqueSuccessfulOutcome(s00.IdErrorIndication, s00.CriticalityIgnore, []byte{0})
+	message, err := s51.NewOpaqueSuccessfulOutcome(s00.IdErrorIndication, s00.CriticalityIgnore, []byte{0})
 	if err != nil {
 		t.Fatal(err)
 	}
-	pdu := s52.S1APPDU{Choice: s00.S1APPDUChoiceSuccessfulOutcome, SuccessfulOutcome: &message}
-	report, err = s52.ValidateMessage(&pdu)
+	pdu := s53.S1APPDU{Choice: s00.S1APPDUChoiceSuccessfulOutcome, SuccessfulOutcome: &message}
+	report, err = s53.ValidateMessage(&pdu)
 	if err != nil || len(report.Issues) != 1 {
 		t.Fatalf("outcome report=%+v err=%v", report, err)
 	}
@@ -128,7 +127,7 @@ func TestReceiverReportsOnlyUnknownBoundaries(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		unknown, err := s52.NewS1APPDUInitiatingMessage(opaque)
+		unknown, err := s53.NewS1APPDUInitiatingMessage(opaque)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -136,12 +135,12 @@ func TestReceiverReportsOnlyUnknownBoundaries(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		var pdu s52.S1APPDU
+		var pdu s53.S1APPDU
 		report, err := pdu.UnmarshalAPER(wire, options...)
 		if err != nil || len(report.Observations) != 1 || report.Observations[0].Kind != aper.UnknownProcedure {
 			t.Fatalf("procedure report=%+v err=%v", report, err)
 		}
-		choice, err := s52.NewS1APPDUUnknownExtension(7, []byte{0})
+		choice, err := s53.NewS1APPDUUnknownExtension(7, []byte{0})
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -184,13 +183,13 @@ func receiverUnknownWire(t *testing.T, count int) []byte {
 		}
 	}
 	body := s28.ErrorIndication{ProtocolIEs: fields}
-	message := s51.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: func() s51.InitiatingValue {
-		sealed := s51.InitiatingValue{}
-		*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.IdErrorIndication
-		*s51.BridgeInitiatingValueFieldBodyErrorIndication(&sealed) = &body
+	message := s52.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: func() s52.InitiatingValue {
+		sealed := s52.InitiatingValue{}
+		*s52.BridgeInitiatingValueFieldCode(&sealed) = s00.IdErrorIndication
+		*s52.BridgeInitiatingValueFieldBodyErrorIndication(&sealed) = &body
 		return sealed
 	}()}
-	pdu := s52.S1APPDU{Choice: s00.S1APPDUChoiceInitiatingMessage, InitiatingMessage: &message}
+	pdu := s53.S1APPDU{Choice: s00.S1APPDUChoiceInitiatingMessage, InitiatingMessage: &message}
 	wire, err := pdu.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -202,7 +201,7 @@ func TestReceiverDefaultReportCeilingAndLinearGrowth(t *testing.T) {
 	for _, size := range []int{128, 256, 512} {
 		wire := receiverUnknownWire(t, size)
 		allocations := testing.AllocsPerRun(3, func() {
-			var value s52.S1APPDU
+			var value s53.S1APPDU
 			report, err := value.UnmarshalAPER(wire, aper.WithReceiverMode())
 			if err != nil || len(report.Observations) != size {
 				panic("unknown observations lost")
@@ -217,11 +216,11 @@ func TestReceiverDefaultReportCeilingAndLinearGrowth(t *testing.T) {
 	for _, size := range []int{1023, 1024, 1025} {
 		wire := receiverUnknownWire(t, size)
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var reused s52.S1APPDU
+			var reused s53.S1APPDU
 			if _, err := reused.UnmarshalAPER(valid, options...); err != nil {
 				t.Fatal(err)
 			}
-			for _, value := range []*s52.S1APPDU{new(s52.S1APPDU), &reused} {
+			for _, value := range []*s53.S1APPDU{new(s53.S1APPDU), &reused} {
 				report, err := value.UnmarshalAPER(wire, options...)
 				if size <= 1024 {
 					if err != nil || len(report.Observations) != size {
@@ -240,7 +239,7 @@ func TestReceiverDefaultReportCeilingAndLinearGrowth(t *testing.T) {
 func TestGeneratedReceiverOptionsSharedAcrossCalls(t *testing.T) {
 	wire := receiverUnknownWire(t, 8)
 	options := []aper.DecodeOption{aper.WithReceiverMode(), aper.WithLimits(aper.DefaultLimits())}
-	codec := s52.S1APPDUCodec()
+	codec := s53.S1APPDUCodec()
 	encodeOptions := []aper.EncodeOption{aper.WithEncodeLimits(aper.DefaultLimits())}
 	validationOptions := []aper.ValidationOption{aper.WithValidationLimits(aper.DefaultLimits())}
 	buildOptions := []aper.BuildOption{aper.WithBuildLimits(aper.DefaultLimits())}
@@ -258,11 +257,11 @@ func TestGeneratedReceiverOptionsSharedAcrossCalls(t *testing.T) {
 					t.Errorf("shared options replay=%x err=%v", replay, err)
 					return
 				}
-				if _, err := s52.ValidateMessage(&value.Value, validationOptions...); err != nil {
+				if _, err := s53.ValidateMessage(&value.Value, validationOptions...); err != nil {
 					t.Error(err)
 					return
 				}
-				if _, err := s52.NewS1APPDUInitiatingMessage(*value.Value.InitiatingMessage, buildOptions...); err != nil {
+				if _, err := s53.NewS1APPDUInitiatingMessage(*value.Value.InitiatingMessage, buildOptions...); err != nil {
 					t.Error(err)
 					return
 				}
@@ -311,7 +310,7 @@ func TestPublicOperationLimitBoundaries(t *testing.T) {
 		{"allocation", func(n uint64) aper.Limits { return aper.Limits{MaxAllocatedBytes: n} }, true, true, true, true},
 		{"reports", func(n uint64) aper.Limits { return aper.Limits{MaxReports: n} }, true, false, true, true},
 	}
-	var original s52.S1APPDU
+	var original s53.S1APPDU
 	if _, err := original.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}
@@ -322,7 +321,7 @@ func TestPublicOperationLimitBoundaries(t *testing.T) {
 			run     func(aper.Limits) error
 		}{
 			{"decode", setter.decode, func(limits aper.Limits) error {
-				var v s52.S1APPDU
+				var v s53.S1APPDU
 				_, err := v.UnmarshalAPER(wire, aper.WithLimits(limits))
 				return err
 			}},
@@ -331,11 +330,11 @@ func TestPublicOperationLimitBoundaries(t *testing.T) {
 				return err
 			}},
 			{"build", setter.build, func(limits aper.Limits) error {
-				_, err := s52.NewS1APPDUInitiatingMessage(*original.InitiatingMessage, aper.WithBuildLimits(limits))
+				_, err := s53.NewS1APPDUInitiatingMessage(*original.InitiatingMessage, aper.WithBuildLimits(limits))
 				return err
 			}},
 			{"validate", setter.validate, func(limits aper.Limits) error {
-				_, err := s52.ValidateMessage(&original, aper.WithValidationLimits(limits))
+				_, err := s53.ValidateMessage(&original, aper.WithValidationLimits(limits))
 				return err
 			}},
 		}
@@ -371,7 +370,7 @@ func TestPublicOperationLimitBoundaries(t *testing.T) {
 				t.Logf("minimum %s %s=%d", op.name, setter.name, required)
 				if op.name == "decode" {
 					for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-						var reused s52.S1APPDU
+						var reused s53.S1APPDU
 						for _, limit := range []uint64{required, required - 1, required + 1} {
 							opts := append([]aper.DecodeOption{}, options...)
 							opts = append(opts, aper.WithLimits(setter.set(limit)))
@@ -393,9 +392,9 @@ func TestAllOperationBudgetsGrowLinearly(t *testing.T) {
 	var previous [4]aper.DecodeUsage
 	for _, size := range []int{64, 128, 256} {
 		wire := receiverUnknownWire(t, size)
-		var value s52.S1APPDU
+		var value s53.S1APPDU
 		state := aper.ApplyDecodeOptions()
-		if err := s52.BridgeS1APPDUMethodUnmarshalAPERWithOptions(&value, wire, state); err != nil {
+		if err := s53.BridgeS1APPDUMethodUnmarshalAPERWithOptions(&value, wire, state); err != nil {
 			t.Fatal(err)
 		}
 		var usages [4]aper.DecodeUsage
@@ -404,7 +403,7 @@ func TestAllOperationBudgetsGrowLinearly(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if _, err := s52.BridgeS1APPDUMethodMarshalAPERBudget(&value, encode, false); err != nil {
+		if _, err := s53.BridgeS1APPDUMethodMarshalAPERBudget(&value, encode, false); err != nil {
 			t.Fatal(err)
 		}
 		usages[1] = aper.NewBudgetBuffer(encode).Usage()
@@ -412,11 +411,11 @@ func TestAllOperationBudgetsGrowLinearly(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		report, err := s52.BridgeValidateMessageBudget(&value, validate)
+		report, err := s53.BridgeValidateMessageBudget(&value, validate)
 		if err != nil || *s21.BridgeValidationReportFieldErr(&report) != nil {
 			t.Fatalf("report=%+v err=%v", report, err)
 		}
-		if _, err := s52.BridgeS1APPDUMethodMarshalAPERBudget(&value, validate, false); err != nil {
+		if _, err := s53.BridgeS1APPDUMethodMarshalAPERBudget(&value, validate, false); err != nil {
 			t.Fatal(err)
 		}
 		usages[2] = aper.NewBudgetBuffer(validate).Usage()
@@ -424,11 +423,11 @@ func TestAllOperationBudgetsGrowLinearly(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		report, err = s52.BridgeValidateMessageBudget(&value, build)
+		report, err = s53.BridgeValidateMessageBudget(&value, build)
 		if err != nil || *s21.BridgeValidationReportFieldErr(&report) != nil {
 			t.Fatalf("report=%+v err=%v", report, err)
 		}
-		if _, err := s52.BridgeS1APPDUMethodMarshalAPERBudget(&value, build, false); err != nil {
+		if _, err := s53.BridgeS1APPDUMethodMarshalAPERBudget(&value, build, false); err != nil {
 			t.Fatal(err)
 		}
 		usages[3] = aper.NewBudgetBuffer(build).Usage()
@@ -440,8 +439,8 @@ func TestAllOperationBudgetsGrowLinearly(t *testing.T) {
 		}
 		// A failed decode keeps work and allocations charged to the same state.
 		failed := aper.ApplyDecodeOptions(aper.WithLimits(aper.Limits{MaxReports: uint64(size - 1)}))
-		var rejected s52.S1APPDU
-		err = s52.BridgeS1APPDUMethodUnmarshalAPERWithOptions(&rejected, wire, failed)
+		var rejected s53.S1APPDU
+		err = s53.BridgeS1APPDUMethodUnmarshalAPERWithOptions(&rejected, wire, failed)
 		_, err = aper.FinishDecode(failed, err)
 		if !errors.Is(err, aper.ErrLimit) || failed.Usage().Work > usages[0].Work || failed.Usage().AllocatedBytes > usages[0].AllocatedBytes {
 			t.Fatalf("failed-path budget=%+v success=%+v err=%v", failed.Usage(), usages[0], err)
@@ -459,23 +458,23 @@ func TestZeroUnionMatchesNoRow(t *testing.T) {
 }
 func TestEnvelopeFindingsRespectTheSameReportCeiling(t *testing.T) {
 	wire := receiverUnknownWire(t, 2)
-	var value s52.S1APPDU
+	var value s53.S1APPDU
 	if _, err := value.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}
 	value.InitiatingMessage.Criticality = s00.CriticalityReject
-	report, err := s52.ValidateMessage(&value, aper.WithValidationLimits(aper.Limits{MaxReports: 2}))
+	report, err := s53.ValidateMessage(&value, aper.WithValidationLimits(aper.Limits{MaxReports: 2}))
 	var located *aper.DecodeError
 	if !errors.Is(err, aper.ErrLimit) || !errors.As(err, &located) || located.Location.Path == "" || len(report.Issues) > 2 || located.Location.HasWireLocation {
 		t.Fatalf("report=%+v err=%v location=%+v", report, err, located)
 	}
-	if _, err := s52.ValidateMessage(&value, aper.WithValidationLimits(aper.Limits{MaxReports: 3})); err != nil {
+	if _, err := s53.ValidateMessage(&value, aper.WithValidationLimits(aper.Limits{MaxReports: 3})); err != nil {
 		t.Fatal(err)
 	}
 }
 func TestPDUUnusedRootChoiceIndex(t *testing.T) {
 	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		var value s52.S1APPDU
+		var value s53.S1APPDU
 		report, err := value.UnmarshalAPER([]byte{0x60}, options...)
 		var located *aper.DecodeError
 		if !errors.Is(err, aper.ErrSyntax) || !errors.As(err, &located) || located.Rule.Clause != "§11.5.7.1" || !strings.Contains(string(located.Location.Path), "S1APPDU") || len(report.Deviations) != 1 {
@@ -484,12 +483,12 @@ func TestPDUUnusedRootChoiceIndex(t *testing.T) {
 	}
 }
 func TestDescriptorBuildFailuresHaveOwnedIdentity(t *testing.T) {
-	body, err := s49.NewErrorIndication(nil)
+	body, err := s50.NewErrorIndication(nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	for _, run := range []func() error{
-		func() error { _, err := (s51.ErrorIndicationInitiatingBinding{}).Build(body); return err },
+		func() error { _, err := (s52.ErrorIndicationInitiatingBinding{}).Build(body); return err },
 		func() error { _, err := (ErrorIndicationSuccessfulBinding{}).Build(body); return err },
 		func() error { _, err := (ErrorIndicationUnsuccessfulBinding{}).Build(body); return err },
 	} {
@@ -508,24 +507,24 @@ func TestPayloadBoundaryErrorsAreLocated(t *testing.T) {
 			t.Fatalf("payload err=%v location=%+v", err, located)
 		}
 	}
-	_, err := (s51.NewPayloadCodec[int]{}).Call(nil, nil)
+	_, err := (s52.NewPayloadCodec[int]{}).Call(nil, nil)
 	check(err, aper.ErrInvalidValue)
-	_, _, err = (s51.DecodePayload[int]{}).Call([]byte{1}, s51.PayloadCodec[int]{}, s00.PayloadLimits{})
+	_, _, err = (s52.DecodePayload[int]{}).Call([]byte{1}, s52.PayloadCodec[int]{}, s00.PayloadLimits{})
 	check(err, aper.ErrInvalidValue)
-	_, err = (s51.EncodePayload[int]{}).Call(1, s51.PayloadCodec[int]{}, s00.PayloadLimits{})
+	_, err = (s52.EncodePayload[int]{}).Call(1, s52.PayloadCodec[int]{}, s00.PayloadLimits{})
 	check(err, aper.ErrInvalidValue)
-	codec, err := (s51.NewPayloadCodec[int]{}).Call(func(data []byte, _ s00.PayloadLimits) (int, s00.PayloadReport, error) {
+	codec, err := (s52.NewPayloadCodec[int]{}).Call(func(data []byte, _ s00.PayloadLimits) (int, s00.PayloadReport, error) {
 		return len(data), s00.PayloadReport{Deviations: []s00.PayloadDeviation{{Path: "a"}, {Path: "b"}}}, nil
 	}, func(int, s00.PayloadLimits) ([]byte, error) { return []byte{1, 2}, nil })
 	if err != nil {
 		t.Fatal(err)
 	}
 	for _, limits := range []s00.PayloadLimits{{MaxInputBytes: 1}, {MaxAllocatedBytes: 1}, {MaxWork: 1}, {MaxReports: 1}} {
-		_, _, err = (s51.DecodePayload[int]{}).Call([]byte{1, 2}, codec, limits)
+		_, _, err = (s52.DecodePayload[int]{}).Call([]byte{1, 2}, codec, limits)
 		check(err, aper.ErrLimit)
 	}
 	for _, limits := range []s00.PayloadLimits{{MaxOutputBytes: 1}, {MaxAllocatedBytes: 1}, {MaxWork: 1}} {
-		_, err = (s51.EncodePayload[int]{}).Call(2, codec, limits)
+		_, err = (s52.EncodePayload[int]{}).Call(2, codec, limits)
 		check(err, aper.ErrLimit)
 	}
 }
@@ -544,11 +543,11 @@ func TestDuplicateUnknownValidationReportLimit(t *testing.T) {
 		t.Fatal(err)
 	}
 	body := s28.ErrorIndication{ProtocolIEs: s28.ErrorIndicationIEContainer{field, field}}
-	report, err := s49.ValidateErrorIndication(&body, aper.WithValidationLimits(aper.Limits{MaxReports: 2}))
+	report, err := s50.ValidateErrorIndication(&body, aper.WithValidationLimits(aper.Limits{MaxReports: 2}))
 	if !errors.Is(err, aper.ErrLimit) || len(report.Issues) > 2 {
 		t.Fatalf("duplicate report overflow: %+v %v", report, err)
 	}
-	report, err = s49.ValidateErrorIndication(&body, aper.WithValidationLimits(aper.Limits{MaxReports: 3}))
+	report, err = s50.ValidateErrorIndication(&body, aper.WithValidationLimits(aper.Limits{MaxReports: 3}))
 	if err != nil || len(report.Issues) != 3 {
 		t.Fatalf("duplicate reports: %+v %v", report, err)
 	}
@@ -561,7 +560,7 @@ func TestDuplicateUnknownValidationReportLimit(t *testing.T) {
 	if repeated != 1 {
 		t.Fatalf("repeated findings=%d", repeated)
 	}
-	if _, err := s49.NewErrorIndication(body.ProtocolIEs); !errors.Is(err, aper.ErrInvalidValue) {
+	if _, err := s50.NewErrorIndication(body.ProtocolIEs); !errors.Is(err, aper.ErrInvalidValue) {
 		t.Fatalf("duplicate unknown built: %v", err)
 	}
 }
@@ -577,7 +576,7 @@ func TestEveryObservationNamesItsMember(t *testing.T) {
 		}
 	}
 	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		unknown, err := s52.NewS1APPDUUnknownExtension(7, []byte{0})
+		unknown, err := s53.NewS1APPDUUnknownExtension(7, []byte{0})
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -585,7 +584,7 @@ func TestEveryObservationNamesItsMember(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		var pdu s52.S1APPDU
+		var pdu s53.S1APPDU
 		report, err := pdu.UnmarshalAPER(wire, options...)
 		check(report, err, "UnknownExtension")
 		cd := s22.CriticalityDiagnostics{}
@@ -610,7 +609,7 @@ func TestEveryObservationNamesItsMember(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		var envelope s51.InitiatingMessage
+		var envelope s52.InitiatingMessage
 		report, err = envelope.UnmarshalAPER(wire, options...)
 		check(report, err, "InitiatingMessage.Value")
 		wire = receiverUnknownWire(t, 1)
@@ -621,7 +620,7 @@ func TestEveryObservationNamesItsMember(t *testing.T) {
 	}
 }
 func TestKnownChoiceAddsNoUnknownObservation(t *testing.T) {
-	known, err := s25.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18})
+	known, err := s26.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -642,7 +641,7 @@ func TestReplayedStandaloneBodyEnforcesOpenCeiling(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	body, err := s49.NewErrorIndication(s28.ErrorIndicationIEContainer{field})
+	body, err := s50.NewErrorIndication(s28.ErrorIndicationIEContainer{field})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -660,15 +659,15 @@ func TestReplayedStandaloneBodyEnforcesOpenCeiling(t *testing.T) {
 			t.Fatalf("standalone field exceeded open ceiling: %v", err)
 		}
 	}
-	if _, err := s49.ValidateErrorIndication(&decoded, aper.WithValidationLimits(limits)); !errors.Is(err, aper.ErrLimit) {
+	if _, err := s50.ValidateErrorIndication(&decoded, aper.WithValidationLimits(limits)); !errors.Is(err, aper.ErrLimit) {
 		t.Fatalf("standalone validation exceeded open ceiling: %v", err)
 	}
-	if _, err := s49.NewErrorIndication(decoded.ProtocolIEs, aper.WithBuildLimits(limits)); !errors.Is(err, aper.ErrLimit) {
+	if _, err := s50.NewErrorIndication(decoded.ProtocolIEs, aper.WithBuildLimits(limits)); !errors.Is(err, aper.ErrLimit) {
 		t.Fatalf("standalone build exceeded open ceiling: %v", err)
 	}
 }
 func TestKnownChoicePaddingFailureHasOneOriginalLocation(t *testing.T) {
-	known, err := s25.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18})
+	known, err := s26.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -691,15 +690,15 @@ func TestKnownChoicePaddingFailureHasOneOriginalLocation(t *testing.T) {
 	}
 }
 func TestKnownChoiceAdditionsDoNotConsumeReports(t *testing.T) {
-	known, err := s25.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18})
+	known, err := s26.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18})
 	if err != nil {
 		t.Fatal(err)
 	}
-	field, err := s43.S1SetupRequestIEs().GlobalENBID().New(s18.GlobalENBID{PLMNidentity: make([]byte, 3), ENBID: known})
+	field, err := s44.S1SetupRequestIEs().GlobalENBID().New(s18.GlobalENBID{PLMNidentity: make([]byte, 3), ENBID: known})
 	if err != nil {
 		t.Fatal(err)
 	}
-	body := s44.S1SetupRequest{ProtocolIEs: s43.S1SetupRequestIEContainer{field, field}}
+	body := s44.S1SetupRequest{ProtocolIEs: s44.S1SetupRequestIEContainer{field, field}}
 	wire, err := body.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)

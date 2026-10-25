@@ -70936,7 +70936,7 @@ func X2apInternalERABsToBeReleasedSgNBModReqdItemUnmarshalAPERFrom(v *ERABsToBeR
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(ERABsToBeReleasedSgNBModReqdItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -71184,7 +71184,7 @@ func X2apInternalInitiatingNodeTypeEndcX2RemovalUnmarshalAPERFrom(v *InitiatingN
 		toleranceMark_initenb := bb.EnterComponent("InitENB")
 		tmp_initenb := make(s06.ENBENDCX2RemovalReqIEContainer, 0)
 		_, errCollection_initenb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initenb, fragmentLength_initenb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_initenb < 0 || fragmentLength_initenb < 0 || fragmentLength_initenb > int64(^uint(0)>>1) || fragmentOffset_initenb > int64(^uint(0)>>1)-fragmentLength_initenb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -71212,7 +71212,7 @@ func X2apInternalInitiatingNodeTypeEndcX2RemovalUnmarshalAPERFrom(v *InitiatingN
 		toleranceMark_initengnb := bb.EnterComponent("InitEnGNB")
 		tmp_initengnb := make(EnGNBENDCX2RemovalReqIEContainer, 0)
 		_, errCollection_initengnb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initengnb, fragmentLength_initengnb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_initengnb < 0 || fragmentLength_initengnb < 0 || fragmentLength_initengnb > int64(^uint(0)>>1) || fragmentOffset_initengnb > int64(^uint(0)>>1)-fragmentLength_initengnb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -71407,7 +71407,7 @@ func X2apInternalRespondingNodeTypeEndcX2RemovalUnmarshalAPERFrom(v *RespondingN
 		toleranceMark_respondenb := bb.EnterComponent("RespondENB")
 		tmp_respondenb := make(s06.ENBENDCX2RemovalReqAckIEContainer, 0)
 		_, errCollection_respondenb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_respondenb < 0 || fragmentLength_respondenb < 0 || fragmentLength_respondenb > int64(^uint(0)>>1) || fragmentOffset_respondenb > int64(^uint(0)>>1)-fragmentLength_respondenb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -71435,7 +71435,7 @@ func X2apInternalRespondingNodeTypeEndcX2RemovalUnmarshalAPERFrom(v *RespondingN
 		toleranceMark_respondengnb := bb.EnterComponent("RespondEnGNB")
 		tmp_respondengnb := make(EnGNBENDCX2RemovalReqAckIEContainer, 0)
 		_, errCollection_respondengnb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_respondengnb < 0 || fragmentLength_respondengnb < 0 || fragmentLength_respondengnb > int64(^uint(0)>>1) || fragmentOffset_respondengnb > int64(^uint(0)>>1)-fragmentLength_respondengnb {
 				return fmt.Errorf("collection fragment count out of range")
 			}

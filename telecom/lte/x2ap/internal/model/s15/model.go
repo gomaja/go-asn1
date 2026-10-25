@@ -45288,7 +45288,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToEarlyStatusTransferListFrom(bb *aper
 func X2apInternalUnmarshalAPERERABsSubjectToEarlyStatusTransferListInto(v *X2apInternalAsn1cAPERERABsSubjectToEarlyStatusTransferListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s06.ERABsSubjectToEarlyStatusTransferList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -45296,7 +45296,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToEarlyStatusTransferListInto(v *X2apI
 			var elem s05.ERABsSubjectToEarlyStatusTransferItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s05.X2apInternalERABsSubjectToEarlyStatusTransferItemUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -45308,7 +45308,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToEarlyStatusTransferListInto(v *X2apI
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -45420,7 +45420,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToDLDiscardingListFrom(bb *aper.BitBuf
 func X2apInternalUnmarshalAPERERABsSubjectToDLDiscardingListInto(v *X2apInternalAsn1cAPERERABsSubjectToDLDiscardingListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s06.ERABsSubjectToDLDiscardingList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -45428,7 +45428,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToDLDiscardingListInto(v *X2apInternal
 			var elem s05.ERABsSubjectToDLDiscardingItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s05.X2apInternalERABsSubjectToDLDiscardingItemUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -45440,7 +45440,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToDLDiscardingListInto(v *X2apInternal
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -45550,7 +45550,7 @@ func X2apInternalUnmarshalAPERForbiddenTAsFrom(bb *aper.BitBuffer) (s09.Forbidde
 func X2apInternalUnmarshalAPERForbiddenTAsInto(v *X2apInternalAsn1cAPERForbiddenTAsListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s09.ForbiddenTAs, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -45558,7 +45558,7 @@ func X2apInternalUnmarshalAPERForbiddenTAsInto(v *X2apInternalAsn1cAPERForbidden
 			var elem s09.ForbiddenTAsItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s09.X2apInternalForbiddenTAsItemUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -45570,7 +45570,7 @@ func X2apInternalUnmarshalAPERForbiddenTAsInto(v *X2apInternalAsn1cAPERForbidden
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -45680,14 +45680,14 @@ func X2apInternalUnmarshalAPERForbiddenTACsFrom(bb *aper.BitBuffer) (s09.Forbidd
 func X2apInternalUnmarshalAPERForbiddenTACsInto(v *X2apInternalAsn1cAPERForbiddenTACsListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s09.ForbiddenTACs, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1177
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := aper.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			if next, err := aper.AppendValues(bb, v.Value, val); err != nil {
 				return err
@@ -45698,7 +45698,7 @@ func X2apInternalUnmarshalAPERForbiddenTACsInto(v *X2apInternalAsn1cAPERForbidde
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -45808,7 +45808,7 @@ func X2apInternalUnmarshalAPERForbiddenLAsFrom(bb *aper.BitBuffer) (s08.Forbidde
 func X2apInternalUnmarshalAPERForbiddenLAsInto(v *X2apInternalAsn1cAPERForbiddenLAsListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ForbiddenLAs, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -45816,7 +45816,7 @@ func X2apInternalUnmarshalAPERForbiddenLAsInto(v *X2apInternalAsn1cAPERForbidden
 			var elem s05.ForbiddenLAsItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s05.X2apInternalForbiddenLAsItemUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -45828,7 +45828,7 @@ func X2apInternalUnmarshalAPERForbiddenLAsInto(v *X2apInternalAsn1cAPERForbidden
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -45938,14 +45938,14 @@ func X2apInternalUnmarshalAPERForbiddenLACsFrom(bb *aper.BitBuffer) (s00.Forbidd
 func X2apInternalUnmarshalAPERForbiddenLACsInto(v *X2apInternalAsn1cAPERForbiddenLACsListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s00.ForbiddenLACs, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1177
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := aper.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			if next, err := aper.AppendValues(bb, v.Value, val); err != nil {
 				return err
@@ -45956,7 +45956,7 @@ func X2apInternalUnmarshalAPERForbiddenLACsInto(v *X2apInternalAsn1cAPERForbidde
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -46066,7 +46066,7 @@ func X2apInternalUnmarshalAPERGTPTLAsFrom(bb *aper.BitBuffer) (s11.GTPTLAs, erro
 func X2apInternalUnmarshalAPERGTPTLAsInto(v *X2apInternalAsn1cAPERGTPTLAsListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.GTPTLAs, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46074,7 +46074,7 @@ func X2apInternalUnmarshalAPERGTPTLAsInto(v *X2apInternalAsn1cAPERGTPTLAsListVal
 			var elem s09.GTPTLAItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s09.X2apInternalGTPTLAItemUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -46086,7 +46086,7 @@ func X2apInternalUnmarshalAPERGTPTLAsInto(v *X2apInternalAsn1cAPERGTPTLAsListVal
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -46196,7 +46196,7 @@ func X2apInternalUnmarshalAPERGUGroupIDListFrom(bb *aper.BitBuffer) (s08.GUGroup
 func X2apInternalUnmarshalAPERGUGroupIDListInto(v *X2apInternalAsn1cAPERGUGroupIDListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.GUGroupIDList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46204,7 +46204,7 @@ func X2apInternalUnmarshalAPERGUGroupIDListInto(v *X2apInternalAsn1cAPERGUGroupI
 			var elem s05.GUGroupID
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s05.X2apInternalGUGroupIDUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -46216,7 +46216,7 @@ func X2apInternalUnmarshalAPERGUGroupIDListInto(v *X2apInternalAsn1cAPERGUGroupI
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -46328,7 +46328,7 @@ func X2apInternalUnmarshalAPERFreqBandNrItemSupportedSULBandListFrom(bb *aper.Bi
 func X2apInternalUnmarshalAPERFreqBandNrItemSupportedSULBandListInto(v *X2apInternalAsn1cAPERFreqBandNrItemSupportedSULBandListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.FreqBandNrItemSupportedSULBandList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46336,7 +46336,7 @@ func X2apInternalUnmarshalAPERFreqBandNrItemSupportedSULBandListInto(v *X2apInte
 			var elem s06.SupportedSULFreqBandItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s06.X2apInternalSupportedSULFreqBandItemUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -46348,7 +46348,7 @@ func X2apInternalUnmarshalAPERFreqBandNrItemSupportedSULBandListInto(v *X2apInte
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -47833,7 +47833,7 @@ func X2apInternalUnmarshalAPERERABsToBeSetupListFrom(bb *aper.BitBuffer) (s11.ER
 func X2apInternalUnmarshalAPERERABsToBeSetupListInto(v *X2apInternalAsn1cAPERERABsToBeSetupListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeSetupList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -47841,7 +47841,7 @@ func X2apInternalUnmarshalAPERERABsToBeSetupListInto(v *X2apInternalAsn1cAPERERA
 			var elem s11.ERABsToBeSetupItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s11.X2apInternalERABsToBeSetupItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -47853,7 +47853,7 @@ func X2apInternalUnmarshalAPERERABsToBeSetupListInto(v *X2apInternalAsn1cAPERERA
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -47965,7 +47965,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToStatusTransferListFrom(bb *aper.BitB
 func X2apInternalUnmarshalAPERERABsSubjectToStatusTransferListInto(v *X2apInternalAsn1cAPERERABsSubjectToStatusTransferListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ERABsSubjectToStatusTransferList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -47973,7 +47973,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToStatusTransferListInto(v *X2apIntern
 			var elem s08.ERABsSubjectToStatusTransferItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s08.X2apInternalERABsSubjectToStatusTransferItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -47985,7 +47985,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToStatusTransferListInto(v *X2apIntern
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -48095,7 +48095,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedListFrom(bb *aper.BitBuffer) (s11.ER
 func X2apInternalUnmarshalAPERERABsToBeAddedListInto(v *X2apInternalAsn1cAPERERABsToBeAddedListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeAddedList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48103,7 +48103,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedListInto(v *X2apInternalAsn1cAPERERA
 			var elem s10.ERABsToBeAddedItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsToBeAddedItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -48115,7 +48115,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedListInto(v *X2apInternalAsn1cAPERERA
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -48239,7 +48239,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedListModReqFrom(bb *aper.BitBuffer) (
 func X2apInternalUnmarshalAPERERABsToBeAddedListModReqInto(v *X2apInternalAsn1cAPERERABsToBeAddedListModReqListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeAddedListModReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48247,7 +48247,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedListModReqInto(v *X2apInternalAsn1cA
 			var elem s10.ERABsToBeAddedModReqItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsToBeAddedModReqItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -48259,7 +48259,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedListModReqInto(v *X2apInternalAsn1cA
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -48371,7 +48371,7 @@ func X2apInternalUnmarshalAPERERABsToBeModifiedListModReqFrom(bb *aper.BitBuffer
 func X2apInternalUnmarshalAPERERABsToBeModifiedListModReqInto(v *X2apInternalAsn1cAPERERABsToBeModifiedListModReqListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeModifiedListModReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48379,7 +48379,7 @@ func X2apInternalUnmarshalAPERERABsToBeModifiedListModReqInto(v *X2apInternalAsn
 			var elem s09.ERABsToBeModifiedModReqItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s09.X2apInternalERABsToBeModifiedModReqItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -48391,7 +48391,7 @@ func X2apInternalUnmarshalAPERERABsToBeModifiedListModReqInto(v *X2apInternalAsn
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -48503,7 +48503,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedListModReqFrom(bb *aper.BitBuffer
 func X2apInternalUnmarshalAPERERABsToBeReleasedListModReqInto(v *X2apInternalAsn1cAPERERABsToBeReleasedListModReqListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeReleasedListModReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48511,7 +48511,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedListModReqInto(v *X2apInternalAsn
 			var elem s10.ERABsToBeReleasedModReqItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsToBeReleasedModReqItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -48523,7 +48523,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedListModReqInto(v *X2apInternalAsn
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -48635,7 +48635,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedModAckListFrom(bb *aper.BitB
 func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedModAckListInto(v *X2apInternalAsn1cAPERERABsAdmittedToBeAddedModAckListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsAdmittedToBeAddedModAckList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48643,7 +48643,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedModAckListInto(v *X2apIntern
 			var elem s10.ERABsAdmittedToBeAddedModAckItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsAdmittedToBeAddedModAckItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -48655,7 +48655,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedModAckListInto(v *X2apIntern
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -48767,7 +48767,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedModAckListFrom(bb *aper.B
 func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedModAckListInto(v *X2apInternalAsn1cAPERERABsAdmittedToBeModifiedModAckListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsAdmittedToBeModifiedModAckList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48775,7 +48775,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedModAckListInto(v *X2apInt
 			var elem s09.ERABsAdmittedToBeModifiedModAckItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s09.X2apInternalERABsAdmittedToBeModifiedModAckItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -48787,7 +48787,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedModAckListInto(v *X2apInt
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -48899,7 +48899,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedModAckListFrom(bb *aper.B
 func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedModAckListInto(v *X2apInternalAsn1cAPERERABsAdmittedToBeReleasedModAckListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ERABsAdmittedToBeReleasedModAckList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -48907,7 +48907,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedModAckListInto(v *X2apInt
 			var elem s07.ERABsAdmittedToBeReleasedModAckItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s07.X2apInternalERABsAdmittedToBeReleasedModAckItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -48919,7 +48919,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedModAckListInto(v *X2apInt
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -49029,7 +49029,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedModReqdFrom(bb *aper.BitBuffer) (
 func X2apInternalUnmarshalAPERERABsToBeReleasedModReqdInto(v *X2apInternalAsn1cAPERERABsToBeReleasedModReqdListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ERABsToBeReleasedModReqd, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49037,7 +49037,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedModReqdInto(v *X2apInternalAsn1cA
 			var elem s07.ERABsToBeReleasedModReqdItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s07.X2apInternalERABsToBeReleasedModReqdItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -49049,7 +49049,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedModReqdInto(v *X2apInternalAsn1cA
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -49161,7 +49161,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedListRelReqFrom(bb *aper.BitBuffer
 func X2apInternalUnmarshalAPERERABsToBeReleasedListRelReqInto(v *X2apInternalAsn1cAPERERABsToBeReleasedListRelReqListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeReleasedListRelReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49169,7 +49169,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedListRelReqInto(v *X2apInternalAsn
 			var elem s10.ERABsToBeReleasedRelReqItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsToBeReleasedRelReqItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -49181,7 +49181,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedListRelReqInto(v *X2apInternalAsn
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -49293,7 +49293,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedListRelConfFrom(bb *aper.BitBuffe
 func X2apInternalUnmarshalAPERERABsToBeReleasedListRelConfInto(v *X2apInternalAsn1cAPERERABsToBeReleasedListRelConfListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeReleasedListRelConf, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49301,7 +49301,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedListRelConfInto(v *X2apInternalAs
 			var elem s10.ERABsToBeReleasedRelConfItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsToBeReleasedRelConfItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -49313,7 +49313,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedListRelConfInto(v *X2apInternalAs
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -49425,7 +49425,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToCounterCheckListFrom(bb *aper.BitBuf
 func X2apInternalUnmarshalAPERERABsSubjectToCounterCheckListInto(v *X2apInternalAsn1cAPERERABsSubjectToCounterCheckListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ERABsSubjectToCounterCheckList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49433,7 +49433,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToCounterCheckListInto(v *X2apInternal
 			var elem s07.ERABsSubjectToCounterCheckItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s07.X2apInternalERABsSubjectToCounterCheckItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -49445,7 +49445,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToCounterCheckListInto(v *X2apInternal
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -49557,7 +49557,7 @@ func X2apInternalUnmarshalAPERERABsToBeSetupListRetrieveFrom(bb *aper.BitBuffer)
 func X2apInternalUnmarshalAPERERABsToBeSetupListRetrieveInto(v *X2apInternalAsn1cAPERERABsToBeSetupListRetrieveListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeSetupListRetrieve, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49565,7 +49565,7 @@ func X2apInternalUnmarshalAPERERABsToBeSetupListRetrieveInto(v *X2apInternalAsn1
 			var elem s11.ERABsToBeSetupRetrieveItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s11.X2apInternalERABsToBeSetupRetrieveItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -49577,7 +49577,7 @@ func X2apInternalUnmarshalAPERERABsToBeSetupListRetrieveInto(v *X2apInternalAsn1
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -49689,7 +49689,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedSgNBAddReqListFrom(bb *aper.BitBuffe
 func X2apInternalUnmarshalAPERERABsToBeAddedSgNBAddReqListInto(v *X2apInternalAsn1cAPERERABsToBeAddedSgNBAddReqListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeAddedSgNBAddReqList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49697,7 +49697,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedSgNBAddReqListInto(v *X2apInternalAs
 			var elem s10.ERABsToBeAddedSgNBAddReqItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsToBeAddedSgNBAddReqItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -49709,7 +49709,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedSgNBAddReqListInto(v *X2apInternalAs
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -49821,7 +49821,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListFrom(bb *ap
 func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListInto(v *X2apInternalAsn1cAPERERABsAdmittedToBeAddedSgNBAddReqAckListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsAdmittedToBeAddedSgNBAddReqAckList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49829,7 +49829,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListInto(v *X2a
 			var elem s10.ERABsAdmittedToBeAddedSgNBAddReqAckItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -49841,7 +49841,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListInto(v *X2a
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -49953,7 +49953,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedSgNBModReqListFrom(bb *aper.BitBuffe
 func X2apInternalUnmarshalAPERERABsToBeAddedSgNBModReqListInto(v *X2apInternalAsn1cAPERERABsToBeAddedSgNBModReqListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeAddedSgNBModReqList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -49961,7 +49961,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedSgNBModReqListInto(v *X2apInternalAs
 			var elem s11.ERABsToBeAddedSgNBModReqItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s11.X2apInternalERABsToBeAddedSgNBModReqItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -49973,7 +49973,7 @@ func X2apInternalUnmarshalAPERERABsToBeAddedSgNBModReqListInto(v *X2apInternalAs
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -50085,7 +50085,7 @@ func X2apInternalUnmarshalAPERERABsToBeModifiedSgNBModReqListFrom(bb *aper.BitBu
 func X2apInternalUnmarshalAPERERABsToBeModifiedSgNBModReqListInto(v *X2apInternalAsn1cAPERERABsToBeModifiedSgNBModReqListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeModifiedSgNBModReqList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50093,7 +50093,7 @@ func X2apInternalUnmarshalAPERERABsToBeModifiedSgNBModReqListInto(v *X2apInterna
 			var elem s11.ERABsToBeModifiedSgNBModReqItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s11.X2apInternalERABsToBeModifiedSgNBModReqItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -50105,7 +50105,7 @@ func X2apInternalUnmarshalAPERERABsToBeModifiedSgNBModReqListInto(v *X2apInterna
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -50217,7 +50217,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBModReqListFrom(bb *aper.BitBu
 func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBModReqListInto(v *X2apInternalAsn1cAPERERABsToBeReleasedSgNBModReqListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeReleasedSgNBModReqList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50225,7 +50225,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBModReqListInto(v *X2apInterna
 			var elem s10.ERABsToBeReleasedSgNBModReqItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsToBeReleasedSgNBModReqItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -50237,7 +50237,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBModReqListInto(v *X2apInterna
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -50349,7 +50349,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedSgNBModAckListFrom(bb *aper.
 func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedSgNBModAckListInto(v *X2apInternalAsn1cAPERERABsAdmittedToBeAddedSgNBModAckListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsAdmittedToBeAddedSgNBModAckList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50357,7 +50357,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedSgNBModAckListInto(v *X2apIn
 			var elem s10.ERABsAdmittedToBeAddedSgNBModAckItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -50369,7 +50369,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeAddedSgNBModAckListInto(v *X2apIn
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -50481,7 +50481,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListFrom(bb *ap
 func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListInto(v *X2apInternalAsn1cAPERERABsAdmittedToBeModifiedSgNBModAckListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsAdmittedToBeModifiedSgNBModAckList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50489,7 +50489,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListInto(v *X2a
 			var elem s10.ERABsAdmittedToBeModifiedSgNBModAckItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -50501,7 +50501,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListInto(v *X2a
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -50613,7 +50613,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListFrom(bb *ap
 func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListInto(v *X2apInternalAsn1cAPERERABsAdmittedToBeReleasedSgNBModAckListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ERABsAdmittedToBeReleasedSgNBModAckList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50621,7 +50621,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListInto(v *X2a
 			var elem s07.ERABsAdmittedToBeReleasedSgNBModAckItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s07.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -50633,7 +50633,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListInto(v *X2a
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -50745,7 +50745,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBModReqdListFrom(bb *aper.BitB
 func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBModReqdListInto(v *X2apInternalAsn1cAPERERABsToBeReleasedSgNBModReqdListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ERABsToBeReleasedSgNBModReqdList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50753,7 +50753,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBModReqdListInto(v *X2apIntern
 			var elem s07.ERABsToBeReleasedSgNBModReqdItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s07.X2apInternalERABsToBeReleasedSgNBModReqdItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -50765,7 +50765,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBModReqdListInto(v *X2apIntern
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -50877,7 +50877,7 @@ func X2apInternalUnmarshalAPERERABsToBeModifiedSgNBModReqdListFrom(bb *aper.BitB
 func X2apInternalUnmarshalAPERERABsToBeModifiedSgNBModReqdListInto(v *X2apInternalAsn1cAPERERABsToBeModifiedSgNBModReqdListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeModifiedSgNBModReqdList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50885,7 +50885,7 @@ func X2apInternalUnmarshalAPERERABsToBeModifiedSgNBModReqdListInto(v *X2apIntern
 			var elem s10.ERABsToBeModifiedSgNBModReqdItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsToBeModifiedSgNBModReqdItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -50897,7 +50897,7 @@ func X2apInternalUnmarshalAPERERABsToBeModifiedSgNBModReqdListInto(v *X2apIntern
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -51009,7 +51009,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListFrom(bb *a
 func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListInto(v *X2apInternalAsn1cAPERERABsAdmittedToBeModifiedSgNBModConfListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsAdmittedToBeModifiedSgNBModConfList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51017,7 +51017,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListInto(v *X2
 			var elem s09.ERABsAdmittedToBeModifiedSgNBModConfItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s09.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -51029,7 +51029,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListInto(v *X2
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -51141,7 +51141,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelReqListFrom(bb *aper.BitBu
 func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelReqListInto(v *X2apInternalAsn1cAPERERABsToBeReleasedSgNBRelReqListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeReleasedSgNBRelReqList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51149,7 +51149,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelReqListInto(v *X2apInterna
 			var elem s10.ERABsToBeReleasedSgNBRelReqItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsToBeReleasedSgNBRelReqItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -51161,7 +51161,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelReqListInto(v *X2apInterna
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -51273,7 +51273,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListFrom(bb 
 func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListInto(v *X2apInternalAsn1cAPERERABsAdmittedToBeReleasedSgNBRelReqAckListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ERABsAdmittedToBeReleasedSgNBRelReqAckList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51281,7 +51281,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListInto(v *
 			var elem s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s07.X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -51293,7 +51293,7 @@ func X2apInternalUnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListInto(v *
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -51405,7 +51405,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelReqdListFrom(bb *aper.BitB
 func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelReqdListInto(v *X2apInternalAsn1cAPERERABsToBeReleasedSgNBRelReqdListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ERABsToBeReleasedSgNBRelReqdList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51413,7 +51413,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelReqdListInto(v *X2apIntern
 			var elem s07.ERABsToBeReleasedSgNBRelReqdItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s07.X2apInternalERABsToBeReleasedSgNBRelReqdItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -51425,7 +51425,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelReqdListInto(v *X2apIntern
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -51537,7 +51537,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelConfListFrom(bb *aper.BitB
 func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelConfListInto(v *X2apInternalAsn1cAPERERABsToBeReleasedSgNBRelConfListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsToBeReleasedSgNBRelConfList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51545,7 +51545,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelConfListInto(v *X2apIntern
 			var elem s10.ERABsToBeReleasedSgNBRelConfItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.X2apInternalERABsToBeReleasedSgNBRelConfItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -51557,7 +51557,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBRelConfListInto(v *X2apIntern
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -51669,7 +51669,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToSgNBCounterCheckListFrom(bb *aper.Bi
 func X2apInternalUnmarshalAPERERABsSubjectToSgNBCounterCheckListInto(v *X2apInternalAsn1cAPERERABsSubjectToSgNBCounterCheckListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ERABsSubjectToSgNBCounterCheckList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51677,7 +51677,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToSgNBCounterCheckListInto(v *X2apInte
 			var elem s07.ERABsSubjectToSgNBCounterCheckItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s07.X2apInternalERABsSubjectToSgNBCounterCheckItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -51689,7 +51689,7 @@ func X2apInternalUnmarshalAPERERABsSubjectToSgNBCounterCheckListInto(v *X2apInte
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -51801,7 +51801,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBChaConfListFrom(bb *aper.BitB
 func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBChaConfListInto(v *X2apInternalAsn1cAPERERABsToBeReleasedSgNBChaConfListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s14.ERABsToBeReleasedSgNBChaConfList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51809,7 +51809,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBChaConfListInto(v *X2apIntern
 			var elem s14.ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s14.X2apInternalERABsToBeReleasedSgNBChaConfItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -51821,7 +51821,7 @@ func X2apInternalUnmarshalAPERERABsToBeReleasedSgNBChaConfListInto(v *X2apIntern
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -51931,7 +51931,7 @@ func X2apInternalUnmarshalAPERLimitedListFrom(bb *aper.BitBuffer) (s08.LimitedLi
 func X2apInternalUnmarshalAPERLimitedListInto(v *X2apInternalAsn1cAPERLimitedListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.LimitedList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51939,7 +51939,7 @@ func X2apInternalUnmarshalAPERLimitedListInto(v *X2apInternalAsn1cAPERLimitedLis
 			var elem s05.LimitedListElem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s05.X2apInternalLimitedListElemUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -51951,7 +51951,7 @@ func X2apInternalUnmarshalAPERLimitedListInto(v *X2apInternalAsn1cAPERLimitedLis
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -52121,7 +52121,7 @@ func X2apInternalInitiatingNodeTypeEutranrCellResourceCoordinationUnmarshalAPERF
 		toleranceMark_initiateenb := bb.EnterComponent("InitiateENB")
 		tmp_initiateenb := make(ENBEUTRANRCellResourceCoordinationReqIEContainer, 0)
 		_, errCollection_initiateenb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initiateenb, fragmentLength_initiateenb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_initiateenb < 0 || fragmentLength_initiateenb < 0 || fragmentLength_initiateenb > int64(^uint(0)>>1) || fragmentOffset_initiateenb > int64(^uint(0)>>1)-fragmentLength_initiateenb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52149,7 +52149,7 @@ func X2apInternalInitiatingNodeTypeEutranrCellResourceCoordinationUnmarshalAPERF
 		toleranceMark_initiateengnb := bb.EnterComponent("InitiateEnGNB")
 		tmp_initiateengnb := make(EnGNBEUTRANRCellResourceCoordinationReqIEContainer, 0)
 		_, errCollection_initiateengnb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initiateengnb, fragmentLength_initiateengnb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_initiateengnb < 0 || fragmentLength_initiateengnb < 0 || fragmentLength_initiateengnb > int64(^uint(0)>>1) || fragmentOffset_initiateengnb > int64(^uint(0)>>1)-fragmentLength_initiateengnb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52286,7 +52286,7 @@ func X2apInternalUnmarshalAPERListofEUTRACellsinEUTRACoordinationReqFrom(bb *ape
 func X2apInternalUnmarshalAPERListofEUTRACellsinEUTRACoordinationReqInto(v *X2apInternalAsn1cAPERListofEUTRACellsinEUTRACoordinationReqListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ListofEUTRACellsinEUTRACoordinationReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52294,7 +52294,7 @@ func X2apInternalUnmarshalAPERListofEUTRACellsinEUTRACoordinationReqInto(v *X2ap
 			var elem s04.ECGI
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s04.X2apInternalECGIUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -52306,7 +52306,7 @@ func X2apInternalUnmarshalAPERListofEUTRACellsinEUTRACoordinationReqInto(v *X2ap
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -52418,7 +52418,7 @@ func X2apInternalUnmarshalAPERListofEUTRACellsinNRCoordinationReqFrom(bb *aper.B
 func X2apInternalUnmarshalAPERListofEUTRACellsinNRCoordinationReqInto(v *X2apInternalAsn1cAPERListofEUTRACellsinNRCoordinationReqListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ListofEUTRACellsinNRCoordinationReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52426,7 +52426,7 @@ func X2apInternalUnmarshalAPERListofEUTRACellsinNRCoordinationReqInto(v *X2apInt
 			var elem s04.ECGI
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s04.X2apInternalECGIUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -52438,7 +52438,7 @@ func X2apInternalUnmarshalAPERListofEUTRACellsinNRCoordinationReqInto(v *X2apInt
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -52536,7 +52536,7 @@ func X2apInternalUnmarshalAPERListofNRCellsinNRCoordinationReqFrom(bb *aper.BitB
 func X2apInternalUnmarshalAPERListofNRCellsinNRCoordinationReqInto(v *X2apInternalAsn1cAPERListofNRCellsinNRCoordinationReqListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ListofNRCellsinNRCoordinationReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52544,7 +52544,7 @@ func X2apInternalUnmarshalAPERListofNRCellsinNRCoordinationReqInto(v *X2apIntern
 			var elem s05.NRCGI
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s05.X2apInternalNRCGIUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -52556,7 +52556,7 @@ func X2apInternalUnmarshalAPERListofNRCellsinNRCoordinationReqInto(v *X2apIntern
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -52668,7 +52668,7 @@ func X2apInternalUnmarshalAPERListofEUTRACellsinEUTRACoordinationRespFrom(bb *ap
 func X2apInternalUnmarshalAPERListofEUTRACellsinEUTRACoordinationRespInto(v *X2apInternalAsn1cAPERListofEUTRACellsinEUTRACoordinationRespListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.ListofEUTRACellsinEUTRACoordinationResp, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52676,7 +52676,7 @@ func X2apInternalUnmarshalAPERListofEUTRACellsinEUTRACoordinationRespInto(v *X2a
 			var elem s04.ECGI
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s04.X2apInternalECGIUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -52688,7 +52688,7 @@ func X2apInternalUnmarshalAPERListofEUTRACellsinEUTRACoordinationRespInto(v *X2a
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -52800,7 +52800,7 @@ func X2apInternalUnmarshalAPERERABsDataForwardingAddressListFrom(bb *aper.BitBuf
 func X2apInternalUnmarshalAPERERABsDataForwardingAddressListInto(v *X2apInternalAsn1cAPERERABsDataForwardingAddressListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.ERABsDataForwardingAddressList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52808,7 +52808,7 @@ func X2apInternalUnmarshalAPERERABsDataForwardingAddressListInto(v *X2apInternal
 			var elem s09.ERABsDataForwardingAddressItemIEValueProtocolIESingleContainer
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s09.X2apInternalERABsDataForwardingAddressItemIEFieldUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -52820,7 +52820,7 @@ func X2apInternalUnmarshalAPERERABsDataForwardingAddressListInto(v *X2apInternal
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
