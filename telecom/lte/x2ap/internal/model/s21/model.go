@@ -6424,7 +6424,7 @@ func X2apInternalUnmarshalAPERULHighInterferenceIndicationInfoFrom(bb *aper.BitB
 func X2apInternalUnmarshalAPERULHighInterferenceIndicationInfoInto(v *X2apInternalAsn1cAPERULHighInterferenceIndicationInfoListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s12.ULHighInterferenceIndicationInfo, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -6432,7 +6432,7 @@ func X2apInternalUnmarshalAPERULHighInterferenceIndicationInfoInto(v *X2apIntern
 			var elem s12.ULHighInterferenceIndicationInfoItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s12.X2apInternalULHighInterferenceIndicationInfoItemUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -6444,7 +6444,7 @@ func X2apInternalUnmarshalAPERULHighInterferenceIndicationInfoInto(v *X2apIntern
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -6556,14 +6556,14 @@ func X2apInternalUnmarshalAPERULInterferenceOverloadIndicationFrom(bb *aper.BitB
 func X2apInternalUnmarshalAPERULInterferenceOverloadIndicationInto(v *X2apInternalAsn1cAPERULInterferenceOverloadIndicationListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s12.ULInterferenceOverloadIndication, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 110, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1140
+		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1144
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := aper.DecodeEnumeratedAligned(bb, 3, true, aper.EnumerationSource{KnownExtensions: 0, Path: "Value"})
 			if err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			if next, err := aper.AppendValues(bb, v.Value, s00.ULInterferenceOverloadIndicationItem(val)); err != nil {
 				return err
@@ -6574,7 +6574,7 @@ func X2apInternalUnmarshalAPERULInterferenceOverloadIndicationInto(v *X2apIntern
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }
@@ -6684,14 +6684,14 @@ func X2apInternalUnmarshalAPERWLANMeasConfigNameListFrom(bb *aper.BitBuffer) (s1
 func X2apInternalUnmarshalAPERWLANMeasConfigNameListInto(v *X2apInternalAsn1cAPERWLANMeasConfigNameListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s13.WLANMeasConfigNameList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1177
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := aper.DecodeOctetStringAligned(bb, 1, 32, true)
 			if err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			if next, err := aper.AppendValues(bb, v.Value, val); err != nil {
 				return err
@@ -6702,7 +6702,7 @@ func X2apInternalUnmarshalAPERWLANMeasConfigNameListInto(v *X2apInternalAsn1cAPE
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
 	return nil
 }

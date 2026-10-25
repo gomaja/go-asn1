@@ -8,11 +8,11 @@ import (
 	s18 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s18"
 	s22 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s22"
 	s23 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s23"
-	s25 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s25"
-	s39 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s39"
-	s42 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s42"
-	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
-	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	s26 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s26"
+	s40 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s40"
+	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
+	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
+	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
@@ -20,17 +20,17 @@ import (
 
 // X.691 (02/2021) §§11.1.4,11.2.1 require zero padding inside known alternatives.
 func TestFreshEncodingReachesNestedKnownPadding(t *testing.T) {
-	enb := eNBIDFreshMust(s25.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18}))
+	enb := eNBIDFreshMust(s26.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18}))
 	value := s18.GlobalENBID{PLMNidentity: make([]byte, 3), ENBID: enb}
 	preferred := sliceByteFreshMust(value.MarshalAPER())
 	malformed := bytes.Clone(preferred)
 	malformed[len(malformed)-1] |= 1
 	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		if _, _, err := s42.GlobalENBIDCodec().DecodeAPER(malformed, options...); err == nil {
+		if _, _, err := s43.GlobalENBIDCodec().DecodeAPER(malformed, options...); err == nil {
 			t.Fatal("known CHOICE padding accepted")
 		}
 	}
-	decoded, _, err := s42.GlobalENBIDCodec().DecodeAPER(preferred)
+	decoded, _, err := s43.GlobalENBIDCodec().DecodeAPER(preferred)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -38,7 +38,7 @@ func TestFreshEncodingReachesNestedKnownPadding(t *testing.T) {
 	if got := sliceByteFreshMust(copy.MarshalAPER()); !bytes.Equal(got, preferred) {
 		t.Fatalf("fresh=%x want=%x", got, preferred)
 	}
-	if got := sliceByteFreshMust(s42.GlobalENBIDCodec().EncodeAPER(decoded)); !bytes.Equal(got, preferred) {
+	if got := sliceByteFreshMust(s43.GlobalENBIDCodec().EncodeAPER(decoded)); !bytes.Equal(got, preferred) {
 		t.Fatal("fresh copy changed replay")
 	}
 }
@@ -52,16 +52,16 @@ func TestFreshEncodingTrimsSequenceFraming(t *testing.T) {
 	*s22.BridgeCriticalityDiagnosticsFieldExtPresent(&body) = append(*s22.BridgeCriticalityDiagnosticsFieldExtPresent(&body), false, false, false)
 	*s22.BridgeCriticalityDiagnosticsFieldExtData(&body) = append(*s22.BridgeCriticalityDiagnosticsFieldExtData(&body), nil, nil, nil)
 	wire := sliceByteFreshMust(body.MarshalAPER())
-	criticalityDiagnosticsCheckFreshCodec(t, s39.CriticalityDiagnosticsCodec(), wire, preferred)
+	criticalityDiagnosticsCheckFreshCodec(t, s40.CriticalityDiagnosticsCodec(), wire, preferred)
 	// A known CHOICE arm's opaque-looking bytes remain a typed value after edit.
-	decoded, _, err := s39.CriticalityDiagnosticsCodec().DecodeAPER(wire)
+	decoded, _, err := s40.CriticalityDiagnosticsCodec().DecodeAPER(wire)
 	if err != nil {
 		t.Fatal(err)
 	}
 	form := decoded.Value.ReceivedForm()
 	original := form.OriginalBytes()
 	original[0] ^= 0xff
-	if got := sliceByteFreshMust(s39.CriticalityDiagnosticsCodec().EncodeAPER(decoded)); !bytes.Equal(got, wire) {
+	if got := sliceByteFreshMust(s40.CriticalityDiagnosticsCodec().EncodeAPER(decoded)); !bytes.Equal(got, wire) {
 		t.Fatal("received view was writable")
 	}
 	extensions := decoded.Value.Extensions()
@@ -77,18 +77,18 @@ func TestFreshEncodingTrimsSequenceFraming(t *testing.T) {
 		if err := decoded.Value.RemoveExtension(index); err == nil {
 			t.Fatal("impossible removal accepted")
 		}
-		if got := sliceByteFreshMust(s39.CriticalityDiagnosticsCodec().EncodeAPER(decoded)); !bytes.Equal(got, wire) {
+		if got := sliceByteFreshMust(s40.CriticalityDiagnosticsCodec().EncodeAPER(decoded)); !bytes.Equal(got, wire) {
 			t.Fatal("refused edit damaged replay")
 		}
 	}
 }
 func TestTypedEditAndRestoreReplay(t *testing.T) {
-	cause := causeFreshMust(s25.NewCauseMisc(s00.CauseMiscUnspecified))
-	body := s1SetupFailureFreshMust(s49.NewS1SetupFailure(s23.S1SetupFailureIEContainer{s1SetupFailureIEFieldFreshMust(s23.S1SetupFailureIEs().Cause().New(cause))}))
-	message := unsuccessfulOutcomeFreshMust(s52.S1SetupProcedure().Unsuccessful().Build(body))
-	pdu := s1APPDUFreshMust(s52.NewS1APPDUUnsuccessfulOutcome(message))
+	cause := causeFreshMust(s26.NewCauseMisc(s00.CauseMiscUnspecified))
+	body := s1SetupFailureFreshMust(s50.NewS1SetupFailure(s23.S1SetupFailureIEContainer{s1SetupFailureIEFieldFreshMust(s23.S1SetupFailureIEs().Cause().New(cause))}))
+	message := unsuccessfulOutcomeFreshMust(s53.S1SetupProcedure().Unsuccessful().Build(body))
+	pdu := s1APPDUFreshMust(s53.NewS1APPDUUnsuccessfulOutcome(message))
 	wire := sliceByteFreshMust(pdu.MarshalAPER())
-	var decoded s52.S1APPDU
+	var decoded s53.S1APPDU
 	if _, err := decoded.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}

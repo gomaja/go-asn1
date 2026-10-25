@@ -7,9 +7,9 @@ import (
 	fmt "fmt"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s00"
 	s23 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s23"
-	s25 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s25"
-	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
-	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	s26 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s26"
+	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
+	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
 	testing "testing"
 )
 
@@ -17,13 +17,13 @@ func TestUnknownIEOpaqueChildReader(t *testing.T) {
 	for _, size := range []int{1, 65540} {
 		t.Run(fmt.Sprintf("size=%d", size), func(t *testing.T) {
 			payload := bytes.Repeat([]byte{0xab}, size)
-			cause := s1SetupFailureIEFieldFreshMust(s23.S1SetupFailureIEs().Cause().New(causeFreshMust(s25.NewCauseMisc(s00.CauseMiscUnspecified))))
+			cause := s1SetupFailureIEFieldFreshMust(s23.S1SetupFailureIEs().Cause().New(causeFreshMust(s26.NewCauseMisc(s00.CauseMiscUnspecified))))
 			opaque := s1SetupFailureIEFieldFreshMust(s23.S1SetupFailureIEs().NewOpaque(65532, s00.CriticalityIgnore, payload))
-			body := s1SetupFailureFreshMust(s49.NewS1SetupFailure(s23.S1SetupFailureIEContainer{cause, opaque}))
-			message := unsuccessfulOutcomeFreshMust(s52.S1SetupProcedure().Unsuccessful().Build(body))
-			pdu := s1APPDUFreshMust(s52.NewS1APPDUUnsuccessfulOutcome(message))
+			body := s1SetupFailureFreshMust(s50.NewS1SetupFailure(s23.S1SetupFailureIEContainer{cause, opaque}))
+			message := unsuccessfulOutcomeFreshMust(s53.S1SetupProcedure().Unsuccessful().Build(body))
+			pdu := s1APPDUFreshMust(s53.NewS1APPDUUnsuccessfulOutcome(message))
 			wire := sliceByteFreshMust(pdu.MarshalAPER())
-			var decoded s52.S1APPDU
+			var decoded s53.S1APPDU
 			if _, err := decoded.UnmarshalAPER(wire); err != nil {
 				t.Fatal(err)
 			}

@@ -14,11 +14,11 @@ import (
 	s14 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s14"
 	s22 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s22"
 	s29 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s29"
-	s31 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s31"
-	s33 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s33"
-	s42 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s42"
-	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
+	s32 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s32"
+	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
+	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	big "math/big"
@@ -27,7 +27,7 @@ import (
 
 func TestCompleteReplayMutableContents(t *testing.T) {
 	t.Run("octets", func(t *testing.T) {
-		nASPDUSemanticEditRestore(t, s42.NASPDUCodec(), []byte{1, 2, 3}, func(v *[]byte) { (*v)[1] = 9 }, func(v *[]byte) { (*v)[1] = 2 })
+		nASPDUSemanticEditRestore(t, s43.NASPDUCodec(), []byte{1, 2, 3}, func(v *[]byte) { (*v)[1] = 9 }, func(v *[]byte) { (*v)[1] = 2 })
 	})
 	t.Run("bits", func(t *testing.T) {
 		transportLayerAddressSemanticEditRestore(t, s29.TransportLayerAddressCodec(), runtime.BitString{Bytes: []byte{0xa0}, BitLength: 4}, func(v *runtime.BitString) { v.Bytes[0] = 0xb0 }, func(v *runtime.BitString) { v.Bytes[0] = 0xa0 })
@@ -90,9 +90,9 @@ func TestValueDecodeAndUnchangedEncodeCallNoEncoder(t *testing.T) {
 	}
 }
 func TestReplayReplacementAndCopyGraphs(t *testing.T) {
-	field := tAIItemIEFieldFreshMust(s33.TAIItemIEs().TAIItem().New(s33.TAIItem{TAI: s31.TAI{PLMNidentity: []byte{1, 2, 3}, TAC: []byte{4, 5}}}))
-	codec := s33.TAIItemIEValueIETableCodec(s33.TAIItemIEs().Table(), aper.ListBounds{Lower: 1, Upper: 256})
-	wire := sliceByteFreshMust(codec.EncodeAPER(tAIItemIEContainerAPERValueFreshMust(codec.New(s33.TAIItemIEContainer{field, field}))))
+	field := tAIItemIEFieldFreshMust(s34.TAIItemIEs().TAIItem().New(s34.TAIItem{TAI: s32.TAI{PLMNidentity: []byte{1, 2, 3}, TAC: []byte{4, 5}}}))
+	codec := s34.TAIItemIEValueIETableCodec(s34.TAIItemIEs().Table(), aper.ListBounds{Lower: 1, Upper: 256})
+	wire := sliceByteFreshMust(codec.EncodeAPER(tAIItemIEContainerAPERValueFreshMust(codec.New(s34.TAIItemIEContainer{field, field}))))
 	a, _, err := codec.DecodeAPER(wire)
 	if err != nil {
 		t.Fatal(err)
@@ -106,7 +106,7 @@ func TestReplayReplacementAndCopyGraphs(t *testing.T) {
 	leaf, _ := a.Value[0].Value.AsTAIItem()
 	leaf.TAI.TAC[0] = 9
 	edited := sliceByteFreshMust(codec.EncodeAPER(a))
-	var want s33.TAIItemIEContainer
+	var want s34.TAIItemIEContainer
 	want = append(want, a.Value...)
 	preferred := sliceByteFreshMust(codec.EncodeAPER(tAIItemIEContainerAPERValueFreshMust(codec.New(want)), aper.WithoutReplay()))
 	if !bytes.Equal(edited, preferred) {
@@ -124,12 +124,12 @@ func TestReplayReplacementAndCopyGraphs(t *testing.T) {
 }
 func TestEditedLeafAllocationGrowthIsLinear(t *testing.T) {
 	measure := func(n int) float64 {
-		field := tAIItemIEFieldFreshMust(s33.TAIItemIEs().TAIItem().New(s33.TAIItem{TAI: s31.TAI{PLMNidentity: []byte{1, 2, 3}, TAC: []byte{4, 5}}}))
-		fields := make(s33.TAIItemIEContainer, n)
+		field := tAIItemIEFieldFreshMust(s34.TAIItemIEs().TAIItem().New(s34.TAIItem{TAI: s32.TAI{PLMNidentity: []byte{1, 2, 3}, TAC: []byte{4, 5}}}))
+		fields := make(s34.TAIItemIEContainer, n)
 		for i := range fields {
 			fields[i] = field
 		}
-		codec := s33.TAIItemIEValueIETableCodec(s33.TAIItemIEs().Table(), aper.ListBounds{Lower: 1, Upper: 256})
+		codec := s34.TAIItemIEValueIETableCodec(s34.TAIItemIEs().Table(), aper.ListBounds{Lower: 1, Upper: 256})
 		wire := sliceByteFreshMust(codec.EncodeAPER(tAIItemIEContainerAPERValueFreshMust(codec.New(fields))))
 		return testing.AllocsPerRun(10, func() {
 			v, _, err := codec.DecodeAPER(wire)
@@ -157,15 +157,15 @@ func TestFragmentedNestedReplayAfterScalarEdit(t *testing.T) {
 	for i := range payload {
 		payload[i] = byte(i*13 + 7)
 	}
-	table := s42.DownlinkNASTransportIEs()
-	body := s42.DownlinkNASTransport{ProtocolIEs: s42.DownlinkNASTransportIEContainer{downlinkNASTransportIEFieldFreshMust(table.MMEUES1APID().New(1)), downlinkNASTransportIEFieldFreshMust(table.ENBUES1APID().New(1)), downlinkNASTransportIEFieldFreshMust(table.NASPDU().New(payload))}}
-	envelope := initiatingMessageFreshMust(s51.DownlinkNASTransportProcedure().Initiating().Build(body))
-	pdu := s52.S1APPDU{Choice: s00.S1APPDUChoiceInitiatingMessage, InitiatingMessage: &envelope}
+	table := s43.DownlinkNASTransportIEs()
+	body := s43.DownlinkNASTransport{ProtocolIEs: s43.DownlinkNASTransportIEContainer{downlinkNASTransportIEFieldFreshMust(table.MMEUES1APID().New(1)), downlinkNASTransportIEFieldFreshMust(table.ENBUES1APID().New(1)), downlinkNASTransportIEFieldFreshMust(table.NASPDU().New(payload))}}
+	envelope := initiatingMessageFreshMust(s52.DownlinkNASTransportProcedure().Initiating().Build(body))
+	pdu := s53.S1APPDU{Choice: s00.S1APPDUChoiceInitiatingMessage, InitiatingMessage: &envelope}
 	wire := sliceByteFreshMust(pdu.MarshalAPER())
 	if got := fmt.Sprintf("%x", sha256.Sum256(wire)); got != "ee45378f9d91ed34a7568b07c2cbf0b5bf80c901cac7588e0ff43d08187d2c2e" {
 		t.Fatal("fragmented synthetic PDU differs from independent encoder")
 	}
-	var value s52.S1APPDU
+	var value s53.S1APPDU
 	if _, err := value.UnmarshalAPER(wire, aper.WithLimits(aper.Limits{MaxWork: 64 << 20})); err != nil {
 		t.Fatal(err)
 	}
@@ -179,7 +179,7 @@ func TestFragmentedNestedReplayAfterScalarEdit(t *testing.T) {
 	id, _ := decoded.ProtocolIEs[0].Value.AsMMEUES1APID()
 	*id = 2
 	changed := sliceByteFreshMust(value.MarshalAPER())
-	var next s52.S1APPDU
+	var next s53.S1APPDU
 	if _, err := next.UnmarshalAPER(changed, aper.WithLimits(aper.Limits{MaxWork: 64 << 20})); err != nil {
 		t.Fatal(err)
 	}
@@ -225,8 +225,8 @@ func TestKnownSequenceAdditionKeepsSourceSpans(t *testing.T) {
 	}
 }
 func TestGenericFieldsExposeFreshCopies(t *testing.T) {
-	original := tAIItemIEFieldFreshMust(s33.TAIItemIEs().TAIItem().New(s33.TAIItem{TAI: s31.TAI{PLMNidentity: make([]byte, 3), TAC: make([]byte, 2)}}))
-	c := s33.TAIItemIEValueIEFieldTableCodec(s33.TAIItemIEs().Table())
+	original := tAIItemIEFieldFreshMust(s34.TAIItemIEs().TAIItem().New(s34.TAIItem{TAI: s32.TAI{PLMNidentity: make([]byte, 3), TAC: make([]byte, 2)}}))
+	c := s34.TAIItemIEValueIEFieldTableCodec(s34.TAIItemIEs().Table())
 	wire := sliceByteFreshMust(c.EncodeAPER(tAIItemIEFieldAPERValueFreshMust(c.New(original))))
 	v, _, err := c.DecodeAPER(wire)
 	if err != nil {
@@ -237,17 +237,17 @@ func TestGenericFieldsExposeFreshCopies(t *testing.T) {
 	if got, want := sliceByteFreshMust(c.EncodeAPER(v)), sliceByteFreshMust(c.EncodeAPER(v, aper.WithoutReplay())); !bytes.Equal(got, want) {
 		t.Fatal("generic field fresh copy differs")
 	}
-	if *s33.BridgeTAIItemIEFieldFieldWithoutReplay(&original) {
+	if *s34.BridgeTAIItemIEFieldFieldWithoutReplay(&original) {
 		t.Fatal("field copy changed original")
 	}
 }
 func TestLargeUnchangedCompleteAllocatesOnlyResult(t *testing.T) {
-	field := tAIItemIEFieldFreshMust(s33.TAIItemIEs().TAIItem().New(s33.TAIItem{TAI: s31.TAI{PLMNidentity: make([]byte, 3), TAC: make([]byte, 2)}}))
-	fields := make(s33.TAIItemIEContainer, 128)
+	field := tAIItemIEFieldFreshMust(s34.TAIItemIEs().TAIItem().New(s34.TAIItem{TAI: s32.TAI{PLMNidentity: make([]byte, 3), TAC: make([]byte, 2)}}))
+	fields := make(s34.TAIItemIEContainer, 128)
 	for i := range fields {
 		fields[i] = field
 	}
-	codec := s33.TAIItemIEValueIETableCodec(s33.TAIItemIEs().Table(), aper.ListBounds{Lower: 1, Upper: 256})
+	codec := s34.TAIItemIEValueIETableCodec(s34.TAIItemIEs().Table(), aper.ListBounds{Lower: 1, Upper: 256})
 	wire := sliceByteFreshMust(codec.EncodeAPER(tAIItemIEContainerAPERValueFreshMust(codec.New(fields))))
 	v, _, err := codec.DecodeAPER(wire)
 	if err != nil {
@@ -264,7 +264,7 @@ func TestLargeUnchangedCompleteAllocatesOnlyResult(t *testing.T) {
 	}
 }
 func TestSemanticEqualityIgnoresMandatorySliceStorage(t *testing.T) {
-	c := s42.NASPDUCodec()
+	c := s43.NASPDUCodec()
 	original := *s01.BridgeNASPDUValueCodecFieldEncode(&c)
 	calls := 0
 	*s01.BridgeNASPDUValueCodecFieldEncode(&c) = func(v s00.NASPDU, fresh bool, p *aper.DecodeBudget) ([]byte, error) {

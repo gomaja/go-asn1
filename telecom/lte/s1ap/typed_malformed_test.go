@@ -7,7 +7,7 @@ import (
 	hex "encoding/hex"
 	errors "errors"
 	s29 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s29"
-	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	strings "strings"
@@ -40,7 +40,7 @@ func TestKnownMalformedOpenValuesNeverBecomeOpaque(t *testing.T) {
 			var encoded []byte
 			switch tc.typ {
 			case "S1APPDU":
-				var value s52.S1APPDU
+				var value s53.S1APPDU
 				_, err = value.UnmarshalAPER(wire)
 				if err == nil {
 					encoded, err = value.MarshalAPER()

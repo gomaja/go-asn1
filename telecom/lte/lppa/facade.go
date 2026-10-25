@@ -80,12 +80,6 @@ type AddOTDOACellsExtIEsExtContainer = s03.AddOTDOACellsExtIEsExtContainer
 
 // AddOTDOACellsExtIEsExtField is ProtocolExtensionField {{Add-OTDOACells-ExtIEs}} of TS 36.455: a field carrying a value of AddOTDOACellsExtIEsValue.
 type AddOTDOACellsExtIEsExtField = s03.AddOTDOACellsExtIEsExtField
-
-// AddOTDOACellsExtIEsIEContainer uses the ProtocolIE-Container shape for object set Add-OTDOACells-ExtIEs of TS 36.455: a list of AddOTDOACellsExtIEsIEField values.
-type AddOTDOACellsExtIEsIEContainer = s03.AddOTDOACellsExtIEsIEContainer
-
-// AddOTDOACellsExtIEsIEField uses the ProtocolIE-Field shape for object set Add-OTDOACells-ExtIEs of TS 36.455.
-type AddOTDOACellsExtIEsIEField = s03.AddOTDOACellsExtIEsIEField
 type AddOTDOACellsExtIEsValue = s02.AddOTDOACellsExtIEsValue
 
 // AddOTDOACellsValueCodec is the concrete ValueCodec[AddOTDOACells].
@@ -143,12 +137,6 @@ type AssistanceInformationExtIEsExtContainer = s03.AssistanceInformationExtIEsEx
 
 // AssistanceInformationExtIEsExtField is ProtocolExtensionField {{Assistance-Information-ExtIEs}} of TS 36.455: a field carrying a value of AssistanceInformationExtIEsValue.
 type AssistanceInformationExtIEsExtField = s03.AssistanceInformationExtIEsExtField
-
-// AssistanceInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set Assistance-Information-ExtIEs of TS 36.455: a list of AssistanceInformationExtIEsIEField values.
-type AssistanceInformationExtIEsIEContainer = s03.AssistanceInformationExtIEsIEContainer
-
-// AssistanceInformationExtIEsIEField uses the ProtocolIE-Field shape for object set Assistance-Information-ExtIEs of TS 36.455.
-type AssistanceInformationExtIEsIEField = s03.AssistanceInformationExtIEsIEField
 type AssistanceInformationExtIEsValue = s02.AssistanceInformationExtIEsValue
 type AssistanceInformationFailureList = s05.AssistanceInformationFailureList
 
@@ -182,12 +170,6 @@ type AssistanceInformationFailureListExtIEsExtContainer = s03.AssistanceInformat
 
 // AssistanceInformationFailureListExtIEsExtField is ProtocolExtensionField {{AssistanceInformationFailureList-ExtIEs}} of TS 36.455: a field carrying a value of AssistanceInformationFailureListExtIEsValue.
 type AssistanceInformationFailureListExtIEsExtField = s03.AssistanceInformationFailureListExtIEsExtField
-
-// AssistanceInformationFailureListExtIEsIEContainer uses the ProtocolIE-Container shape for object set AssistanceInformationFailureList-ExtIEs of TS 36.455: a list of AssistanceInformationFailureListExtIEsIEField values.
-type AssistanceInformationFailureListExtIEsIEContainer = s03.AssistanceInformationFailureListExtIEsIEContainer
-
-// AssistanceInformationFailureListExtIEsIEField uses the ProtocolIE-Field shape for object set AssistanceInformationFailureList-ExtIEs of TS 36.455.
-type AssistanceInformationFailureListExtIEsIEField = s03.AssistanceInformationFailureListExtIEsIEField
 type AssistanceInformationFailureListExtIEsValue = s02.AssistanceInformationFailureListExtIEsValue
 
 // AssistanceInformationFailureListValueCodec is the concrete ValueCodec[AssistanceInformationFailureList].
@@ -245,12 +227,6 @@ type AssistanceInformationMetaDataExtIEsExtContainer = s03.AssistanceInformation
 
 // AssistanceInformationMetaDataExtIEsExtField is ProtocolExtensionField {{AssistanceInformationMetaData-ExtIEs}} of TS 36.455: a field carrying a value of AssistanceInformationMetaDataExtIEsValue.
 type AssistanceInformationMetaDataExtIEsExtField = s03.AssistanceInformationMetaDataExtIEsExtField
-
-// AssistanceInformationMetaDataExtIEsIEContainer uses the ProtocolIE-Container shape for object set AssistanceInformationMetaData-ExtIEs of TS 36.455: a list of AssistanceInformationMetaDataExtIEsIEField values.
-type AssistanceInformationMetaDataExtIEsIEContainer = s03.AssistanceInformationMetaDataExtIEsIEContainer
-
-// AssistanceInformationMetaDataExtIEsIEField uses the ProtocolIE-Field shape for object set AssistanceInformationMetaData-ExtIEs of TS 36.455.
-type AssistanceInformationMetaDataExtIEsIEField = s03.AssistanceInformationMetaDataExtIEsIEField
 type AssistanceInformationMetaDataExtIEsValue = s02.AssistanceInformationMetaDataExtIEsValue
 
 // AssistanceInformationMetaDataValueCodec is the concrete ValueCodec[AssistanceInformationMetaData].
@@ -469,12 +445,6 @@ type CriticalityDiagnosticsExtIEsExtContainer = s03.CriticalityDiagnosticsExtIEs
 
 // CriticalityDiagnosticsExtIEsExtField is ProtocolExtensionField {{CriticalityDiagnostics-ExtIEs}} of TS 36.455: a field carrying a value of CriticalityDiagnosticsExtIEsValue.
 type CriticalityDiagnosticsExtIEsExtField = s03.CriticalityDiagnosticsExtIEsExtField
-
-// CriticalityDiagnosticsExtIEsIEContainer uses the ProtocolIE-Container shape for object set CriticalityDiagnostics-ExtIEs of TS 36.455: a list of CriticalityDiagnosticsExtIEsIEField values.
-type CriticalityDiagnosticsExtIEsIEContainer = s03.CriticalityDiagnosticsExtIEsIEContainer
-
-// CriticalityDiagnosticsExtIEsIEField uses the ProtocolIE-Field shape for object set CriticalityDiagnostics-ExtIEs of TS 36.455.
-type CriticalityDiagnosticsExtIEsIEField = s03.CriticalityDiagnosticsExtIEsIEField
 type CriticalityDiagnosticsExtIEsValue = s02.CriticalityDiagnosticsExtIEsValue
 type CriticalityDiagnosticsIEList = s05.CriticalityDiagnosticsIEList
 
@@ -508,12 +478,6 @@ type CriticalityDiagnosticsIEListExtIEsExtContainer = s03.CriticalityDiagnostics
 
 // CriticalityDiagnosticsIEListExtIEsExtField is ProtocolExtensionField {{CriticalityDiagnostics-IE-List-ExtIEs}} of TS 36.455: a field carrying a value of CriticalityDiagnosticsIEListExtIEsValue.
 type CriticalityDiagnosticsIEListExtIEsExtField = s03.CriticalityDiagnosticsIEListExtIEsExtField
-
-// CriticalityDiagnosticsIEListExtIEsIEContainer uses the ProtocolIE-Container shape for object set CriticalityDiagnostics-IE-List-ExtIEs of TS 36.455: a list of CriticalityDiagnosticsIEListExtIEsIEField values.
-type CriticalityDiagnosticsIEListExtIEsIEContainer = s03.CriticalityDiagnosticsIEListExtIEsIEContainer
-
-// CriticalityDiagnosticsIEListExtIEsIEField uses the ProtocolIE-Field shape for object set CriticalityDiagnostics-IE-List-ExtIEs of TS 36.455.
-type CriticalityDiagnosticsIEListExtIEsIEField = s03.CriticalityDiagnosticsIEListExtIEsIEField
 type CriticalityDiagnosticsIEListExtIEsValue = s02.CriticalityDiagnosticsIEListExtIEsValue
 
 // CriticalityDiagnosticsIEListValueCodec is the concrete ValueCodec[CriticalityDiagnosticsIEList].
@@ -580,12 +544,6 @@ type ECGIExtIEsExtContainer = s03.ECGIExtIEsExtContainer
 
 // ECGIExtIEsExtField is ProtocolExtensionField {{ECGI-ExtIEs}} of TS 36.455: a field carrying a value of ECGIExtIEsValue.
 type ECGIExtIEsExtField = s03.ECGIExtIEsExtField
-
-// ECGIExtIEsIEContainer uses the ProtocolIE-Container shape for object set ECGI-ExtIEs of TS 36.455: a list of ECGIExtIEsIEField values.
-type ECGIExtIEsIEContainer = s03.ECGIExtIEsIEContainer
-
-// ECGIExtIEsIEField uses the ProtocolIE-Field shape for object set ECGI-ExtIEs of TS 36.455.
-type ECGIExtIEsIEField = s03.ECGIExtIEsIEField
 type ECGIExtIEsValue = s02.ECGIExtIEsValue
 
 // ECGIValueCodec is the concrete ValueCodec[ECGI].
@@ -1118,12 +1076,6 @@ type InterRATMeasurementQuantitiesValueExtIEsExtContainer = s03.InterRATMeasurem
 
 // InterRATMeasurementQuantitiesValueExtIEsExtField is ProtocolExtensionField {{InterRATMeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a field carrying a value of InterRATMeasurementQuantitiesValueExtIEsValue.
 type InterRATMeasurementQuantitiesValueExtIEsExtField = s03.InterRATMeasurementQuantitiesValueExtIEsExtField
-
-// InterRATMeasurementQuantitiesValueExtIEsIEContainer uses the ProtocolIE-Container shape for object set InterRATMeasurementQuantitiesValue-ExtIEs of TS 36.455: a list of InterRATMeasurementQuantitiesValueExtIEsIEField values.
-type InterRATMeasurementQuantitiesValueExtIEsIEContainer = s04.InterRATMeasurementQuantitiesValueExtIEsIEContainer
-
-// InterRATMeasurementQuantitiesValueExtIEsIEField uses the ProtocolIE-Field shape for object set InterRATMeasurementQuantitiesValue-ExtIEs of TS 36.455.
-type InterRATMeasurementQuantitiesValueExtIEsIEField = s04.InterRATMeasurementQuantitiesValueExtIEsIEField
 type InterRATMeasurementQuantitiesValueExtIEsValue = s02.InterRATMeasurementQuantitiesValueExtIEsValue
 
 const InterRATMeasurementQuantitiesValueGeran = s00.InterRATMeasurementQuantitiesValueGeran
@@ -1490,12 +1442,6 @@ type MeasurementQuantitiesValueExtIEsExtContainer = s04.MeasurementQuantitiesVal
 
 // MeasurementQuantitiesValueExtIEsExtField is ProtocolExtensionField {{MeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a field carrying a value of MeasurementQuantitiesValueExtIEsValue.
 type MeasurementQuantitiesValueExtIEsExtField = s04.MeasurementQuantitiesValueExtIEsExtField
-
-// MeasurementQuantitiesValueExtIEsIEContainer uses the ProtocolIE-Container shape for object set MeasurementQuantitiesValue-ExtIEs of TS 36.455: a list of MeasurementQuantitiesValueExtIEsIEField values.
-type MeasurementQuantitiesValueExtIEsIEContainer = s04.MeasurementQuantitiesValueExtIEsIEContainer
-
-// MeasurementQuantitiesValueExtIEsIEField uses the ProtocolIE-Field shape for object set MeasurementQuantitiesValue-ExtIEs of TS 36.455.
-type MeasurementQuantitiesValueExtIEsIEField = s04.MeasurementQuantitiesValueExtIEsIEField
 type MeasurementQuantitiesValueExtIEsValue = s02.MeasurementQuantitiesValueExtIEsValue
 
 const MeasurementQuantitiesValueRSRP = s00.MeasurementQuantitiesValueRSRP
@@ -1610,12 +1556,6 @@ type NRCGIExtIEsExtContainer = s04.NRCGIExtIEsExtContainer
 
 // NRCGIExtIEsExtField is ProtocolExtensionField {{NR-CGI-ExtIEs}} of TS 36.455: a field carrying a value of NRCGIExtIEsValue.
 type NRCGIExtIEsExtField = s04.NRCGIExtIEsExtField
-
-// NRCGIExtIEsIEContainer uses the ProtocolIE-Container shape for object set NR-CGI-ExtIEs of TS 36.455: a list of NRCGIExtIEsIEField values.
-type NRCGIExtIEsIEContainer = s04.NRCGIExtIEsIEContainer
-
-// NRCGIExtIEsIEField uses the ProtocolIE-Field shape for object set NR-CGI-ExtIEs of TS 36.455.
-type NRCGIExtIEsIEField = s04.NRCGIExtIEsIEField
 type NRCGIExtIEsValue = s02.NRCGIExtIEsValue
 
 // NRCGIValueCodec is the concrete ValueCodec[NRCGI].
@@ -2110,12 +2050,6 @@ type OTDOACellsExtIEsExtContainer = s04.OTDOACellsExtIEsExtContainer
 
 // OTDOACellsExtIEsExtField is ProtocolExtensionField {{OTDOACells-ExtIEs}} of TS 36.455: a field carrying a value of OTDOACellsExtIEsValue.
 type OTDOACellsExtIEsExtField = s04.OTDOACellsExtIEsExtField
-
-// OTDOACellsExtIEsIEContainer uses the ProtocolIE-Container shape for object set OTDOACells-ExtIEs of TS 36.455: a list of OTDOACellsExtIEsIEField values.
-type OTDOACellsExtIEsIEContainer = s04.OTDOACellsExtIEsIEContainer
-
-// OTDOACellsExtIEsIEField uses the ProtocolIE-Field shape for object set OTDOACells-ExtIEs of TS 36.455.
-type OTDOACellsExtIEsIEField = s04.OTDOACellsExtIEsIEField
 type OTDOACellsExtIEsValue = s02.OTDOACellsExtIEsValue
 
 // OTDOACellsValueCodec is the concrete ValueCodec[OTDOACells].
@@ -2302,12 +2236,6 @@ type OTDOAInformationTypeItemExtIEsExtContainer = s04.OTDOAInformationTypeItemEx
 
 // OTDOAInformationTypeItemExtIEsExtField is ProtocolExtensionField {{OTDOA-Information-Type-ItemExtIEs}} of TS 36.455: a field carrying a value of OTDOAInformationTypeItemExtIEsValue.
 type OTDOAInformationTypeItemExtIEsExtField = s04.OTDOAInformationTypeItemExtIEsExtField
-
-// OTDOAInformationTypeItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set OTDOA-Information-Type-ItemExtIEs of TS 36.455: a list of OTDOAInformationTypeItemExtIEsIEField values.
-type OTDOAInformationTypeItemExtIEsIEContainer = s04.OTDOAInformationTypeItemExtIEsIEContainer
-
-// OTDOAInformationTypeItemExtIEsIEField uses the ProtocolIE-Field shape for object set OTDOA-Information-Type-ItemExtIEs of TS 36.455.
-type OTDOAInformationTypeItemExtIEsIEField = s04.OTDOAInformationTypeItemExtIEsIEField
 type OTDOAInformationTypeItemExtIEsValue = s02.OTDOAInformationTypeItemExtIEsValue
 
 // OTDOAInformationTypeItemValueCodec is the concrete ValueCodec[OTDOAInformationTypeItem].
@@ -2471,12 +2399,6 @@ type PRSFrequencyHoppingConfigurationItemIEsExtContainer = s04.PRSFrequencyHoppi
 
 // PRSFrequencyHoppingConfigurationItemIEsExtField is ProtocolExtensionField {{PRSFrequencyHoppingConfiguration-Item-IEs}} of TS 36.455: a field carrying a value of PRSFrequencyHoppingConfigurationItemIEsValue.
 type PRSFrequencyHoppingConfigurationItemIEsExtField = s04.PRSFrequencyHoppingConfigurationItemIEsExtField
-
-// PRSFrequencyHoppingConfigurationItemIEsIEContainer uses the ProtocolIE-Container shape for object set PRSFrequencyHoppingConfiguration-Item-IEs of TS 36.455: a list of PRSFrequencyHoppingConfigurationItemIEsIEField values.
-type PRSFrequencyHoppingConfigurationItemIEsIEContainer = s04.PRSFrequencyHoppingConfigurationItemIEsIEContainer
-
-// PRSFrequencyHoppingConfigurationItemIEsIEField uses the ProtocolIE-Field shape for object set PRSFrequencyHoppingConfiguration-Item-IEs of TS 36.455.
-type PRSFrequencyHoppingConfigurationItemIEsIEField = s04.PRSFrequencyHoppingConfigurationItemIEsIEField
 type PRSFrequencyHoppingConfigurationItemIEsValue = s02.PRSFrequencyHoppingConfigurationItemIEsValue
 
 // PRSFrequencyHoppingConfigurationValueCodec is the concrete ValueCodec[PRSFrequencyHoppingConfiguration].
@@ -2634,12 +2556,6 @@ type PosSIBSegmentsExtIEsExtContainer = s04.PosSIBSegmentsExtIEsExtContainer
 
 // PosSIBSegmentsExtIEsExtField is ProtocolExtensionField {{PosSIB-Segments-ExtIEs}} of TS 36.455: a field carrying a value of PosSIBSegmentsExtIEsValue.
 type PosSIBSegmentsExtIEsExtField = s04.PosSIBSegmentsExtIEsExtField
-
-// PosSIBSegmentsExtIEsIEContainer uses the ProtocolIE-Container shape for object set PosSIB-Segments-ExtIEs of TS 36.455: a list of PosSIBSegmentsExtIEsIEField values.
-type PosSIBSegmentsExtIEsIEContainer = s04.PosSIBSegmentsExtIEsIEContainer
-
-// PosSIBSegmentsExtIEsIEField uses the ProtocolIE-Field shape for object set PosSIB-Segments-ExtIEs of TS 36.455.
-type PosSIBSegmentsExtIEsIEField = s04.PosSIBSegmentsExtIEsIEField
 type PosSIBSegmentsExtIEsValue = s02.PosSIBSegmentsExtIEsValue
 
 // PosSIBSegmentsValueCodec is the concrete ValueCodec[PosSIBSegments].
@@ -2720,12 +2636,6 @@ type PosSIBsExtIEsExtContainer = s04.PosSIBsExtIEsExtContainer
 
 // PosSIBsExtIEsExtField is ProtocolExtensionField {{PosSIBs-ExtIEs}} of TS 36.455: a field carrying a value of PosSIBsExtIEsValue.
 type PosSIBsExtIEsExtField = s04.PosSIBsExtIEsExtField
-
-// PosSIBsExtIEsIEContainer uses the ProtocolIE-Container shape for object set PosSIBs-ExtIEs of TS 36.455: a list of PosSIBsExtIEsIEField values.
-type PosSIBsExtIEsIEContainer = s04.PosSIBsExtIEsIEContainer
-
-// PosSIBsExtIEsIEField uses the ProtocolIE-Field shape for object set PosSIBs-ExtIEs of TS 36.455.
-type PosSIBsExtIEsIEField = s04.PosSIBsExtIEsIEField
 type PosSIBsExtIEsValue = s03.PosSIBsExtIEsValue
 
 // PosSIBsValueCodec is the concrete ValueCodec[PosSIBs].
@@ -2906,12 +2816,6 @@ type ResultGERANItemExtIEsExtContainer = s04.ResultGERANItemExtIEsExtContainer
 
 // ResultGERANItemExtIEsExtField is ProtocolExtensionField {{ResultGERAN-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultGERANItemExtIEsValue.
 type ResultGERANItemExtIEsExtField = s04.ResultGERANItemExtIEsExtField
-
-// ResultGERANItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultGERAN-Item-ExtIEs of TS 36.455: a list of ResultGERANItemExtIEsIEField values.
-type ResultGERANItemExtIEsIEContainer = s04.ResultGERANItemExtIEsIEContainer
-
-// ResultGERANItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultGERAN-Item-ExtIEs of TS 36.455.
-type ResultGERANItemExtIEsIEField = s04.ResultGERANItemExtIEsIEField
 type ResultGERANItemExtIEsValue = s03.ResultGERANItemExtIEsValue
 
 // ResultGERANItemValueCodec is the concrete ValueCodec[ResultGERANItem].
@@ -2949,12 +2853,6 @@ type ResultNRItemExtIEsExtContainer = s19.ResultNRItemExtIEsExtContainer
 
 // ResultNRItemExtIEsExtField is ProtocolExtensionField {{ResultNR-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultNRItemExtIEsValue.
 type ResultNRItemExtIEsExtField = s19.ResultNRItemExtIEsExtField
-
-// ResultNRItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultNR-Item-ExtIEs of TS 36.455: a list of ResultNRItemExtIEsIEField values.
-type ResultNRItemExtIEsIEContainer = s19.ResultNRItemExtIEsIEContainer
-
-// ResultNRItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultNR-Item-ExtIEs of TS 36.455.
-type ResultNRItemExtIEsIEField = s19.ResultNRItemExtIEsIEField
 
 // ResultNRItemExtIEsNRCGIExtBinding binds NRCGI to ProtocolExtensionField {{ResultNR-Item-ExtIEs}} of TS 36.455.
 type ResultNRItemExtIEsNRCGIExtBinding = s19.ResultNRItemExtIEsNRCGIExtBinding
@@ -2998,12 +2896,6 @@ type ResultRSRPItemExtIEsExtContainer = s04.ResultRSRPItemExtIEsExtContainer
 
 // ResultRSRPItemExtIEsExtField is ProtocolExtensionField {{ResultRSRP-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultRSRPItemExtIEsValue.
 type ResultRSRPItemExtIEsExtField = s04.ResultRSRPItemExtIEsExtField
-
-// ResultRSRPItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultRSRP-Item-ExtIEs of TS 36.455: a list of ResultRSRPItemExtIEsIEField values.
-type ResultRSRPItemExtIEsIEContainer = s04.ResultRSRPItemExtIEsIEContainer
-
-// ResultRSRPItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultRSRP-Item-ExtIEs of TS 36.455.
-type ResultRSRPItemExtIEsIEField = s04.ResultRSRPItemExtIEsIEField
 type ResultRSRPItemExtIEsValue = s03.ResultRSRPItemExtIEsValue
 
 // ResultRSRPItemValueCodec is the concrete ValueCodec[ResultRSRPItem].
@@ -3041,12 +2933,6 @@ type ResultRSRQItemExtIEsExtContainer = s04.ResultRSRQItemExtIEsExtContainer
 
 // ResultRSRQItemExtIEsExtField is ProtocolExtensionField {{ResultRSRQ-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultRSRQItemExtIEsValue.
 type ResultRSRQItemExtIEsExtField = s04.ResultRSRQItemExtIEsExtField
-
-// ResultRSRQItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultRSRQ-Item-ExtIEs of TS 36.455: a list of ResultRSRQItemExtIEsIEField values.
-type ResultRSRQItemExtIEsIEContainer = s04.ResultRSRQItemExtIEsIEContainer
-
-// ResultRSRQItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultRSRQ-Item-ExtIEs of TS 36.455.
-type ResultRSRQItemExtIEsIEField = s04.ResultRSRQItemExtIEsIEField
 type ResultRSRQItemExtIEsValue = s03.ResultRSRQItemExtIEsValue
 
 // ResultRSRQItemValueCodec is the concrete ValueCodec[ResultRSRQItem].
@@ -3084,12 +2970,6 @@ type ResultUTRANItemExtIEsExtContainer = s04.ResultUTRANItemExtIEsExtContainer
 
 // ResultUTRANItemExtIEsExtField is ProtocolExtensionField {{ResultUTRAN-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultUTRANItemExtIEsValue.
 type ResultUTRANItemExtIEsExtField = s04.ResultUTRANItemExtIEsExtField
-
-// ResultUTRANItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultUTRAN-Item-ExtIEs of TS 36.455: a list of ResultUTRANItemExtIEsIEField values.
-type ResultUTRANItemExtIEsIEContainer = s04.ResultUTRANItemExtIEsIEContainer
-
-// ResultUTRANItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultUTRAN-Item-ExtIEs of TS 36.455.
-type ResultUTRANItemExtIEsIEField = s04.ResultUTRANItemExtIEsIEField
 type ResultUTRANItemExtIEsValue = s03.ResultUTRANItemExtIEsValue
 
 // ResultUTRANItemPhysCellIDUTRAN represents the ASN.1 CHOICE type ResultUTRAN-Item-physCellIDUTRAN.
@@ -3134,12 +3014,6 @@ type ResultsPerSSBIndexItemExtIEsExtContainer = s04.ResultsPerSSBIndexItemExtIEs
 
 // ResultsPerSSBIndexItemExtIEsExtField is ProtocolExtensionField {{ResultsPerSSB-Index-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultsPerSSBIndexItemExtIEsValue.
 type ResultsPerSSBIndexItemExtIEsExtField = s04.ResultsPerSSBIndexItemExtIEsExtField
-
-// ResultsPerSSBIndexItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultsPerSSB-Index-Item-ExtIEs of TS 36.455: a list of ResultsPerSSBIndexItemExtIEsIEField values.
-type ResultsPerSSBIndexItemExtIEsIEContainer = s04.ResultsPerSSBIndexItemExtIEsIEContainer
-
-// ResultsPerSSBIndexItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultsPerSSB-Index-Item-ExtIEs of TS 36.455.
-type ResultsPerSSBIndexItemExtIEsIEField = s04.ResultsPerSSBIndexItemExtIEsIEField
 type ResultsPerSSBIndexItemExtIEsValue = s03.ResultsPerSSBIndexItemExtIEsValue
 
 // ResultsPerSSBIndexItemValueCodec is the concrete ValueCodec[ResultsPerSSBIndexItem].
@@ -3311,12 +3185,6 @@ type SystemInformationExtIEsExtContainer = s04.SystemInformationExtIEsExtContain
 
 // SystemInformationExtIEsExtField is ProtocolExtensionField {{SystemInformation-ExtIEs}} of TS 36.455: a field carrying a value of SystemInformationExtIEsValue.
 type SystemInformationExtIEsExtField = s04.SystemInformationExtIEsExtField
-
-// SystemInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set SystemInformation-ExtIEs of TS 36.455: a list of SystemInformationExtIEsIEField values.
-type SystemInformationExtIEsIEContainer = s04.SystemInformationExtIEsIEContainer
-
-// SystemInformationExtIEsIEField uses the ProtocolIE-Field shape for object set SystemInformation-ExtIEs of TS 36.455.
-type SystemInformationExtIEsIEField = s04.SystemInformationExtIEsIEField
 type SystemInformationExtIEsValue = s03.SystemInformationExtIEsValue
 
 // SystemInformationValueCodec is the concrete ValueCodec[SystemInformation].
@@ -3352,12 +3220,6 @@ type TDDConfigurationExtIEsExtContainer = s04.TDDConfigurationExtIEsExtContainer
 
 // TDDConfigurationExtIEsExtField is ProtocolExtensionField {{TDDConfiguration-ExtIEs}} of TS 36.455: a field carrying a value of TDDConfigurationExtIEsValue.
 type TDDConfigurationExtIEsExtField = s04.TDDConfigurationExtIEsExtField
-
-// TDDConfigurationExtIEsIEContainer uses the ProtocolIE-Container shape for object set TDDConfiguration-ExtIEs of TS 36.455: a list of TDDConfigurationExtIEsIEField values.
-type TDDConfigurationExtIEsIEContainer = s04.TDDConfigurationExtIEsIEContainer
-
-// TDDConfigurationExtIEsIEField uses the ProtocolIE-Field shape for object set TDDConfiguration-ExtIEs of TS 36.455.
-type TDDConfigurationExtIEsIEField = s04.TDDConfigurationExtIEsIEField
 type TDDConfigurationExtIEsValue = s03.TDDConfigurationExtIEsValue
 
 // TDDConfigurationValueCodec is the concrete ValueCodec[TDDConfiguration].
@@ -3870,12 +3732,6 @@ type WLANMeasurementQuantitiesValueExtIEsExtContainer = s04.WLANMeasurementQuant
 
 // WLANMeasurementQuantitiesValueExtIEsExtField is ProtocolExtensionField {{WLANMeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a field carrying a value of WLANMeasurementQuantitiesValueExtIEsValue.
 type WLANMeasurementQuantitiesValueExtIEsExtField = s04.WLANMeasurementQuantitiesValueExtIEsExtField
-
-// WLANMeasurementQuantitiesValueExtIEsIEContainer uses the ProtocolIE-Container shape for object set WLANMeasurementQuantitiesValue-ExtIEs of TS 36.455: a list of WLANMeasurementQuantitiesValueExtIEsIEField values.
-type WLANMeasurementQuantitiesValueExtIEsIEContainer = s04.WLANMeasurementQuantitiesValueExtIEsIEContainer
-
-// WLANMeasurementQuantitiesValueExtIEsIEField uses the ProtocolIE-Field shape for object set WLANMeasurementQuantitiesValue-ExtIEs of TS 36.455.
-type WLANMeasurementQuantitiesValueExtIEsIEField = s04.WLANMeasurementQuantitiesValueExtIEsIEField
 type WLANMeasurementQuantitiesValueExtIEsValue = s03.WLANMeasurementQuantitiesValueExtIEsValue
 
 // WLANMeasurementQuantitiesValueValueCodec is the concrete ValueCodec[WLANMeasurementQuantitiesValue].
@@ -3913,12 +3769,6 @@ type WLANMeasurementResultItemExtIEsExtContainer = s04.WLANMeasurementResultItem
 
 // WLANMeasurementResultItemExtIEsExtField is ProtocolExtensionField {{WLANMeasurementResult-Item-ExtIEs}} of TS 36.455: a field carrying a value of WLANMeasurementResultItemExtIEsValue.
 type WLANMeasurementResultItemExtIEsExtField = s04.WLANMeasurementResultItemExtIEsExtField
-
-// WLANMeasurementResultItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set WLANMeasurementResult-Item-ExtIEs of TS 36.455: a list of WLANMeasurementResultItemExtIEsIEField values.
-type WLANMeasurementResultItemExtIEsIEContainer = s04.WLANMeasurementResultItemExtIEsIEContainer
-
-// WLANMeasurementResultItemExtIEsIEField uses the ProtocolIE-Field shape for object set WLANMeasurementResult-Item-ExtIEs of TS 36.455.
-type WLANMeasurementResultItemExtIEsIEField = s04.WLANMeasurementResultItemExtIEsIEField
 type WLANMeasurementResultItemExtIEsValue = s03.WLANMeasurementResultItemExtIEsValue
 
 // WLANMeasurementResultItemValueCodec is the concrete ValueCodec[WLANMeasurementResultItem].

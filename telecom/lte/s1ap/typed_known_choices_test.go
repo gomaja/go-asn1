@@ -7,16 +7,14 @@ import (
 	hex "encoding/hex"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s00"
 	s15 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s15"
-	s17 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s17"
 	s18 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s18"
 	s19 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s20"
 	s24 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s24"
-	s32 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s32"
 	s33 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s33"
 	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
-	s41 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s41"
-	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
+	s42 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s42"
+	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
 	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
@@ -31,7 +29,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s32.AreaScopeOfMDT
+			var value s33.AreaScopeOfMDT
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.AreaScopeOfMDTChoiceTAIBased {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -82,7 +80,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s41.LastVisitedCellItem
+			var value s42.LastVisitedCellItem
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.LastVisitedCellItemChoiceNGRANCell {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -99,7 +97,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s47.MDTMode
+			var value s48.MDTMode
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.MDTModeChoiceMDTModeExtension {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -116,7 +114,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s33.RIMRoutingAddress
+			var value s34.RIMRoutingAddress
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.RIMRoutingAddressChoiceTargetRNCID {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -133,7 +131,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s33.RIMRoutingAddress
+			var value s34.RIMRoutingAddress
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.RIMRoutingAddressChoiceEHRPDSectorID {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -490,7 +488,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s17.CellLoadReportingResponse
+			var value s18.CellLoadReportingResponse
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.CellLoadReportingResponseChoiceEHRPD {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)

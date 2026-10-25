@@ -52,18 +52,19 @@ import (
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
 )
 
-func tAIItemIEFieldFreshMust(v s33.TAIItemIEField, err error) s33.TAIItemIEField {
+func tAIItemIEFieldFreshMust(v s34.TAIItemIEField, err error) s34.TAIItemIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func tAIItemIEValueERABIEContainerListAPERValueFreshMust(v s33.TAIItemIEValueERABIEContainerListAPERValue, err error) s33.TAIItemIEValueERABIEContainerListAPERValue {
+func tAIItemIEValueERABIEContainerListAPERValueFreshMust(v s34.TAIItemIEValueERABIEContainerListAPERValue, err error) s34.TAIItemIEValueERABIEContainerListAPERValue {
 	if err != nil {
 		panic(err)
 	}
@@ -77,7 +78,7 @@ func sliceByteFreshMust(v []byte,
 	}
 	return v
 }
-func tAIItemIEFieldAPERValueFreshMust(v s33.TAIItemIEFieldAPERValue, err error) s33.TAIItemIEFieldAPERValue {
+func tAIItemIEFieldAPERValueFreshMust(v s34.TAIItemIEFieldAPERValue, err error) s34.TAIItemIEFieldAPERValue {
 	if err != nil {
 		panic(err)
 	}
@@ -121,7 +122,7 @@ func errorIndicationIEFieldConsistencyMust(value s28.ErrorIndicationIEField, err
 	}
 	return value
 }
-func eRABInformationListItemExtIEsExtFieldConsistencyMust(value s28.ERABInformationListItemExtIEsExtField, err error) s28.ERABInformationListItemExtIEsExtField {
+func eRABInformationListItemExtIEsExtFieldConsistencyMust(value s29.ERABInformationListItemExtIEsExtField, err error) s29.ERABInformationListItemExtIEsExtField {
 	if err != nil {
 		panic(err)
 	}
@@ -147,15 +148,15 @@ func errorIndicationIEFieldAPERValueConsistencyMust(value s28.ErrorIndicationIEF
 	}
 	return value
 }
-func eRABInformationListItemExtIEsExtFieldAPERValueConsistencyMust(value s28.ERABInformationListItemExtIEsExtFieldAPERValue, err error) s28.ERABInformationListItemExtIEsExtFieldAPERValue {
+func eRABInformationListItemExtIEsExtFieldAPERValueConsistencyMust(value s29.ERABInformationListItemExtIEsExtFieldAPERValue, err error) s29.ERABInformationListItemExtIEsExtFieldAPERValue {
 	if err != nil {
 		panic(err)
 	}
 	return value
 }
-func resetAcknowledgeEnvelopeMust(v s44.ResetAcknowledge,
+func resetAcknowledgeEnvelopeMust(v s45.ResetAcknowledge,
 
-	err error) s44.ResetAcknowledge {
+	err error) s45.ResetAcknowledge {
 	if err != nil {
 		panic(err)
 	}
@@ -169,9 +170,9 @@ func causeEnvelopeMust(v s14.Cause,
 	}
 	return v
 }
-func s1SetupFailureEnvelopeMust(v s26.S1SetupFailure,
+func s1SetupFailureEnvelopeMust(v s27.S1SetupFailure,
 
-	err error) s26.S1SetupFailure {
+	err error) s27.S1SetupFailure {
 	if err != nil {
 		panic(err)
 	}
@@ -183,9 +184,9 @@ func s1SetupFailureIEFieldEnvelopeMust(v s23.S1SetupFailureIEField, err error) s
 	}
 	return v
 }
-func initiatingMessageEnvelopeMust(v s51.InitiatingMessage,
+func initiatingMessageEnvelopeMust(v s52.InitiatingMessage,
 
-	err error) s51.InitiatingMessage {
+	err error) s52.InitiatingMessage {
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +200,17 @@ func errorIndicationEnvelopeMust(v s28.ErrorIndication,
 	}
 	return v
 }
-func successfulOutcomeEnvelopeMust(v s50.SuccessfulOutcome,
+func successfulOutcomeEnvelopeMust(v s51.SuccessfulOutcome,
 
-	err error) s50.SuccessfulOutcome {
+	err error) s51.SuccessfulOutcome {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func unsuccessfulOutcomeEnvelopeMust(v s36.UnsuccessfulOutcome,
+func unsuccessfulOutcomeEnvelopeMust(v s37.UnsuccessfulOutcome,
 
-	err error) s36.UnsuccessfulOutcome {
+	err error) s37.UnsuccessfulOutcome {
 	if err != nil {
 		panic(err)
 	}
@@ -245,25 +246,25 @@ func objectIdentifierEnvelopeMust(v runtime.ObjectIdentifier,
 	}
 	return v
 }
-func s1APPDUFreshMust(v s52.S1APPDU,
+func s1APPDUFreshMust(v s53.S1APPDU,
 
-	err error) s52.S1APPDU {
+	err error) s53.S1APPDU {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func initiatingMessageFreshMust(v s51.InitiatingMessage,
+func initiatingMessageFreshMust(v s52.InitiatingMessage,
 
-	err error) s51.InitiatingMessage {
+	err error) s52.InitiatingMessage {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func handoverRequiredFreshMust(v s34.HandoverRequired,
+func handoverRequiredFreshMust(v s35.HandoverRequired,
 
-	err error) s34.HandoverRequired {
+	err error) s35.HandoverRequired {
 	if err != nil {
 		panic(err)
 	}
@@ -299,31 +300,31 @@ func eNBIDFreshMust(v s15.ENBID,
 	}
 	return v
 }
-func successfulOutcomeFreshMust(v s50.SuccessfulOutcome,
+func successfulOutcomeFreshMust(v s51.SuccessfulOutcome,
 
-	err error) s50.SuccessfulOutcome {
+	err error) s51.SuccessfulOutcome {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func handoverCommandFreshMust(v s40.HandoverCommand,
+func handoverCommandFreshMust(v s41.HandoverCommand,
 
-	err error) s40.HandoverCommand {
+	err error) s41.HandoverCommand {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func handoverCommandIEFieldFreshMust(v s40.HandoverCommandIEField, err error) s40.HandoverCommandIEField {
+func handoverCommandIEFieldFreshMust(v s41.HandoverCommandIEField, err error) s41.HandoverCommandIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func unsuccessfulOutcomeFreshMust(v s36.UnsuccessfulOutcome,
+func unsuccessfulOutcomeFreshMust(v s37.UnsuccessfulOutcome,
 
-	err error) s36.UnsuccessfulOutcome {
+	err error) s37.UnsuccessfulOutcome {
 	if err != nil {
 		panic(err)
 	}
@@ -417,15 +418,15 @@ func eRABToBeSwitchedDLItemIEFieldFreshMust(v s30.ERABToBeSwitchedDLItemIEField,
 	}
 	return v
 }
-func pathSwitchRequestAcknowledgeFreshMust(v s47.PathSwitchRequestAcknowledge,
+func pathSwitchRequestAcknowledgeFreshMust(v s48.PathSwitchRequestAcknowledge,
 
-	err error) s47.PathSwitchRequestAcknowledge {
+	err error) s48.PathSwitchRequestAcknowledge {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func pathSwitchRequestAcknowledgeIEFieldFreshMust(v s46.PathSwitchRequestAcknowledgeIEField, err error) s46.PathSwitchRequestAcknowledgeIEField {
+func pathSwitchRequestAcknowledgeIEFieldFreshMust(v s47.PathSwitchRequestAcknowledgeIEField, err error) s47.PathSwitchRequestAcknowledgeIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -445,49 +446,49 @@ func pathSwitchRequestFailureIEFieldFreshMust(v s23.PathSwitchRequestFailureIEFi
 	}
 	return v
 }
-func eRABSetupRequestFreshMust(v s40.ERABSetupRequest,
+func eRABSetupRequestFreshMust(v s41.ERABSetupRequest,
 
-	err error) s40.ERABSetupRequest {
+	err error) s41.ERABSetupRequest {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABSetupRequestIEFieldFreshMust(v s40.ERABSetupRequestIEField, err error) s40.ERABSetupRequestIEField {
+func eRABSetupRequestIEFieldFreshMust(v s41.ERABSetupRequestIEField, err error) s41.ERABSetupRequestIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABToBeSetupItemBearerSUReqIEFieldFreshMust(v s29.ERABToBeSetupItemBearerSUReqIEField, err error) s29.ERABToBeSetupItemBearerSUReqIEField {
+func eRABToBeSetupItemBearerSUReqIEFieldFreshMust(v s30.ERABToBeSetupItemBearerSUReqIEField, err error) s30.ERABToBeSetupItemBearerSUReqIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABSetupResponseFreshMust(v s46.ERABSetupResponse,
+func eRABSetupResponseFreshMust(v s47.ERABSetupResponse,
 
-	err error) s46.ERABSetupResponse {
+	err error) s47.ERABSetupResponse {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABSetupResponseIEFieldFreshMust(v s45.ERABSetupResponseIEField, err error) s45.ERABSetupResponseIEField {
+func eRABSetupResponseIEFieldFreshMust(v s46.ERABSetupResponseIEField, err error) s46.ERABSetupResponseIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABModifyRequestFreshMust(v s40.ERABModifyRequest,
+func eRABModifyRequestFreshMust(v s41.ERABModifyRequest,
 
-	err error) s40.ERABModifyRequest {
+	err error) s41.ERABModifyRequest {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABModifyRequestIEFieldFreshMust(v s40.ERABModifyRequestIEField, err error) s40.ERABModifyRequestIEField {
+func eRABModifyRequestIEFieldFreshMust(v s41.ERABModifyRequestIEField, err error) s41.ERABModifyRequestIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -513,15 +514,15 @@ func eRABModifyResponseIEFieldFreshMust(v s45.ERABModifyResponseIEField, err err
 	}
 	return v
 }
-func eRABReleaseCommandFreshMust(v s39.ERABReleaseCommand,
+func eRABReleaseCommandFreshMust(v s40.ERABReleaseCommand,
 
-	err error) s39.ERABReleaseCommand {
+	err error) s40.ERABReleaseCommand {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABReleaseCommandIEFieldFreshMust(v s39.ERABReleaseCommandIEField, err error) s39.ERABReleaseCommandIEField {
+func eRABReleaseCommandIEFieldFreshMust(v s40.ERABReleaseCommandIEField, err error) s40.ERABReleaseCommandIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -555,13 +556,13 @@ func initialContextSetupRequestFreshMust(v s49.InitialContextSetupRequest,
 	}
 	return v
 }
-func initialContextSetupRequestIEFieldFreshMust(v s48.InitialContextSetupRequestIEField, err error) s48.InitialContextSetupRequestIEField {
+func initialContextSetupRequestIEFieldFreshMust(v s49.InitialContextSetupRequestIEField, err error) s49.InitialContextSetupRequestIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABToBeSetupItemCtxtSUReqIEFieldFreshMust(v s29.ERABToBeSetupItemCtxtSUReqIEField, err error) s29.ERABToBeSetupItemCtxtSUReqIEField {
+func eRABToBeSetupItemCtxtSUReqIEFieldFreshMust(v s30.ERABToBeSetupItemCtxtSUReqIEField, err error) s30.ERABToBeSetupItemCtxtSUReqIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -575,13 +576,13 @@ func initialContextSetupResponseFreshMust(v s40.InitialContextSetupResponse,
 	}
 	return v
 }
-func initialContextSetupResponseIEFieldFreshMust(v s39.InitialContextSetupResponseIEField, err error) s39.InitialContextSetupResponseIEField {
+func initialContextSetupResponseIEFieldFreshMust(v s40.InitialContextSetupResponseIEField, err error) s40.InitialContextSetupResponseIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABSetupItemCtxtSUResIEFieldFreshMust(v s16.ERABSetupItemCtxtSUResIEField, err error) s16.ERABSetupItemCtxtSUResIEField {
+func eRABSetupItemCtxtSUResIEFieldFreshMust(v s17.ERABSetupItemCtxtSUResIEField, err error) s17.ERABSetupItemCtxtSUResIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -595,7 +596,7 @@ func initialContextSetupFailureFreshMust(v s25.InitialContextSetupFailure,
 	}
 	return v
 }
-func initialContextSetupFailureIEFieldFreshMust(v s22.InitialContextSetupFailureIEField, err error) s22.InitialContextSetupFailureIEField {
+func initialContextSetupFailureIEFieldFreshMust(v s23.InitialContextSetupFailureIEField, err error) s23.InitialContextSetupFailureIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -651,7 +652,7 @@ func killResponseFreshMust(v s33.KillResponse,
 	}
 	return v
 }
-func killResponseIEFieldFreshMust(v s32.KillResponseIEField, err error) s32.KillResponseIEField {
+func killResponseIEFieldFreshMust(v s33.KillResponseIEField, err error) s33.KillResponseIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -679,9 +680,9 @@ func resetTypeFreshMust(v s36.ResetType,
 	}
 	return v
 }
-func resetAcknowledgeFreshMust(v s44.ResetAcknowledge,
+func resetAcknowledgeFreshMust(v s45.ResetAcknowledge,
 
-	err error) s44.ResetAcknowledge {
+	err error) s45.ResetAcknowledge {
 	if err != nil {
 		panic(err)
 	}
@@ -695,29 +696,29 @@ func s1SetupRequestFreshMust(v s44.S1SetupRequest,
 	}
 	return v
 }
-func s1SetupRequestIEFieldFreshMust(v s43.S1SetupRequestIEField, err error) s43.S1SetupRequestIEField {
+func s1SetupRequestIEFieldFreshMust(v s44.S1SetupRequestIEField, err error) s44.S1SetupRequestIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func s1SetupResponseFreshMust(v s43.S1SetupResponse,
+func s1SetupResponseFreshMust(v s44.S1SetupResponse,
 
-	err error) s43.S1SetupResponse {
+	err error) s44.S1SetupResponse {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func s1SetupResponseIEFieldFreshMust(v s43.S1SetupResponseIEField, err error) s43.S1SetupResponseIEField {
+func s1SetupResponseIEFieldFreshMust(v s44.S1SetupResponseIEField, err error) s44.S1SetupResponseIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func s1SetupFailureFreshMust(v s26.S1SetupFailure,
+func s1SetupFailureFreshMust(v s27.S1SetupFailure,
 
-	err error) s26.S1SetupFailure {
+	err error) s27.S1SetupFailure {
 	if err != nil {
 		panic(err)
 	}
@@ -729,23 +730,23 @@ func s1SetupFailureIEFieldFreshMust(v s23.S1SetupFailureIEField, err error) s23.
 	}
 	return v
 }
-func uEContextModificationRequestFreshMust(v s47.UEContextModificationRequest,
+func uEContextModificationRequestFreshMust(v s48.UEContextModificationRequest,
 
-	err error) s47.UEContextModificationRequest {
+	err error) s48.UEContextModificationRequest {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextModificationRequestIEFieldFreshMust(v s46.UEContextModificationRequestIEField, err error) s46.UEContextModificationRequestIEField {
+func uEContextModificationRequestIEFieldFreshMust(v s47.UEContextModificationRequestIEField, err error) s47.UEContextModificationRequestIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextModificationResponseFreshMust(v s36.UEContextModificationResponse,
+func uEContextModificationResponseFreshMust(v s37.UEContextModificationResponse,
 
-	err error) s36.UEContextModificationResponse {
+	err error) s37.UEContextModificationResponse {
 	if err != nil {
 		panic(err)
 	}
@@ -793,23 +794,23 @@ func uES1APIDsFreshMust(v s37.UES1APIDs,
 	}
 	return v
 }
-func uEContextReleaseCompleteFreshMust(v s46.UEContextReleaseComplete,
+func uEContextReleaseCompleteFreshMust(v s47.UEContextReleaseComplete,
 
-	err error) s46.UEContextReleaseComplete {
+	err error) s47.UEContextReleaseComplete {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextReleaseCompleteIEFieldFreshMust(v s45.UEContextReleaseCompleteIEField, err error) s45.UEContextReleaseCompleteIEField {
+func uEContextReleaseCompleteIEFieldFreshMust(v s46.UEContextReleaseCompleteIEField, err error) s46.UEContextReleaseCompleteIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eNBConfigurationUpdateFreshMust(v s43.ENBConfigurationUpdate,
+func eNBConfigurationUpdateFreshMust(v s44.ENBConfigurationUpdate,
 
-	err error) s43.ENBConfigurationUpdate {
+	err error) s44.ENBConfigurationUpdate {
 	if err != nil {
 		panic(err)
 	}
@@ -837,9 +838,9 @@ func eNBConfigurationUpdateFailureIEFieldFreshMust(v s22.ENBConfigurationUpdateF
 	}
 	return v
 }
-func mMEConfigurationUpdateFreshMust(v s43.MMEConfigurationUpdate,
+func mMEConfigurationUpdateFreshMust(v s44.MMEConfigurationUpdate,
 
-	err error) s43.MMEConfigurationUpdate {
+	err error) s44.MMEConfigurationUpdate {
 	if err != nil {
 		panic(err)
 	}
@@ -853,9 +854,9 @@ func mMEConfigurationUpdateAcknowledgeFreshMust(v s25.MMEConfigurationUpdateAckn
 	}
 	return v
 }
-func mMEConfigurationUpdateFailureFreshMust(v s25.MMEConfigurationUpdateFailure,
+func mMEConfigurationUpdateFailureFreshMust(v s26.MMEConfigurationUpdateFailure,
 
-	err error) s25.MMEConfigurationUpdateFailure {
+	err error) s26.MMEConfigurationUpdateFailure {
 	if err != nil {
 		panic(err)
 	}
@@ -867,9 +868,9 @@ func mMEConfigurationUpdateFailureIEFieldFreshMust(v s23.MMEConfigurationUpdateF
 	}
 	return v
 }
-func writeReplaceWarningRequestFreshMust(v s50.WriteReplaceWarningRequest,
+func writeReplaceWarningRequestFreshMust(v s51.WriteReplaceWarningRequest,
 
-	err error) s50.WriteReplaceWarningRequest {
+	err error) s51.WriteReplaceWarningRequest {
 	if err != nil {
 		panic(err)
 	}
@@ -881,23 +882,23 @@ func writeReplaceWarningRequestIEFieldFreshMust(v s33.WriteReplaceWarningRequest
 	}
 	return v
 }
-func writeReplaceWarningResponseFreshMust(v s50.WriteReplaceWarningResponse,
+func writeReplaceWarningResponseFreshMust(v s51.WriteReplaceWarningResponse,
 
-	err error) s50.WriteReplaceWarningResponse {
+	err error) s51.WriteReplaceWarningResponse {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func writeReplaceWarningResponseIEFieldFreshMust(v s32.WriteReplaceWarningResponseIEField, err error) s32.WriteReplaceWarningResponseIEField {
+func writeReplaceWarningResponseIEFieldFreshMust(v s33.WriteReplaceWarningResponseIEField, err error) s33.WriteReplaceWarningResponseIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func handoverNotifyFreshMust(v s35.HandoverNotify,
+func handoverNotifyFreshMust(v s36.HandoverNotify,
 
-	err error) s35.HandoverNotify {
+	err error) s36.HandoverNotify {
 	if err != nil {
 		panic(err)
 	}
@@ -923,15 +924,15 @@ func eRABReleaseIndicationIEFieldFreshMust(v s45.ERABReleaseIndicationIEField, e
 	}
 	return v
 }
-func pagingFreshMust(v s49.Paging,
+func pagingFreshMust(v s50.Paging,
 
-	err error) s49.Paging {
+	err error) s50.Paging {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func pagingIEFieldFreshMust(v s49.PagingIEField, err error) s49.PagingIEField {
+func pagingIEFieldFreshMust(v s50.PagingIEField, err error) s50.PagingIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -945,23 +946,23 @@ func uEPagingIDFreshMust(v s28.UEPagingID,
 	}
 	return v
 }
-func downlinkNASTransportFreshMust(v s42.DownlinkNASTransport,
+func downlinkNASTransportFreshMust(v s43.DownlinkNASTransport,
 
-	err error) s42.DownlinkNASTransport {
+	err error) s43.DownlinkNASTransport {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func downlinkNASTransportIEFieldFreshMust(v s42.DownlinkNASTransportIEField, err error) s42.DownlinkNASTransportIEField {
+func downlinkNASTransportIEFieldFreshMust(v s43.DownlinkNASTransportIEField, err error) s43.DownlinkNASTransportIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func initialUEMessageFreshMust(v s35.InitialUEMessage,
+func initialUEMessageFreshMust(v s36.InitialUEMessage,
 
-	err error) s35.InitialUEMessage {
+	err error) s36.InitialUEMessage {
 	if err != nil {
 		panic(err)
 	}
@@ -973,9 +974,9 @@ func initialUEMessageIEFieldFreshMust(v s35.InitialUEMessageIEField, err error) 
 	}
 	return v
 }
-func uplinkNASTransportFreshMust(v s44.UplinkNASTransport,
+func uplinkNASTransportFreshMust(v s45.UplinkNASTransport,
 
-	err error) s44.UplinkNASTransport {
+	err error) s45.UplinkNASTransport {
 	if err != nil {
 		panic(err)
 	}
@@ -995,9 +996,9 @@ func errorIndicationFreshMust(v s28.ErrorIndication,
 	}
 	return v
 }
-func nASNonDeliveryIndicationFreshMust(v s25.NASNonDeliveryIndication,
+func nASNonDeliveryIndicationFreshMust(v s26.NASNonDeliveryIndication,
 
-	err error) s25.NASNonDeliveryIndication {
+	err error) s26.NASNonDeliveryIndication {
 	if err != nil {
 		panic(err)
 	}
@@ -1023,9 +1024,9 @@ func uEContextReleaseRequestIEFieldFreshMust(v s43.UEContextReleaseRequestIEFiel
 	}
 	return v
 }
-func downlinkS1cdma2000tunnellingFreshMust(v s40.DownlinkS1cdma2000tunnelling,
+func downlinkS1cdma2000tunnellingFreshMust(v s41.DownlinkS1cdma2000tunnelling,
 
-	err error) s40.DownlinkS1cdma2000tunnelling {
+	err error) s41.DownlinkS1cdma2000tunnelling {
 	if err != nil {
 		panic(err)
 	}
@@ -1037,9 +1038,9 @@ func downlinkS1cdma2000tunnellingIEFieldFreshMust(v s40.DownlinkS1cdma2000tunnel
 	}
 	return v
 }
-func uplinkS1cdma2000tunnellingFreshMust(v s44.UplinkS1cdma2000tunnelling,
+func uplinkS1cdma2000tunnellingFreshMust(v s45.UplinkS1cdma2000tunnelling,
 
-	err error) s44.UplinkS1cdma2000tunnelling {
+	err error) s45.UplinkS1cdma2000tunnelling {
 	if err != nil {
 		panic(err)
 	}
@@ -1073,7 +1074,7 @@ func eNBStatusTransferFreshMust(v s24.ENBStatusTransfer,
 	}
 	return v
 }
-func eNBStatusTransferIEFieldFreshMust(v s21.ENBStatusTransferIEField, err error) s21.ENBStatusTransferIEField {
+func eNBStatusTransferIEFieldFreshMust(v s22.ENBStatusTransferIEField, err error) s22.ENBStatusTransferIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1085,9 +1086,9 @@ func bearersSubjectToStatusTransferItemIEFieldFreshMust(v s21.BearersSubjectToSt
 	}
 	return v
 }
-func mMEStatusTransferFreshMust(v s25.MMEStatusTransfer,
+func mMEStatusTransferFreshMust(v s26.MMEStatusTransfer,
 
-	err error) s25.MMEStatusTransfer {
+	err error) s26.MMEStatusTransfer {
 	if err != nil {
 		panic(err)
 	}
@@ -1121,7 +1122,7 @@ func traceStartFreshMust(v s49.TraceStart,
 	}
 	return v
 }
-func traceStartIEFieldFreshMust(v s48.TraceStartIEField, err error) s48.TraceStartIEField {
+func traceStartIEFieldFreshMust(v s49.TraceStartIEField, err error) s49.TraceStartIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1135,7 +1136,7 @@ func traceFailureIndicationFreshMust(v s35.TraceFailureIndication,
 	}
 	return v
 }
-func traceFailureIndicationIEFieldFreshMust(v s20.TraceFailureIndicationIEField, err error) s20.TraceFailureIndicationIEField {
+func traceFailureIndicationIEFieldFreshMust(v s21.TraceFailureIndicationIEField, err error) s21.TraceFailureIndicationIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1177,7 +1178,7 @@ func locationReportingFailureIndicationFreshMust(v s25.LocationReportingFailureI
 	}
 	return v
 }
-func locationReportingFailureIndicationIEFieldFreshMust(v s18.LocationReportingFailureIndicationIEField, err error) s18.LocationReportingFailureIndicationIEField {
+func locationReportingFailureIndicationIEFieldFreshMust(v s19.LocationReportingFailureIndicationIEField, err error) s19.LocationReportingFailureIndicationIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1191,21 +1192,21 @@ func locationReportFreshMust(v s33.LocationReport,
 	}
 	return v
 }
-func locationReportIEFieldFreshMust(v s31.LocationReportIEField, err error) s31.LocationReportIEField {
+func locationReportIEFieldFreshMust(v s32.LocationReportIEField, err error) s32.LocationReportIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func overloadStartFreshMust(v s41.OverloadStart,
+func overloadStartFreshMust(v s42.OverloadStart,
 
-	err error) s41.OverloadStart {
+	err error) s42.OverloadStart {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func overloadStartIEFieldFreshMust(v s41.OverloadStartIEField, err error) s41.OverloadStartIEField {
+func overloadStartIEFieldFreshMust(v s42.OverloadStartIEField, err error) s42.OverloadStartIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1219,9 +1220,9 @@ func overloadResponseFreshMust(v s20.OverloadResponse,
 	}
 	return v
 }
-func overloadStopFreshMust(v s41.OverloadStop,
+func overloadStopFreshMust(v s42.OverloadStop,
 
-	err error) s41.OverloadStop {
+	err error) s42.OverloadStop {
 	if err != nil {
 		panic(err)
 	}
@@ -1235,15 +1236,15 @@ func eNBDirectInformationTransferFreshMust(v s34.ENBDirectInformationTransfer,
 	}
 	return v
 }
-func eNBDirectInformationTransferIEFieldFreshMust(v s33.ENBDirectInformationTransferIEField, err error) s33.ENBDirectInformationTransferIEField {
+func eNBDirectInformationTransferIEFieldFreshMust(v s34.ENBDirectInformationTransferIEField, err error) s34.ENBDirectInformationTransferIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func interSystemInformationTransferTypeFreshMust(v s33.InterSystemInformationTransferType,
+func interSystemInformationTransferTypeFreshMust(v s34.InterSystemInformationTransferType,
 
-	err error) s33.InterSystemInformationTransferType {
+	err error) s34.InterSystemInformationTransferType {
 	if err != nil {
 		panic(err)
 	}
@@ -1263,17 +1264,17 @@ func mMEDirectInformationTransferIEFieldFreshMust(v s34.MMEDirectInformationTran
 	}
 	return v
 }
-func eNBConfigurationTransferFreshMust(v s51.ENBConfigurationTransfer,
+func eNBConfigurationTransferFreshMust(v s52.ENBConfigurationTransfer,
 
-	err error) s51.ENBConfigurationTransfer {
+	err error) s52.ENBConfigurationTransfer {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func mMEConfigurationTransferFreshMust(v s51.MMEConfigurationTransfer,
+func mMEConfigurationTransferFreshMust(v s52.MMEConfigurationTransfer,
 
-	err error) s51.MMEConfigurationTransfer {
+	err error) s52.MMEConfigurationTransfer {
 	if err != nil {
 		panic(err)
 	}
@@ -1287,9 +1288,9 @@ func privateMessageFreshMust(v s26.PrivateMessage,
 	}
 	return v
 }
-func uERadioCapabilityMatchRequestFreshMust(v s36.UERadioCapabilityMatchRequest,
+func uERadioCapabilityMatchRequestFreshMust(v s37.UERadioCapabilityMatchRequest,
 
-	err error) s36.UERadioCapabilityMatchRequest {
+	err error) s37.UERadioCapabilityMatchRequest {
 	if err != nil {
 		panic(err)
 	}
@@ -1323,7 +1324,7 @@ func eRABModificationIndicationFreshMust(v s46.ERABModificationIndication,
 	}
 	return v
 }
-func eRABModificationIndicationIEFieldFreshMust(v s44.ERABModificationIndicationIEField, err error) s44.ERABModificationIndicationIEField {
+func eRABModificationIndicationIEFieldFreshMust(v s45.ERABModificationIndicationIEField, err error) s45.ERABModificationIndicationIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1335,23 +1336,23 @@ func eRABToBeModifiedItemBearerModIndIEFieldFreshMust(v s17.ERABToBeModifiedItem
 	}
 	return v
 }
-func eRABModificationConfirmFreshMust(v s39.ERABModificationConfirm,
+func eRABModificationConfirmFreshMust(v s40.ERABModificationConfirm,
 
-	err error) s39.ERABModificationConfirm {
+	err error) s40.ERABModificationConfirm {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eRABModificationConfirmIEFieldFreshMust(v s39.ERABModificationConfirmIEField, err error) s39.ERABModificationConfirmIEField {
+func eRABModificationConfirmIEFieldFreshMust(v s40.ERABModificationConfirmIEField, err error) s40.ERABModificationConfirmIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextModificationIndicationFreshMust(v s36.UEContextModificationIndication,
+func uEContextModificationIndicationFreshMust(v s37.UEContextModificationIndication,
 
-	err error) s36.UEContextModificationIndication {
+	err error) s37.UEContextModificationIndication {
 	if err != nil {
 		panic(err)
 	}
@@ -1377,79 +1378,79 @@ func uEContextModificationConfirmIEFieldFreshMust(v s23.UEContextModificationCon
 	}
 	return v
 }
-func uEContextSuspendRequestFreshMust(v s46.UEContextSuspendRequest,
+func uEContextSuspendRequestFreshMust(v s47.UEContextSuspendRequest,
 
-	err error) s46.UEContextSuspendRequest {
+	err error) s47.UEContextSuspendRequest {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextSuspendRequestIEFieldFreshMust(v s45.UEContextSuspendRequestIEField, err error) s45.UEContextSuspendRequestIEField {
+func uEContextSuspendRequestIEFieldFreshMust(v s46.UEContextSuspendRequestIEField, err error) s46.UEContextSuspendRequestIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextSuspendResponseFreshMust(v s36.UEContextSuspendResponse,
+func uEContextSuspendResponseFreshMust(v s37.UEContextSuspendResponse,
 
-	err error) s36.UEContextSuspendResponse {
+	err error) s37.UEContextSuspendResponse {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextSuspendResponseIEFieldFreshMust(v s28.UEContextSuspendResponseIEField, err error) s28.UEContextSuspendResponseIEField {
+func uEContextSuspendResponseIEFieldFreshMust(v s29.UEContextSuspendResponseIEField, err error) s29.UEContextSuspendResponseIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextResumeRequestFreshMust(v s38.UEContextResumeRequest,
+func uEContextResumeRequestFreshMust(v s39.UEContextResumeRequest,
 
-	err error) s38.UEContextResumeRequest {
+	err error) s39.UEContextResumeRequest {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextResumeRequestIEFieldFreshMust(v s38.UEContextResumeRequestIEField, err error) s38.UEContextResumeRequestIEField {
+func uEContextResumeRequestIEFieldFreshMust(v s39.UEContextResumeRequestIEField, err error) s39.UEContextResumeRequestIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextResumeResponseFreshMust(v s38.UEContextResumeResponse,
+func uEContextResumeResponseFreshMust(v s39.UEContextResumeResponse,
 
-	err error) s38.UEContextResumeResponse {
+	err error) s39.UEContextResumeResponse {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextResumeResponseIEFieldFreshMust(v s38.UEContextResumeResponseIEField, err error) s38.UEContextResumeResponseIEField {
+func uEContextResumeResponseIEFieldFreshMust(v s39.UEContextResumeResponseIEField, err error) s39.UEContextResumeResponseIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextResumeFailureFreshMust(v s36.UEContextResumeFailure,
+func uEContextResumeFailureFreshMust(v s37.UEContextResumeFailure,
 
-	err error) s36.UEContextResumeFailure {
+	err error) s37.UEContextResumeFailure {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uEContextResumeFailureIEFieldFreshMust(v s23.UEContextResumeFailureIEField, err error) s23.UEContextResumeFailureIEField {
+func uEContextResumeFailureIEFieldFreshMust(v s24.UEContextResumeFailureIEField, err error) s24.UEContextResumeFailureIEField {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func uERadioCapabilityIDMappingRequestFreshMust(v s36.UERadioCapabilityIDMappingRequest,
+func uERadioCapabilityIDMappingRequestFreshMust(v s37.UERadioCapabilityIDMappingRequest,
 
-	err error) s36.UERadioCapabilityIDMappingRequest {
+	err error) s37.UERadioCapabilityIDMappingRequest {
 	if err != nil {
 		panic(err)
 	}
@@ -1461,9 +1462,9 @@ func uERadioCapabilityIDMappingRequestIEFieldFreshMust(v s12.UERadioCapabilityID
 	}
 	return v
 }
-func uERadioCapabilityIDMappingResponseFreshMust(v s36.UERadioCapabilityIDMappingResponse,
+func uERadioCapabilityIDMappingResponseFreshMust(v s37.UERadioCapabilityIDMappingResponse,
 
-	err error) s36.UERadioCapabilityIDMappingResponse {
+	err error) s37.UERadioCapabilityIDMappingResponse {
 	if err != nil {
 		panic(err)
 	}
@@ -1475,9 +1476,9 @@ func uERadioCapabilityIDMappingResponseIEFieldFreshMust(v s24.UERadioCapabilityI
 	}
 	return v
 }
-func s1RemovalRequestFreshMust(v s26.S1RemovalRequest,
+func s1RemovalRequestFreshMust(v s27.S1RemovalRequest,
 
-	err error) s26.S1RemovalRequest {
+	err error) s27.S1RemovalRequest {
 	if err != nil {
 		panic(err)
 	}
@@ -1489,17 +1490,17 @@ func s1RemovalRequestIEFieldFreshMust(v s20.S1RemovalRequestIEField, err error) 
 	}
 	return v
 }
-func s1RemovalResponseFreshMust(v s26.S1RemovalResponse,
+func s1RemovalResponseFreshMust(v s27.S1RemovalResponse,
 
-	err error) s26.S1RemovalResponse {
+	err error) s27.S1RemovalResponse {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func s1RemovalFailureFreshMust(v s26.S1RemovalFailure,
+func s1RemovalFailureFreshMust(v s27.S1RemovalFailure,
 
-	err error) s26.S1RemovalFailure {
+	err error) s27.S1RemovalFailure {
 	if err != nil {
 		panic(err)
 	}
@@ -1525,9 +1526,9 @@ func downlinkUEAssociatedLPPaTransportIEFieldFreshMust(v s08.DownlinkUEAssociate
 	}
 	return v
 }
-func uplinkUEAssociatedLPPaTransportFreshMust(v s44.UplinkUEAssociatedLPPaTransport,
+func uplinkUEAssociatedLPPaTransportFreshMust(v s45.UplinkUEAssociatedLPPaTransport,
 
-	err error) s44.UplinkUEAssociatedLPPaTransport {
+	err error) s45.UplinkUEAssociatedLPPaTransport {
 	if err != nil {
 		panic(err)
 	}
@@ -1553,9 +1554,9 @@ func downlinkNonUEAssociatedLPPaTransportIEFieldFreshMust(v s08.DownlinkNonUEAss
 	}
 	return v
 }
-func uplinkNonUEAssociatedLPPaTransportFreshMust(v s44.UplinkNonUEAssociatedLPPaTransport,
+func uplinkNonUEAssociatedLPPaTransportFreshMust(v s45.UplinkNonUEAssociatedLPPaTransport,
 
-	err error) s44.UplinkNonUEAssociatedLPPaTransport {
+	err error) s45.UplinkNonUEAssociatedLPPaTransport {
 	if err != nil {
 		panic(err)
 	}
@@ -1581,9 +1582,9 @@ func pWSRestartIndicationIEFieldFreshMust(v s44.PWSRestartIndicationIEField, err
 	}
 	return v
 }
-func rerouteNASRequestFreshMust(v s26.RerouteNASRequest,
+func rerouteNASRequestFreshMust(v s27.RerouteNASRequest,
 
-	err error) s26.RerouteNASRequest {
+	err error) s27.RerouteNASRequest {
 	if err != nil {
 		panic(err)
 	}
@@ -1595,15 +1596,15 @@ func rerouteNASRequestIEFieldFreshMust(v s20.RerouteNASRequestIEField, err error
 	}
 	return v
 }
-func pWSFailureIndicationFreshMust(v s42.PWSFailureIndication,
+func pWSFailureIndicationFreshMust(v s43.PWSFailureIndication,
 
-	err error) s42.PWSFailureIndication {
+	err error) s43.PWSFailureIndication {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func pWSFailureIndicationIEFieldFreshMust(v s42.PWSFailureIndicationIEField, err error) s42.PWSFailureIndicationIEField {
+func pWSFailureIndicationIEFieldFreshMust(v s43.PWSFailureIndicationIEField, err error) s43.PWSFailureIndicationIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1651,9 +1652,9 @@ func retrieveUEInformationIEFieldFreshMust(v s28.RetrieveUEInformationIEField, e
 	}
 	return v
 }
-func uEInformationTransferFreshMust(v s36.UEInformationTransfer,
+func uEInformationTransferFreshMust(v s37.UEInformationTransfer,
 
-	err error) s36.UEInformationTransfer {
+	err error) s37.UEInformationTransfer {
 	if err != nil {
 		panic(err)
 	}
@@ -1665,15 +1666,15 @@ func uEInformationTransferIEFieldFreshMust(v s31.UEInformationTransferIEField, e
 	}
 	return v
 }
-func eNBCPRelocationIndicationFreshMust(v s37.ENBCPRelocationIndication,
+func eNBCPRelocationIndicationFreshMust(v s38.ENBCPRelocationIndication,
 
-	err error) s37.ENBCPRelocationIndication {
+	err error) s38.ENBCPRelocationIndication {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func eNBCPRelocationIndicationIEFieldFreshMust(v s37.ENBCPRelocationIndicationIEField, err error) s37.ENBCPRelocationIndicationIEField {
+func eNBCPRelocationIndicationIEFieldFreshMust(v s38.ENBCPRelocationIndicationIEField, err error) s38.ENBCPRelocationIndicationIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1693,15 +1694,15 @@ func mMECPRelocationIndicationIEFieldFreshMust(v s10.MMECPRelocationIndicationIE
 	}
 	return v
 }
-func secondaryRATDataUsageReportFreshMust(v s46.SecondaryRATDataUsageReport,
+func secondaryRATDataUsageReportFreshMust(v s47.SecondaryRATDataUsageReport,
 
-	err error) s46.SecondaryRATDataUsageReport {
+	err error) s47.SecondaryRATDataUsageReport {
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
-func secondaryRATDataUsageReportIEFieldFreshMust(v s45.SecondaryRATDataUsageReportIEField, err error) s45.SecondaryRATDataUsageReportIEField {
+func secondaryRATDataUsageReportIEFieldFreshMust(v s46.SecondaryRATDataUsageReportIEField, err error) s46.SecondaryRATDataUsageReportIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1741,7 +1742,7 @@ func eNBEarlyStatusTransferFreshMust(v s38.ENBEarlyStatusTransfer,
 	}
 	return v
 }
-func eNBEarlyStatusTransferIEFieldFreshMust(v s37.ENBEarlyStatusTransferIEField, err error) s37.ENBEarlyStatusTransferIEField {
+func eNBEarlyStatusTransferIEFieldFreshMust(v s38.ENBEarlyStatusTransferIEField, err error) s38.ENBEarlyStatusTransferIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1753,9 +1754,9 @@ func bearersSubjectToEarlyStatusTransferItemIEFieldFreshMust(v s15.BearersSubjec
 	}
 	return v
 }
-func dLCOUNTPDCPSNlengthFreshMust(v s14.DLCOUNTPDCPSNlength,
+func dLCOUNTPDCPSNlengthFreshMust(v s15.DLCOUNTPDCPSNlength,
 
-	err error) s14.DLCOUNTPDCPSNlength {
+	err error) s15.DLCOUNTPDCPSNlength {
 	if err != nil {
 		panic(err)
 	}
@@ -1769,7 +1770,7 @@ func mMEEarlyStatusTransferFreshMust(v s38.MMEEarlyStatusTransfer,
 	}
 	return v
 }
-func mMEEarlyStatusTransferIEFieldFreshMust(v s37.MMEEarlyStatusTransferIEField, err error) s37.MMEEarlyStatusTransferIEField {
+func mMEEarlyStatusTransferIEFieldFreshMust(v s38.MMEEarlyStatusTransferIEField, err error) s38.MMEEarlyStatusTransferIEField {
 	if err != nil {
 		panic(err)
 	}
@@ -1826,7 +1827,7 @@ type ErrorIndicationSuccessfulBinding struct {
 		error)
 	inject func(s28.ErrorIndication,
 
-	) s50.SuccessfulValue
+	) s51.SuccessfulValue
 }
 
 // Info returns the source descriptor for this binding.
@@ -1857,32 +1858,32 @@ func (b ErrorIndicationSuccessfulBinding) Codec() s28.ErrorIndicationValueCodec 
 // Build validates a body and constructs its bound procedure message.
 func (b ErrorIndicationSuccessfulBinding) Build(body s28.ErrorIndication,
 
-	options ...aper.BuildOption) (s50.SuccessfulOutcome, error) {
+	options ...aper.BuildOption) (s51.SuccessfulOutcome, error) {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s50.SuccessfulOutcome{}, aper.OperationError(aper.ErrInvalidValue, "Build")
+		return s51.SuccessfulOutcome{}, aper.OperationError(aper.ErrInvalidValue, "Build")
 	}
 	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return s50.SuccessfulOutcome{}, aper.OperationError(err, "Build")
+		return s51.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return s50.SuccessfulOutcome{}, aper.OperationError(err, "Build")
+		return s51.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return s50.SuccessfulOutcome{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
+		return s51.SuccessfulOutcome{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
 	}
 	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return s50.SuccessfulOutcome{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
+		return s51.SuccessfulOutcome{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return s50.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("successfulOutcome.value: %w", err), "Build")
+		return s51.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("successfulOutcome.value: %w", err), "Build")
 	}
 	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return s50.SuccessfulOutcome{}, aper.OperationError(err, "Build")
+		return s51.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	return s50.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
+	return s51.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
 type ErrorIndicationUnsuccessfulBinding struct {
@@ -1907,7 +1908,7 @@ type ErrorIndicationUnsuccessfulBinding struct {
 		error)
 	inject func(s28.ErrorIndication,
 
-	) s36.UnsuccessfulValue
+	) s37.UnsuccessfulValue
 }
 
 // Info returns the source descriptor for this binding.
@@ -1938,32 +1939,32 @@ func (b ErrorIndicationUnsuccessfulBinding) Codec() s28.ErrorIndicationValueCode
 // Build validates a body and constructs its bound procedure message.
 func (b ErrorIndicationUnsuccessfulBinding) Build(body s28.ErrorIndication,
 
-	options ...aper.BuildOption) (s36.UnsuccessfulOutcome, error) {
+	options ...aper.BuildOption) (s37.UnsuccessfulOutcome, error) {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s36.UnsuccessfulOutcome{}, aper.OperationError(aper.ErrInvalidValue, "Build")
+		return s37.UnsuccessfulOutcome{}, aper.OperationError(aper.ErrInvalidValue, "Build")
 	}
 	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return s36.UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
+		return s37.UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return s36.UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
+		return s37.UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return s36.UnsuccessfulOutcome{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
+		return s37.UnsuccessfulOutcome{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
 	}
 	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return s36.UnsuccessfulOutcome{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
+		return s37.UnsuccessfulOutcome{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return s36.UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("unsuccessfulOutcome.value: %w", err), "Build")
+		return s37.UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("unsuccessfulOutcome.value: %w", err), "Build")
 	}
 	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return s36.UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
+		return s37.UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	return s36.UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
+	return s37.UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 func nASPDUAPERValueFreshMust(v s01.NASPDUAPERValue, err error) s01.NASPDUAPERValue {
 	if err != nil {
@@ -1977,7 +1978,7 @@ func pLMNidentityAPERValueFreshMust(v s01.PLMNidentityAPERValue, err error) s01.
 	}
 	return v
 }
-func tAIItemIEContainerAPERValueFreshMust(v s33.TAIItemIEContainerAPERValue, err error) s33.TAIItemIEContainerAPERValue {
+func tAIItemIEContainerAPERValueFreshMust(v s34.TAIItemIEContainerAPERValue, err error) s34.TAIItemIEContainerAPERValue {
 	if err != nil {
 		panic(err)
 	}
@@ -2355,10 +2356,10 @@ func deactivateTraceIEValueRequireZeroIDSelection(t *testing.T, selected, opaque
 		}
 	}
 }
-func downlinkNASTransportIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s42.DownlinkNASTransportIEField) {
+func downlinkNASTransportIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s43.DownlinkNASTransportIEField) {
 	t.Helper()
-	zero := s42.DownlinkNASTransportIEField{Id: 0, Criticality: selected.Criticality}
-	report := s42.BridgeDownlinkNASTransportIEValueValidateS1APIEContainer(s42.DownlinkNASTransportIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s43.DownlinkNASTransportIEField{Id: 0, Criticality: selected.Criticality}
+	report := s43.BridgeDownlinkNASTransportIEValueValidateS1APIEContainer(s43.DownlinkNASTransportIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2367,16 +2368,16 @@ func downlinkNASTransportIEValueRequireZeroIDSelection(t *testing.T, selected, o
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s42.BridgeDownlinkNASTransportIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s43.BridgeDownlinkNASTransportIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s42.DownlinkNASTransportIEField{selected, opaque} {
-		if !s42.BridgeDownlinkNASTransportIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s43.DownlinkNASTransportIEField{selected, opaque} {
+		if !s43.BridgeDownlinkNASTransportIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s42.BridgeDownlinkNASTransportIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s43.BridgeDownlinkNASTransportIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -2384,7 +2385,7 @@ func downlinkNASTransportIEValueRequireZeroIDSelection(t *testing.T, selected, o
 func downlinkS1cdma2000tunnellingIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s40.DownlinkS1cdma2000tunnellingIEField) {
 	t.Helper()
 	zero := s40.DownlinkS1cdma2000tunnellingIEField{Id: 0, Criticality: selected.Criticality}
-	report := s40.BridgeDownlinkS1cdma2000tunnellingIEValueValidateS1APIEContainer(s40.DownlinkS1cdma2000tunnellingIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s41.BridgeDownlinkS1cdma2000tunnellingIEValueValidateS1APIEContainer(s40.DownlinkS1cdma2000tunnellingIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2433,10 +2434,10 @@ func downlinkUEAssociatedLPPaTransportIEValueRequireZeroIDSelection(t *testing.T
 		}
 	}
 }
-func eRABModificationConfirmIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s39.ERABModificationConfirmIEField) {
+func eRABModificationConfirmIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s40.ERABModificationConfirmIEField) {
 	t.Helper()
-	zero := s39.ERABModificationConfirmIEField{Id: 0, Criticality: selected.Criticality}
-	report := s39.BridgeERABModificationConfirmIEValueValidateS1APIEContainer(s39.ERABModificationConfirmIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s40.ERABModificationConfirmIEField{Id: 0, Criticality: selected.Criticality}
+	report := s40.BridgeERABModificationConfirmIEValueValidateS1APIEContainer(s40.ERABModificationConfirmIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2445,24 +2446,24 @@ func eRABModificationConfirmIEValueRequireZeroIDSelection(t *testing.T, selected
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s39.BridgeERABModificationConfirmIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s40.BridgeERABModificationConfirmIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s39.ERABModificationConfirmIEField{selected, opaque} {
-		if !s39.BridgeERABModificationConfirmIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s40.ERABModificationConfirmIEField{selected, opaque} {
+		if !s40.BridgeERABModificationConfirmIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s39.BridgeERABModificationConfirmIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s40.BridgeERABModificationConfirmIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func eRABModificationIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s44.ERABModificationIndicationIEField) {
+func eRABModificationIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s45.ERABModificationIndicationIEField) {
 	t.Helper()
-	zero := s44.ERABModificationIndicationIEField{Id: 0, Criticality: selected.Criticality}
-	report := s46.BridgeERABModificationIndicationIEValueValidateS1APIEContainer(s44.ERABModificationIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s45.ERABModificationIndicationIEField{Id: 0, Criticality: selected.Criticality}
+	report := s46.BridgeERABModificationIndicationIEValueValidateS1APIEContainer(s45.ERABModificationIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2471,24 +2472,24 @@ func eRABModificationIndicationIEValueRequireZeroIDSelection(t *testing.T, selec
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s44.BridgeERABModificationIndicationIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s45.BridgeERABModificationIndicationIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s44.ERABModificationIndicationIEField{selected, opaque} {
-		if !s44.BridgeERABModificationIndicationIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s45.ERABModificationIndicationIEField{selected, opaque} {
+		if !s45.BridgeERABModificationIndicationIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s44.BridgeERABModificationIndicationIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s45.BridgeERABModificationIndicationIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func eRABModifyRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s40.ERABModifyRequestIEField) {
+func eRABModifyRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s41.ERABModifyRequestIEField) {
 	t.Helper()
-	zero := s40.ERABModifyRequestIEField{Id: 0, Criticality: selected.Criticality}
-	report := s40.BridgeERABModifyRequestIEValueValidateS1APIEContainer(s40.ERABModifyRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s41.ERABModifyRequestIEField{Id: 0, Criticality: selected.Criticality}
+	report := s41.BridgeERABModifyRequestIEValueValidateS1APIEContainer(s41.ERABModifyRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2497,16 +2498,16 @@ func eRABModifyRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaq
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s40.BridgeERABModifyRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s41.BridgeERABModifyRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s40.ERABModifyRequestIEField{selected, opaque} {
-		if !s40.BridgeERABModifyRequestIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s41.ERABModifyRequestIEField{selected, opaque} {
+		if !s41.BridgeERABModifyRequestIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s40.BridgeERABModifyRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s41.BridgeERABModifyRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -2537,10 +2538,10 @@ func eRABModifyResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opa
 		}
 	}
 }
-func eRABReleaseCommandIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s39.ERABReleaseCommandIEField) {
+func eRABReleaseCommandIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s40.ERABReleaseCommandIEField) {
 	t.Helper()
-	zero := s39.ERABReleaseCommandIEField{Id: 0, Criticality: selected.Criticality}
-	report := s39.BridgeERABReleaseCommandIEValueValidateS1APIEContainer(s39.ERABReleaseCommandIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s40.ERABReleaseCommandIEField{Id: 0, Criticality: selected.Criticality}
+	report := s40.BridgeERABReleaseCommandIEValueValidateS1APIEContainer(s40.ERABReleaseCommandIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2549,16 +2550,16 @@ func eRABReleaseCommandIEValueRequireZeroIDSelection(t *testing.T, selected, opa
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s39.BridgeERABReleaseCommandIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s40.BridgeERABReleaseCommandIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s39.ERABReleaseCommandIEField{selected, opaque} {
-		if !s39.BridgeERABReleaseCommandIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s40.ERABReleaseCommandIEField{selected, opaque} {
+		if !s40.BridgeERABReleaseCommandIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s39.BridgeERABReleaseCommandIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s40.BridgeERABReleaseCommandIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -2615,10 +2616,10 @@ func eRABReleaseResponseIEValueRequireZeroIDSelection(t *testing.T, selected, op
 		}
 	}
 }
-func eRABSetupRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s40.ERABSetupRequestIEField) {
+func eRABSetupRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s41.ERABSetupRequestIEField) {
 	t.Helper()
-	zero := s40.ERABSetupRequestIEField{Id: 0, Criticality: selected.Criticality}
-	report := s40.BridgeERABSetupRequestIEValueValidateS1APIEContainer(s40.ERABSetupRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s41.ERABSetupRequestIEField{Id: 0, Criticality: selected.Criticality}
+	report := s41.BridgeERABSetupRequestIEValueValidateS1APIEContainer(s41.ERABSetupRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2627,24 +2628,24 @@ func eRABSetupRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaqu
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s40.BridgeERABSetupRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s41.BridgeERABSetupRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s40.ERABSetupRequestIEField{selected, opaque} {
-		if !s40.BridgeERABSetupRequestIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s41.ERABSetupRequestIEField{selected, opaque} {
+		if !s41.BridgeERABSetupRequestIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s40.BridgeERABSetupRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s41.BridgeERABSetupRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func eRABSetupResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s45.ERABSetupResponseIEField) {
+func eRABSetupResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s46.ERABSetupResponseIEField) {
 	t.Helper()
-	zero := s45.ERABSetupResponseIEField{Id: 0, Criticality: selected.Criticality}
-	report := s46.BridgeERABSetupResponseIEValueValidateS1APIEContainer(s45.ERABSetupResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s46.ERABSetupResponseIEField{Id: 0, Criticality: selected.Criticality}
+	report := s47.BridgeERABSetupResponseIEValueValidateS1APIEContainer(s46.ERABSetupResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2653,24 +2654,24 @@ func eRABSetupResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaq
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s45.BridgeERABSetupResponseIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s46.BridgeERABSetupResponseIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s45.ERABSetupResponseIEField{selected, opaque} {
-		if !s45.BridgeERABSetupResponseIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s46.ERABSetupResponseIEField{selected, opaque} {
+		if !s46.BridgeERABSetupResponseIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s45.BridgeERABSetupResponseIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s46.BridgeERABSetupResponseIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func eNBEarlyStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s37.ENBEarlyStatusTransferIEField) {
+func eNBEarlyStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s38.ENBEarlyStatusTransferIEField) {
 	t.Helper()
-	zero := s37.ENBEarlyStatusTransferIEField{Id: 0, Criticality: selected.Criticality}
-	report := s38.BridgeENBEarlyStatusTransferIEValueValidateS1APIEContainer(s37.ENBEarlyStatusTransferIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s38.ENBEarlyStatusTransferIEField{Id: 0, Criticality: selected.Criticality}
+	report := s38.BridgeENBEarlyStatusTransferIEValueValidateS1APIEContainer(s38.ENBEarlyStatusTransferIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2679,24 +2680,24 @@ func eNBEarlyStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected,
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s37.BridgeENBEarlyStatusTransferIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s38.BridgeENBEarlyStatusTransferIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s37.ENBEarlyStatusTransferIEField{selected, opaque} {
-		if !s37.BridgeENBEarlyStatusTransferIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s38.ENBEarlyStatusTransferIEField{selected, opaque} {
+		if !s38.BridgeENBEarlyStatusTransferIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s37.BridgeENBEarlyStatusTransferIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s38.BridgeENBEarlyStatusTransferIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func eNBStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s21.ENBStatusTransferIEField) {
+func eNBStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s22.ENBStatusTransferIEField) {
 	t.Helper()
-	zero := s21.ENBStatusTransferIEField{Id: 0, Criticality: selected.Criticality}
-	report := s27.BridgeENBStatusTransferIEValueValidateS1APIEContainer(s21.ENBStatusTransferIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s22.ENBStatusTransferIEField{Id: 0, Criticality: selected.Criticality}
+	report := s27.BridgeENBStatusTransferIEValueValidateS1APIEContainer(s22.ENBStatusTransferIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2705,16 +2706,16 @@ func eNBStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected, opaq
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s21.BridgeENBStatusTransferIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s22.BridgeENBStatusTransferIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s21.ENBStatusTransferIEField{selected, opaque} {
-		if !s21.BridgeENBStatusTransferIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s22.ENBStatusTransferIEField{selected, opaque} {
+		if !s22.BridgeENBStatusTransferIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s21.BridgeENBStatusTransferIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s22.BridgeENBStatusTransferIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -2797,10 +2798,10 @@ func handoverCancelIEValueRequireZeroIDSelection(t *testing.T, selected, opaque 
 		}
 	}
 }
-func handoverCommandIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s40.HandoverCommandIEField) {
+func handoverCommandIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s41.HandoverCommandIEField) {
 	t.Helper()
-	zero := s40.HandoverCommandIEField{Id: 0, Criticality: selected.Criticality}
-	report := s40.BridgeHandoverCommandIEValueValidateS1APIEContainer(s40.HandoverCommandIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s41.HandoverCommandIEField{Id: 0, Criticality: selected.Criticality}
+	report := s41.BridgeHandoverCommandIEValueValidateS1APIEContainer(s41.HandoverCommandIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2809,16 +2810,16 @@ func handoverCommandIEValueRequireZeroIDSelection(t *testing.T, selected, opaque
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s40.BridgeHandoverCommandIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s41.BridgeHandoverCommandIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s40.HandoverCommandIEField{selected, opaque} {
-		if !s40.BridgeHandoverCommandIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s41.HandoverCommandIEField{selected, opaque} {
+		if !s41.BridgeHandoverCommandIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s40.BridgeHandoverCommandIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s41.BridgeHandoverCommandIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -2852,7 +2853,7 @@ func handoverFailureIEValueRequireZeroIDSelection(t *testing.T, selected, opaque
 func handoverNotifyIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s35.HandoverNotifyIEField) {
 	t.Helper()
 	zero := s35.HandoverNotifyIEField{Id: 0, Criticality: selected.Criticality}
-	report := s35.BridgeHandoverNotifyIEValueValidateS1APIEContainer(s35.HandoverNotifyIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s36.BridgeHandoverNotifyIEValueValidateS1APIEContainer(s35.HandoverNotifyIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -2956,7 +2957,7 @@ func handoverRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque
 func handoverRequiredIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s34.HandoverRequiredIEField) {
 	t.Helper()
 	zero := s34.HandoverRequiredIEField{Id: 0, Criticality: selected.Criticality}
-	report := s34.BridgeHandoverRequiredIEValueValidateS1APIEContainer(s34.HandoverRequiredIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s35.BridgeHandoverRequiredIEValueValidateS1APIEContainer(s34.HandoverRequiredIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3005,10 +3006,10 @@ func handoverSuccessIEValueRequireZeroIDSelection(t *testing.T, selected, opaque
 		}
 	}
 }
-func initialContextSetupFailureIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s22.InitialContextSetupFailureIEField) {
+func initialContextSetupFailureIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s23.InitialContextSetupFailureIEField) {
 	t.Helper()
-	zero := s22.InitialContextSetupFailureIEField{Id: 0, Criticality: selected.Criticality}
-	report := s27.BridgeInitialContextSetupFailureIEValueValidateS1APIEContainer(s22.InitialContextSetupFailureIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s23.InitialContextSetupFailureIEField{Id: 0, Criticality: selected.Criticality}
+	report := s27.BridgeInitialContextSetupFailureIEValueValidateS1APIEContainer(s23.InitialContextSetupFailureIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3017,24 +3018,24 @@ func initialContextSetupFailureIEValueRequireZeroIDSelection(t *testing.T, selec
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s22.BridgeInitialContextSetupFailureIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s23.BridgeInitialContextSetupFailureIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s22.InitialContextSetupFailureIEField{selected, opaque} {
-		if !s22.BridgeInitialContextSetupFailureIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s23.InitialContextSetupFailureIEField{selected, opaque} {
+		if !s23.BridgeInitialContextSetupFailureIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s22.BridgeInitialContextSetupFailureIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s23.BridgeInitialContextSetupFailureIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func initialContextSetupRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s48.InitialContextSetupRequestIEField) {
+func initialContextSetupRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s49.InitialContextSetupRequestIEField) {
 	t.Helper()
-	zero := s48.InitialContextSetupRequestIEField{Id: 0, Criticality: selected.Criticality}
-	report := s49.BridgeInitialContextSetupRequestIEValueValidateS1APIEContainer(s48.InitialContextSetupRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s49.InitialContextSetupRequestIEField{Id: 0, Criticality: selected.Criticality}
+	report := s49.BridgeInitialContextSetupRequestIEValueValidateS1APIEContainer(s49.InitialContextSetupRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3043,24 +3044,24 @@ func initialContextSetupRequestIEValueRequireZeroIDSelection(t *testing.T, selec
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s48.BridgeInitialContextSetupRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s49.BridgeInitialContextSetupRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s48.InitialContextSetupRequestIEField{selected, opaque} {
-		if !s48.BridgeInitialContextSetupRequestIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s49.InitialContextSetupRequestIEField{selected, opaque} {
+		if !s49.BridgeInitialContextSetupRequestIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s48.BridgeInitialContextSetupRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s49.BridgeInitialContextSetupRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func initialContextSetupResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s39.InitialContextSetupResponseIEField) {
+func initialContextSetupResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s40.InitialContextSetupResponseIEField) {
 	t.Helper()
-	zero := s39.InitialContextSetupResponseIEField{Id: 0, Criticality: selected.Criticality}
-	report := s40.BridgeInitialContextSetupResponseIEValueValidateS1APIEContainer(s39.InitialContextSetupResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s40.InitialContextSetupResponseIEField{Id: 0, Criticality: selected.Criticality}
+	report := s40.BridgeInitialContextSetupResponseIEValueValidateS1APIEContainer(s40.InitialContextSetupResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3069,24 +3070,24 @@ func initialContextSetupResponseIEValueRequireZeroIDSelection(t *testing.T, sele
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s39.BridgeInitialContextSetupResponseIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s40.BridgeInitialContextSetupResponseIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s39.InitialContextSetupResponseIEField{selected, opaque} {
-		if !s39.BridgeInitialContextSetupResponseIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s40.InitialContextSetupResponseIEField{selected, opaque} {
+		if !s40.BridgeInitialContextSetupResponseIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s39.BridgeInitialContextSetupResponseIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s40.BridgeInitialContextSetupResponseIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func locationReportIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s31.LocationReportIEField) {
+func locationReportIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s32.LocationReportIEField) {
 	t.Helper()
-	zero := s31.LocationReportIEField{Id: 0, Criticality: selected.Criticality}
-	report := s33.BridgeLocationReportIEValueValidateS1APIEContainer(s31.LocationReportIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s32.LocationReportIEField{Id: 0, Criticality: selected.Criticality}
+	report := s33.BridgeLocationReportIEValueValidateS1APIEContainer(s32.LocationReportIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3095,16 +3096,16 @@ func locationReportIEValueRequireZeroIDSelection(t *testing.T, selected, opaque 
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s31.BridgeLocationReportIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s32.BridgeLocationReportIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s31.LocationReportIEField{selected, opaque} {
-		if !s31.BridgeLocationReportIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s32.LocationReportIEField{selected, opaque} {
+		if !s32.BridgeLocationReportIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s31.BridgeLocationReportIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s32.BridgeLocationReportIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -3112,7 +3113,7 @@ func locationReportIEValueRequireZeroIDSelection(t *testing.T, selected, opaque 
 func locationReportingControlIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s26.LocationReportingControlIEField) {
 	t.Helper()
 	zero := s26.LocationReportingControlIEField{Id: 0, Criticality: selected.Criticality}
-	report := s27.BridgeLocationReportingControlIEValueValidateS1APIEContainer(s26.LocationReportingControlIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s28.BridgeLocationReportingControlIEValueValidateS1APIEContainer(s26.LocationReportingControlIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3135,10 +3136,10 @@ func locationReportingControlIEValueRequireZeroIDSelection(t *testing.T, selecte
 		}
 	}
 }
-func locationReportingFailureIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s18.LocationReportingFailureIndicationIEField) {
+func locationReportingFailureIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s19.LocationReportingFailureIndicationIEField) {
 	t.Helper()
-	zero := s18.LocationReportingFailureIndicationIEField{Id: 0, Criticality: selected.Criticality}
-	report := s27.BridgeLocationReportingFailureIndicationIEValueValidateS1APIEContainer(s18.LocationReportingFailureIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s19.LocationReportingFailureIndicationIEField{Id: 0, Criticality: selected.Criticality}
+	report := s28.BridgeLocationReportingFailureIndicationIEValueValidateS1APIEContainer(s19.LocationReportingFailureIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3147,16 +3148,16 @@ func locationReportingFailureIndicationIEValueRequireZeroIDSelection(t *testing.
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s18.BridgeLocationReportingFailureIndicationIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s19.BridgeLocationReportingFailureIndicationIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s18.LocationReportingFailureIndicationIEField{selected, opaque} {
-		if !s18.BridgeLocationReportingFailureIndicationIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s19.LocationReportingFailureIndicationIEField{selected, opaque} {
+		if !s19.BridgeLocationReportingFailureIndicationIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s18.BridgeLocationReportingFailureIndicationIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s19.BridgeLocationReportingFailureIndicationIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -3164,7 +3165,7 @@ func locationReportingFailureIndicationIEValueRequireZeroIDSelection(t *testing.
 func mMECPRelocationIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s10.MMECPRelocationIndicationIEField) {
 	t.Helper()
 	zero := s10.MMECPRelocationIndicationIEField{Id: 0, Criticality: selected.Criticality}
-	report := s27.BridgeMMECPRelocationIndicationIEValueValidateS1APIEContainer(s10.MMECPRelocationIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s28.BridgeMMECPRelocationIndicationIEValueValidateS1APIEContainer(s10.MMECPRelocationIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3187,10 +3188,10 @@ func mMECPRelocationIndicationIEValueRequireZeroIDSelection(t *testing.T, select
 		}
 	}
 }
-func mMEEarlyStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s37.MMEEarlyStatusTransferIEField) {
+func mMEEarlyStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s38.MMEEarlyStatusTransferIEField) {
 	t.Helper()
-	zero := s37.MMEEarlyStatusTransferIEField{Id: 0, Criticality: selected.Criticality}
-	report := s38.BridgeMMEEarlyStatusTransferIEValueValidateS1APIEContainer(s37.MMEEarlyStatusTransferIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s38.MMEEarlyStatusTransferIEField{Id: 0, Criticality: selected.Criticality}
+	report := s38.BridgeMMEEarlyStatusTransferIEValueValidateS1APIEContainer(s38.MMEEarlyStatusTransferIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3199,16 +3200,16 @@ func mMEEarlyStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected,
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s37.BridgeMMEEarlyStatusTransferIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s38.BridgeMMEEarlyStatusTransferIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s37.MMEEarlyStatusTransferIEField{selected, opaque} {
-		if !s37.BridgeMMEEarlyStatusTransferIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s38.MMEEarlyStatusTransferIEField{selected, opaque} {
+		if !s38.BridgeMMEEarlyStatusTransferIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s37.BridgeMMEEarlyStatusTransferIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s38.BridgeMMEEarlyStatusTransferIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -3216,7 +3217,7 @@ func mMEEarlyStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected,
 func mMEStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s22.MMEStatusTransferIEField) {
 	t.Helper()
 	zero := s22.MMEStatusTransferIEField{Id: 0, Criticality: selected.Criticality}
-	report := s27.BridgeMMEStatusTransferIEValueValidateS1APIEContainer(s22.MMEStatusTransferIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s28.BridgeMMEStatusTransferIEValueValidateS1APIEContainer(s22.MMEStatusTransferIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3231,7 +3232,7 @@ func mMEStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected, opaq
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
 	for _, field := range []s22.MMEStatusTransferIEField{selected, opaque} {
-		if !s21.BridgeMMEStatusTransferIEValueMethodMatchesID(field.Value, field.Id) {
+		if !s22.BridgeMMEStatusTransferIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
 		if err := s22.BridgeMMEStatusTransferIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
@@ -3242,7 +3243,7 @@ func mMEStatusTransferIEValueRequireZeroIDSelection(t *testing.T, selected, opaq
 func nASDeliveryIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s10.NASDeliveryIndicationIEField) {
 	t.Helper()
 	zero := s10.NASDeliveryIndicationIEField{Id: 0, Criticality: selected.Criticality}
-	report := s27.BridgeNASDeliveryIndicationIEValueValidateS1APIEContainer(s10.NASDeliveryIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s28.BridgeNASDeliveryIndicationIEValueValidateS1APIEContainer(s10.NASDeliveryIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3268,7 +3269,7 @@ func nASDeliveryIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, 
 func nASNonDeliveryIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s19.NASNonDeliveryIndicationIEField) {
 	t.Helper()
 	zero := s19.NASNonDeliveryIndicationIEField{Id: 0, Criticality: selected.Criticality}
-	report := s27.BridgeNASNonDeliveryIndicationIEValueValidateS1APIEContainer(s19.NASNonDeliveryIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s28.BridgeNASNonDeliveryIndicationIEValueValidateS1APIEContainer(s19.NASNonDeliveryIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3291,10 +3292,10 @@ func nASNonDeliveryIndicationIEValueRequireZeroIDSelection(t *testing.T, selecte
 		}
 	}
 }
-func pathSwitchRequestAcknowledgeIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s46.PathSwitchRequestAcknowledgeIEField) {
+func pathSwitchRequestAcknowledgeIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s47.PathSwitchRequestAcknowledgeIEField) {
 	t.Helper()
-	zero := s46.PathSwitchRequestAcknowledgeIEField{Id: 0, Criticality: selected.Criticality}
-	report := s47.BridgePathSwitchRequestAcknowledgeIEValueValidateS1APIEContainer(s46.PathSwitchRequestAcknowledgeIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s47.PathSwitchRequestAcknowledgeIEField{Id: 0, Criticality: selected.Criticality}
+	report := s48.BridgePathSwitchRequestAcknowledgeIEValueValidateS1APIEContainer(s47.PathSwitchRequestAcknowledgeIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3303,16 +3304,16 @@ func pathSwitchRequestAcknowledgeIEValueRequireZeroIDSelection(t *testing.T, sel
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s46.BridgePathSwitchRequestAcknowledgeIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s47.BridgePathSwitchRequestAcknowledgeIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s46.PathSwitchRequestAcknowledgeIEField{selected, opaque} {
-		if !s46.BridgePathSwitchRequestAcknowledgeIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s47.PathSwitchRequestAcknowledgeIEField{selected, opaque} {
+		if !s47.BridgePathSwitchRequestAcknowledgeIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s46.BridgePathSwitchRequestAcknowledgeIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s47.BridgePathSwitchRequestAcknowledgeIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -3320,7 +3321,7 @@ func pathSwitchRequestAcknowledgeIEValueRequireZeroIDSelection(t *testing.T, sel
 func pathSwitchRequestFailureIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s23.PathSwitchRequestFailureIEField) {
 	t.Helper()
 	zero := s23.PathSwitchRequestFailureIEField{Id: 0, Criticality: selected.Criticality}
-	report := s27.BridgePathSwitchRequestFailureIEValueValidateS1APIEContainer(s23.PathSwitchRequestFailureIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s28.BridgePathSwitchRequestFailureIEValueValidateS1APIEContainer(s23.PathSwitchRequestFailureIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3346,7 +3347,7 @@ func pathSwitchRequestFailureIEValueRequireZeroIDSelection(t *testing.T, selecte
 func rerouteNASRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s20.RerouteNASRequestIEField) {
 	t.Helper()
 	zero := s20.RerouteNASRequestIEField{Id: 0, Criticality: selected.Criticality}
-	report := s27.BridgeRerouteNASRequestIEValueValidateS1APIEContainer(s20.RerouteNASRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s28.BridgeRerouteNASRequestIEValueValidateS1APIEContainer(s20.RerouteNASRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3369,10 +3370,10 @@ func rerouteNASRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaq
 		}
 	}
 }
-func secondaryRATDataUsageReportIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s45.SecondaryRATDataUsageReportIEField) {
+func secondaryRATDataUsageReportIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s46.SecondaryRATDataUsageReportIEField) {
 	t.Helper()
-	zero := s45.SecondaryRATDataUsageReportIEField{Id: 0, Criticality: selected.Criticality}
-	report := s46.BridgeSecondaryRATDataUsageReportIEValueValidateS1APIEContainer(s45.SecondaryRATDataUsageReportIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s46.SecondaryRATDataUsageReportIEField{Id: 0, Criticality: selected.Criticality}
+	report := s47.BridgeSecondaryRATDataUsageReportIEValueValidateS1APIEContainer(s46.SecondaryRATDataUsageReportIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3381,23 +3382,23 @@ func secondaryRATDataUsageReportIEValueRequireZeroIDSelection(t *testing.T, sele
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s45.BridgeSecondaryRATDataUsageReportIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s46.BridgeSecondaryRATDataUsageReportIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s45.SecondaryRATDataUsageReportIEField{selected, opaque} {
-		if !s45.BridgeSecondaryRATDataUsageReportIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s46.SecondaryRATDataUsageReportIEField{selected, opaque} {
+		if !s46.BridgeSecondaryRATDataUsageReportIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s45.BridgeSecondaryRATDataUsageReportIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s46.BridgeSecondaryRATDataUsageReportIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func traceFailureIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s20.TraceFailureIndicationIEField) {
+func traceFailureIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s21.TraceFailureIndicationIEField) {
 	t.Helper()
-	zero := s20.TraceFailureIndicationIEField{Id: 0, Criticality: selected.Criticality}
+	zero := s21.TraceFailureIndicationIEField{Id: 0, Criticality: selected.Criticality}
 	report := s35.BridgeTraceFailureIndicationIEValueValidateS1APIEContainer(s21.TraceFailureIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
@@ -3407,24 +3408,24 @@ func traceFailureIndicationIEValueRequireZeroIDSelection(t *testing.T, selected,
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s20.BridgeTraceFailureIndicationIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s21.BridgeTraceFailureIndicationIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s20.TraceFailureIndicationIEField{selected, opaque} {
-		if !s20.BridgeTraceFailureIndicationIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s21.TraceFailureIndicationIEField{selected, opaque} {
+		if !s21.BridgeTraceFailureIndicationIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s20.BridgeTraceFailureIndicationIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s21.BridgeTraceFailureIndicationIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func traceStartIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s48.TraceStartIEField) {
+func traceStartIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s49.TraceStartIEField) {
 	t.Helper()
-	zero := s48.TraceStartIEField{Id: 0, Criticality: selected.Criticality}
-	report := s49.BridgeTraceStartIEValueValidateS1APIEContainer(s48.TraceStartIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s49.TraceStartIEField{Id: 0, Criticality: selected.Criticality}
+	report := s49.BridgeTraceStartIEValueValidateS1APIEContainer(s49.TraceStartIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3433,16 +3434,16 @@ func traceStartIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s48.
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s48.BridgeTraceStartIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s49.BridgeTraceStartIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s48.TraceStartIEField{selected, opaque} {
-		if !s48.BridgeTraceStartIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s49.TraceStartIEField{selected, opaque} {
+		if !s49.BridgeTraceStartIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s48.BridgeTraceStartIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s49.BridgeTraceStartIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -3502,7 +3503,7 @@ func uEContextModificationConfirmIEValueRequireZeroIDSelection(t *testing.T, sel
 func uEContextModificationFailureIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s23.UEContextModificationFailureIEField) {
 	t.Helper()
 	zero := s23.UEContextModificationFailureIEField{Id: 0, Criticality: selected.Criticality}
-	report := s36.BridgeUEContextModificationFailureIEValueValidateS1APIEContainer(s23.UEContextModificationFailureIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s37.BridgeUEContextModificationFailureIEValueValidateS1APIEContainer(s23.UEContextModificationFailureIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3528,7 +3529,7 @@ func uEContextModificationFailureIEValueRequireZeroIDSelection(t *testing.T, sel
 func uEContextModificationIndicationIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s21.UEContextModificationIndicationIEField) {
 	t.Helper()
 	zero := s21.UEContextModificationIndicationIEField{Id: 0, Criticality: selected.Criticality}
-	report := s36.BridgeUEContextModificationIndicationIEValueValidateS1APIEContainer(s21.UEContextModificationIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s37.BridgeUEContextModificationIndicationIEValueValidateS1APIEContainer(s21.UEContextModificationIndicationIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3551,10 +3552,10 @@ func uEContextModificationIndicationIEValueRequireZeroIDSelection(t *testing.T, 
 		}
 	}
 }
-func uEContextModificationRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s46.UEContextModificationRequestIEField) {
+func uEContextModificationRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s47.UEContextModificationRequestIEField) {
 	t.Helper()
-	zero := s46.UEContextModificationRequestIEField{Id: 0, Criticality: selected.Criticality}
-	report := s47.BridgeUEContextModificationRequestIEValueValidateS1APIEContainer(s46.UEContextModificationRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s47.UEContextModificationRequestIEField{Id: 0, Criticality: selected.Criticality}
+	report := s48.BridgeUEContextModificationRequestIEValueValidateS1APIEContainer(s47.UEContextModificationRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3563,16 +3564,16 @@ func uEContextModificationRequestIEValueRequireZeroIDSelection(t *testing.T, sel
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s46.BridgeUEContextModificationRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s47.BridgeUEContextModificationRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s46.UEContextModificationRequestIEField{selected, opaque} {
-		if !s46.BridgeUEContextModificationRequestIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s47.UEContextModificationRequestIEField{selected, opaque} {
+		if !s47.BridgeUEContextModificationRequestIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s46.BridgeUEContextModificationRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s47.BridgeUEContextModificationRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -3580,7 +3581,7 @@ func uEContextModificationRequestIEValueRequireZeroIDSelection(t *testing.T, sel
 func uEContextModificationResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s23.UEContextModificationResponseIEField) {
 	t.Helper()
 	zero := s23.UEContextModificationResponseIEField{Id: 0, Criticality: selected.Criticality}
-	report := s36.BridgeUEContextModificationResponseIEValueValidateS1APIEContainer(s23.UEContextModificationResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s37.BridgeUEContextModificationResponseIEValueValidateS1APIEContainer(s23.UEContextModificationResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3603,10 +3604,10 @@ func uEContextModificationResponseIEValueRequireZeroIDSelection(t *testing.T, se
 		}
 	}
 }
-func uEContextReleaseCompleteIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s45.UEContextReleaseCompleteIEField) {
+func uEContextReleaseCompleteIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s46.UEContextReleaseCompleteIEField) {
 	t.Helper()
-	zero := s45.UEContextReleaseCompleteIEField{Id: 0, Criticality: selected.Criticality}
-	report := s46.BridgeUEContextReleaseCompleteIEValueValidateS1APIEContainer(s45.UEContextReleaseCompleteIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s46.UEContextReleaseCompleteIEField{Id: 0, Criticality: selected.Criticality}
+	report := s47.BridgeUEContextReleaseCompleteIEValueValidateS1APIEContainer(s46.UEContextReleaseCompleteIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3615,16 +3616,16 @@ func uEContextReleaseCompleteIEValueRequireZeroIDSelection(t *testing.T, selecte
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s45.BridgeUEContextReleaseCompleteIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s46.BridgeUEContextReleaseCompleteIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s45.UEContextReleaseCompleteIEField{selected, opaque} {
-		if !s45.BridgeUEContextReleaseCompleteIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s46.UEContextReleaseCompleteIEField{selected, opaque} {
+		if !s46.BridgeUEContextReleaseCompleteIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s45.BridgeUEContextReleaseCompleteIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s46.BridgeUEContextReleaseCompleteIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -3655,10 +3656,10 @@ func uEContextReleaseRequestIEValueRequireZeroIDSelection(t *testing.T, selected
 		}
 	}
 }
-func uEContextResumeFailureIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s23.UEContextResumeFailureIEField) {
+func uEContextResumeFailureIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s24.UEContextResumeFailureIEField) {
 	t.Helper()
-	zero := s23.UEContextResumeFailureIEField{Id: 0, Criticality: selected.Criticality}
-	report := s36.BridgeUEContextResumeFailureIEValueValidateS1APIEContainer(s23.UEContextResumeFailureIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s24.UEContextResumeFailureIEField{Id: 0, Criticality: selected.Criticality}
+	report := s37.BridgeUEContextResumeFailureIEValueValidateS1APIEContainer(s24.UEContextResumeFailureIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3667,24 +3668,24 @@ func uEContextResumeFailureIEValueRequireZeroIDSelection(t *testing.T, selected,
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s23.BridgeUEContextResumeFailureIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s24.BridgeUEContextResumeFailureIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s23.UEContextResumeFailureIEField{selected, opaque} {
-		if !s23.BridgeUEContextResumeFailureIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s24.UEContextResumeFailureIEField{selected, opaque} {
+		if !s24.BridgeUEContextResumeFailureIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s23.BridgeUEContextResumeFailureIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s24.BridgeUEContextResumeFailureIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func uEContextResumeRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s38.UEContextResumeRequestIEField) {
+func uEContextResumeRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s39.UEContextResumeRequestIEField) {
 	t.Helper()
-	zero := s38.UEContextResumeRequestIEField{Id: 0, Criticality: selected.Criticality}
-	report := s38.BridgeUEContextResumeRequestIEValueValidateS1APIEContainer(s38.UEContextResumeRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s39.UEContextResumeRequestIEField{Id: 0, Criticality: selected.Criticality}
+	report := s39.BridgeUEContextResumeRequestIEValueValidateS1APIEContainer(s39.UEContextResumeRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3693,24 +3694,24 @@ func uEContextResumeRequestIEValueRequireZeroIDSelection(t *testing.T, selected,
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s38.BridgeUEContextResumeRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s39.BridgeUEContextResumeRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s38.UEContextResumeRequestIEField{selected, opaque} {
-		if !s38.BridgeUEContextResumeRequestIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s39.UEContextResumeRequestIEField{selected, opaque} {
+		if !s39.BridgeUEContextResumeRequestIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s38.BridgeUEContextResumeRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s39.BridgeUEContextResumeRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func uEContextResumeResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s38.UEContextResumeResponseIEField) {
+func uEContextResumeResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s39.UEContextResumeResponseIEField) {
 	t.Helper()
-	zero := s38.UEContextResumeResponseIEField{Id: 0, Criticality: selected.Criticality}
-	report := s39.BridgeUEContextResumeResponseIEValueValidateS1APIEContainer(s38.UEContextResumeResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s39.UEContextResumeResponseIEField{Id: 0, Criticality: selected.Criticality}
+	report := s39.BridgeUEContextResumeResponseIEValueValidateS1APIEContainer(s39.UEContextResumeResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3719,24 +3720,24 @@ func uEContextResumeResponseIEValueRequireZeroIDSelection(t *testing.T, selected
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s38.BridgeUEContextResumeResponseIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s39.BridgeUEContextResumeResponseIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s38.UEContextResumeResponseIEField{selected, opaque} {
-		if !s38.BridgeUEContextResumeResponseIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s39.UEContextResumeResponseIEField{selected, opaque} {
+		if !s39.BridgeUEContextResumeResponseIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s38.BridgeUEContextResumeResponseIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s39.BridgeUEContextResumeResponseIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func uEContextSuspendRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s45.UEContextSuspendRequestIEField) {
+func uEContextSuspendRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s46.UEContextSuspendRequestIEField) {
 	t.Helper()
-	zero := s45.UEContextSuspendRequestIEField{Id: 0, Criticality: selected.Criticality}
-	report := s46.BridgeUEContextSuspendRequestIEValueValidateS1APIEContainer(s45.UEContextSuspendRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s46.UEContextSuspendRequestIEField{Id: 0, Criticality: selected.Criticality}
+	report := s47.BridgeUEContextSuspendRequestIEValueValidateS1APIEContainer(s46.UEContextSuspendRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3745,24 +3746,24 @@ func uEContextSuspendRequestIEValueRequireZeroIDSelection(t *testing.T, selected
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s45.BridgeUEContextSuspendRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s46.BridgeUEContextSuspendRequestIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s45.UEContextSuspendRequestIEField{selected, opaque} {
-		if !s45.BridgeUEContextSuspendRequestIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s46.UEContextSuspendRequestIEField{selected, opaque} {
+		if !s46.BridgeUEContextSuspendRequestIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s45.BridgeUEContextSuspendRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s46.BridgeUEContextSuspendRequestIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
 }
-func uEContextSuspendResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s28.UEContextSuspendResponseIEField) {
+func uEContextSuspendResponseIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s29.UEContextSuspendResponseIEField) {
 	t.Helper()
-	zero := s28.UEContextSuspendResponseIEField{Id: 0, Criticality: selected.Criticality}
-	report := s36.BridgeUEContextSuspendResponseIEValueValidateS1APIEContainer(s28.UEContextSuspendResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	zero := s29.UEContextSuspendResponseIEField{Id: 0, Criticality: selected.Criticality}
+	report := s37.BridgeUEContextSuspendResponseIEValueValidateS1APIEContainer(s29.UEContextSuspendResponseIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3771,16 +3772,16 @@ func uEContextSuspendResponseIEValueRequireZeroIDSelection(t *testing.T, selecte
 		t.Error("zero union validated without a selected row")
 	}
 	bb := aper.NewBitBuffer()
-	if err := s28.BridgeUEContextSuspendResponseIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
+	if err := s29.BridgeUEContextSuspendResponseIEFieldMethodMarshalAPERTo(&zero, bb); err == nil {
 		t.Error("zero union encoded without a selected row")
 	} else if bb.BitPos() != 0 {
 		t.Errorf("zero refusal wrote %d bits", bb.BitPos())
 	}
-	for _, field := range []s28.UEContextSuspendResponseIEField{selected, opaque} {
-		if !s28.BridgeUEContextSuspendResponseIEValueMethodMatchesID(field.Value, field.Id) {
+	for _, field := range []s29.UEContextSuspendResponseIEField{selected, opaque} {
+		if !s29.BridgeUEContextSuspendResponseIEValueMethodMatchesID(field.Value, field.Id) {
 			t.Errorf("selected or opaque arm refused at id %d", field.Id)
 		}
-		if err := s28.BridgeUEContextSuspendResponseIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
+		if err := s29.BridgeUEContextSuspendResponseIEFieldMethodMarshalAPERTo(&field, aper.NewBitBuffer()); err != nil {
 			t.Errorf("selected or opaque arm failed: %v", err)
 		}
 	}
@@ -3788,7 +3789,7 @@ func uEContextSuspendResponseIEValueRequireZeroIDSelection(t *testing.T, selecte
 func uERadioCapabilityMatchRequestIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s12.UERadioCapabilityMatchRequestIEField) {
 	t.Helper()
 	zero := s12.UERadioCapabilityMatchRequestIEField{Id: 0, Criticality: selected.Criticality}
-	report := s36.BridgeUERadioCapabilityMatchRequestIEValueValidateS1APIEContainer(s12.UERadioCapabilityMatchRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s37.BridgeUERadioCapabilityMatchRequestIEValueValidateS1APIEContainer(s12.UERadioCapabilityMatchRequestIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3840,7 +3841,7 @@ func uERadioCapabilityMatchResponseIEValueRequireZeroIDSelection(t *testing.T, s
 func uplinkNASTransportIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s32.UplinkNASTransportIEField) {
 	t.Helper()
 	zero := s32.UplinkNASTransportIEField{Id: 0, Criticality: selected.Criticality}
-	report := s44.BridgeUplinkNASTransportIEValueValidateS1APIEContainer(s32.UplinkNASTransportIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s45.BridgeUplinkNASTransportIEValueValidateS1APIEContainer(s32.UplinkNASTransportIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3866,7 +3867,7 @@ func uplinkNASTransportIEValueRequireZeroIDSelection(t *testing.T, selected, opa
 func uplinkS1cdma2000tunnellingIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s21.UplinkS1cdma2000tunnellingIEField) {
 	t.Helper()
 	zero := s21.UplinkS1cdma2000tunnellingIEField{Id: 0, Criticality: selected.Criticality}
-	report := s44.BridgeUplinkS1cdma2000tunnellingIEValueValidateS1APIEContainer(s21.UplinkS1cdma2000tunnellingIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s45.BridgeUplinkS1cdma2000tunnellingIEValueValidateS1APIEContainer(s21.UplinkS1cdma2000tunnellingIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch
@@ -3892,7 +3893,7 @@ func uplinkS1cdma2000tunnellingIEValueRequireZeroIDSelection(t *testing.T, selec
 func uplinkUEAssociatedLPPaTransportIEValueRequireZeroIDSelection(t *testing.T, selected, opaque s12.UplinkUEAssociatedLPPaTransportIEField) {
 	t.Helper()
 	zero := s12.UplinkUEAssociatedLPPaTransportIEField{Id: 0, Criticality: selected.Criticality}
-	report := s44.BridgeUplinkUEAssociatedLPPaTransportIEValueValidateS1APIEContainer(s12.UplinkUEAssociatedLPPaTransportIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
+	report := s45.BridgeUplinkUEAssociatedLPPaTransportIEValueValidateS1APIEContainer(s12.UplinkUEAssociatedLPPaTransportIEContainer{zero}, []s00.FieldInfo{{ID: 0, Criticality: selected.Criticality}}, "zero", nil)
 	mismatch := false
 	for _, issue := range report.Issues {
 		mismatch = mismatch || issue.Code == s00.ValueIDMismatch

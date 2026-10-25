@@ -4,8 +4,8 @@ package s1ap
 
 import (
 	errors "errors"
-	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
 )
@@ -24,10 +24,10 @@ func TestChoiceBuilderReservesSelectedArmBeforeValidation(t *testing.T) {
 		build func() error
 	}{
 		{"known arm", func() error {
-			_, err := s52.NewS1APPDUInitiatingMessage(s51.InitiatingMessage{}, options...)
+			_, err := s53.NewS1APPDUInitiatingMessage(s52.InitiatingMessage{}, options...)
 			return err
 		}},
-		{"unknown holder", func() error { _, err := s52.NewS1APPDUUnknownExtension(0, nil, options...); return err }},
+		{"unknown holder", func() error { _, err := s53.NewS1APPDUUnknownExtension(0, nil, options...); return err }},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			err := test.build()

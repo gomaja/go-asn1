@@ -11,7 +11,6 @@ import (
 	s09 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s09"
 	s10 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s10"
 	s12 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s12"
-	s17 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s17"
 	s18 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s18"
 	s19 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s20"
@@ -19,27 +18,27 @@ import (
 	s22 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s22"
 	s23 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s23"
 	s24 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s24"
-	s25 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s25"
 	s26 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s26"
+	s27 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s27"
 	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
+	s29 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s29"
 	s31 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s31"
 	s32 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s32"
 	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
 	s35 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s35"
-	s36 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s36"
 	s37 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s37"
 	s38 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s38"
 	s39 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s39"
 	s40 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s40"
-	s42 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s42"
+	s41 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s41"
 	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
-	s45 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s45"
 	s46 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s46"
 	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
-	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
 	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
+	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	strings "strings"
 	testing "testing"
@@ -50,45 +49,45 @@ import (
 // PDU selector state rejected by the encoder, while opaque future choices stay unchecked.
 func TestValidationPDURefusalParity(t *testing.T) {
 	init := initiatingMessageFreshMust(s52.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0}))
-	success := successfulOutcomeFreshMust(s50.NewOpaqueSuccessfulOutcome(250, s00.CriticalityIgnore, []byte{0}))
-	failure := unsuccessfulOutcomeFreshMust(s36.NewOpaqueUnsuccessfulOutcome(250, s00.CriticalityIgnore, []byte{0}))
+	success := successfulOutcomeFreshMust(s51.NewOpaqueSuccessfulOutcome(250, s00.CriticalityIgnore, []byte{0}))
+	failure := unsuccessfulOutcomeFreshMust(s37.NewOpaqueUnsuccessfulOutcome(250, s00.CriticalityIgnore, []byte{0}))
 	extension := choiceExtensionFreshMust(aper.NewChoiceExtension(0, []byte{0}))
 	emptyExtension := aper.ChoiceExtension{}
 	cases := []struct {
 		name    string
-		pdu     s52.S1APPDU
+		pdu     s53.S1APPDU
 		refused bool
 	}{
-		{"initiating", s52.S1APPDU{Choice: 1, InitiatingMessage: &init}, false},
-		{"successful", s52.S1APPDU{Choice: 2, SuccessfulOutcome: &success}, false},
-		{"unsuccessful", s52.S1APPDU{Choice: 3, UnsuccessfulOutcome: &failure}, false},
-		{"nil initiating", s52.S1APPDU{Choice: 1}, true},
-		{"nil successful", s52.S1APPDU{Choice: 2}, true},
-		{"nil unsuccessful", s52.S1APPDU{Choice: 3}, true},
-		{"initiating and unknown", s52.S1APPDU{Choice: 1, InitiatingMessage: &init, UnknownExtension: &extension}, true},
-		{"successful and unknown", s52.S1APPDU{Choice: 2, SuccessfulOutcome: &success, UnknownExtension: &extension}, true},
-		{"unsuccessful and unknown", s52.S1APPDU{Choice: 3, UnsuccessfulOutcome: &failure, UnknownExtension: &extension}, true},
-		{"future empty contents", s52.S1APPDU{UnknownExtension: &emptyExtension}, true},
-		{"future choice", s52.S1APPDU{UnknownExtension: &extension}, false},
+		{"initiating", s53.S1APPDU{Choice: 1, InitiatingMessage: &init}, false},
+		{"successful", s53.S1APPDU{Choice: 2, SuccessfulOutcome: &success}, false},
+		{"unsuccessful", s53.S1APPDU{Choice: 3, UnsuccessfulOutcome: &failure}, false},
+		{"nil initiating", s53.S1APPDU{Choice: 1}, true},
+		{"nil successful", s53.S1APPDU{Choice: 2}, true},
+		{"nil unsuccessful", s53.S1APPDU{Choice: 3}, true},
+		{"initiating and unknown", s53.S1APPDU{Choice: 1, InitiatingMessage: &init, UnknownExtension: &extension}, true},
+		{"successful and unknown", s53.S1APPDU{Choice: 2, SuccessfulOutcome: &success, UnknownExtension: &extension}, true},
+		{"unsuccessful and unknown", s53.S1APPDU{Choice: 3, UnsuccessfulOutcome: &failure, UnknownExtension: &extension}, true},
+		{"future empty contents", s53.S1APPDU{UnknownExtension: &emptyExtension}, true},
+		{"future choice", s53.S1APPDU{UnknownExtension: &extension}, false},
 	}
 	for _, choice := range []int{-1, 0, 4, 127} {
 		cases = append(cases, struct {
 			name    string
-			pdu     s52.S1APPDU
+			pdu     s53.S1APPDU
 			refused bool
-		}{name: fmt.Sprintf("invalid %d", choice), pdu: s52.S1APPDU{Choice: choice}, refused: true})
+		}{name: fmt.Sprintf("invalid %d", choice), pdu: s53.S1APPDU{Choice: choice}, refused: true})
 		if choice != 0 {
 			cases = append(cases, struct {
 				name    string
-				pdu     s52.S1APPDU
+				pdu     s53.S1APPDU
 				refused bool
-			}{name: fmt.Sprintf("invalid and opaque %d", choice), pdu: s52.S1APPDU{Choice: choice, UnknownExtension: &extension}, refused: true})
+			}{name: fmt.Sprintf("invalid and opaque %d", choice), pdu: s53.S1APPDU{Choice: choice, UnknownExtension: &extension}, refused: true})
 		}
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			_, encodeErr := tc.pdu.MarshalAPER()
-			report, validationErr := s52.ValidateMessage(&tc.pdu)
+			report, validationErr := s53.ValidateMessage(&tc.pdu)
 			if (encodeErr != nil) != tc.refused {
 				t.Fatalf("encoder refusal=%v want %t", encodeErr, tc.refused)
 			}
@@ -106,18 +105,18 @@ func TestValidationPDURefusalParity(t *testing.T) {
 // not in the selected object set. Unknown IEs still do not set known-row order.
 func TestValidationUnknownDuplicates(t *testing.T) {
 	table := s23.S1SetupFailureIEs()
-	cause := s1SetupFailureIEFieldFreshMust(table.Cause().New(causeFreshMust(s25.NewCauseMisc(s00.CauseMiscUnspecified))))
+	cause := s1SetupFailureIEFieldFreshMust(table.Cause().New(causeFreshMust(s26.NewCauseMisc(s00.CauseMiscUnspecified))))
 	for _, id := range []s00.ProtocolIEID{65532, 0} {
 		t.Run(fmt.Sprintf("id-%d", id), func(t *testing.T) {
 			unknown := s1SetupFailureIEFieldFreshMust(table.NewOpaque(id, s00.CriticalityIgnore, []byte{0}))
-			body := s26.S1SetupFailure{ProtocolIEs: s23.S1SetupFailureIEContainer{cause, unknown, unknown}}
-			report, err := s49.ValidateS1SetupFailure(&body)
+			body := s27.S1SetupFailure{ProtocolIEs: s23.S1SetupFailureIEContainer{cause, unknown, unknown}}
+			report, err := s50.ValidateS1SetupFailure(&body)
 			if err != nil {
 				t.Fatal(err)
 			}
 			requireRepeatedIE(t, report, id, "[2]")
 			var build *s21.BuildError
-			if _, err := s49.NewS1SetupFailure(body.ProtocolIEs); !errors.As(err, &build) {
+			if _, err := s50.NewS1SetupFailure(body.ProtocolIEs); !errors.As(err, &build) {
 				t.Errorf("builder accepted duplicate id %d: %v", id, err)
 			}
 		})
@@ -125,7 +124,7 @@ func TestValidationUnknownDuplicates(t *testing.T) {
 	extension := criticalityDiagnosticsExtIEsExtFieldFreshMust(s07.CriticalityDiagnosticsExtIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
 	value := s22.CriticalityDiagnostics{IEExtensions: s07.CriticalityDiagnosticsExtIEsExtContainer{extension, extension}}
 	report := s21.ValidationReport{Complete: true}
-	s49.BridgeWalkValidationCriticalityDiagnostics(&value, &report, "CriticalityDiagnostics", false)
+	s50.BridgeWalkValidationCriticalityDiagnostics(&value, &report, "CriticalityDiagnostics", false)
 	requireRepeatedIE(t, report, 65532, "[1]")
 }
 func requireRepeatedIE(t *testing.T, report s21.ValidationReport, id s00.ProtocolIEID, index string) {
@@ -155,7 +154,7 @@ func requireRepeatedIE(t *testing.T, report s21.ValidationReport, id s00.Protoco
 // source tables containing id-MME-UE-S1AP-ID (0) require a selected row.
 func TestValidationAllZeroIDTables(t *testing.T) {
 	t.Run("CellTrafficTraceIEs", func(t *testing.T) {
-		cellTrafficTraceIEValueRequireZeroIDSelection(t, cellTrafficTraceIEFieldFreshMust(s17.CellTrafficTraceIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), cellTrafficTraceIEFieldFreshMust(s17.CellTrafficTraceIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		cellTrafficTraceIEValueRequireZeroIDSelection(t, cellTrafficTraceIEFieldFreshMust(s18.CellTrafficTraceIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), cellTrafficTraceIEFieldFreshMust(s18.CellTrafficTraceIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ConnectionEstablishmentIndicationIEs", func(t *testing.T) {
 		connectionEstablishmentIndicationIEValueRequireZeroIDSelection(t, connectionEstablishmentIndicationIEFieldFreshMust(s31.ConnectionEstablishmentIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), connectionEstablishmentIndicationIEFieldFreshMust(s31.ConnectionEstablishmentIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -164,7 +163,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		deactivateTraceIEValueRequireZeroIDSelection(t, deactivateTraceIEFieldFreshMust(s08.DeactivateTraceIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), deactivateTraceIEFieldFreshMust(s08.DeactivateTraceIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("DownlinkNASTransportIEs", func(t *testing.T) {
-		downlinkNASTransportIEValueRequireZeroIDSelection(t, downlinkNASTransportIEFieldFreshMust(s42.DownlinkNASTransportIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), downlinkNASTransportIEFieldFreshMust(s42.DownlinkNASTransportIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		downlinkNASTransportIEValueRequireZeroIDSelection(t, downlinkNASTransportIEFieldFreshMust(s43.DownlinkNASTransportIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), downlinkNASTransportIEFieldFreshMust(s43.DownlinkNASTransportIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("DownlinkS1cdma2000tunnellingIEs", func(t *testing.T) {
 		downlinkS1cdma2000tunnellingIEValueRequireZeroIDSelection(t, downlinkS1cdma2000tunnellingIEFieldFreshMust(s40.DownlinkS1cdma2000tunnellingIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), downlinkS1cdma2000tunnellingIEFieldFreshMust(s40.DownlinkS1cdma2000tunnellingIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -173,37 +172,37 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		downlinkUEAssociatedLPPaTransportIEValueRequireZeroIDSelection(t, downlinkUEAssociatedLPPaTransportIEFieldFreshMust(s08.DownlinkUEAssociatedLPPaTransportIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), downlinkUEAssociatedLPPaTransportIEFieldFreshMust(s08.DownlinkUEAssociatedLPPaTransportIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ERABModificationConfirmIEs", func(t *testing.T) {
-		eRABModificationConfirmIEValueRequireZeroIDSelection(t, eRABModificationConfirmIEFieldFreshMust(s39.ERABModificationConfirmIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABModificationConfirmIEFieldFreshMust(s39.ERABModificationConfirmIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eRABModificationConfirmIEValueRequireZeroIDSelection(t, eRABModificationConfirmIEFieldFreshMust(s40.ERABModificationConfirmIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABModificationConfirmIEFieldFreshMust(s40.ERABModificationConfirmIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ERABModificationIndicationIEs", func(t *testing.T) {
-		eRABModificationIndicationIEValueRequireZeroIDSelection(t, eRABModificationIndicationIEFieldFreshMust(s45.ERABModificationIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABModificationIndicationIEFieldFreshMust(s45.ERABModificationIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eRABModificationIndicationIEValueRequireZeroIDSelection(t, eRABModificationIndicationIEFieldFreshMust(s46.ERABModificationIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABModificationIndicationIEFieldFreshMust(s46.ERABModificationIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ERABModifyRequestIEs", func(t *testing.T) {
-		eRABModifyRequestIEValueRequireZeroIDSelection(t, eRABModifyRequestIEFieldFreshMust(s40.ERABModifyRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABModifyRequestIEFieldFreshMust(s40.ERABModifyRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eRABModifyRequestIEValueRequireZeroIDSelection(t, eRABModifyRequestIEFieldFreshMust(s41.ERABModifyRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABModifyRequestIEFieldFreshMust(s41.ERABModifyRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ERABModifyResponseIEs", func(t *testing.T) {
-		eRABModifyResponseIEValueRequireZeroIDSelection(t, eRABModifyResponseIEFieldFreshMust(s45.ERABModifyResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABModifyResponseIEFieldFreshMust(s45.ERABModifyResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eRABModifyResponseIEValueRequireZeroIDSelection(t, eRABModifyResponseIEFieldFreshMust(s46.ERABModifyResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABModifyResponseIEFieldFreshMust(s46.ERABModifyResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ERABReleaseCommandIEs", func(t *testing.T) {
-		eRABReleaseCommandIEValueRequireZeroIDSelection(t, eRABReleaseCommandIEFieldFreshMust(s39.ERABReleaseCommandIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABReleaseCommandIEFieldFreshMust(s39.ERABReleaseCommandIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eRABReleaseCommandIEValueRequireZeroIDSelection(t, eRABReleaseCommandIEFieldFreshMust(s40.ERABReleaseCommandIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABReleaseCommandIEFieldFreshMust(s40.ERABReleaseCommandIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ERABReleaseIndicationIEs", func(t *testing.T) {
-		eRABReleaseIndicationIEValueRequireZeroIDSelection(t, eRABReleaseIndicationIEFieldFreshMust(s45.ERABReleaseIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABReleaseIndicationIEFieldFreshMust(s45.ERABReleaseIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eRABReleaseIndicationIEValueRequireZeroIDSelection(t, eRABReleaseIndicationIEFieldFreshMust(s46.ERABReleaseIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABReleaseIndicationIEFieldFreshMust(s46.ERABReleaseIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ERABReleaseResponseIEs", func(t *testing.T) {
-		eRABReleaseResponseIEValueRequireZeroIDSelection(t, eRABReleaseResponseIEFieldFreshMust(s45.ERABReleaseResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABReleaseResponseIEFieldFreshMust(s45.ERABReleaseResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eRABReleaseResponseIEValueRequireZeroIDSelection(t, eRABReleaseResponseIEFieldFreshMust(s46.ERABReleaseResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABReleaseResponseIEFieldFreshMust(s46.ERABReleaseResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ERABSetupRequestIEs", func(t *testing.T) {
-		eRABSetupRequestIEValueRequireZeroIDSelection(t, eRABSetupRequestIEFieldFreshMust(s40.ERABSetupRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABSetupRequestIEFieldFreshMust(s40.ERABSetupRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eRABSetupRequestIEValueRequireZeroIDSelection(t, eRABSetupRequestIEFieldFreshMust(s41.ERABSetupRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABSetupRequestIEFieldFreshMust(s41.ERABSetupRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ERABSetupResponseIEs", func(t *testing.T) {
-		eRABSetupResponseIEValueRequireZeroIDSelection(t, eRABSetupResponseIEFieldFreshMust(s45.ERABSetupResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABSetupResponseIEFieldFreshMust(s45.ERABSetupResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eRABSetupResponseIEValueRequireZeroIDSelection(t, eRABSetupResponseIEFieldFreshMust(s46.ERABSetupResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eRABSetupResponseIEFieldFreshMust(s46.ERABSetupResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ENBEarlyStatusTransferIEs", func(t *testing.T) {
-		eNBEarlyStatusTransferIEValueRequireZeroIDSelection(t, eNBEarlyStatusTransferIEFieldFreshMust(s37.ENBEarlyStatusTransferIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eNBEarlyStatusTransferIEFieldFreshMust(s37.ENBEarlyStatusTransferIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eNBEarlyStatusTransferIEValueRequireZeroIDSelection(t, eNBEarlyStatusTransferIEFieldFreshMust(s38.ENBEarlyStatusTransferIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eNBEarlyStatusTransferIEFieldFreshMust(s38.ENBEarlyStatusTransferIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ENBStatusTransferIEs", func(t *testing.T) {
-		eNBStatusTransferIEValueRequireZeroIDSelection(t, eNBStatusTransferIEFieldFreshMust(s21.ENBStatusTransferIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eNBStatusTransferIEFieldFreshMust(s21.ENBStatusTransferIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		eNBStatusTransferIEValueRequireZeroIDSelection(t, eNBStatusTransferIEFieldFreshMust(s22.ENBStatusTransferIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), eNBStatusTransferIEFieldFreshMust(s22.ENBStatusTransferIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("ErrorIndicationIEs", func(t *testing.T) {
 		errorIndicationIEValueRequireZeroIDSelection(t, errorIndicationIEFieldFreshMust(s28.ErrorIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), errorIndicationIEFieldFreshMust(s28.ErrorIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -215,7 +214,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		handoverCancelIEValueRequireZeroIDSelection(t, handoverCancelIEFieldFreshMust(s18.HandoverCancelIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), handoverCancelIEFieldFreshMust(s18.HandoverCancelIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("HandoverCommandIEs", func(t *testing.T) {
-		handoverCommandIEValueRequireZeroIDSelection(t, handoverCommandIEFieldFreshMust(s40.HandoverCommandIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), handoverCommandIEFieldFreshMust(s40.HandoverCommandIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		handoverCommandIEValueRequireZeroIDSelection(t, handoverCommandIEFieldFreshMust(s41.HandoverCommandIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), handoverCommandIEFieldFreshMust(s41.HandoverCommandIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("HandoverFailureIEs", func(t *testing.T) {
 		handoverFailureIEValueRequireZeroIDSelection(t, handoverFailureIEFieldFreshMust(s22.HandoverFailureIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), handoverFailureIEFieldFreshMust(s22.HandoverFailureIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -230,7 +229,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		handoverRequestAcknowledgeIEValueRequireZeroIDSelection(t, handoverRequestAcknowledgeIEFieldFreshMust(s39.HandoverRequestAcknowledgeIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), handoverRequestAcknowledgeIEFieldFreshMust(s39.HandoverRequestAcknowledgeIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("HandoverRequestIEs", func(t *testing.T) {
-		handoverRequestIEValueRequireZeroIDSelection(t, handoverRequestIEFieldFreshMust(s48.HandoverRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), handoverRequestIEFieldFreshMust(s48.HandoverRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		handoverRequestIEValueRequireZeroIDSelection(t, handoverRequestIEFieldFreshMust(s49.HandoverRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), handoverRequestIEFieldFreshMust(s49.HandoverRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("HandoverRequiredIEs", func(t *testing.T) {
 		handoverRequiredIEValueRequireZeroIDSelection(t, handoverRequiredIEFieldFreshMust(s34.HandoverRequiredIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), handoverRequiredIEFieldFreshMust(s34.HandoverRequiredIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -239,10 +238,10 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		handoverSuccessIEValueRequireZeroIDSelection(t, handoverSuccessIEFieldFreshMust(s09.HandoverSuccessIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), handoverSuccessIEFieldFreshMust(s09.HandoverSuccessIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("InitialContextSetupFailureIEs", func(t *testing.T) {
-		initialContextSetupFailureIEValueRequireZeroIDSelection(t, initialContextSetupFailureIEFieldFreshMust(s22.InitialContextSetupFailureIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), initialContextSetupFailureIEFieldFreshMust(s22.InitialContextSetupFailureIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		initialContextSetupFailureIEValueRequireZeroIDSelection(t, initialContextSetupFailureIEFieldFreshMust(s23.InitialContextSetupFailureIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), initialContextSetupFailureIEFieldFreshMust(s23.InitialContextSetupFailureIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("InitialContextSetupRequestIEs", func(t *testing.T) {
-		initialContextSetupRequestIEValueRequireZeroIDSelection(t, initialContextSetupRequestIEFieldFreshMust(s48.InitialContextSetupRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), initialContextSetupRequestIEFieldFreshMust(s48.InitialContextSetupRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		initialContextSetupRequestIEValueRequireZeroIDSelection(t, initialContextSetupRequestIEFieldFreshMust(s49.InitialContextSetupRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), initialContextSetupRequestIEFieldFreshMust(s49.InitialContextSetupRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("InitialContextSetupResponseIEs", func(t *testing.T) {
 		initialContextSetupResponseIEValueRequireZeroIDSelection(t, initialContextSetupResponseIEFieldFreshMust(s40.InitialContextSetupResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), initialContextSetupResponseIEFieldFreshMust(s40.InitialContextSetupResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -260,7 +259,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		mMECPRelocationIndicationIEValueRequireZeroIDSelection(t, mMECPRelocationIndicationIEFieldFreshMust(s10.MMECPRelocationIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), mMECPRelocationIndicationIEFieldFreshMust(s10.MMECPRelocationIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("MMEEarlyStatusTransferIEs", func(t *testing.T) {
-		mMEEarlyStatusTransferIEValueRequireZeroIDSelection(t, mMEEarlyStatusTransferIEFieldFreshMust(s37.MMEEarlyStatusTransferIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), mMEEarlyStatusTransferIEFieldFreshMust(s37.MMEEarlyStatusTransferIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		mMEEarlyStatusTransferIEValueRequireZeroIDSelection(t, mMEEarlyStatusTransferIEFieldFreshMust(s38.MMEEarlyStatusTransferIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), mMEEarlyStatusTransferIEFieldFreshMust(s38.MMEEarlyStatusTransferIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("MMEStatusTransferIEs", func(t *testing.T) {
 		mMEStatusTransferIEValueRequireZeroIDSelection(t, mMEStatusTransferIEFieldFreshMust(s22.MMEStatusTransferIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), mMEStatusTransferIEFieldFreshMust(s22.MMEStatusTransferIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -281,7 +280,7 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		rerouteNASRequestIEValueRequireZeroIDSelection(t, rerouteNASRequestIEFieldFreshMust(s20.RerouteNASRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), rerouteNASRequestIEFieldFreshMust(s20.RerouteNASRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("SecondaryRATDataUsageReportIEs", func(t *testing.T) {
-		secondaryRATDataUsageReportIEValueRequireZeroIDSelection(t, secondaryRATDataUsageReportIEFieldFreshMust(s45.SecondaryRATDataUsageReportIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), secondaryRATDataUsageReportIEFieldFreshMust(s45.SecondaryRATDataUsageReportIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		secondaryRATDataUsageReportIEValueRequireZeroIDSelection(t, secondaryRATDataUsageReportIEFieldFreshMust(s46.SecondaryRATDataUsageReportIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), secondaryRATDataUsageReportIEFieldFreshMust(s46.SecondaryRATDataUsageReportIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("TraceFailureIndicationIEs", func(t *testing.T) {
 		traceFailureIndicationIEValueRequireZeroIDSelection(t, traceFailureIndicationIEFieldFreshMust(s21.TraceFailureIndicationIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), traceFailureIndicationIEFieldFreshMust(s21.TraceFailureIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
@@ -305,28 +304,28 @@ func TestValidationAllZeroIDTables(t *testing.T) {
 		uEContextModificationRequestIEValueRequireZeroIDSelection(t, uEContextModificationRequestIEFieldFreshMust(s47.UEContextModificationRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextModificationRequestIEFieldFreshMust(s47.UEContextModificationRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextModificationResponseIEs", func(t *testing.T) {
-		uEContextModificationResponseIEValueRequireZeroIDSelection(t, uEContextModificationResponseIEFieldFreshMust(s23.UEContextModificationResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextModificationResponseIEFieldFreshMust(s23.UEContextModificationResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		uEContextModificationResponseIEValueRequireZeroIDSelection(t, uEContextModificationResponseIEFieldFreshMust(s24.UEContextModificationResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextModificationResponseIEFieldFreshMust(s24.UEContextModificationResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextReleaseCompleteIEs", func(t *testing.T) {
-		uEContextReleaseCompleteIEValueRequireZeroIDSelection(t, uEContextReleaseCompleteIEFieldFreshMust(s45.UEContextReleaseCompleteIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextReleaseCompleteIEFieldFreshMust(s45.UEContextReleaseCompleteIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		uEContextReleaseCompleteIEValueRequireZeroIDSelection(t, uEContextReleaseCompleteIEFieldFreshMust(s46.UEContextReleaseCompleteIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextReleaseCompleteIEFieldFreshMust(s46.UEContextReleaseCompleteIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextReleaseRequestIEs", func(t *testing.T) {
 		uEContextReleaseRequestIEValueRequireZeroIDSelection(t, uEContextReleaseRequestIEFieldFreshMust(s43.UEContextReleaseRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextReleaseRequestIEFieldFreshMust(s43.UEContextReleaseRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextResumeFailureIEs", func(t *testing.T) {
-		uEContextResumeFailureIEValueRequireZeroIDSelection(t, uEContextResumeFailureIEFieldFreshMust(s23.UEContextResumeFailureIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextResumeFailureIEFieldFreshMust(s23.UEContextResumeFailureIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		uEContextResumeFailureIEValueRequireZeroIDSelection(t, uEContextResumeFailureIEFieldFreshMust(s24.UEContextResumeFailureIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextResumeFailureIEFieldFreshMust(s24.UEContextResumeFailureIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextResumeRequestIEs", func(t *testing.T) {
-		uEContextResumeRequestIEValueRequireZeroIDSelection(t, uEContextResumeRequestIEFieldFreshMust(s38.UEContextResumeRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextResumeRequestIEFieldFreshMust(s38.UEContextResumeRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		uEContextResumeRequestIEValueRequireZeroIDSelection(t, uEContextResumeRequestIEFieldFreshMust(s39.UEContextResumeRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextResumeRequestIEFieldFreshMust(s39.UEContextResumeRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextResumeResponseIEs", func(t *testing.T) {
-		uEContextResumeResponseIEValueRequireZeroIDSelection(t, uEContextResumeResponseIEFieldFreshMust(s38.UEContextResumeResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextResumeResponseIEFieldFreshMust(s38.UEContextResumeResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		uEContextResumeResponseIEValueRequireZeroIDSelection(t, uEContextResumeResponseIEFieldFreshMust(s39.UEContextResumeResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextResumeResponseIEFieldFreshMust(s39.UEContextResumeResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextSuspendRequestIEs", func(t *testing.T) {
 		uEContextSuspendRequestIEValueRequireZeroIDSelection(t, uEContextSuspendRequestIEFieldFreshMust(s46.UEContextSuspendRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextSuspendRequestIEFieldFreshMust(s46.UEContextSuspendRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UEContextSuspendResponseIEs", func(t *testing.T) {
-		uEContextSuspendResponseIEValueRequireZeroIDSelection(t, uEContextSuspendResponseIEFieldFreshMust(s28.UEContextSuspendResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextSuspendResponseIEFieldFreshMust(s28.UEContextSuspendResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
+		uEContextSuspendResponseIEValueRequireZeroIDSelection(t, uEContextSuspendResponseIEFieldFreshMust(s29.UEContextSuspendResponseIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uEContextSuspendResponseIEFieldFreshMust(s29.UEContextSuspendResponseIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
 	})
 	t.Run("UERadioCapabilityMatchRequestIEs", func(t *testing.T) {
 		uERadioCapabilityMatchRequestIEValueRequireZeroIDSelection(t, uERadioCapabilityMatchRequestIEFieldFreshMust(s12.UERadioCapabilityMatchRequestIEs().MMEUES1APID().New(s00.MMEUES1APID(1))), uERadioCapabilityMatchRequestIEFieldFreshMust(s12.UERadioCapabilityMatchRequestIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})))
