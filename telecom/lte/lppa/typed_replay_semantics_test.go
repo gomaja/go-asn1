@@ -7,6 +7,7 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s01"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s19"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s23"
 
@@ -135,7 +136,7 @@ func TestReplayStrictPaddingHookFreshCopy(t *testing.T) {
 	nonpreferred[len(nonpreferred)-1] = 0x4f
 	*s23.BridgeLPPAPDUFieldReceivedBytes(&original) = aper.OriginalWire(nonpreferred)
 	body, _ := original.InitiatingMessage.Value.AsECIDMeasurementInitiationRequest()
-	*s21.BridgeECIDMeasurementInitiationRequestIEValueFieldReceived(&body.ProtocolIEs[1].Value) = aper.OriginalWire([]byte{0x4f})
+	*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldReceived(&body.ProtocolIEs[1].Value) = aper.OriginalWire([]byte{0x4f})
 	if got := sliceByteReplayMust(original.MarshalAPER()); !bytes.Equal(got, nonpreferred) {
 		t.Fatal("hook did not replay")
 	}
