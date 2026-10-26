@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/errors.go; SHA-256 8a4f317f2a6cdfd032dd903c2ee49f38e30e8bc56b088b724e0f1302c560e01a.
+// Runtime source: runtime/ber/errors.go; SHA-256 f7bc35a77c46613b5986f04dad3780be075d7fa1da1ec293d7d1ae4c717afc2d.
 // Package ber provides BER/DER encoding and decoding primitives.
 package ber
 
@@ -30,6 +30,7 @@ type DecodeError struct {
 	Cause    error
 }
 
+// Error describes the field, byte offset and underlying decode cause.
 func (e *DecodeError) Error() string {
 	if e.Field != "" {
 		return fmt.Sprintf("ber: decode %s.%s at offset %d: %v", e.TypeName, e.Field, e.Offset, e.Cause)
@@ -40,6 +41,7 @@ func (e *DecodeError) Error() string {
 	return fmt.Sprintf("ber: decode at offset %d: %v", e.Offset, e.Cause)
 }
 
+// Unwrap returns the underlying decode cause.
 func (e *DecodeError) Unwrap() error {
 	return e.Cause
 }
@@ -58,7 +60,10 @@ type ElementError struct {
 	cause        error
 }
 
+// Error returns the underlying BER validation diagnostic text.
 func (e *ElementError) Error() string { return e.cause.Error() }
+
+// Unwrap returns the underlying BER validation cause.
 func (e *ElementError) Unwrap() error { return e.cause }
 
 // Offset returns the identifier offset of the failing TLV.

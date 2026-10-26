@@ -97,6 +97,7 @@ const (
 	PeriodUMTSD64000ms PeriodUMTS = 14
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v PeriodUMTS) String() string {
 	switch v {
 	case PeriodUMTSD250ms:
@@ -147,6 +148,7 @@ const (
 	PeriodLTED1min    PeriodLTE = 6
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v PeriodLTE) String() string {
 	switch v {
 	case PeriodLTED1024ms:
@@ -190,6 +192,7 @@ const (
 	JobTypeImmediateMDTAndTrace JobType = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v JobType) String() string {
 	switch v {
 	case JobTypeImmediateMDTOnly:
@@ -296,6 +299,7 @@ const (
 	ReportIntervalLte60min    ReportInterval = 27
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ReportInterval) String() string {
 	switch v {
 	case ReportIntervalUmts250ms:
@@ -373,6 +377,7 @@ const (
 	ReportAmountInfinity ReportAmount = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ReportAmount) String() string {
 	switch v {
 	case ReportAmountD1:
@@ -416,6 +421,7 @@ const (
 	LoggingIntervalD61dot44 LoggingInterval = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LoggingInterval) String() string {
 	switch v {
 	case LoggingIntervalD1dot28:
@@ -451,6 +457,7 @@ const (
 	LoggingDurationD7200sec LoggingDuration = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LoggingDuration) String() string {
 	switch v {
 	case LoggingDurationD600sec:
@@ -521,6 +528,7 @@ const (
 	TraceDepthMaximum TraceDepth = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v TraceDepth) String() string {
 	switch v {
 	case TraceDepthMinimum:
@@ -543,6 +551,7 @@ const (
 	TraceDepthExtensionMaximumWithoutVendorSpecificExtension TraceDepthExtension = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v TraceDepthExtension) String() string {
 	switch v {
 	case TraceDepthExtensionMinimumWithoutVendorSpecificExtension:

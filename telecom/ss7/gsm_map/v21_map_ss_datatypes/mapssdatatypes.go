@@ -228,6 +228,7 @@ const (
 	SSCliRestrictionOptionTemporaryDefaultAllowed    SSCliRestrictionOption = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SSCliRestrictionOption) String() string {
 	switch v {
 	case SSCliRestrictionOptionPermanent:
@@ -249,6 +250,7 @@ const (
 	SSOverrideCategoryOverrideDisabled SSOverrideCategory = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SSOverrideCategory) String() string {
 	switch v {
 	case SSOverrideCategoryOverrideEnabled:
@@ -409,6 +411,7 @@ const (
 	SSGuidanceInfoEnterNewPWAgain SSGuidanceInfo = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SSGuidanceInfo) String() string {
 	switch v {
 	case SSGuidanceInfoEnterPW:
@@ -471,6 +474,7 @@ const (
 	SSCCBSRequestStateDeleted   SSCCBSRequestState = 6
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SSCCBSRequestState) String() string {
 	switch v {
 	case SSCCBSRequestStateRequest:

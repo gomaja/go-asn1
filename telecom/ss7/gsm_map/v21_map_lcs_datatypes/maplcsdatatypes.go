@@ -179,6 +179,7 @@ const (
 	LCSLocationEstimateTypeNotificationVerificationOnly LCSLocationEstimateType = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSLocationEstimateType) String() string {
 	switch v {
 	case LCSLocationEstimateTypeCurrentLocation:
@@ -241,6 +242,7 @@ const (
 	LCSLCSClientTypeLawfulInterceptServices LCSLCSClientType = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSLCSClientType) String() string {
 	switch v {
 	case LCSLCSClientTypeEmergencyServices:
@@ -299,6 +301,7 @@ const (
 	LCSLCSFormatIndicatorSipUrl       LCSLCSFormatIndicator = 4
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSLCSFormatIndicator) String() string {
 	switch v {
 	case LCSLCSFormatIndicatorLogicalName:
@@ -361,6 +364,7 @@ const (
 	LCSResponseTimeCategoryDelaytolerant LCSResponseTimeCategory = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSResponseTimeCategory) String() string {
 	switch v {
 	case LCSResponseTimeCategoryLowdelay:
@@ -380,6 +384,7 @@ const (
 	LCSLCSQoSClassAssured    LCSLCSQoSClass = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSLCSQoSClass) String() string {
 	switch v {
 	case LCSLCSQoSClassBestEffort:
@@ -452,6 +457,7 @@ const (
 	LCSPrivacyCheckRelatedActionNotAllowed                 LCSPrivacyCheckRelatedAction = 4
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSPrivacyCheckRelatedAction) String() string {
 	switch v {
 	case LCSPrivacyCheckRelatedActionAllowedWithoutNotification:
@@ -524,6 +530,7 @@ const (
 	LCSAreaTypeUtranCellId    LCSAreaType = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSAreaType) String() string {
 	switch v {
 	case LCSAreaTypeCountryCode:
@@ -554,6 +561,7 @@ const (
 	LCSOccurrenceInfoMultipleTimeEvent LCSOccurrenceInfo = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSOccurrenceInfo) String() string {
 	switch v {
 	case LCSOccurrenceInfoOneTimeEvent:
@@ -645,6 +653,7 @@ const (
 	LCSRANTechnologyUmts LCSRANTechnology = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSRANTechnology) String() string {
 	switch v {
 	case LCSRANTechnologyGsm:
@@ -692,6 +701,7 @@ const (
 	LCSAccuracyFulfilmentIndicatorRequestedAccuracyNotFulfilled LCSAccuracyFulfilmentIndicator = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSAccuracyFulfilmentIndicator) String() string {
 	switch v {
 	case LCSAccuracyFulfilmentIndicatorRequestedAccuracyFulfilled:
@@ -800,6 +810,7 @@ const (
 	LCSLCSEventEmergencyCallHandover      LCSLCSEvent = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSLCSEvent) String() string {
 	switch v {
 	case LCSLCSEventEmergencyCallOrigination:
@@ -835,6 +846,7 @@ const (
 	LCSTerminationCauseNetworkTermination                  LCSTerminationCause = 9
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSTerminationCause) String() string {
 	switch v {
 	case LCSTerminationCauseNormal:

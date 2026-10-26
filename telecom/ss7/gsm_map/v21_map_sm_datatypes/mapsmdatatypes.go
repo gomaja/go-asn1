@@ -62,6 +62,7 @@ const (
 	SMSMDeliveryNotIntendedOnlyMCCMNCRequested SMSMDeliveryNotIntended = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SMSMDeliveryNotIntended) String() string {
 	switch v {
 	case SMSMDeliveryNotIntendedOnlyIMSIRequested:
@@ -369,6 +370,7 @@ const (
 	SMSMDeliveryOutcomeSuccessfulTransfer     SMSMDeliveryOutcome = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SMSMDeliveryOutcome) String() string {
 	switch v {
 	case SMSMDeliveryOutcomeMemoryCapacityExceeded:
@@ -424,6 +426,7 @@ const (
 	SMSmsGmscAlertEventMsUnderNewServingNode SMSmsGmscAlertEvent = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SMSmsGmscAlertEvent) String() string {
 	switch v {
 	case SMSmsGmscAlertEventMsAvailableForMtSms:
@@ -505,6 +508,7 @@ const (
 	SMAlertReasonMemoryAvailable SMAlertReason = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SMAlertReason) String() string {
 	switch v {
 	case SMAlertReasonMsPresent:

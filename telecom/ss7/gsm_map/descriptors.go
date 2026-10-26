@@ -197,9 +197,13 @@ func infoUnknownSubscriberError() ErrorInfo {
 func infoUssdBusyError() ErrorInfo {
 	return ErrorInfo{Name: "ussd-Busy", Code: UssdBusy, Parameter: nil, ParameterOptional: nil, Source: sourceInfo0("ussd-Busy", "17.6.6")}
 }
+
+// Errors returns detached metadata snapshots of the source error catalogue.
 func Errors() []ErrorInfo {
 	return []ErrorInfo{infoAbsentSubscriberError(), infoAbsentSubscriberSMError(), infoAtiNotAllowedError(), infoAtmNotAllowedError(), infoAtsiNotAllowedError(), infoBearerServiceNotProvisionedError(), infoBusySubscriberError(), infoCallBarredError(), infoCugRejectError(), infoDataMissingError(), infoFacilityNotSupportedError(), infoForwardingFailedError(), infoForwardingViolationError(), infoIllegalEquipmentError(), infoIllegalSSOperationError(), infoIllegalSubscriberError(), infoIncompatibleTerminalError(), infoInformationNotAvailableError(), infoLongTermDenialError(), infoMessageWaitingListFullError(), infoMmEventNotSupportedError(), infoNegativePWCheckError(), infoNoGroupCallNumberAvailableError(), infoNoHandoverNumberAvailableError(), infoNoRoamingNumberAvailableError(), infoNoSubscriberReplyError(), infoNumberChangedError(), infoNumberOfPWAttemptsViolationError(), infoOngoingGroupCallError(), infoOrNotAllowedError(), infoPositionMethodFailureError(), infoPwRegistrationFailureError(), infoResourceLimitationError(), infoRoamingNotAllowedError(), infoShortTermDenialError(), infoSmDeliveryFailureError(), infoSsErrorStatusError(), infoSsIncompatibilityError(), infoSsNotAvailableError(), infoSsSubscriptionViolationError(), infoSubscriberBusyForMTSMSError(), infoSubsequentHandoverFailureError(), infoSystemFailureError(), infoTargetCellOutsideGroupCallAreaError(), infoTeleserviceNotProvisionedError(), infoTracingBufferFullError(), infoUnauthorizedLCSClientError(), infoUnauthorizedRequestingNetworkError(), infoUnexpectedDataValueError(), infoUnidentifiedSubscriberError(), infoUnknownAlphabetError(), infoUnknownEquipmentError(), infoUnknownMSCError(), infoUnknownOrUnreachableLCSClientError(), infoUnknownSubscriberError(), infoUssdBusyError()}
 }
+
+// LookupError returns detached metadata for code, or zero metadata and false if absent.
 func LookupError(code MAPErrorCode) (ErrorInfo, bool) {
 	switch code {
 	case AbsentSubscriber:
@@ -1227,9 +1231,13 @@ type UpdateVcsgLocationErrors struct {
 func infoUpdateVcsgLocationOperation() OperationInfo {
 	return OperationInfo{Name: "updateVcsgLocation", Code: UpdateVcsgLocation, Argument: &TypeRef{ModuleOID: "0.4.0.0.1.3.11.22", ASN1Name: "UpdateVcsgLocationArg", GoPackage: "github.com/gomaja/go-asn1/telecom/ss7/gsm_map", GoName: "UpdateVcsgLocationArg"}, Result: &TypeRef{ModuleOID: "0.4.0.0.1.3.11.22", ASN1Name: "UpdateVcsgLocationRes", GoPackage: "github.com/gomaja/go-asn1/telecom/ss7/gsm_map", GoName: "UpdateVcsgLocationRes"}, ArgumentOptional: nil, ResultOptional: nil, ReturnResult: true, ReturnResultExplicit: false, Source: sourceInfo4("updateVcsgLocation", "17.6.1"), Errors: []ErrorInfo{infoSystemFailureError(), infoUnexpectedDataValueError(), infoUnknownSubscriberError()}, Linked: []MAPOperationCode{}}
 }
+
+// Operations returns detached metadata snapshots of the source operation catalogue.
 func Operations() []OperationInfo {
 	return []OperationInfo{infoActivateSSOperation(), infoActivateTraceModeOperation(), infoAlertServiceCentreOperation(), infoAnyTimeInterrogationOperation(), infoAnyTimeModificationOperation(), infoAnyTimeSubscriptionInterrogationOperation(), infoAuthenticationFailureReportOperation(), infoCancelLocationOperation(), infoCancelVcsgLocationOperation(), infoCheckIMEIOperation(), infoDeactivateSSOperation(), infoDeactivateTraceModeOperation(), infoDeleteSubscriberDataOperation(), infoEraseCCEntryOperation(), infoEraseSSOperation(), infoFailureReportOperation(), infoForwardAccessSignallingOperation(), infoForwardCheckSSIndicationOperation(), infoForwardGroupCallSignallingOperation(), infoGetPasswordOperation(), infoInformServiceCentreOperation(), infoInsertSubscriberDataOperation(), infoInterrogateSSOperation(), infoIstAlertOperation(), infoIstCommandOperation(), infoMoForwardSMOperation(), infoMtForwardSMOperation(), infoMtForwardSMVGCSOperation(), infoNoteMMEventOperation(), infoNoteMsPresentForGprsOperation(), infoNoteSubscriberDataModifiedOperation(), infoPrepareGroupCallOperation(), infoPrepareHandoverOperation(), infoPrepareSubsequentHandoverOperation(), infoProcessAccessSignallingOperation(), infoProcessGroupCallSignallingOperation(), infoProcessUnstructuredSSRequestOperation(), infoProvideRoamingNumberOperation(), infoProvideSubscriberInfoOperation(), infoProvideSubscriberLocationOperation(), infoPurgeMSOperation(), infoReadyForSMOperation(), infoRegisterCCEntryOperation(), infoRegisterPasswordOperation(), infoRegisterSSOperation(), infoReleaseResourcesOperation(), infoRemoteUserFreeOperation(), infoReportSMDeliveryStatusOperation(), infoResetOperation(), infoRestoreDataOperation(), infoResumeCallHandlingOperation(), infoSendAuthenticationInfoOperation(), infoSendEndSignalOperation(), infoSendGroupCallEndSignalOperation(), infoSendGroupCallInfoOperation(), infoSendIMSIOperation(), infoSendIdentificationOperation(), infoSendRoutingInfoOperation(), infoSendRoutingInfoForGprsOperation(), infoSendRoutingInfoForLCSOperation(), infoSendRoutingInfoForSMOperation(), infoSetReportingStateOperation(), infoSsInvocationNotificationOperation(), infoStatusReportOperation(), infoSubscriberLocationReportOperation(), infoUnstructuredSSNotifyOperation(), infoUnstructuredSSRequestOperation(), infoUpdateGprsLocationOperation(), infoUpdateLocationOperation(), infoUpdateVcsgLocationOperation()}
 }
+
+// LookupOperation returns detached metadata for code, or zero metadata and false if absent.
 func LookupOperation(code MAPOperationCode) (OperationInfo, bool) {
 	switch code {
 	case ActivateSS:
@@ -1412,9 +1420,13 @@ func infoSSResourcesNotAvailableError() SSErrorInfo {
 func infoSSSpecialServiceCodeError() SSErrorInfo {
 	return SSErrorInfo{Name: "specialServiceCode", Code: SSSpecialServiceCode, Parameter: nil, ParameterOptional: nil, Source: sourceInfo8("specialServiceCode", "4.3")}
 }
+
+// SSErrors returns detached metadata snapshots of the source error catalogue.
 func SSErrors() []SSErrorInfo {
 	return []SSErrorInfo{infoSSDeflectionToServedSubscriberError(), infoSSInvalidDeflectedToNumberError(), infoSSLcsInvalidPruError(), infoSSLcsPruAssociationRejError(), infoSSMaxNumberOfMPTYParticipantsExceededError(), infoSSRejectedByNetworkError(), infoSSRejectedByUserError(), infoSSResourcesNotAvailableError(), infoSSSpecialServiceCodeError()}
 }
+
+// LookupSSError returns detached metadata for code, or zero metadata and false if absent.
 func LookupSSError(code SSErrorCode) (SSErrorInfo, bool) {
 	switch code {
 	case SSDeflectionToServedSubscriber:
@@ -1835,9 +1847,13 @@ type SSUserUserServiceErrors struct {
 func infoSSUserUserServiceOperation() SSOperationInfo {
 	return SSOperationInfo{Name: "userUserService", Code: SSUserUserService, Argument: &TypeRef{ModuleOID: "0.4.0.0.2.3.2.18", ASN1Name: "UserUserServiceArg", GoPackage: "github.com/gomaja/go-asn1/telecom/ss7/gsm_map", GoName: "UserUserServiceArg"}, Result: nil, ArgumentOptional: nil, ResultOptional: nil, ReturnResult: true, ReturnResultExplicit: true, Source: sourceInfo9("userUserService", "4.2"), Errors: []SSErrorMemberInfo{SSErrorMemberInfo{Name: "illegalSS-Operation", DeclaringModuleOID: "{#0/#4/#0/#0/#1/#3/#10/#21}", LocalCode: 16, Parameter: &TypeRef{ModuleOID: "0.4.0.0.1.3.17.21", ASN1Name: "IllegalSS-OperationParam", GoPackage: "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_er_datatypes", GoName: "ERIllegalSSOperationParam"}, Source: sourceInfo10("illegalSS-Operation", "17.6.6")}, SSErrorMemberInfo{Name: "ss-ErrorStatus", DeclaringModuleOID: "{#0/#4/#0/#0/#1/#3/#10/#21}", LocalCode: 17, Parameter: &TypeRef{ModuleOID: "0.4.0.0.1.3.14.21", ASN1Name: "SS-Status", GoPackage: "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_datatypes", GoName: "SSSSStatus"}, Source: sourceInfo10("ss-ErrorStatus", "17.6.6")}, SSErrorMemberInfo{Name: "ss-NotAvailable", DeclaringModuleOID: "{#0/#4/#0/#0/#1/#3/#10/#21}", LocalCode: 18, Parameter: &TypeRef{ModuleOID: "0.4.0.0.1.3.17.21", ASN1Name: "SS-NotAvailableParam", GoPackage: "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_er_datatypes", GoName: "ERSSNotAvailableParam"}, Source: sourceInfo10("ss-NotAvailable", "17.6.6")}, SSErrorMemberInfo{Name: "ss-Incompatibility", DeclaringModuleOID: "{#0/#4/#0/#0/#1/#3/#10/#21}", LocalCode: 20, Parameter: &TypeRef{ModuleOID: "0.4.0.0.1.3.17.21", ASN1Name: "SS-IncompatibilityCause", GoPackage: "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_er_datatypes", GoName: "ERSSIncompatibilityCause"}, Source: sourceInfo10("ss-Incompatibility", "17.6.6")}, SSErrorMemberInfo{Name: "facilityNotSupported", DeclaringModuleOID: "{#0/#4/#0/#0/#1/#3/#10/#21}", LocalCode: 21, Parameter: &TypeRef{ModuleOID: "0.4.0.0.1.3.17.21", ASN1Name: "FacilityNotSupParam", GoPackage: "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_er_datatypes", GoName: "ERFacilityNotSupParam"}, Source: sourceInfo10("facilityNotSupported", "17.6.6")}, SSErrorMemberInfo{Name: "systemFailure", DeclaringModuleOID: "{#0/#4/#0/#0/#1/#3/#10/#21}", LocalCode: 34, Parameter: &TypeRef{ModuleOID: "0.4.0.0.1.3.17.21", ASN1Name: "SystemFailureParam", GoPackage: "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_er_datatypes", GoName: "ERSystemFailureParam"}, Source: sourceInfo10("systemFailure", "17.6.6")}, SSErrorMemberInfo{Name: "resourcesNotAvailable", DeclaringModuleOID: "{#0/#4/#0/#0/#2/#3/#1/#18}", LocalCode: 127, Parameter: nil, Source: sourceInfo8("resourcesNotAvailable", "4.3")}, SSErrorMemberInfo{Name: "rejectedByNetwork", DeclaringModuleOID: "{#0/#4/#0/#0/#2/#3/#1/#18}", LocalCode: 122, Parameter: nil, Source: sourceInfo8("rejectedByNetwork", "4.3")}, SSErrorMemberInfo{Name: "rejectedByUser", DeclaringModuleOID: "{#0/#4/#0/#0/#2/#3/#1/#18}", LocalCode: 121, Parameter: nil, Source: sourceInfo8("rejectedByUser", "4.3")}}}
 }
+
+// SSOperations returns detached metadata snapshots of the source operation catalogue.
 func SSOperations() []SSOperationInfo {
 	return []SSOperationInfo{infoSSAccessRegisterCCEntryOperation(), infoSSBuildMPTYOperation(), infoSSCallDeflectionOperation(), infoSSExplicitCTOperation(), infoSSForwardCUGInfoOperation(), infoSSForwardChargeAdviceOperation(), infoSSHoldMPTYOperation(), infoSSLcsAreaEventCancellationOperation(), infoSSLcsAreaEventReportOperation(), infoSSLcsAreaEventRequestOperation(), infoSSLcsCancelDeferredLocationOperation(), infoSSLcsDLRSPPTransportOperation(), infoSSLcsEventReportOperation(), infoSSLcsLocationNotificationOperation(), infoSSLcsLocationPrivacySettingOperation(), infoSSLcsLocationUpdateOperation(), infoSSLcsMOLROperation(), infoSSLcsMSCancelDeferredLocationOperation(), infoSSLcsPeriodicLocationCancellationOperation(), infoSSLcsPeriodicLocationRequestOperation(), infoSSLcsPeriodicTriggeredInvokeOperation(), infoSSLcsPruAssociationOperation(), infoSSLcsPruDisassociationOperation(), infoSSLcsSLMOLROperation(), infoSSLcsSLMTLROperation(), infoSSLcsULRSPPTransportOperation(), infoSSNotifySSOperation(), infoSSProcessUnstructuredSSDataOperation(), infoSSRetrieveMPTYOperation(), infoSSSplitMPTYOperation(), infoSSUserUserServiceOperation()}
 }
+
+// LookupSSOperation returns detached metadata for code, or zero metadata and false if absent.
 func LookupSSOperation(code SSOperationCode) (SSOperationInfo, bool) {
 	switch code {
 	case SSAccessRegisterCCEntry:
@@ -1914,6 +1930,7 @@ type ApplicationContext struct {
 	Source  SourceRef
 }
 
+// ApplicationContexts returns detached source OID and version metadata without negotiation policy.
 func ApplicationContexts() []ApplicationContext {
 	return []ApplicationContext{
 		{Name: "networkLocUpContext-v3", OID: NetworkLocUpContextV3(), Version: 3, Source: sourceInfo11("networkLocUpContext-v3", "17.3.3")},
@@ -1962,6 +1979,8 @@ func ApplicationContexts() []ApplicationContext {
 		{Name: "vcsgLocationCancellationContext-v3", OID: VcsgLocationCancellationContextV3(), Version: 3, Source: sourceInfo11("vcsgLocationCancellationContext-v3", "17.3.3")},
 	}
 }
+
+// LookupApplicationContext returns detached metadata for oid, or a zero context and false if absent.
 func LookupApplicationContext(oid runtime.ObjectIdentifier) (ApplicationContext, bool) {
 	for _, context := range ApplicationContexts() {
 		if context.OID.Equal(oid) {

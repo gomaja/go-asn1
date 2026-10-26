@@ -37,6 +37,7 @@ const (
 	AdditionalRoamingNotAllowedCauseSupportedRATTypesNotAllowed AdditionalRoamingNotAllowedCause = 0
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v AdditionalRoamingNotAllowedCause) String() string {
 	switch v {
 	case AdditionalRoamingNotAllowedCauseSupportedRATTypesNotAllowed:
@@ -54,6 +55,7 @@ const (
 	RoamingNotAllowedCauseOperatorDeterminedBarring RoamingNotAllowedCause = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v RoamingNotAllowedCause) String() string {
 	switch v {
 	case RoamingNotAllowedCausePlmnRoamingNotAllowed:
@@ -103,6 +105,7 @@ const (
 	CallBarringCauseOperatorBarring      CallBarringCause = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CallBarringCause) String() string {
 	switch v {
 	case CallBarringCauseBarringServiceActive:
@@ -150,6 +153,7 @@ const (
 	CUGRejectCauseCalledPartySSInteractionViolation           CUGRejectCause = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CUGRejectCause) String() string {
 	switch v {
 	case CUGRejectCauseIncomingCallsBarredWithinCUG:
@@ -187,6 +191,7 @@ const (
 	PWRegistrationFailureCauseNewPasswordsMismatch PWRegistrationFailureCause = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v PWRegistrationFailureCause) String() string {
 	switch v {
 	case PWRegistrationFailureCauseUndetermined:
@@ -213,6 +218,7 @@ const (
 	SMEnumeratedDeliveryFailureCauseSubscriberNotSCSubscriber SMEnumeratedDeliveryFailureCause = 6
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SMEnumeratedDeliveryFailureCause) String() string {
 	switch v {
 	case SMEnumeratedDeliveryFailureCauseMemoryCapacityExceeded:
@@ -317,6 +323,7 @@ const (
 	FailureCauseParamLimitReachedOnNumberOfConcurrentLocationRequests FailureCauseParam = 0
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v FailureCauseParam) String() string {
 	switch v {
 	case FailureCauseParamLimitReachedOnNumberOfConcurrentLocationRequests:
@@ -394,6 +401,7 @@ const (
 	UnknownSubscriberDiagnosticNpdbMismatch               UnknownSubscriberDiagnostic = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v UnknownSubscriberDiagnostic) String() string {
 	switch v {
 	case UnknownSubscriberDiagnosticImsiUnknown:
@@ -519,6 +527,7 @@ const (
 	AbsentSubscriberReasonBusySubscriber AbsentSubscriberReason = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v AbsentSubscriberReason) String() string {
 	switch v {
 	case AbsentSubscriberReasonImsiDetach:
@@ -774,6 +783,7 @@ const (
 	UnauthorizedLCSClientDiagnosticUnauthorizedCallSessionRelatedExternalClient   UnauthorizedLCSClientDiagnostic = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v UnauthorizedLCSClientDiagnostic) String() string {
 	switch v {
 	case UnauthorizedLCSClientDiagnosticNoAdditionalInformation:
@@ -824,6 +834,7 @@ const (
 	PositionMethodFailureDiagnosticPositionMethodNotAvailableInLocationArea PositionMethodFailureDiagnostic = 8
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v PositionMethodFailureDiagnostic) String() string {
 	switch v {
 	case PositionMethodFailureDiagnosticCongestion:

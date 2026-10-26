@@ -41,6 +41,7 @@ const (
 	ERAdditionalRoamingNotAllowedCauseSupportedRATTypesNotAllowed ERAdditionalRoamingNotAllowedCause = 0
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERAdditionalRoamingNotAllowedCause) String() string {
 	switch v {
 	case ERAdditionalRoamingNotAllowedCauseSupportedRATTypesNotAllowed:
@@ -58,6 +59,7 @@ const (
 	ERRoamingNotAllowedCauseOperatorDeterminedBarring ERRoamingNotAllowedCause = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERRoamingNotAllowedCause) String() string {
 	switch v {
 	case ERRoamingNotAllowedCausePlmnRoamingNotAllowed:
@@ -107,6 +109,7 @@ const (
 	ERCallBarringCauseOperatorBarring      ERCallBarringCause = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERCallBarringCause) String() string {
 	switch v {
 	case ERCallBarringCauseBarringServiceActive:
@@ -154,6 +157,7 @@ const (
 	ERCUGRejectCauseCalledPartySSInteractionViolation           ERCUGRejectCause = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERCUGRejectCause) String() string {
 	switch v {
 	case ERCUGRejectCauseIncomingCallsBarredWithinCUG:
@@ -191,6 +195,7 @@ const (
 	ERPWRegistrationFailureCauseNewPasswordsMismatch ERPWRegistrationFailureCause = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERPWRegistrationFailureCause) String() string {
 	switch v {
 	case ERPWRegistrationFailureCauseUndetermined:
@@ -217,6 +222,7 @@ const (
 	ERSMEnumeratedDeliveryFailureCauseSubscriberNotSCSubscriber ERSMEnumeratedDeliveryFailureCause = 6
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERSMEnumeratedDeliveryFailureCause) String() string {
 	switch v {
 	case ERSMEnumeratedDeliveryFailureCauseMemoryCapacityExceeded:
@@ -321,6 +327,7 @@ const (
 	ERFailureCauseParamLimitReachedOnNumberOfConcurrentLocationRequests ERFailureCauseParam = 0
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERFailureCauseParam) String() string {
 	switch v {
 	case ERFailureCauseParamLimitReachedOnNumberOfConcurrentLocationRequests:
@@ -398,6 +405,7 @@ const (
 	ERUnknownSubscriberDiagnosticNpdbMismatch               ERUnknownSubscriberDiagnostic = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERUnknownSubscriberDiagnostic) String() string {
 	switch v {
 	case ERUnknownSubscriberDiagnosticImsiUnknown:
@@ -523,6 +531,7 @@ const (
 	ERAbsentSubscriberReasonBusySubscriber ERAbsentSubscriberReason = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERAbsentSubscriberReason) String() string {
 	switch v {
 	case ERAbsentSubscriberReasonImsiDetach:
@@ -778,6 +787,7 @@ const (
 	ERUnauthorizedLCSClientDiagnosticUnauthorizedCallSessionRelatedExternalClient   ERUnauthorizedLCSClientDiagnostic = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERUnauthorizedLCSClientDiagnostic) String() string {
 	switch v {
 	case ERUnauthorizedLCSClientDiagnosticNoAdditionalInformation:
@@ -828,6 +838,7 @@ const (
 	ERPositionMethodFailureDiagnosticPositionMethodNotAvailableInLocationArea ERPositionMethodFailureDiagnostic = 8
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ERPositionMethodFailureDiagnostic) String() string {
 	switch v {
 	case ERPositionMethodFailureDiagnosticCongestion:

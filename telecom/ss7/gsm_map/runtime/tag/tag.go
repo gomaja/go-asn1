@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/tag/tag.go; SHA-256 3348e795138c1e838b79aee389b1028b562735a064f9c930c9b5494b69a9a3d2.
+// Runtime source: runtime/tag/tag.go; SHA-256 72e1b8e22b8dfbf8813fb1a920c065f102f262b520b96241cd14bfceb3d0a8df.
 // Package tag provides ASN.1 tag definitions and utilities.
 package tag
 
@@ -16,6 +16,7 @@ const (
 	ClassPrivate         Class = 3
 )
 
+// String returns the ASN.1 class label, or CLASS(n) for an unknown class.
 func (c Class) String() string {
 	switch c {
 	case ClassUniversal:
@@ -82,6 +83,7 @@ func (t Tag) Equal(other Tag) bool {
 	return t.Class == other.Class && t.Number == other.Number
 }
 
+// String formats the class, number and primitive or constructed form.
 func (t Tag) String() string {
 	form := "PRIMITIVE"
 	if t.Constructed {

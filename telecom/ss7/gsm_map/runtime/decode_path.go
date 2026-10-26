@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/decode_path.go; SHA-256 bd44776781516e76f6dc66a0355be48d9d799ae1d088e50f78915bfbc2a004c4.
+// Runtime source: runtime/decode_path.go; SHA-256 f9467378c5bd908b2ce35c598aa5592e2cf03255629c709e84dfee0570d39fbe.
 package runtime
 
 import "strings"
@@ -12,10 +12,12 @@ type DecodePathError struct {
 	Err  error
 }
 
+// Error prefixes the underlying diagnostic with its component path.
 func (e *DecodePathError) Error() string {
 	return "decoding " + e.Path + ": " + e.Err.Error()
 }
 
+// Unwrap returns the underlying decode error.
 func (e *DecodePathError) Unwrap() error {
 	return e.Err
 }

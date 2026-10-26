@@ -93,6 +93,7 @@ const (
 	MulticallIndicatorNbrUserexceeded MulticallIndicator = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MulticallIndicator) String() string {
 	switch v {
 	case MulticallIndicatorNbrSNexceeded:
@@ -165,6 +166,7 @@ const (
 	CallOnHoldIndicatorCallOnHold    CallOnHoldIndicator = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CallOnHoldIndicator) String() string {
 	switch v {
 	case CallOnHoldIndicatorCallRetrieved:
@@ -209,6 +211,7 @@ const (
 	ECTCallStateActive   ECTCallState = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ECTCallState) String() string {
 	switch v {
 	case ECTCallStateAlerting:
@@ -400,6 +403,7 @@ const (
 	UUSServiceUUS3 UUSService = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v UUSService) String() string {
 	switch v {
 	case UUSServiceUUS1:
@@ -469,6 +473,7 @@ const (
 	VerificationResponsePermissionGranted VerificationResponse = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v VerificationResponse) String() string {
 	switch v {
 	case VerificationResponsePermissionDenied:
@@ -534,6 +539,7 @@ const (
 	MOLRTypeMaximumIntervalExpirationEvent         MOLRType = 12
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MOLRType) String() string {
 	switch v {
 	case MOLRTypeLocationEstimate:
@@ -579,6 +585,7 @@ const (
 	LocationMethodAssistedGPSandGANSS LocationMethod = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LocationMethod) String() string {
 	switch v {
 	case LocationMethodMsBasedEOTD:
@@ -614,6 +621,7 @@ const (
 	DataTypesTerminationCauseNetworkTermination    DataTypesTerminationCause = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v DataTypesTerminationCause) String() string {
 	switch v {
 	case DataTypesTerminationCauseSubscriberTermination:
@@ -681,6 +689,7 @@ const (
 	SLMOLRTypeRangingSidelink SLMOLRType = 0
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SLMOLRType) String() string {
 	switch v {
 	case SLMOLRTypeRangingSidelink:
@@ -762,6 +771,7 @@ const (
 	RangingRoleSlClientUE    RangingRole = 4
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v RangingRole) String() string {
 	switch v {
 	case RangingRoleTargetUE:
@@ -974,6 +984,7 @@ const (
 	UnitsLinearVelocityCmpers UnitsLinearVelocity = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v UnitsLinearVelocity) String() string {
 	switch v {
 	case UnitsLinearVelocityMpers:
@@ -993,6 +1004,7 @@ const (
 	UnitsAngularVelocityDegpersec01 UnitsAngularVelocity = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v UnitsAngularVelocity) String() string {
 	switch v {
 	case UnitsAngularVelocityDegpersec1:
@@ -1184,6 +1196,7 @@ const (
 	DataTypesAreaTypeNcgi            DataTypesAreaType = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v DataTypesAreaType) String() string {
 	switch v {
 	case DataTypesAreaTypeTrackingArea:
@@ -1213,6 +1226,7 @@ const (
 	DataTypesOccurrenceInfoMultipleTimeEvent DataTypesOccurrenceInfo = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v DataTypesOccurrenceInfo) String() string {
 	switch v {
 	case DataTypesOccurrenceInfoOneTimeEvent:
@@ -1294,6 +1308,7 @@ const (
 	ReportingIndOutsideReporting ReportingInd = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ReportingInd) String() string {
 	switch v {
 	case ReportingIndInsideReporting:
@@ -1351,6 +1366,7 @@ const (
 	EventTypeCumulativeEventReport          EventType = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v EventType) String() string {
 	switch v {
 	case EventTypePeriodicEvent:
@@ -1489,6 +1505,7 @@ const (
 	LCSLocationPrivacyIndicationRangingAllowed     LCSLocationPrivacyIndication = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSLocationPrivacyIndication) String() string {
 	switch v {
 	case LCSLocationPrivacyIndicationLocationDisallowed:
@@ -1541,6 +1558,7 @@ const (
 	LCSAssociationTypeAssociationUpdate  LCSAssociationType = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSAssociationType) String() string {
 	switch v {
 	case LCSAssociationTypeInitialAssociation:
@@ -1560,6 +1578,7 @@ const (
 	LCSStateOfPruOff LCSStateOfPru = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSStateOfPru) String() string {
 	switch v {
 	case LCSStateOfPruOn:
@@ -1619,6 +1638,7 @@ const (
 	SLMTLRTypePeriodictriggeredrangingSidelink SLMTLRType = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v SLMTLRType) String() string {
 	switch v {
 	case SLMTLRTypeRangingSidelink:
@@ -1662,6 +1682,7 @@ const (
 	LocatedUEselectLmfselect      LocatedUEselect = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LocatedUEselect) String() string {
 	switch v {
 	case LocatedUEselectTargetUESelect:
@@ -1714,6 +1735,7 @@ const (
 	UEBasedCalculatedbyUE    UEBased = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v UEBased) String() string {
 	switch v {
 	case UEBasedNotcalculatedbyUE:

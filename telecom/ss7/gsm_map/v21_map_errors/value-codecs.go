@@ -23,6 +23,19 @@ type ValueCodec[T any] struct {
 }
 
 func (c ValueCodec[T]) valid() bool { return c.decode != nil && c.encode != nil && c.der != nil }
+
+// DecodeBER delegates one complete BER value to the bound decoder with opts.
+// Generated factories validate strictly by default; ber.WithTolerance records
+// representable validation violations in its log. Malformed
+// structure and exhausted limits remain errors. ber.WithDecodeLimits and
+// ber.WithDiagnosticLimits control budgets; ber.WithoutReplayCapture omits capture.
+// Otherwise retained forms permit later
+// byte-exact BER replay of unchanged values. Trailing bytes and invalid options
+// produce errors matching ber.ErrExtraData and ber.ErrInvalidValue, respectively;
+// exhausted limits match ber.ErrResourceLimit. MAP source roots apply TS 29.002
+// V19.1.0 §17.1.1; other roots use X.690 (02/2021) §8.
+// Decoder errors are returned unchanged. An invalid codec, including the zero
+// value, returns the zero T and ber.ErrInvalidCodec without calling a decoder.
 func (c ValueCodec[T]) DecodeBER(data []byte, opts ...ber.DecodeOption) (T, error) {
 	if !c.valid() {
 		var zero T
@@ -30,6 +43,17 @@ func (c ValueCodec[T]) DecodeBER(data []byte, opts ...ber.DecodeOption) (T, erro
 	}
 	return c.decode(data, opts...)
 }
+
+// EncodeBER delegates value to the bound BER encoder with opts.
+// Generated factories validate strictly by default; ber.WithTolerance records
+// representable violations in its log. Unchanged received forms replay byte
+// exactly when the selected policy accepts them; ber.WithoutBERReplay rebuilds
+// typed values recursively. Strict MAP replay rejects retained profile
+// violations; edited values repair affected typed parts while preserving clean
+// parts. Fresh MAP forms follow TS 29.002 V19.1.0 §17.1.1; generic BER follows
+// X.690 (02/2021) §8. Invalid options and unrepresentable values remain errors.
+// Encoder errors are returned unchanged. An invalid codec, including the zero
+// value, returns nil and ber.ErrInvalidCodec without calling an encoder.
 func (c ValueCodec[T]) EncodeBER(value T, opts ...ber.EncodeOption) ([]byte, error) {
 	if !c.valid() {
 		return nil, ber.ErrInvalidCodec
@@ -37,7 +61,11 @@ func (c ValueCodec[T]) EncodeBER(value T, opts ...ber.EncodeOption) ([]byte, err
 	return c.encode(value, opts...)
 }
 
-// EncodeDER always validates strictly, independently of BER tolerance options.
+// EncodeDER delegates value to the bound DER encoder without BER options.
+// Generated factories validate strictly and rebuild the canonical encoding
+// instead of replaying received BER forms (X.690 (02/2021) §§10–11).
+// Encoder errors are returned unchanged. An invalid codec, including the zero
+// value, returns nil and ber.ErrInvalidCodec without calling an encoder.
 func (c ValueCodec[T]) EncodeDER(value T) ([]byte, error) {
 	if !c.valid() {
 		return nil, ber.ErrInvalidCodec

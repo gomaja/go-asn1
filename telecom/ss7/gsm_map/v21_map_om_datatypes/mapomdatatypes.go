@@ -99,6 +99,7 @@ const (
 	OMPeriodUMTSD64000ms OMPeriodUMTS = 14
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v OMPeriodUMTS) String() string {
 	switch v {
 	case OMPeriodUMTSD250ms:
@@ -149,6 +150,7 @@ const (
 	OMPeriodLTED1min    OMPeriodLTE = 6
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v OMPeriodLTE) String() string {
 	switch v {
 	case OMPeriodLTED1024ms:
@@ -192,6 +194,7 @@ const (
 	OMJobTypeImmediateMDTAndTrace OMJobType = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v OMJobType) String() string {
 	switch v {
 	case OMJobTypeImmediateMDTOnly:
@@ -298,6 +301,7 @@ const (
 	OMReportIntervalLte60min    OMReportInterval = 27
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v OMReportInterval) String() string {
 	switch v {
 	case OMReportIntervalUmts250ms:
@@ -375,6 +379,7 @@ const (
 	OMReportAmountInfinity OMReportAmount = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v OMReportAmount) String() string {
 	switch v {
 	case OMReportAmountD1:
@@ -418,6 +423,7 @@ const (
 	OMLoggingIntervalD61dot44 OMLoggingInterval = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v OMLoggingInterval) String() string {
 	switch v {
 	case OMLoggingIntervalD1dot28:
@@ -453,6 +459,7 @@ const (
 	OMLoggingDurationD7200sec OMLoggingDuration = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v OMLoggingDuration) String() string {
 	switch v {
 	case OMLoggingDurationD600sec:
@@ -523,6 +530,7 @@ const (
 	OMTraceDepthMaximum OMTraceDepth = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v OMTraceDepth) String() string {
 	switch v {
 	case OMTraceDepthMinimum:
@@ -545,6 +553,7 @@ const (
 	OMTraceDepthExtensionMaximumWithoutVendorSpecificExtension OMTraceDepthExtension = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v OMTraceDepthExtension) String() string {
 	switch v {
 	case OMTraceDepthExtensionMinimumWithoutVendorSpecificExtension:
