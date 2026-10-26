@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/opaque.go; SHA-256 1017583ade573c367bc62f762845f5ce079e46e08b6cf616ee22f24ef285fbf9.
+// Runtime source: runtime/aper/opaque.go; SHA-256 9d228f2aaa2f01d1238a82f07dd4ce54984f26dddf67cb3dfc6c40b05a36f92d.
 package aper
 
 import (
@@ -148,6 +148,8 @@ func originalContiguousRange(bb *BitBuffer, start, end uint64) (BitSpan, bool) {
 	return BitSpan{Start: first, End: last}, true
 }
 
+// Bytes returns an independent copy of the open-type contents, or nil for the
+// zero value or when the enclosing operation cannot reserve the copy.
 func (v OpaqueOpenType) Bytes() []byte {
 	if v.image.Present() {
 		if v.parent != nil {
@@ -164,6 +166,9 @@ func (v OpaqueOpenType) Bytes() []byte {
 	}
 	return append([]byte(nil), v.bytes...)
 }
+
+// Origin returns the provenance with an independent copy of its location spans.
+// It returns an empty origin for the zero value or if the operation cannot reserve the copy.
 func (v OpaqueOpenType) Origin() OpaqueOrigin {
 	if v.parent != nil {
 		if err := v.parent.ChargeAllocation(uint64(len(v.origin.Location.Spans)), 16); err != nil {
@@ -581,6 +586,8 @@ func (v OpaqueOpenType) ObserveIndexed(kind ObservationKind, index int64) error 
 	return v.Observe(kind)
 }
 
+// RetainContents stores an immutable view of the contents in the non-nil dst
+// without copying bytes. The zero value stores an absent span.
 func (v OpaqueOpenType) RetainContents(dst *WireSpan) {
 	if v.image.Present() {
 		*dst = v.image

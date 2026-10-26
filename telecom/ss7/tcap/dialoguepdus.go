@@ -178,6 +178,7 @@ func (v ABRTSource) Name() (string, bool) {
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v ABRTSource) String() string {
 	if name, ok := v.Name(); ok {
 		return name
@@ -280,6 +281,7 @@ func (v AssociateResult) Name() (string, bool) {
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v AssociateResult) String() string {
 	if name, ok := v.Name(); ok {
 		return name
@@ -421,6 +423,7 @@ func (v ReleaseRequestReason) Name() (string, bool) {
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v ReleaseRequestReason) String() string {
 	if name, ok := v.Name(); ok {
 		return name
@@ -532,6 +535,7 @@ func (v ReleaseResponseReason) Name() (string, bool) {
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v ReleaseResponseReason) String() string {
 	if name, ok := v.Name(); ok {
 		return name
@@ -650,6 +654,7 @@ func (v AssociateSourceDiagnosticDialogueServiceUserValue) Name() (string, bool)
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v AssociateSourceDiagnosticDialogueServiceUserValue) String() string {
 	if name, ok := v.Name(); ok {
 		return name
@@ -761,6 +766,7 @@ func (v AssociateSourceDiagnosticDialogueServiceProviderValue) Name() (string, b
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v AssociateSourceDiagnosticDialogueServiceProviderValue) String() string {
 	if name, ok := v.Name(); ok {
 		return name

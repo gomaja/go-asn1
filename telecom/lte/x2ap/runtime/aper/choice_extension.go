@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/choice_extension.go; SHA-256 25db5eabc620438461ebfa60d18a6c8b8fe70f209a11ccf524ea0f169aab4f9c.
+// Runtime source: runtime/aper/choice_extension.go; SHA-256 0be0e758997105646fccd4cfdac6692081f111eee7e49859d86292b431440dfc.
 package aper
 
 import (
@@ -63,13 +63,19 @@ func DecodeChoiceExtensionAligned(bb *BitBuffer, index int64) (result0 ChoiceExt
 	return ChoiceExtension{index: index, contents: raw.bytes, image: raw.image, origin: origin, contentLocation: raw.CaptureContentLocation()}, nil
 }
 
+// Index returns the extension alternative index; the zero value returns zero.
 func (v ChoiceExtension) Index() int64 { return v.index }
+
+// Contents returns an independent copy of the alternative contents, or nil for the zero value.
 func (v ChoiceExtension) Contents() []byte {
 	if v.image.Present() {
 		return v.image.Bytes()
 	}
 	return append([]byte(nil), v.contents...)
 }
+
+// Origin returns the provenance with an independent copy of its location spans.
+// The zero value returns an empty origin.
 func (v ChoiceExtension) Origin() OpaqueOrigin {
 	origin := v.origin
 	origin.Location.Spans = append([]BitSpan(nil), origin.Location.Spans...)

@@ -105,6 +105,7 @@ func (value *DialoguePortion) UniDialogue() (*UniDialoguePDU, bool) {
 	return value.unidialogue, true
 }
 
+// ContentKind returns the resolved dialogue syntax, or UnknownSyntax for a nil receiver or zero value.
 func (value *DialoguePortion) ContentKind() DialogueContentKind {
 	if value == nil {
 		return UnknownSyntax

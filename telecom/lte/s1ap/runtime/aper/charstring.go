@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/charstring.go; SHA-256 cfee6a93cd360cff09727f35bd0c1f7ca867308884b366da2fd5dcad5e177fa9.
+// Runtime source: runtime/aper/charstring.go; SHA-256 1885055e9533c99418884dfc4ff020d132474b7dcf1913ba9a5db5bcbf24f756.
 package aper
 
 import (
@@ -256,10 +256,12 @@ type characterStringTruncation struct {
 	required, remaining int
 }
 
+// Error formats ErrTruncated with the required and remaining character-string bit counts.
 func (e *characterStringTruncation) Error() string {
 	return fmt.Sprintf("%s: character string requires %d bits with %d remaining", ErrTruncated, e.required, e.remaining)
 }
 
+// Unwrap returns ErrTruncated.
 func (e *characterStringTruncation) Unwrap() error { return ErrTruncated }
 
 // read decodes length characters after checking that their bits are present.

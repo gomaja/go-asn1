@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/errors.go; SHA-256 5150fedb52b5f94816f3cc7bbf4fb9bd422c7c8cf92e12b8ea3e42fcdda74127.
+// Runtime source: runtime/ber/errors.go; SHA-256 42dd0bed9317378d46f1aa447ffbbfffacc066f6cb800dca19ca65c353018e78.
 package ber
 
 import (
@@ -27,6 +27,7 @@ type DecodeError struct {
 	Cause    error
 }
 
+// Error describes the field, byte offset and underlying decode cause.
 func (e *DecodeError) Error() string {
 	if e.Field != "" {
 		return fmt.Sprintf("ber: decode %s.%s at offset %d: %v", e.TypeName, e.Field, e.Offset, e.Cause)
@@ -37,6 +38,7 @@ func (e *DecodeError) Error() string {
 	return fmt.Sprintf("ber: decode at offset %d: %v", e.Offset, e.Cause)
 }
 
+// Unwrap returns the underlying decode cause.
 func (e *DecodeError) Unwrap() error {
 	return e.Cause
 }
@@ -55,8 +57,10 @@ type ElementError struct {
 	cause        error
 }
 
+// Error returns the underlying BER validation diagnostic text.
 func (e *ElementError) Error() string { return e.cause.Error() }
 
+// Unwrap returns the underlying BER validation cause.
 func (e *ElementError) Unwrap() error { return e.cause }
 
 // Offset returns the identifier offset of the failing TLV.

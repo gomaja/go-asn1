@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/bitbuffer.go; SHA-256 dbc33e4f04d24726675e612a9bf0023f5a9dc1f74a4b69d992dd058b8f59dd0b.
+// Runtime source: runtime/aper/bitbuffer.go; SHA-256 7d9a10a7160aed090a9c18bd368ed4c2448a9b7fe4cd8207f87f8523ba191f16.
 package aper
 
 import (
@@ -638,6 +638,7 @@ func octetsForBitLength(bitLen int) (int, error) {
 	return octets, nil
 }
 
+// InheritDecodeOptions shares the non-nil parent's trace and operation budget.
 func (bb *BitBuffer) InheritDecodeOptions(parent *BitBuffer) {
 	bb.trace = parent.trace
 	bb.budget = parent.decodeBudget()

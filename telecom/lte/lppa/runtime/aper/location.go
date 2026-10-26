@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/location.go; SHA-256 1a0dd84b889d03d0ad6a6f21d22f6d86b11e0586d15932a65421a27215784634.
+// Runtime source: runtime/aper/location.go; SHA-256 8f2f700c5e966995f816565c030e9f84d7141b38b212f0a4cd153fd5592685fd.
 package aper
 
 import "math/bits"
@@ -67,18 +67,26 @@ func NewCompleteReceivedForm(present bool, original []byte, path Path, absolute 
 	return NewReceivedForm(present, original, location, padding)
 }
 
+// Present reports whether a received form was recorded; the zero value returns false.
 func (f ReceivedForm) Present() bool { return f.present }
+
+// OriginalBytes returns an independent copy of the received encoding, or nil for the zero value.
 func (f ReceivedForm) OriginalBytes() []byte {
 	if f.image.Present() {
 		return f.image.Bytes()
 	}
 	return append([]byte(nil), f.original...)
 }
+
+// Location returns the recorded path and an independent copy of its wire spans.
+// The zero value returns an empty location.
 func (f ReceivedForm) Location() Location {
 	location := f.location
 	location.Spans = append([]BitSpan(nil), location.Spans...)
 	return location
 }
+
+// Padding returns an independent copy of the recorded terminal padding, or nil for the zero value.
 func (f ReceivedForm) Padding() []PaddingSpan { return append([]PaddingSpan(nil), f.padding...) }
 
 // NewReceivedSpanForm retains a decoder-owned immutable image. Bytes are copied
@@ -87,6 +95,10 @@ func NewReceivedSpanForm(present bool, image WireSpan, location Location, paddin
 	location.Spans = append([]BitSpan(nil), location.Spans...)
 	return ReceivedForm{present: present, image: image, location: location, padding: append([]PaddingSpan(nil), padding...)}
 }
+
+// NewCompleteReceivedSpanForm retains a decoder-owned image and records the path
+// and, when absolute is true and the image is present, its wire spans and terminal
+// padding (X.691 (02/2021) §11.1.4). Diagnostic slices are copied.
 func NewCompleteReceivedSpanForm(present bool, image WireSpan, path Path, absolute bool, complete interface{ Bits() (uint8, uint8) }) ReceivedForm {
 	location := Location{Path: path}
 	var padding []PaddingSpan

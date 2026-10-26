@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/oid.go; SHA-256 6fe90b8f35a515302743b348c86d5660c046cf1b8e0f2540d289d15450002c1b.
+// Runtime source: runtime/oid.go; SHA-256 106bf1632a399fe575adf5d39d5f4604a18e0cd156c9d953e102f0dc141531f7.
 package runtime
 
 import (
@@ -42,10 +42,12 @@ type OIDTextLimitError struct {
 	Limit    int
 }
 
+// Error describes the OID text resource and its exceeded limit.
 func (e *OIDTextLimitError) Error() string {
 	return fmt.Sprintf("%s: %s exceeds %d", ErrOIDTextLimit, e.Resource, e.Limit)
 }
 
+// Unwrap returns ErrOIDTextLimit for error-chain matching.
 func (e *OIDTextLimitError) Unwrap() error { return ErrOIDTextLimit }
 
 func oidTextLimit(resource string, limit int) error {

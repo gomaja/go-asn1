@@ -215,6 +215,7 @@ func (v PAbortCause) Name() (string, bool) {
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v PAbortCause) String() string {
 	if name, ok := v.Name(); ok {
 		return name

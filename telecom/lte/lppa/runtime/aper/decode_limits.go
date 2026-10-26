@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits.go; SHA-256 360e5191af3c9fa109f518b328bef2d133350d30f6dad35152fea4760952631c.
+// Runtime source: runtime/aper/decode_limits.go; SHA-256 4941ac01d3ef89ee0219a08002a4674a64c59d8ba59e828c94f844a0ea781682.
 package aper
 
 import "fmt"
@@ -187,11 +187,15 @@ func (bb *BitBuffer) LeaveOpenType() {
 	}
 }
 
+// InheritOpenTypeDecodeOptions shares the non-nil parent's trace and budget,
+// then enters an open-type scope, returning any limit error.
 func (bb *BitBuffer) InheritOpenTypeDecodeOptions(parent *BitBuffer) error {
 	bb.InheritDecodeOptions(parent)
 	return bb.EnterOpenType()
 }
 
+// Usage returns a snapshot of the shared operation counters, including allocated
+// bytes, fragments and reports. An unused zero buffer reports zero counters.
 func (bb *BitBuffer) Usage() DecodeUsage {
 	budget := bb.decodeBudget()
 	usage := budget.usage

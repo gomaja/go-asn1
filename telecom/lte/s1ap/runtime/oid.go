@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/oid.go; SHA-256 f815b3c480b583c1881a6009c662880e3cd85b1ab255ce4789d12f591df31ca7.
+// Runtime source: runtime/oid.go; SHA-256 38fbb5d547475c9fb228698fb8a7e9c7c16489f30d3f200d7df8ce34c37c43fe.
 package runtime
 
 import (
@@ -42,10 +42,12 @@ type OIDTextLimitError struct {
 	Limit    int
 }
 
+// Error formats the text-limit sentinel, resource name and maximum value.
 func (e *OIDTextLimitError) Error() string {
 	return fmt.Sprintf("%s: %s exceeds %d", ErrOIDTextLimit, e.Resource, e.Limit)
 }
 
+// Unwrap returns ErrOIDTextLimit.
 func (e *OIDTextLimitError) Unwrap() error { return ErrOIDTextLimit }
 
 func oidTextLimit(resource string, limit int) error {

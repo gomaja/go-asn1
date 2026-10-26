@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/decode_path.go; SHA-256 eb14ddf5d44a4e16cf9096af114d6d94060ee92ca7d777c24722066d51468ac9.
+// Runtime source: runtime/decode_path.go; SHA-256 662fce07ee7747004b8a0a15c97048246d7a79c88a463abde72d1ca984787bb1.
 package runtime
 
 import (
@@ -15,10 +15,12 @@ type DecodePathError struct {
 	Err  error
 }
 
+// Error formats the decoding path followed by the underlying error message.
 func (e *DecodePathError) Error() string {
 	return "decoding " + e.Path + ": " + e.Err.Error()
 }
 
+// Unwrap returns the underlying codec error.
 func (e *DecodePathError) Unwrap() error {
 	return e.Err
 }
@@ -71,6 +73,11 @@ type locatedPathContext struct {
 	located error
 }
 
-func (e *locatedPathContext) Error() string      { return e.Err.Error() }
-func (e *locatedPathContext) Unwrap() error      { return e.Err }
+// Error returns the original contextual error message.
+func (e *locatedPathContext) Error() string { return e.Err.Error() }
+
+// Unwrap returns the original contextual error.
+func (e *locatedPathContext) Unwrap() error { return e.Err }
+
+// As finds a matching error in the path-qualified error chain and assigns it to target.
 func (e *locatedPathContext) As(target any) bool { return errors.As(e.located, target) }

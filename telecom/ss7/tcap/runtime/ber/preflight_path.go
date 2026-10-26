@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_path.go; SHA-256 1d8045ea50e35e6f8754984ef1f5d85f294b4b72b50891f093ffe62d614931cd.
+// Runtime source: runtime/ber/preflight_path.go; SHA-256 70a0ca40e05dbe733ea683749fe8f7d3e85dd2b1a1f873db3806a20f3e725695.
 package ber
 
 import (
@@ -32,10 +32,13 @@ type preflightPathError struct {
 	cause error
 }
 
+// Error formats the preflight component path and underlying diagnostic.
 func (e *preflightPathError) Error() string { return fmt.Sprintf("decoding %s: %v", e.path, e.cause) }
 
+// Unwrap returns the underlying preflight error.
 func (e *preflightPathError) Unwrap() error { return e.cause }
 
+// ASN1BERPath returns the component path assigned during preflight. The zero value returns an empty string.
 func (e *preflightPathError) ASN1BERPath() string { return e.path }
 
 // DiagnosePreflight adds a generated schema path to a whole-element failure.

@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "03d9613a2f5ff8865793f8ea392cc033418f5e7e",
-    "tree": "d9680a5d38bedb0f09cdbaa981bc27da02b17fed",
+    "commit": "6e6a5e0d67ecf36308a8fb01aabd714ac68a46ce",
+    "tree": "a8bac71a2707d2f607739e9d65b2c4b405742d3a",
     "dirty": false
   },
   "source_lock": {
@@ -206,8 +206,8 @@
     {
       "path": "ber/constraints.go",
       "mode": "0644",
-      "size": 38992,
-      "sha256": "e860b11994ae7521b377780f4ee8ec37c8677eaa0dd9d6bac4f31d319c2d56ee"
+      "size": 39141,
+      "sha256": "b332d21cae82b0a40ac9985985f39b0aa16b800756b59ecbb071164c9a34bfce"
     },
     {
       "path": "ber/constraints_example_test.go",
@@ -326,8 +326,8 @@
     {
       "path": "ber/errors.go",
       "mode": "0644",
-      "size": 2319,
-      "sha256": "5150fedb52b5f94816f3cc7bbf4fb9bd422c7c8cf92e12b8ea3e42fcdda74127"
+      "size": 2557,
+      "sha256": "42dd0bed9317378d46f1aa447ffbbfffacc066f6cb800dca19ca65c353018e78"
     },
     {
       "path": "ber/external.go",
@@ -530,8 +530,8 @@
     {
       "path": "ber/preflight_path.go",
       "mode": "0644",
-      "size": 6117,
-      "sha256": "1d8045ea50e35e6f8754984ef1f5d85f294b4b72b50891f093ffe62d614931cd"
+      "size": 6339,
+      "sha256": "70a0ca40e05dbe733ea683749fe8f7d3e85dd2b1a1f873db3806a20f3e725695"
     },
     {
       "path": "ber/preflight_path_test.go",
@@ -950,8 +950,8 @@
     {
       "path": "decode_path.go",
       "mode": "0644",
-      "size": 917,
-      "sha256": "bd44776781516e76f6dc66a0355be48d9d799ae1d088e50f78915bfbc2a004c4"
+      "size": 1033,
+      "sha256": "f9467378c5bd908b2ce35c598aa5592e2cf03255629c709e84dfee0570d39fbe"
     },
     {
       "path": "decode_path_test.go",
@@ -980,8 +980,8 @@
     {
       "path": "oid.go",
       "mode": "0644",
-      "size": 18903,
-      "sha256": "6fe90b8f35a515302743b348c86d5660c046cf1b8e0f2540d289d15450002c1b"
+      "size": 19028,
+      "sha256": "106bf1632a399fe575adf5d39d5f4604a18e0cd156c9d953e102f0dc141531f7"
     },
     {
       "path": "oid_limits_test.go",
@@ -1016,8 +1016,8 @@
     {
       "path": "tag/tag.go",
       "mode": "0644",
-      "size": 2611,
-      "sha256": "3348e795138c1e838b79aee389b1028b562735a064f9c930c9b5494b69a9a3d2"
+      "size": 2757,
+      "sha256": "72e1b8e22b8dfbf8813fb1a920c065f102f262b520b96241cd14bfceb3d0a8df"
     },
     {
       "path": "tag/tag_test.go",
@@ -1084,8 +1084,8 @@
     {
       "path": "ber/constraints.go",
       "mode": "0644",
-      "size": 36720,
-      "sha256": "15f0956b1a6a31db20cf2273ae899130caddc4bb50bccfde2236d713b545eb8d"
+      "size": 36869,
+      "sha256": "b0619ebc11e6a3c2bfeb951f4d574c96ce2cd785fd5f5e0cd1b5a776cb99d653"
     },
     {
       "path": "ber/constraints_example_test.go",
@@ -1180,8 +1180,8 @@
     {
       "path": "ber/errors.go",
       "mode": "0644",
-      "size": 2436,
-      "sha256": "6ff3db846acc19443698cf587ae5c108a229ebe7848c3234e3e58cf336202373"
+      "size": 2673,
+      "sha256": "6e8dc06fad6f73609dd236d7c0a85375704f9a117e4cdc71998e3fa49eb32d29"
     },
     {
       "path": "ber/external.go",
@@ -1360,8 +1360,8 @@
     {
       "path": "ber/preflight_path.go",
       "mode": "0644",
-      "size": 6297,
-      "sha256": "e70375a75b1dba5f959f7846e23b64eef49f8801f8a13554f3bceb6760f0204d"
+      "size": 6529,
+      "sha256": "03b9f63e3ca0322b95289c55f3195f05d71174a19a3f271d27eaf583376ae5b7"
     },
     {
       "path": "ber/preflight_path_test.go",
@@ -1708,8 +1708,8 @@
     {
       "path": "oid.go",
       "mode": "0644",
-      "size": 14479,
-      "sha256": "a40d51d2350759e7c93361315fe2937ff55cdfbfe210910d7532e5b464db94e7"
+      "size": 14604,
+      "sha256": "9255386af697f86a370db2a9c4dabff8e1e454435bf8245c23f4b222ee2d02a6"
     },
     {
       "path": "oid_limits_test.go",
@@ -1744,8 +1744,8 @@
     {
       "path": "tag/tag.go",
       "mode": "0644",
-      "size": 2734,
-      "sha256": "bb5b775310cc0fd781b28587b5e705fc9666b3ea62b29638575bef0b8db7ea44"
+      "size": 2880,
+      "sha256": "2c087e6fa003a27dda8aa269cf80e4024a43dbe6daea32aee8b38b084654367e"
     },
     {
       "path": "tag/tag_test.go",
@@ -1782,8 +1782,8 @@
     {
       "path": "ber-error-paths.go",
       "mode": "0644",
-      "size": 2485,
-      "sha256": "d3e11d647aa6d7fd672d01d9cc5144a896603f6b511dacc09b19ac92ac631197"
+      "size": 2770,
+      "sha256": "6b882268a3ea5e5e715b0668a0edfeabd9fd8962845a0cb5d3bdef56440b9f50"
     },
     {
       "path": "code_types.go",
@@ -1794,14 +1794,14 @@
     {
       "path": "dialoguepdus.go",
       "mode": "0644",
-      "size": 192250,
-      "sha256": "29dfedc6e0ce337496075d06401d650968e01087728bf758b9ac1de5f4fd50c0"
+      "size": 192748,
+      "sha256": "e9a7942d21a38c31b794abbca0da22fd2fb68722140e82a0985eca9051e1b501"
     },
     {
       "path": "remoteoperationsgenericrospdus.go",
       "mode": "0644",
-      "size": 202444,
-      "sha256": "67a7543f9a12b2db7c4e31b30946285a466021b25f65aa200a9b4fcb391d4af3"
+      "size": 202859,
+      "sha256": "d2f4d2fd2c9e663418525cb1dec0c7f9f3df0eebbc77fa6143fe168007d4166b"
     },
     {
       "path": "remoteoperationsinformationobjects.go",
@@ -1848,8 +1848,8 @@
     {
       "path": "runtime/ber/constraints.go",
       "mode": "0644",
-      "size": 36720,
-      "sha256": "15f0956b1a6a31db20cf2273ae899130caddc4bb50bccfde2236d713b545eb8d"
+      "size": 36869,
+      "sha256": "b0619ebc11e6a3c2bfeb951f4d574c96ce2cd785fd5f5e0cd1b5a776cb99d653"
     },
     {
       "path": "runtime/ber/constraints_example_test.go",
@@ -1944,8 +1944,8 @@
     {
       "path": "runtime/ber/errors.go",
       "mode": "0644",
-      "size": 2436,
-      "sha256": "6ff3db846acc19443698cf587ae5c108a229ebe7848c3234e3e58cf336202373"
+      "size": 2673,
+      "sha256": "6e8dc06fad6f73609dd236d7c0a85375704f9a117e4cdc71998e3fa49eb32d29"
     },
     {
       "path": "runtime/ber/external.go",
@@ -2124,8 +2124,8 @@
     {
       "path": "runtime/ber/preflight_path.go",
       "mode": "0644",
-      "size": 6297,
-      "sha256": "e70375a75b1dba5f959f7846e23b64eef49f8801f8a13554f3bceb6760f0204d"
+      "size": 6529,
+      "sha256": "03b9f63e3ca0322b95289c55f3195f05d71174a19a3f271d27eaf583376ae5b7"
     },
     {
       "path": "runtime/ber/preflight_path_test.go",
@@ -2472,8 +2472,8 @@
     {
       "path": "runtime/oid.go",
       "mode": "0644",
-      "size": 14479,
-      "sha256": "a40d51d2350759e7c93361315fe2937ff55cdfbfe210910d7532e5b464db94e7"
+      "size": 14604,
+      "sha256": "9255386af697f86a370db2a9c4dabff8e1e454435bf8245c23f4b222ee2d02a6"
     },
     {
       "path": "runtime/oid_limits_test.go",
@@ -2508,8 +2508,8 @@
     {
       "path": "runtime/tag/tag.go",
       "mode": "0644",
-      "size": 2734,
-      "sha256": "bb5b775310cc0fd781b28587b5e705fc9666b3ea62b29638575bef0b8db7ea44"
+      "size": 2880,
+      "sha256": "2c087e6fa003a27dda8aa269cf80e4024a43dbe6daea32aee8b38b084654367e"
     },
     {
       "path": "runtime/tag/tag_test.go",
@@ -2538,14 +2538,14 @@
     {
       "path": "tcap-api.go",
       "mode": "0644",
-      "size": 25545,
-      "sha256": "d158c290d5d3868bdf5401bd55e5f4abe16b281482fa13ee7ebfc123243a1a42"
+      "size": 32004,
+      "sha256": "9a4cc2a17ebbc51d0e1b773ee4b3ab7d5b694a515c87fa84df5c32cc84fdae4c"
     },
     {
       "path": "tcap-dialogue.go",
       "mode": "0644",
-      "size": 23048,
-      "sha256": "bca885d4654257083545a30f87f486d2faaa77b55410e4ba514ccd8c28a778b7"
+      "size": 23152,
+      "sha256": "1b1158ee72cf196dd681aaeb8fa4aa1f1b4bcbc0ecc895bb1c0f252321575774"
     },
     {
       "path": "tcap-payload.go",
@@ -2556,8 +2556,8 @@
     {
       "path": "tcapmessages.go",
       "mode": "0644",
-      "size": 186985,
-      "sha256": "98ea09aa905578c11eddb9cdf2fd47fffe95eee284a2f578cfa28079a76f2d83"
+      "size": 187068,
+      "sha256": "3c5c28a73d79d2763adab394f4c62942142988c2f560183beeeb88c9e4942db5"
     },
     {
       "path": "unidialoguepdus.go",

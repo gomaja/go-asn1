@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/oid.go; SHA-256 13d909ab487599aaa508510f08c8cb5f8560526d6d6e7f2c44ed5e6560743946.
+// Runtime source: runtime/oid.go; SHA-256 c519191444cd2083e751e56d98942f98b230312a0f58e19d4363212aee1458cc.
 package runtime
 
 import (
@@ -42,10 +42,12 @@ type OIDTextLimitError struct {
 	Limit    int
 }
 
+// Error formats the text-limit sentinel, resource name and maximum value.
 func (e *OIDTextLimitError) Error() string {
 	return fmt.Sprintf("%s: %s exceeds %d", ErrOIDTextLimit, e.Resource, e.Limit)
 }
 
+// Unwrap returns ErrOIDTextLimit.
 func (e *OIDTextLimitError) Unwrap() error { return ErrOIDTextLimit }
 
 func oidTextLimit(resource string, limit int) error {

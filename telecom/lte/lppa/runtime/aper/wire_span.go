@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/wire_span.go; SHA-256 c300af3f6e7a1ae4b94b35961d9d194a278c64de3b4139f27ea8001d947e8281.
+// Runtime source: runtime/aper/wire_span.go; SHA-256 d6ee5922a5c9c3cc5e64183002a45168f796f561ebdccdde5a109aa3107d28fb.
 package aper
 
 import "math"
@@ -23,6 +23,8 @@ func OriginalWire(original []byte) WireSpan {
 	}
 	return WireSpan{original: original, end: uint64(len(original)) * 8}
 }
+
+// Present reports whether the span retains an original buffer; the zero value returns false.
 func (s WireSpan) Present() bool { return s.original != nil }
 func (s WireSpan) bitLength() uint64 {
 	if len(s.segments) == 0 {
@@ -34,6 +36,9 @@ func (s WireSpan) bitLength() uint64 {
 	}
 	return n
 }
+
+// Len returns the number of octets needed for the span's bits, rounded up.
+// The zero value returns zero.
 func (s WireSpan) Len() int { return int((s.bitLength() + 7) / 8) }
 
 // Bytes copies complete received octets on demand, including fragmented forms.
@@ -61,6 +66,10 @@ func (s WireSpan) bytes() ([]byte, error) {
 	}
 	return writer.data, nil
 }
+
+// CaptureWireSpan retains the bits from start to the current cursor without
+// copying contents. It returns an absent span if the buffer does not own its
+// input, start is invalid, or the original-input mapping is unavailable.
 func (bb *BitBuffer) CaptureWireSpan(start int) WireSpan {
 	if !bb.ownsInput() || start < 0 || start > bb.bitPos {
 		return WireSpan{}
