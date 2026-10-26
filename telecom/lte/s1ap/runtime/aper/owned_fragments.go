@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/owned_fragments.go; SHA-256 5f81ff8cbd971ad6affcc93ba265c0b38eb65287d37c873fc3cbfebd7d694cc9.
+// Runtime source: runtime/aper/owned_fragments.go; SHA-256 20ab187aacf712abb8c3e1c49ca8cf300b694176e9ab740eec4b72ea9dfff3b3.
 package aper
 
 import (
@@ -114,7 +114,7 @@ func decodeOwnedOpaque(bb *BitBuffer, reason OpaqueReason, rule SourceRule) (res
 			return bb.resourceError("open type bytes exceeded")
 		}
 		bitStart := bb.BitPos()
-		if err := bb.examineRecoveryBits(uint64(n) * 8); err != nil {
+		if err := bb.examineReadBits(uint64(n) * 8); err != nil {
 			return err
 		}
 		bb.bitPos += int(n) * 8

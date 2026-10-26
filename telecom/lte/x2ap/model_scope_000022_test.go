@@ -3,7 +3,7 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	strings "strings"
 	testing "testing"
 )
@@ -11,7 +11,7 @@ import (
 // TestVectorX2apPduHeader verifies 3GPP TS 36.423 V19.1.0 (2025-12), section 9.3.3; X2AP-PDU initiating-message APER header.
 func TestVectorX2apPduHeader(t *testing.T) {
 	input := asn1VectorHex(t, "002e0002bbcc")
-	codec := s20.X2APPDUCodec()
+	codec := s19.X2APPDUCodec()
 	decoded, _, err := codec.DecodeAPER(input)
 	if err == nil {
 		t.Fatal("known malformed value decoded successfully")

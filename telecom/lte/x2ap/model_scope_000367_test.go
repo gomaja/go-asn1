@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func deactivateTracefreshMust(value s20.DeactivateTrace, err error) s20.DeactivateTrace {
+func dataForwardingAddressIndicationfreshMust(value s19.DataForwardingAddressIndication, err error) s19.DataForwardingAddressIndication {
 	if err != nil {
 		panic(err)
 	}

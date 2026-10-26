@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func sgNBModificationConfirmIEFieldfreshMust(value s15.SgNBModificationConfirmIEField, err error) s15.SgNBModificationConfirmIEField {
+func sgNBModificationRequestAcknowledgefreshMust(value s18.SgNBModificationRequestAcknowledge, err error) s18.SgNBModificationRequestAcknowledge {
 	if err != nil {
 		panic(err)
 	}

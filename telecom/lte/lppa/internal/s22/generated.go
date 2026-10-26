@@ -15,6 +15,7 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s17"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s18"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
@@ -166,40 +167,6 @@ func BridgeECIDMeasurementInitiationResponseIEValueCompareLPPaProtocolIEContaine
 				break
 			}
 			BridgeECIDMeasurementInitiationResponseIEValueCompareLPPaProtocolIEField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-}
-func BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionContainer(v *s04.WLANMeasurementResultItemExtIEsExtContainer, s *aper.SemanticCapture) {
-	if s.Failed() {
-		return
-	}
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-}
-func BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionContainer(v *s04.WLANMeasurementResultItemExtIEsExtContainer, s *aper.SemanticComparison) {
-	if s.Failed() {
-		return
-	}
-	{
-		f := s.Begin()
-		s.Uint(uint64(len((*v))))
-		s.Elements(uint64(len((*v))))
-		for i := range *v {
-			if s.Failed() {
-				break
-			}
-			BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionField(&(*v)[i], s)
 		}
 		s.End(f, aper.Snapshot{}, false)
 	}
@@ -830,111 +797,6 @@ func (c WLANMeasurementResultItemValueCodec) encodeChanged(value WLANMeasurement
 	out, err := c.encode(value, fresh, &budget)
 	return out, aper.OperationError(err, c.path)
 }
-
-// TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func BridgeWLANMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(fields s20.WLANMeasurementQuantitiesItemIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s09.ValidationReport {
-	report := func() s09.ValidationReport {
-		sealed := s09.ValidationReport{Complete: true}
-		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
-		return sealed
-	}()
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s09.BridgeValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s09.BridgeValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s09.BridgeValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
-		if !s20.BridgeWLANMeasurementQuantitiesItemIEValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := s20.BridgeWLANMeasurementQuantitiesItemIEValueMethodRule(field.Value)
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
-				sealed := s00.TableID{}
-				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
-				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
-			// including repetition of unknown selectors.
-			counts, field.Id)
-		if counts[field.Id] > 1 {
-			var row s00.FieldInfo
-			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
-			if allowed {
-				row = rows[rank]
-				related = append(related, row.Rule)
-			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s09.BridgeValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields s04.WLANMeasurementQuantitiesValueExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s09.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s04.WLANMeasurementQuantitiesValueExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return func() s09.ValidationReport {
-			sealed := s09.ValidationReport{}
-			*s09.BridgeValidationReportFieldErr(&sealed) = err
-			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
-			return sealed
-		}()
-	}
-	asIE := make(s04.WLANMeasurementQuantitiesValueExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaIEContainer(asIE, rows, path, budget)
-}
 func BridgeECIDMeasurementInitiationResponseIEValueCaptureLPPaProtocolIEField(v *ECIDMeasurementInitiationResponseIEField, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
@@ -960,50 +822,6 @@ func BridgeECIDMeasurementInitiationResponseIEValueCompareLPPaProtocolIEField(v 
 
 	*s = v.Value.compareSemantics(*s)
 	s.End(f, v.replay, v.withoutReplay)
-}
-
-// wLANMeasurementQuantitiesValueExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[WLANMeasurementQuantitiesValueExtIEsValue].
-type WLANMeasurementQuantitiesValueExtIEsValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s03.WLANMeasurementQuantitiesValueExtIEsValue
-
-	captureFraming() uint64
-	captureSnapshot() aper.Snapshot
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s03.WLANMeasurementQuantitiesValueExtIEsValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
-func BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionField(v *s04.WLANMeasurementResultItemExtIEsExtField, s *aper.SemanticCapture) {
-	if s.Failed() {
-		return
-	}
-	f := s.Begin()
-	s.Value()
-	s.Stream(*s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldStream(v))
-	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
-	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
-	s.OpenBytes(s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCaptureFraming(v.ExtensionValue))
-	v.ExtensionValue = s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.Child(s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCaptureSnapshot(v.ExtensionValue))
-	s.End(f, s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldReplay(v), *s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldWithoutReplay(v))
-}
-func BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionField(v *s04.WLANMeasurementResultItemExtIEsExtField, s *aper.SemanticComparison) {
-	if s.Failed() {
-		return
-	}
-	f := s.Begin()
-	s.Value()
-	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
-	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
-
-	*s = s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldReplay(v), *s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldWithoutReplay(v))
 }
 
 // WLANMeasurementResultAPERValue is the concrete APERValue[WLANMeasurementResult].
@@ -1075,93 +893,6 @@ func (v WLANMeasurementResultItemAPERValue) WithoutReplay() WLANMeasurementResul
 	return v
 }
 
-// TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaIEContainer(fields s04.WLANMeasurementQuantitiesValueExtIEsIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s09.ValidationReport {
-	report := func() s09.ValidationReport {
-		sealed := s09.ValidationReport{Complete: true}
-		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
-		return sealed
-	}()
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s09.BridgeValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s09.BridgeValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s09.BridgeValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
-		if !s03.BridgeWLANMeasurementQuantitiesValueExtIEsValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := s03.BridgeWLANMeasurementQuantitiesValueExtIEsValueMethodRule(field.Value)
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
-				sealed := s00.TableID{}
-				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
-				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
-			// including repetition of unknown selectors.
-			counts, field.Id)
-		if counts[field.Id] > 1 {
-			var row s00.FieldInfo
-			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
-			if allowed {
-				row = rows[rank]
-				related = append(related, row.Rule)
-			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s09.BridgeValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
 type WLANMeasurementResult = []WLANMeasurementResultItem
 
 // WLANMeasurementResultItem represents the ASN.1 type WLANMeasurementResult-Item (SEQUENCE).
@@ -1216,11 +947,6 @@ func (v *WLANMeasurementResultComplete) marshalAPERLegacy() ([]byte, error) {
 func (v *WLANMeasurementResultComplete) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes WLANMeasurementResult with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *WLANMeasurementResultComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -1279,7 +1005,7 @@ func BridgeUnmarshalAPERWLANMeasurementResultFrom(bb *aper.BitBuffer) (WLANMeasu
 func BridgeUnmarshalAPERWLANMeasurementResultInto(v *BridgeAsn1cAPERWLANMeasurementResultListValue, bb *aper.BitBuffer) error {
 	v.Value = make(WLANMeasurementResult, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1346,7 +1072,6 @@ func (v *WLANMeasurementResultItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...b
 	}
 	defer bb.LeaveDecodeValue()
 
-	recoveryStart := bb.BitsWritten()
 	hasExtensions := false
 	for _, present := range v.extPresent {
 		hasExtensions = hasExtensions || present
@@ -1450,14 +1175,14 @@ func (v *WLANMeasurementResultItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...b
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1467,7 +1192,7 @@ func (v *WLANMeasurementResultItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...b
 				return err
 			}
 		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1483,8 +1208,6 @@ func (v *WLANMeasurementResultItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...b
 			}
 		}
 	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
@@ -1492,11 +1215,6 @@ func (v *WLANMeasurementResultItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...b
 func (v *WLANMeasurementResultItem) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes WLANMeasurementResultItem with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *WLANMeasurementResultItem) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -1510,7 +1228,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERWithOptions(data []byte, option
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementResultItem")
 	}
-	v.perPadding = padding.WithRecords(v.perPadding)
+	v.perPadding = padding
 	return nil
 }
 func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
@@ -1522,7 +1240,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	}
 	defer bb.LeaveDecodeValue()
 	*v = WLANMeasurementResultItem{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
+	var extAdditions aper.ExtensionAdditions
 	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1624,7 +1342,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 		toleranceMark_wlanchannellist := bb.EnterComponent("WLANChannelList")
 		tmp_wlanchannellist := make(s00.WLANChannelList, 0)
 		_, errCollection_wlanchannellist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_wlanchannellist, fragmentLength_wlanchannellist int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1144
+			// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1143
 			if fragmentOffset_wlanchannellist < 0 || fragmentLength_wlanchannellist < 0 || fragmentLength_wlanchannellist > int64(^uint(0)>>1) || fragmentOffset_wlanchannellist > int64(^uint(0)>>1)-fragmentLength_wlanchannellist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1662,7 +1380,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.WLANMeasurementResultItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1693,7 +1411,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1710,12 +1428,12 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 		}
 		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
+			if extPresent[i] {
 				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.5"})
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -1730,14 +1448,6 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 				v.extOrigin[i] = opaque.Origin()
 			}
 		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 	v.
@@ -2127,7 +1837,6 @@ func (v *ECIDMeasurementInitiationResponse) marshalAPERTo(bb *aper.BitBuffer, fr
 	}
 	defer bb.LeaveDecodeValue()
 
-	recoveryStart := bb.BitsWritten()
 	hasExtensions := false
 	for _, present := range v.extPresent {
 		hasExtensions = hasExtensions || present
@@ -2155,14 +1864,14 @@ func (v *ECIDMeasurementInitiationResponse) marshalAPERTo(bb *aper.BitBuffer, fr
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2172,7 +1881,7 @@ func (v *ECIDMeasurementInitiationResponse) marshalAPERTo(bb *aper.BitBuffer, fr
 				return err
 			}
 		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2188,8 +1897,6 @@ func (v *ECIDMeasurementInitiationResponse) marshalAPERTo(bb *aper.BitBuffer, fr
 			}
 		}
 	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
@@ -2197,11 +1904,6 @@ func (v *ECIDMeasurementInitiationResponse) marshalAPERTo(bb *aper.BitBuffer, fr
 func (v *ECIDMeasurementInitiationResponse) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ECIDMeasurementInitiationResponse with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *ECIDMeasurementInitiationResponse) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -2215,7 +1917,7 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERWithOptions(data []byte
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationResponse")
 	}
-	v.perPadding = padding.WithRecords(v.perPadding)
+	v.perPadding = padding
 	return nil
 }
 func (v *ECIDMeasurementInitiationResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
@@ -2227,7 +1929,7 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERFrom(bb *aper.BitBuffer
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ECIDMeasurementInitiationResponse{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
+	var extAdditions aper.ExtensionAdditions
 	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2235,7 +1937,7 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERFrom(bb *aper.BitBuffer
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(ECIDMeasurementInitiationResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2264,7 +1966,7 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERFrom(bb *aper.BitBuffer
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2281,12 +1983,12 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERFrom(bb *aper.BitBuffer
 		}
 		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
+			if extPresent[i] {
 				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.4"})
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2301,14 +2003,6 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERFrom(bb *aper.BitBuffer
 				v.extOrigin[i] = opaque.Origin()
 			}
 		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 	v.stream.RecordUsage(replayUsage,
@@ -2563,11 +2257,6 @@ func (v *SuccessfulOutcome) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) err
 func (v *SuccessfulOutcome) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes SuccessfulOutcome with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *SuccessfulOutcome) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -3428,7 +3117,7 @@ func BridgeCaptureLPPaWLANMeasurementResultItem(v *WLANMeasurementResultItem, s 
 		s.End(f, nil, false)
 	}
 	s.Bool(v.IEExtensions == nil)
-	BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionContainer(&v.IEExtensions, s)
+	s21.BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, &v.replay, v.withoutReplay)
 }
@@ -3490,7 +3179,7 @@ func BridgeCompareLPPaWLANMeasurementResultItem(v *WLANMeasurementResultItem, s 
 		s.End(f, aper.Snapshot{}, false)
 	}
 	s.Bool(v.IEExtensions == nil)
-	BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionContainer(&v.IEExtensions, s)
+	s21.BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, v.replay, v.withoutReplay)
 }

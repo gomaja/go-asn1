@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/guard_census_test.go; SHA-256 c1899db38c0da682c0339f0e8791d8c7608b8dcbc3f829432827f89d6987af03.
+// Runtime source: runtime/aper/guard_census_test.go; SHA-256 44d173cbe8d6789ffd96fb5fa3b4a61482047ed703cb05e79cf729b1c6c313a3.
 package aper
 
 import (
@@ -184,7 +184,7 @@ func TestCensusStickyBudgetsAndBalance(t *testing.T) {
 		t.Fatal(e)
 	}
 	first := b.budget.err
-	for _, run := range []func() error{b.EnterDecodeValue, b.EnterOpenType, func() error { return b.ChargeElements(0) }, func() error { return b.checkRecoveryBits(0) }} {
+	for _, run := range []func() error{b.EnterDecodeValue, b.EnterOpenType, func() error { return b.ChargeElements(0) }, func() error { return b.checkReadBits(0) }} {
 		if e := run(); e != first {
 			t.Fatalf("sticky error changed: %v != %v", e, first)
 		}
@@ -208,29 +208,7 @@ func TestCensusStickyBudgetsAndBalance(t *testing.T) {
 			t.Fatalf("unbalanced budget: %+v", b.budget)
 		}
 	}
-	var usage DecodeUsage
-	if e := b.setDecodeSettingsAligned(decodeSettings{Usage: &usage, ExtensionRecoveryTolerance: &ToleranceLog{}}); e != nil {
-		t.Fatal(e)
-	}
-	if b.trace.work.limit != uint64(len(b.data)*8)*recoveryWorkInputMultiple {
-		t.Fatalf("input work ceiling=%d", b.trace.work.limit)
-	}
-	b.trace.work.active = true
-	for i := 0; i < 4; i++ {
-		if e := b.examineRecoveryBits(8); e != nil {
-			t.Fatal(e)
-		}
-	}
-	e := b.checkRecoveryBits(1)
-	if !errors.Is(e, ErrResourceLimit) {
-		t.Fatal(e)
-	}
-	if got := b.checkRecoveryBits(0); got != e {
-		t.Fatalf("recovery failure resumed: %v", got)
-	}
-	if usage.Work != 32 {
-		t.Fatalf("reported work=%d", usage.Work)
-	}
+
 }
 
 func TestCensusFragmentPreflight(t *testing.T) {
@@ -299,100 +277,7 @@ func TestCensusPaddingAndScopeDiagnostics(t *testing.T) {
 		t.Fatal("strict mark")
 	}
 	strict.LeaveComponent(0)
-	strict.commitRecords("Value")
-	parent := NewBitBufferFromBytes([]byte{0})
-	if e := parent.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &ToleranceLog{}, Limits: decodeLimits{MaxWork: 1}}); e != nil {
-		t.Fatal(e)
-	}
-	child := NewNestedDecodeBuffer([]byte{0}, parent)
-	if e := child.EnterOpenType(); e != nil {
-		t.Fatal(e)
-	}
-	checkpoint := child.CheckpointKnownAddition()
-	if _, e := child.ReadBits(2); !errors.Is(e, ErrResourceLimit) {
-		t.Fatal(e)
-	}
-	a := ExtensionAdditions{present: []bool{true}}
-	if ok, _, e := a.CompleteKnownAddition(child, 0, []byte{0}, checkpoint, ErrTruncated); ok || !errors.Is(e, ErrResourceLimit) || !a.present[0] {
-		t.Fatalf("resource error recovered: %v %v", ok, e)
-	}
-	if child.budget.openDepth != 0 {
-		t.Fatal("candidate scope leaked")
-	}
-	parent = NewBitBufferFromBytes([]byte{0})
-	child = NewNestedDecodeBuffer(nil, parent)
-	if e := child.EnterOpenType(); e != nil {
-		t.Fatal(e)
-	}
-	checkpoint = child.CheckpointKnownAddition()
-	if _, _, e := a.CompleteKnownAddition(child, 0, nil, checkpoint, nil); e == nil || !strings.Contains(e.Error(), "ExtData_[0]") {
-		t.Fatalf("padding error location: %v", e)
-	}
-}
 
-func TestCensusRecoveryChargeWindow(t *testing.T) {
-	b := NewBitBufferFromBytes([]byte{0})
-	if got := b.recoveryCharge(1); got != 0 {
-		t.Fatal(got)
-	}
-	if e := b.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &ToleranceLog{}}); e != nil {
-		t.Fatal(e)
-	}
-	work := b.trace.work
-	work.recordRollback(nil, 1)
-	work.recordRollback(b.data, 0)
-	if len(work.rolledBack) != 0 {
-		t.Fatal("empty rollback recorded")
-	}
-	work.recordRollback(b.data, 3)
-	work.recordRollback(b.data, 1)
-	if work.rolledBack[&b.data[0]] != 3 {
-		t.Fatal("rollback refunded consumed prefix")
-	}
-	b.bitPos = 2
-	if got := b.recoveryCharge(4); got != 1 {
-		t.Fatalf("prefix charge=%d", got)
-	}
-	b.bitPos = 3
-	if got := b.recoveryCharge(4); got != 0 {
-		t.Fatalf("unread suffix charge=%d", got)
-	}
-	b.bitPos = -1
-	if got := b.recoveryCharge(1); got != 0 {
-		t.Fatalf("negative position charged=%d", got)
-	}
-	work.active = true
-	if got := b.recoveryCharge(4); got != 4 {
-		t.Fatalf("provenance charge=%d", got)
-	}
-}
-
-func TestCensusReplayRecordState(t *testing.T) {
-	a := ExtensionAdditions{recovered: true, present: []bool{false, false}}
-	if !a.Emptied() {
-		t.Fatal("fully recovered additions remained")
-	}
-	a.present[1] = true
-	if a.Emptied() {
-		t.Fatal("live addition was omitted")
-	}
-	padding := finalPaddingOf(CompletePadding{bits: 1, count: 3})
-	if got := a.Record(padding); got != padding {
-		t.Fatal("no cut changed final padding")
-	}
-	a.cut = &truncatedExtension{input: []byte{0}, bits: 8, expected: []byte{0}, expectedBits: 8}
-	final := a.Record(padding)
-	if final.Padding() != padding.Padding() || !final.Truncated() {
-		t.Fatal("cut record lost padding")
-	}
-	bb := NewBitBufferFromBytes([]byte{0})
-	if a.Received(bb, 0) {
-		t.Fatal("existing cut became received")
-	}
-	// Received must stay false once the first cut has already been retained.
-	if a.Received(bb, 1) {
-		t.Fatal("addition after cut became received")
-	}
 }
 
 func TestCensusScalarAcceptedBoundaries(t *testing.T) {
@@ -478,77 +363,21 @@ func TestCensusCollectionValidationBeforeCallback(t *testing.T) {
 	}
 }
 
-func TestCensusLocalReplayPreservesOuterPrefix(t *testing.T) {
-	bb := NewBitBufferFromBytes([]byte{0xad, 0x80})
-	if _, err := bb.ReadBits(3); err != nil {
-		t.Fatal(err)
-	}
-	a := BeginExtensionAdditions(bb)
-	if _, err := bb.ReadBits(6); err != nil {
-		t.Fatal(err)
-	}
-	a.recovered = true
-	expected, err := a.RecoveryEncoder(bb)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if expected.BitPos() != 3 || expected.Bytes()[0] != 0 {
-		t.Fatalf("local alignment copied outer prefix: %x", expected.Bytes())
-	}
-	if err := expected.WriteBits(0x15, 6); err != nil {
-		t.Fatal(err)
-	}
-	observed := finalPaddingOf(CompletePadding{bits: 1, count: 7})
-	final, err := a.RecordRecovery(bb, expected, observed)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if final.Padding() != observed.Padding() || final.Trailing().BitLength != 0 {
-		t.Fatal("local recovery lost observed padding or acquired a suffix")
-	}
-	if !a.Recovered() || !final.Recovered() || final.Truncated() {
-		t.Fatal("bounded recovery provenance lost")
-	}
-	for _, edited := range []bool{false, true} {
-		w := NewBitBuffer()
-		if err := w.WriteBits(2, 3); err != nil {
-			t.Fatal(err)
+func TestCensusLargeRootMinimumLengths(t *testing.T) {
+	for _, bitString := range []bool{false, true} {
+		var err error
+		if bitString {
+			_, _, err = DecodeBitStringAligned(NewBitBufferFromBytes([]byte{0}), 1, 65536, true)
+		} else {
+			_, err = DecodeOctetStringAligned(NewBitBufferFromBytes([]byte{0}), 1, 65536, true)
 		}
-		value := uint64(0x15)
-		if edited {
-			value ^= 1
+		if !errors.Is(err, ErrConstraintViolation) {
+			t.Fatalf("large root minimum (bits=%v): %v", bitString, err)
 		}
-		if err := w.WriteBits(value, 6); err != nil {
-			t.Fatal(err)
-		}
-		AppendExtensionRecovery(w, final, 3)
-		r := NewBitBufferFromBytes(w.Bytes())
-		prefix, err := r.ReadBits(3)
-		if err != nil || prefix != 2 {
-			t.Fatalf("outer prefix changed: %d %v", prefix, err)
-		}
-		local, err := r.ReadBits(6)
-		if err != nil {
-			t.Fatal(err)
-		}
-		want := uint64(0x1b)
-		if edited {
-			want = value
-		}
-		if local != want {
-			t.Fatalf("edited=%v replay=%x want %x", edited, local, want)
-		}
-	}
-	short := NewBitBuffer()
-	if err := short.WriteBits(0, 2); err != nil {
-		t.Fatal(err)
-	}
-	if _, err := a.RecordRecovery(bb, short, FinalPadding{}); !errors.Is(err, ErrInvalidValue) || !strings.Contains(err.Error(), "ends before its alignment context") {
-		t.Fatalf("missing alignment context: %v", err)
 	}
 }
 
-func TestCensusExtensionLengthsAndReceiveFailures(t *testing.T) {
+func TestCensusExtensionLengthRefusals(t *testing.T) {
 	for _, bitString := range []bool{false, true} {
 		w := NewBitBuffer()
 		if err := w.WriteBit(1); err != nil {
@@ -575,120 +404,5 @@ func TestCensusExtensionLengthsAndReceiveFailures(t *testing.T) {
 	}
 	if got := rootSizeMaximum(65536, true); got != 65536 {
 		t.Fatalf("root allocation bound %d", got)
-	}
-	for _, invalid := range []func(*BitBuffer, *ExtensionAdditions){
-		func(b *BitBuffer, a *ExtensionAdditions) { b.invalidLength = true },
-		func(b *BitBuffer, a *ExtensionAdditions) { b.bitLen = 7 },
-		func(b *BitBuffer, a *ExtensionAdditions) { b.bitLen = 16 },
-		func(b *BitBuffer, a *ExtensionAdditions) { a.present = nil },
-	} {
-		b := NewBitBufferFromBytes([]byte{1})
-		a := ExtensionAdditions{root: 1, present: []bool{true}, aligned: true}
-		invalid(b, &a)
-		if !a.receive(b, 0) || a.cut != nil {
-			t.Fatal("invalid cut state was committed")
-		}
-	}
-	// A failed provenance copy must leave the addition for ordinary decoding.
-	b := NewBitBufferFromBytes([]byte{1})
-	a := ExtensionAdditions{present: []bool{true}, aligned: true}
-	if !a.receive(b, 0) || a.cut != nil || !a.present[0] {
-		t.Fatal("failed cut record committed")
-	}
-	b = NewBitBufferFromBytes([]byte{1})
-	if err := b.setDecodeSettingsAligned(decodeSettings{TruncatedExtensionTolerance: &ToleranceLog{}, Limits: decodeLimits{MaxWork: 16}}); err != nil {
-		t.Fatal(err)
-	}
-	a = ExtensionAdditions{root: 1, present: []bool{true}, aligned: true}
-	if !a.receive(b, 0) || a.cut != nil || !a.present[0] {
-		t.Fatal("failed cut tail copy committed")
-	}
-	if !errors.Is(b.budget.err, ErrResourceLimit) {
-		t.Fatalf("copy did not exhaust work: %+v", b.budget)
-	}
-	a = ExtensionAdditions{present: []bool{true}}
-	if _, err := a.cutRecord(NewBitBufferFromBytes([]byte{0}), []byte{0}, 0, 0, true); !errors.Is(err, ErrInvalidValue) || !strings.Contains(err.Error(), "precedes the bitmap end") {
-		t.Fatalf("cut before bitmap: %v", err)
-	}
-	if _, err := a.cutRecord(NewBitBufferFromBytes([]byte{0}), []byte{0}, 0, 0, false); !errors.Is(err, ErrInvalidValue) || !strings.Contains(err.Error(), "precedes the extension bit") {
-		t.Fatalf("root before extension bit: %v", err)
-	}
-}
-
-func TestCensusRecoveryProvenanceWorkAndScope(t *testing.T) {
-	newReader := func() *BitBuffer {
-		b := NewBitBufferFromBytes([]byte{0xad, 0x80})
-		if err := b.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
-			t.Fatal(err)
-		}
-		if _, err := b.ReadBits(9); err != nil {
-			t.Fatal(err)
-		}
-		return b
-	}
-	b := newReader()
-	a := ExtensionAdditions{start: 3, recovered: true}
-	expected, err := a.RecoveryEncoder(b)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if b.trace.work.active {
-		t.Fatal("encoder leaked provenance accounting scope")
-	}
-	if err := expected.WriteBits(0, 6); err != nil {
-		t.Fatal(err)
-	}
-	if _, err := a.RecordRecovery(b, expected, FinalPadding{}); err != nil {
-		t.Fatal(err)
-	}
-	if b.trace.work.active {
-		t.Fatal("record leaked provenance accounting scope")
-	}
-	b = newReader()
-	b.trace.work.limit = 0
-	a.cut = &truncatedExtension{}
-	if _, err := a.RecoveryEncoder(b); !errors.Is(err, ErrResourceLimit) {
-		t.Fatalf("cut prefix provenance uncharged: %v", err)
-	}
-	if b.trace.work.active {
-		t.Fatal("failed encoder leaked accounting scope")
-	}
-	b = newReader()
-	b.trace.work.limit = 0
-	a.cut = nil
-	if _, err := a.RecordRecovery(b, expected, FinalPadding{}); !errors.Is(err, ErrResourceLimit) {
-		t.Fatalf("local provenance uncharged: %v", err)
-	}
-	if b.trace.work.active {
-		t.Fatal("failed record leaked accounting scope")
-	}
-	parent := newReader()
-	child := NewNestedDecodeBuffer([]byte{0}, parent)
-	if err := child.EnterOpenType(); err != nil {
-		t.Fatal(err)
-	}
-	checkpoint := child.CheckpointKnownAddition()
-	child.RecoveryComponent("Nested")
-	if _, err := child.ReadBit(); err != nil {
-		t.Fatal(err)
-	}
-	a = ExtensionAdditions{present: []bool{true}}
-	ok, _, err := a.CompleteKnownAddition(child, 0, []byte{0}, checkpoint, nil)
-	if !ok || err != nil || len(child.trace.path) != checkpoint.path {
-		t.Fatalf("successful candidate leaked path: %v %v %+v", ok, err, child.trace.path)
-	}
-}
-
-func TestCensusLargeRootMinimumLengths(t *testing.T) {
-	for _, bitString := range []bool{false, true} {
-		var err error
-		if bitString {
-			_, _, err = DecodeBitStringAligned(NewBitBufferFromBytes([]byte{0}), 1, 65536, true)
-		} else {
-			_, err = DecodeOctetStringAligned(NewBitBufferFromBytes([]byte{0}), 1, 65536, true)
-		}
-		if !errors.Is(err, ErrConstraintViolation) {
-			t.Fatalf("large root minimum (bits=%v): %v", bitString, err)
-		}
 	}
 }

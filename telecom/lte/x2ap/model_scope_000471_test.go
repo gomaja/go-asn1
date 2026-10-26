@@ -3,16 +3,14 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// ERABsToBeSetupItemIEFieldAPERValue is the concrete APERValue[ERABsToBeSetupItemIEField].
-type ERABsToBeSetupItemIEFieldAPERValue struct {
-	context       s00.X2apInternalCodecContext
-	Value         s11.ERABsToBeSetupItemIEField
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
+func (c ErrorIndicationIEFieldValueCodec) encodeUnplanned(value s11.ErrorIndicationIEField, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
 }

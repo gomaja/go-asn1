@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits_test.go; SHA-256 82d708a4f794e3cb01cc901ad37a2055332eb5f3c273cceeaa8f389f6bdd4a83.
+// Runtime source: runtime/aper/decode_limits_test.go; SHA-256 908aa81961efb94e72d8546bc488eb0fb73946bfd3556f5e09ea668c10e1e7f7.
 package aper
 
 import (
@@ -73,11 +73,11 @@ func TestDecodeLimitsBoundaries(t *testing.T) {
 			t.Fatal(err)
 		}
 		first := NewBitBufferFromBytes([]byte{0xff})
-		if err := first.InheritOpenTypedecodeSettings(bb); err != nil {
+		if err := first.InheritOpenTypeDecodeOptions(bb); err != nil {
 			t.Fatal(err)
 		}
 		second := NewBitBufferFromBytes([]byte{0xff})
-		if err := second.InheritOpenTypedecodeSettings(first); !errors.Is(err, ErrResourceLimit) {
+		if err := second.InheritOpenTypeDecodeOptions(first); !errors.Is(err, ErrResourceLimit) {
 			t.Fatalf("open type: %v", err)
 		}
 		if _, err := first.ReadBit(); !errors.Is(err, ErrResourceLimit) {
@@ -105,7 +105,7 @@ func TestDecodeBudgetSharedAcrossSiblings(t *testing.T) {
 	}
 	for range 2 {
 		child := NewBitBufferFromBytes([]byte{0xff})
-		child.InheritdecodeSettings(parent)
+		child.InheritDecodeOptions(parent)
 		if err := child.ChargeElements(1); err != nil {
 			t.Fatal(err)
 		}
@@ -117,7 +117,7 @@ func TestDecodeBudgetSharedAcrossSiblings(t *testing.T) {
 		t.Fatalf("committed usage = %+v", usage)
 	}
 	child := NewBitBufferFromBytes([]byte{0xff})
-	child.InheritdecodeSettings(parent)
+	child.InheritDecodeOptions(parent)
 	if _, err := child.ReadBit(); !errors.Is(err, ErrResourceLimit) {
 		t.Fatalf("sibling exceeded work limit: %v", err)
 	}
@@ -245,7 +245,7 @@ func TestSharedDecodeBudgetClosesOpenTypeScopes(t *testing.T) {
 	}
 	for range 2 {
 		child := NewBitBufferFromBytes([]byte{0xff})
-		if err := child.InheritOpenTypedecodeSettings(parent); err != nil {
+		if err := child.InheritOpenTypeDecodeOptions(parent); err != nil {
 			t.Fatal(err)
 		}
 		if child.budget != parent.budget {

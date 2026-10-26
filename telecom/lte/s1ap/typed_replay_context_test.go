@@ -5,22 +5,22 @@ package s1ap
 import (
 	bytes "bytes"
 	s01 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s01"
-	s32 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s32"
-	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
-	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
+	s40 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s40"
+	s42 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s42"
+	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
 )
 
 func TestReplayHonorsCompleteCodecContext(t *testing.T) {
-	nas := s43.NASPDUCodec()
+	nas := s53.NASPDUCodec()
 	fresh := nASPDUAPERValueFreshMust(nas.New([]byte{1, 2, 3}))
 	wire := sliceByteFreshMust(nas.EncodeAPER(fresh))
 	decoded, _, err := nas.DecodeAPER(wire)
 	if err != nil {
 		t.Fatal(err)
 	}
-	plmn := s43.PLMNidentityCodec()
+	plmn := s53.PLMNidentityCodec()
 	// Preserve the foreign source context in the target's concrete holder.
 	foreign := func() s01.PLMNidentityAPERValue {
 		sealed := s01.PLMNidentityAPERValue{Value: decoded.Value}
@@ -34,11 +34,11 @@ func TestReplayHonorsCompleteCodecContext(t *testing.T) {
 	if !bytes.Equal(got, want) {
 		t.Fatalf("replayed a different source codec: got %x want %x", got, want)
 	}
-	table := s34.TAIItemIEs().Table()
-	field := tAIItemIEFieldFreshMust(s34.TAIItemIEs().TAIItem().New(s34.TAIItem{TAI: s32.TAI{PLMNidentity: make([]byte, 3), TAC: make([]byte, 2)}}))
-	a := s34.TAIItemIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 1})
-	b := s34.TAIItemIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	input := sliceByteFreshMust(a.EncodeAPER(tAIItemIEContainerAPERValueFreshMust(a.New(s34.TAIItemIEContainer{field}))))
+	table := s42.TAIItemIEs().Table()
+	field := tAIItemIEFieldFreshMust(s42.TAIItemIEs().TAIItem().New(s42.TAIItem{TAI: s40.TAI{PLMNidentity: make([]byte, 3), TAC: make([]byte, 2)}}))
+	a := s42.TAIItemIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 1})
+	b := s42.TAIItemIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
+	input := sliceByteFreshMust(a.EncodeAPER(tAIItemIEContainerAPERValueFreshMust(a.New(s42.TAIItemIEContainer{field}))))
 	v, _, err := a.DecodeAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -48,7 +48,7 @@ func TestReplayHonorsCompleteCodecContext(t *testing.T) {
 	if !bytes.Equal(got, want) {
 		t.Fatal("replayed different numeric-formal framing")
 	}
-	if _, err := s34.TAIItemIEValueIETableCodec(table, aper.ListBounds{Lower: 2, Upper: 1}).EncodeAPER(v); err == nil {
+	if _, err := s42.TAIItemIEValueIETableCodec(table, aper.ListBounds{Lower: 2, Upper: 1}).EncodeAPER(v); err == nil {
 		t.Fatal("replay bypassed invalid numeric formals")
 	}
 }

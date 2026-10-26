@@ -1113,3 +1113,24 @@ func TestSelectedCoMPInformationItemExtIEsValue(t *testing.T) {
 	selectedAssert(t, &v)
 	t.Logf("union CoMPInformationItemExtIEsValue: 0 synthetic rows")
 }
+func TestSelectedCoMPInformationStartTimeExtIEsValue(t *testing.T) {
+	var absent *CoMPInformationStartTimeExtIEsValue
+	selectedAssert(t, absent)
+	v := CoMPInformationStartTimeExtIEsValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	t.Logf("union CoMPInformationStartTimeExtIEsValue: 0 synthetic rows")
+}

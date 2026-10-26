@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/strict_checks_test.go; SHA-256 a6252b04aaaaf0ac4865149af288d0c4e4a42d41c52408d2c3616034e0fa2a70.
+// Runtime source: runtime/aper/strict_checks_test.go; SHA-256 444ffbb4192cfb9b206aad795042c0561664dd62c40e35a9402fe6835ea7070f.
 package aper
 
 import (
@@ -34,12 +34,12 @@ func TestStrictMalformedFieldsHaveRulesAndLocations(t *testing.T) {
 		{"integer unused code", "§11.5.7.1", []byte{0xc0}, func(bb *BitBuffer) error { _, err := DecodeConstrainedWholeNumberAligned(bb, 0, 2); return err }},
 		{"enum unused code", "§11.5.7.1", []byte{0xc0}, func(bb *BitBuffer) error { _, err := DecodeEnumeratedAligned(bb, 3, false); return err }},
 		{"sequence empty extension bitmap", "§19.1", []byte{0}, func(bb *BitBuffer) error {
-			additions := BeginExtensionAdditions(bb)
+			var additions ExtensionAdditions
 			_, _, err := additions.DecodeBitmapAligned(bb)
 			return err
 		}},
 		{"sequence truncated bitmap", "§19.7", []byte{0x7e}, func(bb *BitBuffer) error {
-			additions := BeginExtensionAdditions(bb)
+			var additions ExtensionAdditions
 			_, _, err := additions.DecodeBitmapAligned(bb)
 			return err
 		}},

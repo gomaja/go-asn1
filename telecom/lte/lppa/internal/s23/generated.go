@@ -1739,11 +1739,6 @@ func (v *LPPAPDU) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 func (v *LPPAPDU) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes LPPAPDU with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *LPPAPDU) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -3821,7 +3816,7 @@ func BridgeWalkValidationInitiatingMessage(v *s21.InitiatingMessage, report *s09
 		return
 	}
 }
-func BridgeWalkValidationInterRATMeasuredResultsValue(v *s20.InterRATMeasuredResultsValue, report *s09.ValidationReport, path string, skipRoot bool) {
+func BridgeWalkValidationInterRATMeasuredResultsValue(v *s19.InterRATMeasuredResultsValue, report *s09.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -4681,7 +4676,7 @@ func BridgeWalkValidationResultRSRPItem(v *s12.ResultRSRPItem, report *s09.Valid
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s00.FieldInfo{}
-				s11.BridgeMergeNestedValidation(report, s13.BridgeResultRSRPItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
+				s11.BridgeMergeNestedValidation(report, s12.BridgeResultRSRPItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s09.BridgeValidationReportFieldErr(report) != nil {
@@ -4886,6 +4881,23 @@ func BridgeWalkValidationResultsPerSSBIndexList(v *s14.ResultsPerSSBIndexList, r
 			return
 		}
 		BridgeWalkValidationResultsPerSSBIndexItem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
+	}
+}
+func BridgeWalkValidationSRSConfigurationForAllCells(v *s09.SRSConfigurationForAllCells, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
+		return
+	}
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
+	if err := bb.EnterDecodeValue(); err != nil {
+		*s09.BridgeValidationReportFieldErr(report) = err
+		return
+	}
+	defer bb.LeaveDecodeValue()
+	for i := range *v {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
+			return
+		}
+		BridgeWalkValidationSRSConfigurationForOneCell(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
 func BridgeWalkValidationSRSConfigurationForOneCell(v *s09.SRSConfigurationForOneCell, report *s09.ValidationReport, path string, skipRoot bool) {

@@ -3,81 +3,56 @@
 package x2ap
 
 import (
+	bytes "bytes"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-// X2AP-PDU is one extensible CHOICE (TS 36.423 V19.1.0 §9.3.3;
-// X.691 (02/2021) §23). Validation rejects contradictory in-memory arms
-// through its existing error return, before dispatching a selected body.
-func TestValidateMessagePDUChoiceStates(t *testing.T) {
-	initiating := initiatingMessageapiMust(s20.ErrorIndicationProcedure().Initiating().Build(s20.ErrorIndication{}))
-	successful := successfulOutcomeapiMust(s20.ResetProcedure().Successful().Build(s19.ResetResponse{}))
-	failure := x2SetupFailureapiMust(s14.NewX2SetupFailure(s07.X2SetupFailureIEContainer{x2SetupFailureIEFieldapiMust(s07.X2SetupFailureIEs().Cause().New(apiCause()))}))
-	unsuccessful := unsuccessfulOutcomeapiMust(s21.X2SetupProcedure().Unsuccessful().Build(failure))
-	extension := choiceExtensionapiMust(aper.NewChoiceExtension(0, []byte{0}))
-	cases := []struct {
-		name  string
-		value *s20.X2APPDU
-	}{
-		{"nil PDU", nil},
-		{"zero choice", &s20.X2APPDU{}},
-		{"negative choice", &s20.X2APPDU{Choice: -1}},
-		{"unsupported extension choice", &s20.X2APPDU{Choice: 4}},
-		{"nil initiating arm", &s20.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage}},
-		{"nil successful arm", &s20.X2APPDU{Choice: s00.X2APPDUChoiceSuccessfulOutcome}},
-		{"nil unsuccessful arm", &s20.X2APPDU{Choice: s00.X2APPDUChoiceUnsuccessfulOutcome}},
-		{"conflicting initiating", &s20.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &initiating, UnknownExtension: &extension}},
-		{"conflicting successful", &s20.X2APPDU{Choice: s00.X2APPDUChoiceSuccessfulOutcome, SuccessfulOutcome: &successful, UnknownExtension: &extension}},
-		{"conflicting unsuccessful", &s20.X2APPDU{Choice: s00.X2APPDUChoiceUnsuccessfulOutcome, UnsuccessfulOutcome: &unsuccessful, UnknownExtension: &extension}},
-		{"conflicting unsupported choice", &s20.X2APPDU{Choice: 4, UnknownExtension: &extension}},
-		{"conflicting negative choice", &s20.X2APPDU{Choice: -1, UnknownExtension: &extension}},
-	}
-	for _, tc := range cases {
-		t.Run(tc.name, func(t *testing.T) {
-			for _, options := range [][]aper.EncodeOption{nil, {aper.WithoutReplay()}} {
-				if _, err := tc.value.MarshalAPER(options...); err == nil {
-					t.Fatal("test state is encodable")
-				}
-			}
-			report, err := s21.ValidateMessage(tc.value)
-			if err == nil {
-				t.Fatalf("validator accepted unencodable PDU: %+v", report)
-			}
-			if report.Complete || len(report.Issues) != 0 {
-				t.Fatalf("invalid in-memory state must use existing error path: %+v", report)
-			}
-		})
-	}
-	// A real unknown alternative remains opaque and explicitly unchecked.
-	unknown := s20.X2APPDU{UnknownExtension: &extension}
-	report, err := s21.ValidateMessage(&unknown)
-	if err != nil || report.Complete || len(report.Issues) != 0 || len(report.Unchecked) != 1 || report.Unchecked[0].Path != "X2APPDU.unknownExtension" {
-		t.Fatalf("valid unknown choice: %+v, %v", report, err)
-	}
-	wire := listByteapiMust(unknown.MarshalAPER())
-	var received s20.X2APPDU
-	if _, err := received.UnmarshalAPER(wire); err != nil {
+func TestReceivedFieldsPreserveSiblingFraming(t *testing.T) {
+	// X.691 (02/2021) §§11.9.3.8.1–11.9.3.8.3 require a maximal
+	// 16K fragment followed by its final one-octet remainder here.
+	payload := bytes.Repeat([]byte{165}, 16385)
+	field := []byte{255, 252, 64, 193}
+	field = append(field, payload[:16384]...)
+	field = append(field, 1, payload[16384])
+	cause := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().Cause().New(apiCause()))
+	bb := aper.NewBitBuffer()
+	if err := s11.X2apInternalErrorIndicationIEFieldMarshalAPERTo(&cause, bb); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := s21.ValidateMessage(&received); err != nil {
+	wire := append([]byte{0, 0, 2}, field...)
+	wire = append(wire, bb.CompleteBytes()...)
+	var body s19.ErrorIndication
+	if _, err := body.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}
-	// Received replay state cannot hide a conflicting selector either.
-	received.Choice = s00.X2APPDUChoiceInitiatingMessage
-	received.InitiatingMessage = &initiating
-	if _, err := s21.ValidateMessage(&received); err == nil {
-		t.Fatal("received conflicting choice accepted")
+	observer, ok := any(&body.ProtocolIEs[0]).(interface{ ReceivedForm() aper.ReceivedForm })
+	if !ok {
+		t.Fatal("generic field lacks its received-form accessor")
 	}
-	for _, options := range [][]aper.EncodeOption{nil, {aper.WithoutReplay()}} {
-		if _, err := received.MarshalAPER(options...); err == nil {
-			t.Fatal("received conflicting choice encoded")
-		}
+	form := observer.ReceivedForm()
+	if !form.Present() || !form.Location().HasWireLocation || !bytes.Equal(form.OriginalBytes(), field) {
+		t.Fatal("field received framing lost")
+	}
+	clone := form.OriginalBytes()
+	clone[0] = 0
+	if !bytes.Equal(observer.ReceivedForm().OriginalBytes(), field) {
+		t.Fatal("field received form borrowed mutable bytes")
+	}
+	if !bytes.Equal(listByteapiMust(body.MarshalAPER()), wire) {
+		t.Fatal("unchanged field fragments did not replay")
+	}
+	replacement := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().Cause().New(causeapiMust(s00.NewCauseMisc(s00.CauseMisc(3)))))
+	body.ProtocolIEs[1] = replacement
+	edited := listByteapiMust(body.MarshalAPER())
+	if bytes.Equal(edited, wire) || !bytes.Equal(edited[3:3+len(field)], field) {
+		t.Fatal("editing a sibling changed untouched field framing")
+	}
+	fresh := listByteapiMust(body.MarshalAPER(aper.WithoutReplay()))
+	if !bytes.Equal(fresh, edited) {
+		t.Fatal("fresh encoding altered opaque contents")
 	}
 }

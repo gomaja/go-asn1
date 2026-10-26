@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func mobilityChangeRequestfreshMust(value s20.MobilityChangeRequest, err error) s20.MobilityChangeRequest {
+func rLFIndicationfreshMust(value s19.RLFIndication, err error) s19.RLFIndication {
 	if err != nil {
 		panic(err)
 	}

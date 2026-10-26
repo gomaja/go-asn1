@@ -4,34 +4,49 @@ package x2ap
 
 import (
 	bytes "bytes"
+	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func TestReplayReplacementAndCopyGraphs(t *testing.T) {
-	c := s14.CriticalityDiagnosticsIEListCodec()
-	wire := replayListWire(t, 2)
-	a, _, err := c.DecodeAPER(wire)
+func TestWithoutReplayNamedListAndGeneric(t *testing.T) {
+	item := s04.CriticalityDiagnosticsIEListElem{}
+	if err := item.SetExtension(0, []byte{0x80}); err != nil {
+		t.Fatal(err)
+	}
+	*s04.X2apInternalCriticalityDiagnosticsIEListElemFieldExtCount(&item) = 3
+	*s04.X2apInternalCriticalityDiagnosticsIEListElemFieldExtPresent(&item) = append(*s04.X2apInternalCriticalityDiagnosticsIEListElemFieldExtPresent(&item), false, false, false)
+	*s04.X2apInternalCriticalityDiagnosticsIEListElemFieldExtData(&item) = append(*s04.X2apInternalCriticalityDiagnosticsIEListElemFieldExtData(&item), nil, nil, nil)
+	list := s14.CriticalityDiagnosticsIEListComplete{Value: s06.CriticalityDiagnosticsIEList{item}}
+	wire := listByteapiMust(list.MarshalAPER())
+	var original s14.CriticalityDiagnosticsIEListComplete
+	if _, err := original.UnmarshalAPER(wire); err != nil {
+		t.Fatal(err)
+	}
+	sibling := original
+	copy := original.WithoutReplay()
+	got := listByteapiMust(copy.MarshalAPER())
+	want := listByteapiMust(original.MarshalAPER(aper.WithoutReplay()))
+	if !bytes.Equal(got, want) || bytes.Equal(got, wire) {
+		t.Fatalf("named list copy = %x, option = %x, received = %x", got, want, wire)
+	}
+	for _, v := range []*s14.CriticalityDiagnosticsIEListComplete{&original, &sibling} {
+		if !bytes.Equal(listByteapiMust(v.MarshalAPER()), wire) {
+			t.Fatal("named list fresh copy changed original or sibling")
+		}
+	}
+	codec := s14.CriticalityDiagnosticsIEListCodec()
+	decoded, _, err := codec.DecodeAPER(wire)
 	if err != nil {
 		t.Fatal(err)
 	}
-	b, _, err := c.DecodeAPER(wire)
-	if err != nil {
-		t.Fatal(err)
+	fresh := decoded.WithoutReplay()
+	if got, want := listByteapiMust(codec.EncodeAPER(fresh)), listByteapiMust(codec.EncodeAPER(decoded, aper.WithoutReplay())); !bytes.Equal(got, want) {
+		t.Fatalf("generic copy = %x, option = %x", got, want)
 	}
-	a.Value[0] = b.Value[0]
-	a.Value[1] = a.Value[0]
-	a.Value[0].IEID = 9
-	if got, want := listByteapiMust(c.EncodeAPER(a)), listByteapiMust(c.EncodeAPER(a, aper.WithoutReplay())); !bytes.Equal(got, want) || bytes.Equal(got, wire) {
-		t.Fatal("foreign owner or duplicate snapshot hid an edit")
-	}
-	a.Value[0].IEID = 0
-	if !bytes.Equal(listByteapiMust(c.EncodeAPER(a)), wire) {
-		t.Fatal("restored replacement did not replay")
-	}
-	a.Value[0] = a.Value[0].WithoutReplay()
-	if got, want := listByteapiMust(c.EncodeAPER(a)), listByteapiMust(c.EncodeAPER(a, aper.WithoutReplay())); !bytes.Equal(got, want) {
-		t.Fatal("replacement hid nested fresh marker")
+	if !bytes.Equal(listByteapiMust(codec.EncodeAPER(decoded)), wire) {
+		t.Fatal("generic fresh copy changed original")
 	}
 }

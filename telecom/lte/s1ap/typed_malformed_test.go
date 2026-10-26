@@ -6,8 +6,8 @@ import (
 	bytes "bytes"
 	hex "encoding/hex"
 	errors "errors"
-	s29 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s29"
-	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
+	s37 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s37"
+	s66 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s66"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	strings "strings"
@@ -40,7 +40,7 @@ func TestKnownMalformedOpenValuesNeverBecomeOpaque(t *testing.T) {
 			var encoded []byte
 			switch tc.typ {
 			case "S1APPDU":
-				var value s53.S1APPDU
+				var value s66.S1APPDU
 				_, err = value.UnmarshalAPER(wire)
 				if err == nil {
 					encoded, err = value.MarshalAPER()
@@ -49,7 +49,7 @@ func TestKnownMalformedOpenValuesNeverBecomeOpaque(t *testing.T) {
 					t.Fatal("failed decode published a partial value")
 				}
 			case "ERABInformationListItem":
-				var value s29.ERABInformationListItem
+				var value s37.ERABInformationListItem
 				_, err = value.UnmarshalAPER(wire)
 				if err == nil {
 					encoded, err = value.MarshalAPER()

@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 	"reflect"
 	"strconv"
 	"strings"
@@ -26,6 +27,44 @@ func asn1VectorHexForFuzz(input string) []byte {
 		panic(err)
 	}
 	return decoded
+}
+
+func asn1VectorCheckPaddingReport(t *testing.T, report aper.DecodeReport, input []byte, fresh bool) {
+	t.Helper()
+	for _, observation := range report.Observations {
+		switch observation.Kind {
+		case aper.NonzeroTerminalPadding, aper.NonzeroEmptyEncoding:
+			if fresh {
+				t.Fatalf("fresh encoding has padding observation: %+v", observation)
+			}
+			count := observation.PaddingCount
+			if count == 0 || count > 8 || (observation.Kind == aper.NonzeroTerminalPadding && count > 7) || (observation.Kind == aper.NonzeroEmptyEncoding && count != 8) {
+				t.Fatalf("invalid padding width: %+v", observation)
+			}
+			if observation.PaddingBits == 0 || uint16(observation.PaddingBits) >= uint16(1)<<count {
+				t.Fatalf("invalid padding bits: %+v", observation)
+			}
+		case aper.UnknownProcedure, aper.UnknownIE, aper.UnknownExtension:
+			if observation.PaddingBits != 0 || observation.PaddingCount != 0 {
+				t.Fatalf("non-padding observation carries padding: %+v", observation)
+			}
+		default:
+			t.Fatalf("unknown observation kind: %+v", observation)
+		}
+		if observation.Location.Path == "" {
+			t.Fatalf("observation has empty path: %+v", observation)
+		}
+		if observation.Location.HasWireLocation {
+			if len(observation.Location.Spans) == 0 {
+				t.Fatalf("located observation has no spans: %+v", observation)
+			}
+			for _, span := range observation.Location.Spans {
+				if span.Start > span.End || span.End > uint64(len(input))*8 {
+					t.Fatalf("observation span outside input: %+v", observation)
+				}
+			}
+		}
+	}
 }
 
 func TestASN1VectorPathRejectsNegativeIndex(t *testing.T) {
@@ -711,6 +750,96 @@ func TestVectorPrivateMessageInitiatingTypedDispatch(t *testing.T) {
 	}
 }
 
+func FuzzAPERLPPAPDUProtocolValueNonzeroTerminalPadding(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("0002000000080000010002000100"))
+	f.Add(asn1VectorHexForFuzz("000200000003000000"))
+	f.Add(asn1VectorHexForFuzz("200200000003000000"))
+	f.Add(asn1VectorHexForFuzz("400200000003000000"))
+	f.Add(asn1VectorHexForFuzz("000340000003000000"))
+	f.Add(asn1VectorHexForFuzz("000440000003000000"))
+	f.Add(asn1VectorHexForFuzz("000500000003000000"))
+	f.Add(asn1VectorHexForFuzz("000600000003000000"))
+	f.Add(asn1VectorHexForFuzz("200600000003000000"))
+	f.Add(asn1VectorHexForFuzz("400600000003000000"))
+	f.Add(asn1VectorHexForFuzz("000700000003000000"))
+	f.Add(asn1VectorHexForFuzz("200700000003000000"))
+	f.Add(asn1VectorHexForFuzz("400700000003000000"))
+	f.Add(asn1VectorHexForFuzz("000840000003000000"))
+	f.Add(asn1VectorHexForFuzz("000900000003000000"))
+	f.Add(asn1VectorHexForFuzz("000a00000003000000"))
+	f.Add(asn1VectorHexForFuzz("000040000003000000"))
+	f.Add(asn1VectorHexForFuzz("000140000009000000000001400100"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded LPPAPDU
+		report, err := decoded.UnmarshalAPER(input, aper.WithNonzeroTerminalPadding())
+		asn1VectorCheckPaddingReport(t, report, input, false)
+		if err != nil {
+			return
+		}
+		replay, err := decoded.MarshalAPER()
+		if err != nil {
+			t.Fatalf("accepted input cannot replay: %v", err)
+		}
+		if !bytes.Equal(replay, input) {
+			t.Fatalf("replay = %x, want %x", replay, input)
+		}
+		fresh, err := decoded.MarshalAPER(aper.WithoutReplay())
+		if err != nil {
+			t.Fatalf("fresh encode: %v", err)
+		}
+		var again LPPAPDU
+		freshReport, err := again.UnmarshalAPER(fresh)
+		asn1VectorCheckPaddingReport(t, freshReport, fresh, true)
+		if err != nil {
+			t.Fatalf("fresh decode: %v", err)
+		}
+	})
+}
+func FuzzAPERLPPAPDUProtocolValueReceiverNonzeroTerminalPadding(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("0002000000080000010002000100"))
+	f.Add(asn1VectorHexForFuzz("000200000003000000"))
+	f.Add(asn1VectorHexForFuzz("200200000003000000"))
+	f.Add(asn1VectorHexForFuzz("400200000003000000"))
+	f.Add(asn1VectorHexForFuzz("000340000003000000"))
+	f.Add(asn1VectorHexForFuzz("000440000003000000"))
+	f.Add(asn1VectorHexForFuzz("000500000003000000"))
+	f.Add(asn1VectorHexForFuzz("000600000003000000"))
+	f.Add(asn1VectorHexForFuzz("200600000003000000"))
+	f.Add(asn1VectorHexForFuzz("400600000003000000"))
+	f.Add(asn1VectorHexForFuzz("000700000003000000"))
+	f.Add(asn1VectorHexForFuzz("200700000003000000"))
+	f.Add(asn1VectorHexForFuzz("400700000003000000"))
+	f.Add(asn1VectorHexForFuzz("000840000003000000"))
+	f.Add(asn1VectorHexForFuzz("000900000003000000"))
+	f.Add(asn1VectorHexForFuzz("000a00000003000000"))
+	f.Add(asn1VectorHexForFuzz("000040000003000000"))
+	f.Add(asn1VectorHexForFuzz("000140000009000000000001400100"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded LPPAPDU
+		report, err := decoded.UnmarshalAPER(input, aper.WithNonzeroTerminalPadding(), aper.WithReceiverMode())
+		asn1VectorCheckPaddingReport(t, report, input, false)
+		if err != nil {
+			return
+		}
+		replay, err := decoded.MarshalAPER()
+		if err != nil {
+			t.Fatalf("accepted input cannot replay: %v", err)
+		}
+		if !bytes.Equal(replay, input) {
+			t.Fatalf("replay = %x, want %x", replay, input)
+		}
+		fresh, err := decoded.MarshalAPER(aper.WithoutReplay())
+		if err != nil {
+			t.Fatalf("fresh encode: %v", err)
+		}
+		var again LPPAPDU
+		freshReport, err := again.UnmarshalAPER(fresh, aper.WithReceiverMode())
+		asn1VectorCheckPaddingReport(t, freshReport, fresh, true)
+		if err != nil {
+			t.Fatalf("fresh decode: %v", err)
+		}
+	})
+}
 func FuzzAPERLPPAPDUProtocolValue(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("0002000000080000010002000100"))
 	f.Add(asn1VectorHexForFuzz("000200000003000000"))
@@ -736,6 +865,66 @@ func FuzzAPERLPPAPDUProtocolValue(f *testing.F) {
 	})
 }
 
+func FuzzAPERLPPAPDUNonzeroTerminalPadding(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("0002000000080000010002000100"))
+	f.Add(asn1VectorHexForFuzz("000040000003000000"))
+	f.Add(asn1VectorHexForFuzz("00020000000800000100020001"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded LPPAPDU
+		report, err := decoded.UnmarshalAPER(input, aper.WithNonzeroTerminalPadding())
+		asn1VectorCheckPaddingReport(t, report, input, false)
+		if err != nil {
+			return
+		}
+		replay, err := decoded.MarshalAPER()
+		if err != nil {
+			t.Fatalf("accepted input cannot replay: %v", err)
+		}
+		if !bytes.Equal(replay, input) {
+			t.Fatalf("replay = %x, want %x", replay, input)
+		}
+		fresh, err := decoded.MarshalAPER(aper.WithoutReplay())
+		if err != nil {
+			t.Fatalf("fresh encode: %v", err)
+		}
+		var again LPPAPDU
+		freshReport, err := again.UnmarshalAPER(fresh)
+		asn1VectorCheckPaddingReport(t, freshReport, fresh, true)
+		if err != nil {
+			t.Fatalf("fresh decode: %v", err)
+		}
+	})
+}
+func FuzzAPERLPPAPDUReceiverNonzeroTerminalPadding(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("0002000000080000010002000100"))
+	f.Add(asn1VectorHexForFuzz("000040000003000000"))
+	f.Add(asn1VectorHexForFuzz("00020000000800000100020001"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded LPPAPDU
+		report, err := decoded.UnmarshalAPER(input, aper.WithNonzeroTerminalPadding(), aper.WithReceiverMode())
+		asn1VectorCheckPaddingReport(t, report, input, false)
+		if err != nil {
+			return
+		}
+		replay, err := decoded.MarshalAPER()
+		if err != nil {
+			t.Fatalf("accepted input cannot replay: %v", err)
+		}
+		if !bytes.Equal(replay, input) {
+			t.Fatalf("replay = %x, want %x", replay, input)
+		}
+		fresh, err := decoded.MarshalAPER(aper.WithoutReplay())
+		if err != nil {
+			t.Fatalf("fresh encode: %v", err)
+		}
+		var again LPPAPDU
+		freshReport, err := again.UnmarshalAPER(fresh, aper.WithReceiverMode())
+		asn1VectorCheckPaddingReport(t, freshReport, fresh, true)
+		if err != nil {
+			t.Fatalf("fresh decode: %v", err)
+		}
+	})
+}
 func FuzzAPERLPPAPDU(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("0002000000080000010002000100"))
 	f.Add(asn1VectorHexForFuzz("000040000003000000"))

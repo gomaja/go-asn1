@@ -3,31 +3,28 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-// X.691 (02/2021) §§11.1.4, 11.2.1 forbid an empty complete open encoding.
-// Validation must refuse the same opaque PDU state that both encoders refuse.
-func TestPortEmptyUnknownChoiceValidationParity(t *testing.T) {
-	for _, contents := range [][]byte{nil, {}, {0}} {
-		var extension aper.ChoiceExtension
-		if len(contents) == 0 {
-			if _, err := aper.NewChoiceExtension(0, contents); err == nil {
-				t.Fatal("empty complete extension constructed")
-			}
-		} else {
-			extension = choiceExtensionapiMust(aper.NewChoiceExtension(0, contents))
+func TestUnreportedSequenceExtensionAllocations(t *testing.T) {
+	value := s06.CriticalityDiagnostics{}
+	if err := value.SetExtension(127, []byte{0}); err != nil {
+		t.Fatal(err)
+	}
+	wire, err := value.MarshalAPER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	allocations := testing.AllocsPerRun(100, func() {
+		var decoded s06.CriticalityDiagnostics
+		if err := s06.X2apInternalCriticalityDiagnosticsUnmarshalAPERFrom(&decoded, aper.NewBitBufferFromBytes(wire)); err != nil {
+			panic(err)
 		}
-		value := s20.X2APPDU{UnknownExtension: &extension}
-		for _, options := range [][]aper.EncodeOption{nil, {aper.WithoutReplay()}} {
-			_, encodeErr := value.MarshalAPER(options...)
-			report, err := s21.ValidateMessage(&value)
-			if (encodeErr != nil) != (err != nil) {
-				t.Fatalf("unknown contents length %d: encode=%v validate=%v report=%+v", len(contents), encodeErr, err, report)
-			}
-		}
+	})
+	t.Logf("unreported extension allocations=%v", allocations)
+	if allocations > 13 {
+		t.Fatalf("unreported extension allocated %v times", allocations)
 	}
 }

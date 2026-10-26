@@ -4,37 +4,69 @@ package x2ap
 
 import (
 	errors "errors"
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func TestPayloadBoundaryErrorsAreLocated(t *testing.T) {
-	check := func(err, errorKind error) {
-		t.Helper()
-		var located *aper.DecodeError
-		if !errors.Is(err, errorKind) || !errors.As(err, &located) || located.Location.Path == "" || located.Location.HasWireLocation {
-			t.Fatalf("payload err=%v location=%+v", err, located)
+func TestAllOperationBudgetsGrowLinearly(t *testing.T) {
+	var previous [4]aper.DecodeUsage
+	for _, size := range []int{64, 128, 256} {
+		wire := receiverUnknownWire(t, size)
+		var value s19.X2APPDU
+		state := aper.ApplyDecodeOptions()
+		if err := s19.X2apInternalX2APPDUUnmarshalAPERWithOptions(&value, wire, state); err != nil {
+			t.Fatal(err)
 		}
-	}
-	_, err := IntNewPayloadCodec(nil, nil)
-	check(err, aper.ErrInvalidValue)
-	_, _, err = IntDecodePayload([]byte{1}, IntPayloadCodec{}, s00.PayloadLimits{})
-	check(err, aper.ErrInvalidValue)
-	_, err = IntEncodePayload(1, IntPayloadCodec{}, s00.PayloadLimits{})
-	check(err, aper.ErrInvalidValue)
-	codec, err := IntNewPayloadCodec(func(data []byte, _ s00.PayloadLimits) (int, s00.PayloadReport, error) {
-		return len(data), s00.PayloadReport{Deviations: []s00.PayloadDeviation{{Path: "a"}, {Path: "b"}}}, nil
-	}, func(int, s00.PayloadLimits) ([]byte, error) { return []byte{1, 2}, nil })
-	if err != nil {
-		t.Fatal(err)
-	}
-	for _, limits := range []s00.PayloadLimits{{MaxInputBytes: 1}, {MaxAllocatedBytes: 1}, {MaxWork: 1}, {MaxReports: 1}} {
-		_, _, err = IntDecodePayload([]byte{1, 2}, codec, limits)
-		check(err, aper.ErrLimit)
-	}
-	for _, limits := range []s00.PayloadLimits{{MaxOutputBytes: 1}, {MaxAllocatedBytes: 1}, {MaxWork: 1}} {
-		_, err = IntEncodePayload(2, codec, limits)
-		check(err, aper.ErrLimit)
+		var usages [4]aper.DecodeUsage
+		usages[0] = state.Usage()
+		encode, err := aper.EncodeBudget()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if _, err := s19.X2apInternalX2APPDUMarshalAPERBudget(&value, encode, false); err != nil {
+			t.Fatal(err)
+		}
+		usages[1] = aper.NewBudgetBuffer(encode).Usage()
+		validate, err := aper.ValidationBudget()
+		if err != nil {
+			t.Fatal(err)
+		}
+		report, err := s20.X2apInternalValidateMessageBudget(&value, validate)
+		if err != nil || *s12.X2apInternalValidationReportFieldErr(&report) != nil {
+			t.Fatalf("report=%+v err=%v", report, err)
+		}
+		if _, err := s19.X2apInternalX2APPDUMarshalAPERBudget(&value, validate, false); err != nil {
+			t.Fatal(err)
+		}
+		usages[2] = aper.NewBudgetBuffer(validate).Usage()
+		build, err := aper.BuildBudget()
+		if err != nil {
+			t.Fatal(err)
+		}
+		report, err = s20.X2apInternalValidateMessageBudget(&value, build)
+		if err != nil || *s12.X2apInternalValidationReportFieldErr(&report) != nil {
+			t.Fatalf("report=%+v err=%v", report, err)
+		}
+		if _, err := s19.X2apInternalX2APPDUMarshalAPERBudget(&value, build, false); err != nil {
+			t.Fatal(err)
+		}
+		usages[3] = aper.NewBudgetBuffer(build).Usage()
+		for i, usage := range usages {
+			if previous[i].Work != 0 && (usage.Work > previous[i].Work*3 || usage.AllocatedBytes > previous[i].AllocatedBytes*3) {
+				t.Fatalf("size=%d operation=%d usage=%+v previous=%+v", size, i, usage, previous[i])
+			}
+			previous[i] = usage
+		}
+		// A failed decode keeps work and allocations charged to the same state.
+		failed := aper.ApplyDecodeOptions(aper.WithLimits(aper.Limits{MaxReports: uint64(size - 1)}))
+		var rejected s19.X2APPDU
+		err = s19.X2apInternalX2APPDUUnmarshalAPERWithOptions(&rejected, wire, failed)
+		_, err = aper.FinishDecode(failed, err)
+		if !errors.Is(err, aper.ErrLimit) || failed.Usage().Work > usages[0].Work || failed.Usage().AllocatedBytes > usages[0].AllocatedBytes {
+			t.Fatalf("failed-path budget=%+v success=%+v err=%v", failed.Usage(), usages[0], err)
+		}
 	}
 }

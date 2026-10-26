@@ -3,13 +3,44 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func FuzzAPERX2APPDUProtocolValue(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("0000007b000006000a00020001000540020000000b00080021f35412345670001700070021f354000101000e004100010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000000f400c000021f35412345670000005"))
-	f.Fuzz(func(t *testing.T, input []byte) {
-		_, _, _ = s20.X2APPDUCodec().DecodeAPER(input)
-	})
+func asn1VectorCheckPaddingReport(t *testing.T, report aper.DecodeReport, input []byte, fresh bool) {
+	t.Helper()
+	for _, observation := range report.Observations {
+		switch observation.Kind {
+		case aper.NonzeroTerminalPadding, aper.NonzeroEmptyEncoding:
+			if fresh {
+				t.Fatalf("fresh encoding has padding observation: %+v", observation)
+			}
+			count := observation.PaddingCount
+			if count == 0 || count > 8 || (observation.Kind == aper.NonzeroTerminalPadding && count > 7) || (observation.Kind == aper.NonzeroEmptyEncoding && count != 8) {
+				t.Fatalf("invalid padding width: %+v", observation)
+			}
+			if observation.PaddingBits == 0 || uint16(observation.PaddingBits) >= uint16(1)<<count {
+				t.Fatalf("invalid padding bits: %+v", observation)
+			}
+		case aper.UnknownProcedure, aper.UnknownIE, aper.UnknownExtension:
+			if observation.PaddingBits != 0 || observation.PaddingCount != 0 {
+				t.Fatalf("non-padding observation carries padding: %+v", observation)
+			}
+		default:
+			t.Fatalf("unknown observation kind: %+v", observation)
+		}
+		if observation.Location.Path == "" {
+			t.Fatalf("observation has empty path: %+v", observation)
+		}
+		if observation.Location.HasWireLocation {
+			if len(observation.Location.Spans) == 0 {
+				t.Fatalf("located observation has no spans: %+v", observation)
+			}
+			for _, span := range observation.Location.Spans {
+				if span.Start > span.End || span.End > uint64(len(input))*8 {
+					t.Fatalf("observation span outside input: %+v", observation)
+				}
+			}
+		}
+	}
 }

@@ -3,49 +3,49 @@
 package x2ap
 
 import (
-	errors "errors"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
+	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
 	testing "testing"
 )
 
-func TestReceiverDefaultReportCeilingAndLinearGrowth(t *testing.T) {
-	var previous float64
-	for _, size := range []int{128, 256, 512} {
-		wire := receiverUnknownWire(t, size)
-		allocations := testing.AllocsPerRun(3, func() {
-			var value s20.X2APPDU
-			report, err := value.UnmarshalAPER(wire, aper.WithReceiverMode())
-			if err != nil || len(report.Observations) != size {
-				panic("unknown observations lost")
-			}
-		})
-		if previous != 0 && allocations > previous*3 {
-			t.Fatalf("reports grew superlinearly: size=%d allocations=%v previous=%v", size, allocations, previous)
-		}
-		previous = allocations
+// The source's mandatory extension row is required only inside a present
+// container (TS 36.423 V19.1.0 §9.3.4, E-RABs-ToBeSetupRetrieve-ItemExtIEs).
+func TestPortOptionalContainerMandatoryRow(t *testing.T) {
+	var value s11.ERABsToBeSetupRetrieveItem
+	if _, err := value.UnmarshalAPER([]byte{0, 0, 0, 0}); err != nil {
+		t.Fatal(err)
 	}
-	valid := receiverUnknownWire(t, 1)
-	for _, size := range []int{1023, 1024, 1025} {
-		wire := receiverUnknownWire(t, size)
-		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var reused s20.X2APPDU
-			if _, err := reused.UnmarshalAPER(valid, options...); err != nil {
-				t.Fatal(err)
-			}
-			for _, value := range []*s20.X2APPDU{new(s20.X2APPDU), &reused} {
-				report, err := value.UnmarshalAPER(wire, options...)
-				if size <= 1024 {
-					if err != nil || len(report.Observations) != size {
-						t.Fatalf("size=%d report=%+v err=%v", size, report, err)
-					}
-				} else {
-					var located *aper.DecodeError
-					if !errors.Is(err, aper.ErrLimit) || !errors.As(err, &located) || !located.Location.HasWireLocation || located.Location.Path == "" || len(report.Observations) != 1024 || value.Choice != 0 || value.ReceivedForm().Present() {
-						t.Fatalf("report overflow size=%d observations=%d value=%+v err=%v location=%+v", size, len(report.Observations), value, err, located)
-					}
+	var endpoint s09.GTPtunnelEndpoint
+	if _, err := endpoint.UnmarshalAPER(make([]byte, 7)); err != nil {
+		t.Fatal(err)
+	}
+	selected := eRABsToBeSetupRetrieveItemExtIEsExtFieldapiMust(s10.ERABsToBeSetupRetrieveItemExtIEs().ULGTPtunnelEndpoint().New(endpoint))
+	cases := []struct {
+		name    string
+		fields  s10.ERABsToBeSetupRetrieveItemExtIEsExtContainer
+		missing int
+	}{
+		{name: "absent"}, {name: "present empty", fields: s10.ERABsToBeSetupRetrieveItemExtIEsExtContainer{}, missing: 1}, {name: "selected mandatory", fields: s10.ERABsToBeSetupRetrieveItemExtIEsExtContainer{selected}},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			copy := value
+			copy.IEExtensions = tc.fields
+			report := s12.ValidationReport{Complete: true}
+			s13.X2apInternalWalkValidationERABsToBeSetupRetrieveItem(&copy, &report, "ERABsToBeSetupRetrieveItem", false)
+			missing := 0
+			for _, issue := range report.Issues {
+				if issue.Code == s00.MissingMandatory {
+					missing++
 				}
 			}
-		}
+			if missing != tc.missing || len(report.Issues) != tc.missing {
+				t.Fatalf("mandatory count=%d, want %d: %+v", missing, tc.missing, report)
+			}
+		})
 	}
 }

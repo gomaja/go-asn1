@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func cPCCancelfreshMust(value s20.CPCCancel, err error) s20.CPCCancel {
+func uERadioCapabilityIDMappingRequestfreshMust(value s19.UERadioCapabilityIDMappingRequest, err error) s19.UERadioCapabilityIDMappingRequest {
 	if err != nil {
 		panic(err)
 	}

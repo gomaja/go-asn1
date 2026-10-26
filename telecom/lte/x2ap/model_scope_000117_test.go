@@ -3,33 +3,67 @@
 package x2ap
 
 import (
+	bytes "bytes"
+	sha256 "crypto/sha256"
+	fmt "fmt"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
+	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
 	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
-	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
-	big "math/big"
+	os "os"
 	testing "testing"
 )
 
-func TestCompleteReplayMutableContents(t *testing.T) {
-	t.Run("octets", func(t *testing.T) {
-		x2APMessagesemanticEditRestore(t, s13.X2APMessageCodec(), []byte{1, 2, 3}, func(v *[]byte) { (*v)[1] = 9 }, func(v *[]byte) { (*v)[1] = 2 })
-	})
-	t.Run("bits", func(t *testing.T) {
-		transportLayerAddresssemanticEditRestore(t, s09.TransportLayerAddressCodec(), runtime.BitString{Bytes: []byte{0xa0}, BitLength: 4}, func(v *runtime.BitString) { v.Bytes[0] = 0xb0 }, func(v *runtime.BitString) { v.Bytes[0] = 0xa0 })
-	})
-	t.Run("bit-length", func(t *testing.T) {
-		transportLayerAddresssemanticEditRestore(t, s09.TransportLayerAddressCodec(), runtime.BitString{Bytes: []byte{0xa0}, BitLength: 4}, func(v *runtime.BitString) { v.BitLength = 5 }, func(v *runtime.BitString) { v.BitLength = 4 })
-	})
-	t.Run("integer", func(t *testing.T) {
-		n := new(big.Int).Lsh(big.NewInt(1), 130)
-		cellCapacityClassValuesemanticEditRestore(t, s00.CellCapacityClassValueCodec(), n, func(v **big.Int) { (*v).Add(*v, big.NewInt(7)) }, func(v **big.Int) { (*v).Sub(*v, big.NewInt(7)) })
-	})
-	t.Run("disjoint-integer", func(t *testing.T) {
-		expectedActivityPeriodsemanticEditRestore(t, s00.ExpectedActivityPeriodCodec(), big.NewInt(40), func(v **big.Int) { (*v).SetInt64(50) }, func(v **big.Int) { (*v).SetInt64(40) })
-	})
-	t.Run("visible-string", func(t *testing.T) {
-		uRIAddresssemanticEditRestore(t, s16.URIAddressCodec(), "https://ref.invalid/x2", func(v *string) { *v = "https://ref.invalid/y2" }, func(v *string) { *v = "https://ref.invalid/x2" })
-	})
+func TestFragmentedNestedReplayAfterScalarEdit(t *testing.T) {
+	payload := make([]byte, 65540)
+	for i := range payload {
+		payload[i] = byte(i*13 + 7)
+	}
+	header := s05.RNLHeader{SourceGlobalENBID: s05.GlobalENBID{PLMNIdentity: []byte{1, 2, 3}, ENBID: eNBIDapiMust(s00.NewENBIDMacroENBID(runtime.BitString{Bytes: []byte{0, 0, 0}, BitLength: 20}))}}
+	table := s13.X2APMessageTransferIEs()
+	body := x2APMessageTransferapiMust(s20.NewX2APMessageTransfer(s13.X2APMessageTransferIEContainer{x2APMessageTransferIEFieldapiMust(table.RNLHeader().New(header)), x2APMessageTransferIEFieldapiMust(table.X2APMessage().New(payload))}))
+	envelope := initiatingMessageapiMust(s20.X2APMessageTransferProcedure().Initiating().Build(body))
+	pdu := x2APPDUapiMust(s20.NewX2APPDUInitiatingMessage(envelope))
+	wire := listByteapiMust(pdu.MarshalAPER())
+	t.Logf("synthetic carrier size=%d sha256=%x", len(wire), sha256.Sum256(wire))
+	if got := fmt.Sprintf("%x", sha256.Sum256(wire)); got != "f49b0db4a5b50d02ab51e7d1e620d6605d9a9d66c6bf95974c92fe293fa37982" {
+		t.Fatalf("independent carrier encoding changed: %s", got)
+	}
+	if path := os.Getenv("X2AP_SYNTHETIC_FRAGMENT_OUT"); path != "" {
+		if err := os.WriteFile(path, wire, 0600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	var value s19.X2APPDU
+	if _, err := value.UnmarshalAPER(wire); err != nil {
+		t.Fatal(err)
+	}
+	decoded, ok := value.InitiatingMessage.Value.AsX2APMessageTransfer()
+	if !ok {
+		t.Fatal("lost typed carrier")
+	}
+	if len(decoded.ProtocolIEs[1].ReceivedForm().Location().Spans) < 2 {
+		t.Fatal("fragmented field lost physical spans")
+	}
+	receivedHeader, ok := decoded.ProtocolIEs[0].Value.AsRNLHeader()
+	if !ok {
+		t.Fatal("lost typed RNL header")
+	}
+	receivedHeader.SourceGlobalENBID.PLMNIdentity[0] = 9
+	changed := listByteapiMust(value.MarshalAPER())
+	var next s19.X2APPDU
+	if _, err := next.UnmarshalAPER(changed); err != nil {
+		t.Fatal(err)
+	}
+	nextBody, _ := next.InitiatingMessage.Value.AsX2APMessageTransfer()
+	contents, ok := nextBody.ProtocolIEs[1].Value.AsX2APMessage()
+	if !ok || !bytes.Equal(*contents, payload) {
+		t.Fatal("scalar edit changed untouched fragmented payload")
+	}
+	receivedHeader.SourceGlobalENBID.PLMNIdentity[0] = 1
+	if !bytes.Equal(listByteapiMust(value.MarshalAPER()), wire) {
+		t.Fatal("restored fragmented carrier did not replay")
+	}
 }

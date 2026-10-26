@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func rachIndicationfreshMust(value s20.RachIndication, err error) s20.RachIndication {
+func uERadioCapabilityIDMappingResponsefreshMust(value s18.UERadioCapabilityIDMappingResponse, err error) s18.UERadioCapabilityIDMappingResponse {
 	if err != nil {
 		panic(err)
 	}

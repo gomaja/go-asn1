@@ -6,7 +6,7 @@ import (
 	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func x2SetupResponsefreshMust(value s19.X2SetupResponse, err error) s19.X2SetupResponse {
+func resetRequestfreshMust(value s19.ResetRequest, err error) s19.ResetRequest {
 	if err != nil {
 		panic(err)
 	}

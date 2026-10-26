@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func uEContextReleasefreshMust(value s20.UEContextRelease, err error) s20.UEContextRelease {
+func handoverPreparationFailurefreshMust(value s14.HandoverPreparationFailure, err error) s14.HandoverPreparationFailure {
 	if err != nil {
 		panic(err)
 	}

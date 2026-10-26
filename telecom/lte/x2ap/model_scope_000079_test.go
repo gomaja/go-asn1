@@ -4,38 +4,30 @@ package x2ap
 
 import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	strings "strings"
 	testing "testing"
 )
 
-func TestValidationHandlingProvenance(t *testing.T) {
-	field, err := s11.ErrorIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})
-	if err != nil {
-		t.Fatal(err)
+func portRequireRepeated(t *testing.T, report s12.ValidationReport, id s00.ProtocolIEID, index string) {
+	t.Helper()
+	count := 0
+	for _, issue := range report.Issues {
+		if issue.Code == s00.RepeatedIE && issue.IEID == id {
+			count++
+			if !issue.HasIEID || issue.Severity != s00.ValidationSeverityError || !strings.Contains(string(issue.Location.Path), index) {
+				t.Errorf("incomplete duplicate issue: %+v", issue)
+			}
+			rule := false
+			for _, related := range issue.RelatedRules {
+				rule = rule || related.Clause == "§10.3.6"
+			}
+			if !rule {
+				t.Errorf("missing duplicate source: %+v", issue)
+			}
+		}
 	}
-	body := s20.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
-	report, err := s20.ValidateErrorIndication(&body)
-	if err != nil || len(report.Issues) != 1 {
-		t.Fatalf("report=%+v err=%v", report, err)
-	}
-	issue := report.Issues[0]
-	if issue.Code != s00.NotAllowed || issue.Severity != s00.ValidationSeverityUnrecognized || len(issue.RelatedRules) != 2 || issue.RelatedRules[0].Clause != "§10.3.1" || issue.RelatedRules[1].Clause != "§10.3.4.2" {
-		t.Fatalf("handling: %+v", issue)
-	}
-	message, err := s19.NewOpaqueSuccessfulOutcome(3, s00.CriticalityIgnore, []byte{0})
-	if err != nil {
-		t.Fatal(err)
-	}
-	pdu := s20.X2APPDU{Choice: s00.X2APPDUChoiceSuccessfulOutcome, SuccessfulOutcome: &message}
-	report, err = s21.ValidateMessage(&pdu)
-	if err != nil || len(report.Issues) != 1 {
-		t.Fatalf("outcome report=%+v err=%v", report, err)
-	}
-	issue = report.Issues[0]
-	if issue.Code != s00.UnavailableOutcome || len(issue.RelatedRules) != 2 || issue.RelatedRules[0].Clause != "§10.3.4.1" || issue.RelatedRules[1].Clause != "§10.3.4.1A" {
-		t.Fatalf("outcome handling: %+v", issue)
+	if count != 1 {
+		t.Errorf("repeated id %d issue count=%d want 1; report=%+v", id, count, report)
 	}
 }

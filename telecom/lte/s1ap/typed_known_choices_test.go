@@ -6,16 +6,17 @@ import (
 	bytes "bytes"
 	hex "encoding/hex"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s00"
-	s15 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s15"
 	s18 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s18"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s19"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s21"
+	s22 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s22"
 	s24 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s24"
-	s33 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s33"
-	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
+	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
+	s41 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s41"
 	s42 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s42"
-	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
-	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
+	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
+	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	s59 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s59"
+	s64 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s64"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
 )
@@ -29,7 +30,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s33.AreaScopeOfMDT
+			var value s41.AreaScopeOfMDT
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.AreaScopeOfMDTChoiceTAIBased {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -46,7 +47,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s15.ENBID
+			var value s18.ENBID
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.ENBIDChoiceShortMacroENBID {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -63,7 +64,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s15.ENBID
+			var value s18.ENBID
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.ENBIDChoiceLongMacroENBID {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -80,7 +81,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s42.LastVisitedCellItem
+			var value s52.LastVisitedCellItem
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.LastVisitedCellItemChoiceNGRANCell {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -97,7 +98,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s48.MDTMode
+			var value s59.MDTMode
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.MDTModeChoiceMDTModeExtension {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -114,7 +115,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s34.RIMRoutingAddress
+			var value s42.RIMRoutingAddress
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.RIMRoutingAddressChoiceTargetRNCID {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -131,7 +132,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s34.RIMRoutingAddress
+			var value s42.RIMRoutingAddress
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.RIMRoutingAddressChoiceEHRPDSectorID {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -148,7 +149,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s51.SONInformation
+			var value s64.SONInformation
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONInformationChoiceSONInformationExtension {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -165,7 +166,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s34.TargetID
+			var value s43.TargetID
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.TargetIDChoiceTargetgNgRanNodeID {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -182,7 +183,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferRequestContainer
+			var value s28.SONtransferRequestContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferRequestContainerChoiceMultiCellLoadReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -199,7 +200,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferRequestContainer
+			var value s28.SONtransferRequestContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferRequestContainerChoiceEventTriggeredCellLoadReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -216,7 +217,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferRequestContainer
+			var value s28.SONtransferRequestContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferRequestContainerChoiceHOReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -233,7 +234,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferRequestContainer
+			var value s28.SONtransferRequestContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferRequestContainerChoiceEutranCellActivation {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -250,7 +251,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferRequestContainer
+			var value s28.SONtransferRequestContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferRequestContainerChoiceEnergySavingsIndication {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -267,7 +268,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferRequestContainer
+			var value s28.SONtransferRequestContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferRequestContainerChoiceFailureEventReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -284,7 +285,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferResponseContainer
+			var value s28.SONtransferResponseContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferResponseContainerChoiceMultiCellLoadReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -301,7 +302,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferResponseContainer
+			var value s28.SONtransferResponseContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferResponseContainerChoiceEventTriggeredCellLoadReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -318,7 +319,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferResponseContainer
+			var value s28.SONtransferResponseContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferResponseContainerChoiceHOReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -335,7 +336,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferResponseContainer
+			var value s28.SONtransferResponseContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferResponseContainerChoiceEutranCellActivation {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -352,7 +353,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferResponseContainer
+			var value s28.SONtransferResponseContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferResponseContainerChoiceEnergySavingsIndication {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -369,7 +370,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s24.SONtransferResponseContainer
+			var value s28.SONtransferResponseContainer
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferResponseContainerChoiceFailureEventReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -386,7 +387,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s20.SONtransferCause
+			var value s24.SONtransferCause
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferCauseChoiceMultiCellLoadReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -403,7 +404,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s20.SONtransferCause
+			var value s24.SONtransferCause
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferCauseChoiceEventTriggeredCellLoadReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -420,7 +421,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s20.SONtransferCause
+			var value s24.SONtransferCause
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferCauseChoiceHOReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -437,7 +438,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s20.SONtransferCause
+			var value s24.SONtransferCause
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferCauseChoiceEutranCellActivation {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -454,7 +455,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s20.SONtransferCause
+			var value s24.SONtransferCause
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferCauseChoiceEnergySavingsIndication {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -471,7 +472,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s20.SONtransferCause
+			var value s24.SONtransferCause
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONtransferCauseChoiceFailureEventReporting {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -488,7 +489,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s18.CellLoadReportingResponse
+			var value s21.CellLoadReportingResponse
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.CellLoadReportingResponseChoiceEHRPD {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -505,7 +506,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s18.IRATCellID
+			var value s21.IRATCellID
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.IRATCellIDChoiceEHRPD {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)
@@ -522,7 +523,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s19.MultiCellLoadReportingResponseItem
+			var value s22.MultiCellLoadReportingResponseItem
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.MultiCellLoadReportingResponseItemChoiceEHRPD {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func handoverSuccessIEFieldfreshMust(value s11.HandoverSuccessIEField, err error) s11.HandoverSuccessIEField {
+func eNDCConfigurationTransferfreshMust(value s19.ENDCConfigurationTransfer, err error) s19.ENDCConfigurationTransfer {
 	if err != nil {
 		panic(err)
 	}

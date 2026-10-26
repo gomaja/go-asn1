@@ -523,106 +523,6 @@ type ServedDCNsItemExtIEsValueExtensionTable struct{ bound bool }
 // ServedGUMMEIsItemExtIEsValueExtensionTable is the bound table for ServedGUMMEIsItem-ExtIEs of TS 36.413.
 type ServedGUMMEIsItemExtIEsValueExtensionTable struct{ bound bool }
 
-// GUMMEITypeValueCodec is the concrete ValueCodec[GUMMEIType].
-type GUMMEITypeValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (GUMMEIType,
-
-		error)
-	encode func(GUMMEIType,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(GUMMEIType, aper.DecodeState,
-
-	) (GUMMEIType, aper.Snapshot,
-
-	)
-	compare func(GUMMEIType, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c GUMMEITypeValueCodec) New(value GUMMEIType,
-
-) (GUMMEITypeAPERValue, error) {
-	if c.encode == nil {
-		return GUMMEITypeAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return GUMMEITypeAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return GUMMEITypeAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return GUMMEITypeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c GUMMEITypeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (GUMMEITypeAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return GUMMEITypeAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return GUMMEITypeAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return GUMMEITypeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return GUMMEITypeAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c GUMMEITypeValueCodec) EncodeAPER(value GUMMEITypeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c GUMMEITypeValueCodec) encodeBudgetValue(value GUMMEIType,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c GUMMEITypeValueCodec) encodeChanged(value GUMMEIType,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
 // SourceNgRanNodeIDExtIEsValueExtensionTable is the bound table for SourceNgRanNode-ID-ExtIEs of TS 36.413.
 type SourceNgRanNodeIDExtIEsValueExtensionTable struct{ bound bool }
 
@@ -2926,106 +2826,6 @@ type HandoverCancelIEValueIETable struct{ bound bool }
 // HandoverCommandIEValueIETable is the bound table for HandoverCommandIEs of TS 36.413.
 type HandoverCommandIEValueIETable struct{ bound bool }
 
-// HandoverTypeValueCodec is the concrete ValueCodec[HandoverType].
-type HandoverTypeValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (HandoverType,
-
-		error)
-	encode func(HandoverType,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(HandoverType, aper.DecodeState,
-
-	) (HandoverType, aper.Snapshot,
-
-	)
-	compare func(HandoverType, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HandoverTypeValueCodec) New(value HandoverType,
-
-) (HandoverTypeAPERValue, error) {
-	if c.encode == nil {
-		return HandoverTypeAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HandoverTypeAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HandoverTypeAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HandoverTypeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HandoverTypeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HandoverTypeAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HandoverTypeAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HandoverTypeAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HandoverTypeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HandoverTypeAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HandoverTypeValueCodec) EncodeAPER(value HandoverTypeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HandoverTypeValueCodec) encodeBudgetValue(value HandoverType,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HandoverTypeValueCodec) encodeChanged(value HandoverType,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
 // HandoverFailureIEValueIETable is the bound table for HandoverFailureIEs of TS 36.413.
 type HandoverFailureIEValueIETable struct{ bound bool }
 
@@ -3431,106 +3231,6 @@ func (c AerialUEsubscriptionInformationValueCodec) encodeBudgetValue(value Aeria
 	return out, aper.OperationError(err, c.path)
 }
 func (c AerialUEsubscriptionInformationValueCodec) encodeChanged(value AerialUEsubscriptionInformation,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// IABAuthorizedValueCodec is the concrete ValueCodec[IABAuthorized].
-type IABAuthorizedValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (IABAuthorized,
-
-		error)
-	encode func(IABAuthorized,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(IABAuthorized, aper.DecodeState,
-
-	) (IABAuthorized, aper.Snapshot,
-
-	)
-	compare func(IABAuthorized, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c IABAuthorizedValueCodec) New(value IABAuthorized,
-
-) (IABAuthorizedAPERValue, error) {
-	if c.encode == nil {
-		return IABAuthorizedAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return IABAuthorizedAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return IABAuthorizedAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return IABAuthorizedAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c IABAuthorizedValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (IABAuthorizedAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return IABAuthorizedAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return IABAuthorizedAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return IABAuthorizedAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return IABAuthorizedAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c IABAuthorizedValueCodec) EncodeAPER(value IABAuthorizedAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c IABAuthorizedValueCodec) encodeBudgetValue(value IABAuthorized,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c IABAuthorizedValueCodec) encodeChanged(value IABAuthorized,
 
 	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -4419,106 +4119,6 @@ func (c CNDomainValueCodec) encodeChanged(value CNDomain,
 	return out, aper.OperationError(err, c.path)
 }
 
-// ExtendedUEIdentityIndexValueValueCodec is the concrete ValueCodec[ExtendedUEIdentityIndexValue].
-type ExtendedUEIdentityIndexValueValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ExtendedUEIdentityIndexValue,
-
-		error)
-	encode func(ExtendedUEIdentityIndexValue,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ExtendedUEIdentityIndexValue, aper.DecodeState,
-
-	) (ExtendedUEIdentityIndexValue, aper.Snapshot,
-
-	)
-	compare func(ExtendedUEIdentityIndexValue, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c ExtendedUEIdentityIndexValueValueCodec) New(value ExtendedUEIdentityIndexValue,
-
-) (ExtendedUEIdentityIndexValueAPERValue, error) {
-	if c.encode == nil {
-		return ExtendedUEIdentityIndexValueAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ExtendedUEIdentityIndexValueAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ExtendedUEIdentityIndexValueAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return ExtendedUEIdentityIndexValueAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c ExtendedUEIdentityIndexValueValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ExtendedUEIdentityIndexValueAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ExtendedUEIdentityIndexValueAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return ExtendedUEIdentityIndexValueAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return ExtendedUEIdentityIndexValueAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ExtendedUEIdentityIndexValueAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ExtendedUEIdentityIndexValueValueCodec) EncodeAPER(value ExtendedUEIdentityIndexValueAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c ExtendedUEIdentityIndexValueValueCodec) encodeBudgetValue(value ExtendedUEIdentityIndexValue,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c ExtendedUEIdentityIndexValueValueCodec) encodeChanged(value ExtendedUEIdentityIndexValue,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
 // DataSizeValueCodec is the concrete ValueCodec[DataSize].
 type DataSizeValueCodec struct {
 	path    aper.Path
@@ -4661,106 +4261,6 @@ type S1SetupResponseIEValueIETable struct{ bound bool }
 // SecondaryRATDataUsageReportIEValueIETable is the bound table for SecondaryRATDataUsageReportIEs of TS 36.413.
 type SecondaryRATDataUsageReportIEValueIETable struct{ bound bool }
 
-// HandoverFlagValueCodec is the concrete ValueCodec[HandoverFlag].
-type HandoverFlagValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (HandoverFlag,
-
-		error)
-	encode func(HandoverFlag,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(HandoverFlag, aper.DecodeState,
-
-	) (HandoverFlag, aper.Snapshot,
-
-	)
-	compare func(HandoverFlag, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HandoverFlagValueCodec) New(value HandoverFlag,
-
-) (HandoverFlagAPERValue, error) {
-	if c.encode == nil {
-		return HandoverFlagAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HandoverFlagAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HandoverFlagAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HandoverFlagAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HandoverFlagValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HandoverFlagAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HandoverFlagAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HandoverFlagAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HandoverFlagAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HandoverFlagAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HandoverFlagValueCodec) EncodeAPER(value HandoverFlagAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HandoverFlagValueCodec) encodeBudgetValue(value HandoverFlag,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HandoverFlagValueCodec) encodeChanged(value HandoverFlag,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
 // TAIItemExtIEsValueExtensionTable is the bound table for TAIItemExtIEs of TS 36.413.
 type TAIItemExtIEsValueExtensionTable struct{ bound bool }
 
@@ -4805,106 +4305,6 @@ type UEContextReleaseCompleteIEValueIETable struct{ bound bool }
 
 // UEContextReleaseRequestIEValueIETable is the bound table for UEContextReleaseRequest-IEs of TS 36.413.
 type UEContextReleaseRequestIEValueIETable struct{ bound bool }
-
-// GWContextReleaseIndicationValueCodec is the concrete ValueCodec[GWContextReleaseIndication].
-type GWContextReleaseIndicationValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (GWContextReleaseIndication,
-
-		error)
-	encode func(GWContextReleaseIndication,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(GWContextReleaseIndication, aper.DecodeState,
-
-	) (GWContextReleaseIndication, aper.Snapshot,
-
-	)
-	compare func(GWContextReleaseIndication, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c GWContextReleaseIndicationValueCodec) New(value GWContextReleaseIndication,
-
-) (GWContextReleaseIndicationAPERValue, error) {
-	if c.encode == nil {
-		return GWContextReleaseIndicationAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return GWContextReleaseIndicationAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return GWContextReleaseIndicationAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return GWContextReleaseIndicationAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c GWContextReleaseIndicationValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (GWContextReleaseIndicationAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return GWContextReleaseIndicationAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return GWContextReleaseIndicationAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return GWContextReleaseIndicationAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return GWContextReleaseIndicationAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c GWContextReleaseIndicationValueCodec) EncodeAPER(value GWContextReleaseIndicationAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c GWContextReleaseIndicationValueCodec) encodeBudgetValue(value GWContextReleaseIndication,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c GWContextReleaseIndicationValueCodec) encodeChanged(value GWContextReleaseIndication,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
 
 // UEContextResumeFailureIEValueIETable is the bound table for UEContextResumeFailureIEs of TS 36.413.
 type UEContextResumeFailureIEValueIETable struct{ bound bool }
@@ -9854,1706 +9254,6 @@ func (c ExtendedRNCIDValueCodec) encodeChanged(value ExtendedRNCID,
 	return out, aper.OperationError(err, c.path)
 }
 
-// FailureEventReportingCauseValueCodec is the concrete ValueCodec[FailureEventReportingCause].
-type FailureEventReportingCauseValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (FailureEventReportingCause,
-
-		error)
-	encode func(FailureEventReportingCause,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(FailureEventReportingCause, aper.DecodeState,
-
-	) (FailureEventReportingCause, aper.Snapshot,
-
-	)
-	compare func(FailureEventReportingCause, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c FailureEventReportingCauseValueCodec) New(value FailureEventReportingCause,
-
-) (FailureEventReportingCauseAPERValue, error) {
-	if c.encode == nil {
-		return FailureEventReportingCauseAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return FailureEventReportingCauseAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return FailureEventReportingCauseAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return FailureEventReportingCauseAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c FailureEventReportingCauseValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (FailureEventReportingCauseAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return FailureEventReportingCauseAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return FailureEventReportingCauseAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return FailureEventReportingCauseAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return FailureEventReportingCauseAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c FailureEventReportingCauseValueCodec) EncodeAPER(value FailureEventReportingCauseAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c FailureEventReportingCauseValueCodec) encodeBudgetValue(value FailureEventReportingCause,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c FailureEventReportingCauseValueCodec) encodeChanged(value FailureEventReportingCause,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// FiveGSTACValueCodec is the concrete ValueCodec[FiveGSTAC].
-type FiveGSTACValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (FiveGSTAC,
-
-		error)
-	encode func(FiveGSTAC,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(FiveGSTAC, aper.DecodeState,
-
-	) (FiveGSTAC, aper.Snapshot,
-
-	)
-	compare func(FiveGSTAC, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c FiveGSTACValueCodec) New(value FiveGSTAC,
-
-) (FiveGSTACAPERValue, error) {
-	if c.encode == nil {
-		return FiveGSTACAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return FiveGSTACAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return FiveGSTACAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return FiveGSTACAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c FiveGSTACValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (FiveGSTACAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return FiveGSTACAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return FiveGSTACAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return FiveGSTACAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return FiveGSTACAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c FiveGSTACValueCodec) EncodeAPER(value FiveGSTACAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c FiveGSTACValueCodec) encodeBudgetValue(value FiveGSTAC,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c FiveGSTACValueCodec) encodeChanged(value FiveGSTAC,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// FiveQIValueCodec is the concrete ValueCodec[FiveQI].
-type FiveQIValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (FiveQI,
-
-		error)
-	encode func(FiveQI,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(FiveQI, aper.DecodeState,
-
-	) (FiveQI, aper.Snapshot,
-
-	)
-	compare func(FiveQI, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c FiveQIValueCodec) New(value FiveQI,
-
-) (FiveQIAPERValue, error) {
-	if c.encode == nil {
-		return FiveQIAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return FiveQIAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return FiveQIAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return FiveQIAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c FiveQIValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (FiveQIAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return FiveQIAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return FiveQIAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return FiveQIAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return FiveQIAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c FiveQIValueCodec) EncodeAPER(value FiveQIAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c FiveQIValueCodec) encodeBudgetValue(value FiveQI,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c FiveQIValueCodec) encodeChanged(value FiveQI,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// ForbiddenInterRATsValueCodec is the concrete ValueCodec[ForbiddenInterRATs].
-type ForbiddenInterRATsValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ForbiddenInterRATs,
-
-		error)
-	encode func(ForbiddenInterRATs,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ForbiddenInterRATs, aper.DecodeState,
-
-	) (ForbiddenInterRATs, aper.Snapshot,
-
-	)
-	compare func(ForbiddenInterRATs, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c ForbiddenInterRATsValueCodec) New(value ForbiddenInterRATs,
-
-) (ForbiddenInterRATsAPERValue, error) {
-	if c.encode == nil {
-		return ForbiddenInterRATsAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ForbiddenInterRATsAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ForbiddenInterRATsAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return ForbiddenInterRATsAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c ForbiddenInterRATsValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ForbiddenInterRATsAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ForbiddenInterRATsAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return ForbiddenInterRATsAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return ForbiddenInterRATsAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ForbiddenInterRATsAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ForbiddenInterRATsValueCodec) EncodeAPER(value ForbiddenInterRATsAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c ForbiddenInterRATsValueCodec) encodeBudgetValue(value ForbiddenInterRATs,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c ForbiddenInterRATsValueCodec) encodeChanged(value ForbiddenInterRATs,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// ForbiddenLACsValueCodec is the concrete ValueCodec[ForbiddenLACs].
-type ForbiddenLACsValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ForbiddenLACs,
-
-		error)
-	encode func(ForbiddenLACs,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ForbiddenLACs, aper.DecodeState,
-
-	) (ForbiddenLACs, aper.Snapshot,
-
-	)
-	compare func(ForbiddenLACs, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c ForbiddenLACsValueCodec) New(value ForbiddenLACs,
-
-) (ForbiddenLACsAPERValue, error) {
-	if c.encode == nil {
-		return ForbiddenLACsAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ForbiddenLACsAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ForbiddenLACsAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return ForbiddenLACsAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c ForbiddenLACsValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ForbiddenLACsAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ForbiddenLACsAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return ForbiddenLACsAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return ForbiddenLACsAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ForbiddenLACsAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ForbiddenLACsValueCodec) EncodeAPER(value ForbiddenLACsAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c ForbiddenLACsValueCodec) encodeBudgetValue(value ForbiddenLACs,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c ForbiddenLACsValueCodec) encodeChanged(value ForbiddenLACs,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// ForbiddenTACsValueCodec is the concrete ValueCodec[ForbiddenTACs].
-type ForbiddenTACsValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ForbiddenTACs,
-
-		error)
-	encode func(ForbiddenTACs,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ForbiddenTACs, aper.DecodeState,
-
-	) (ForbiddenTACs, aper.Snapshot,
-
-	)
-	compare func(ForbiddenTACs, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c ForbiddenTACsValueCodec) New(value ForbiddenTACs,
-
-) (ForbiddenTACsAPERValue, error) {
-	if c.encode == nil {
-		return ForbiddenTACsAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ForbiddenTACsAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ForbiddenTACsAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return ForbiddenTACsAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c ForbiddenTACsValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ForbiddenTACsAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ForbiddenTACsAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return ForbiddenTACsAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return ForbiddenTACsAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ForbiddenTACsAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ForbiddenTACsValueCodec) EncodeAPER(value ForbiddenTACsAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c ForbiddenTACsValueCodec) encodeBudgetValue(value ForbiddenTACs,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c ForbiddenTACsValueCodec) encodeChanged(value ForbiddenTACs,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// GNBIDValueCodec is the concrete ValueCodec[GNBID].
-type GNBIDValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (GNBID,
-
-		error)
-	encode func(GNBID,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(GNBID, aper.DecodeState,
-
-	) (GNBID, aper.Snapshot,
-
-	)
-	compare func(GNBID, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c GNBIDValueCodec) New(value GNBID,
-
-) (GNBIDAPERValue, error) {
-	if c.encode == nil {
-		return GNBIDAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return GNBIDAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return GNBIDAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return GNBIDAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c GNBIDValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (GNBIDAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return GNBIDAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return GNBIDAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return GNBIDAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return GNBIDAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c GNBIDValueCodec) EncodeAPER(value GNBIDAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c GNBIDValueCodec) encodeBudgetValue(value GNBID,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c GNBIDValueCodec) encodeChanged(value GNBID,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// GTPTEIDValueCodec is the concrete ValueCodec[GTPTEID].
-type GTPTEIDValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (GTPTEID,
-
-		error)
-	encode func(GTPTEID,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(GTPTEID, aper.DecodeState,
-
-	) (GTPTEID, aper.Snapshot,
-
-	)
-	compare func(GTPTEID, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c GTPTEIDValueCodec) New(value GTPTEID,
-
-) (GTPTEIDAPERValue, error) {
-	if c.encode == nil {
-		return GTPTEIDAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return GTPTEIDAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return GTPTEIDAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return GTPTEIDAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c GTPTEIDValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (GTPTEIDAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return GTPTEIDAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return GTPTEIDAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return GTPTEIDAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return GTPTEIDAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c GTPTEIDValueCodec) EncodeAPER(value GTPTEIDAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c GTPTEIDValueCodec) encodeBudgetValue(value GTPTEID,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c GTPTEIDValueCodec) encodeChanged(value GTPTEID,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// HFNValueCodec is the concrete ValueCodec[HFN].
-type HFNValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (HFN,
-
-		error)
-	encode func(HFN,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(HFN, aper.DecodeState,
-
-	) (HFN, aper.Snapshot,
-
-	)
-	compare func(HFN, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HFNValueCodec) New(value HFN,
-
-) (HFNAPERValue, error) {
-	if c.encode == nil {
-		return HFNAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HFNAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HFNAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HFNAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HFNValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HFNAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HFNAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HFNAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HFNAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HFNAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HFNValueCodec) EncodeAPER(value HFNAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HFNValueCodec) encodeBudgetValue(value HFN,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HFNValueCodec) encodeChanged(value HFN,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// HFNModifiedValueCodec is the concrete ValueCodec[HFNModified].
-type HFNModifiedValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (HFNModified,
-
-		error)
-	encode func(HFNModified,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(HFNModified, aper.DecodeState,
-
-	) (HFNModified, aper.Snapshot,
-
-	)
-	compare func(HFNModified, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HFNModifiedValueCodec) New(value HFNModified,
-
-) (HFNModifiedAPERValue, error) {
-	if c.encode == nil {
-		return HFNModifiedAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HFNModifiedAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HFNModifiedAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HFNModifiedAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HFNModifiedValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HFNModifiedAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HFNModifiedAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HFNModifiedAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HFNModifiedAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HFNModifiedAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HFNModifiedValueCodec) EncodeAPER(value HFNModifiedAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HFNModifiedValueCodec) encodeBudgetValue(value HFNModified,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HFNModifiedValueCodec) encodeChanged(value HFNModified,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// HFNforPDCPSNlength18ValueCodec is the concrete ValueCodec[HFNforPDCPSNlength18].
-type HFNforPDCPSNlength18ValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (HFNforPDCPSNlength18,
-
-		error)
-	encode func(HFNforPDCPSNlength18,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(HFNforPDCPSNlength18, aper.DecodeState,
-
-	) (HFNforPDCPSNlength18, aper.Snapshot,
-
-	)
-	compare func(HFNforPDCPSNlength18, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HFNforPDCPSNlength18ValueCodec) New(value HFNforPDCPSNlength18,
-
-) (HFNforPDCPSNlength18APERValue, error) {
-	if c.encode == nil {
-		return HFNforPDCPSNlength18APERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HFNforPDCPSNlength18APERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HFNforPDCPSNlength18APERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HFNforPDCPSNlength18APERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HFNforPDCPSNlength18ValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HFNforPDCPSNlength18APERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HFNforPDCPSNlength18APERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HFNforPDCPSNlength18APERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HFNforPDCPSNlength18APERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HFNforPDCPSNlength18APERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HFNforPDCPSNlength18ValueCodec) EncodeAPER(value HFNforPDCPSNlength18APERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HFNforPDCPSNlength18ValueCodec) encodeBudgetValue(value HFNforPDCPSNlength18,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HFNforPDCPSNlength18ValueCodec) encodeChanged(value HFNforPDCPSNlength18,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// HOReportingCauseValueCodec is the concrete ValueCodec[HOReportingCause].
-type HOReportingCauseValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (HOReportingCause,
-
-		error)
-	encode func(HOReportingCause,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(HOReportingCause, aper.DecodeState,
-
-	) (HOReportingCause, aper.Snapshot,
-
-	)
-	compare func(HOReportingCause, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HOReportingCauseValueCodec) New(value HOReportingCause,
-
-) (HOReportingCauseAPERValue, error) {
-	if c.encode == nil {
-		return HOReportingCauseAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HOReportingCauseAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HOReportingCauseAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HOReportingCauseAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HOReportingCauseValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HOReportingCauseAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HOReportingCauseAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HOReportingCauseAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HOReportingCauseAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HOReportingCauseAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HOReportingCauseValueCodec) EncodeAPER(value HOReportingCauseAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HOReportingCauseValueCodec) encodeBudgetValue(value HOReportingCause,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HOReportingCauseValueCodec) encodeChanged(value HOReportingCause,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// HandoverWindowDurationValueCodec is the concrete ValueCodec[HandoverWindowDuration].
-type HandoverWindowDurationValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (HandoverWindowDuration,
-
-		error)
-	encode func(HandoverWindowDuration,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(HandoverWindowDuration, aper.DecodeState,
-
-	) (HandoverWindowDuration, aper.Snapshot,
-
-	)
-	compare func(HandoverWindowDuration, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HandoverWindowDurationValueCodec) New(value HandoverWindowDuration,
-
-) (HandoverWindowDurationAPERValue, error) {
-	if c.encode == nil {
-		return HandoverWindowDurationAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HandoverWindowDurationAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HandoverWindowDurationAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HandoverWindowDurationAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HandoverWindowDurationValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HandoverWindowDurationAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HandoverWindowDurationAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HandoverWindowDurationAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HandoverWindowDurationAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HandoverWindowDurationAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HandoverWindowDurationValueCodec) EncodeAPER(value HandoverWindowDurationAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HandoverWindowDurationValueCodec) encodeBudgetValue(value HandoverWindowDuration,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HandoverWindowDurationValueCodec) encodeChanged(value HandoverWindowDuration,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// HandoverWindowStartValueCodec is the concrete ValueCodec[HandoverWindowStart].
-type HandoverWindowStartValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (HandoverWindowStart,
-
-		error)
-	encode func(HandoverWindowStart,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(HandoverWindowStart, aper.DecodeState,
-
-	) (HandoverWindowStart, aper.Snapshot,
-
-	)
-	compare func(HandoverWindowStart, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HandoverWindowStartValueCodec) New(value HandoverWindowStart,
-
-) (HandoverWindowStartAPERValue, error) {
-	if c.encode == nil {
-		return HandoverWindowStartAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HandoverWindowStartAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HandoverWindowStartAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HandoverWindowStartAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HandoverWindowStartValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HandoverWindowStartAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HandoverWindowStartAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HandoverWindowStartAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HandoverWindowStartAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HandoverWindowStartAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HandoverWindowStartValueCodec) EncodeAPER(value HandoverWindowStartAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HandoverWindowStartValueCodec) encodeBudgetValue(value HandoverWindowStart,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HandoverWindowStartValueCodec) encodeChanged(value HandoverWindowStart,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// HoReportTypeValueCodec is the concrete ValueCodec[HoReportType].
-type HoReportTypeValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (HoReportType,
-
-		error)
-	encode func(HoReportType,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(HoReportType, aper.DecodeState,
-
-	) (HoReportType, aper.Snapshot,
-
-	)
-	compare func(HoReportType, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HoReportTypeValueCodec) New(value HoReportType,
-
-) (HoReportTypeAPERValue, error) {
-	if c.encode == nil {
-		return HoReportTypeAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HoReportTypeAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HoReportTypeAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HoReportTypeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HoReportTypeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HoReportTypeAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HoReportTypeAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HoReportTypeAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HoReportTypeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HoReportTypeAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HoReportTypeValueCodec) EncodeAPER(value HoReportTypeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HoReportTypeValueCodec) encodeBudgetValue(value HoReportType,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HoReportTypeValueCodec) encodeChanged(value HoReportType,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// HoTypeValueCodec is the concrete ValueCodec[HoType].
-type HoTypeValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (HoType,
-
-		error)
-	encode func(HoType,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(HoType, aper.DecodeState,
-
-	) (HoType, aper.Snapshot,
-
-	)
-	compare func(HoType, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HoTypeValueCodec) New(value HoType,
-
-) (HoTypeAPERValue, error) {
-	if c.encode == nil {
-		return HoTypeAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HoTypeAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HoTypeAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HoTypeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HoTypeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HoTypeAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HoTypeAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HoTypeAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HoTypeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HoTypeAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HoTypeValueCodec) EncodeAPER(value HoTypeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HoTypeValueCodec) encodeBudgetValue(value HoType,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HoTypeValueCodec) encodeChanged(value HoType,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// HysteresisValueCodec is the concrete ValueCodec[Hysteresis].
-type HysteresisValueCodec struct {
-	path    aper.Path
-	context BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (Hysteresis,
-
-		error)
-	encode func(Hysteresis,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(Hysteresis, aper.DecodeState,
-
-	) (Hysteresis, aper.Snapshot,
-
-	)
-	compare func(Hysteresis, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c HysteresisValueCodec) New(value Hysteresis,
-
-) (HysteresisAPERValue, error) {
-	if c.encode == nil {
-		return HysteresisAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return HysteresisAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return HysteresisAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return HysteresisAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c HysteresisValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (HysteresisAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return HysteresisAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return HysteresisAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return HysteresisAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return HysteresisAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c HysteresisValueCodec) EncodeAPER(value HysteresisAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c HysteresisValueCodec) encodeBudgetValue(value Hysteresis,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c HysteresisValueCodec) encodeChanged(value Hysteresis,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
 // ExtendedBitRateAPERValue is the concrete APERValue[ExtendedBitRate].
 type ExtendedBitRateAPERValue struct {
 	context BridgeCodecContext
@@ -11571,29 +9271,6 @@ func (v ExtendedBitRateAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v ExtendedBitRateAPERValue) WithoutReplay() ExtendedBitRateAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// GUMMEITypeAPERValue is the concrete APERValue[GUMMEIType].
-type GUMMEITypeAPERValue struct {
-	context BridgeCodecContext
-	Value   GUMMEIType
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v GUMMEITypeAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v GUMMEITypeAPERValue) WithoutReplay() GUMMEITypeAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -12060,29 +9737,6 @@ func (v ENBnameAPERValue) WithoutReplay() ENBnameAPERValue {
 	return v
 }
 
-// HandoverTypeAPERValue is the concrete APERValue[HandoverType].
-type HandoverTypeAPERValue struct {
-	context BridgeCodecContext
-	Value   HandoverType
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HandoverTypeAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HandoverTypeAPERValue) WithoutReplay() HandoverTypeAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
 // CSGIdAPERValue is the concrete APERValue[CSGId].
 type CSGIdAPERValue struct {
 	context BridgeCodecContext
@@ -12169,29 +9823,6 @@ func (v AerialUEsubscriptionInformationAPERValue) ReceivedForm() aper.ReceivedFo
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v AerialUEsubscriptionInformationAPERValue) WithoutReplay() AerialUEsubscriptionInformationAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// IABAuthorizedAPERValue is the concrete APERValue[IABAuthorized].
-type IABAuthorizedAPERValue struct {
-	context BridgeCodecContext
-	Value   IABAuthorized
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v IABAuthorizedAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v IABAuthorizedAPERValue) WithoutReplay() IABAuthorizedAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -12313,29 +9944,6 @@ func (v EDTSessionAPERValue) WithoutReplay() EDTSessionAPERValue {
 	return v
 }
 
-// IABNodeIndicationAPERValue is the concrete APERValue[IABNodeIndication].
-type IABNodeIndicationAPERValue struct {
-	context BridgeCodecContext
-	Value   IABNodeIndication
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v IABNodeIndicationAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v IABNodeIndicationAPERValue) WithoutReplay() IABNodeIndicationAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
 // CoarseUELocationRequestedAPERValue is the concrete APERValue[CoarseUELocationRequested].
 type CoarseUELocationRequestedAPERValue struct {
 	context BridgeCodecContext
@@ -12445,52 +10053,6 @@ func (v DataSizeAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v DataSizeAPERValue) WithoutReplay() DataSizeAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// HandoverFlagAPERValue is the concrete APERValue[HandoverFlag].
-type HandoverFlagAPERValue struct {
-	context BridgeCodecContext
-	Value   HandoverFlag
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HandoverFlagAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HandoverFlagAPERValue) WithoutReplay() HandoverFlagAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// GWContextReleaseIndicationAPERValue is the concrete APERValue[GWContextReleaseIndication].
-type GWContextReleaseIndicationAPERValue struct {
-	context BridgeCodecContext
-	Value   GWContextReleaseIndication
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v GWContextReleaseIndicationAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v GWContextReleaseIndicationAPERValue) WithoutReplay() GWContextReleaseIndicationAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -13618,397 +11180,6 @@ func (v ExtendedRNCIDAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v ExtendedRNCIDAPERValue) WithoutReplay() ExtendedRNCIDAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// FailureEventReportingCauseAPERValue is the concrete APERValue[FailureEventReportingCause].
-type FailureEventReportingCauseAPERValue struct {
-	context BridgeCodecContext
-	Value   FailureEventReportingCause
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v FailureEventReportingCauseAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v FailureEventReportingCauseAPERValue) WithoutReplay() FailureEventReportingCauseAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// FiveGSTACAPERValue is the concrete APERValue[FiveGSTAC].
-type FiveGSTACAPERValue struct {
-	context BridgeCodecContext
-	Value   FiveGSTAC
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v FiveGSTACAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v FiveGSTACAPERValue) WithoutReplay() FiveGSTACAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// FiveQIAPERValue is the concrete APERValue[FiveQI].
-type FiveQIAPERValue struct {
-	context BridgeCodecContext
-	Value   FiveQI
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v FiveQIAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v FiveQIAPERValue) WithoutReplay() FiveQIAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// ForbiddenInterRATsAPERValue is the concrete APERValue[ForbiddenInterRATs].
-type ForbiddenInterRATsAPERValue struct {
-	context BridgeCodecContext
-	Value   ForbiddenInterRATs
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v ForbiddenInterRATsAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v ForbiddenInterRATsAPERValue) WithoutReplay() ForbiddenInterRATsAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// ForbiddenLACsAPERValue is the concrete APERValue[ForbiddenLACs].
-type ForbiddenLACsAPERValue struct {
-	context BridgeCodecContext
-	Value   ForbiddenLACs
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v ForbiddenLACsAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v ForbiddenLACsAPERValue) WithoutReplay() ForbiddenLACsAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// ForbiddenTACsAPERValue is the concrete APERValue[ForbiddenTACs].
-type ForbiddenTACsAPERValue struct {
-	context BridgeCodecContext
-	Value   ForbiddenTACs
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v ForbiddenTACsAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v ForbiddenTACsAPERValue) WithoutReplay() ForbiddenTACsAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// GNBIDAPERValue is the concrete APERValue[GNBID].
-type GNBIDAPERValue struct {
-	context BridgeCodecContext
-	Value   GNBID
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v GNBIDAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v GNBIDAPERValue) WithoutReplay() GNBIDAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// GTPTEIDAPERValue is the concrete APERValue[GTPTEID].
-type GTPTEIDAPERValue struct {
-	context BridgeCodecContext
-	Value   GTPTEID
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v GTPTEIDAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v GTPTEIDAPERValue) WithoutReplay() GTPTEIDAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// HFNAPERValue is the concrete APERValue[HFN].
-type HFNAPERValue struct {
-	context BridgeCodecContext
-	Value   HFN
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HFNAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HFNAPERValue) WithoutReplay() HFNAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// HFNModifiedAPERValue is the concrete APERValue[HFNModified].
-type HFNModifiedAPERValue struct {
-	context BridgeCodecContext
-	Value   HFNModified
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HFNModifiedAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HFNModifiedAPERValue) WithoutReplay() HFNModifiedAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// HFNforPDCPSNlength18APERValue is the concrete APERValue[HFNforPDCPSNlength18].
-type HFNforPDCPSNlength18APERValue struct {
-	context BridgeCodecContext
-	Value   HFNforPDCPSNlength18
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HFNforPDCPSNlength18APERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HFNforPDCPSNlength18APERValue) WithoutReplay() HFNforPDCPSNlength18APERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// HOReportingCauseAPERValue is the concrete APERValue[HOReportingCause].
-type HOReportingCauseAPERValue struct {
-	context BridgeCodecContext
-	Value   HOReportingCause
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HOReportingCauseAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HOReportingCauseAPERValue) WithoutReplay() HOReportingCauseAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// HandoverWindowDurationAPERValue is the concrete APERValue[HandoverWindowDuration].
-type HandoverWindowDurationAPERValue struct {
-	context BridgeCodecContext
-	Value   HandoverWindowDuration
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HandoverWindowDurationAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HandoverWindowDurationAPERValue) WithoutReplay() HandoverWindowDurationAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// HandoverWindowStartAPERValue is the concrete APERValue[HandoverWindowStart].
-type HandoverWindowStartAPERValue struct {
-	context BridgeCodecContext
-	Value   HandoverWindowStart
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HandoverWindowStartAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HandoverWindowStartAPERValue) WithoutReplay() HandoverWindowStartAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// HoReportTypeAPERValue is the concrete APERValue[HoReportType].
-type HoReportTypeAPERValue struct {
-	context BridgeCodecContext
-	Value   HoReportType
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HoReportTypeAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HoReportTypeAPERValue) WithoutReplay() HoReportTypeAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// HoTypeAPERValue is the concrete APERValue[HoType].
-type HoTypeAPERValue struct {
-	context BridgeCodecContext
-	Value   HoType
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HoTypeAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HoTypeAPERValue) WithoutReplay() HoTypeAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// HysteresisAPERValue is the concrete APERValue[Hysteresis].
-type HysteresisAPERValue struct {
-	context BridgeCodecContext
-	Value   Hysteresis
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v HysteresisAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v HysteresisAPERValue) WithoutReplay() HysteresisAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -22622,18 +19793,6 @@ type DeferredCondition struct {
 	Rule     aper.SourceRule
 }
 
-func BridgeAdditionalCSFallbackIndicatorAPERValueFieldContext(v *AdditionalCSFallbackIndicatorAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeAdditionalCSFallbackIndicatorAPERValueFieldReceived(v *AdditionalCSFallbackIndicatorAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeAdditionalCSFallbackIndicatorAPERValueFieldReplay(v *AdditionalCSFallbackIndicatorAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeAdditionalCSFallbackIndicatorAPERValueFieldWithoutReplay(v *AdditionalCSFallbackIndicatorAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeAdditionalCSFallbackIndicatorValueCodecFieldCapture(v *AdditionalCSFallbackIndicatorValueCodec) *func(AdditionalCSFallbackIndicator, aper.DecodeState) (AdditionalCSFallbackIndicator, aper.Snapshot) {
 	return &v.capture
 }
@@ -22652,26 +19811,8 @@ func BridgeAdditionalCSFallbackIndicatorValueCodecFieldEncode(v *AdditionalCSFal
 func BridgeAdditionalCSFallbackIndicatorValueCodecFieldPath(v *AdditionalCSFallbackIndicatorValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeAdditionalCSFallbackIndicatorValueCodecMethodEncodeBudgetValue(v AdditionalCSFallbackIndicatorValueCodec, a0 AdditionalCSFallbackIndicator, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeAdditionalCSFallbackIndicatorValueCodecMethodEncodeChanged(v AdditionalCSFallbackIndicatorValueCodec, a0 AdditionalCSFallbackIndicator, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeAdditionalGUTIExtIEsValueExtensionTableFieldBound(v *AdditionalGUTIExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeAdditionalRRMPriorityIndexAPERValueFieldContext(v *AdditionalRRMPriorityIndexAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeAdditionalRRMPriorityIndexAPERValueFieldReceived(v *AdditionalRRMPriorityIndexAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeAdditionalRRMPriorityIndexAPERValueFieldReplay(v *AdditionalRRMPriorityIndexAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeAdditionalRRMPriorityIndexAPERValueFieldWithoutReplay(v *AdditionalRRMPriorityIndexAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeAdditionalRRMPriorityIndexValueCodecFieldCapture(v *AdditionalRRMPriorityIndexValueCodec) *func(AdditionalRRMPriorityIndex, aper.DecodeState) (AdditionalRRMPriorityIndex, aper.Snapshot) {
 	return &v.capture
@@ -22691,24 +19832,6 @@ func BridgeAdditionalRRMPriorityIndexValueCodecFieldEncode(v *AdditionalRRMPrior
 func BridgeAdditionalRRMPriorityIndexValueCodecFieldPath(v *AdditionalRRMPriorityIndexValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeAdditionalRRMPriorityIndexValueCodecMethodEncodeBudgetValue(v AdditionalRRMPriorityIndexValueCodec, a0 AdditionalRRMPriorityIndex, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeAdditionalRRMPriorityIndexValueCodecMethodEncodeChanged(v AdditionalRRMPriorityIndexValueCodec, a0 AdditionalRRMPriorityIndex, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeAerialUEsubscriptionInformationAPERValueFieldContext(v *AerialUEsubscriptionInformationAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeAerialUEsubscriptionInformationAPERValueFieldReceived(v *AerialUEsubscriptionInformationAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeAerialUEsubscriptionInformationAPERValueFieldReplay(v *AerialUEsubscriptionInformationAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeAerialUEsubscriptionInformationAPERValueFieldWithoutReplay(v *AerialUEsubscriptionInformationAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeAerialUEsubscriptionInformationValueCodecFieldCapture(v *AerialUEsubscriptionInformationValueCodec) *func(AerialUEsubscriptionInformation, aper.DecodeState) (AerialUEsubscriptionInformation, aper.Snapshot) {
 	return &v.capture
 }
@@ -22727,12 +19850,6 @@ func BridgeAerialUEsubscriptionInformationValueCodecFieldEncode(v *AerialUEsubsc
 func BridgeAerialUEsubscriptionInformationValueCodecFieldPath(v *AerialUEsubscriptionInformationValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeAerialUEsubscriptionInformationValueCodecMethodEncodeBudgetValue(v AerialUEsubscriptionInformationValueCodec, a0 AerialUEsubscriptionInformation, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeAerialUEsubscriptionInformationValueCodecMethodEncodeChanged(v AerialUEsubscriptionInformationValueCodec, a0 AerialUEsubscriptionInformation, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeAllocationAndRetentionPriorityExtIEsValueExtensionTableFieldBound(v *AllocationAndRetentionPriorityExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -22742,10 +19859,6 @@ func BridgeAssistanceDataForPagingExtIEsValueExtensionTableFieldBound(v *Assista
 func BridgeAssistanceDataForRecommendedCellsExtIEsValueExtensionTableFieldBound(v *AssistanceDataForRecommendedCellsExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
-func BridgeBPLMNsAPERValueFieldContext(v *BPLMNsAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeBPLMNsAPERValueFieldReceived(v *BPLMNsAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeBPLMNsAPERValueFieldReplay(v *BPLMNsAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeBPLMNsAPERValueFieldWithoutReplay(v *BPLMNsAPERValue) *bool         { return &v.withoutReplay }
 func BridgeBPLMNsValueCodecFieldCapture(v *BPLMNsValueCodec) *func(BPLMNs, aper.DecodeState) (BPLMNs, aper.Snapshot) {
 	return &v.capture
 }
@@ -22760,22 +19873,6 @@ func BridgeBPLMNsValueCodecFieldEncode(v *BPLMNsValueCodec) *func(BPLMNs, bool, 
 	return &v.encode
 }
 func BridgeBPLMNsValueCodecFieldPath(v *BPLMNsValueCodec) *aper.Path { return &v.path }
-func BridgeBPLMNsValueCodecMethodEncodeBudgetValue(v BPLMNsValueCodec, a0 BPLMNs, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeBPLMNsValueCodecMethodEncodeChanged(v BPLMNsValueCodec, a0 BPLMNs, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeBearerTypeAPERValueFieldContext(v *BearerTypeAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeBearerTypeAPERValueFieldReceived(v *BearerTypeAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeBearerTypeAPERValueFieldReplay(v *BearerTypeAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeBearerTypeAPERValueFieldWithoutReplay(v *BearerTypeAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeBearerTypeValueCodecFieldCapture(v *BearerTypeValueCodec) *func(BearerType, aper.DecodeState) (BearerType, aper.Snapshot) {
 	return &v.capture
 }
@@ -22792,12 +19889,6 @@ func BridgeBearerTypeValueCodecFieldEncode(v *BearerTypeValueCodec) *func(Bearer
 	return &v.encode
 }
 func BridgeBearerTypeValueCodecFieldPath(v *BearerTypeValueCodec) *aper.Path { return &v.path }
-func BridgeBearerTypeValueCodecMethodEncodeBudgetValue(v BearerTypeValueCodec, a0 BearerType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeBearerTypeValueCodecMethodEncodeChanged(v BearerTypeValueCodec, a0 BearerType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeBearersSubjectToDLDiscardingItemExtIEsValueExtensionTableFieldBound(v *BearersSubjectToDLDiscardingItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -22816,10 +19907,6 @@ func BridgeBearersSubjectToStatusTransferItemExtIEsValueExtensionTableFieldBound
 func BridgeBearersSubjectToStatusTransferItemIEValueIETableFieldBound(v *BearersSubjectToStatusTransferItemIEValueIETable) *bool {
 	return &v.bound
 }
-func BridgeBitRateAPERValueFieldContext(v *BitRateAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeBitRateAPERValueFieldReceived(v *BitRateAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeBitRateAPERValueFieldReplay(v *BitRateAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeBitRateAPERValueFieldWithoutReplay(v *BitRateAPERValue) *bool         { return &v.withoutReplay }
 func BridgeBitRateValueCodecFieldCapture(v *BitRateValueCodec) *func(BitRate, aper.DecodeState) (BitRate, aper.Snapshot) {
 	return &v.capture
 }
@@ -22834,36 +19921,6 @@ func BridgeBitRateValueCodecFieldEncode(v *BitRateValueCodec) *func(BitRate, boo
 	return &v.encode
 }
 func BridgeBitRateValueCodecFieldPath(v *BitRateValueCodec) *aper.Path { return &v.path }
-func BridgeBitRateValueCodecMethodEncodeBudgetValue(v BitRateValueCodec, a0 BitRate, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeBitRateValueCodecMethodEncodeChanged(v BitRateValueCodec, a0 BitRate, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeBluetoothMeasConfigAPERValueFieldContext(v *BluetoothMeasConfigAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeBluetoothMeasConfigAPERValueFieldReceived(v *BluetoothMeasConfigAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeBluetoothMeasConfigAPERValueFieldReplay(v *BluetoothMeasConfigAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeBluetoothMeasConfigAPERValueFieldWithoutReplay(v *BluetoothMeasConfigAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeBluetoothMeasConfigNameListAPERValueFieldContext(v *BluetoothMeasConfigNameListAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeBluetoothMeasConfigNameListAPERValueFieldReceived(v *BluetoothMeasConfigNameListAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeBluetoothMeasConfigNameListAPERValueFieldReplay(v *BluetoothMeasConfigNameListAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeBluetoothMeasConfigNameListAPERValueFieldWithoutReplay(v *BluetoothMeasConfigNameListAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeBluetoothMeasConfigNameListValueCodecFieldCapture(v *BluetoothMeasConfigNameListValueCodec) *func(BluetoothMeasConfigNameList, aper.DecodeState) (BluetoothMeasConfigNameList, aper.Snapshot) {
 	return &v.capture
 }
@@ -22881,12 +19938,6 @@ func BridgeBluetoothMeasConfigNameListValueCodecFieldEncode(v *BluetoothMeasConf
 }
 func BridgeBluetoothMeasConfigNameListValueCodecFieldPath(v *BluetoothMeasConfigNameListValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeBluetoothMeasConfigNameListValueCodecMethodEncodeBudgetValue(v BluetoothMeasConfigNameListValueCodec, a0 BluetoothMeasConfigNameList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeBluetoothMeasConfigNameListValueCodecMethodEncodeChanged(v BluetoothMeasConfigNameListValueCodec, a0 BluetoothMeasConfigNameList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeBluetoothMeasConfigValueCodecFieldCapture(v *BluetoothMeasConfigValueCodec) *func(BluetoothMeasConfig, aper.DecodeState) (BluetoothMeasConfig, aper.Snapshot) {
 	return &v.capture
@@ -22906,26 +19957,8 @@ func BridgeBluetoothMeasConfigValueCodecFieldEncode(v *BluetoothMeasConfigValueC
 func BridgeBluetoothMeasConfigValueCodecFieldPath(v *BluetoothMeasConfigValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeBluetoothMeasConfigValueCodecMethodEncodeBudgetValue(v BluetoothMeasConfigValueCodec, a0 BluetoothMeasConfig, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeBluetoothMeasConfigValueCodecMethodEncodeChanged(v BluetoothMeasConfigValueCodec, a0 BluetoothMeasConfig, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeBluetoothMeasurementConfigurationExtIEsValueExtensionTableFieldBound(v *BluetoothMeasurementConfigurationExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeBluetoothNameAPERValueFieldContext(v *BluetoothNameAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeBluetoothNameAPERValueFieldReceived(v *BluetoothNameAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeBluetoothNameAPERValueFieldReplay(v *BluetoothNameAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeBluetoothNameAPERValueFieldWithoutReplay(v *BluetoothNameAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeBluetoothNameValueCodecFieldCapture(v *BluetoothNameValueCodec) *func(BluetoothName, aper.DecodeState) (BluetoothName, aper.Snapshot) {
 	return &v.capture
@@ -22943,16 +19976,6 @@ func BridgeBluetoothNameValueCodecFieldEncode(v *BluetoothNameValueCodec) *func(
 	return &v.encode
 }
 func BridgeBluetoothNameValueCodecFieldPath(v *BluetoothNameValueCodec) *aper.Path { return &v.path }
-func BridgeBluetoothNameValueCodecMethodEncodeBudgetValue(v BluetoothNameValueCodec, a0 BluetoothName, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeBluetoothNameValueCodecMethodEncodeChanged(v BluetoothNameValueCodec, a0 BluetoothName, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCELevelAPERValueFieldContext(v *CELevelAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeCELevelAPERValueFieldReceived(v *CELevelAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeCELevelAPERValueFieldReplay(v *CELevelAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeCELevelAPERValueFieldWithoutReplay(v *CELevelAPERValue) *bool         { return &v.withoutReplay }
 func BridgeCELevelValueCodecFieldCapture(v *CELevelValueCodec) *func(CELevel, aper.DecodeState) (CELevel, aper.Snapshot) {
 	return &v.capture
 }
@@ -22967,24 +19990,6 @@ func BridgeCELevelValueCodecFieldEncode(v *CELevelValueCodec) *func(CELevel, boo
 	return &v.encode
 }
 func BridgeCELevelValueCodecFieldPath(v *CELevelValueCodec) *aper.Path { return &v.path }
-func BridgeCELevelValueCodecMethodEncodeBudgetValue(v CELevelValueCodec, a0 CELevel, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCELevelValueCodecMethodEncodeChanged(v CELevelValueCodec, a0 CELevel, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCEModeBRestrictedAPERValueFieldContext(v *CEModeBRestrictedAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCEModeBRestrictedAPERValueFieldReceived(v *CEModeBRestrictedAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCEModeBRestrictedAPERValueFieldReplay(v *CEModeBRestrictedAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCEModeBRestrictedAPERValueFieldWithoutReplay(v *CEModeBRestrictedAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCEModeBRestrictedValueCodecFieldCapture(v *CEModeBRestrictedValueCodec) *func(CEModeBRestricted, aper.DecodeState) (CEModeBRestricted, aper.Snapshot) {
 	return &v.capture
 }
@@ -23002,24 +20007,6 @@ func BridgeCEModeBRestrictedValueCodecFieldEncode(v *CEModeBRestrictedValueCodec
 }
 func BridgeCEModeBRestrictedValueCodecFieldPath(v *CEModeBRestrictedValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeCEModeBRestrictedValueCodecMethodEncodeBudgetValue(v CEModeBRestrictedValueCodec, a0 CEModeBRestricted, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCEModeBRestrictedValueCodecMethodEncodeChanged(v CEModeBRestrictedValueCodec, a0 CEModeBRestricted, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCEModeBSupportIndicatorAPERValueFieldContext(v *CEModeBSupportIndicatorAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCEModeBSupportIndicatorAPERValueFieldReceived(v *CEModeBSupportIndicatorAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCEModeBSupportIndicatorAPERValueFieldReplay(v *CEModeBSupportIndicatorAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCEModeBSupportIndicatorAPERValueFieldWithoutReplay(v *CEModeBSupportIndicatorAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCEModeBSupportIndicatorValueCodecFieldCapture(v *CEModeBSupportIndicatorValueCodec) *func(CEModeBSupportIndicator, aper.DecodeState) (CEModeBSupportIndicator, aper.Snapshot) {
 	return &v.capture
@@ -23039,19 +20026,9 @@ func BridgeCEModeBSupportIndicatorValueCodecFieldEncode(v *CEModeBSupportIndicat
 func BridgeCEModeBSupportIndicatorValueCodecFieldPath(v *CEModeBSupportIndicatorValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCEModeBSupportIndicatorValueCodecMethodEncodeBudgetValue(v CEModeBSupportIndicatorValueCodec, a0 CEModeBSupportIndicator, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCEModeBSupportIndicatorValueCodecMethodEncodeChanged(v CEModeBSupportIndicatorValueCodec, a0 CEModeBSupportIndicator, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeCGIExtIEsValueExtensionTableFieldBound(v *CGIExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
-func BridgeCIAPERValueFieldContext(v *CIAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeCIAPERValueFieldReceived(v *CIAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeCIAPERValueFieldReplay(v *CIAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeCIAPERValueFieldWithoutReplay(v *CIAPERValue) *bool         { return &v.withoutReplay }
 func BridgeCIValueCodecFieldCapture(v *CIValueCodec) *func(CI, aper.DecodeState) (CI, aper.Snapshot) {
 	return &v.capture
 }
@@ -23066,16 +20043,6 @@ func BridgeCIValueCodecFieldEncode(v *CIValueCodec) *func(CI, bool, *aper.Decode
 	return &v.encode
 }
 func BridgeCIValueCodecFieldPath(v *CIValueCodec) *aper.Path { return &v.path }
-func BridgeCIValueCodecMethodEncodeBudgetValue(v CIValueCodec, a0 CI, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCIValueCodecMethodEncodeChanged(v CIValueCodec, a0 CI, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCNDomainAPERValueFieldContext(v *CNDomainAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeCNDomainAPERValueFieldReceived(v *CNDomainAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeCNDomainAPERValueFieldReplay(v *CNDomainAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeCNDomainAPERValueFieldWithoutReplay(v *CNDomainAPERValue) *bool         { return &v.withoutReplay }
 func BridgeCNDomainValueCodecFieldCapture(v *CNDomainValueCodec) *func(CNDomain, aper.DecodeState) (CNDomain, aper.Snapshot) {
 	return &v.capture
 }
@@ -23092,16 +20059,6 @@ func BridgeCNDomainValueCodecFieldEncode(v *CNDomainValueCodec) *func(CNDomain, 
 	return &v.encode
 }
 func BridgeCNDomainValueCodecFieldPath(v *CNDomainValueCodec) *aper.Path { return &v.path }
-func BridgeCNDomainValueCodecMethodEncodeBudgetValue(v CNDomainValueCodec, a0 CNDomain, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCNDomainValueCodecMethodEncodeChanged(v CNDomainValueCodec, a0 CNDomain, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCNTypeAPERValueFieldContext(v *CNTypeAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeCNTypeAPERValueFieldReceived(v *CNTypeAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeCNTypeAPERValueFieldReplay(v *CNTypeAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeCNTypeAPERValueFieldWithoutReplay(v *CNTypeAPERValue) *bool         { return &v.withoutReplay }
 func BridgeCNTypeRestrictionsItemExtIEsValueExtensionTableFieldBound(v *CNTypeRestrictionsItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -23119,12 +20076,6 @@ func BridgeCNTypeValueCodecFieldEncode(v *CNTypeValueCodec) *func(CNType, bool, 
 	return &v.encode
 }
 func BridgeCNTypeValueCodecFieldPath(v *CNTypeValueCodec) *aper.Path { return &v.path }
-func BridgeCNTypeValueCodecMethodEncodeBudgetValue(v CNTypeValueCodec, a0 CNType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCNTypeValueCodecMethodEncodeChanged(v CNTypeValueCodec, a0 CNType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeCOUNTValueExtendedExtIEsValueExtensionTableFieldBound(v *COUNTValueExtendedExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -23133,18 +20084,6 @@ func BridgeCOUNTvalueExtIEsValueExtensionTableFieldBound(v *COUNTvalueExtIEsValu
 }
 func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueExtensionTableFieldBound(v *COUNTvaluePDCPSNlength18ExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeCSFallbackIndicatorAPERValueFieldContext(v *CSFallbackIndicatorAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCSFallbackIndicatorAPERValueFieldReceived(v *CSFallbackIndicatorAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCSFallbackIndicatorAPERValueFieldReplay(v *CSFallbackIndicatorAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCSFallbackIndicatorAPERValueFieldWithoutReplay(v *CSFallbackIndicatorAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCSFallbackIndicatorValueCodecFieldCapture(v *CSFallbackIndicatorValueCodec) *func(CSFallbackIndicator, aper.DecodeState) (CSFallbackIndicator, aper.Snapshot) {
 	return &v.capture
@@ -23164,16 +20103,6 @@ func BridgeCSFallbackIndicatorValueCodecFieldEncode(v *CSFallbackIndicatorValueC
 func BridgeCSFallbackIndicatorValueCodecFieldPath(v *CSFallbackIndicatorValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCSFallbackIndicatorValueCodecMethodEncodeBudgetValue(v CSFallbackIndicatorValueCodec, a0 CSFallbackIndicator, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCSFallbackIndicatorValueCodecMethodEncodeChanged(v CSFallbackIndicatorValueCodec, a0 CSFallbackIndicator, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCSGIdAPERValueFieldContext(v *CSGIdAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeCSGIdAPERValueFieldReceived(v *CSGIdAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeCSGIdAPERValueFieldReplay(v *CSGIdAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeCSGIdAPERValueFieldWithoutReplay(v *CSGIdAPERValue) *bool         { return &v.withoutReplay }
 func BridgeCSGIdListItemExtIEsValueExtensionTableFieldBound(v *CSGIdListItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -23191,26 +20120,8 @@ func BridgeCSGIdValueCodecFieldEncode(v *CSGIdValueCodec) *func(CSGId, bool, *ap
 	return &v.encode
 }
 func BridgeCSGIdValueCodecFieldPath(v *CSGIdValueCodec) *aper.Path { return &v.path }
-func BridgeCSGIdValueCodecMethodEncodeBudgetValue(v CSGIdValueCodec, a0 CSGId, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCSGIdValueCodecMethodEncodeChanged(v CSGIdValueCodec, a0 CSGId, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeCSGMembershipInfoExtIEsValueExtensionTableFieldBound(v *CSGMembershipInfoExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeCSGMembershipStatusAPERValueFieldContext(v *CSGMembershipStatusAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCSGMembershipStatusAPERValueFieldReceived(v *CSGMembershipStatusAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCSGMembershipStatusAPERValueFieldReplay(v *CSGMembershipStatusAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCSGMembershipStatusAPERValueFieldWithoutReplay(v *CSGMembershipStatusAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCSGMembershipStatusValueCodecFieldCapture(v *CSGMembershipStatusValueCodec) *func(CSGMembershipStatus, aper.DecodeState) (CSGMembershipStatus, aper.Snapshot) {
 	return &v.capture
@@ -23230,24 +20141,12 @@ func BridgeCSGMembershipStatusValueCodecFieldEncode(v *CSGMembershipStatusValueC
 func BridgeCSGMembershipStatusValueCodecFieldPath(v *CSGMembershipStatusValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCSGMembershipStatusValueCodecMethodEncodeBudgetValue(v CSGMembershipStatusValueCodec, a0 CSGMembershipStatus, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCSGMembershipStatusValueCodecMethodEncodeChanged(v CSGMembershipStatusValueCodec, a0 CSGMembershipStatus, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeCancelledCellinEAIItemExtIEsValueExtensionTableFieldBound(v *CancelledCellinEAIItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
 func BridgeCancelledCellinTAIItemExtIEsValueExtensionTableFieldBound(v *CancelledCellinTAIItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
-func BridgeCauseMiscAPERValueFieldContext(v *CauseMiscAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCauseMiscAPERValueFieldReceived(v *CauseMiscAPERValue) *aper.WireSpan { return &v.received }
-func BridgeCauseMiscAPERValueFieldReplay(v *CauseMiscAPERValue) *aper.Snapshot   { return &v.replay }
-func BridgeCauseMiscAPERValueFieldWithoutReplay(v *CauseMiscAPERValue) *bool     { return &v.withoutReplay }
 func BridgeCauseMiscValueCodecFieldCapture(v *CauseMiscValueCodec) *func(CauseMisc, aper.DecodeState) (CauseMisc, aper.Snapshot) {
 	return &v.capture
 }
@@ -23264,16 +20163,6 @@ func BridgeCauseMiscValueCodecFieldEncode(v *CauseMiscValueCodec) *func(CauseMis
 	return &v.encode
 }
 func BridgeCauseMiscValueCodecFieldPath(v *CauseMiscValueCodec) *aper.Path { return &v.path }
-func BridgeCauseMiscValueCodecMethodEncodeBudgetValue(v CauseMiscValueCodec, a0 CauseMisc, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCauseMiscValueCodecMethodEncodeChanged(v CauseMiscValueCodec, a0 CauseMisc, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCauseNasAPERValueFieldContext(v *CauseNasAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeCauseNasAPERValueFieldReceived(v *CauseNasAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeCauseNasAPERValueFieldReplay(v *CauseNasAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeCauseNasAPERValueFieldWithoutReplay(v *CauseNasAPERValue) *bool         { return &v.withoutReplay }
 func BridgeCauseNasValueCodecFieldCapture(v *CauseNasValueCodec) *func(CauseNas, aper.DecodeState) (CauseNas, aper.Snapshot) {
 	return &v.capture
 }
@@ -23290,24 +20179,6 @@ func BridgeCauseNasValueCodecFieldEncode(v *CauseNasValueCodec) *func(CauseNas, 
 	return &v.encode
 }
 func BridgeCauseNasValueCodecFieldPath(v *CauseNasValueCodec) *aper.Path { return &v.path }
-func BridgeCauseNasValueCodecMethodEncodeBudgetValue(v CauseNasValueCodec, a0 CauseNas, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCauseNasValueCodecMethodEncodeChanged(v CauseNasValueCodec, a0 CauseNas, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCauseProtocolAPERValueFieldContext(v *CauseProtocolAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCauseProtocolAPERValueFieldReceived(v *CauseProtocolAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCauseProtocolAPERValueFieldReplay(v *CauseProtocolAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCauseProtocolAPERValueFieldWithoutReplay(v *CauseProtocolAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCauseProtocolValueCodecFieldCapture(v *CauseProtocolValueCodec) *func(CauseProtocol, aper.DecodeState) (CauseProtocol, aper.Snapshot) {
 	return &v.capture
 }
@@ -23324,24 +20195,6 @@ func BridgeCauseProtocolValueCodecFieldEncode(v *CauseProtocolValueCodec) *func(
 	return &v.encode
 }
 func BridgeCauseProtocolValueCodecFieldPath(v *CauseProtocolValueCodec) *aper.Path { return &v.path }
-func BridgeCauseProtocolValueCodecMethodEncodeBudgetValue(v CauseProtocolValueCodec, a0 CauseProtocol, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCauseProtocolValueCodecMethodEncodeChanged(v CauseProtocolValueCodec, a0 CauseProtocol, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCauseRadioNetworkAPERValueFieldContext(v *CauseRadioNetworkAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCauseRadioNetworkAPERValueFieldReceived(v *CauseRadioNetworkAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCauseRadioNetworkAPERValueFieldReplay(v *CauseRadioNetworkAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCauseRadioNetworkAPERValueFieldWithoutReplay(v *CauseRadioNetworkAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCauseRadioNetworkValueCodecFieldCapture(v *CauseRadioNetworkValueCodec) *func(CauseRadioNetwork, aper.DecodeState) (CauseRadioNetwork, aper.Snapshot) {
 	return &v.capture
 }
@@ -23360,24 +20213,6 @@ func BridgeCauseRadioNetworkValueCodecFieldEncode(v *CauseRadioNetworkValueCodec
 func BridgeCauseRadioNetworkValueCodecFieldPath(v *CauseRadioNetworkValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCauseRadioNetworkValueCodecMethodEncodeBudgetValue(v CauseRadioNetworkValueCodec, a0 CauseRadioNetwork, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCauseRadioNetworkValueCodecMethodEncodeChanged(v CauseRadioNetworkValueCodec, a0 CauseRadioNetwork, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCauseTransportAPERValueFieldContext(v *CauseTransportAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCauseTransportAPERValueFieldReceived(v *CauseTransportAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCauseTransportAPERValueFieldReplay(v *CauseTransportAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCauseTransportAPERValueFieldWithoutReplay(v *CauseTransportAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCauseTransportValueCodecFieldCapture(v *CauseTransportValueCodec) *func(CauseTransport, aper.DecodeState) (CauseTransport, aper.Snapshot) {
 	return &v.capture
 }
@@ -23394,24 +20229,6 @@ func BridgeCauseTransportValueCodecFieldEncode(v *CauseTransportValueCodec) *fun
 	return &v.encode
 }
 func BridgeCauseTransportValueCodecFieldPath(v *CauseTransportValueCodec) *aper.Path { return &v.path }
-func BridgeCauseTransportValueCodecMethodEncodeBudgetValue(v CauseTransportValueCodec, a0 CauseTransport, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCauseTransportValueCodecMethodEncodeChanged(v CauseTransportValueCodec, a0 CauseTransport, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCdma2000HORequiredIndicationAPERValueFieldContext(v *Cdma2000HORequiredIndicationAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCdma2000HORequiredIndicationAPERValueFieldReceived(v *Cdma2000HORequiredIndicationAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCdma2000HORequiredIndicationAPERValueFieldReplay(v *Cdma2000HORequiredIndicationAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCdma2000HORequiredIndicationAPERValueFieldWithoutReplay(v *Cdma2000HORequiredIndicationAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCdma2000HORequiredIndicationValueCodecFieldCapture(v *Cdma2000HORequiredIndicationValueCodec) *func(Cdma2000HORequiredIndication, aper.DecodeState) (Cdma2000HORequiredIndication, aper.Snapshot) {
 	return &v.capture
 }
@@ -23429,24 +20246,6 @@ func BridgeCdma2000HORequiredIndicationValueCodecFieldEncode(v *Cdma2000HORequir
 }
 func BridgeCdma2000HORequiredIndicationValueCodecFieldPath(v *Cdma2000HORequiredIndicationValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeCdma2000HORequiredIndicationValueCodecMethodEncodeBudgetValue(v Cdma2000HORequiredIndicationValueCodec, a0 Cdma2000HORequiredIndication, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCdma2000HORequiredIndicationValueCodecMethodEncodeChanged(v Cdma2000HORequiredIndicationValueCodec, a0 Cdma2000HORequiredIndication, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCdma2000HOStatusAPERValueFieldContext(v *Cdma2000HOStatusAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCdma2000HOStatusAPERValueFieldReceived(v *Cdma2000HOStatusAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCdma2000HOStatusAPERValueFieldReplay(v *Cdma2000HOStatusAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCdma2000HOStatusAPERValueFieldWithoutReplay(v *Cdma2000HOStatusAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCdma2000HOStatusValueCodecFieldCapture(v *Cdma2000HOStatusValueCodec) *func(Cdma2000HOStatus, aper.DecodeState) (Cdma2000HOStatus, aper.Snapshot) {
 	return &v.capture
@@ -23466,24 +20265,6 @@ func BridgeCdma2000HOStatusValueCodecFieldEncode(v *Cdma2000HOStatusValueCodec) 
 func BridgeCdma2000HOStatusValueCodecFieldPath(v *Cdma2000HOStatusValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCdma2000HOStatusValueCodecMethodEncodeBudgetValue(v Cdma2000HOStatusValueCodec, a0 Cdma2000HOStatus, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCdma2000HOStatusValueCodecMethodEncodeChanged(v Cdma2000HOStatusValueCodec, a0 Cdma2000HOStatus, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCdma2000OneXMEIDAPERValueFieldContext(v *Cdma2000OneXMEIDAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCdma2000OneXMEIDAPERValueFieldReceived(v *Cdma2000OneXMEIDAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCdma2000OneXMEIDAPERValueFieldReplay(v *Cdma2000OneXMEIDAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCdma2000OneXMEIDAPERValueFieldWithoutReplay(v *Cdma2000OneXMEIDAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCdma2000OneXMEIDValueCodecFieldCapture(v *Cdma2000OneXMEIDValueCodec) *func(Cdma2000OneXMEID, aper.DecodeState) (Cdma2000OneXMEID, aper.Snapshot) {
 	return &v.capture
 }
@@ -23501,24 +20282,6 @@ func BridgeCdma2000OneXMEIDValueCodecFieldEncode(v *Cdma2000OneXMEIDValueCodec) 
 }
 func BridgeCdma2000OneXMEIDValueCodecFieldPath(v *Cdma2000OneXMEIDValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeCdma2000OneXMEIDValueCodecMethodEncodeBudgetValue(v Cdma2000OneXMEIDValueCodec, a0 Cdma2000OneXMEID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCdma2000OneXMEIDValueCodecMethodEncodeChanged(v Cdma2000OneXMEIDValueCodec, a0 Cdma2000OneXMEID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCdma2000OneXMSIAPERValueFieldContext(v *Cdma2000OneXMSIAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCdma2000OneXMSIAPERValueFieldReceived(v *Cdma2000OneXMSIAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCdma2000OneXMSIAPERValueFieldReplay(v *Cdma2000OneXMSIAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCdma2000OneXMSIAPERValueFieldWithoutReplay(v *Cdma2000OneXMSIAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCdma2000OneXMSIValueCodecFieldCapture(v *Cdma2000OneXMSIValueCodec) *func(Cdma2000OneXMSI, aper.DecodeState) (Cdma2000OneXMSI, aper.Snapshot) {
 	return &v.capture
@@ -23538,24 +20301,6 @@ func BridgeCdma2000OneXMSIValueCodecFieldEncode(v *Cdma2000OneXMSIValueCodec) *f
 func BridgeCdma2000OneXMSIValueCodecFieldPath(v *Cdma2000OneXMSIValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCdma2000OneXMSIValueCodecMethodEncodeBudgetValue(v Cdma2000OneXMSIValueCodec, a0 Cdma2000OneXMSI, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCdma2000OneXMSIValueCodecMethodEncodeChanged(v Cdma2000OneXMSIValueCodec, a0 Cdma2000OneXMSI, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCdma2000OneXPilotAPERValueFieldContext(v *Cdma2000OneXPilotAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCdma2000OneXPilotAPERValueFieldReceived(v *Cdma2000OneXPilotAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCdma2000OneXPilotAPERValueFieldReplay(v *Cdma2000OneXPilotAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCdma2000OneXPilotAPERValueFieldWithoutReplay(v *Cdma2000OneXPilotAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCdma2000OneXPilotValueCodecFieldCapture(v *Cdma2000OneXPilotValueCodec) *func(Cdma2000OneXPilot, aper.DecodeState) (Cdma2000OneXPilot, aper.Snapshot) {
 	return &v.capture
 }
@@ -23573,24 +20318,6 @@ func BridgeCdma2000OneXPilotValueCodecFieldEncode(v *Cdma2000OneXPilotValueCodec
 }
 func BridgeCdma2000OneXPilotValueCodecFieldPath(v *Cdma2000OneXPilotValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeCdma2000OneXPilotValueCodecMethodEncodeBudgetValue(v Cdma2000OneXPilotValueCodec, a0 Cdma2000OneXPilot, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCdma2000OneXPilotValueCodecMethodEncodeChanged(v Cdma2000OneXPilotValueCodec, a0 Cdma2000OneXPilot, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCdma2000OneXRANDAPERValueFieldContext(v *Cdma2000OneXRANDAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCdma2000OneXRANDAPERValueFieldReceived(v *Cdma2000OneXRANDAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCdma2000OneXRANDAPERValueFieldReplay(v *Cdma2000OneXRANDAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCdma2000OneXRANDAPERValueFieldWithoutReplay(v *Cdma2000OneXRANDAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCdma2000OneXRANDValueCodecFieldCapture(v *Cdma2000OneXRANDValueCodec) *func(Cdma2000OneXRAND, aper.DecodeState) (Cdma2000OneXRAND, aper.Snapshot) {
 	return &v.capture
@@ -23610,24 +20337,8 @@ func BridgeCdma2000OneXRANDValueCodecFieldEncode(v *Cdma2000OneXRANDValueCodec) 
 func BridgeCdma2000OneXRANDValueCodecFieldPath(v *Cdma2000OneXRANDValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCdma2000OneXRANDValueCodecMethodEncodeBudgetValue(v Cdma2000OneXRANDValueCodec, a0 Cdma2000OneXRAND, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCdma2000OneXRANDValueCodecMethodEncodeChanged(v Cdma2000OneXRANDValueCodec, a0 Cdma2000OneXRAND, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeCdma2000OneXSRVCCInfoExtIEsValueExtensionTableFieldBound(v *Cdma2000OneXSRVCCInfoExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeCdma2000PDUAPERValueFieldContext(v *Cdma2000PDUAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCdma2000PDUAPERValueFieldReceived(v *Cdma2000PDUAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCdma2000PDUAPERValueFieldReplay(v *Cdma2000PDUAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeCdma2000PDUAPERValueFieldWithoutReplay(v *Cdma2000PDUAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCdma2000PDUValueCodecFieldCapture(v *Cdma2000PDUValueCodec) *func(Cdma2000PDU, aper.DecodeState) (Cdma2000PDU, aper.Snapshot) {
 	return &v.capture
@@ -23645,24 +20356,6 @@ func BridgeCdma2000PDUValueCodecFieldEncode(v *Cdma2000PDUValueCodec) *func(Cdma
 	return &v.encode
 }
 func BridgeCdma2000PDUValueCodecFieldPath(v *Cdma2000PDUValueCodec) *aper.Path { return &v.path }
-func BridgeCdma2000PDUValueCodecMethodEncodeBudgetValue(v Cdma2000PDUValueCodec, a0 Cdma2000PDU, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCdma2000PDUValueCodecMethodEncodeChanged(v Cdma2000PDUValueCodec, a0 Cdma2000PDU, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCdma2000RATTypeAPERValueFieldContext(v *Cdma2000RATTypeAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCdma2000RATTypeAPERValueFieldReceived(v *Cdma2000RATTypeAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCdma2000RATTypeAPERValueFieldReplay(v *Cdma2000RATTypeAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCdma2000RATTypeAPERValueFieldWithoutReplay(v *Cdma2000RATTypeAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCdma2000RATTypeValueCodecFieldCapture(v *Cdma2000RATTypeValueCodec) *func(Cdma2000RATType, aper.DecodeState) (Cdma2000RATType, aper.Snapshot) {
 	return &v.capture
 }
@@ -23680,24 +20373,6 @@ func BridgeCdma2000RATTypeValueCodecFieldEncode(v *Cdma2000RATTypeValueCodec) *f
 }
 func BridgeCdma2000RATTypeValueCodecFieldPath(v *Cdma2000RATTypeValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeCdma2000RATTypeValueCodecMethodEncodeBudgetValue(v Cdma2000RATTypeValueCodec, a0 Cdma2000RATType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCdma2000RATTypeValueCodecMethodEncodeChanged(v Cdma2000RATTypeValueCodec, a0 Cdma2000RATType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCdma2000SectorIDAPERValueFieldContext(v *Cdma2000SectorIDAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCdma2000SectorIDAPERValueFieldReceived(v *Cdma2000SectorIDAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCdma2000SectorIDAPERValueFieldReplay(v *Cdma2000SectorIDAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCdma2000SectorIDAPERValueFieldWithoutReplay(v *Cdma2000SectorIDAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCdma2000SectorIDValueCodecFieldCapture(v *Cdma2000SectorIDValueCodec) *func(Cdma2000SectorID, aper.DecodeState) (Cdma2000SectorID, aper.Snapshot) {
 	return &v.capture
@@ -23717,24 +20392,6 @@ func BridgeCdma2000SectorIDValueCodecFieldEncode(v *Cdma2000SectorIDValueCodec) 
 func BridgeCdma2000SectorIDValueCodecFieldPath(v *Cdma2000SectorIDValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCdma2000SectorIDValueCodecMethodEncodeBudgetValue(v Cdma2000SectorIDValueCodec, a0 Cdma2000SectorID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCdma2000SectorIDValueCodecMethodEncodeChanged(v Cdma2000SectorIDValueCodec, a0 Cdma2000SectorID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCellAccessModeAPERValueFieldContext(v *CellAccessModeAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCellAccessModeAPERValueFieldReceived(v *CellAccessModeAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCellAccessModeAPERValueFieldReplay(v *CellAccessModeAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCellAccessModeAPERValueFieldWithoutReplay(v *CellAccessModeAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCellAccessModeValueCodecFieldCapture(v *CellAccessModeValueCodec) *func(CellAccessMode, aper.DecodeState) (CellAccessMode, aper.Snapshot) {
 	return &v.capture
 }
@@ -23751,24 +20408,6 @@ func BridgeCellAccessModeValueCodecFieldEncode(v *CellAccessModeValueCodec) *fun
 	return &v.encode
 }
 func BridgeCellAccessModeValueCodecFieldPath(v *CellAccessModeValueCodec) *aper.Path { return &v.path }
-func BridgeCellAccessModeValueCodecMethodEncodeBudgetValue(v CellAccessModeValueCodec, a0 CellAccessMode, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCellAccessModeValueCodecMethodEncodeChanged(v CellAccessModeValueCodec, a0 CellAccessMode, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCellActivationCauseAPERValueFieldContext(v *CellActivationCauseAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCellActivationCauseAPERValueFieldReceived(v *CellActivationCauseAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCellActivationCauseAPERValueFieldReplay(v *CellActivationCauseAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCellActivationCauseAPERValueFieldWithoutReplay(v *CellActivationCauseAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCellActivationCauseValueCodecFieldCapture(v *CellActivationCauseValueCodec) *func(CellActivationCause, aper.DecodeState) (CellActivationCause, aper.Snapshot) {
 	return &v.capture
 }
@@ -23787,12 +20426,6 @@ func BridgeCellActivationCauseValueCodecFieldEncode(v *CellActivationCauseValueC
 func BridgeCellActivationCauseValueCodecFieldPath(v *CellActivationCauseValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCellActivationCauseValueCodecMethodEncodeBudgetValue(v CellActivationCauseValueCodec, a0 CellActivationCause, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCellActivationCauseValueCodecMethodEncodeChanged(v CellActivationCauseValueCodec, a0 CellActivationCause, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeCellBasedMDTExtIEsValueExtensionTableFieldBound(v *CellBasedMDTExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -23807,18 +20440,6 @@ func BridgeCellIDCancelledItemExtIEsValueExtensionTableFieldBound(v *CellIDCance
 }
 func BridgeCellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTableFieldBound(v *CellIdentifierAndCELevelForCECapableUEsExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeCellIdentityAPERValueFieldContext(v *CellIdentityAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCellIdentityAPERValueFieldReceived(v *CellIdentityAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCellIdentityAPERValueFieldReplay(v *CellIdentityAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCellIdentityAPERValueFieldWithoutReplay(v *CellIdentityAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCellIdentityValueCodecFieldCapture(v *CellIdentityValueCodec) *func(CellIdentity, aper.DecodeState) (CellIdentity, aper.Snapshot) {
 	return &v.capture
@@ -23836,24 +20457,6 @@ func BridgeCellIdentityValueCodecFieldEncode(v *CellIdentityValueCodec) *func(Ce
 	return &v.encode
 }
 func BridgeCellIdentityValueCodecFieldPath(v *CellIdentityValueCodec) *aper.Path { return &v.path }
-func BridgeCellIdentityValueCodecMethodEncodeBudgetValue(v CellIdentityValueCodec, a0 CellIdentity, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCellIdentityValueCodecMethodEncodeChanged(v CellIdentityValueCodec, a0 CellIdentity, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCellLoadReportingCauseAPERValueFieldContext(v *CellLoadReportingCauseAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCellLoadReportingCauseAPERValueFieldReceived(v *CellLoadReportingCauseAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCellLoadReportingCauseAPERValueFieldReplay(v *CellLoadReportingCauseAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCellLoadReportingCauseAPERValueFieldWithoutReplay(v *CellLoadReportingCauseAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCellLoadReportingCauseValueCodecFieldCapture(v *CellLoadReportingCauseValueCodec) *func(CellLoadReportingCause, aper.DecodeState) (CellLoadReportingCause, aper.Snapshot) {
 	return &v.capture
 }
@@ -23872,16 +20475,6 @@ func BridgeCellLoadReportingCauseValueCodecFieldEncode(v *CellLoadReportingCause
 func BridgeCellLoadReportingCauseValueCodecFieldPath(v *CellLoadReportingCauseValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCellLoadReportingCauseValueCodecMethodEncodeBudgetValue(v CellLoadReportingCauseValueCodec, a0 CellLoadReportingCause, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCellLoadReportingCauseValueCodecMethodEncodeChanged(v CellLoadReportingCauseValueCodec, a0 CellLoadReportingCause, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCellSizeAPERValueFieldContext(v *CellSizeAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeCellSizeAPERValueFieldReceived(v *CellSizeAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeCellSizeAPERValueFieldReplay(v *CellSizeAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeCellSizeAPERValueFieldWithoutReplay(v *CellSizeAPERValue) *bool         { return &v.withoutReplay }
 func BridgeCellSizeValueCodecFieldCapture(v *CellSizeValueCodec) *func(CellSize, aper.DecodeState) (CellSize, aper.Snapshot) {
 	return &v.capture
 }
@@ -23898,24 +20491,6 @@ func BridgeCellSizeValueCodecFieldEncode(v *CellSizeValueCodec) *func(CellSize, 
 	return &v.encode
 }
 func BridgeCellSizeValueCodecFieldPath(v *CellSizeValueCodec) *aper.Path { return &v.path }
-func BridgeCellSizeValueCodecMethodEncodeBudgetValue(v CellSizeValueCodec, a0 CellSize, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCellSizeValueCodecMethodEncodeChanged(v CellSizeValueCodec, a0 CellSize, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCellStateIndicationCauseAPERValueFieldContext(v *CellStateIndicationCauseAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCellStateIndicationCauseAPERValueFieldReceived(v *CellStateIndicationCauseAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCellStateIndicationCauseAPERValueFieldReplay(v *CellStateIndicationCauseAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCellStateIndicationCauseAPERValueFieldWithoutReplay(v *CellStateIndicationCauseAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCellStateIndicationCauseValueCodecFieldCapture(v *CellStateIndicationCauseValueCodec) *func(CellStateIndicationCause, aper.DecodeState) (CellStateIndicationCause, aper.Snapshot) {
 	return &v.capture
 }
@@ -23934,41 +20509,11 @@ func BridgeCellStateIndicationCauseValueCodecFieldEncode(v *CellStateIndicationC
 func BridgeCellStateIndicationCauseValueCodecFieldPath(v *CellStateIndicationCauseValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCellStateIndicationCauseValueCodecMethodEncodeBudgetValue(v CellStateIndicationCauseValueCodec, a0 CellStateIndicationCause, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCellStateIndicationCauseValueCodecMethodEncodeChanged(v CellStateIndicationCauseValueCodec, a0 CellStateIndicationCause, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeCellTrafficTraceIEValueIETableFieldBound(v *CellTrafficTraceIEValueIETable) *bool {
 	return &v.bound
 }
 func BridgeCellTypeExtIEsValueExtensionTableFieldBound(v *CellTypeExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeCoarseUELocationAPERValueFieldContext(v *CoarseUELocationAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCoarseUELocationAPERValueFieldReceived(v *CoarseUELocationAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCoarseUELocationAPERValueFieldReplay(v *CoarseUELocationAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCoarseUELocationAPERValueFieldWithoutReplay(v *CoarseUELocationAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeCoarseUELocationRequestedAPERValueFieldContext(v *CoarseUELocationRequestedAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCoarseUELocationRequestedAPERValueFieldReceived(v *CoarseUELocationRequestedAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCoarseUELocationRequestedAPERValueFieldReplay(v *CoarseUELocationRequestedAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCoarseUELocationRequestedAPERValueFieldWithoutReplay(v *CoarseUELocationRequestedAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCoarseUELocationRequestedValueCodecFieldCapture(v *CoarseUELocationRequestedValueCodec) *func(CoarseUELocationRequested, aper.DecodeState) (CoarseUELocationRequested, aper.Snapshot) {
 	return &v.capture
@@ -23988,12 +20533,6 @@ func BridgeCoarseUELocationRequestedValueCodecFieldEncode(v *CoarseUELocationReq
 func BridgeCoarseUELocationRequestedValueCodecFieldPath(v *CoarseUELocationRequestedValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCoarseUELocationRequestedValueCodecMethodEncodeBudgetValue(v CoarseUELocationRequestedValueCodec, a0 CoarseUELocationRequested, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCoarseUELocationRequestedValueCodecMethodEncodeChanged(v CoarseUELocationRequestedValueCodec, a0 CoarseUELocationRequested, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeCoarseUELocationValueCodecFieldCapture(v *CoarseUELocationValueCodec) *func(CoarseUELocation, aper.DecodeState) (CoarseUELocation, aper.Snapshot) {
 	return &v.capture
 }
@@ -24012,29 +20551,11 @@ func BridgeCoarseUELocationValueCodecFieldEncode(v *CoarseUELocationValueCodec) 
 func BridgeCoarseUELocationValueCodecFieldPath(v *CoarseUELocationValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCoarseUELocationValueCodecMethodEncodeBudgetValue(v CoarseUELocationValueCodec, a0 CoarseUELocation, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCoarseUELocationValueCodecMethodEncodeChanged(v CoarseUELocationValueCodec, a0 CoarseUELocation, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeCompletedCellinEAIItemExtIEsValueExtensionTableFieldBound(v *CompletedCellinEAIItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
 func BridgeCompletedCellinTAIItemExtIEsValueExtensionTableFieldBound(v *CompletedCellinTAIItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeCompositeAvailableCapacityGroupAPERValueFieldContext(v *CompositeAvailableCapacityGroupAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCompositeAvailableCapacityGroupAPERValueFieldReceived(v *CompositeAvailableCapacityGroupAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCompositeAvailableCapacityGroupAPERValueFieldReplay(v *CompositeAvailableCapacityGroupAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCompositeAvailableCapacityGroupAPERValueFieldWithoutReplay(v *CompositeAvailableCapacityGroupAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCompositeAvailableCapacityGroupValueCodecFieldCapture(v *CompositeAvailableCapacityGroupValueCodec) *func(CompositeAvailableCapacityGroup, aper.DecodeState) (CompositeAvailableCapacityGroup, aper.Snapshot) {
 	return &v.capture
@@ -24054,24 +20575,6 @@ func BridgeCompositeAvailableCapacityGroupValueCodecFieldEncode(v *CompositeAvai
 func BridgeCompositeAvailableCapacityGroupValueCodecFieldPath(v *CompositeAvailableCapacityGroupValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeCompositeAvailableCapacityGroupValueCodecMethodEncodeBudgetValue(v CompositeAvailableCapacityGroupValueCodec, a0 CompositeAvailableCapacityGroup, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCompositeAvailableCapacityGroupValueCodecMethodEncodeChanged(v CompositeAvailableCapacityGroupValueCodec, a0 CompositeAvailableCapacityGroup, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeConcurrentWarningMessageIndicatorAPERValueFieldContext(v *ConcurrentWarningMessageIndicatorAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeConcurrentWarningMessageIndicatorAPERValueFieldReceived(v *ConcurrentWarningMessageIndicatorAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeConcurrentWarningMessageIndicatorAPERValueFieldReplay(v *ConcurrentWarningMessageIndicatorAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeConcurrentWarningMessageIndicatorAPERValueFieldWithoutReplay(v *ConcurrentWarningMessageIndicatorAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeConcurrentWarningMessageIndicatorValueCodecFieldCapture(v *ConcurrentWarningMessageIndicatorValueCodec) *func(ConcurrentWarningMessageIndicator, aper.DecodeState) (ConcurrentWarningMessageIndicator, aper.Snapshot) {
 	return &v.capture
 }
@@ -24090,12 +20593,6 @@ func BridgeConcurrentWarningMessageIndicatorValueCodecFieldEncode(v *ConcurrentW
 func BridgeConcurrentWarningMessageIndicatorValueCodecFieldPath(v *ConcurrentWarningMessageIndicatorValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeConcurrentWarningMessageIndicatorValueCodecMethodEncodeBudgetValue(v ConcurrentWarningMessageIndicatorValueCodec, a0 ConcurrentWarningMessageIndicator, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeConcurrentWarningMessageIndicatorValueCodecMethodEncodeChanged(v ConcurrentWarningMessageIndicatorValueCodec, a0 ConcurrentWarningMessageIndicator, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeConnectedengNBItemExtIEsValueExtensionTableFieldBound(v *ConnectedengNBItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -24104,18 +20601,6 @@ func BridgeConnectionEstablishmentIndicationIEValueIETableFieldBound(v *Connecti
 }
 func BridgeContextatSourceExtIEsValueExtensionTableFieldBound(v *ContextatSourceExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeCorrelationIDAPERValueFieldContext(v *CorrelationIDAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCorrelationIDAPERValueFieldReceived(v *CorrelationIDAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCorrelationIDAPERValueFieldReplay(v *CorrelationIDAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCorrelationIDAPERValueFieldWithoutReplay(v *CorrelationIDAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeCorrelationIDValueCodecFieldCapture(v *CorrelationIDValueCodec) *func(CorrelationID, aper.DecodeState) (CorrelationID, aper.Snapshot) {
 	return &v.capture
@@ -24133,24 +20618,6 @@ func BridgeCorrelationIDValueCodecFieldEncode(v *CorrelationIDValueCodec) *func(
 	return &v.encode
 }
 func BridgeCorrelationIDValueCodecFieldPath(v *CorrelationIDValueCodec) *aper.Path { return &v.path }
-func BridgeCorrelationIDValueCodecMethodEncodeBudgetValue(v CorrelationIDValueCodec, a0 CorrelationID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCorrelationIDValueCodecMethodEncodeChanged(v CorrelationIDValueCodec, a0 CorrelationID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCoverageLevelAPERValueFieldContext(v *CoverageLevelAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCoverageLevelAPERValueFieldReceived(v *CoverageLevelAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCoverageLevelAPERValueFieldReplay(v *CoverageLevelAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeCoverageLevelAPERValueFieldWithoutReplay(v *CoverageLevelAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCoverageLevelValueCodecFieldCapture(v *CoverageLevelValueCodec) *func(CoverageLevel, aper.DecodeState) (CoverageLevel, aper.Snapshot) {
 	return &v.capture
 }
@@ -24167,22 +20634,6 @@ func BridgeCoverageLevelValueCodecFieldEncode(v *CoverageLevelValueCodec) *func(
 	return &v.encode
 }
 func BridgeCoverageLevelValueCodecFieldPath(v *CoverageLevelValueCodec) *aper.Path { return &v.path }
-func BridgeCoverageLevelValueCodecMethodEncodeBudgetValue(v CoverageLevelValueCodec, a0 CoverageLevel, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCoverageLevelValueCodecMethodEncodeChanged(v CoverageLevelValueCodec, a0 CoverageLevel, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeCriticalityAPERValueFieldContext(v *CriticalityAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeCriticalityAPERValueFieldReceived(v *CriticalityAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeCriticalityAPERValueFieldReplay(v *CriticalityAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeCriticalityAPERValueFieldWithoutReplay(v *CriticalityAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeCriticalityDiagnosticsExtIEsValueExtensionTableFieldBound(v *CriticalityDiagnosticsExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -24205,12 +20656,6 @@ func BridgeCriticalityValueCodecFieldEncode(v *CriticalityValueCodec) *func(Crit
 	return &v.encode
 }
 func BridgeCriticalityValueCodecFieldPath(v *CriticalityValueCodec) *aper.Path { return &v.path }
-func BridgeCriticalityValueCodecMethodEncodeBudgetValue(v CriticalityValueCodec, a0 Criticality, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeCriticalityValueCodecMethodEncodeChanged(v CriticalityValueCodec, a0 Criticality, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeDAPSRequestInfoExtIEsValueExtensionTableFieldBound(v *DAPSRequestInfoExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -24223,10 +20668,6 @@ func BridgeDAPSResponseInfoItemExtIEsValueExtensionTableFieldBound(v *DAPSRespon
 func BridgeDAPSResponseInfoListIEValueIETableFieldBound(v *DAPSResponseInfoListIEValueIETable) *bool {
 	return &v.bound
 }
-func BridgeDCNIDAPERValueFieldContext(v *DCNIDAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeDCNIDAPERValueFieldReceived(v *DCNIDAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeDCNIDAPERValueFieldReplay(v *DCNIDAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeDCNIDAPERValueFieldWithoutReplay(v *DCNIDAPERValue) *bool         { return &v.withoutReplay }
 func BridgeDCNIDValueCodecFieldCapture(v *DCNIDValueCodec) *func(DCNID, aper.DecodeState) (DCNID, aper.Snapshot) {
 	return &v.capture
 }
@@ -24241,26 +20682,8 @@ func BridgeDCNIDValueCodecFieldEncode(v *DCNIDValueCodec) *func(DCNID, bool, *ap
 	return &v.encode
 }
 func BridgeDCNIDValueCodecFieldPath(v *DCNIDValueCodec) *aper.Path { return &v.path }
-func BridgeDCNIDValueCodecMethodEncodeBudgetValue(v DCNIDValueCodec, a0 DCNID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeDCNIDValueCodecMethodEncodeChanged(v DCNIDValueCodec, a0 DCNID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeDLCPSecurityInformationExtIEsValueExtensionTableFieldBound(v *DLCPSecurityInformationExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeDLForwardingAPERValueFieldContext(v *DLForwardingAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeDLForwardingAPERValueFieldReceived(v *DLForwardingAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeDLForwardingAPERValueFieldReplay(v *DLForwardingAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeDLForwardingAPERValueFieldWithoutReplay(v *DLForwardingAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeDLForwardingValueCodecFieldCapture(v *DLForwardingValueCodec) *func(DLForwarding, aper.DecodeState) (DLForwarding, aper.Snapshot) {
 	return &v.capture
@@ -24278,16 +20701,6 @@ func BridgeDLForwardingValueCodecFieldEncode(v *DLForwardingValueCodec) *func(DL
 	return &v.encode
 }
 func BridgeDLForwardingValueCodecFieldPath(v *DLForwardingValueCodec) *aper.Path { return &v.path }
-func BridgeDLForwardingValueCodecMethodEncodeBudgetValue(v DLForwardingValueCodec, a0 DLForwarding, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeDLForwardingValueCodecMethodEncodeChanged(v DLForwardingValueCodec, a0 DLForwarding, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeDLNASMACAPERValueFieldContext(v *DLNASMACAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeDLNASMACAPERValueFieldReceived(v *DLNASMACAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeDLNASMACAPERValueFieldReplay(v *DLNASMACAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeDLNASMACAPERValueFieldWithoutReplay(v *DLNASMACAPERValue) *bool         { return &v.withoutReplay }
 func BridgeDLNASMACValueCodecFieldCapture(v *DLNASMACValueCodec) *func(DLNASMAC, aper.DecodeState) (DLNASMAC, aper.Snapshot) {
 	return &v.capture
 }
@@ -24304,24 +20717,6 @@ func BridgeDLNASMACValueCodecFieldEncode(v *DLNASMACValueCodec) *func(DLNASMAC, 
 	return &v.encode
 }
 func BridgeDLNASMACValueCodecFieldPath(v *DLNASMACValueCodec) *aper.Path { return &v.path }
-func BridgeDLNASMACValueCodecMethodEncodeBudgetValue(v DLNASMACValueCodec, a0 DLNASMAC, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeDLNASMACValueCodecMethodEncodeChanged(v DLNASMACValueCodec, a0 DLNASMAC, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeDLNASPDUDeliveryAckRequestAPERValueFieldContext(v *DLNASPDUDeliveryAckRequestAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeDLNASPDUDeliveryAckRequestAPERValueFieldReceived(v *DLNASPDUDeliveryAckRequestAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeDLNASPDUDeliveryAckRequestAPERValueFieldReplay(v *DLNASPDUDeliveryAckRequestAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeDLNASPDUDeliveryAckRequestAPERValueFieldWithoutReplay(v *DLNASPDUDeliveryAckRequestAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeDLNASPDUDeliveryAckRequestValueCodecFieldCapture(v *DLNASPDUDeliveryAckRequestValueCodec) *func(DLNASPDUDeliveryAckRequest, aper.DecodeState) (DLNASPDUDeliveryAckRequest, aper.Snapshot) {
 	return &v.capture
 }
@@ -24339,24 +20734,6 @@ func BridgeDLNASPDUDeliveryAckRequestValueCodecFieldEncode(v *DLNASPDUDeliveryAc
 }
 func BridgeDLNASPDUDeliveryAckRequestValueCodecFieldPath(v *DLNASPDUDeliveryAckRequestValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeDLNASPDUDeliveryAckRequestValueCodecMethodEncodeBudgetValue(v DLNASPDUDeliveryAckRequestValueCodec, a0 DLNASPDUDeliveryAckRequest, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeDLNASPDUDeliveryAckRequestValueCodecMethodEncodeChanged(v DLNASPDUDeliveryAckRequestValueCodec, a0 DLNASPDUDeliveryAckRequest, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeDataCodingSchemeAPERValueFieldContext(v *DataCodingSchemeAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeDataCodingSchemeAPERValueFieldReceived(v *DataCodingSchemeAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeDataCodingSchemeAPERValueFieldReplay(v *DataCodingSchemeAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeDataCodingSchemeAPERValueFieldWithoutReplay(v *DataCodingSchemeAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeDataCodingSchemeValueCodecFieldCapture(v *DataCodingSchemeValueCodec) *func(DataCodingScheme, aper.DecodeState) (DataCodingScheme, aper.Snapshot) {
 	return &v.capture
@@ -24376,24 +20753,6 @@ func BridgeDataCodingSchemeValueCodecFieldEncode(v *DataCodingSchemeValueCodec) 
 func BridgeDataCodingSchemeValueCodecFieldPath(v *DataCodingSchemeValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeDataCodingSchemeValueCodecMethodEncodeBudgetValue(v DataCodingSchemeValueCodec, a0 DataCodingScheme, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeDataCodingSchemeValueCodecMethodEncodeChanged(v DataCodingSchemeValueCodec, a0 DataCodingScheme, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeDataForwardingNotPossibleAPERValueFieldContext(v *DataForwardingNotPossibleAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeDataForwardingNotPossibleAPERValueFieldReceived(v *DataForwardingNotPossibleAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeDataForwardingNotPossibleAPERValueFieldReplay(v *DataForwardingNotPossibleAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeDataForwardingNotPossibleAPERValueFieldWithoutReplay(v *DataForwardingNotPossibleAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeDataForwardingNotPossibleValueCodecFieldCapture(v *DataForwardingNotPossibleValueCodec) *func(DataForwardingNotPossible, aper.DecodeState) (DataForwardingNotPossible, aper.Snapshot) {
 	return &v.capture
 }
@@ -24412,16 +20771,6 @@ func BridgeDataForwardingNotPossibleValueCodecFieldEncode(v *DataForwardingNotPo
 func BridgeDataForwardingNotPossibleValueCodecFieldPath(v *DataForwardingNotPossibleValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeDataForwardingNotPossibleValueCodecMethodEncodeBudgetValue(v DataForwardingNotPossibleValueCodec, a0 DataForwardingNotPossible, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeDataForwardingNotPossibleValueCodecMethodEncodeChanged(v DataForwardingNotPossibleValueCodec, a0 DataForwardingNotPossible, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeDataSizeAPERValueFieldContext(v *DataSizeAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeDataSizeAPERValueFieldReceived(v *DataSizeAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeDataSizeAPERValueFieldReplay(v *DataSizeAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeDataSizeAPERValueFieldWithoutReplay(v *DataSizeAPERValue) *bool         { return &v.withoutReplay }
 func BridgeDataSizeValueCodecFieldCapture(v *DataSizeValueCodec) *func(DataSize, aper.DecodeState) (DataSize, aper.Snapshot) {
 	return &v.capture
 }
@@ -24438,26 +20787,8 @@ func BridgeDataSizeValueCodecFieldEncode(v *DataSizeValueCodec) *func(DataSize, 
 	return &v.encode
 }
 func BridgeDataSizeValueCodecFieldPath(v *DataSizeValueCodec) *aper.Path { return &v.path }
-func BridgeDataSizeValueCodecMethodEncodeBudgetValue(v DataSizeValueCodec, a0 DataSize, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeDataSizeValueCodecMethodEncodeChanged(v DataSizeValueCodec, a0 DataSize, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeDeactivateTraceIEValueIETableFieldBound(v *DeactivateTraceIEValueIETable) *bool {
 	return &v.bound
-}
-func BridgeDirectForwardingPathAvailabilityAPERValueFieldContext(v *DirectForwardingPathAvailabilityAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeDirectForwardingPathAvailabilityAPERValueFieldReceived(v *DirectForwardingPathAvailabilityAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeDirectForwardingPathAvailabilityAPERValueFieldReplay(v *DirectForwardingPathAvailabilityAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeDirectForwardingPathAvailabilityAPERValueFieldWithoutReplay(v *DirectForwardingPathAvailabilityAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeDirectForwardingPathAvailabilityValueCodecFieldCapture(v *DirectForwardingPathAvailabilityValueCodec) *func(DirectForwardingPathAvailability, aper.DecodeState) (DirectForwardingPathAvailability, aper.Snapshot) {
 	return &v.capture
@@ -24477,12 +20808,6 @@ func BridgeDirectForwardingPathAvailabilityValueCodecFieldEncode(v *DirectForwar
 func BridgeDirectForwardingPathAvailabilityValueCodecFieldPath(v *DirectForwardingPathAvailabilityValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeDirectForwardingPathAvailabilityValueCodecMethodEncodeBudgetValue(v DirectForwardingPathAvailabilityValueCodec, a0 DirectForwardingPathAvailability, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeDirectForwardingPathAvailabilityValueCodecMethodEncodeChanged(v DirectForwardingPathAvailabilityValueCodec, a0 DirectForwardingPathAvailability, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeDownlinkNASTransportIEValueIETableFieldBound(v *DownlinkNASTransportIEValueIETable) *bool {
 	return &v.bound
 }
@@ -24495,10 +20820,6 @@ func BridgeDownlinkS1cdma2000tunnellingIEValueIETableFieldBound(v *DownlinkS1cdm
 func BridgeDownlinkUEAssociatedLPPaTransportIEValueIETableFieldBound(v *DownlinkUEAssociatedLPPaTransportIEValueIETable) *bool {
 	return &v.bound
 }
-func BridgeEARFCNAPERValueFieldContext(v *EARFCNAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeEARFCNAPERValueFieldReceived(v *EARFCNAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeEARFCNAPERValueFieldReplay(v *EARFCNAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeEARFCNAPERValueFieldWithoutReplay(v *EARFCNAPERValue) *bool         { return &v.withoutReplay }
 func BridgeEARFCNValueCodecFieldCapture(v *EARFCNValueCodec) *func(EARFCN, aper.DecodeState) (EARFCN, aper.Snapshot) {
 	return &v.capture
 }
@@ -24513,22 +20834,6 @@ func BridgeEARFCNValueCodecFieldEncode(v *EARFCNValueCodec) *func(EARFCN, bool, 
 	return &v.encode
 }
 func BridgeEARFCNValueCodecFieldPath(v *EARFCNValueCodec) *aper.Path { return &v.path }
-func BridgeEARFCNValueCodecMethodEncodeBudgetValue(v EARFCNValueCodec, a0 EARFCN, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEARFCNValueCodecMethodEncodeChanged(v EARFCNValueCodec, a0 EARFCN, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEDTSessionAPERValueFieldContext(v *EDTSessionAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEDTSessionAPERValueFieldReceived(v *EDTSessionAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEDTSessionAPERValueFieldReplay(v *EDTSessionAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeEDTSessionAPERValueFieldWithoutReplay(v *EDTSessionAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeEDTSessionValueCodecFieldCapture(v *EDTSessionValueCodec) *func(EDTSession, aper.DecodeState) (EDTSession, aper.Snapshot) {
 	return &v.capture
 }
@@ -24545,24 +20850,6 @@ func BridgeEDTSessionValueCodecFieldEncode(v *EDTSessionValueCodec) *func(EDTSes
 	return &v.encode
 }
 func BridgeEDTSessionValueCodecFieldPath(v *EDTSessionValueCodec) *aper.Path { return &v.path }
-func BridgeEDTSessionValueCodecMethodEncodeBudgetValue(v EDTSessionValueCodec, a0 EDTSession, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEDTSessionValueCodecMethodEncodeChanged(v EDTSessionValueCodec, a0 EDTSession, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEHRPDCapacityValueAPERValueFieldContext(v *EHRPDCapacityValueAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEHRPDCapacityValueAPERValueFieldReceived(v *EHRPDCapacityValueAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEHRPDCapacityValueAPERValueFieldReplay(v *EHRPDCapacityValueAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEHRPDCapacityValueAPERValueFieldWithoutReplay(v *EHRPDCapacityValueAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeEHRPDCapacityValueValueCodecFieldCapture(v *EHRPDCapacityValueValueCodec) *func(EHRPDCapacityValue, aper.DecodeState) (EHRPDCapacityValue, aper.Snapshot) {
 	return &v.capture
 }
@@ -24580,24 +20867,6 @@ func BridgeEHRPDCapacityValueValueCodecFieldEncode(v *EHRPDCapacityValueValueCod
 }
 func BridgeEHRPDCapacityValueValueCodecFieldPath(v *EHRPDCapacityValueValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeEHRPDCapacityValueValueCodecMethodEncodeBudgetValue(v EHRPDCapacityValueValueCodec, a0 EHRPDCapacityValue, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEHRPDCapacityValueValueCodecMethodEncodeChanged(v EHRPDCapacityValueValueCodec, a0 EHRPDCapacityValue, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEHRPDSectorCapacityClassValueAPERValueFieldContext(v *EHRPDSectorCapacityClassValueAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEHRPDSectorCapacityClassValueAPERValueFieldReceived(v *EHRPDSectorCapacityClassValueAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEHRPDSectorCapacityClassValueAPERValueFieldReplay(v *EHRPDSectorCapacityClassValueAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEHRPDSectorCapacityClassValueAPERValueFieldWithoutReplay(v *EHRPDSectorCapacityClassValueAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeEHRPDSectorCapacityClassValueValueCodecFieldCapture(v *EHRPDSectorCapacityClassValueValueCodec) *func(EHRPDSectorCapacityClassValue, aper.DecodeState) (EHRPDSectorCapacityClassValue, aper.Snapshot) {
 	return &v.capture
@@ -24617,24 +20886,6 @@ func BridgeEHRPDSectorCapacityClassValueValueCodecFieldEncode(v *EHRPDSectorCapa
 func BridgeEHRPDSectorCapacityClassValueValueCodecFieldPath(v *EHRPDSectorCapacityClassValueValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeEHRPDSectorCapacityClassValueValueCodecMethodEncodeBudgetValue(v EHRPDSectorCapacityClassValueValueCodec, a0 EHRPDSectorCapacityClassValue, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEHRPDSectorCapacityClassValueValueCodecMethodEncodeChanged(v EHRPDSectorCapacityClassValueValueCodec, a0 EHRPDSectorCapacityClassValue, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEHRPDSectorIDAPERValueFieldContext(v *EHRPDSectorIDAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEHRPDSectorIDAPERValueFieldReceived(v *EHRPDSectorIDAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEHRPDSectorIDAPERValueFieldReplay(v *EHRPDSectorIDAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEHRPDSectorIDAPERValueFieldWithoutReplay(v *EHRPDSectorIDAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeEHRPDSectorIDValueCodecFieldCapture(v *EHRPDSectorIDValueCodec) *func(EHRPDSectorID, aper.DecodeState) (EHRPDSectorID, aper.Snapshot) {
 	return &v.capture
 }
@@ -24651,12 +20902,6 @@ func BridgeEHRPDSectorIDValueCodecFieldEncode(v *EHRPDSectorIDValueCodec) *func(
 	return &v.encode
 }
 func BridgeEHRPDSectorIDValueCodecFieldPath(v *EHRPDSectorIDValueCodec) *aper.Path { return &v.path }
-func BridgeEHRPDSectorIDValueCodecMethodEncodeBudgetValue(v EHRPDSectorIDValueCodec, a0 EHRPDSectorID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEHRPDSectorIDValueCodecMethodEncodeChanged(v EHRPDSectorIDValueCodec, a0 EHRPDSectorID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeENBCPRelocationIndicationIEValueIETableFieldBound(v *ENBCPRelocationIndicationIEValueIETable) *bool {
 	return &v.bound
 }
@@ -24681,18 +20926,6 @@ func BridgeENBEarlyStatusTransferIEValueIETableFieldBound(v *ENBEarlyStatusTrans
 func BridgeENBEarlyStatusTransferTransparentContainerExtIEsValueExtensionTableFieldBound(v *ENBEarlyStatusTransferTransparentContainerExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
-func BridgeENBIndirectX2TransportLayerAddressesAPERValueFieldContext(v *ENBIndirectX2TransportLayerAddressesAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeENBIndirectX2TransportLayerAddressesAPERValueFieldReceived(v *ENBIndirectX2TransportLayerAddressesAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeENBIndirectX2TransportLayerAddressesAPERValueFieldReplay(v *ENBIndirectX2TransportLayerAddressesAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeENBIndirectX2TransportLayerAddressesAPERValueFieldWithoutReplay(v *ENBIndirectX2TransportLayerAddressesAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeENBIndirectX2TransportLayerAddressesValueCodecFieldCapture(v *ENBIndirectX2TransportLayerAddressesValueCodec) *func(ENBIndirectX2TransportLayerAddresses, aper.DecodeState) (ENBIndirectX2TransportLayerAddresses, aper.Snapshot) {
 	return &v.capture
 }
@@ -24711,27 +20944,11 @@ func BridgeENBIndirectX2TransportLayerAddressesValueCodecFieldEncode(v *ENBIndir
 func BridgeENBIndirectX2TransportLayerAddressesValueCodecFieldPath(v *ENBIndirectX2TransportLayerAddressesValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeENBIndirectX2TransportLayerAddressesValueCodecMethodEncodeBudgetValue(v ENBIndirectX2TransportLayerAddressesValueCodec, a0 ENBIndirectX2TransportLayerAddresses, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeENBIndirectX2TransportLayerAddressesValueCodecMethodEncodeChanged(v ENBIndirectX2TransportLayerAddressesValueCodec, a0 ENBIndirectX2TransportLayerAddresses, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeENBStatusTransferIEValueIETableFieldBound(v *ENBStatusTransferIEValueIETable) *bool {
 	return &v.bound
 }
 func BridgeENBStatusTransferTransparentContainerExtIEsValueExtensionTableFieldBound(v *ENBStatusTransferTransparentContainerExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeENBUES1APIDAPERValueFieldContext(v *ENBUES1APIDAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeENBUES1APIDAPERValueFieldReceived(v *ENBUES1APIDAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeENBUES1APIDAPERValueFieldReplay(v *ENBUES1APIDAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeENBUES1APIDAPERValueFieldWithoutReplay(v *ENBUES1APIDAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeENBUES1APIDValueCodecFieldCapture(v *ENBUES1APIDValueCodec) *func(ENBUES1APID, aper.DecodeState) (ENBUES1APID, aper.Snapshot) {
 	return &v.capture
@@ -24749,26 +20966,8 @@ func BridgeENBUES1APIDValueCodecFieldEncode(v *ENBUES1APIDValueCodec) *func(ENBU
 	return &v.encode
 }
 func BridgeENBUES1APIDValueCodecFieldPath(v *ENBUES1APIDValueCodec) *aper.Path { return &v.path }
-func BridgeENBUES1APIDValueCodecMethodEncodeBudgetValue(v ENBUES1APIDValueCodec, a0 ENBUES1APID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeENBUES1APIDValueCodecMethodEncodeChanged(v ENBUES1APIDValueCodec, a0 ENBUES1APID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeENBX2ExtTLAExtIEsValueExtensionTableFieldBound(v *ENBX2ExtTLAExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeENBX2GTPTLAsAPERValueFieldContext(v *ENBX2GTPTLAsAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeENBX2GTPTLAsAPERValueFieldReceived(v *ENBX2GTPTLAsAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeENBX2GTPTLAsAPERValueFieldReplay(v *ENBX2GTPTLAsAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeENBX2GTPTLAsAPERValueFieldWithoutReplay(v *ENBX2GTPTLAsAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeENBX2GTPTLAsValueCodecFieldCapture(v *ENBX2GTPTLAsValueCodec) *func(ENBX2GTPTLAs, aper.DecodeState) (ENBX2GTPTLAs, aper.Snapshot) {
 	return &v.capture
@@ -24786,18 +20985,6 @@ func BridgeENBX2GTPTLAsValueCodecFieldEncode(v *ENBX2GTPTLAsValueCodec) *func(EN
 	return &v.encode
 }
 func BridgeENBX2GTPTLAsValueCodecFieldPath(v *ENBX2GTPTLAsValueCodec) *aper.Path { return &v.path }
-func BridgeENBX2GTPTLAsValueCodecMethodEncodeBudgetValue(v ENBX2GTPTLAsValueCodec, a0 ENBX2GTPTLAs, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeENBX2GTPTLAsValueCodecMethodEncodeChanged(v ENBX2GTPTLAsValueCodec, a0 ENBX2GTPTLAs, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeENBX2TLAsAPERValueFieldContext(v *ENBX2TLAsAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeENBX2TLAsAPERValueFieldReceived(v *ENBX2TLAsAPERValue) *aper.WireSpan { return &v.received }
-func BridgeENBX2TLAsAPERValueFieldReplay(v *ENBX2TLAsAPERValue) *aper.Snapshot   { return &v.replay }
-func BridgeENBX2TLAsAPERValueFieldWithoutReplay(v *ENBX2TLAsAPERValue) *bool     { return &v.withoutReplay }
 func BridgeENBX2TLAsValueCodecFieldCapture(v *ENBX2TLAsValueCodec) *func(ENBX2TLAs, aper.DecodeState) (ENBX2TLAs, aper.Snapshot) {
 	return &v.capture
 }
@@ -24814,16 +21001,6 @@ func BridgeENBX2TLAsValueCodecFieldEncode(v *ENBX2TLAsValueCodec) *func(ENBX2TLA
 	return &v.encode
 }
 func BridgeENBX2TLAsValueCodecFieldPath(v *ENBX2TLAsValueCodec) *aper.Path { return &v.path }
-func BridgeENBX2TLAsValueCodecMethodEncodeBudgetValue(v ENBX2TLAsValueCodec, a0 ENBX2TLAs, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeENBX2TLAsValueCodecMethodEncodeChanged(v ENBX2TLAsValueCodec, a0 ENBX2TLAs, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeENBnameAPERValueFieldContext(v *ENBnameAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeENBnameAPERValueFieldReceived(v *ENBnameAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeENBnameAPERValueFieldReplay(v *ENBnameAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeENBnameAPERValueFieldWithoutReplay(v *ENBnameAPERValue) *bool         { return &v.withoutReplay }
 func BridgeENBnameValueCodecFieldCapture(v *ENBnameValueCodec) *func(ENBname, aper.DecodeState) (ENBname, aper.Snapshot) {
 	return &v.capture
 }
@@ -24838,12 +21015,6 @@ func BridgeENBnameValueCodecFieldEncode(v *ENBnameValueCodec) *func(ENBname, boo
 	return &v.encode
 }
 func BridgeENBnameValueCodecFieldPath(v *ENBnameValueCodec) *aper.Path { return &v.path }
-func BridgeENBnameValueCodecMethodEncodeBudgetValue(v ENBnameValueCodec, a0 ENBname, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeENBnameValueCodecMethodEncodeChanged(v ENBnameValueCodec, a0 ENBname, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeENDCSONConfigurationTransferExtIEsValueExtensionTableFieldBound(v *ENDCSONConfigurationTransferExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -24859,10 +21030,6 @@ func BridgeENDCTransferTypeReplyExtIEsValueExtensionTableFieldBound(v *ENDCTrans
 func BridgeENDCTransferTypeRequestExtIEsValueExtensionTableFieldBound(v *ENDCTransferTypeRequestExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
-func BridgeEPLMNsAPERValueFieldContext(v *EPLMNsAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeEPLMNsAPERValueFieldReceived(v *EPLMNsAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeEPLMNsAPERValueFieldReplay(v *EPLMNsAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeEPLMNsAPERValueFieldWithoutReplay(v *EPLMNsAPERValue) *bool         { return &v.withoutReplay }
 func BridgeEPLMNsValueCodecFieldCapture(v *EPLMNsValueCodec) *func(EPLMNs, aper.DecodeState) (EPLMNs, aper.Snapshot) {
 	return &v.capture
 }
@@ -24877,12 +21044,6 @@ func BridgeEPLMNsValueCodecFieldEncode(v *EPLMNsValueCodec) *func(EPLMNs, bool, 
 	return &v.encode
 }
 func BridgeEPLMNsValueCodecFieldPath(v *EPLMNsValueCodec) *aper.Path { return &v.path }
-func BridgeEPLMNsValueCodecMethodEncodeBudgetValue(v EPLMNsValueCodec, a0 EPLMNs, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEPLMNsValueCodecMethodEncodeChanged(v EPLMNsValueCodec, a0 EPLMNs, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeERABAdmittedItemExtIEsValueExtensionTableFieldBound(v *ERABAdmittedItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
@@ -24913,10 +21074,6 @@ func BridgeERABFailedToSetupItemHOReqAckExtIEsValueExtensionTableFieldBound(v *E
 func BridgeERABFailedtoSetupItemHOReqAckIEValueIETableFieldBound(v *ERABFailedtoSetupItemHOReqAckIEValueIETable) *bool {
 	return &v.bound
 }
-func BridgeERABIDAPERValueFieldContext(v *ERABIDAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeERABIDAPERValueFieldReceived(v *ERABIDAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeERABIDAPERValueFieldReplay(v *ERABIDAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeERABIDAPERValueFieldWithoutReplay(v *ERABIDAPERValue) *bool         { return &v.withoutReplay }
 func BridgeERABIDValueCodecFieldCapture(v *ERABIDValueCodec) *func(ERABID, aper.DecodeState) (ERABID, aper.Snapshot) {
 	return &v.capture
 }
@@ -24931,12 +21088,6 @@ func BridgeERABIDValueCodecFieldEncode(v *ERABIDValueCodec) *func(ERABID, bool, 
 	return &v.encode
 }
 func BridgeERABIDValueCodecFieldPath(v *ERABIDValueCodec) *aper.Path { return &v.path }
-func BridgeERABIDValueCodecMethodEncodeBudgetValue(v ERABIDValueCodec, a0 ERABID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeERABIDValueCodecMethodEncodeChanged(v ERABIDValueCodec, a0 ERABID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeERABInformationListIEValueIETableFieldBound(v *ERABInformationListIEValueIETable) *bool {
 	return &v.bound
 }
@@ -25076,18 +21227,6 @@ func BridgeERABUsageReportItemIEValueIETableFieldBound(v *ERABUsageReportItemIEV
 func BridgeEUTRANCGIExtIEsValueExtensionTableFieldBound(v *EUTRANCGIExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
-func BridgeEUTRANRoundTripDelayEstimationInfoAPERValueFieldContext(v *EUTRANRoundTripDelayEstimationInfoAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEUTRANRoundTripDelayEstimationInfoAPERValueFieldReceived(v *EUTRANRoundTripDelayEstimationInfoAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEUTRANRoundTripDelayEstimationInfoAPERValueFieldReplay(v *EUTRANRoundTripDelayEstimationInfoAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEUTRANRoundTripDelayEstimationInfoAPERValueFieldWithoutReplay(v *EUTRANRoundTripDelayEstimationInfoAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeEUTRANRoundTripDelayEstimationInfoValueCodecFieldCapture(v *EUTRANRoundTripDelayEstimationInfoValueCodec) *func(EUTRANRoundTripDelayEstimationInfo, aper.DecodeState) (EUTRANRoundTripDelayEstimationInfo, aper.Snapshot) {
 	return &v.capture
 }
@@ -25106,24 +21245,6 @@ func BridgeEUTRANRoundTripDelayEstimationInfoValueCodecFieldEncode(v *EUTRANRoun
 func BridgeEUTRANRoundTripDelayEstimationInfoValueCodecFieldPath(v *EUTRANRoundTripDelayEstimationInfoValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeEUTRANRoundTripDelayEstimationInfoValueCodecMethodEncodeBudgetValue(v EUTRANRoundTripDelayEstimationInfoValueCodec, a0 EUTRANRoundTripDelayEstimationInfo, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEUTRANRoundTripDelayEstimationInfoValueCodecMethodEncodeChanged(v EUTRANRoundTripDelayEstimationInfoValueCodec, a0 EUTRANRoundTripDelayEstimationInfo, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEUTRANTraceIDAPERValueFieldContext(v *EUTRANTraceIDAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEUTRANTraceIDAPERValueFieldReceived(v *EUTRANTraceIDAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEUTRANTraceIDAPERValueFieldReplay(v *EUTRANTraceIDAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEUTRANTraceIDAPERValueFieldWithoutReplay(v *EUTRANTraceIDAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeEUTRANTraceIDValueCodecFieldCapture(v *EUTRANTraceIDValueCodec) *func(EUTRANTraceID, aper.DecodeState) (EUTRANTraceID, aper.Snapshot) {
 	return &v.capture
 }
@@ -25140,53 +21261,11 @@ func BridgeEUTRANTraceIDValueCodecFieldEncode(v *EUTRANTraceIDValueCodec) *func(
 	return &v.encode
 }
 func BridgeEUTRANTraceIDValueCodecFieldPath(v *EUTRANTraceIDValueCodec) *aper.Path { return &v.path }
-func BridgeEUTRANTraceIDValueCodecMethodEncodeBudgetValue(v EUTRANTraceIDValueCodec, a0 EUTRANTraceID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEUTRANTraceIDValueCodecMethodEncodeChanged(v EUTRANTraceIDValueCodec, a0 EUTRANTraceID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEmergencyAreaIDAPERValueFieldContext(v *EmergencyAreaIDAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEmergencyAreaIDAPERValueFieldReceived(v *EmergencyAreaIDAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEmergencyAreaIDAPERValueFieldReplay(v *EmergencyAreaIDAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEmergencyAreaIDAPERValueFieldWithoutReplay(v *EmergencyAreaIDAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeEmergencyAreaIDBroadcastItemExtIEsValueExtensionTableFieldBound(v *EmergencyAreaIDBroadcastItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
 func BridgeEmergencyAreaIDCancelledItemExtIEsValueExtensionTableFieldBound(v *EmergencyAreaIDCancelledItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeEmergencyAreaIDListAPERValueFieldContext(v *EmergencyAreaIDListAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEmergencyAreaIDListAPERValueFieldReceived(v *EmergencyAreaIDListAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEmergencyAreaIDListAPERValueFieldReplay(v *EmergencyAreaIDListAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEmergencyAreaIDListAPERValueFieldWithoutReplay(v *EmergencyAreaIDListAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeEmergencyAreaIDListForRestartAPERValueFieldContext(v *EmergencyAreaIDListForRestartAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEmergencyAreaIDListForRestartAPERValueFieldReceived(v *EmergencyAreaIDListForRestartAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEmergencyAreaIDListForRestartAPERValueFieldReplay(v *EmergencyAreaIDListForRestartAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEmergencyAreaIDListForRestartAPERValueFieldWithoutReplay(v *EmergencyAreaIDListForRestartAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeEmergencyAreaIDListForRestartValueCodecFieldCapture(v *EmergencyAreaIDListForRestartValueCodec) *func(EmergencyAreaIDListForRestart, aper.DecodeState) (EmergencyAreaIDListForRestart, aper.Snapshot) {
 	return &v.capture
@@ -25206,12 +21285,6 @@ func BridgeEmergencyAreaIDListForRestartValueCodecFieldEncode(v *EmergencyAreaID
 func BridgeEmergencyAreaIDListForRestartValueCodecFieldPath(v *EmergencyAreaIDListForRestartValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeEmergencyAreaIDListForRestartValueCodecMethodEncodeBudgetValue(v EmergencyAreaIDListForRestartValueCodec, a0 EmergencyAreaIDListForRestart, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEmergencyAreaIDListForRestartValueCodecMethodEncodeChanged(v EmergencyAreaIDListForRestartValueCodec, a0 EmergencyAreaIDListForRestart, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeEmergencyAreaIDListValueCodecFieldCapture(v *EmergencyAreaIDListValueCodec) *func(EmergencyAreaIDList, aper.DecodeState) (EmergencyAreaIDList, aper.Snapshot) {
 	return &v.capture
 }
@@ -25229,12 +21302,6 @@ func BridgeEmergencyAreaIDListValueCodecFieldEncode(v *EmergencyAreaIDListValueC
 }
 func BridgeEmergencyAreaIDListValueCodecFieldPath(v *EmergencyAreaIDListValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeEmergencyAreaIDListValueCodecMethodEncodeBudgetValue(v EmergencyAreaIDListValueCodec, a0 EmergencyAreaIDList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEmergencyAreaIDListValueCodecMethodEncodeChanged(v EmergencyAreaIDListValueCodec, a0 EmergencyAreaIDList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeEmergencyAreaIDValueCodecFieldCapture(v *EmergencyAreaIDValueCodec) *func(EmergencyAreaID, aper.DecodeState) (EmergencyAreaID, aper.Snapshot) {
 	return &v.capture
@@ -25254,24 +21321,6 @@ func BridgeEmergencyAreaIDValueCodecFieldEncode(v *EmergencyAreaIDValueCodec) *f
 func BridgeEmergencyAreaIDValueCodecFieldPath(v *EmergencyAreaIDValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeEmergencyAreaIDValueCodecMethodEncodeBudgetValue(v EmergencyAreaIDValueCodec, a0 EmergencyAreaID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEmergencyAreaIDValueCodecMethodEncodeChanged(v EmergencyAreaIDValueCodec, a0 EmergencyAreaID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEmergencyIndicatorAPERValueFieldContext(v *EmergencyIndicatorAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEmergencyIndicatorAPERValueFieldReceived(v *EmergencyIndicatorAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEmergencyIndicatorAPERValueFieldReplay(v *EmergencyIndicatorAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEmergencyIndicatorAPERValueFieldWithoutReplay(v *EmergencyIndicatorAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeEmergencyIndicatorValueCodecFieldCapture(v *EmergencyIndicatorValueCodec) *func(EmergencyIndicator, aper.DecodeState) (EmergencyIndicator, aper.Snapshot) {
 	return &v.capture
 }
@@ -25290,16 +21339,6 @@ func BridgeEmergencyIndicatorValueCodecFieldEncode(v *EmergencyIndicatorValueCod
 func BridgeEmergencyIndicatorValueCodecFieldPath(v *EmergencyIndicatorValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeEmergencyIndicatorValueCodecMethodEncodeBudgetValue(v EmergencyIndicatorValueCodec, a0 EmergencyIndicator, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEmergencyIndicatorValueCodecMethodEncodeChanged(v EmergencyIndicatorValueCodec, a0 EmergencyIndicator, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEnGNBIDAPERValueFieldContext(v *EnGNBIDAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeEnGNBIDAPERValueFieldReceived(v *EnGNBIDAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeEnGNBIDAPERValueFieldReplay(v *EnGNBIDAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeEnGNBIDAPERValueFieldWithoutReplay(v *EnGNBIDAPERValue) *bool         { return &v.withoutReplay }
 func BridgeEnGNBIDValueCodecFieldCapture(v *EnGNBIDValueCodec) *func(EnGNBID, aper.DecodeState) (EnGNBID, aper.Snapshot) {
 	return &v.capture
 }
@@ -25314,24 +21353,6 @@ func BridgeEnGNBIDValueCodecFieldEncode(v *EnGNBIDValueCodec) *func(EnGNBID, boo
 	return &v.encode
 }
 func BridgeEnGNBIDValueCodecFieldPath(v *EnGNBIDValueCodec) *aper.Path { return &v.path }
-func BridgeEnGNBIDValueCodecMethodEncodeBudgetValue(v EnGNBIDValueCodec, a0 EnGNBID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEnGNBIDValueCodecMethodEncodeChanged(v EnGNBIDValueCodec, a0 EnGNBID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEncryptionAlgorithmsAPERValueFieldContext(v *EncryptionAlgorithmsAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEncryptionAlgorithmsAPERValueFieldReceived(v *EncryptionAlgorithmsAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEncryptionAlgorithmsAPERValueFieldReplay(v *EncryptionAlgorithmsAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEncryptionAlgorithmsAPERValueFieldWithoutReplay(v *EncryptionAlgorithmsAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeEncryptionAlgorithmsValueCodecFieldCapture(v *EncryptionAlgorithmsValueCodec) *func(EncryptionAlgorithms, aper.DecodeState) (EncryptionAlgorithms, aper.Snapshot) {
 	return &v.capture
 }
@@ -25350,24 +21371,6 @@ func BridgeEncryptionAlgorithmsValueCodecFieldEncode(v *EncryptionAlgorithmsValu
 func BridgeEncryptionAlgorithmsValueCodecFieldPath(v *EncryptionAlgorithmsValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeEncryptionAlgorithmsValueCodecMethodEncodeBudgetValue(v EncryptionAlgorithmsValueCodec, a0 EncryptionAlgorithms, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEncryptionAlgorithmsValueCodecMethodEncodeChanged(v EncryptionAlgorithmsValueCodec, a0 EncryptionAlgorithms, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEndIndicationAPERValueFieldContext(v *EndIndicationAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEndIndicationAPERValueFieldReceived(v *EndIndicationAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEndIndicationAPERValueFieldReplay(v *EndIndicationAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEndIndicationAPERValueFieldWithoutReplay(v *EndIndicationAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeEndIndicationValueCodecFieldCapture(v *EndIndicationValueCodec) *func(EndIndication, aper.DecodeState) (EndIndication, aper.Snapshot) {
 	return &v.capture
 }
@@ -25384,24 +21387,6 @@ func BridgeEndIndicationValueCodecFieldEncode(v *EndIndicationValueCodec) *func(
 	return &v.encode
 }
 func BridgeEndIndicationValueCodecFieldPath(v *EndIndicationValueCodec) *aper.Path { return &v.path }
-func BridgeEndIndicationValueCodecMethodEncodeBudgetValue(v EndIndicationValueCodec, a0 EndIndication, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEndIndicationValueCodecMethodEncodeChanged(v EndIndicationValueCodec, a0 EndIndication, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeEnhancedCoverageRestrictedAPERValueFieldContext(v *EnhancedCoverageRestrictedAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEnhancedCoverageRestrictedAPERValueFieldReceived(v *EnhancedCoverageRestrictedAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEnhancedCoverageRestrictedAPERValueFieldReplay(v *EnhancedCoverageRestrictedAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEnhancedCoverageRestrictedAPERValueFieldWithoutReplay(v *EnhancedCoverageRestrictedAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeEnhancedCoverageRestrictedValueCodecFieldCapture(v *EnhancedCoverageRestrictedValueCodec) *func(EnhancedCoverageRestricted, aper.DecodeState) (EnhancedCoverageRestricted, aper.Snapshot) {
 	return &v.capture
 }
@@ -25420,26 +21405,8 @@ func BridgeEnhancedCoverageRestrictedValueCodecFieldEncode(v *EnhancedCoverageRe
 func BridgeEnhancedCoverageRestrictedValueCodecFieldPath(v *EnhancedCoverageRestrictedValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeEnhancedCoverageRestrictedValueCodecMethodEncodeBudgetValue(v EnhancedCoverageRestrictedValueCodec, a0 EnhancedCoverageRestricted, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEnhancedCoverageRestrictedValueCodecMethodEncodeChanged(v EnhancedCoverageRestrictedValueCodec, a0 EnhancedCoverageRestricted, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeErrorIndicationIEValueIETableFieldBound(v *ErrorIndicationIEValueIETable) *bool {
 	return &v.bound
-}
-func BridgeEthernetTypeAPERValueFieldContext(v *EthernetTypeAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEthernetTypeAPERValueFieldReceived(v *EthernetTypeAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeEthernetTypeAPERValueFieldReplay(v *EthernetTypeAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeEthernetTypeAPERValueFieldWithoutReplay(v *EthernetTypeAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeEthernetTypeValueCodecFieldCapture(v *EthernetTypeValueCodec) *func(EthernetType, aper.DecodeState) (EthernetType, aper.Snapshot) {
 	return &v.capture
@@ -25457,24 +21424,12 @@ func BridgeEthernetTypeValueCodecFieldEncode(v *EthernetTypeValueCodec) *func(Et
 	return &v.encode
 }
 func BridgeEthernetTypeValueCodecFieldPath(v *EthernetTypeValueCodec) *aper.Path { return &v.path }
-func BridgeEthernetTypeValueCodecMethodEncodeBudgetValue(v EthernetTypeValueCodec, a0 EthernetType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEthernetTypeValueCodecMethodEncodeChanged(v EthernetTypeValueCodec, a0 EthernetType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeEventL1LoggedMDTConfigExtIEsValueExtensionTableFieldBound(v *EventL1LoggedMDTConfigExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
 func BridgeEventTriggerExtIEValueIETableFieldBound(v *EventTriggerExtIEValueIETable) *bool {
 	return &v.bound
 }
-func BridgeEventTypeAPERValueFieldContext(v *EventTypeAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeEventTypeAPERValueFieldReceived(v *EventTypeAPERValue) *aper.WireSpan { return &v.received }
-func BridgeEventTypeAPERValueFieldReplay(v *EventTypeAPERValue) *aper.Snapshot   { return &v.replay }
-func BridgeEventTypeAPERValueFieldWithoutReplay(v *EventTypeAPERValue) *bool     { return &v.withoutReplay }
 func BridgeEventTypeValueCodecFieldCapture(v *EventTypeValueCodec) *func(EventType, aper.DecodeState) (EventType, aper.Snapshot) {
 	return &v.capture
 }
@@ -25491,24 +21446,6 @@ func BridgeEventTypeValueCodecFieldEncode(v *EventTypeValueCodec) *func(EventTyp
 	return &v.encode
 }
 func BridgeEventTypeValueCodecFieldPath(v *EventTypeValueCodec) *aper.Path { return &v.path }
-func BridgeEventTypeValueCodecMethodEncodeBudgetValue(v EventTypeValueCodec, a0 EventType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeEventTypeValueCodecMethodEncodeChanged(v EventTypeValueCodec, a0 EventType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeExpectedActivityPeriodAPERValueFieldContext(v *ExpectedActivityPeriodAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeExpectedActivityPeriodAPERValueFieldReceived(v *ExpectedActivityPeriodAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeExpectedActivityPeriodAPERValueFieldReplay(v *ExpectedActivityPeriodAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeExpectedActivityPeriodAPERValueFieldWithoutReplay(v *ExpectedActivityPeriodAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeExpectedActivityPeriodValueCodecFieldCapture(v *ExpectedActivityPeriodValueCodec) *func(ExpectedActivityPeriod, aper.DecodeState) (ExpectedActivityPeriod, aper.Snapshot) {
 	return &v.capture
 }
@@ -25526,24 +21463,6 @@ func BridgeExpectedActivityPeriodValueCodecFieldEncode(v *ExpectedActivityPeriod
 }
 func BridgeExpectedActivityPeriodValueCodecFieldPath(v *ExpectedActivityPeriodValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeExpectedActivityPeriodValueCodecMethodEncodeBudgetValue(v ExpectedActivityPeriodValueCodec, a0 ExpectedActivityPeriod, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeExpectedActivityPeriodValueCodecMethodEncodeChanged(v ExpectedActivityPeriodValueCodec, a0 ExpectedActivityPeriod, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeExpectedHOIntervalAPERValueFieldContext(v *ExpectedHOIntervalAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeExpectedHOIntervalAPERValueFieldReceived(v *ExpectedHOIntervalAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeExpectedHOIntervalAPERValueFieldReplay(v *ExpectedHOIntervalAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeExpectedHOIntervalAPERValueFieldWithoutReplay(v *ExpectedHOIntervalAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeExpectedHOIntervalValueCodecFieldCapture(v *ExpectedHOIntervalValueCodec) *func(ExpectedHOInterval, aper.DecodeState) (ExpectedHOInterval, aper.Snapshot) {
 	return &v.capture
@@ -25563,24 +21482,6 @@ func BridgeExpectedHOIntervalValueCodecFieldEncode(v *ExpectedHOIntervalValueCod
 func BridgeExpectedHOIntervalValueCodecFieldPath(v *ExpectedHOIntervalValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeExpectedHOIntervalValueCodecMethodEncodeBudgetValue(v ExpectedHOIntervalValueCodec, a0 ExpectedHOInterval, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeExpectedHOIntervalValueCodecMethodEncodeChanged(v ExpectedHOIntervalValueCodec, a0 ExpectedHOInterval, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeExpectedIdlePeriodAPERValueFieldContext(v *ExpectedIdlePeriodAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeExpectedIdlePeriodAPERValueFieldReceived(v *ExpectedIdlePeriodAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeExpectedIdlePeriodAPERValueFieldReplay(v *ExpectedIdlePeriodAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeExpectedIdlePeriodAPERValueFieldWithoutReplay(v *ExpectedIdlePeriodAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeExpectedIdlePeriodValueCodecFieldCapture(v *ExpectedIdlePeriodValueCodec) *func(ExpectedIdlePeriod, aper.DecodeState) (ExpectedIdlePeriod, aper.Snapshot) {
 	return &v.capture
 }
@@ -25599,29 +21500,11 @@ func BridgeExpectedIdlePeriodValueCodecFieldEncode(v *ExpectedIdlePeriodValueCod
 func BridgeExpectedIdlePeriodValueCodecFieldPath(v *ExpectedIdlePeriodValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeExpectedIdlePeriodValueCodecMethodEncodeBudgetValue(v ExpectedIdlePeriodValueCodec, a0 ExpectedIdlePeriod, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeExpectedIdlePeriodValueCodecMethodEncodeChanged(v ExpectedIdlePeriodValueCodec, a0 ExpectedIdlePeriod, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeExpectedUEActivityBehaviourExtIEsValueExtensionTableFieldBound(v *ExpectedUEActivityBehaviourExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
 func BridgeExpectedUEBehaviourExtIEsValueExtensionTableFieldBound(v *ExpectedUEBehaviourExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeExtendedBitRateAPERValueFieldContext(v *ExtendedBitRateAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeExtendedBitRateAPERValueFieldReceived(v *ExtendedBitRateAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeExtendedBitRateAPERValueFieldReplay(v *ExtendedBitRateAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeExtendedBitRateAPERValueFieldWithoutReplay(v *ExtendedBitRateAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeExtendedBitRateValueCodecFieldCapture(v *ExtendedBitRateValueCodec) *func(ExtendedBitRate, aper.DecodeState) (ExtendedBitRate, aper.Snapshot) {
 	return &v.capture
@@ -25641,24 +21524,6 @@ func BridgeExtendedBitRateValueCodecFieldEncode(v *ExtendedBitRateValueCodec) *f
 func BridgeExtendedBitRateValueCodecFieldPath(v *ExtendedBitRateValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeExtendedBitRateValueCodecMethodEncodeBudgetValue(v ExtendedBitRateValueCodec, a0 ExtendedBitRate, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeExtendedBitRateValueCodecMethodEncodeChanged(v ExtendedBitRateValueCodec, a0 ExtendedBitRate, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeExtendedRNCIDAPERValueFieldContext(v *ExtendedRNCIDAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeExtendedRNCIDAPERValueFieldReceived(v *ExtendedRNCIDAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeExtendedRNCIDAPERValueFieldReplay(v *ExtendedRNCIDAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeExtendedRNCIDAPERValueFieldWithoutReplay(v *ExtendedRNCIDAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeExtendedRNCIDValueCodecFieldCapture(v *ExtendedRNCIDValueCodec) *func(ExtendedRNCID, aper.DecodeState) (ExtendedRNCID, aper.Snapshot) {
 	return &v.capture
 }
@@ -25675,24 +21540,6 @@ func BridgeExtendedRNCIDValueCodecFieldEncode(v *ExtendedRNCIDValueCodec) *func(
 	return &v.encode
 }
 func BridgeExtendedRNCIDValueCodecFieldPath(v *ExtendedRNCIDValueCodec) *aper.Path { return &v.path }
-func BridgeExtendedRNCIDValueCodecMethodEncodeBudgetValue(v ExtendedRNCIDValueCodec, a0 ExtendedRNCID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeExtendedRNCIDValueCodecMethodEncodeChanged(v ExtendedRNCIDValueCodec, a0 ExtendedRNCID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeExtendedRepetitionPeriodAPERValueFieldContext(v *ExtendedRepetitionPeriodAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeExtendedRepetitionPeriodAPERValueFieldReceived(v *ExtendedRepetitionPeriodAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeExtendedRepetitionPeriodAPERValueFieldReplay(v *ExtendedRepetitionPeriodAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeExtendedRepetitionPeriodAPERValueFieldWithoutReplay(v *ExtendedRepetitionPeriodAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeExtendedRepetitionPeriodValueCodecFieldCapture(v *ExtendedRepetitionPeriodValueCodec) *func(ExtendedRepetitionPeriod, aper.DecodeState) (ExtendedRepetitionPeriod, aper.Snapshot) {
 	return &v.capture
 }
@@ -25711,12 +21558,6 @@ func BridgeExtendedRepetitionPeriodValueCodecFieldEncode(v *ExtendedRepetitionPe
 func BridgeExtendedRepetitionPeriodValueCodecFieldPath(v *ExtendedRepetitionPeriodValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeExtendedRepetitionPeriodValueCodecMethodEncodeBudgetValue(v ExtendedRepetitionPeriodValueCodec, a0 ExtendedRepetitionPeriod, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeExtendedRepetitionPeriodValueCodecMethodEncodeChanged(v ExtendedRepetitionPeriodValueCodec, a0 ExtendedRepetitionPeriod, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeExtendedUEIdentityIndexValueAPERValueFieldContext(v *ExtendedUEIdentityIndexValueAPERValue) *BridgeCodecContext {
 	return &v.context
 }
@@ -25729,227 +21570,11 @@ func BridgeExtendedUEIdentityIndexValueAPERValueFieldReplay(v *ExtendedUEIdentit
 func BridgeExtendedUEIdentityIndexValueAPERValueFieldWithoutReplay(v *ExtendedUEIdentityIndexValueAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeExtendedUEIdentityIndexValueValueCodecFieldCapture(v *ExtendedUEIdentityIndexValueValueCodec) *func(ExtendedUEIdentityIndexValue, aper.DecodeState) (ExtendedUEIdentityIndexValue, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeExtendedUEIdentityIndexValueValueCodecFieldCompare(v *ExtendedUEIdentityIndexValueValueCodec) *func(ExtendedUEIdentityIndexValue, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeExtendedUEIdentityIndexValueValueCodecFieldContext(v *ExtendedUEIdentityIndexValueValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeExtendedUEIdentityIndexValueValueCodecFieldDecode(v *ExtendedUEIdentityIndexValueValueCodec) *func([]byte, aper.DecodeState) (ExtendedUEIdentityIndexValue, error) {
-	return &v.decode
-}
-func BridgeExtendedUEIdentityIndexValueValueCodecFieldEncode(v *ExtendedUEIdentityIndexValueValueCodec) *func(ExtendedUEIdentityIndexValue, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeExtendedUEIdentityIndexValueValueCodecFieldPath(v *ExtendedUEIdentityIndexValueValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeExtendedUEIdentityIndexValueValueCodecMethodEncodeBudgetValue(v ExtendedUEIdentityIndexValueValueCodec, a0 ExtendedUEIdentityIndexValue, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeExtendedUEIdentityIndexValueValueCodecMethodEncodeChanged(v ExtendedUEIdentityIndexValueValueCodec, a0 ExtendedUEIdentityIndexValue, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeFailureEventReportingCauseAPERValueFieldContext(v *FailureEventReportingCauseAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeFailureEventReportingCauseAPERValueFieldReceived(v *FailureEventReportingCauseAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeFailureEventReportingCauseAPERValueFieldReplay(v *FailureEventReportingCauseAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeFailureEventReportingCauseAPERValueFieldWithoutReplay(v *FailureEventReportingCauseAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeFailureEventReportingCauseValueCodecFieldCapture(v *FailureEventReportingCauseValueCodec) *func(FailureEventReportingCause, aper.DecodeState) (FailureEventReportingCause, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeFailureEventReportingCauseValueCodecFieldCompare(v *FailureEventReportingCauseValueCodec) *func(FailureEventReportingCause, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeFailureEventReportingCauseValueCodecFieldContext(v *FailureEventReportingCauseValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeFailureEventReportingCauseValueCodecFieldDecode(v *FailureEventReportingCauseValueCodec) *func([]byte, aper.DecodeState) (FailureEventReportingCause, error) {
-	return &v.decode
-}
-func BridgeFailureEventReportingCauseValueCodecFieldEncode(v *FailureEventReportingCauseValueCodec) *func(FailureEventReportingCause, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeFailureEventReportingCauseValueCodecFieldPath(v *FailureEventReportingCauseValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeFailureEventReportingCauseValueCodecMethodEncodeBudgetValue(v FailureEventReportingCauseValueCodec, a0 FailureEventReportingCause, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeFailureEventReportingCauseValueCodecMethodEncodeChanged(v FailureEventReportingCauseValueCodec, a0 FailureEventReportingCause, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeFiveGSTACAPERValueFieldContext(v *FiveGSTACAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeFiveGSTACAPERValueFieldReceived(v *FiveGSTACAPERValue) *aper.WireSpan { return &v.received }
-func BridgeFiveGSTACAPERValueFieldReplay(v *FiveGSTACAPERValue) *aper.Snapshot   { return &v.replay }
-func BridgeFiveGSTACAPERValueFieldWithoutReplay(v *FiveGSTACAPERValue) *bool     { return &v.withoutReplay }
-func BridgeFiveGSTACValueCodecFieldCapture(v *FiveGSTACValueCodec) *func(FiveGSTAC, aper.DecodeState) (FiveGSTAC, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeFiveGSTACValueCodecFieldCompare(v *FiveGSTACValueCodec) *func(FiveGSTAC, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeFiveGSTACValueCodecFieldContext(v *FiveGSTACValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeFiveGSTACValueCodecFieldDecode(v *FiveGSTACValueCodec) *func([]byte, aper.DecodeState) (FiveGSTAC, error) {
-	return &v.decode
-}
-func BridgeFiveGSTACValueCodecFieldEncode(v *FiveGSTACValueCodec) *func(FiveGSTAC, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeFiveGSTACValueCodecFieldPath(v *FiveGSTACValueCodec) *aper.Path { return &v.path }
-func BridgeFiveGSTACValueCodecMethodEncodeBudgetValue(v FiveGSTACValueCodec, a0 FiveGSTAC, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeFiveGSTACValueCodecMethodEncodeChanged(v FiveGSTACValueCodec, a0 FiveGSTAC, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeFiveGSTAIExtIEsValueExtensionTableFieldBound(v *FiveGSTAIExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
-func BridgeFiveQIAPERValueFieldContext(v *FiveQIAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeFiveQIAPERValueFieldReceived(v *FiveQIAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeFiveQIAPERValueFieldReplay(v *FiveQIAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeFiveQIAPERValueFieldWithoutReplay(v *FiveQIAPERValue) *bool         { return &v.withoutReplay }
-func BridgeFiveQIValueCodecFieldCapture(v *FiveQIValueCodec) *func(FiveQI, aper.DecodeState) (FiveQI, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeFiveQIValueCodecFieldCompare(v *FiveQIValueCodec) *func(FiveQI, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeFiveQIValueCodecFieldContext(v *FiveQIValueCodec) *BridgeCodecContext { return &v.context }
-func BridgeFiveQIValueCodecFieldDecode(v *FiveQIValueCodec) *func([]byte, aper.DecodeState) (FiveQI, error) {
-	return &v.decode
-}
-func BridgeFiveQIValueCodecFieldEncode(v *FiveQIValueCodec) *func(FiveQI, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeFiveQIValueCodecFieldPath(v *FiveQIValueCodec) *aper.Path { return &v.path }
-func BridgeFiveQIValueCodecMethodEncodeBudgetValue(v FiveQIValueCodec, a0 FiveQI, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeFiveQIValueCodecMethodEncodeChanged(v FiveQIValueCodec, a0 FiveQI, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeForbiddenInterRATsAPERValueFieldContext(v *ForbiddenInterRATsAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeForbiddenInterRATsAPERValueFieldReceived(v *ForbiddenInterRATsAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeForbiddenInterRATsAPERValueFieldReplay(v *ForbiddenInterRATsAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeForbiddenInterRATsAPERValueFieldWithoutReplay(v *ForbiddenInterRATsAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeForbiddenInterRATsValueCodecFieldCapture(v *ForbiddenInterRATsValueCodec) *func(ForbiddenInterRATs, aper.DecodeState) (ForbiddenInterRATs, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeForbiddenInterRATsValueCodecFieldCompare(v *ForbiddenInterRATsValueCodec) *func(ForbiddenInterRATs, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeForbiddenInterRATsValueCodecFieldContext(v *ForbiddenInterRATsValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeForbiddenInterRATsValueCodecFieldDecode(v *ForbiddenInterRATsValueCodec) *func([]byte, aper.DecodeState) (ForbiddenInterRATs, error) {
-	return &v.decode
-}
-func BridgeForbiddenInterRATsValueCodecFieldEncode(v *ForbiddenInterRATsValueCodec) *func(ForbiddenInterRATs, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeForbiddenInterRATsValueCodecFieldPath(v *ForbiddenInterRATsValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeForbiddenInterRATsValueCodecMethodEncodeBudgetValue(v ForbiddenInterRATsValueCodec, a0 ForbiddenInterRATs, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeForbiddenInterRATsValueCodecMethodEncodeChanged(v ForbiddenInterRATsValueCodec, a0 ForbiddenInterRATs, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeForbiddenLACsAPERValueFieldContext(v *ForbiddenLACsAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeForbiddenLACsAPERValueFieldReceived(v *ForbiddenLACsAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeForbiddenLACsAPERValueFieldReplay(v *ForbiddenLACsAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeForbiddenLACsAPERValueFieldWithoutReplay(v *ForbiddenLACsAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeForbiddenLACsValueCodecFieldCapture(v *ForbiddenLACsValueCodec) *func(ForbiddenLACs, aper.DecodeState) (ForbiddenLACs, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeForbiddenLACsValueCodecFieldCompare(v *ForbiddenLACsValueCodec) *func(ForbiddenLACs, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeForbiddenLACsValueCodecFieldContext(v *ForbiddenLACsValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeForbiddenLACsValueCodecFieldDecode(v *ForbiddenLACsValueCodec) *func([]byte, aper.DecodeState) (ForbiddenLACs, error) {
-	return &v.decode
-}
-func BridgeForbiddenLACsValueCodecFieldEncode(v *ForbiddenLACsValueCodec) *func(ForbiddenLACs, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeForbiddenLACsValueCodecFieldPath(v *ForbiddenLACsValueCodec) *aper.Path { return &v.path }
-func BridgeForbiddenLACsValueCodecMethodEncodeBudgetValue(v ForbiddenLACsValueCodec, a0 ForbiddenLACs, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeForbiddenLACsValueCodecMethodEncodeChanged(v ForbiddenLACsValueCodec, a0 ForbiddenLACs, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeForbiddenLAsItemExtIEsValueExtensionTableFieldBound(v *ForbiddenLAsItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeForbiddenTACsAPERValueFieldContext(v *ForbiddenTACsAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeForbiddenTACsAPERValueFieldReceived(v *ForbiddenTACsAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeForbiddenTACsAPERValueFieldReplay(v *ForbiddenTACsAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeForbiddenTACsAPERValueFieldWithoutReplay(v *ForbiddenTACsAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeForbiddenTACsValueCodecFieldCapture(v *ForbiddenTACsValueCodec) *func(ForbiddenTACs, aper.DecodeState) (ForbiddenTACs, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeForbiddenTACsValueCodecFieldCompare(v *ForbiddenTACsValueCodec) *func(ForbiddenTACs, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeForbiddenTACsValueCodecFieldContext(v *ForbiddenTACsValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeForbiddenTACsValueCodecFieldDecode(v *ForbiddenTACsValueCodec) *func([]byte, aper.DecodeState) (ForbiddenTACs, error) {
-	return &v.decode
-}
-func BridgeForbiddenTACsValueCodecFieldEncode(v *ForbiddenTACsValueCodec) *func(ForbiddenTACs, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeForbiddenTACsValueCodecFieldPath(v *ForbiddenTACsValueCodec) *aper.Path { return &v.path }
-func BridgeForbiddenTACsValueCodecMethodEncodeBudgetValue(v ForbiddenTACsValueCodec, a0 ForbiddenTACs, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeForbiddenTACsValueCodecMethodEncodeChanged(v ForbiddenTACsValueCodec, a0 ForbiddenTACs, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeForbiddenTAsItemExtIEsValueExtensionTableFieldBound(v *ForbiddenTAsItemExtIEsValueExtensionTable) *bool {
 	return &v.bound
@@ -25963,124 +21588,8 @@ func BridgeGERANCellIDExtIEsValueExtensionTableFieldBound(v *GERANCellIDExtIEsVa
 func BridgeGNBExtIEsValueExtensionTableFieldBound(v *GNBExtIEsValueExtensionTable) *bool {
 	return &v.bound
 }
-func BridgeGNBIDAPERValueFieldContext(v *GNBIDAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeGNBIDAPERValueFieldReceived(v *GNBIDAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeGNBIDAPERValueFieldReplay(v *GNBIDAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeGNBIDAPERValueFieldWithoutReplay(v *GNBIDAPERValue) *bool         { return &v.withoutReplay }
-func BridgeGNBIDValueCodecFieldCapture(v *GNBIDValueCodec) *func(GNBID, aper.DecodeState) (GNBID, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeGNBIDValueCodecFieldCompare(v *GNBIDValueCodec) *func(GNBID, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeGNBIDValueCodecFieldContext(v *GNBIDValueCodec) *BridgeCodecContext { return &v.context }
-func BridgeGNBIDValueCodecFieldDecode(v *GNBIDValueCodec) *func([]byte, aper.DecodeState) (GNBID, error) {
-	return &v.decode
-}
-func BridgeGNBIDValueCodecFieldEncode(v *GNBIDValueCodec) *func(GNBID, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeGNBIDValueCodecFieldPath(v *GNBIDValueCodec) *aper.Path { return &v.path }
-func BridgeGNBIDValueCodecMethodEncodeBudgetValue(v GNBIDValueCodec, a0 GNBID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeGNBIDValueCodecMethodEncodeChanged(v GNBIDValueCodec, a0 GNBID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeGTPTEIDAPERValueFieldContext(v *GTPTEIDAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeGTPTEIDAPERValueFieldReceived(v *GTPTEIDAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeGTPTEIDAPERValueFieldReplay(v *GTPTEIDAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeGTPTEIDAPERValueFieldWithoutReplay(v *GTPTEIDAPERValue) *bool         { return &v.withoutReplay }
-func BridgeGTPTEIDValueCodecFieldCapture(v *GTPTEIDValueCodec) *func(GTPTEID, aper.DecodeState) (GTPTEID, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeGTPTEIDValueCodecFieldCompare(v *GTPTEIDValueCodec) *func(GTPTEID, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeGTPTEIDValueCodecFieldContext(v *GTPTEIDValueCodec) *BridgeCodecContext { return &v.context }
-func BridgeGTPTEIDValueCodecFieldDecode(v *GTPTEIDValueCodec) *func([]byte, aper.DecodeState) (GTPTEID, error) {
-	return &v.decode
-}
-func BridgeGTPTEIDValueCodecFieldEncode(v *GTPTEIDValueCodec) *func(GTPTEID, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeGTPTEIDValueCodecFieldPath(v *GTPTEIDValueCodec) *aper.Path { return &v.path }
-func BridgeGTPTEIDValueCodecMethodEncodeBudgetValue(v GTPTEIDValueCodec, a0 GTPTEID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeGTPTEIDValueCodecMethodEncodeChanged(v GTPTEIDValueCodec, a0 GTPTEID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeGUMMEIExtIEsValueExtensionTableFieldBound(v *GUMMEIExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeGUMMEITypeAPERValueFieldContext(v *GUMMEITypeAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeGUMMEITypeAPERValueFieldReceived(v *GUMMEITypeAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeGUMMEITypeAPERValueFieldReplay(v *GUMMEITypeAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeGUMMEITypeAPERValueFieldWithoutReplay(v *GUMMEITypeAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeGUMMEITypeValueCodecFieldCapture(v *GUMMEITypeValueCodec) *func(GUMMEIType, aper.DecodeState) (GUMMEIType, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeGUMMEITypeValueCodecFieldCompare(v *GUMMEITypeValueCodec) *func(GUMMEIType, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeGUMMEITypeValueCodecFieldContext(v *GUMMEITypeValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeGUMMEITypeValueCodecFieldDecode(v *GUMMEITypeValueCodec) *func([]byte, aper.DecodeState) (GUMMEIType, error) {
-	return &v.decode
-}
-func BridgeGUMMEITypeValueCodecFieldEncode(v *GUMMEITypeValueCodec) *func(GUMMEIType, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeGUMMEITypeValueCodecFieldPath(v *GUMMEITypeValueCodec) *aper.Path { return &v.path }
-func BridgeGUMMEITypeValueCodecMethodEncodeBudgetValue(v GUMMEITypeValueCodec, a0 GUMMEIType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeGUMMEITypeValueCodecMethodEncodeChanged(v GUMMEITypeValueCodec, a0 GUMMEIType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeGWContextReleaseIndicationAPERValueFieldContext(v *GWContextReleaseIndicationAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeGWContextReleaseIndicationAPERValueFieldReceived(v *GWContextReleaseIndicationAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeGWContextReleaseIndicationAPERValueFieldReplay(v *GWContextReleaseIndicationAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeGWContextReleaseIndicationAPERValueFieldWithoutReplay(v *GWContextReleaseIndicationAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeGWContextReleaseIndicationValueCodecFieldCapture(v *GWContextReleaseIndicationValueCodec) *func(GWContextReleaseIndication, aper.DecodeState) (GWContextReleaseIndication, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeGWContextReleaseIndicationValueCodecFieldCompare(v *GWContextReleaseIndicationValueCodec) *func(GWContextReleaseIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeGWContextReleaseIndicationValueCodecFieldContext(v *GWContextReleaseIndicationValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeGWContextReleaseIndicationValueCodecFieldDecode(v *GWContextReleaseIndicationValueCodec) *func([]byte, aper.DecodeState) (GWContextReleaseIndication, error) {
-	return &v.decode
-}
-func BridgeGWContextReleaseIndicationValueCodecFieldEncode(v *GWContextReleaseIndicationValueCodec) *func(GWContextReleaseIndication, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeGWContextReleaseIndicationValueCodecFieldPath(v *GWContextReleaseIndicationValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeGWContextReleaseIndicationValueCodecMethodEncodeBudgetValue(v GWContextReleaseIndicationValueCodec, a0 GWContextReleaseIndication, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeGWContextReleaseIndicationValueCodecMethodEncodeChanged(v GWContextReleaseIndicationValueCodec, a0 GWContextReleaseIndication, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeGlobalENBIDExtIEsValueExtensionTableFieldBound(v *GlobalENBIDExtIEsValueExtensionTable) *bool {
 	return &v.bound
@@ -26090,134 +21599,6 @@ func BridgeGlobalEnGNBIDExtIEsValueExtensionTableFieldBound(v *GlobalEnGNBIDExtI
 }
 func BridgeGlobalGNBIDExtIEsValueExtensionTableFieldBound(v *GlobalGNBIDExtIEsValueExtensionTable) *bool {
 	return &v.bound
-}
-func BridgeHFNAPERValueFieldContext(v *HFNAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeHFNAPERValueFieldReceived(v *HFNAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeHFNAPERValueFieldReplay(v *HFNAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeHFNAPERValueFieldWithoutReplay(v *HFNAPERValue) *bool         { return &v.withoutReplay }
-func BridgeHFNModifiedAPERValueFieldContext(v *HFNModifiedAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHFNModifiedAPERValueFieldReceived(v *HFNModifiedAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeHFNModifiedAPERValueFieldReplay(v *HFNModifiedAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeHFNModifiedAPERValueFieldWithoutReplay(v *HFNModifiedAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeHFNModifiedValueCodecFieldCapture(v *HFNModifiedValueCodec) *func(HFNModified, aper.DecodeState) (HFNModified, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHFNModifiedValueCodecFieldCompare(v *HFNModifiedValueCodec) *func(HFNModified, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHFNModifiedValueCodecFieldContext(v *HFNModifiedValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHFNModifiedValueCodecFieldDecode(v *HFNModifiedValueCodec) *func([]byte, aper.DecodeState) (HFNModified, error) {
-	return &v.decode
-}
-func BridgeHFNModifiedValueCodecFieldEncode(v *HFNModifiedValueCodec) *func(HFNModified, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHFNModifiedValueCodecFieldPath(v *HFNModifiedValueCodec) *aper.Path { return &v.path }
-func BridgeHFNModifiedValueCodecMethodEncodeBudgetValue(v HFNModifiedValueCodec, a0 HFNModified, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHFNModifiedValueCodecMethodEncodeChanged(v HFNModifiedValueCodec, a0 HFNModified, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeHFNValueCodecFieldCapture(v *HFNValueCodec) *func(HFN, aper.DecodeState) (HFN, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHFNValueCodecFieldCompare(v *HFNValueCodec) *func(HFN, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHFNValueCodecFieldContext(v *HFNValueCodec) *BridgeCodecContext { return &v.context }
-func BridgeHFNValueCodecFieldDecode(v *HFNValueCodec) *func([]byte, aper.DecodeState) (HFN, error) {
-	return &v.decode
-}
-func BridgeHFNValueCodecFieldEncode(v *HFNValueCodec) *func(HFN, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHFNValueCodecFieldPath(v *HFNValueCodec) *aper.Path { return &v.path }
-func BridgeHFNValueCodecMethodEncodeBudgetValue(v HFNValueCodec, a0 HFN, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHFNValueCodecMethodEncodeChanged(v HFNValueCodec, a0 HFN, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeHFNforPDCPSNlength18APERValueFieldContext(v *HFNforPDCPSNlength18APERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHFNforPDCPSNlength18APERValueFieldReceived(v *HFNforPDCPSNlength18APERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeHFNforPDCPSNlength18APERValueFieldReplay(v *HFNforPDCPSNlength18APERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeHFNforPDCPSNlength18APERValueFieldWithoutReplay(v *HFNforPDCPSNlength18APERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeHFNforPDCPSNlength18ValueCodecFieldCapture(v *HFNforPDCPSNlength18ValueCodec) *func(HFNforPDCPSNlength18, aper.DecodeState) (HFNforPDCPSNlength18, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHFNforPDCPSNlength18ValueCodecFieldCompare(v *HFNforPDCPSNlength18ValueCodec) *func(HFNforPDCPSNlength18, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHFNforPDCPSNlength18ValueCodecFieldContext(v *HFNforPDCPSNlength18ValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHFNforPDCPSNlength18ValueCodecFieldDecode(v *HFNforPDCPSNlength18ValueCodec) *func([]byte, aper.DecodeState) (HFNforPDCPSNlength18, error) {
-	return &v.decode
-}
-func BridgeHFNforPDCPSNlength18ValueCodecFieldEncode(v *HFNforPDCPSNlength18ValueCodec) *func(HFNforPDCPSNlength18, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHFNforPDCPSNlength18ValueCodecFieldPath(v *HFNforPDCPSNlength18ValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeHFNforPDCPSNlength18ValueCodecMethodEncodeBudgetValue(v HFNforPDCPSNlength18ValueCodec, a0 HFNforPDCPSNlength18, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHFNforPDCPSNlength18ValueCodecMethodEncodeChanged(v HFNforPDCPSNlength18ValueCodec, a0 HFNforPDCPSNlength18, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeHOReportingCauseAPERValueFieldContext(v *HOReportingCauseAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHOReportingCauseAPERValueFieldReceived(v *HOReportingCauseAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeHOReportingCauseAPERValueFieldReplay(v *HOReportingCauseAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeHOReportingCauseAPERValueFieldWithoutReplay(v *HOReportingCauseAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeHOReportingCauseValueCodecFieldCapture(v *HOReportingCauseValueCodec) *func(HOReportingCause, aper.DecodeState) (HOReportingCause, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHOReportingCauseValueCodecFieldCompare(v *HOReportingCauseValueCodec) *func(HOReportingCause, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHOReportingCauseValueCodecFieldContext(v *HOReportingCauseValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHOReportingCauseValueCodecFieldDecode(v *HOReportingCauseValueCodec) *func([]byte, aper.DecodeState) (HOReportingCause, error) {
-	return &v.decode
-}
-func BridgeHOReportingCauseValueCodecFieldEncode(v *HOReportingCauseValueCodec) *func(HOReportingCause, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHOReportingCauseValueCodecFieldPath(v *HOReportingCauseValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeHOReportingCauseValueCodecMethodEncodeBudgetValue(v HOReportingCauseValueCodec, a0 HOReportingCause, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHOReportingCauseValueCodecMethodEncodeChanged(v HOReportingCauseValueCodec, a0 HOReportingCause, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeHandoverCancelAcknowledgeIEValueIETableFieldBound(v *HandoverCancelAcknowledgeIEValueIETable) *bool {
 	return &v.bound
@@ -26230,40 +21611,6 @@ func BridgeHandoverCommandIEValueIETableFieldBound(v *HandoverCommandIEValueIETa
 }
 func BridgeHandoverFailureIEValueIETableFieldBound(v *HandoverFailureIEValueIETable) *bool {
 	return &v.bound
-}
-func BridgeHandoverFlagAPERValueFieldContext(v *HandoverFlagAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverFlagAPERValueFieldReceived(v *HandoverFlagAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeHandoverFlagAPERValueFieldReplay(v *HandoverFlagAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeHandoverFlagAPERValueFieldWithoutReplay(v *HandoverFlagAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeHandoverFlagValueCodecFieldCapture(v *HandoverFlagValueCodec) *func(HandoverFlag, aper.DecodeState) (HandoverFlag, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHandoverFlagValueCodecFieldCompare(v *HandoverFlagValueCodec) *func(HandoverFlag, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHandoverFlagValueCodecFieldContext(v *HandoverFlagValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverFlagValueCodecFieldDecode(v *HandoverFlagValueCodec) *func([]byte, aper.DecodeState) (HandoverFlag, error) {
-	return &v.decode
-}
-func BridgeHandoverFlagValueCodecFieldEncode(v *HandoverFlagValueCodec) *func(HandoverFlag, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHandoverFlagValueCodecFieldPath(v *HandoverFlagValueCodec) *aper.Path { return &v.path }
-func BridgeHandoverFlagValueCodecMethodEncodeBudgetValue(v HandoverFlagValueCodec, a0 HandoverFlag, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHandoverFlagValueCodecMethodEncodeChanged(v HandoverFlagValueCodec, a0 HandoverFlag, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeHandoverNotifyIEValueIETableFieldBound(v *HandoverNotifyIEValueIETable) *bool {
 	return &v.bound
@@ -26285,248 +21632,6 @@ func BridgeHandoverRestrictionListExtIEsValueExtensionTableFieldBound(v *Handove
 }
 func BridgeHandoverSuccessIEValueIETableFieldBound(v *HandoverSuccessIEValueIETable) *bool {
 	return &v.bound
-}
-func BridgeHandoverTypeAPERValueFieldContext(v *HandoverTypeAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverTypeAPERValueFieldReceived(v *HandoverTypeAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeHandoverTypeAPERValueFieldReplay(v *HandoverTypeAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeHandoverTypeAPERValueFieldWithoutReplay(v *HandoverTypeAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeHandoverTypeValueCodecFieldCapture(v *HandoverTypeValueCodec) *func(HandoverType, aper.DecodeState) (HandoverType, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHandoverTypeValueCodecFieldCompare(v *HandoverTypeValueCodec) *func(HandoverType, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHandoverTypeValueCodecFieldContext(v *HandoverTypeValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverTypeValueCodecFieldDecode(v *HandoverTypeValueCodec) *func([]byte, aper.DecodeState) (HandoverType, error) {
-	return &v.decode
-}
-func BridgeHandoverTypeValueCodecFieldEncode(v *HandoverTypeValueCodec) *func(HandoverType, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHandoverTypeValueCodecFieldPath(v *HandoverTypeValueCodec) *aper.Path { return &v.path }
-func BridgeHandoverTypeValueCodecMethodEncodeBudgetValue(v HandoverTypeValueCodec, a0 HandoverType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHandoverTypeValueCodecMethodEncodeChanged(v HandoverTypeValueCodec, a0 HandoverType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeHandoverWindowDurationAPERValueFieldContext(v *HandoverWindowDurationAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverWindowDurationAPERValueFieldReceived(v *HandoverWindowDurationAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeHandoverWindowDurationAPERValueFieldReplay(v *HandoverWindowDurationAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeHandoverWindowDurationAPERValueFieldWithoutReplay(v *HandoverWindowDurationAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeHandoverWindowDurationValueCodecFieldCapture(v *HandoverWindowDurationValueCodec) *func(HandoverWindowDuration, aper.DecodeState) (HandoverWindowDuration, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHandoverWindowDurationValueCodecFieldCompare(v *HandoverWindowDurationValueCodec) *func(HandoverWindowDuration, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHandoverWindowDurationValueCodecFieldContext(v *HandoverWindowDurationValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverWindowDurationValueCodecFieldDecode(v *HandoverWindowDurationValueCodec) *func([]byte, aper.DecodeState) (HandoverWindowDuration, error) {
-	return &v.decode
-}
-func BridgeHandoverWindowDurationValueCodecFieldEncode(v *HandoverWindowDurationValueCodec) *func(HandoverWindowDuration, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHandoverWindowDurationValueCodecFieldPath(v *HandoverWindowDurationValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeHandoverWindowDurationValueCodecMethodEncodeBudgetValue(v HandoverWindowDurationValueCodec, a0 HandoverWindowDuration, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHandoverWindowDurationValueCodecMethodEncodeChanged(v HandoverWindowDurationValueCodec, a0 HandoverWindowDuration, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeHandoverWindowStartAPERValueFieldContext(v *HandoverWindowStartAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverWindowStartAPERValueFieldReceived(v *HandoverWindowStartAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeHandoverWindowStartAPERValueFieldReplay(v *HandoverWindowStartAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeHandoverWindowStartAPERValueFieldWithoutReplay(v *HandoverWindowStartAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeHandoverWindowStartValueCodecFieldCapture(v *HandoverWindowStartValueCodec) *func(HandoverWindowStart, aper.DecodeState) (HandoverWindowStart, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHandoverWindowStartValueCodecFieldCompare(v *HandoverWindowStartValueCodec) *func(HandoverWindowStart, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHandoverWindowStartValueCodecFieldContext(v *HandoverWindowStartValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverWindowStartValueCodecFieldDecode(v *HandoverWindowStartValueCodec) *func([]byte, aper.DecodeState) (HandoverWindowStart, error) {
-	return &v.decode
-}
-func BridgeHandoverWindowStartValueCodecFieldEncode(v *HandoverWindowStartValueCodec) *func(HandoverWindowStart, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHandoverWindowStartValueCodecFieldPath(v *HandoverWindowStartValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeHandoverWindowStartValueCodecMethodEncodeBudgetValue(v HandoverWindowStartValueCodec, a0 HandoverWindowStart, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHandoverWindowStartValueCodecMethodEncodeChanged(v HandoverWindowStartValueCodec, a0 HandoverWindowStart, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeHoReportTypeAPERValueFieldContext(v *HoReportTypeAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHoReportTypeAPERValueFieldReceived(v *HoReportTypeAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeHoReportTypeAPERValueFieldReplay(v *HoReportTypeAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeHoReportTypeAPERValueFieldWithoutReplay(v *HoReportTypeAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeHoReportTypeValueCodecFieldCapture(v *HoReportTypeValueCodec) *func(HoReportType, aper.DecodeState) (HoReportType, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHoReportTypeValueCodecFieldCompare(v *HoReportTypeValueCodec) *func(HoReportType, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHoReportTypeValueCodecFieldContext(v *HoReportTypeValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHoReportTypeValueCodecFieldDecode(v *HoReportTypeValueCodec) *func([]byte, aper.DecodeState) (HoReportType, error) {
-	return &v.decode
-}
-func BridgeHoReportTypeValueCodecFieldEncode(v *HoReportTypeValueCodec) *func(HoReportType, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHoReportTypeValueCodecFieldPath(v *HoReportTypeValueCodec) *aper.Path { return &v.path }
-func BridgeHoReportTypeValueCodecMethodEncodeBudgetValue(v HoReportTypeValueCodec, a0 HoReportType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHoReportTypeValueCodecMethodEncodeChanged(v HoReportTypeValueCodec, a0 HoReportType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeHoTypeAPERValueFieldContext(v *HoTypeAPERValue) *BridgeCodecContext { return &v.context }
-func BridgeHoTypeAPERValueFieldReceived(v *HoTypeAPERValue) *aper.WireSpan     { return &v.received }
-func BridgeHoTypeAPERValueFieldReplay(v *HoTypeAPERValue) *aper.Snapshot       { return &v.replay }
-func BridgeHoTypeAPERValueFieldWithoutReplay(v *HoTypeAPERValue) *bool         { return &v.withoutReplay }
-func BridgeHoTypeValueCodecFieldCapture(v *HoTypeValueCodec) *func(HoType, aper.DecodeState) (HoType, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHoTypeValueCodecFieldCompare(v *HoTypeValueCodec) *func(HoType, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHoTypeValueCodecFieldContext(v *HoTypeValueCodec) *BridgeCodecContext { return &v.context }
-func BridgeHoTypeValueCodecFieldDecode(v *HoTypeValueCodec) *func([]byte, aper.DecodeState) (HoType, error) {
-	return &v.decode
-}
-func BridgeHoTypeValueCodecFieldEncode(v *HoTypeValueCodec) *func(HoType, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHoTypeValueCodecFieldPath(v *HoTypeValueCodec) *aper.Path { return &v.path }
-func BridgeHoTypeValueCodecMethodEncodeBudgetValue(v HoTypeValueCodec, a0 HoType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHoTypeValueCodecMethodEncodeChanged(v HoTypeValueCodec, a0 HoType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeHysteresisAPERValueFieldContext(v *HysteresisAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHysteresisAPERValueFieldReceived(v *HysteresisAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeHysteresisAPERValueFieldReplay(v *HysteresisAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeHysteresisAPERValueFieldWithoutReplay(v *HysteresisAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeHysteresisValueCodecFieldCapture(v *HysteresisValueCodec) *func(Hysteresis, aper.DecodeState) (Hysteresis, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHysteresisValueCodecFieldCompare(v *HysteresisValueCodec) *func(Hysteresis, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHysteresisValueCodecFieldContext(v *HysteresisValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeHysteresisValueCodecFieldDecode(v *HysteresisValueCodec) *func([]byte, aper.DecodeState) (Hysteresis, error) {
-	return &v.decode
-}
-func BridgeHysteresisValueCodecFieldEncode(v *HysteresisValueCodec) *func(Hysteresis, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHysteresisValueCodecFieldPath(v *HysteresisValueCodec) *aper.Path { return &v.path }
-func BridgeHysteresisValueCodecMethodEncodeBudgetValue(v HysteresisValueCodec, a0 Hysteresis, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeHysteresisValueCodecMethodEncodeChanged(v HysteresisValueCodec, a0 Hysteresis, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeIABAuthorizedAPERValueFieldContext(v *IABAuthorizedAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeIABAuthorizedAPERValueFieldReceived(v *IABAuthorizedAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeIABAuthorizedAPERValueFieldReplay(v *IABAuthorizedAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeIABAuthorizedAPERValueFieldWithoutReplay(v *IABAuthorizedAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeIABAuthorizedValueCodecFieldCapture(v *IABAuthorizedValueCodec) *func(IABAuthorized, aper.DecodeState) (IABAuthorized, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeIABAuthorizedValueCodecFieldCompare(v *IABAuthorizedValueCodec) *func(IABAuthorized, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeIABAuthorizedValueCodecFieldContext(v *IABAuthorizedValueCodec) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeIABAuthorizedValueCodecFieldDecode(v *IABAuthorizedValueCodec) *func([]byte, aper.DecodeState) (IABAuthorized, error) {
-	return &v.decode
-}
-func BridgeIABAuthorizedValueCodecFieldEncode(v *IABAuthorizedValueCodec) *func(IABAuthorized, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeIABAuthorizedValueCodecFieldPath(v *IABAuthorizedValueCodec) *aper.Path { return &v.path }
-func BridgeIABAuthorizedValueCodecMethodEncodeBudgetValue(v IABAuthorizedValueCodec, a0 IABAuthorized, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeIABAuthorizedValueCodecMethodEncodeChanged(v IABAuthorizedValueCodec, a0 IABAuthorized, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeIABNodeIndicationAPERValueFieldContext(v *IABNodeIndicationAPERValue) *BridgeCodecContext {
-	return &v.context
-}
-func BridgeIABNodeIndicationAPERValueFieldReceived(v *IABNodeIndicationAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeIABNodeIndicationAPERValueFieldReplay(v *IABNodeIndicationAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeIABNodeIndicationAPERValueFieldWithoutReplay(v *IABNodeIndicationAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeImmediateMDTExtIEsValueExtensionTableFieldBound(v *ImmediateMDTExtIEsValueExtensionTable) *bool {
 	return &v.bound

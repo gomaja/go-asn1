@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
 )
 
-func seNBModificationRequestAcknowledgefreshMust(value s19.SeNBModificationRequestAcknowledge, err error) s19.SeNBModificationRequestAcknowledge {
+func seNBReconfigurationCompleteIEFieldfreshMust(value s12.SeNBReconfigurationCompleteIEField, err error) s12.SeNBReconfigurationCompleteIEField {
 	if err != nil {
 		panic(err)
 	}

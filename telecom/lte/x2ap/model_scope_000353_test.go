@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func sgNBActivityNotificationIEFieldfreshMust(value s14.SgNBActivityNotificationIEField, err error) s14.SgNBActivityNotificationIEField {
+func eNDCPartialResetConfirmfreshMust(value s18.ENDCPartialResetConfirm, err error) s18.ENDCPartialResetConfirm {
 	if err != nil {
 		panic(err)
 	}

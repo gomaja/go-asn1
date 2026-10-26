@@ -3,24 +3,62 @@
 package x2ap
 
 import (
+	bytes "bytes"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
-	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func TestZeroKnownTableValueIsInvalid(t *testing.T) {
-	field := s09.ERABsAdmittedItemIEField{Id: 0, Criticality: s00.CriticalityIgnore}
-	bb := aper.NewBitBuffer()
-	apiRefused(t, s09.X2apInternalERABsAdmittedItemIEFieldMarshalAPERTo(&field, bb))
-	if bb.BitPos() != 0 {
-		t.Fatal("invalid zero table value emitted field bits")
+func TestTypedReplayFreshAndPayloadOwnership(t *testing.T) {
+	cd := s06.CriticalityDiagnostics{}
+	if err := cd.SetExtension(2, []byte{0}); err != nil {
+		t.Fatal(err)
 	}
-	list := s11.ERABsAdmittedList{field}
-	report := s12.ValidationReport{Complete: true}
-	s13.X2apInternalWalkValidationERABsAdmittedList(&list, &report, "ERABsAdmittedList", false)
-	apiHas(t, report, s00.ValueIDMismatch)
+	*s06.X2apInternalCriticalityDiagnosticsFieldExtCount(&cd) = 7
+	field := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().CriticalityDiagnostics().New(cd))
+	body := errorIndicationapiMust(s19.NewErrorIndication(s11.ErrorIndicationIEContainer{field}))
+	wire := listByteapiMust(body.MarshalAPER())
+	var received s19.ErrorIndication
+	if _, err := received.UnmarshalAPER(wire); err != nil {
+		t.Fatal(err)
+	}
+	snapshot := received.ReceivedForm().OriginalBytes()
+	snapshot[0] ^= 255
+	if !bytes.Equal(listByteapiMust(received.MarshalAPER()), wire) {
+		t.Fatal("received form exposed mutable replay state")
+	}
+	fresh := listByteapiMust(received.MarshalAPER(aper.WithoutReplay()))
+	if bytes.Equal(fresh, wire) {
+		t.Fatal("fresh option did not reach nested IE sequence")
+	}
+	if !bytes.Equal(listByteapiMust(received.MarshalAPER()), wire) {
+		t.Fatal("fresh encode mutated replay")
+	}
+	known, ok := s11.ErrorIndicationIEs().CriticalityDiagnostics().Get(&received.ProtocolIEs[0])
+	if !ok || known == nil {
+		t.Fatal("known IE lost its type")
+	}
+	codec := listBytePayloadCodecapiMust(ListByteNewPayloadCodec(func(data []byte, _ s00.PayloadLimits) ([]byte, s00.PayloadReport, error) {
+		data[0]++
+		return data, s00.PayloadReport{}, nil
+	}, func(value []byte, _ s00.PayloadLimits) ([]byte, error) { return value, nil }))
+	input := []byte{1}
+	value, _, err := ListByteDecodePayload(input, codec, s00.PayloadLimits{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if input[0] != 1 || value[0] != 2 {
+		t.Fatal("payload decode did not own its bytes")
+	}
+	output := listByteapiMust(ListByteEncodePayload(value, codec, s00.PayloadLimits{}))
+	output[0]++
+	if value[0] != 2 {
+		t.Fatal("payload encode returned mutable callback buffer")
+	}
+	if _, err := ListByteNewPayloadCodec(nil, nil); err == nil {
+		t.Fatal("nil payload binding accepted")
+	}
 }

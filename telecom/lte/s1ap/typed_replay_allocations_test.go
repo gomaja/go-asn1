@@ -10,18 +10,18 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
-	s09 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s09"
-	s13 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s13"
-	s14 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s14"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s19"
-	s29 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s29"
-	s30 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s30"
-	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
+	s10 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s10"
+	s15 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s15"
+	s17 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s17"
+	s22 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s22"
+	s37 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s37"
 	s39 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s39"
-	s40 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s40"
-	s45 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s45"
+	s42 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s42"
+	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
-	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
+	s55 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s55"
+	s61 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s61"
+	s66 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s66"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	io "io"
 	os "os"
@@ -146,12 +146,12 @@ func TestReplayCaptureAllocationBounds(t *testing.T) {
 	}
 	decode := testing.AllocsPerRun(1, func() {
 		for _, wire := range inputs {
-			var v s53.S1APPDU
+			var v s66.S1APPDU
 			_, err := v.UnmarshalAPER(wire)
 			replayAllocationNeed(err)
 		}
 	})
-	values := make([]s53.S1APPDU, len(inputs))
+	values := make([]s66.S1APPDU, len(inputs))
 	for i, wire := range inputs {
 		if _, err := values[i].UnmarshalAPER(wire); err != nil {
 			t.Fatal(err)
@@ -177,63 +177,63 @@ func TestReplayCaptureAllocationBounds(t *testing.T) {
 func replayMakeOps(kind string, raw []byte) replayAllocationOps {
 	switch kind {
 	case "S1APPDU":
-		var v s53.S1APPDU
+		var v s66.S1APPDU
 		_, _ = v.UnmarshalAPER(raw)
-		return replayAllocationOps{decode: func() error { var v s53.S1APPDU; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
+		return replayAllocationOps{decode: func() error { var v s66.S1APPDU; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "Cause":
-		var v s14.Cause
+		var v s17.Cause
 		_, _ = v.UnmarshalAPER(raw)
-		return replayAllocationOps{decode: func() error { var v s14.Cause; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
+		return replayAllocationOps{decode: func() error { var v s17.Cause; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "ERABInformationListItem":
-		var v s29.ERABInformationListItem
+		var v s37.ERABInformationListItem
 		_, _ = v.UnmarshalAPER(raw)
-		return replayAllocationOps{decode: func() error { var v s29.ERABInformationListItem; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
+		return replayAllocationOps{decode: func() error { var v s37.ERABInformationListItem; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "Paging":
-		var v s50.Paging
+		var v s61.Paging
 		_, _ = v.UnmarshalAPER(raw)
-		return replayAllocationOps{decode: func() error { var v s50.Paging; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
+		return replayAllocationOps{decode: func() error { var v s61.Paging; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "ResetAcknowledge":
-		var v s45.ResetAcknowledge
+		var v s55.ResetAcknowledge
 		_, _ = v.UnmarshalAPER(raw)
-		return replayAllocationOps{decode: func() error { var v s45.ResetAcknowledge; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
+		return replayAllocationOps{decode: func() error { var v s55.ResetAcknowledge; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "EventTrigger":
-		var v s19.EventTrigger
+		var v s22.EventTrigger
 		_, _ = v.UnmarshalAPER(raw)
-		return replayAllocationOps{decode: func() error { var v s19.EventTrigger; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
+		return replayAllocationOps{decode: func() error { var v s22.EventTrigger; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "MeasurementThresholdL1LoggedMDT":
-		var v s19.MeasurementThresholdL1LoggedMDT
+		var v s22.MeasurementThresholdL1LoggedMDT
 		_, _ = v.UnmarshalAPER(raw)
-		return replayAllocationOps{decode: func() error { var v s19.MeasurementThresholdL1LoggedMDT; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
+		return replayAllocationOps{decode: func() error { var v s22.MeasurementThresholdL1LoggedMDT; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "SensorNameConfig":
-		var v s30.SensorNameConfig
+		var v s39.SensorNameConfig
 		_, _ = v.UnmarshalAPER(raw)
-		return replayAllocationOps{decode: func() error { var v s30.SensorNameConfig; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
+		return replayAllocationOps{decode: func() error { var v s39.SensorNameConfig; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "TargeteNBToSourceeNBTransparentContainer":
-		var v s40.TargeteNBToSourceeNBTransparentContainer
+		var v s50.TargeteNBToSourceeNBTransparentContainer
 		_, _ = v.UnmarshalAPER(raw)
 		return replayAllocationOps{decode: func() error {
-			var v s40.TargeteNBToSourceeNBTransparentContainer
+			var v s50.TargeteNBToSourceeNBTransparentContainer
 			_, err := v.UnmarshalAPER(raw)
 			return err
 		}, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "TAIItem":
-		var v s34.TAIItem
+		var v s42.TAIItem
 		_, _ = v.UnmarshalAPER(raw)
-		return replayAllocationOps{decode: func() error { var v s34.TAIItem; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
+		return replayAllocationOps{decode: func() error { var v s42.TAIItem; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "DAPSResponseInfoList":
-		var v s39.DAPSResponseInfoListComplete
+		var v s48.DAPSResponseInfoListComplete
 		_, _ = v.UnmarshalAPER(raw)
-		return replayAllocationOps{decode: func() error { var v s39.DAPSResponseInfoListComplete; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
+		return replayAllocationOps{decode: func() error { var v s48.DAPSResponseInfoListComplete; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}
 	case "ProtocolIEField":
-		c := s13.EventTriggerExtIEValueIEFieldTableCodec(s09.EventTriggerExtIEs().Table())
+		c := s15.EventTriggerExtIEValueIEFieldTableCodec(s10.EventTriggerExtIEs().Table())
 		v, _, _ := c.DecodeAPER(raw)
 		return replayAllocationOps{decode: func() error { _, _, err := c.DecodeAPER(raw); return err }, encode: func() ([]byte, error) { return c.EncodeAPER(v) }}
 	case "DirectExtension":
-		c := s40.TargeteNBToSourceeNBTransparentContainerExtIEsValueExtensionFieldTableCodec(s40.TargeteNBToSourceeNBTransparentContainerExtIEs().Table())
+		c := s50.TargeteNBToSourceeNBTransparentContainerExtIEsValueExtensionFieldTableCodec(s50.TargeteNBToSourceeNBTransparentContainerExtIEs().Table())
 		v, _, _ := c.DecodeAPER(raw)
 		return replayAllocationOps{decode: func() error { _, _, err := c.DecodeAPER(raw); return err }, encode: func() ([]byte, error) { return c.EncodeAPER(v) }}
 	case "DirectIE":
-		c := s34.TAIItemIEValueIEFieldTableCodec(s34.TAIItemIEs().Table())
+		c := s42.TAIItemIEValueIEFieldTableCodec(s42.TAIItemIEs().Table())
 		v, _, _ := c.DecodeAPER(raw)
 		return replayAllocationOps{decode: func() error { _, _, err := c.DecodeAPER(raw); return err }, encode: func() ([]byte, error) { return c.EncodeAPER(v) }}
 	default:

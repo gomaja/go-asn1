@@ -42,27 +42,6 @@ func selectedAssert(t *testing.T, v selectedUnion) {
 		t.Fatalf("%T Selected allocations=%v", v, n)
 	}
 }
-func TestSelectedExtendedULInterferenceOverloadInfoExtIEsValue(t *testing.T) {
-	var absent *ExtendedULInterferenceOverloadInfoExtIEsValue
-	selectedAssert(t, absent)
-	v := ExtendedULInterferenceOverloadInfoExtIEsValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	t.Logf("union ExtendedULInterferenceOverloadInfoExtIEsValue: 0 synthetic rows")
-}
 func TestSelectedFastMCGRecoveryExtIEsValue(t *testing.T) {
 	var absent *FastMCGRecoveryExtIEsValue
 	selectedAssert(t, absent)
@@ -1427,4 +1406,25 @@ func TestSelectedSecondaryRATUsageReportItemExtIEsValue(t *testing.T) {
 	}
 	selectedAssert(t, &v)
 	t.Logf("union SecondaryRATUsageReportItemExtIEsValue: 0 synthetic rows")
+}
+func TestSelectedSecurityIndicationExtIEsValue(t *testing.T) {
+	var absent *SecurityIndicationExtIEsValue
+	selectedAssert(t, absent)
+	v := SecurityIndicationExtIEsValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	t.Logf("union SecurityIndicationExtIEsValue: 0 synthetic rows")
 }

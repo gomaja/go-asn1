@@ -2,7 +2,9 @@
 
 package x2ap
 
-func listBytePayloadCodecapiMust(v ListBytePayloadCodec, err error) ListBytePayloadCodec {
+func listByteapiMust(v []byte,
+
+	err error) []byte {
 	if err != nil {
 		panic(err)
 	}

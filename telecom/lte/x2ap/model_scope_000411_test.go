@@ -4,20 +4,37 @@ package x2ap
 
 import (
 	fmt "fmt"
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func IntNewPayloadCodec(
-	decode func([]byte, s00.PayloadLimits) (int, s00.PayloadReport,
-
-		error),
-	encode func(int, s00.PayloadLimits,
-
-	) ([]byte, error),
-) (IntPayloadCodec, error) {
-	if decode == nil || encode == nil {
-		return IntPayloadCodec{}, aper.OperationError(aper.OperationError(fmt.Errorf("%w: payload binding: nil callback", aper.ErrInvalidValue), "Payload.binding"), "PayloadCodec")
+// Build validates the body and constructs the bound procedure message.
+func (b ErrorIndicationSuccessfulBinding) Build(body s19.ErrorIndication, options ...aper.BuildOption) (s18.SuccessfulOutcome, error) {
+	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
+		return s18.SuccessfulOutcome{}, aper.OperationError(aper.ErrInvalidValue, "Build")
 	}
-	return IntPayloadCodec{decode: decode, encode: encode}, aper.OperationError(nil, "PayloadCodec")
+	budget, err := aper.BuildBudget(options...)
+	if err != nil {
+		return s18.SuccessfulOutcome{}, aper.OperationError(err, "Build")
+	}
+	report, err := b.validate(&body, budget)
+	if err != nil {
+		return s18.SuccessfulOutcome{}, aper.OperationError(err, "Build")
+	}
+	if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
+		return s18.SuccessfulOutcome{}, aper.OperationError(*s12.X2apInternalValidationReportFieldErr(&report), "Build")
+	}
+	if issues := s12.X2apInternalBuildBlockingIssues(report); len(issues) != 0 {
+		return s18.SuccessfulOutcome{}, aper.OperationError(&s12.BuildError{Issues: issues}, "Build")
+	}
+	_, err = b.encode(&body, false, budget)
+	if err != nil {
+		return s18.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("successfulOutcome.value: %w", err), "Build")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
+		return s18.SuccessfulOutcome{}, aper.OperationError(err, "Build")
+	}
+	return s18.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }

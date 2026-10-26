@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
 )
 
-func eNBIDapiMust(v s00.ENBID, err error) s00.ENBID {
+func sensorNameConfigExtIEFieldapiMust(v s04.SensorNameConfigExtIEField, err error) s04.SensorNameConfigExtIEField {
 	if err != nil {
 		panic(err)
 	}

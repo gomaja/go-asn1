@@ -3,27 +3,45 @@
 package x2ap
 
 import (
-	errors "errors"
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	bytes "bytes"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	sync "sync"
 	testing "testing"
 )
 
-func TestEnvelopeFindingsRespectTheSameReportCeiling(t *testing.T) {
-	wire := receiverUnknownWire(t, 2)
-	var value s20.X2APPDU
-	if _, err := value.UnmarshalAPER(wire); err != nil {
-		t.Fatal(err)
+func TestGeneratedReceiverOptionsSharedAcrossCalls(t *testing.T) {
+	wire := receiverUnknownWire(t, 8)
+	options := []aper.DecodeOption{aper.WithReceiverMode(), aper.WithLimits(aper.DefaultLimits())}
+	codec := s19.X2APPDUCodec()
+	encodeOptions := []aper.EncodeOption{aper.WithEncodeLimits(aper.DefaultLimits())}
+	validationOptions := []aper.ValidationOption{aper.WithValidationLimits(aper.DefaultLimits())}
+	buildOptions := []aper.BuildOption{aper.WithBuildLimits(aper.DefaultLimits())}
+	var workers sync.WaitGroup
+	for range 16 {
+		workers.Go(func() {
+			for range 20 {
+				value, report, err := codec.DecodeAPER(wire, options...)
+				if err != nil || len(report.Deviations) != 0 || len(report.Observations) != 8 {
+					t.Errorf("shared options report=%+v err=%v", report, err)
+					return
+				}
+				replay, err := codec.EncodeAPER(value, encodeOptions...)
+				if err != nil || !bytes.Equal(replay, wire) {
+					t.Errorf("shared options replay=%x err=%v", replay, err)
+					return
+				}
+				if _, err := s20.ValidateMessage(&value.Value, validationOptions...); err != nil {
+					t.Error(err)
+					return
+				}
+				if _, err := s20.NewX2APPDUInitiatingMessage(*value.Value.InitiatingMessage, buildOptions...); err != nil {
+					t.Error(err)
+					return
+				}
+			}
+		})
 	}
-	value.InitiatingMessage.Criticality = s00.CriticalityReject
-	report, err := s21.ValidateMessage(&value, aper.WithValidationLimits(aper.Limits{MaxReports: 2}))
-	var located *aper.DecodeError
-	if !errors.Is(err, aper.ErrLimit) || !errors.As(err, &located) || located.Location.Path == "" || len(report.Issues) > 2 || located.Location.HasWireLocation {
-		t.Fatalf("report=%+v err=%v location=%+v", report, err, located)
-	}
-	if _, err := s21.ValidateMessage(&value, aper.WithValidationLimits(aper.Limits{MaxReports: 3})); err != nil {
-		t.Fatal(err)
-	}
+	workers.Wait()
 }

@@ -4,49 +4,27 @@ package x2ap
 
 import (
 	bytes "bytes"
-	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
+	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
 	testing "testing"
 )
 
-func TestWithoutReplayNamedListAndGeneric(t *testing.T) {
-	item := s04.CriticalityDiagnosticsIEListElem{}
-	if err := item.SetExtension(0, []byte{0x80}); err != nil {
-		t.Fatal(err)
-	}
-	*s04.X2apInternalCriticalityDiagnosticsIEListElemFieldExtCount(&item) = 3
-	*s04.X2apInternalCriticalityDiagnosticsIEListElemFieldExtPresent(&item) = append(*s04.X2apInternalCriticalityDiagnosticsIEListElemFieldExtPresent(&item), false, false, false)
-	*s04.X2apInternalCriticalityDiagnosticsIEListElemFieldExtData(&item) = append(*s04.X2apInternalCriticalityDiagnosticsIEListElemFieldExtData(&item), nil, nil, nil)
-	list := s14.CriticalityDiagnosticsIEListComplete{Value: s06.CriticalityDiagnosticsIEList{item}}
-	wire := listByteapiMust(list.MarshalAPER())
-	var original s14.CriticalityDiagnosticsIEListComplete
-	if _, err := original.UnmarshalAPER(wire); err != nil {
-		t.Fatal(err)
-	}
-	sibling := original
-	copy := original.WithoutReplay()
-	got := listByteapiMust(copy.MarshalAPER())
-	want := listByteapiMust(original.MarshalAPER(aper.WithoutReplay()))
-	if !bytes.Equal(got, want) || bytes.Equal(got, wire) {
-		t.Fatalf("named list copy = %x, option = %x, received = %x", got, want, wire)
-	}
-	for _, v := range []*s14.CriticalityDiagnosticsIEListComplete{&original, &sibling} {
-		if !bytes.Equal(listByteapiMust(v.MarshalAPER()), wire) {
-			t.Fatal("named list fresh copy changed original or sibling")
-		}
-	}
-	codec := s14.CriticalityDiagnosticsIEListCodec()
-	decoded, _, err := codec.DecodeAPER(wire)
+func TestReplayHonorsCompleteCodecContext(t *testing.T) {
+	message := s13.X2APMessageCodec()
+	wire := listByteapiMust(message.EncodeAPER(x2APMessageAPERValueapiMust(message.New([]byte{1, 2, 3}))))
+	decoded, _, err := message.DecodeAPER(wire)
 	if err != nil {
 		t.Fatal(err)
 	}
-	fresh := decoded.WithoutReplay()
-	if got, want := listByteapiMust(codec.EncodeAPER(fresh)), listByteapiMust(codec.EncodeAPER(decoded, aper.WithoutReplay())); !bytes.Equal(got, want) {
-		t.Fatalf("generic copy = %x, option = %x", got, want)
-	}
-	if !bytes.Equal(listByteapiMust(codec.EncodeAPER(decoded)), wire) {
-		t.Fatal("generic fresh copy changed original")
+	// Concrete holders are source-specific. Exercise the same mismatch by
+	// retaining the received holder while selecting the PLMN encoder/context.
+	plmn := message
+	*s13.X2apInternalX2APMessageValueCodecFieldContext(&plmn) = s00.X2apInternalPLMNIdentityValueCodecFieldContextRead(s16.PLMNIdentityCodec())
+	*s13.X2apInternalX2APMessageValueCodecFieldEncode(&plmn) = s00.X2apInternalPLMNIdentityValueCodecFieldEncodeRead(s16.PLMNIdentityCodec())
+	got := listByteapiMust(plmn.EncodeAPER(decoded))
+	want := listByteapiMust(plmn.EncodeAPER(x2APMessageAPERValueapiMust(plmn.New([]byte{1, 2, 3}))))
+	if !bytes.Equal(got, want) || bytes.Equal(got, wire) {
+		t.Fatal("replayed framing from a different source constraint")
 	}
 }

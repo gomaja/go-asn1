@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/replay_copy_test.go; SHA-256 0ad99a04589ad64cd6f0c21edb0c98552a935d2ed715e8e1689b7d7ffcfb116c.
+// Runtime source: runtime/aper/replay_copy_test.go; SHA-256 8e564fb2ceeff63d25d57ee2603bc92079582767617a5d33fe51256921c079a9.
 package aper
 
 import (
@@ -99,54 +99,5 @@ func TestReceivedSpanViewsAndMutableScalarStorage(t *testing.T) {
 	p := ReplayPlan{}
 	if FirstReplayPlan(nil, &p) != nil || FirstReplayPlan(&p) != &p || FirstReplayPlan() != nil {
 		t.Fatal("per-call plan carrier differs")
-	}
-}
-
-func TestKnownOpenAdditionCompletionUsesSpanInput(t *testing.T) {
-	for _, recover := range []bool{false, true} {
-		t.Run(map[bool]string{false: "success", true: "recovery"}[recover], func(t *testing.T) {
-			log := ToleranceLog{}
-			options := decodeSettings{}
-			if recover {
-				options.ExtensionRecoveryTolerance = &log
-			}
-			wire, options := ownTestDecodeInput([]byte{1, 0}, options)
-			parent := newTestCompleteDecodeBuffer(wire, options)
-			if err := parent.setDecodeSettingsAligned(options); err != nil {
-				t.Fatal(err)
-			}
-			raw, err := DecodeOpaqueOpenTypeAligned(parent, UnknownSelector, SourceRule{})
-			if err != nil {
-				t.Fatal(err)
-			}
-			choice := ChoiceExtension{image: raw.image}
-			child := choice.ChildDecodeBuffer(parent)
-			if err := child.EnterOpenType(); err != nil {
-				t.Fatal(err)
-			}
-			mark := child.CheckpointKnownAddition()
-			var decodeErr error
-			if recover {
-				decodeErr = ErrTruncated
-			} else {
-				if _, err := child.ReadBits(1); err != nil {
-					t.Fatal(err)
-				}
-			}
-			additions := ExtensionAdditions{present: []bool{true}}
-			decoded, _, err := additions.CompleteKnownOpenAddition(child, 0, raw, mark, decodeErr)
-			if err != nil || decoded == recover {
-				t.Fatalf("complete %v %v", decoded, err)
-			}
-			if recover {
-				if !additions.Recovered() || len(parent.trace.pending) != 1 {
-					t.Fatal("recovery report missing")
-				}
-				parent.trace.pending[0].Bits.Bytes[0] = 9
-				if wire[1] != 0 {
-					t.Fatal("recovery report aliases original")
-				}
-			}
-		})
 	}
 }

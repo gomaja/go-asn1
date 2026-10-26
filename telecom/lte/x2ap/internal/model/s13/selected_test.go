@@ -148,6 +148,37 @@ func TestSelectedENDCCellActivationResponseIEValue(t *testing.T) {
 	}
 	t.Logf("union ENDCCellActivationResponseIEValue: 4 synthetic rows")
 }
+func TestSelectedERABsToBeReleasedSgNBChaConfItemIEValue(t *testing.T) {
+	var absent *ERABsToBeReleasedSgNBChaConfItemIEValue
+	selectedAssert(t, absent)
+	v := ERABsToBeReleasedSgNBChaConfItemIEValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := ERABsToBeReleasedSgNBChaConfItemIEValue{}
+		v.id = s00.ProtocolIEID(230)
+		selectedAssert(t, &v)
+		v.rowERABsToBeReleasedSgNBChaConfItem = new(ERABsToBeReleasedSgNBChaConfItem)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union ERABsToBeReleasedSgNBChaConfItemIEValue: 1 synthetic rows")
+}
 func TestSelectedERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue(t *testing.T) {
 	var absent *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue
 	selectedAssert(t, absent)
@@ -178,6 +209,67 @@ func TestSelectedERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue(t *t
 		selectedAssert(t, &v)
 	}
 	t.Logf("union ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue: 1 synthetic rows")
+}
+func TestSelectedNRNeighbourInformationExtIEsValue(t *testing.T) {
+	var absent *NRNeighbourInformationExtIEsValue
+	selectedAssert(t, absent)
+	v := NRNeighbourInformationExtIEsValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := NRNeighbourInformationExtIEsValue{}
+		v.id = s00.ProtocolIEID(380)
+		selectedAssert(t, &v)
+		v.rowCSIRSTransmissionIndication = new(s00.CSIRSTransmissionIndication)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := NRNeighbourInformationExtIEsValue{}
+		v.id = s00.ProtocolIEID(389)
+		selectedAssert(t, &v)
+		v.rowSSBPositionsInBurst = new(s05.SSBPositionsInBurst)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := NRNeighbourInformationExtIEsValue{}
+		v.id = s00.ProtocolIEID(390)
+		selectedAssert(t, &v)
+		v.rowNRCellPRACHConfig = new(s00.NRCellPRACHConfig)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := NRNeighbourInformationExtIEsValue{}
+		v.id = s00.ProtocolIEID(433)
+		selectedAssert(t, &v)
+		v.rowAdditionalMeasurementTimingConfigurationList = new(s06.AdditionalMeasurementTimingConfigurationList)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union NRNeighbourInformationExtIEsValue: 4 synthetic rows")
 }
 func TestSelectedX2APMessageTransferIEValue(t *testing.T) {
 	var absent *X2APMessageTransferIEValue

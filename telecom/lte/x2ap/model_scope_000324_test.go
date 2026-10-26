@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
 )
 
-func rRCTransferfreshMust(value s20.RRCTransfer, err error) s20.RRCTransfer {
+func sgNBChangeConfirmIEFieldfreshMust(value s15.SgNBChangeConfirmIEField, err error) s15.SgNBChangeConfirmIEField {
 	if err != nil {
 		panic(err)
 	}

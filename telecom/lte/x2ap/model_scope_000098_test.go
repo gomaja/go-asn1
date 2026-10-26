@@ -3,32 +3,38 @@
 package x2ap
 
 import (
+	errors "errors"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
-	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func TestKnownChoiceAdditionsDoNotConsumeReports(t *testing.T) {
-	known, err := s00.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18})
+func TestDuplicateUnknownValidationReportLimit(t *testing.T) {
+	field, err := s11.ErrorIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})
 	if err != nil {
 		t.Fatal(err)
 	}
-	field, err := s17.X2SetupRequestIEs().GlobalENBID().New(s05.GlobalENBID{PLMNIdentity: make([]byte, 3), ENBID: known})
-	if err != nil {
-		t.Fatal(err)
+	body := s19.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field, field}}
+	report, err := s19.ValidateErrorIndication(&body, aper.WithValidationLimits(aper.Limits{MaxReports: 2}))
+	if !errors.Is(err, aper.ErrLimit) || len(report.Issues) > 2 {
+		t.Fatalf("duplicate report overflow: %+v %v", report, err)
 	}
-	body := s20.X2SetupRequest{ProtocolIEs: s17.X2SetupRequestIEContainer{field, field}}
-	wire, err := body.MarshalAPER()
-	if err != nil {
-		t.Fatal(err)
+	report, err = s19.ValidateErrorIndication(&body, aper.WithValidationLimits(aper.Limits{MaxReports: 3}))
+	if err != nil || len(report.Issues) != 3 {
+		t.Fatalf("duplicate reports: %+v %v", report, err)
 	}
-	var value s20.X2SetupRequest
-	report, err := value.UnmarshalAPER(wire, aper.WithLimits(aper.Limits{MaxReports: 1}))
-	if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 {
-		t.Fatalf("known choice exhausted reports: %+v %v", report, err)
+	repeated := 0
+	for _, issue := range report.Issues {
+		if issue.Code == s00.RepeatedIE {
+			repeated++
+		}
+	}
+	if repeated != 1 {
+		t.Fatalf("repeated findings=%d", repeated)
+	}
+	if _, err := s19.NewErrorIndication(body.ProtocolIEs); !errors.Is(err, aper.ErrInvalidValue) {
+		t.Fatalf("duplicate unknown built: %v", err)
 	}
 }

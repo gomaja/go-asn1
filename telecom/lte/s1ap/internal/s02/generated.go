@@ -311,6 +311,206 @@ func (c TimeUEStayedInCellEnhancedGranularityValueCodec) encodeChanged(value s00
 	return out, aper.OperationError(err, c.path)
 }
 
+// RequestTypeAdditionalInfoValueCodec is the concrete ValueCodec[RequestTypeAdditionalInfo].
+type RequestTypeAdditionalInfoValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.RequestTypeAdditionalInfo,
+
+		error)
+	encode func(s00.RequestTypeAdditionalInfo,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.RequestTypeAdditionalInfo, aper.DecodeState,
+
+	) (s00.RequestTypeAdditionalInfo, aper.Snapshot,
+
+	)
+	compare func(s00.RequestTypeAdditionalInfo, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c RequestTypeAdditionalInfoValueCodec) New(value s00.RequestTypeAdditionalInfo,
+
+) (RequestTypeAdditionalInfoAPERValue, error) {
+	if c.encode == nil {
+		return RequestTypeAdditionalInfoAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return RequestTypeAdditionalInfoAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return RequestTypeAdditionalInfoAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return RequestTypeAdditionalInfoAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c RequestTypeAdditionalInfoValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (RequestTypeAdditionalInfoAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return RequestTypeAdditionalInfoAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return RequestTypeAdditionalInfoAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return RequestTypeAdditionalInfoAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return RequestTypeAdditionalInfoAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c RequestTypeAdditionalInfoValueCodec) EncodeAPER(value RequestTypeAdditionalInfoAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c RequestTypeAdditionalInfoValueCodec) encodeBudgetValue(value s00.RequestTypeAdditionalInfo,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c RequestTypeAdditionalInfoValueCodec) encodeChanged(value s00.RequestTypeAdditionalInfo,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// S1APIEsMobilityInformationValueCodec is the concrete ValueCodec[S1APIEsMobilityInformation].
+type S1APIEsMobilityInformationValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.S1APIEsMobilityInformation,
+
+		error)
+	encode func(s00.S1APIEsMobilityInformation,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.S1APIEsMobilityInformation, aper.DecodeState,
+
+	) (s00.S1APIEsMobilityInformation, aper.Snapshot,
+
+	)
+	compare func(s00.S1APIEsMobilityInformation, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c S1APIEsMobilityInformationValueCodec) New(value s00.S1APIEsMobilityInformation,
+
+) (S1APIEsMobilityInformationAPERValue, error) {
+	if c.encode == nil {
+		return S1APIEsMobilityInformationAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return S1APIEsMobilityInformationAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return S1APIEsMobilityInformationAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return S1APIEsMobilityInformationAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c S1APIEsMobilityInformationValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (S1APIEsMobilityInformationAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return S1APIEsMobilityInformationAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return S1APIEsMobilityInformationAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return S1APIEsMobilityInformationAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return S1APIEsMobilityInformationAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c S1APIEsMobilityInformationValueCodec) EncodeAPER(value S1APIEsMobilityInformationAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c S1APIEsMobilityInformationValueCodec) encodeBudgetValue(value s00.S1APIEsMobilityInformation,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c S1APIEsMobilityInformationValueCodec) encodeChanged(value s00.S1APIEsMobilityInformation,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
 // UEHistoryInformationFromTheUEValueCodec is the concrete ValueCodec[UEHistoryInformationFromTheUE].
 type UEHistoryInformationFromTheUEValueCodec struct {
 	path    aper.Path
@@ -501,6 +701,106 @@ func (c URIAddressValueCodec) encodeBudgetValue(value s00.URIAddress,
 	return out, aper.OperationError(err, c.path)
 }
 func (c URIAddressValueCodec) encodeChanged(value s00.URIAddress,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ServiceTypeValueCodec is the concrete ValueCodec[ServiceType].
+type ServiceTypeValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.ServiceType,
+
+		error)
+	encode func(s00.ServiceType,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.ServiceType, aper.DecodeState,
+
+	) (s00.ServiceType, aper.Snapshot,
+
+	)
+	compare func(s00.ServiceType, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ServiceTypeValueCodec) New(value s00.ServiceType,
+
+) (ServiceTypeAPERValue, error) {
+	if c.encode == nil {
+		return ServiceTypeAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ServiceTypeAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ServiceTypeAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ServiceTypeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ServiceTypeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ServiceTypeAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ServiceTypeAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ServiceTypeAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ServiceTypeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ServiceTypeAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ServiceTypeValueCodec) EncodeAPER(value ServiceTypeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ServiceTypeValueCodec) encodeBudgetValue(value s00.ServiceType,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ServiceTypeValueCodec) encodeChanged(value s00.ServiceType,
 
 	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -711,6 +1011,206 @@ func (c UERadioCapabilityIDValueCodec) encodeChanged(value s00.UERadioCapability
 	return out, aper.OperationError(err, c.path)
 }
 
+// SubscriberProfileIDforRFPValueCodec is the concrete ValueCodec[SubscriberProfileIDforRFP].
+type SubscriberProfileIDforRFPValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SubscriberProfileIDforRFP,
+
+		error)
+	encode func(s00.SubscriberProfileIDforRFP,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SubscriberProfileIDforRFP, aper.DecodeState,
+
+	) (s00.SubscriberProfileIDforRFP, aper.Snapshot,
+
+	)
+	compare func(s00.SubscriberProfileIDforRFP, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SubscriberProfileIDforRFPValueCodec) New(value s00.SubscriberProfileIDforRFP,
+
+) (SubscriberProfileIDforRFPAPERValue, error) {
+	if c.encode == nil {
+		return SubscriberProfileIDforRFPAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SubscriberProfileIDforRFPAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SubscriberProfileIDforRFPAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SubscriberProfileIDforRFPAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SubscriberProfileIDforRFPValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SubscriberProfileIDforRFPAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SubscriberProfileIDforRFPAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SubscriberProfileIDforRFPAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SubscriberProfileIDforRFPAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SubscriberProfileIDforRFPAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SubscriberProfileIDforRFPValueCodec) EncodeAPER(value SubscriberProfileIDforRFPAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SubscriberProfileIDforRFPValueCodec) encodeBudgetValue(value s00.SubscriberProfileIDforRFP,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SubscriberProfileIDforRFPValueCodec) encodeChanged(value s00.SubscriberProfileIDforRFP,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SRVCCOperationPossibleValueCodec is the concrete ValueCodec[SRVCCOperationPossible].
+type SRVCCOperationPossibleValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SRVCCOperationPossible,
+
+		error)
+	encode func(s00.SRVCCOperationPossible,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SRVCCOperationPossible, aper.DecodeState,
+
+	) (s00.SRVCCOperationPossible, aper.Snapshot,
+
+	)
+	compare func(s00.SRVCCOperationPossible, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SRVCCOperationPossibleValueCodec) New(value s00.SRVCCOperationPossible,
+
+) (SRVCCOperationPossibleAPERValue, error) {
+	if c.encode == nil {
+		return SRVCCOperationPossibleAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SRVCCOperationPossibleAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SRVCCOperationPossibleAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SRVCCOperationPossibleAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SRVCCOperationPossibleValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SRVCCOperationPossibleAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SRVCCOperationPossibleAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SRVCCOperationPossibleAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SRVCCOperationPossibleAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SRVCCOperationPossibleAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SRVCCOperationPossibleValueCodec) EncodeAPER(value SRVCCOperationPossibleAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SRVCCOperationPossibleValueCodec) encodeBudgetValue(value s00.SRVCCOperationPossible,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SRVCCOperationPossibleValueCodec) encodeChanged(value s00.SRVCCOperationPossible,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
 // UECapabilityInfoRequestValueCodec is the concrete ValueCodec[UECapabilityInfoRequest].
 type UECapabilityInfoRequestValueCodec struct {
 	path    aper.Path
@@ -811,6 +1311,206 @@ func (c UECapabilityInfoRequestValueCodec) encodeChanged(value s00.UECapabilityI
 	return out, aper.OperationError(err, c.path)
 }
 
+// RoutingIDValueCodec is the concrete ValueCodec[RoutingID].
+type RoutingIDValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.RoutingID,
+
+		error)
+	encode func(s00.RoutingID,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.RoutingID, aper.DecodeState,
+
+	) (s00.RoutingID, aper.Snapshot,
+
+	)
+	compare func(s00.RoutingID, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c RoutingIDValueCodec) New(value s00.RoutingID,
+
+) (RoutingIDAPERValue, error) {
+	if c.encode == nil {
+		return RoutingIDAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return RoutingIDAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return RoutingIDAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return RoutingIDAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c RoutingIDValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (RoutingIDAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return RoutingIDAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return RoutingIDAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return RoutingIDAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return RoutingIDAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c RoutingIDValueCodec) EncodeAPER(value RoutingIDAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c RoutingIDValueCodec) encodeBudgetValue(value s00.RoutingID,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c RoutingIDValueCodec) encodeChanged(value s00.RoutingID,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SecondaryRATDataUsageRequestValueCodec is the concrete ValueCodec[SecondaryRATDataUsageRequest].
+type SecondaryRATDataUsageRequestValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SecondaryRATDataUsageRequest,
+
+		error)
+	encode func(s00.SecondaryRATDataUsageRequest,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SecondaryRATDataUsageRequest, aper.DecodeState,
+
+	) (s00.SecondaryRATDataUsageRequest, aper.Snapshot,
+
+	)
+	compare func(s00.SecondaryRATDataUsageRequest, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SecondaryRATDataUsageRequestValueCodec) New(value s00.SecondaryRATDataUsageRequest,
+
+) (SecondaryRATDataUsageRequestAPERValue, error) {
+	if c.encode == nil {
+		return SecondaryRATDataUsageRequestAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SecondaryRATDataUsageRequestAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SecondaryRATDataUsageRequestAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SecondaryRATDataUsageRequestAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SecondaryRATDataUsageRequestValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SecondaryRATDataUsageRequestAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SecondaryRATDataUsageRequestAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SecondaryRATDataUsageRequestAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SecondaryRATDataUsageRequestAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SecondaryRATDataUsageRequestAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SecondaryRATDataUsageRequestValueCodec) EncodeAPER(value SecondaryRATDataUsageRequestAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SecondaryRATDataUsageRequestValueCodec) encodeBudgetValue(value s00.SecondaryRATDataUsageRequest,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SecondaryRATDataUsageRequestValueCodec) encodeChanged(value s00.SecondaryRATDataUsageRequest,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
 // TimeToWaitValueCodec is the concrete ValueCodec[TimeToWait].
 type TimeToWaitValueCodec struct {
 	path    aper.Path
@@ -901,6 +1601,206 @@ func (c TimeToWaitValueCodec) encodeBudgetValue(value s00.TimeToWait,
 	return out, aper.OperationError(err, c.path)
 }
 func (c TimeToWaitValueCodec) encodeChanged(value s00.TimeToWait,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// TargetToSourceTransparentContainerValueCodec is the concrete ValueCodec[TargetToSourceTransparentContainer].
+type TargetToSourceTransparentContainerValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.TargetToSourceTransparentContainer,
+
+		error)
+	encode func(s00.TargetToSourceTransparentContainer,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.TargetToSourceTransparentContainer, aper.DecodeState,
+
+	) (s00.TargetToSourceTransparentContainer, aper.Snapshot,
+
+	)
+	compare func(s00.TargetToSourceTransparentContainer, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c TargetToSourceTransparentContainerValueCodec) New(value s00.TargetToSourceTransparentContainer,
+
+) (TargetToSourceTransparentContainerAPERValue, error) {
+	if c.encode == nil {
+		return TargetToSourceTransparentContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return TargetToSourceTransparentContainerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return TargetToSourceTransparentContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return TargetToSourceTransparentContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c TargetToSourceTransparentContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TargetToSourceTransparentContainerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return TargetToSourceTransparentContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return TargetToSourceTransparentContainerAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return TargetToSourceTransparentContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return TargetToSourceTransparentContainerAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c TargetToSourceTransparentContainerValueCodec) EncodeAPER(value TargetToSourceTransparentContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c TargetToSourceTransparentContainerValueCodec) encodeBudgetValue(value s00.TargetToSourceTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c TargetToSourceTransparentContainerValueCodec) encodeChanged(value s00.TargetToSourceTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SourceToTargetTransparentContainerValueCodec is the concrete ValueCodec[SourceToTargetTransparentContainer].
+type SourceToTargetTransparentContainerValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SourceToTargetTransparentContainer,
+
+		error)
+	encode func(s00.SourceToTargetTransparentContainer,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SourceToTargetTransparentContainer, aper.DecodeState,
+
+	) (s00.SourceToTargetTransparentContainer, aper.Snapshot,
+
+	)
+	compare func(s00.SourceToTargetTransparentContainer, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SourceToTargetTransparentContainerValueCodec) New(value s00.SourceToTargetTransparentContainer,
+
+) (SourceToTargetTransparentContainerAPERValue, error) {
+	if c.encode == nil {
+		return SourceToTargetTransparentContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SourceToTargetTransparentContainerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SourceToTargetTransparentContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SourceToTargetTransparentContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SourceToTargetTransparentContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SourceToTargetTransparentContainerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SourceToTargetTransparentContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SourceToTargetTransparentContainerAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SourceToTargetTransparentContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SourceToTargetTransparentContainerAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SourceToTargetTransparentContainerValueCodec) EncodeAPER(value SourceToTargetTransparentContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SourceToTargetTransparentContainerValueCodec) encodeBudgetValue(value s00.SourceToTargetTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SourceToTargetTransparentContainerValueCodec) encodeChanged(value s00.SourceToTargetTransparentContainer,
 
 	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -1111,6 +2011,306 @@ func (c TimeRefDistributionValueCodec) encodeChanged(value s00.TimeRefDistributi
 	return out, aper.OperationError(err, c.path)
 }
 
+// SRVCCHOIndicationValueCodec is the concrete ValueCodec[SRVCCHOIndication].
+type SRVCCHOIndicationValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SRVCCHOIndication,
+
+		error)
+	encode func(s00.SRVCCHOIndication,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SRVCCHOIndication, aper.DecodeState,
+
+	) (s00.SRVCCHOIndication, aper.Snapshot,
+
+	)
+	compare func(s00.SRVCCHOIndication, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SRVCCHOIndicationValueCodec) New(value s00.SRVCCHOIndication,
+
+) (SRVCCHOIndicationAPERValue, error) {
+	if c.encode == nil {
+		return SRVCCHOIndicationAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SRVCCHOIndicationAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SRVCCHOIndicationAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SRVCCHOIndicationAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SRVCCHOIndicationValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SRVCCHOIndicationAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SRVCCHOIndicationAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SRVCCHOIndicationAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SRVCCHOIndicationAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SRVCCHOIndicationAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SRVCCHOIndicationValueCodec) EncodeAPER(value SRVCCHOIndicationAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SRVCCHOIndicationValueCodec) encodeBudgetValue(value s00.SRVCCHOIndication,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SRVCCHOIndicationValueCodec) encodeChanged(value s00.SRVCCHOIndication,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SecurityKeyValueCodec is the concrete ValueCodec[SecurityKey].
+type SecurityKeyValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SecurityKey,
+
+		error)
+	encode func(s00.SecurityKey,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SecurityKey, aper.DecodeState,
+
+	) (s00.SecurityKey, aper.Snapshot,
+
+	)
+	compare func(s00.SecurityKey, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SecurityKeyValueCodec) New(value s00.SecurityKey,
+
+) (SecurityKeyAPERValue, error) {
+	if c.encode == nil {
+		return SecurityKeyAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SecurityKeyAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SecurityKeyAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SecurityKeyAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SecurityKeyValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SecurityKeyAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SecurityKeyAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SecurityKeyAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SecurityKeyAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SecurityKeyAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SecurityKeyValueCodec) EncodeAPER(value SecurityKeyAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SecurityKeyValueCodec) encodeBudgetValue(value s00.SecurityKey,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SecurityKeyValueCodec) encodeChanged(value s00.SecurityKey,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// RelayNodeIndicatorValueCodec is the concrete ValueCodec[RelayNodeIndicator].
+type RelayNodeIndicatorValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.RelayNodeIndicator,
+
+		error)
+	encode func(s00.RelayNodeIndicator,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.RelayNodeIndicator, aper.DecodeState,
+
+	) (s00.RelayNodeIndicator, aper.Snapshot,
+
+	)
+	compare func(s00.RelayNodeIndicator, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c RelayNodeIndicatorValueCodec) New(value s00.RelayNodeIndicator,
+
+) (RelayNodeIndicatorAPERValue, error) {
+	if c.encode == nil {
+		return RelayNodeIndicatorAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return RelayNodeIndicatorAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return RelayNodeIndicatorAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return RelayNodeIndicatorAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c RelayNodeIndicatorValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (RelayNodeIndicatorAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return RelayNodeIndicatorAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return RelayNodeIndicatorAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return RelayNodeIndicatorAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return RelayNodeIndicatorAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c RelayNodeIndicatorValueCodec) EncodeAPER(value RelayNodeIndicatorAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c RelayNodeIndicatorValueCodec) encodeBudgetValue(value s00.RelayNodeIndicator,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c RelayNodeIndicatorValueCodec) encodeChanged(value s00.RelayNodeIndicator,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
 // UEUsageTypeValueCodec is the concrete ValueCodec[UEUsageType].
 type UEUsageTypeValueCodec struct {
 	path    aper.Path
@@ -1301,6 +2501,206 @@ func (c UEApplicationLayerMeasurementCapabilityValueCodec) encodeBudgetValue(val
 	return out, aper.OperationError(err, c.path)
 }
 func (c UEApplicationLayerMeasurementCapabilityValueCodec) encodeChanged(value s00.UEApplicationLayerMeasurementCapability,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SerialNumberValueCodec is the concrete ValueCodec[SerialNumber].
+type SerialNumberValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SerialNumber,
+
+		error)
+	encode func(s00.SerialNumber,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SerialNumber, aper.DecodeState,
+
+	) (s00.SerialNumber, aper.Snapshot,
+
+	)
+	compare func(s00.SerialNumber, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SerialNumberValueCodec) New(value s00.SerialNumber,
+
+) (SerialNumberAPERValue, error) {
+	if c.encode == nil {
+		return SerialNumberAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SerialNumberAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SerialNumberAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SerialNumberAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SerialNumberValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SerialNumberAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SerialNumberAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SerialNumberAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SerialNumberAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SerialNumberAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SerialNumberValueCodec) EncodeAPER(value SerialNumberAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SerialNumberValueCodec) encodeBudgetValue(value s00.SerialNumber,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SerialNumberValueCodec) encodeChanged(value s00.SerialNumber,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// RelativeMMECapacityValueCodec is the concrete ValueCodec[RelativeMMECapacity].
+type RelativeMMECapacityValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.RelativeMMECapacity,
+
+		error)
+	encode func(s00.RelativeMMECapacity,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.RelativeMMECapacity, aper.DecodeState,
+
+	) (s00.RelativeMMECapacity, aper.Snapshot,
+
+	)
+	compare func(s00.RelativeMMECapacity, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c RelativeMMECapacityValueCodec) New(value s00.RelativeMMECapacity,
+
+) (RelativeMMECapacityAPERValue, error) {
+	if c.encode == nil {
+		return RelativeMMECapacityAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return RelativeMMECapacityAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return RelativeMMECapacityAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return RelativeMMECapacityAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c RelativeMMECapacityValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (RelativeMMECapacityAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return RelativeMMECapacityAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return RelativeMMECapacityAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return RelativeMMECapacityAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return RelativeMMECapacityAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c RelativeMMECapacityValueCodec) EncodeAPER(value RelativeMMECapacityAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c RelativeMMECapacityValueCodec) encodeBudgetValue(value s00.RelativeMMECapacity,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c RelativeMMECapacityValueCodec) encodeChanged(value s00.RelativeMMECapacity,
 
 	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -1611,6 +3011,106 @@ func (c UERadioCapabilityForPagingValueCodec) encodeChanged(value s00.UERadioCap
 	return out, aper.OperationError(err, c.path)
 }
 
+// SliceByteValueCodec is the concrete ValueCodec[[]byte].
+type SliceByteValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) ([]byte,
+
+		error)
+	encode func([]byte,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func([]byte, aper.DecodeState,
+
+	) ([]byte, aper.Snapshot,
+
+	)
+	compare func([]byte, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SliceByteValueCodec) New(value []byte,
+
+) (SliceByteAPERValue, error) {
+	if c.encode == nil {
+		return SliceByteAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SliceByteAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SliceByteAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SliceByteAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SliceByteValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SliceByteAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SliceByteAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SliceByteAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SliceByteAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SliceByteAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SliceByteValueCodec) EncodeAPER(value SliceByteAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SliceByteValueCodec) encodeBudgetValue(value []byte,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SliceByteValueCodec) encodeChanged(value []byte,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
 // UERetentionInformationValueCodec is the concrete ValueCodec[UERetentionInformation].
 type UERetentionInformationValueCodec struct {
 	path    aper.Path
@@ -1811,6 +3311,106 @@ func (c TimeSinceSecondaryNodeReleaseValueCodec) encodeChanged(value s00.TimeSin
 	return out, aper.OperationError(err, c.path)
 }
 
+// SRVCCOperationNotPossibleValueCodec is the concrete ValueCodec[SRVCCOperationNotPossible].
+type SRVCCOperationNotPossibleValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SRVCCOperationNotPossible,
+
+		error)
+	encode func(s00.SRVCCOperationNotPossible,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SRVCCOperationNotPossible, aper.DecodeState,
+
+	) (s00.SRVCCOperationNotPossible, aper.Snapshot,
+
+	)
+	compare func(s00.SRVCCOperationNotPossible, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SRVCCOperationNotPossibleValueCodec) New(value s00.SRVCCOperationNotPossible,
+
+) (SRVCCOperationNotPossibleAPERValue, error) {
+	if c.encode == nil {
+		return SRVCCOperationNotPossibleAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SRVCCOperationNotPossibleAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SRVCCOperationNotPossibleAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SRVCCOperationNotPossibleAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SRVCCOperationNotPossibleValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SRVCCOperationNotPossibleAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SRVCCOperationNotPossibleAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SRVCCOperationNotPossibleAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SRVCCOperationNotPossibleAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SRVCCOperationNotPossibleAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SRVCCOperationNotPossibleValueCodec) EncodeAPER(value SRVCCOperationNotPossibleAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SRVCCOperationNotPossibleValueCodec) encodeBudgetValue(value s00.SRVCCOperationNotPossible,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SRVCCOperationNotPossibleValueCodec) encodeChanged(value s00.SRVCCOperationNotPossible,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
 // VoiceSupportMatchIndicatorValueCodec is the concrete ValueCodec[VoiceSupportMatchIndicator].
 type VoiceSupportMatchIndicatorValueCodec struct {
 	path    aper.Path
@@ -1901,6 +3501,106 @@ func (c VoiceSupportMatchIndicatorValueCodec) encodeBudgetValue(value s00.VoiceS
 	return out, aper.OperationError(err, c.path)
 }
 func (c VoiceSupportMatchIndicatorValueCodec) encodeChanged(value s00.VoiceSupportMatchIndicator,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// RepetitionPeriodValueCodec is the concrete ValueCodec[RepetitionPeriod].
+type RepetitionPeriodValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.RepetitionPeriod,
+
+		error)
+	encode func(s00.RepetitionPeriod,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.RepetitionPeriod, aper.DecodeState,
+
+	) (s00.RepetitionPeriod, aper.Snapshot,
+
+	)
+	compare func(s00.RepetitionPeriod, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c RepetitionPeriodValueCodec) New(value s00.RepetitionPeriod,
+
+) (RepetitionPeriodAPERValue, error) {
+	if c.encode == nil {
+		return RepetitionPeriodAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return RepetitionPeriodAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return RepetitionPeriodAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return RepetitionPeriodAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c RepetitionPeriodValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (RepetitionPeriodAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return RepetitionPeriodAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return RepetitionPeriodAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return RepetitionPeriodAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return RepetitionPeriodAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c RepetitionPeriodValueCodec) EncodeAPER(value RepetitionPeriodAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c RepetitionPeriodValueCodec) encodeBudgetValue(value s00.RepetitionPeriod,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c RepetitionPeriodValueCodec) encodeChanged(value s00.RepetitionPeriod,
 
 	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -2311,6 +4011,2606 @@ func (c WarningAreaCoordinatesValueCodec) encodeChanged(value s00.WarningAreaCoo
 	return out, aper.OperationError(err, c.path)
 }
 
+// ReportAmountMDTValueCodec is the concrete ValueCodec[ReportAmountMDT].
+type ReportAmountMDTValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.ReportAmountMDT,
+
+		error)
+	encode func(s00.ReportAmountMDT,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.ReportAmountMDT, aper.DecodeState,
+
+	) (s00.ReportAmountMDT, aper.Snapshot,
+
+	)
+	compare func(s00.ReportAmountMDT, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ReportAmountMDTValueCodec) New(value s00.ReportAmountMDT,
+
+) (ReportAmountMDTAPERValue, error) {
+	if c.encode == nil {
+		return ReportAmountMDTAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ReportAmountMDTAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ReportAmountMDTAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ReportAmountMDTAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ReportAmountMDTValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ReportAmountMDTAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ReportAmountMDTAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ReportAmountMDTAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ReportAmountMDTAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ReportAmountMDTAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ReportAmountMDTValueCodec) EncodeAPER(value ReportAmountMDTAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ReportAmountMDTValueCodec) encodeBudgetValue(value s00.ReportAmountMDT,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ReportAmountMDTValueCodec) encodeChanged(value s00.ReportAmountMDT,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ReportAreaValueCodec is the concrete ValueCodec[ReportArea].
+type ReportAreaValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.ReportArea,
+
+		error)
+	encode func(s00.ReportArea,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.ReportArea, aper.DecodeState,
+
+	) (s00.ReportArea, aper.Snapshot,
+
+	)
+	compare func(s00.ReportArea, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ReportAreaValueCodec) New(value s00.ReportArea,
+
+) (ReportAreaAPERValue, error) {
+	if c.encode == nil {
+		return ReportAreaAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ReportAreaAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ReportAreaAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ReportAreaAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ReportAreaValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ReportAreaAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ReportAreaAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ReportAreaAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ReportAreaAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ReportAreaAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ReportAreaValueCodec) EncodeAPER(value ReportAreaAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ReportAreaValueCodec) encodeBudgetValue(value s00.ReportArea,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ReportAreaValueCodec) encodeChanged(value s00.ReportArea,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ReportIntervalMDTValueCodec is the concrete ValueCodec[ReportIntervalMDT].
+type ReportIntervalMDTValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.ReportIntervalMDT,
+
+		error)
+	encode func(s00.ReportIntervalMDT,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.ReportIntervalMDT, aper.DecodeState,
+
+	) (s00.ReportIntervalMDT, aper.Snapshot,
+
+	)
+	compare func(s00.ReportIntervalMDT, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ReportIntervalMDTValueCodec) New(value s00.ReportIntervalMDT,
+
+) (ReportIntervalMDTAPERValue, error) {
+	if c.encode == nil {
+		return ReportIntervalMDTAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ReportIntervalMDTAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ReportIntervalMDTAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ReportIntervalMDTAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ReportIntervalMDTValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ReportIntervalMDTAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ReportIntervalMDTAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ReportIntervalMDTAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ReportIntervalMDTAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ReportIntervalMDTAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ReportIntervalMDTValueCodec) EncodeAPER(value ReportIntervalMDTAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ReportIntervalMDTValueCodec) encodeBudgetValue(value s00.ReportIntervalMDT,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ReportIntervalMDTValueCodec) encodeChanged(value s00.ReportIntervalMDT,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ResetAllValueCodec is the concrete ValueCodec[ResetAll].
+type ResetAllValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.ResetAll,
+
+		error)
+	encode func(s00.ResetAll,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.ResetAll, aper.DecodeState,
+
+	) (s00.ResetAll, aper.Snapshot,
+
+	)
+	compare func(s00.ResetAll, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ResetAllValueCodec) New(value s00.ResetAll,
+
+) (ResetAllAPERValue, error) {
+	if c.encode == nil {
+		return ResetAllAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ResetAllAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ResetAllAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ResetAllAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ResetAllValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ResetAllAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ResetAllAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ResetAllAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ResetAllAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ResetAllAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ResetAllValueCodec) EncodeAPER(value ResetAllAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ResetAllValueCodec) encodeBudgetValue(value s00.ResetAll,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ResetAllValueCodec) encodeChanged(value s00.ResetAll,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SONInformationRequestValueCodec is the concrete ValueCodec[SONInformationRequest].
+type SONInformationRequestValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SONInformationRequest,
+
+		error)
+	encode func(s00.SONInformationRequest,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SONInformationRequest, aper.DecodeState,
+
+	) (s00.SONInformationRequest, aper.Snapshot,
+
+	)
+	compare func(s00.SONInformationRequest, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SONInformationRequestValueCodec) New(value s00.SONInformationRequest,
+
+) (SONInformationRequestAPERValue, error) {
+	if c.encode == nil {
+		return SONInformationRequestAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SONInformationRequestAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SONInformationRequestAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SONInformationRequestAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SONInformationRequestValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SONInformationRequestAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SONInformationRequestAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SONInformationRequestAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SONInformationRequestAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SONInformationRequestAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SONInformationRequestValueCodec) EncodeAPER(value SONInformationRequestAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SONInformationRequestValueCodec) encodeBudgetValue(value s00.SONInformationRequest,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SONInformationRequestValueCodec) encodeChanged(value s00.SONInformationRequest,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SONtransferApplicationIdentityValueCodec is the concrete ValueCodec[SONtransferApplicationIdentity].
+type SONtransferApplicationIdentityValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SONtransferApplicationIdentity,
+
+		error)
+	encode func(s00.SONtransferApplicationIdentity,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SONtransferApplicationIdentity, aper.DecodeState,
+
+	) (s00.SONtransferApplicationIdentity, aper.Snapshot,
+
+	)
+	compare func(s00.SONtransferApplicationIdentity, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SONtransferApplicationIdentityValueCodec) New(value s00.SONtransferApplicationIdentity,
+
+) (SONtransferApplicationIdentityAPERValue, error) {
+	if c.encode == nil {
+		return SONtransferApplicationIdentityAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SONtransferApplicationIdentityAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SONtransferApplicationIdentityAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SONtransferApplicationIdentityAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SONtransferApplicationIdentityValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SONtransferApplicationIdentityAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SONtransferApplicationIdentityAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SONtransferApplicationIdentityAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SONtransferApplicationIdentityAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SONtransferApplicationIdentityAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SONtransferApplicationIdentityValueCodec) EncodeAPER(value SONtransferApplicationIdentityAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SONtransferApplicationIdentityValueCodec) encodeBudgetValue(value s00.SONtransferApplicationIdentity,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SONtransferApplicationIdentityValueCodec) encodeChanged(value s00.SONtransferApplicationIdentity,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SecondaryRATTypeValueCodec is the concrete ValueCodec[SecondaryRATType].
+type SecondaryRATTypeValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SecondaryRATType,
+
+		error)
+	encode func(s00.SecondaryRATType,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SecondaryRATType, aper.DecodeState,
+
+	) (s00.SecondaryRATType, aper.Snapshot,
+
+	)
+	compare func(s00.SecondaryRATType, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SecondaryRATTypeValueCodec) New(value s00.SecondaryRATType,
+
+) (SecondaryRATTypeAPERValue, error) {
+	if c.encode == nil {
+		return SecondaryRATTypeAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SecondaryRATTypeAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SecondaryRATTypeAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SecondaryRATTypeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SecondaryRATTypeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SecondaryRATTypeAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SecondaryRATTypeAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SecondaryRATTypeAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SecondaryRATTypeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SecondaryRATTypeAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SecondaryRATTypeValueCodec) EncodeAPER(value SecondaryRATTypeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SecondaryRATTypeValueCodec) encodeBudgetValue(value s00.SecondaryRATType,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SecondaryRATTypeValueCodec) encodeChanged(value s00.SecondaryRATType,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SensorMeasConfigValueCodec is the concrete ValueCodec[SensorMeasConfig].
+type SensorMeasConfigValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SensorMeasConfig,
+
+		error)
+	encode func(s00.SensorMeasConfig,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SensorMeasConfig, aper.DecodeState,
+
+	) (s00.SensorMeasConfig, aper.Snapshot,
+
+	)
+	compare func(s00.SensorMeasConfig, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SensorMeasConfigValueCodec) New(value s00.SensorMeasConfig,
+
+) (SensorMeasConfigAPERValue, error) {
+	if c.encode == nil {
+		return SensorMeasConfigAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SensorMeasConfigAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SensorMeasConfigAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SensorMeasConfigAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SensorMeasConfigValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SensorMeasConfigAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SensorMeasConfigAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SensorMeasConfigAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SensorMeasConfigAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SensorMeasConfigAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SensorMeasConfigValueCodec) EncodeAPER(value SensorMeasConfigAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SensorMeasConfigValueCodec) encodeBudgetValue(value s00.SensorMeasConfig,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SensorMeasConfigValueCodec) encodeChanged(value s00.SensorMeasConfig,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ServedGroupIDsValueCodec is the concrete ValueCodec[ServedGroupIDs].
+type ServedGroupIDsValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.ServedGroupIDs,
+
+		error)
+	encode func(s00.ServedGroupIDs,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.ServedGroupIDs, aper.DecodeState,
+
+	) (s00.ServedGroupIDs, aper.Snapshot,
+
+	)
+	compare func(s00.ServedGroupIDs, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ServedGroupIDsValueCodec) New(value s00.ServedGroupIDs,
+
+) (ServedGroupIDsAPERValue, error) {
+	if c.encode == nil {
+		return ServedGroupIDsAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ServedGroupIDsAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ServedGroupIDsAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ServedGroupIDsAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ServedGroupIDsValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ServedGroupIDsAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ServedGroupIDsAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ServedGroupIDsAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ServedGroupIDsAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ServedGroupIDsAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ServedGroupIDsValueCodec) EncodeAPER(value ServedGroupIDsAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ServedGroupIDsValueCodec) encodeBudgetValue(value s00.ServedGroupIDs,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ServedGroupIDsValueCodec) encodeChanged(value s00.ServedGroupIDs,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ServedMMECsValueCodec is the concrete ValueCodec[ServedMMECs].
+type ServedMMECsValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.ServedMMECs,
+
+		error)
+	encode func(s00.ServedMMECs,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.ServedMMECs, aper.DecodeState,
+
+	) (s00.ServedMMECs, aper.Snapshot,
+
+	)
+	compare func(s00.ServedMMECs, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ServedMMECsValueCodec) New(value s00.ServedMMECs,
+
+) (ServedMMECsAPERValue, error) {
+	if c.encode == nil {
+		return ServedMMECsAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ServedMMECsAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ServedMMECsAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ServedMMECsAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ServedMMECsValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ServedMMECsAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ServedMMECsAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ServedMMECsAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ServedMMECsAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ServedMMECsAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ServedMMECsValueCodec) EncodeAPER(value ServedMMECsAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ServedMMECsValueCodec) encodeBudgetValue(value s00.ServedMMECs,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ServedMMECsValueCodec) encodeChanged(value s00.ServedMMECs,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ServedPLMNsValueCodec is the concrete ValueCodec[ServedPLMNs].
+type ServedPLMNsValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.ServedPLMNs,
+
+		error)
+	encode func(s00.ServedPLMNs,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.ServedPLMNs, aper.DecodeState,
+
+	) (s00.ServedPLMNs, aper.Snapshot,
+
+	)
+	compare func(s00.ServedPLMNs, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ServedPLMNsValueCodec) New(value s00.ServedPLMNs,
+
+) (ServedPLMNsAPERValue, error) {
+	if c.encode == nil {
+		return ServedPLMNsAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ServedPLMNsAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ServedPLMNsAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ServedPLMNsAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ServedPLMNsValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ServedPLMNsAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ServedPLMNsAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ServedPLMNsAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ServedPLMNsAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ServedPLMNsAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ServedPLMNsValueCodec) EncodeAPER(value ServedPLMNsAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ServedPLMNsValueCodec) encodeBudgetValue(value s00.ServedPLMNs,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ServedPLMNsValueCodec) encodeChanged(value s00.ServedPLMNs,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SonTransferIEsMobilityInformationValueCodec is the concrete ValueCodec[SonTransferIEsMobilityInformation].
+type SonTransferIEsMobilityInformationValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SonTransferIEsMobilityInformation,
+
+		error)
+	encode func(s00.SonTransferIEsMobilityInformation,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SonTransferIEsMobilityInformation, aper.DecodeState,
+
+	) (s00.SonTransferIEsMobilityInformation, aper.Snapshot,
+
+	)
+	compare func(s00.SonTransferIEsMobilityInformation, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SonTransferIEsMobilityInformationValueCodec) New(value s00.SonTransferIEsMobilityInformation,
+
+) (SonTransferIEsMobilityInformationAPERValue, error) {
+	if c.encode == nil {
+		return SonTransferIEsMobilityInformationAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SonTransferIEsMobilityInformationAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SonTransferIEsMobilityInformationAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SonTransferIEsMobilityInformationAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SonTransferIEsMobilityInformationValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SonTransferIEsMobilityInformationAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SonTransferIEsMobilityInformationAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SonTransferIEsMobilityInformationAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SonTransferIEsMobilityInformationAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SonTransferIEsMobilityInformationAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SonTransferIEsMobilityInformationValueCodec) EncodeAPER(value SonTransferIEsMobilityInformationAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SonTransferIEsMobilityInformationValueCodec) encodeBudgetValue(value s00.SonTransferIEsMobilityInformation,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SonTransferIEsMobilityInformationValueCodec) encodeChanged(value s00.SonTransferIEsMobilityInformation,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SourceBSSToTargetBSSTransparentContainerValueCodec is the concrete ValueCodec[SourceBSSToTargetBSSTransparentContainer].
+type SourceBSSToTargetBSSTransparentContainerValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SourceBSSToTargetBSSTransparentContainer,
+
+		error)
+	encode func(s00.SourceBSSToTargetBSSTransparentContainer,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SourceBSSToTargetBSSTransparentContainer, aper.DecodeState,
+
+	) (s00.SourceBSSToTargetBSSTransparentContainer, aper.Snapshot,
+
+	)
+	compare func(s00.SourceBSSToTargetBSSTransparentContainer, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SourceBSSToTargetBSSTransparentContainerValueCodec) New(value s00.SourceBSSToTargetBSSTransparentContainer,
+
+) (SourceBSSToTargetBSSTransparentContainerAPERValue, error) {
+	if c.encode == nil {
+		return SourceBSSToTargetBSSTransparentContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SourceBSSToTargetBSSTransparentContainerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SourceBSSToTargetBSSTransparentContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SourceBSSToTargetBSSTransparentContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SourceBSSToTargetBSSTransparentContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SourceBSSToTargetBSSTransparentContainerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SourceBSSToTargetBSSTransparentContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SourceBSSToTargetBSSTransparentContainerAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SourceBSSToTargetBSSTransparentContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SourceBSSToTargetBSSTransparentContainerAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SourceBSSToTargetBSSTransparentContainerValueCodec) EncodeAPER(value SourceBSSToTargetBSSTransparentContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SourceBSSToTargetBSSTransparentContainerValueCodec) encodeBudgetValue(value s00.SourceBSSToTargetBSSTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SourceBSSToTargetBSSTransparentContainerValueCodec) encodeChanged(value s00.SourceBSSToTargetBSSTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec is the concrete ValueCodec[SourceNgRanNodeToTargetNgRanNodeTransparentContainer].
+type SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer,
+
+		error)
+	encode func(s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer, aper.DecodeState,
+
+	) (s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer, aper.Snapshot,
+
+	)
+	compare func(s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) New(value s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer,
+
+) (SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue, error) {
+	if c.encode == nil {
+		return SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) EncodeAPER(value SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) encodeBudgetValue(value s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) encodeChanged(value s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SourceOfUEActivityBehaviourInformationValueCodec is the concrete ValueCodec[SourceOfUEActivityBehaviourInformation].
+type SourceOfUEActivityBehaviourInformationValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SourceOfUEActivityBehaviourInformation,
+
+		error)
+	encode func(s00.SourceOfUEActivityBehaviourInformation,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SourceOfUEActivityBehaviourInformation, aper.DecodeState,
+
+	) (s00.SourceOfUEActivityBehaviourInformation, aper.Snapshot,
+
+	)
+	compare func(s00.SourceOfUEActivityBehaviourInformation, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SourceOfUEActivityBehaviourInformationValueCodec) New(value s00.SourceOfUEActivityBehaviourInformation,
+
+) (SourceOfUEActivityBehaviourInformationAPERValue, error) {
+	if c.encode == nil {
+		return SourceOfUEActivityBehaviourInformationAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SourceOfUEActivityBehaviourInformationAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SourceOfUEActivityBehaviourInformationAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SourceOfUEActivityBehaviourInformationAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SourceOfUEActivityBehaviourInformationValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SourceOfUEActivityBehaviourInformationAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SourceOfUEActivityBehaviourInformationAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SourceOfUEActivityBehaviourInformationAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SourceOfUEActivityBehaviourInformationAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SourceOfUEActivityBehaviourInformationAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SourceOfUEActivityBehaviourInformationValueCodec) EncodeAPER(value SourceOfUEActivityBehaviourInformationAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SourceOfUEActivityBehaviourInformationValueCodec) encodeBudgetValue(value s00.SourceOfUEActivityBehaviourInformation,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SourceOfUEActivityBehaviourInformationValueCodec) encodeChanged(value s00.SourceOfUEActivityBehaviourInformation,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SourceRNCToTargetRNCTransparentContainerValueCodec is the concrete ValueCodec[SourceRNCToTargetRNCTransparentContainer].
+type SourceRNCToTargetRNCTransparentContainerValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SourceRNCToTargetRNCTransparentContainer,
+
+		error)
+	encode func(s00.SourceRNCToTargetRNCTransparentContainer,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SourceRNCToTargetRNCTransparentContainer, aper.DecodeState,
+
+	) (s00.SourceRNCToTargetRNCTransparentContainer, aper.Snapshot,
+
+	)
+	compare func(s00.SourceRNCToTargetRNCTransparentContainer, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SourceRNCToTargetRNCTransparentContainerValueCodec) New(value s00.SourceRNCToTargetRNCTransparentContainer,
+
+) (SourceRNCToTargetRNCTransparentContainerAPERValue, error) {
+	if c.encode == nil {
+		return SourceRNCToTargetRNCTransparentContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SourceRNCToTargetRNCTransparentContainerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SourceRNCToTargetRNCTransparentContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SourceRNCToTargetRNCTransparentContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SourceRNCToTargetRNCTransparentContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SourceRNCToTargetRNCTransparentContainerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SourceRNCToTargetRNCTransparentContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SourceRNCToTargetRNCTransparentContainerAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SourceRNCToTargetRNCTransparentContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SourceRNCToTargetRNCTransparentContainerAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SourceRNCToTargetRNCTransparentContainerValueCodec) EncodeAPER(value SourceRNCToTargetRNCTransparentContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SourceRNCToTargetRNCTransparentContainerValueCodec) encodeBudgetValue(value s00.SourceRNCToTargetRNCTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SourceRNCToTargetRNCTransparentContainerValueCodec) encodeChanged(value s00.SourceRNCToTargetRNCTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// StratumLevelValueCodec is the concrete ValueCodec[StratumLevel].
+type StratumLevelValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.StratumLevel,
+
+		error)
+	encode func(s00.StratumLevel,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.StratumLevel, aper.DecodeState,
+
+	) (s00.StratumLevel, aper.Snapshot,
+
+	)
+	compare func(s00.StratumLevel, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c StratumLevelValueCodec) New(value s00.StratumLevel,
+
+) (StratumLevelAPERValue, error) {
+	if c.encode == nil {
+		return StratumLevelAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return StratumLevelAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return StratumLevelAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return StratumLevelAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c StratumLevelValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (StratumLevelAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return StratumLevelAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return StratumLevelAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return StratumLevelAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return StratumLevelAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c StratumLevelValueCodec) EncodeAPER(value StratumLevelAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c StratumLevelValueCodec) encodeBudgetValue(value s00.StratumLevel,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c StratumLevelValueCodec) encodeChanged(value s00.StratumLevel,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SynchronisationStatusValueCodec is the concrete ValueCodec[SynchronisationStatus].
+type SynchronisationStatusValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.SynchronisationStatus,
+
+		error)
+	encode func(s00.SynchronisationStatus,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.SynchronisationStatus, aper.DecodeState,
+
+	) (s00.SynchronisationStatus, aper.Snapshot,
+
+	)
+	compare func(s00.SynchronisationStatus, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SynchronisationStatusValueCodec) New(value s00.SynchronisationStatus,
+
+) (SynchronisationStatusAPERValue, error) {
+	if c.encode == nil {
+		return SynchronisationStatusAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SynchronisationStatusAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SynchronisationStatusAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SynchronisationStatusAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SynchronisationStatusValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SynchronisationStatusAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SynchronisationStatusAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SynchronisationStatusAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SynchronisationStatusAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SynchronisationStatusAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SynchronisationStatusValueCodec) EncodeAPER(value SynchronisationStatusAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SynchronisationStatusValueCodec) encodeBudgetValue(value s00.SynchronisationStatus,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SynchronisationStatusValueCodec) encodeChanged(value s00.SynchronisationStatus,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// TACValueCodec is the concrete ValueCodec[TAC].
+type TACValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.TAC,
+
+		error)
+	encode func(s00.TAC,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.TAC, aper.DecodeState,
+
+	) (s00.TAC, aper.Snapshot,
+
+	)
+	compare func(s00.TAC, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c TACValueCodec) New(value s00.TAC,
+
+) (TACAPERValue, error) {
+	if c.encode == nil {
+		return TACAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return TACAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return TACAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return TACAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c TACValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TACAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return TACAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return TACAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return TACAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return TACAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c TACValueCodec) EncodeAPER(value TACAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c TACValueCodec) encodeBudgetValue(value s00.TAC,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c TACValueCodec) encodeChanged(value s00.TAC,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// TACListInLTENTNValueCodec is the concrete ValueCodec[TACListInLTENTN].
+type TACListInLTENTNValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.TACListInLTENTN,
+
+		error)
+	encode func(s00.TACListInLTENTN,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.TACListInLTENTN, aper.DecodeState,
+
+	) (s00.TACListInLTENTN, aper.Snapshot,
+
+	)
+	compare func(s00.TACListInLTENTN, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c TACListInLTENTNValueCodec) New(value s00.TACListInLTENTN,
+
+) (TACListInLTENTNAPERValue, error) {
+	if c.encode == nil {
+		return TACListInLTENTNAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return TACListInLTENTNAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return TACListInLTENTNAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return TACListInLTENTNAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c TACListInLTENTNValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TACListInLTENTNAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return TACListInLTENTNAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return TACListInLTENTNAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return TACListInLTENTNAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return TACListInLTENTNAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c TACListInLTENTNValueCodec) EncodeAPER(value TACListInLTENTNAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c TACListInLTENTNValueCodec) encodeBudgetValue(value s00.TACListInLTENTN,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c TACListInLTENTNValueCodec) encodeChanged(value s00.TACListInLTENTN,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// TAListforMDTValueCodec is the concrete ValueCodec[TAListforMDT].
+type TAListforMDTValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.TAListforMDT,
+
+		error)
+	encode func(s00.TAListforMDT,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.TAListforMDT, aper.DecodeState,
+
+	) (s00.TAListforMDT, aper.Snapshot,
+
+	)
+	compare func(s00.TAListforMDT, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c TAListforMDTValueCodec) New(value s00.TAListforMDT,
+
+) (TAListforMDTAPERValue, error) {
+	if c.encode == nil {
+		return TAListforMDTAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return TAListforMDTAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return TAListforMDTAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return TAListforMDTAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c TAListforMDTValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TAListforMDTAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return TAListforMDTAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return TAListforMDTAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return TAListforMDTAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return TAListforMDTAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c TAListforMDTValueCodec) EncodeAPER(value TAListforMDTAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c TAListforMDTValueCodec) encodeBudgetValue(value s00.TAListforMDT,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c TAListforMDTValueCodec) encodeChanged(value s00.TAListforMDT,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// TAListforQMCValueCodec is the concrete ValueCodec[TAListforQMC].
+type TAListforQMCValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.TAListforQMC,
+
+		error)
+	encode func(s00.TAListforQMC,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.TAListforQMC, aper.DecodeState,
+
+	) (s00.TAListforQMC, aper.Snapshot,
+
+	)
+	compare func(s00.TAListforQMC, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c TAListforQMCValueCodec) New(value s00.TAListforQMC,
+
+) (TAListforQMCAPERValue, error) {
+	if c.encode == nil {
+		return TAListforQMCAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return TAListforQMCAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return TAListforQMCAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return TAListforQMCAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c TAListforQMCValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TAListforQMCAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return TAListforQMCAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return TAListforQMCAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return TAListforQMCAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return TAListforQMCAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c TAListforQMCValueCodec) EncodeAPER(value TAListforQMCAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c TAListforQMCValueCodec) encodeBudgetValue(value s00.TAListforQMC,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c TAListforQMCValueCodec) encodeChanged(value s00.TAListforQMC,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// TBCDSTRINGValueCodec is the concrete ValueCodec[TBCDSTRING].
+type TBCDSTRINGValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.TBCDSTRING,
+
+		error)
+	encode func(s00.TBCDSTRING,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.TBCDSTRING, aper.DecodeState,
+
+	) (s00.TBCDSTRING, aper.Snapshot,
+
+	)
+	compare func(s00.TBCDSTRING, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c TBCDSTRINGValueCodec) New(value s00.TBCDSTRING,
+
+) (TBCDSTRINGAPERValue, error) {
+	if c.encode == nil {
+		return TBCDSTRINGAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return TBCDSTRINGAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return TBCDSTRINGAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return TBCDSTRINGAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c TBCDSTRINGValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TBCDSTRINGAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return TBCDSTRINGAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return TBCDSTRINGAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return TBCDSTRINGAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return TBCDSTRINGAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c TBCDSTRINGValueCodec) EncodeAPER(value TBCDSTRINGAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c TBCDSTRINGValueCodec) encodeBudgetValue(value s00.TBCDSTRING,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c TBCDSTRINGValueCodec) encodeChanged(value s00.TBCDSTRING,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// TargetBSSToSourceBSSTransparentContainerValueCodec is the concrete ValueCodec[TargetBSSToSourceBSSTransparentContainer].
+type TargetBSSToSourceBSSTransparentContainerValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.TargetBSSToSourceBSSTransparentContainer,
+
+		error)
+	encode func(s00.TargetBSSToSourceBSSTransparentContainer,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.TargetBSSToSourceBSSTransparentContainer, aper.DecodeState,
+
+	) (s00.TargetBSSToSourceBSSTransparentContainer, aper.Snapshot,
+
+	)
+	compare func(s00.TargetBSSToSourceBSSTransparentContainer, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c TargetBSSToSourceBSSTransparentContainerValueCodec) New(value s00.TargetBSSToSourceBSSTransparentContainer,
+
+) (TargetBSSToSourceBSSTransparentContainerAPERValue, error) {
+	if c.encode == nil {
+		return TargetBSSToSourceBSSTransparentContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return TargetBSSToSourceBSSTransparentContainerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return TargetBSSToSourceBSSTransparentContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return TargetBSSToSourceBSSTransparentContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c TargetBSSToSourceBSSTransparentContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TargetBSSToSourceBSSTransparentContainerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return TargetBSSToSourceBSSTransparentContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return TargetBSSToSourceBSSTransparentContainerAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return TargetBSSToSourceBSSTransparentContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return TargetBSSToSourceBSSTransparentContainerAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c TargetBSSToSourceBSSTransparentContainerValueCodec) EncodeAPER(value TargetBSSToSourceBSSTransparentContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c TargetBSSToSourceBSSTransparentContainerValueCodec) encodeBudgetValue(value s00.TargetBSSToSourceBSSTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c TargetBSSToSourceBSSTransparentContainerValueCodec) encodeChanged(value s00.TargetBSSToSourceBSSTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec is the concrete ValueCodec[TargetNgRanNodeToSourceNgRanNodeTransparentContainer].
+type TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer,
+
+		error)
+	encode func(s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer, aper.DecodeState,
+
+	) (s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer, aper.Snapshot,
+
+	)
+	compare func(s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) New(value s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer,
+
+) (TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue, error) {
+	if c.encode == nil {
+		return TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) EncodeAPER(value TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) encodeBudgetValue(value s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) encodeChanged(value s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// TargetRNCToSourceRNCTransparentContainerValueCodec is the concrete ValueCodec[TargetRNCToSourceRNCTransparentContainer].
+type TargetRNCToSourceRNCTransparentContainerValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s00.TargetRNCToSourceRNCTransparentContainer,
+
+		error)
+	encode func(s00.TargetRNCToSourceRNCTransparentContainer,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s00.TargetRNCToSourceRNCTransparentContainer, aper.DecodeState,
+
+	) (s00.TargetRNCToSourceRNCTransparentContainer, aper.Snapshot,
+
+	)
+	compare func(s00.TargetRNCToSourceRNCTransparentContainer, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c TargetRNCToSourceRNCTransparentContainerValueCodec) New(value s00.TargetRNCToSourceRNCTransparentContainer,
+
+) (TargetRNCToSourceRNCTransparentContainerAPERValue, error) {
+	if c.encode == nil {
+		return TargetRNCToSourceRNCTransparentContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return TargetRNCToSourceRNCTransparentContainerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return TargetRNCToSourceRNCTransparentContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return TargetRNCToSourceRNCTransparentContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c TargetRNCToSourceRNCTransparentContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TargetRNCToSourceRNCTransparentContainerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return TargetRNCToSourceRNCTransparentContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return TargetRNCToSourceRNCTransparentContainerAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return TargetRNCToSourceRNCTransparentContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return TargetRNCToSourceRNCTransparentContainerAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c TargetRNCToSourceRNCTransparentContainerValueCodec) EncodeAPER(value TargetRNCToSourceRNCTransparentContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c TargetRNCToSourceRNCTransparentContainerValueCodec) encodeBudgetValue(value s00.TargetRNCToSourceRNCTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c TargetRNCToSourceRNCTransparentContainerValueCodec) encodeChanged(value s00.TargetRNCToSourceRNCTransparentContainer,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
 // ThresholdRSRPValueCodec is the concrete ValueCodec[ThresholdRSRP].
 type ThresholdRSRPValueCodec struct {
 	path    aper.Path
@@ -2334,24 +6634,24 @@ type ThresholdRSRPValueCodec struct {
 // New validates a source value and returns its complete APER value.
 func (c ThresholdRSRPValueCodec) New(value s00.ThresholdRSRP,
 
-) (s01.ThresholdRSRPAPERValue, error) {
+) (ThresholdRSRPAPERValue, error) {
 	if c.encode == nil {
-		return s01.ThresholdRSRPAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+		return ThresholdRSRPAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return s01.ThresholdRSRPAPERValue{}, aper.OperationError(err, "Value.New")
+		return ThresholdRSRPAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return s01.ThresholdRSRPAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+		return ThresholdRSRPAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
 	}
-	return s01.ThresholdRSRPAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	return ThresholdRSRPAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
 
 // DecodeAPER decodes a complete value and retains its received form.
-func (c ThresholdRSRPValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (s01.ThresholdRSRPAPERValue, aper.DecodeReport, error) {
+func (c ThresholdRSRPValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ThresholdRSRPAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return s01.ThresholdRSRPAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+		return ThresholdRSRPAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
 	data, state := aper.StartDecode(data, options...)
 	value, err := c.decode(data, state)
@@ -2359,22 +6659,16 @@ func (c ThresholdRSRPValueCodec) DecodeAPER(data []byte, options ...aper.DecodeO
 		value, replay := c.capture(value, state)
 		report, err := aper.FinishDecode(state, nil)
 		if err != nil {
-			return s01.ThresholdRSRPAPERValue{}, report, aper.OperationError(err, c.path)
+			return ThresholdRSRPAPERValue{}, report, aper.OperationError(err, c.path)
 		}
-		return func() s01.ThresholdRSRPAPERValue {
-			sealed := s01.ThresholdRSRPAPERValue{Value: value}
-			*s01.BridgeThresholdRSRPAPERValueFieldReceived(&sealed) = aper.OriginalWire(data)
-			*s01.BridgeThresholdRSRPAPERValueFieldReplay(&sealed) = replay
-			*s01.BridgeThresholdRSRPAPERValueFieldContext(&sealed) = c.context
-			return sealed
-		}(), report, nil
+		return ThresholdRSRPAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 	}
 	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return s01.ThresholdRSRPAPERValue{}, report, err
+	return ThresholdRSRPAPERValue{}, report, err
 }
 
 // EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ThresholdRSRPValueCodec) EncodeAPER(value s01.ThresholdRSRPAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+func (c ThresholdRSRPValueCodec) EncodeAPER(value ThresholdRSRPAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
@@ -2382,15 +6676,15 @@ func (c ThresholdRSRPValueCodec) EncodeAPER(value s01.ThresholdRSRPAPERValue, op
 	if err != nil {
 		return nil, aper.OperationError(err, c.path)
 	}
-	fresh := *s01.BridgeThresholdRSRPAPERValueFieldWithoutReplay(&value) || aper.EncodeWithoutReplay(options...)
-	if *s01.BridgeThresholdRSRPAPERValueFieldContext(&value) == c.context && !fresh && (*s01.BridgeThresholdRSRPAPERValueFieldReplay(&value)).Present() {
-		plan, next := c.compare(value.Value, *s01.BridgeThresholdRSRPAPERValueFieldReplay(&value), budget)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
 		budget = next
 		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
 			return nil, aper.OperationError(err, c.path)
 		}
-		if plan.Unchanged(*s01.BridgeThresholdRSRPAPERValueFieldReplay(&value)) {
-			out, err := aper.CopyReplay(*s01.BridgeThresholdRSRPAPERValueFieldReceived(&value), &budget)
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
 			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, fresh, budget, plan)
@@ -3886,6 +8180,52 @@ func (v TimeUEStayedInCellEnhancedGranularityAPERValue) WithoutReplay() TimeUESt
 	return v
 }
 
+// RequestTypeAdditionalInfoAPERValue is the concrete APERValue[RequestTypeAdditionalInfo].
+type RequestTypeAdditionalInfoAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.RequestTypeAdditionalInfo
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v RequestTypeAdditionalInfoAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v RequestTypeAdditionalInfoAPERValue) WithoutReplay() RequestTypeAdditionalInfoAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// S1APIEsMobilityInformationAPERValue is the concrete APERValue[S1APIEsMobilityInformation].
+type S1APIEsMobilityInformationAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.S1APIEsMobilityInformation
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v S1APIEsMobilityInformationAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v S1APIEsMobilityInformationAPERValue) WithoutReplay() S1APIEsMobilityInformationAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
 // UEHistoryInformationFromTheUEAPERValue is the concrete APERValue[UEHistoryInformationFromTheUE].
 type UEHistoryInformationFromTheUEAPERValue struct {
 	context s00.BridgeCodecContext
@@ -3926,6 +8266,29 @@ func (v URIAddressAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v URIAddressAPERValue) WithoutReplay() URIAddressAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ServiceTypeAPERValue is the concrete APERValue[ServiceType].
+type ServiceTypeAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.ServiceType
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ServiceTypeAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ServiceTypeAPERValue) WithoutReplay() ServiceTypeAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -3978,6 +8341,52 @@ func (v UERadioCapabilityIDAPERValue) WithoutReplay() UERadioCapabilityIDAPERVal
 	return v
 }
 
+// SubscriberProfileIDforRFPAPERValue is the concrete APERValue[SubscriberProfileIDforRFP].
+type SubscriberProfileIDforRFPAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SubscriberProfileIDforRFP
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SubscriberProfileIDforRFPAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SubscriberProfileIDforRFPAPERValue) WithoutReplay() SubscriberProfileIDforRFPAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SRVCCOperationPossibleAPERValue is the concrete APERValue[SRVCCOperationPossible].
+type SRVCCOperationPossibleAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SRVCCOperationPossible
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SRVCCOperationPossibleAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SRVCCOperationPossibleAPERValue) WithoutReplay() SRVCCOperationPossibleAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
 // UECapabilityInfoRequestAPERValue is the concrete APERValue[UECapabilityInfoRequest].
 type UECapabilityInfoRequestAPERValue struct {
 	context s00.BridgeCodecContext
@@ -4001,6 +8410,52 @@ func (v UECapabilityInfoRequestAPERValue) WithoutReplay() UECapabilityInfoReques
 	return v
 }
 
+// RoutingIDAPERValue is the concrete APERValue[RoutingID].
+type RoutingIDAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.RoutingID
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v RoutingIDAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v RoutingIDAPERValue) WithoutReplay() RoutingIDAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SecondaryRATDataUsageRequestAPERValue is the concrete APERValue[SecondaryRATDataUsageRequest].
+type SecondaryRATDataUsageRequestAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SecondaryRATDataUsageRequest
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SecondaryRATDataUsageRequestAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SecondaryRATDataUsageRequestAPERValue) WithoutReplay() SecondaryRATDataUsageRequestAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
 // TimeToWaitAPERValue is the concrete APERValue[TimeToWait].
 type TimeToWaitAPERValue struct {
 	context s00.BridgeCodecContext
@@ -4018,6 +8473,52 @@ func (v TimeToWaitAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v TimeToWaitAPERValue) WithoutReplay() TimeToWaitAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// TargetToSourceTransparentContainerAPERValue is the concrete APERValue[TargetToSourceTransparentContainer].
+type TargetToSourceTransparentContainerAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.TargetToSourceTransparentContainer
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v TargetToSourceTransparentContainerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v TargetToSourceTransparentContainerAPERValue) WithoutReplay() TargetToSourceTransparentContainerAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SourceToTargetTransparentContainerAPERValue is the concrete APERValue[SourceToTargetTransparentContainer].
+type SourceToTargetTransparentContainerAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SourceToTargetTransparentContainer
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SourceToTargetTransparentContainerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SourceToTargetTransparentContainerAPERValue) WithoutReplay() SourceToTargetTransparentContainerAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -4070,6 +8571,75 @@ func (v TimeRefDistributionAPERValue) WithoutReplay() TimeRefDistributionAPERVal
 	return v
 }
 
+// SRVCCHOIndicationAPERValue is the concrete APERValue[SRVCCHOIndication].
+type SRVCCHOIndicationAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SRVCCHOIndication
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SRVCCHOIndicationAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SRVCCHOIndicationAPERValue) WithoutReplay() SRVCCHOIndicationAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SecurityKeyAPERValue is the concrete APERValue[SecurityKey].
+type SecurityKeyAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SecurityKey
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SecurityKeyAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SecurityKeyAPERValue) WithoutReplay() SecurityKeyAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// RelayNodeIndicatorAPERValue is the concrete APERValue[RelayNodeIndicator].
+type RelayNodeIndicatorAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.RelayNodeIndicator
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v RelayNodeIndicatorAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v RelayNodeIndicatorAPERValue) WithoutReplay() RelayNodeIndicatorAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
 // UEUsageTypeAPERValue is the concrete APERValue[UEUsageType].
 type UEUsageTypeAPERValue struct {
 	context s00.BridgeCodecContext
@@ -4110,6 +8680,52 @@ func (v UEApplicationLayerMeasurementCapabilityAPERValue) ReceivedForm() aper.Re
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v UEApplicationLayerMeasurementCapabilityAPERValue) WithoutReplay() UEApplicationLayerMeasurementCapabilityAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SerialNumberAPERValue is the concrete APERValue[SerialNumber].
+type SerialNumberAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SerialNumber
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SerialNumberAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SerialNumberAPERValue) WithoutReplay() SerialNumberAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// RelativeMMECapacityAPERValue is the concrete APERValue[RelativeMMECapacity].
+type RelativeMMECapacityAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.RelativeMMECapacity
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v RelativeMMECapacityAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v RelativeMMECapacityAPERValue) WithoutReplay() RelativeMMECapacityAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -4185,6 +8801,29 @@ func (v UERadioCapabilityForPagingAPERValue) WithoutReplay() UERadioCapabilityFo
 	return v
 }
 
+// SliceByteAPERValue is the concrete APERValue[[]byte].
+type SliceByteAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   []byte
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SliceByteAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SliceByteAPERValue) WithoutReplay() SliceByteAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
 // UERetentionInformationAPERValue is the concrete APERValue[UERetentionInformation].
 type UERetentionInformationAPERValue struct {
 	context s00.BridgeCodecContext
@@ -4231,6 +8870,29 @@ func (v TimeSinceSecondaryNodeReleaseAPERValue) WithoutReplay() TimeSinceSeconda
 	return v
 }
 
+// SRVCCOperationNotPossibleAPERValue is the concrete APERValue[SRVCCOperationNotPossible].
+type SRVCCOperationNotPossibleAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SRVCCOperationNotPossible
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SRVCCOperationNotPossibleAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SRVCCOperationNotPossibleAPERValue) WithoutReplay() SRVCCOperationNotPossibleAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
 // VoiceSupportMatchIndicatorAPERValue is the concrete APERValue[VoiceSupportMatchIndicator].
 type VoiceSupportMatchIndicatorAPERValue struct {
 	context s00.BridgeCodecContext
@@ -4248,6 +8910,29 @@ func (v VoiceSupportMatchIndicatorAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v VoiceSupportMatchIndicatorAPERValue) WithoutReplay() VoiceSupportMatchIndicatorAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// RepetitionPeriodAPERValue is the concrete APERValue[RepetitionPeriod].
+type RepetitionPeriodAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.RepetitionPeriod
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v RepetitionPeriodAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v RepetitionPeriodAPERValue) WithoutReplay() RepetitionPeriodAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -4340,6 +9025,627 @@ func (v WarningAreaCoordinatesAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v WarningAreaCoordinatesAPERValue) WithoutReplay() WarningAreaCoordinatesAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ReportAmountMDTAPERValue is the concrete APERValue[ReportAmountMDT].
+type ReportAmountMDTAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.ReportAmountMDT
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ReportAmountMDTAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ReportAmountMDTAPERValue) WithoutReplay() ReportAmountMDTAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ReportAreaAPERValue is the concrete APERValue[ReportArea].
+type ReportAreaAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.ReportArea
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ReportAreaAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ReportAreaAPERValue) WithoutReplay() ReportAreaAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ReportIntervalMDTAPERValue is the concrete APERValue[ReportIntervalMDT].
+type ReportIntervalMDTAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.ReportIntervalMDT
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ReportIntervalMDTAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ReportIntervalMDTAPERValue) WithoutReplay() ReportIntervalMDTAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ResetAllAPERValue is the concrete APERValue[ResetAll].
+type ResetAllAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.ResetAll
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ResetAllAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ResetAllAPERValue) WithoutReplay() ResetAllAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SONInformationRequestAPERValue is the concrete APERValue[SONInformationRequest].
+type SONInformationRequestAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SONInformationRequest
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SONInformationRequestAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SONInformationRequestAPERValue) WithoutReplay() SONInformationRequestAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SONtransferApplicationIdentityAPERValue is the concrete APERValue[SONtransferApplicationIdentity].
+type SONtransferApplicationIdentityAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SONtransferApplicationIdentity
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SONtransferApplicationIdentityAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SONtransferApplicationIdentityAPERValue) WithoutReplay() SONtransferApplicationIdentityAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SecondaryRATTypeAPERValue is the concrete APERValue[SecondaryRATType].
+type SecondaryRATTypeAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SecondaryRATType
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SecondaryRATTypeAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SecondaryRATTypeAPERValue) WithoutReplay() SecondaryRATTypeAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SensorMeasConfigAPERValue is the concrete APERValue[SensorMeasConfig].
+type SensorMeasConfigAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SensorMeasConfig
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SensorMeasConfigAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SensorMeasConfigAPERValue) WithoutReplay() SensorMeasConfigAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ServedGroupIDsAPERValue is the concrete APERValue[ServedGroupIDs].
+type ServedGroupIDsAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.ServedGroupIDs
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ServedGroupIDsAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ServedGroupIDsAPERValue) WithoutReplay() ServedGroupIDsAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ServedMMECsAPERValue is the concrete APERValue[ServedMMECs].
+type ServedMMECsAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.ServedMMECs
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ServedMMECsAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ServedMMECsAPERValue) WithoutReplay() ServedMMECsAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ServedPLMNsAPERValue is the concrete APERValue[ServedPLMNs].
+type ServedPLMNsAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.ServedPLMNs
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ServedPLMNsAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ServedPLMNsAPERValue) WithoutReplay() ServedPLMNsAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SonTransferIEsMobilityInformationAPERValue is the concrete APERValue[SonTransferIEsMobilityInformation].
+type SonTransferIEsMobilityInformationAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SonTransferIEsMobilityInformation
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SonTransferIEsMobilityInformationAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SonTransferIEsMobilityInformationAPERValue) WithoutReplay() SonTransferIEsMobilityInformationAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SourceBSSToTargetBSSTransparentContainerAPERValue is the concrete APERValue[SourceBSSToTargetBSSTransparentContainer].
+type SourceBSSToTargetBSSTransparentContainerAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SourceBSSToTargetBSSTransparentContainer
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SourceBSSToTargetBSSTransparentContainerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SourceBSSToTargetBSSTransparentContainerAPERValue) WithoutReplay() SourceBSSToTargetBSSTransparentContainerAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue is the concrete APERValue[SourceNgRanNodeToTargetNgRanNodeTransparentContainer].
+type SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue) WithoutReplay() SourceNgRanNodeToTargetNgRanNodeTransparentContainerAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SourceOfUEActivityBehaviourInformationAPERValue is the concrete APERValue[SourceOfUEActivityBehaviourInformation].
+type SourceOfUEActivityBehaviourInformationAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SourceOfUEActivityBehaviourInformation
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SourceOfUEActivityBehaviourInformationAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SourceOfUEActivityBehaviourInformationAPERValue) WithoutReplay() SourceOfUEActivityBehaviourInformationAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SourceRNCToTargetRNCTransparentContainerAPERValue is the concrete APERValue[SourceRNCToTargetRNCTransparentContainer].
+type SourceRNCToTargetRNCTransparentContainerAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SourceRNCToTargetRNCTransparentContainer
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SourceRNCToTargetRNCTransparentContainerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SourceRNCToTargetRNCTransparentContainerAPERValue) WithoutReplay() SourceRNCToTargetRNCTransparentContainerAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// StratumLevelAPERValue is the concrete APERValue[StratumLevel].
+type StratumLevelAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.StratumLevel
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v StratumLevelAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v StratumLevelAPERValue) WithoutReplay() StratumLevelAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SynchronisationStatusAPERValue is the concrete APERValue[SynchronisationStatus].
+type SynchronisationStatusAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.SynchronisationStatus
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SynchronisationStatusAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SynchronisationStatusAPERValue) WithoutReplay() SynchronisationStatusAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// TACAPERValue is the concrete APERValue[TAC].
+type TACAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.TAC
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v TACAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v TACAPERValue) WithoutReplay() TACAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// TACListInLTENTNAPERValue is the concrete APERValue[TACListInLTENTN].
+type TACListInLTENTNAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.TACListInLTENTN
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v TACListInLTENTNAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v TACListInLTENTNAPERValue) WithoutReplay() TACListInLTENTNAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// TAListforMDTAPERValue is the concrete APERValue[TAListforMDT].
+type TAListforMDTAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.TAListforMDT
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v TAListforMDTAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v TAListforMDTAPERValue) WithoutReplay() TAListforMDTAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// TAListforQMCAPERValue is the concrete APERValue[TAListforQMC].
+type TAListforQMCAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.TAListforQMC
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v TAListforQMCAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v TAListforQMCAPERValue) WithoutReplay() TAListforQMCAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// TBCDSTRINGAPERValue is the concrete APERValue[TBCDSTRING].
+type TBCDSTRINGAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.TBCDSTRING
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v TBCDSTRINGAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v TBCDSTRINGAPERValue) WithoutReplay() TBCDSTRINGAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// TargetBSSToSourceBSSTransparentContainerAPERValue is the concrete APERValue[TargetBSSToSourceBSSTransparentContainer].
+type TargetBSSToSourceBSSTransparentContainerAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.TargetBSSToSourceBSSTransparentContainer
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v TargetBSSToSourceBSSTransparentContainerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v TargetBSSToSourceBSSTransparentContainerAPERValue) WithoutReplay() TargetBSSToSourceBSSTransparentContainerAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue is the concrete APERValue[TargetNgRanNodeToSourceNgRanNodeTransparentContainer].
+type TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue) WithoutReplay() TargetNgRanNodeToSourceNgRanNodeTransparentContainerAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// TargetRNCToSourceRNCTransparentContainerAPERValue is the concrete APERValue[TargetRNCToSourceRNCTransparentContainer].
+type TargetRNCToSourceRNCTransparentContainerAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.TargetRNCToSourceRNCTransparentContainer
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v TargetRNCToSourceRNCTransparentContainerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v TargetRNCToSourceRNCTransparentContainerAPERValue) WithoutReplay() TargetRNCToSourceRNCTransparentContainerAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ThresholdRSRPAPERValue is the concrete APERValue[ThresholdRSRP].
+type ThresholdRSRPAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s00.ThresholdRSRP
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ThresholdRSRPAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ThresholdRSRPAPERValue) WithoutReplay() ThresholdRSRPAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -4675,40 +9981,6 @@ func BridgeCompareS1APAdditionalCSFallbackIndicator(v *s00.AdditionalCSFallbackI
 	s.Int(int64((*v)))
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeCaptureS1APAdditionalGUTIExtIEsValue(v *AdditionalGUTIExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v AdditionalGUTIExtIEsValue) captureSemantics(s aper.SemanticCapture) AdditionalGUTIExtIEsValue {
-	BridgeCaptureS1APAdditionalGUTIExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APAdditionalGUTIExtIEsValue(v *AdditionalGUTIExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v AdditionalGUTIExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APAdditionalGUTIExtIEsValue(&v, &s)
-	return s
-}
 func BridgeCompareS1APAdditionalRRMPriorityIndex(v *s00.AdditionalRRMPriorityIndex, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
@@ -4725,108 +9997,6 @@ func BridgeCompareS1APAerialUEsubscriptionInformation(v *s00.AerialUEsubscriptio
 	s.Int(int64((*v)))
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeCaptureS1APAllocationAndRetentionPriorityExtIEsValue(v *AllocationAndRetentionPriorityExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v AllocationAndRetentionPriorityExtIEsValue) captureSemantics(s aper.SemanticCapture) AllocationAndRetentionPriorityExtIEsValue {
-	BridgeCaptureS1APAllocationAndRetentionPriorityExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APAllocationAndRetentionPriorityExtIEsValue(v *AllocationAndRetentionPriorityExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v AllocationAndRetentionPriorityExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APAllocationAndRetentionPriorityExtIEsValue(&v, &s)
-	return s
-}
-func BridgeCaptureS1APAssistanceDataForPagingExtIEsValue(v *AssistanceDataForPagingExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v AssistanceDataForPagingExtIEsValue) captureSemantics(s aper.SemanticCapture) AssistanceDataForPagingExtIEsValue {
-	BridgeCaptureS1APAssistanceDataForPagingExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APAssistanceDataForPagingExtIEsValue(v *AssistanceDataForPagingExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v AssistanceDataForPagingExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APAssistanceDataForPagingExtIEsValue(&v, &s)
-	return s
-}
-func BridgeCaptureS1APAssistanceDataForRecommendedCellsExtIEsValue(v *AssistanceDataForRecommendedCellsExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v AssistanceDataForRecommendedCellsExtIEsValue) captureSemantics(s aper.SemanticCapture) AssistanceDataForRecommendedCellsExtIEsValue {
-	BridgeCaptureS1APAssistanceDataForRecommendedCellsExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APAssistanceDataForRecommendedCellsExtIEsValue(v *AssistanceDataForRecommendedCellsExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v AssistanceDataForRecommendedCellsExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APAssistanceDataForRecommendedCellsExtIEsValue(&v, &s)
-	return s
-}
 func BridgeCompareS1APBearerType(v *s00.BearerType, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
@@ -4834,74 +10004,6 @@ func BridgeCompareS1APBearerType(v *s00.BearerType, s *aper.SemanticComparison) 
 	f := s.Begin()
 	s.Int(int64((*v)))
 	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeCaptureS1APBearersSubjectToDLDiscardingItemExtIEsValue(v *BearersSubjectToDLDiscardingItemExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v BearersSubjectToDLDiscardingItemExtIEsValue) captureSemantics(s aper.SemanticCapture) BearersSubjectToDLDiscardingItemExtIEsValue {
-	BridgeCaptureS1APBearersSubjectToDLDiscardingItemExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APBearersSubjectToDLDiscardingItemExtIEsValue(v *BearersSubjectToDLDiscardingItemExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v BearersSubjectToDLDiscardingItemExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APBearersSubjectToDLDiscardingItemExtIEsValue(&v, &s)
-	return s
-}
-func BridgeCaptureS1APBearersSubjectToEarlyStatusTransferItemExtIEsValue(v *BearersSubjectToEarlyStatusTransferItemExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v BearersSubjectToEarlyStatusTransferItemExtIEsValue) captureSemantics(s aper.SemanticCapture) BearersSubjectToEarlyStatusTransferItemExtIEsValue {
-	BridgeCaptureS1APBearersSubjectToEarlyStatusTransferItemExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APBearersSubjectToEarlyStatusTransferItemExtIEsValue(v *BearersSubjectToEarlyStatusTransferItemExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v BearersSubjectToEarlyStatusTransferItemExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APBearersSubjectToEarlyStatusTransferItemExtIEsValue(&v, &s)
-	return s
 }
 func BridgeCompareS1APBitRate(v *s00.BitRate, s *aper.SemanticComparison) {
 	if s.Err() != nil {
@@ -4938,40 +10040,6 @@ func BridgeCompareS1APBluetoothMeasConfigNameList(v *s00.BluetoothMeasConfigName
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeCaptureS1APBluetoothMeasurementConfigurationExtIEsValue(v *BluetoothMeasurementConfigurationExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v BluetoothMeasurementConfigurationExtIEsValue) captureSemantics(s aper.SemanticCapture) BluetoothMeasurementConfigurationExtIEsValue {
-	BridgeCaptureS1APBluetoothMeasurementConfigurationExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APBluetoothMeasurementConfigurationExtIEsValue(v *BluetoothMeasurementConfigurationExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v BluetoothMeasurementConfigurationExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APBluetoothMeasurementConfigurationExtIEsValue(&v, &s)
-	return s
-}
 func BridgeCompareS1APBluetoothName(v *s00.BluetoothName, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
@@ -5004,40 +10072,6 @@ func BridgeCompareS1APCEModeBSupportIndicator(v *s00.CEModeBSupportIndicator, s 
 	s.Int(int64((*v)))
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeCaptureS1APCGIExtIEsValue(v *CGIExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v CGIExtIEsValue) captureSemantics(s aper.SemanticCapture) CGIExtIEsValue {
-	BridgeCaptureS1APCGIExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APCGIExtIEsValue(v *CGIExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v CGIExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APCGIExtIEsValue(&v, &s)
-	return s
-}
 func BridgeCompareS1APCI(v *s00.CI, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
@@ -5062,142 +10096,6 @@ func BridgeCompareS1APCNType(v *s00.CNType, s *aper.SemanticComparison) {
 	s.Int(int64((*v)))
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeCaptureS1APCNTypeRestrictionsItemExtIEsValue(v *CNTypeRestrictionsItemExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v CNTypeRestrictionsItemExtIEsValue) captureSemantics(s aper.SemanticCapture) CNTypeRestrictionsItemExtIEsValue {
-	BridgeCaptureS1APCNTypeRestrictionsItemExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APCNTypeRestrictionsItemExtIEsValue(v *CNTypeRestrictionsItemExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v CNTypeRestrictionsItemExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APCNTypeRestrictionsItemExtIEsValue(&v, &s)
-	return s
-}
-func BridgeCaptureS1APCOUNTValueExtendedExtIEsValue(v *COUNTValueExtendedExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v COUNTValueExtendedExtIEsValue) captureSemantics(s aper.SemanticCapture) COUNTValueExtendedExtIEsValue {
-	BridgeCaptureS1APCOUNTValueExtendedExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APCOUNTValueExtendedExtIEsValue(v *COUNTValueExtendedExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v COUNTValueExtendedExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APCOUNTValueExtendedExtIEsValue(&v, &s)
-	return s
-}
-func BridgeCaptureS1APCOUNTvalueExtIEsValue(v *COUNTvalueExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v COUNTvalueExtIEsValue) captureSemantics(s aper.SemanticCapture) COUNTvalueExtIEsValue {
-	BridgeCaptureS1APCOUNTvalueExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APCOUNTvalueExtIEsValue(v *COUNTvalueExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v COUNTvalueExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APCOUNTvalueExtIEsValue(&v, &s)
-	return s
-}
-func BridgeCaptureS1APCOUNTvaluePDCPSNlength18ExtIEsValue(v *COUNTvaluePDCPSNlength18ExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v COUNTvaluePDCPSNlength18ExtIEsValue) captureSemantics(s aper.SemanticCapture) COUNTvaluePDCPSNlength18ExtIEsValue {
-	BridgeCaptureS1APCOUNTvaluePDCPSNlength18ExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APCOUNTvaluePDCPSNlength18ExtIEsValue(v *COUNTvaluePDCPSNlength18ExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v COUNTvaluePDCPSNlength18ExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APCOUNTvaluePDCPSNlength18ExtIEsValue(&v, &s)
-	return s
-}
 func BridgeCompareS1APCSFallbackIndicator(v *s00.CSFallbackIndicator, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
@@ -5214,74 +10112,6 @@ func BridgeCompareS1APCSGId(v *s00.CSGId, s *aper.SemanticComparison) {
 	s.BitString((*v).Bytes, (*v).BitLength)
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeCaptureS1APCSGIdListItemExtIEsValue(v *CSGIdListItemExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v CSGIdListItemExtIEsValue) captureSemantics(s aper.SemanticCapture) CSGIdListItemExtIEsValue {
-	BridgeCaptureS1APCSGIdListItemExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APCSGIdListItemExtIEsValue(v *CSGIdListItemExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v CSGIdListItemExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APCSGIdListItemExtIEsValue(&v, &s)
-	return s
-}
-func BridgeCaptureS1APCSGMembershipInfoExtIEsValue(v *CSGMembershipInfoExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v CSGMembershipInfoExtIEsValue) captureSemantics(s aper.SemanticCapture) CSGMembershipInfoExtIEsValue {
-	BridgeCaptureS1APCSGMembershipInfoExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APCSGMembershipInfoExtIEsValue(v *CSGMembershipInfoExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v CSGMembershipInfoExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APCSGMembershipInfoExtIEsValue(&v, &s)
-	return s
-}
 func BridgeCompareS1APCSGMembershipStatus(v *s00.CSGMembershipStatus, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
@@ -5289,40 +10119,6 @@ func BridgeCompareS1APCSGMembershipStatus(v *s00.CSGMembershipStatus, s *aper.Se
 	f := s.Begin()
 	s.Int(int64((*v)))
 	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeCaptureS1APCancelledCellinEAIItemExtIEsValue(v *CancelledCellinEAIItemExtIEsValue, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, &v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v CancelledCellinEAIItemExtIEsValue) captureSemantics(s aper.SemanticCapture) CancelledCellinEAIItemExtIEsValue {
-	BridgeCaptureS1APCancelledCellinEAIItemExtIEsValue(&v, &s)
-	return v
-}
-func BridgeCompareS1APCancelledCellinEAIItemExtIEsValue(v *CancelledCellinEAIItemExtIEsValue, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeCompareS1APProtocolIEID(&v.id, s)
-	if v.isOpaque {
-		s.Opaque(v.opaque)
-	}
-	s.Bool(v.isOpaque)
-	s.End(f, v.replay, false)
-	s.CheckReceived(v.replay, v.received)
-}
-func (v CancelledCellinEAIItemExtIEsValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
-	BridgeCompareS1APCancelledCellinEAIItemExtIEsValue(&v, &s)
-	return s
 }
 func BridgeCompareS1APCauseMisc(v *s00.CauseMisc, s *aper.SemanticComparison) {
 	if s.Err() != nil {
@@ -6808,10751 +11604,6 @@ func BridgeCompareS1APProSeDirectDiscovery(v *s00.ProSeDirectDiscovery, s *aper.
 	f := s.Begin()
 	s.Int(int64((*v)))
 	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeCompareS1APProSeUEtoNetworkRelaying(v *s00.ProSeUEtoNetworkRelaying, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s.Int(int64((*v)))
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeCompareS1APProcedureCode(v *s00.ProcedureCode, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s.Int(int64((*v)))
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeCompareS1APProtocolExtensionID(v *s00.ProtocolExtensionID, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s.Int(int64((*v)))
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeCompareS1APProtocolIEID(v *s00.ProtocolIEID, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s.Int(int64((*v)))
-	s.End(f, aper.Snapshot{}, false)
-}
-
-type AdditionalGUTIExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v AdditionalGUTIExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of AdditionalGUTIExtIEsValue and reports whether the opaque alternative is selected.
-func (v *AdditionalGUTIExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (AdditionalGUTIExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Additional-GUTI-ExtIEs"}}
-}
-func (AdditionalGUTIExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v AdditionalGUTIExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (AdditionalGUTIExtIEsValue, error) {
-	out := AdditionalGUTIExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v AdditionalGUTIExtIEsValue) encode() ([]byte, error) { return v.encodeFresh(false, nil) }
-func (v AdditionalGUTIExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "AdditionalGUTIExtIEsValue:", v.id)
-	}
-}
-
-type AllocationAndRetentionPriorityExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v AllocationAndRetentionPriorityExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of AllocationAndRetentionPriorityExtIEsValue and reports whether the opaque alternative is selected.
-func (v *AllocationAndRetentionPriorityExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (AllocationAndRetentionPriorityExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "AllocationAndRetentionPriority-ExtIEs"}}
-}
-func (AllocationAndRetentionPriorityExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v AllocationAndRetentionPriorityExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (AllocationAndRetentionPriorityExtIEsValue, error) {
-	out := AllocationAndRetentionPriorityExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v AllocationAndRetentionPriorityExtIEsValue) encode() ([]byte, error) {
-	return v.encodeFresh(false, nil)
-}
-func (v AllocationAndRetentionPriorityExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "AllocationAndRetentionPriorityExtIEsValue:", v.id)
-	}
-}
-
-type AssistanceDataForPagingExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v AssistanceDataForPagingExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of AssistanceDataForPagingExtIEsValue and reports whether the opaque alternative is selected.
-func (v *AssistanceDataForPagingExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (AssistanceDataForPagingExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "AssistanceDataForPaging-ExtIEs"}}
-}
-func (AssistanceDataForPagingExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v AssistanceDataForPagingExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (AssistanceDataForPagingExtIEsValue, error) {
-	out := AssistanceDataForPagingExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v AssistanceDataForPagingExtIEsValue) encode() ([]byte, error) {
-	return v.encodeFresh(false, nil)
-}
-func (v AssistanceDataForPagingExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "AssistanceDataForPagingExtIEsValue:", v.id)
-	}
-}
-
-type AssistanceDataForRecommendedCellsExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v AssistanceDataForRecommendedCellsExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of AssistanceDataForRecommendedCellsExtIEsValue and reports whether the opaque alternative is selected.
-func (v *AssistanceDataForRecommendedCellsExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (AssistanceDataForRecommendedCellsExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "AssistanceDataForRecommendedCells-ExtIEs"}}
-}
-func (AssistanceDataForRecommendedCellsExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v AssistanceDataForRecommendedCellsExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (AssistanceDataForRecommendedCellsExtIEsValue, error) {
-	out := AssistanceDataForRecommendedCellsExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v AssistanceDataForRecommendedCellsExtIEsValue) encode() ([]byte, error) {
-	return v.encodeFresh(false, nil)
-}
-func (v AssistanceDataForRecommendedCellsExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "AssistanceDataForRecommendedCellsExtIEsValue:", v.id)
-	}
-}
-
-type BearersSubjectToDLDiscardingItemExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v BearersSubjectToDLDiscardingItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of BearersSubjectToDLDiscardingItemExtIEsValue and reports whether the opaque alternative is selected.
-func (v *BearersSubjectToDLDiscardingItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (BearersSubjectToDLDiscardingItemExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToDLDiscarding-ItemExtIEs"}}
-}
-func (BearersSubjectToDLDiscardingItemExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v BearersSubjectToDLDiscardingItemExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (BearersSubjectToDLDiscardingItemExtIEsValue, error) {
-	out := BearersSubjectToDLDiscardingItemExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v BearersSubjectToDLDiscardingItemExtIEsValue) encode() ([]byte, error) {
-	return v.encodeFresh(false, nil)
-}
-func (v BearersSubjectToDLDiscardingItemExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "BearersSubjectToDLDiscardingItemExtIEsValue:", v.id)
-	}
-}
-
-type BearersSubjectToEarlyStatusTransferItemExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v BearersSubjectToEarlyStatusTransferItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of BearersSubjectToEarlyStatusTransferItemExtIEsValue and reports whether the opaque alternative is selected.
-func (v *BearersSubjectToEarlyStatusTransferItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (BearersSubjectToEarlyStatusTransferItemExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToEarlyStatusTransfer-ItemExtIEs"}}
-}
-func (BearersSubjectToEarlyStatusTransferItemExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v BearersSubjectToEarlyStatusTransferItemExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (BearersSubjectToEarlyStatusTransferItemExtIEsValue, error) {
-	out := BearersSubjectToEarlyStatusTransferItemExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v BearersSubjectToEarlyStatusTransferItemExtIEsValue) encode() ([]byte, error) {
-	return v.encodeFresh(false, nil)
-}
-func (v BearersSubjectToEarlyStatusTransferItemExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "BearersSubjectToEarlyStatusTransferItemExtIEsValue:", v.id)
-	}
-}
-
-type BluetoothMeasurementConfigurationExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v BluetoothMeasurementConfigurationExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of BluetoothMeasurementConfigurationExtIEsValue and reports whether the opaque alternative is selected.
-func (v *BluetoothMeasurementConfigurationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (BluetoothMeasurementConfigurationExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "BluetoothMeasurementConfiguration-ExtIEs"}}
-}
-func (BluetoothMeasurementConfigurationExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v BluetoothMeasurementConfigurationExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (BluetoothMeasurementConfigurationExtIEsValue, error) {
-	out := BluetoothMeasurementConfigurationExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v BluetoothMeasurementConfigurationExtIEsValue) encode() ([]byte, error) {
-	return v.encodeFresh(false, nil)
-}
-func (v BluetoothMeasurementConfigurationExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "BluetoothMeasurementConfigurationExtIEsValue:", v.id)
-	}
-}
-
-type CGIExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v CGIExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of CGIExtIEsValue and reports whether the opaque alternative is selected.
-func (v *CGIExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (CGIExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "CGI-ExtIEs"}}
-}
-func (CGIExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v CGIExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (CGIExtIEsValue, error) {
-	out := CGIExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v CGIExtIEsValue) encode() ([]byte, error) { return v.encodeFresh(false, nil) }
-func (v CGIExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "CGIExtIEsValue:", v.id)
-	}
-}
-
-type CNTypeRestrictionsItemExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v CNTypeRestrictionsItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of CNTypeRestrictionsItemExtIEsValue and reports whether the opaque alternative is selected.
-func (v *CNTypeRestrictionsItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (CNTypeRestrictionsItemExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "CNTypeRestrictions-Item-ExtIEs"}}
-}
-func (CNTypeRestrictionsItemExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v CNTypeRestrictionsItemExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (CNTypeRestrictionsItemExtIEsValue, error) {
-	out := CNTypeRestrictionsItemExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v CNTypeRestrictionsItemExtIEsValue) encode() ([]byte, error) {
-	return v.encodeFresh(false, nil)
-}
-func (v CNTypeRestrictionsItemExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "CNTypeRestrictionsItemExtIEsValue:", v.id)
-	}
-}
-
-type COUNTValueExtendedExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v COUNTValueExtendedExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of COUNTValueExtendedExtIEsValue and reports whether the opaque alternative is selected.
-func (v *COUNTValueExtendedExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (COUNTValueExtendedExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "COUNTValueExtended-ExtIEs"}}
-}
-func (COUNTValueExtendedExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v COUNTValueExtendedExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (COUNTValueExtendedExtIEsValue, error) {
-	out := COUNTValueExtendedExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v COUNTValueExtendedExtIEsValue) encode() ([]byte, error) { return v.encodeFresh(false, nil) }
-func (v COUNTValueExtendedExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "COUNTValueExtendedExtIEsValue:", v.id)
-	}
-}
-
-type COUNTvalueExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v COUNTvalueExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of COUNTvalueExtIEsValue and reports whether the opaque alternative is selected.
-func (v *COUNTvalueExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (COUNTvalueExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "COUNTvalue-ExtIEs"}}
-}
-func (COUNTvalueExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v COUNTvalueExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (COUNTvalueExtIEsValue, error) {
-	out := COUNTvalueExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v COUNTvalueExtIEsValue) encode() ([]byte, error) { return v.encodeFresh(false, nil) }
-func (v COUNTvalueExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "COUNTvalueExtIEsValue:", v.id)
-	}
-}
-
-type COUNTvaluePDCPSNlength18ExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v COUNTvaluePDCPSNlength18ExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of COUNTvaluePDCPSNlength18ExtIEsValue and reports whether the opaque alternative is selected.
-func (v *COUNTvaluePDCPSNlength18ExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (COUNTvaluePDCPSNlength18ExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "COUNTvaluePDCP-SNlength18-ExtIEs"}}
-}
-func (COUNTvaluePDCPSNlength18ExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v COUNTvaluePDCPSNlength18ExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (COUNTvaluePDCPSNlength18ExtIEsValue, error) {
-	out := COUNTvaluePDCPSNlength18ExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v COUNTvaluePDCPSNlength18ExtIEsValue) encode() ([]byte, error) {
-	return v.encodeFresh(false, nil)
-}
-func (v COUNTvaluePDCPSNlength18ExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "COUNTvaluePDCPSNlength18ExtIEsValue:", v.id)
-	}
-}
-
-type CSGIdListItemExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v CSGIdListItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of CSGIdListItemExtIEsValue and reports whether the opaque alternative is selected.
-func (v *CSGIdListItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (CSGIdListItemExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "CSG-IdList-Item-ExtIEs"}}
-}
-func (CSGIdListItemExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v CSGIdListItemExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (CSGIdListItemExtIEsValue, error) {
-	out := CSGIdListItemExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v CSGIdListItemExtIEsValue) encode() ([]byte, error) { return v.encodeFresh(false, nil) }
-func (v CSGIdListItemExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "CSGIdListItemExtIEsValue:", v.id)
-	}
-}
-
-type CancelledCellinEAIItemExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v CancelledCellinEAIItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of CancelledCellinEAIItemExtIEsValue and reports whether the opaque alternative is selected.
-func (v *CancelledCellinEAIItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (CancelledCellinEAIItemExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "CancelledCellinEAI-Item-ExtIEs"}}
-}
-func (CancelledCellinEAIItemExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v CancelledCellinEAIItemExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (CancelledCellinEAIItemExtIEsValue, error) {
-	out := CancelledCellinEAIItemExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v CancelledCellinEAIItemExtIEsValue) encode() ([]byte, error) {
-	return v.encodeFresh(false, nil)
-}
-func (v CancelledCellinEAIItemExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "CancelledCellinEAIItemExtIEsValue:", v.id)
-	}
-}
-
-type CSGMembershipInfoExtIEsValue struct {
-	id       s00.ProtocolIEID
-	received aper.WireSpan
-	replay   aper.Snapshot
-	opaque   aper.OpaqueOpenType
-	isOpaque bool
-}
-
-func (v CSGMembershipInfoExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
-	if v.id != id {
-		return false
-	}
-	if v.isOpaque {
-		return true
-	}
-	switch id {
-	}
-	return false
-}
-
-// Opaque returns the retained opaque open value of CSGMembershipInfoExtIEsValue and reports whether the opaque alternative is selected.
-func (v *CSGMembershipInfoExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
-	if v == nil || !v.isOpaque {
-		return aper.OpaqueOpenType{}, false
-	}
-	return v.opaque, true
-}
-func (CSGMembershipInfoExtIEsValue) rule() aper.SourceRule {
-	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "CSGMembershipInfo-ExtIEs"}}
-}
-func (CSGMembershipInfoExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
-	switch id {
-	case s00.ProtocolIEID(0):
-		return aper.NotInTable
-	case s00.ProtocolIEID(1):
-		return aper.NotInTable
-	case s00.ProtocolIEID(2):
-		return aper.NotInTable
-	case s00.ProtocolIEID(4):
-		return aper.NotInTable
-	case s00.ProtocolIEID(8):
-		return aper.NotInTable
-	case s00.ProtocolIEID(12):
-		return aper.NotInTable
-	case s00.ProtocolIEID(13):
-		return aper.NotInTable
-	case s00.ProtocolIEID(14):
-		return aper.NotInTable
-	case s00.ProtocolIEID(15):
-		return aper.NotInTable
-	case s00.ProtocolIEID(16):
-		return aper.NotInTable
-	case s00.ProtocolIEID(17):
-		return aper.NotInTable
-	case s00.ProtocolIEID(18):
-		return aper.NotInTable
-	case s00.ProtocolIEID(19):
-		return aper.NotInTable
-	case s00.ProtocolIEID(20):
-		return aper.NotInTable
-	case s00.ProtocolIEID(21):
-		return aper.NotInTable
-	case s00.ProtocolIEID(22):
-		return aper.NotInTable
-	case s00.ProtocolIEID(23):
-		return aper.NotInTable
-	case s00.ProtocolIEID(24):
-		return aper.NotInTable
-	case s00.ProtocolIEID(25):
-		return aper.NotInTable
-	case s00.ProtocolIEID(26):
-		return aper.NotInTable
-	case s00.ProtocolIEID(27):
-		return aper.NotInTable
-	case s00.ProtocolIEID(28):
-		return aper.NotInTable
-	case s00.ProtocolIEID(29):
-		return aper.NotInTable
-	case s00.ProtocolIEID(30):
-		return aper.NotInTable
-	case s00.ProtocolIEID(31):
-		return aper.NotInTable
-	case s00.ProtocolIEID(32):
-		return aper.NotInTable
-	case s00.ProtocolIEID(33):
-		return aper.NotInTable
-	case s00.ProtocolIEID(34):
-		return aper.NotInTable
-	case s00.ProtocolIEID(35):
-		return aper.NotInTable
-	case s00.ProtocolIEID(36):
-		return aper.NotInTable
-	case s00.ProtocolIEID(37):
-		return aper.NotInTable
-	case s00.ProtocolIEID(39):
-		return aper.NotInTable
-	case s00.ProtocolIEID(40):
-		return aper.NotInTable
-	case s00.ProtocolIEID(41):
-		return aper.NotInTable
-	case s00.ProtocolIEID(43):
-		return aper.NotInTable
-	case s00.ProtocolIEID(44):
-		return aper.NotInTable
-	case s00.ProtocolIEID(46):
-		return aper.NotInTable
-	case s00.ProtocolIEID(47):
-		return aper.NotInTable
-	case s00.ProtocolIEID(48):
-		return aper.NotInTable
-	case s00.ProtocolIEID(50):
-		return aper.NotInTable
-	case s00.ProtocolIEID(51):
-		return aper.NotInTable
-	case s00.ProtocolIEID(52):
-		return aper.NotInTable
-	case s00.ProtocolIEID(53):
-		return aper.NotInTable
-	case s00.ProtocolIEID(58):
-		return aper.NotInTable
-	case s00.ProtocolIEID(59):
-		return aper.NotInTable
-	case s00.ProtocolIEID(60):
-		return aper.NotInTable
-	case s00.ProtocolIEID(61):
-		return aper.NotInTable
-	case s00.ProtocolIEID(64):
-		return aper.NotInTable
-	case s00.ProtocolIEID(65):
-		return aper.NotInTable
-	case s00.ProtocolIEID(66):
-		return aper.NotInTable
-	case s00.ProtocolIEID(67):
-		return aper.NotInTable
-	case s00.ProtocolIEID(69):
-		return aper.NotInTable
-	case s00.ProtocolIEID(70):
-		return aper.NotInTable
-	case s00.ProtocolIEID(71):
-		return aper.NotInTable
-	case s00.ProtocolIEID(72):
-		return aper.NotInTable
-	case s00.ProtocolIEID(73):
-		return aper.NotInTable
-	case s00.ProtocolIEID(74):
-		return aper.NotInTable
-	case s00.ProtocolIEID(75):
-		return aper.NotInTable
-	case s00.ProtocolIEID(78):
-		return aper.NotInTable
-	case s00.ProtocolIEID(79):
-		return aper.NotInTable
-	case s00.ProtocolIEID(80):
-		return aper.NotInTable
-	case s00.ProtocolIEID(83):
-		return aper.NotInTable
-	case s00.ProtocolIEID(84):
-		return aper.NotInTable
-	case s00.ProtocolIEID(86):
-		return aper.NotInTable
-	case s00.ProtocolIEID(87):
-		return aper.NotInTable
-	case s00.ProtocolIEID(88):
-		return aper.NotInTable
-	case s00.ProtocolIEID(89):
-		return aper.NotInTable
-	case s00.ProtocolIEID(90):
-		return aper.NotInTable
-	case s00.ProtocolIEID(91):
-		return aper.NotInTable
-	case s00.ProtocolIEID(92):
-		return aper.NotInTable
-	case s00.ProtocolIEID(93):
-		return aper.NotInTable
-	case s00.ProtocolIEID(94):
-		return aper.NotInTable
-	case s00.ProtocolIEID(95):
-		return aper.NotInTable
-	case s00.ProtocolIEID(96):
-		return aper.NotInTable
-	case s00.ProtocolIEID(97):
-		return aper.NotInTable
-	case s00.ProtocolIEID(98):
-		return aper.NotInTable
-	case s00.ProtocolIEID(99):
-		return aper.NotInTable
-	case s00.ProtocolIEID(100):
-		return aper.NotInTable
-	case s00.ProtocolIEID(101):
-		return aper.NotInTable
-	case s00.ProtocolIEID(102):
-		return aper.NotInTable
-	case s00.ProtocolIEID(104):
-		return aper.NotInTable
-	case s00.ProtocolIEID(105):
-		return aper.NotInTable
-	case s00.ProtocolIEID(106):
-		return aper.NotInTable
-	case s00.ProtocolIEID(107):
-		return aper.NotInTable
-	case s00.ProtocolIEID(108):
-		return aper.NotInTable
-	case s00.ProtocolIEID(109):
-		return aper.NotInTable
-	case s00.ProtocolIEID(110):
-		return aper.NotInTable
-	case s00.ProtocolIEID(111):
-		return aper.NotInTable
-	case s00.ProtocolIEID(112):
-		return aper.NotInTable
-	case s00.ProtocolIEID(113):
-		return aper.NotInTable
-	case s00.ProtocolIEID(114):
-		return aper.NotInTable
-	case s00.ProtocolIEID(115):
-		return aper.NotInTable
-	case s00.ProtocolIEID(116):
-		return aper.NotInTable
-	case s00.ProtocolIEID(117):
-		return aper.NotInTable
-	case s00.ProtocolIEID(118):
-		return aper.NotInTable
-	case s00.ProtocolIEID(119):
-		return aper.NotInTable
-	case s00.ProtocolIEID(120):
-		return aper.NotInTable
-	case s00.ProtocolIEID(121):
-		return aper.NotInTable
-	case s00.ProtocolIEID(122):
-		return aper.NotInTable
-	case s00.ProtocolIEID(123):
-		return aper.NotInTable
-	case s00.ProtocolIEID(124):
-		return aper.NotInTable
-	case s00.ProtocolIEID(125):
-		return aper.NotInTable
-	case s00.ProtocolIEID(127):
-		return aper.NotInTable
-	case s00.ProtocolIEID(128):
-		return aper.NotInTable
-	case s00.ProtocolIEID(129):
-		return aper.NotInTable
-	case s00.ProtocolIEID(130):
-		return aper.NotInTable
-	case s00.ProtocolIEID(131):
-		return aper.NotInTable
-	case s00.ProtocolIEID(132):
-		return aper.NotInTable
-	case s00.ProtocolIEID(133):
-		return aper.NotInTable
-	case s00.ProtocolIEID(134):
-		return aper.NotInTable
-	case s00.ProtocolIEID(135):
-		return aper.NotInTable
-	case s00.ProtocolIEID(136):
-		return aper.NotInTable
-	case s00.ProtocolIEID(137):
-		return aper.NotInTable
-	case s00.ProtocolIEID(138):
-		return aper.NotInTable
-	case s00.ProtocolIEID(139):
-		return aper.NotInTable
-	case s00.ProtocolIEID(140):
-		return aper.NotInTable
-	case s00.ProtocolIEID(141):
-		return aper.NotInTable
-	case s00.ProtocolIEID(142):
-		return aper.NotInTable
-	case s00.ProtocolIEID(143):
-		return aper.NotInTable
-	case s00.ProtocolIEID(144):
-		return aper.NotInTable
-	case s00.ProtocolIEID(145):
-		return aper.NotInTable
-	case s00.ProtocolIEID(146):
-		return aper.NotInTable
-	case s00.ProtocolIEID(147):
-		return aper.NotInTable
-	case s00.ProtocolIEID(148):
-		return aper.NotInTable
-	case s00.ProtocolIEID(149):
-		return aper.NotInTable
-	case s00.ProtocolIEID(150):
-		return aper.NotInTable
-	case s00.ProtocolIEID(151):
-		return aper.NotInTable
-	case s00.ProtocolIEID(152):
-		return aper.NotInTable
-	case s00.ProtocolIEID(153):
-		return aper.NotInTable
-	case s00.ProtocolIEID(154):
-		return aper.NotInTable
-	case s00.ProtocolIEID(155):
-		return aper.NotInTable
-	case s00.ProtocolIEID(156):
-		return aper.NotInTable
-	case s00.ProtocolIEID(157):
-		return aper.NotInTable
-	case s00.ProtocolIEID(158):
-		return aper.NotInTable
-	case s00.ProtocolIEID(159):
-		return aper.NotInTable
-	case s00.ProtocolIEID(160):
-		return aper.NotInTable
-	case s00.ProtocolIEID(161):
-		return aper.NotInTable
-	case s00.ProtocolIEID(162):
-		return aper.NotInTable
-	case s00.ProtocolIEID(163):
-		return aper.NotInTable
-	case s00.ProtocolIEID(164):
-		return aper.NotInTable
-	case s00.ProtocolIEID(165):
-		return aper.NotInTable
-	case s00.ProtocolIEID(166):
-		return aper.NotInTable
-	case s00.ProtocolIEID(167):
-		return aper.NotInTable
-	case s00.ProtocolIEID(168):
-		return aper.NotInTable
-	case s00.ProtocolIEID(169):
-		return aper.NotInTable
-	case s00.ProtocolIEID(170):
-		return aper.NotInTable
-	case s00.ProtocolIEID(171):
-		return aper.NotInTable
-	case s00.ProtocolIEID(172):
-		return aper.NotInTable
-	case s00.ProtocolIEID(173):
-		return aper.NotInTable
-	case s00.ProtocolIEID(174):
-		return aper.NotInTable
-	case s00.ProtocolIEID(175):
-		return aper.NotInTable
-	case s00.ProtocolIEID(176):
-		return aper.NotInTable
-	case s00.ProtocolIEID(177):
-		return aper.NotInTable
-	case s00.ProtocolIEID(178):
-		return aper.NotInTable
-	case s00.ProtocolIEID(179):
-		return aper.NotInTable
-	case s00.ProtocolIEID(180):
-		return aper.NotInTable
-	case s00.ProtocolIEID(181):
-		return aper.NotInTable
-	case s00.ProtocolIEID(182):
-		return aper.NotInTable
-	case s00.ProtocolIEID(183):
-		return aper.NotInTable
-	case s00.ProtocolIEID(184):
-		return aper.NotInTable
-	case s00.ProtocolIEID(185):
-		return aper.NotInTable
-	case s00.ProtocolIEID(186):
-		return aper.NotInTable
-	case s00.ProtocolIEID(187):
-		return aper.NotInTable
-	case s00.ProtocolIEID(188):
-		return aper.NotInTable
-	case s00.ProtocolIEID(189):
-		return aper.NotInTable
-	case s00.ProtocolIEID(190):
-		return aper.NotInTable
-	case s00.ProtocolIEID(191):
-		return aper.NotInTable
-	case s00.ProtocolIEID(192):
-		return aper.NotInTable
-	case s00.ProtocolIEID(193):
-		return aper.NotInTable
-	case s00.ProtocolIEID(194):
-		return aper.NotInTable
-	case s00.ProtocolIEID(195):
-		return aper.NotInTable
-	case s00.ProtocolIEID(196):
-		return aper.NotInTable
-	case s00.ProtocolIEID(197):
-		return aper.NotInTable
-	case s00.ProtocolIEID(198):
-		return aper.NotInTable
-	case s00.ProtocolIEID(199):
-		return aper.NotInTable
-	case s00.ProtocolIEID(200):
-		return aper.NotInTable
-	case s00.ProtocolIEID(201):
-		return aper.NotInTable
-	case s00.ProtocolIEID(202):
-		return aper.NotInTable
-	case s00.ProtocolIEID(203):
-		return aper.NotInTable
-	case s00.ProtocolIEID(204):
-		return aper.NotInTable
-	case s00.ProtocolIEID(205):
-		return aper.NotInTable
-	case s00.ProtocolIEID(206):
-		return aper.NotInTable
-	case s00.ProtocolIEID(207):
-		return aper.NotInTable
-	case s00.ProtocolIEID(208):
-		return aper.NotInTable
-	case s00.ProtocolIEID(209):
-		return aper.NotInTable
-	case s00.ProtocolIEID(210):
-		return aper.NotInTable
-	case s00.ProtocolIEID(211):
-		return aper.NotInTable
-	case s00.ProtocolIEID(212):
-		return aper.NotInTable
-	case s00.ProtocolIEID(213):
-		return aper.NotInTable
-	case s00.ProtocolIEID(214):
-		return aper.NotInTable
-	case s00.ProtocolIEID(215):
-		return aper.NotInTable
-	case s00.ProtocolIEID(216):
-		return aper.NotInTable
-	case s00.ProtocolIEID(217):
-		return aper.NotInTable
-	case s00.ProtocolIEID(218):
-		return aper.NotInTable
-	case s00.ProtocolIEID(219):
-		return aper.NotInTable
-	case s00.ProtocolIEID(220):
-		return aper.NotInTable
-	case s00.ProtocolIEID(221):
-		return aper.NotInTable
-	case s00.ProtocolIEID(222):
-		return aper.NotInTable
-	case s00.ProtocolIEID(223):
-		return aper.NotInTable
-	case s00.ProtocolIEID(224):
-		return aper.NotInTable
-	case s00.ProtocolIEID(225):
-		return aper.NotInTable
-	case s00.ProtocolIEID(226):
-		return aper.NotInTable
-	case s00.ProtocolIEID(227):
-		return aper.NotInTable
-	case s00.ProtocolIEID(228):
-		return aper.NotInTable
-	case s00.ProtocolIEID(230):
-		return aper.NotInTable
-	case s00.ProtocolIEID(231):
-		return aper.NotInTable
-	case s00.ProtocolIEID(232):
-		return aper.NotInTable
-	case s00.ProtocolIEID(233):
-		return aper.NotInTable
-	case s00.ProtocolIEID(234):
-		return aper.NotInTable
-	case s00.ProtocolIEID(235):
-		return aper.NotInTable
-	case s00.ProtocolIEID(236):
-		return aper.NotInTable
-	case s00.ProtocolIEID(237):
-		return aper.NotInTable
-	case s00.ProtocolIEID(238):
-		return aper.NotInTable
-	case s00.ProtocolIEID(239):
-		return aper.NotInTable
-	case s00.ProtocolIEID(240):
-		return aper.NotInTable
-	case s00.ProtocolIEID(241):
-		return aper.NotInTable
-	case s00.ProtocolIEID(242):
-		return aper.NotInTable
-	case s00.ProtocolIEID(243):
-		return aper.NotInTable
-	case s00.ProtocolIEID(244):
-		return aper.NotInTable
-	case s00.ProtocolIEID(245):
-		return aper.NotInTable
-	case s00.ProtocolIEID(246):
-		return aper.NotInTable
-	case s00.ProtocolIEID(247):
-		return aper.NotInTable
-	case s00.ProtocolIEID(248):
-		return aper.NotInTable
-	case s00.ProtocolIEID(249):
-		return aper.NotInTable
-	case s00.ProtocolIEID(250):
-		return aper.NotInTable
-	case s00.ProtocolIEID(251):
-		return aper.NotInTable
-	case s00.ProtocolIEID(252):
-		return aper.NotInTable
-	case s00.ProtocolIEID(253):
-		return aper.NotInTable
-	case s00.ProtocolIEID(254):
-		return aper.NotInTable
-	case s00.ProtocolIEID(255):
-		return aper.NotInTable
-	case s00.ProtocolIEID(256):
-		return aper.NotInTable
-	case s00.ProtocolIEID(257):
-		return aper.NotInTable
-	case s00.ProtocolIEID(258):
-		return aper.NotInTable
-	case s00.ProtocolIEID(259):
-		return aper.NotInTable
-	case s00.ProtocolIEID(260):
-		return aper.NotInTable
-	case s00.ProtocolIEID(261):
-		return aper.NotInTable
-	case s00.ProtocolIEID(262):
-		return aper.NotInTable
-	case s00.ProtocolIEID(263):
-		return aper.NotInTable
-	case s00.ProtocolIEID(264):
-		return aper.NotInTable
-	case s00.ProtocolIEID(265):
-		return aper.NotInTable
-	case s00.ProtocolIEID(266):
-		return aper.NotInTable
-	case s00.ProtocolIEID(267):
-		return aper.NotInTable
-	case s00.ProtocolIEID(268):
-		return aper.NotInTable
-	case s00.ProtocolIEID(269):
-		return aper.NotInTable
-	case s00.ProtocolIEID(270):
-		return aper.NotInTable
-	case s00.ProtocolIEID(271):
-		return aper.NotInTable
-	case s00.ProtocolIEID(272):
-		return aper.NotInTable
-	case s00.ProtocolIEID(273):
-		return aper.NotInTable
-	case s00.ProtocolIEID(274):
-		return aper.NotInTable
-	case s00.ProtocolIEID(275):
-		return aper.NotInTable
-	case s00.ProtocolIEID(276):
-		return aper.NotInTable
-	case s00.ProtocolIEID(277):
-		return aper.NotInTable
-	case s00.ProtocolIEID(278):
-		return aper.NotInTable
-	case s00.ProtocolIEID(280):
-		return aper.NotInTable
-	case s00.ProtocolIEID(281):
-		return aper.NotInTable
-	case s00.ProtocolIEID(282):
-		return aper.NotInTable
-	case s00.ProtocolIEID(283):
-		return aper.NotInTable
-	case s00.ProtocolIEID(284):
-		return aper.NotInTable
-	case s00.ProtocolIEID(285):
-		return aper.NotInTable
-	case s00.ProtocolIEID(286):
-		return aper.NotInTable
-	case s00.ProtocolIEID(287):
-		return aper.NotInTable
-	case s00.ProtocolIEID(288):
-		return aper.NotInTable
-	case s00.ProtocolIEID(290):
-		return aper.NotInTable
-	case s00.ProtocolIEID(291):
-		return aper.NotInTable
-	case s00.ProtocolIEID(292):
-		return aper.NotInTable
-	case s00.ProtocolIEID(293):
-		return aper.NotInTable
-	case s00.ProtocolIEID(294):
-		return aper.NotInTable
-	case s00.ProtocolIEID(295):
-		return aper.NotInTable
-	case s00.ProtocolIEID(296):
-		return aper.NotInTable
-	case s00.ProtocolIEID(297):
-		return aper.NotInTable
-	case s00.ProtocolIEID(298):
-		return aper.NotInTable
-	case s00.ProtocolIEID(299):
-		return aper.NotInTable
-	case s00.ProtocolIEID(300):
-		return aper.NotInTable
-	case s00.ProtocolIEID(301):
-		return aper.NotInTable
-	case s00.ProtocolIEID(302):
-		return aper.NotInTable
-	case s00.ProtocolIEID(303):
-		return aper.NotInTable
-	case s00.ProtocolIEID(304):
-		return aper.NotInTable
-	case s00.ProtocolIEID(305):
-		return aper.NotInTable
-	case s00.ProtocolIEID(306):
-		return aper.NotInTable
-	case s00.ProtocolIEID(307):
-		return aper.NotInTable
-	case s00.ProtocolIEID(308):
-		return aper.NotInTable
-	case s00.ProtocolIEID(309):
-		return aper.NotInTable
-	case s00.ProtocolIEID(310):
-		return aper.NotInTable
-	case s00.ProtocolIEID(311):
-		return aper.NotInTable
-	case s00.ProtocolIEID(312):
-		return aper.NotInTable
-	case s00.ProtocolIEID(313):
-		return aper.NotInTable
-	case s00.ProtocolIEID(314):
-		return aper.NotInTable
-	case s00.ProtocolIEID(315):
-		return aper.NotInTable
-	case s00.ProtocolIEID(316):
-		return aper.NotInTable
-	case s00.ProtocolIEID(317):
-		return aper.NotInTable
-	case s00.ProtocolIEID(318):
-		return aper.NotInTable
-	case s00.ProtocolIEID(319):
-		return aper.NotInTable
-	case s00.ProtocolIEID(320):
-		return aper.NotInTable
-	case s00.ProtocolIEID(321):
-		return aper.NotInTable
-	case s00.ProtocolIEID(322):
-		return aper.NotInTable
-	case s00.ProtocolIEID(323):
-		return aper.NotInTable
-	case s00.ProtocolIEID(324):
-		return aper.NotInTable
-	case s00.ProtocolIEID(325):
-		return aper.NotInTable
-	case s00.ProtocolIEID(326):
-		return aper.NotInTable
-	case s00.ProtocolIEID(327):
-		return aper.NotInTable
-	case s00.ProtocolIEID(328):
-		return aper.NotInTable
-	case s00.ProtocolIEID(329):
-		return aper.NotInTable
-	case s00.ProtocolIEID(330):
-		return aper.NotInTable
-	case s00.ProtocolIEID(331):
-		return aper.NotInTable
-	case s00.ProtocolIEID(332):
-		return aper.NotInTable
-	case s00.ProtocolIEID(334):
-		return aper.NotInTable
-	case s00.ProtocolIEID(335):
-		return aper.NotInTable
-	case s00.ProtocolIEID(336):
-		return aper.NotInTable
-	case s00.ProtocolIEID(337):
-		return aper.NotInTable
-	case s00.ProtocolIEID(339):
-		return aper.NotInTable
-	case s00.ProtocolIEID(340):
-		return aper.NotInTable
-	case s00.ProtocolIEID(341):
-		return aper.NotInTable
-	case s00.ProtocolIEID(342):
-		return aper.NotInTable
-	case s00.ProtocolIEID(343):
-		return aper.NotInTable
-	case s00.ProtocolIEID(344):
-		return aper.NotInTable
-	case s00.ProtocolIEID(345):
-		return aper.NotInTable
-	case s00.ProtocolIEID(346):
-		return aper.NotInTable
-	case s00.ProtocolIEID(347):
-		return aper.NotInTable
-	case s00.ProtocolIEID(348):
-		return aper.NotInTable
-	case s00.ProtocolIEID(349):
-		return aper.NotInTable
-	case s00.ProtocolIEID(350):
-		return aper.NotInTable
-	case s00.ProtocolIEID(351):
-		return aper.NotInTable
-	case s00.ProtocolIEID(352):
-		return aper.NotInTable
-	case s00.ProtocolIEID(353):
-		return aper.NotInTable
-	case s00.ProtocolIEID(354):
-		return aper.NotInTable
-	case s00.ProtocolIEID(355):
-		return aper.NotInTable
-	case s00.ProtocolIEID(356):
-		return aper.NotInTable
-	default:
-		return aper.UnknownSelector
-	}
-}
-func (v CSGMembershipInfoExtIEsValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (CSGMembershipInfoExtIEsValue, error) {
-	out := CSGMembershipInfoExtIEsValue{id: id}
-	switch id {
-	default:
-		if err := raw.Observe(aper.UnknownIE); err != nil {
-			return out, err
-		}
-		out.opaque = raw.Detached()
-		out.isOpaque = true
-	}
-	return out, nil
-}
-func (v CSGMembershipInfoExtIEsValue) encode() ([]byte, error) { return v.encodeFresh(false, nil) }
-func (v CSGMembershipInfoExtIEsValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-	if v.isOpaque {
-		return aper.CopyOpaque(v.opaque, budget)
-	}
-	switch v.id {
-	default:
-		return nil, fmt.Errorf("%s id %d has no value", "CSGMembershipInfoExtIEsValue:", v.id)
-	}
 }
 
 // BluetoothMeasConfigCodec binds the complete source value type.
@@ -20093,11 +14144,11 @@ func ExpectedIdlePeriodCodec() s00.ExpectedIdlePeriodValueCodec {
 }
 
 // FailureEventReportingCauseCodec binds the complete source value type.
-func FailureEventReportingCauseCodec() s00.FailureEventReportingCauseValueCodec {
-	return func() s00.FailureEventReportingCauseValueCodec {
-		sealed := s00.FailureEventReportingCauseValueCodec{}
-		*s00.BridgeFailureEventReportingCauseValueCodecFieldPath(&sealed) = "FailureEventReportingCause"
-		*s00.BridgeFailureEventReportingCauseValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.FailureEventReportingCause, error) {
+func FailureEventReportingCauseCodec() s01.FailureEventReportingCauseValueCodec {
+	return func() s01.FailureEventReportingCauseValueCodec {
+		sealed := s01.FailureEventReportingCauseValueCodec{}
+		*s01.BridgeFailureEventReportingCauseValueCodecFieldPath(&sealed) = "FailureEventReportingCause"
+		*s01.BridgeFailureEventReportingCauseValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.FailureEventReportingCause, error) {
 			var zero s00.FailureEventReportingCause
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -20125,7 +14176,7 @@ func FailureEventReportingCauseCodec() s00.FailureEventReportingCauseValueCodec 
 			}
 			return value, nil
 		}
-		*s00.BridgeFailureEventReportingCauseValueCodecFieldEncode(&sealed) = func(value s00.FailureEventReportingCause, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s01.BridgeFailureEventReportingCauseValueCodecFieldEncode(&sealed) = func(value s00.FailureEventReportingCause, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (func(value s00.FailureEventReportingCause, budget *aper.DecodeBudget) ([]byte, error) {
 				bb := aper.NewBudgetBuffer(budget)
 				v := struct {
@@ -20144,7 +14195,7 @@ func FailureEventReportingCauseCodec() s00.FailureEventReportingCauseValueCodec 
 				return bb.CompleteBytes(), nil
 			})(value, budget)
 		}
-		*s00.BridgeFailureEventReportingCauseValueCodecFieldCapture(&sealed) = func(v s00.FailureEventReportingCause, options aper.DecodeState) (s00.FailureEventReportingCause, aper.Snapshot,
+		*s01.BridgeFailureEventReportingCauseValueCodecFieldCapture(&sealed) = func(v s00.FailureEventReportingCause, options aper.DecodeState) (s00.FailureEventReportingCause, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -20154,7 +14205,7 @@ func FailureEventReportingCauseCodec() s00.FailureEventReportingCauseValueCodec 
 				f, &root, false)
 			return v, root
 		}
-		*s00.BridgeFailureEventReportingCauseValueCodecFieldCompare(&sealed) = func(v s00.FailureEventReportingCause, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s01.BridgeFailureEventReportingCauseValueCodecFieldCompare(&sealed) = func(v s00.FailureEventReportingCause, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -20165,7 +14216,7 @@ func FailureEventReportingCauseCodec() s00.FailureEventReportingCauseValueCodec 
 				false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s00.BridgeFailureEventReportingCauseValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s01.BridgeFailureEventReportingCauseValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:FailureEventReportingCause"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -20177,11 +14228,11 @@ func FailureEventReportingCauseCodec() s00.FailureEventReportingCauseValueCodec 
 }
 
 // FiveGSTACCodec binds the complete source value type.
-func FiveGSTACCodec() s00.FiveGSTACValueCodec {
-	return func() s00.FiveGSTACValueCodec {
-		sealed := s00.FiveGSTACValueCodec{}
-		*s00.BridgeFiveGSTACValueCodecFieldPath(&sealed) = "FiveGSTAC"
-		*s00.BridgeFiveGSTACValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.FiveGSTAC, error) {
+func FiveGSTACCodec() s01.FiveGSTACValueCodec {
+	return func() s01.FiveGSTACValueCodec {
+		sealed := s01.FiveGSTACValueCodec{}
+		*s01.BridgeFiveGSTACValueCodecFieldPath(&sealed) = "FiveGSTAC"
+		*s01.BridgeFiveGSTACValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.FiveGSTAC, error) {
 			var zero s00.FiveGSTAC
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -20207,7 +14258,7 @@ func FiveGSTACCodec() s00.FiveGSTACValueCodec {
 			}
 			return value, nil
 		}
-		*s00.BridgeFiveGSTACValueCodecFieldEncode(&sealed) = func(value s00.FiveGSTAC, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s01.BridgeFiveGSTACValueCodecFieldEncode(&sealed) = func(value s00.FiveGSTAC, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (func(value s00.FiveGSTAC, budget *aper.DecodeBudget) ([]byte, error) {
 				bb := aper.NewBudgetBuffer(budget)
 				v := struct{ Value s00.FiveGSTAC }{Value: value}
@@ -20224,7 +14275,7 @@ func FiveGSTACCodec() s00.FiveGSTACValueCodec {
 				return bb.CompleteBytes(), nil
 			})(value, budget)
 		}
-		*s00.BridgeFiveGSTACValueCodecFieldCapture(&sealed) = func(v s00.FiveGSTAC, options aper.DecodeState) (s00.FiveGSTAC, aper.Snapshot) {
+		*s01.BridgeFiveGSTACValueCodecFieldCapture(&sealed) = func(v s00.FiveGSTAC, options aper.DecodeState) (s00.FiveGSTAC, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.
 				Begin()
@@ -20233,7 +14284,7 @@ func FiveGSTACCodec() s00.FiveGSTACValueCodec {
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s00.BridgeFiveGSTACValueCodecFieldCompare(&sealed) = func(v s00.FiveGSTAC, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s01.BridgeFiveGSTACValueCodecFieldCompare(&sealed) = func(v s00.FiveGSTAC, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
@@ -20242,7 +14293,7 @@ func FiveGSTACCodec() s00.FiveGSTACValueCodec {
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s00.BridgeFiveGSTACValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s01.BridgeFiveGSTACValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:FiveGSTAC"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -20254,11 +14305,11 @@ func FiveGSTACCodec() s00.FiveGSTACValueCodec {
 }
 
 // FiveQICodec binds the complete source value type.
-func FiveQICodec() s00.FiveQIValueCodec {
-	return func() s00.FiveQIValueCodec {
-		sealed := s00.FiveQIValueCodec{}
-		*s00.BridgeFiveQIValueCodecFieldPath(&sealed) = "FiveQI"
-		*s00.BridgeFiveQIValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.FiveQI, error) {
+func FiveQICodec() s01.FiveQIValueCodec {
+	return func() s01.FiveQIValueCodec {
+		sealed := s01.FiveQIValueCodec{}
+		*s01.BridgeFiveQIValueCodecFieldPath(&sealed) = "FiveQI"
+		*s01.BridgeFiveQIValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.FiveQI, error) {
 			var zero s00.FiveQI
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -20284,7 +14335,7 @@ func FiveQICodec() s00.FiveQIValueCodec {
 			}
 			return value, nil
 		}
-		*s00.BridgeFiveQIValueCodecFieldEncode(&sealed) = func(value s00.FiveQI, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s01.BridgeFiveQIValueCodecFieldEncode(&sealed) = func(value s00.FiveQI, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (func(value s00.FiveQI, budget *aper.DecodeBudget) ([]byte, error) {
 				bb := aper.NewBudgetBuffer(budget)
 				v := struct{ Value s00.FiveQI }{Value: value}
@@ -20301,7 +14352,7 @@ func FiveQICodec() s00.FiveQIValueCodec {
 				return bb.CompleteBytes(), nil
 			})(value, budget)
 		}
-		*s00.BridgeFiveQIValueCodecFieldCapture(&sealed) = func(v s00.FiveQI, options aper.DecodeState) (s00.FiveQI, aper.Snapshot) {
+		*s01.BridgeFiveQIValueCodecFieldCapture(&sealed) = func(v s00.FiveQI, options aper.DecodeState) (s00.FiveQI, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.
 				Begin()
@@ -20310,7 +14361,7 @@ func FiveQICodec() s00.FiveQIValueCodec {
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s00.BridgeFiveQIValueCodecFieldCompare(&sealed) = func(v s00.FiveQI, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s01.BridgeFiveQIValueCodecFieldCompare(&sealed) = func(v s00.FiveQI, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -20318,7 +14369,7 @@ func FiveQICodec() s00.FiveQIValueCodec {
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s00.BridgeFiveQIValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s01.BridgeFiveQIValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:FiveQI"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -20330,11 +14381,11 @@ func FiveQICodec() s00.FiveQIValueCodec {
 }
 
 // ForbiddenInterRATsCodec binds the complete source value type.
-func ForbiddenInterRATsCodec() s00.ForbiddenInterRATsValueCodec {
-	return func() s00.ForbiddenInterRATsValueCodec {
-		sealed := s00.ForbiddenInterRATsValueCodec{}
-		*s00.BridgeForbiddenInterRATsValueCodecFieldPath(&sealed) = "ForbiddenInterRATs"
-		*s00.BridgeForbiddenInterRATsValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.ForbiddenInterRATs, error) {
+func ForbiddenInterRATsCodec() s01.ForbiddenInterRATsValueCodec {
+	return func() s01.ForbiddenInterRATsValueCodec {
+		sealed := s01.ForbiddenInterRATsValueCodec{}
+		*s01.BridgeForbiddenInterRATsValueCodecFieldPath(&sealed) = "ForbiddenInterRATs"
+		*s01.BridgeForbiddenInterRATsValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.ForbiddenInterRATs, error) {
 			var zero s00.ForbiddenInterRATs
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -20360,7 +14411,7 @@ func ForbiddenInterRATsCodec() s00.ForbiddenInterRATsValueCodec {
 			}
 			return value, nil
 		}
-		*s00.BridgeForbiddenInterRATsValueCodecFieldEncode(&sealed) = func(value s00.ForbiddenInterRATs, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s01.BridgeForbiddenInterRATsValueCodecFieldEncode(&sealed) = func(value s00.ForbiddenInterRATs, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (func(value s00.ForbiddenInterRATs, budget *aper.DecodeBudget) ([]byte, error) {
 				bb := aper.NewBudgetBuffer(budget)
 				v := struct{ Value s00.ForbiddenInterRATs }{Value: value}
@@ -20377,7 +14428,7 @@ func ForbiddenInterRATsCodec() s00.ForbiddenInterRATsValueCodec {
 				return bb.CompleteBytes(), nil
 			})(value, budget)
 		}
-		*s00.BridgeForbiddenInterRATsValueCodecFieldCapture(&sealed) = func(v s00.ForbiddenInterRATs, options aper.DecodeState) (s00.ForbiddenInterRATs, aper.Snapshot) {
+		*s01.BridgeForbiddenInterRATsValueCodecFieldCapture(&sealed) = func(v s00.ForbiddenInterRATs, options aper.DecodeState) (s00.ForbiddenInterRATs, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
 			s00.BridgeCaptureS1APForbiddenInterRATs(&v, &s)
@@ -20387,7 +14438,7 @@ func ForbiddenInterRATsCodec() s00.ForbiddenInterRATsValueCodec {
 
 				root
 		}
-		*s00.BridgeForbiddenInterRATsValueCodecFieldCompare(&sealed) = func(v s00.ForbiddenInterRATs, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s01.BridgeForbiddenInterRATsValueCodecFieldCompare(&sealed) = func(v s00.ForbiddenInterRATs, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -20395,7 +14446,7 @@ func ForbiddenInterRATsCodec() s00.ForbiddenInterRATsValueCodec {
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s00.BridgeForbiddenInterRATsValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s01.BridgeForbiddenInterRATsValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ForbiddenInterRATs"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -20407,11 +14458,11 @@ func ForbiddenInterRATsCodec() s00.ForbiddenInterRATsValueCodec {
 }
 
 // GNBIDCodec binds the complete source value type.
-func GNBIDCodec() s00.GNBIDValueCodec {
-	return func() s00.GNBIDValueCodec {
-		sealed := s00.GNBIDValueCodec{}
-		*s00.BridgeGNBIDValueCodecFieldPath(&sealed) = "GNBID"
-		*s00.BridgeGNBIDValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.GNBID, error) {
+func GNBIDCodec() s01.GNBIDValueCodec {
+	return func() s01.GNBIDValueCodec {
+		sealed := s01.GNBIDValueCodec{}
+		*s01.BridgeGNBIDValueCodecFieldPath(&sealed) = "GNBID"
+		*s01.BridgeGNBIDValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.GNBID, error) {
 			var zero s00.GNBID
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -20437,7 +14488,7 @@ func GNBIDCodec() s00.GNBIDValueCodec {
 			}
 			return value, nil
 		}
-		*s00.BridgeGNBIDValueCodecFieldEncode(&sealed) = func(value s00.GNBID, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s01.BridgeGNBIDValueCodecFieldEncode(&sealed) = func(value s00.GNBID, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (func(value s00.GNBID, budget *aper.DecodeBudget) ([]byte, error) {
 				bb := aper.NewBudgetBuffer(budget)
 				v := struct{ Value s00.GNBID }{Value: value}
@@ -20454,7 +14505,7 @@ func GNBIDCodec() s00.GNBIDValueCodec {
 				return bb.CompleteBytes(), nil
 			})(value, budget)
 		}
-		*s00.BridgeGNBIDValueCodecFieldCapture(&sealed) = func(v s00.GNBID, options aper.DecodeState) (s00.GNBID, aper.Snapshot) {
+		*s01.BridgeGNBIDValueCodecFieldCapture(&sealed) = func(v s00.GNBID, options aper.DecodeState) (s00.GNBID, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
 			s00.BridgeCaptureS1APGNBID(&v, &s)
@@ -20463,7 +14514,7 @@ func GNBIDCodec() s00.GNBIDValueCodec {
 				&root, false)
 			return v, root
 		}
-		*s00.BridgeGNBIDValueCodecFieldCompare(&sealed) = func(v s00.GNBID, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s01.BridgeGNBIDValueCodecFieldCompare(&sealed) = func(v s00.GNBID, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -20471,7 +14522,7 @@ func GNBIDCodec() s00.GNBIDValueCodec {
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s00.BridgeGNBIDValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s01.BridgeGNBIDValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:GNBID"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -20483,11 +14534,11 @@ func GNBIDCodec() s00.GNBIDValueCodec {
 }
 
 // GTPTEIDCodec binds the complete source value type.
-func GTPTEIDCodec() s00.GTPTEIDValueCodec {
-	return func() s00.GTPTEIDValueCodec {
-		sealed := s00.GTPTEIDValueCodec{}
-		*s00.BridgeGTPTEIDValueCodecFieldPath(&sealed) = "GTPTEID"
-		*s00.BridgeGTPTEIDValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.GTPTEID, error) {
+func GTPTEIDCodec() s01.GTPTEIDValueCodec {
+	return func() s01.GTPTEIDValueCodec {
+		sealed := s01.GTPTEIDValueCodec{}
+		*s01.BridgeGTPTEIDValueCodecFieldPath(&sealed) = "GTPTEID"
+		*s01.BridgeGTPTEIDValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.GTPTEID, error) {
 			var zero s00.GTPTEID
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -20513,7 +14564,7 @@ func GTPTEIDCodec() s00.GTPTEIDValueCodec {
 			}
 			return value, nil
 		}
-		*s00.BridgeGTPTEIDValueCodecFieldEncode(&sealed) = func(value s00.GTPTEID, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s01.BridgeGTPTEIDValueCodecFieldEncode(&sealed) = func(value s00.GTPTEID, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (func(value s00.GTPTEID, budget *aper.DecodeBudget) ([]byte, error) {
 				bb := aper.NewBudgetBuffer(budget)
 				v := struct{ Value s00.GTPTEID }{Value: value}
@@ -20530,7 +14581,7 @@ func GTPTEIDCodec() s00.GTPTEIDValueCodec {
 				return bb.CompleteBytes(), nil
 			})(value, budget)
 		}
-		*s00.BridgeGTPTEIDValueCodecFieldCapture(&sealed) = func(v s00.GTPTEID, options aper.DecodeState) (s00.GTPTEID, aper.Snapshot) {
+		*s01.BridgeGTPTEIDValueCodecFieldCapture(&sealed) = func(v s00.GTPTEID, options aper.DecodeState) (s00.GTPTEID, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f :=
 				s.Begin()
@@ -20540,7 +14591,7 @@ func GTPTEIDCodec() s00.GTPTEIDValueCodec {
 				End(f, &root, false)
 			return v, root
 		}
-		*s00.BridgeGTPTEIDValueCodecFieldCompare(&sealed) = func(v s00.GTPTEID, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s01.BridgeGTPTEIDValueCodecFieldCompare(&sealed) = func(v s00.GTPTEID, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -20548,7 +14599,7 @@ func GTPTEIDCodec() s00.GTPTEIDValueCodec {
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s00.BridgeGTPTEIDValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s01.BridgeGTPTEIDValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:GTPTEID"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -20560,11 +14611,11 @@ func GTPTEIDCodec() s00.GTPTEIDValueCodec {
 }
 
 // HOReportingCauseCodec binds the complete source value type.
-func HOReportingCauseCodec() s00.HOReportingCauseValueCodec {
-	return func() s00.HOReportingCauseValueCodec {
-		sealed := s00.HOReportingCauseValueCodec{}
-		*s00.BridgeHOReportingCauseValueCodecFieldPath(&sealed) = "HOReportingCause"
-		*s00.BridgeHOReportingCauseValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.HOReportingCause, error) {
+func HOReportingCauseCodec() s01.HOReportingCauseValueCodec {
+	return func() s01.HOReportingCauseValueCodec {
+		sealed := s01.HOReportingCauseValueCodec{}
+		*s01.BridgeHOReportingCauseValueCodecFieldPath(&sealed) = "HOReportingCause"
+		*s01.BridgeHOReportingCauseValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.HOReportingCause, error) {
 			var zero s00.HOReportingCause
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -20590,7 +14641,7 @@ func HOReportingCauseCodec() s00.HOReportingCauseValueCodec {
 			}
 			return value, nil
 		}
-		*s00.BridgeHOReportingCauseValueCodecFieldEncode(&sealed) = func(value s00.HOReportingCause, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s01.BridgeHOReportingCauseValueCodecFieldEncode(&sealed) = func(value s00.HOReportingCause, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (func(value s00.HOReportingCause, budget *aper.DecodeBudget) ([]byte, error) {
 				bb := aper.NewBudgetBuffer(budget)
 				v := struct{ Value s00.HOReportingCause }{Value: value}
@@ -20607,7 +14658,7 @@ func HOReportingCauseCodec() s00.HOReportingCauseValueCodec {
 				return bb.CompleteBytes(), nil
 			})(value, budget)
 		}
-		*s00.BridgeHOReportingCauseValueCodecFieldCapture(&sealed) = func(v s00.HOReportingCause, options aper.DecodeState) (s00.HOReportingCause, aper.Snapshot) {
+		*s01.BridgeHOReportingCauseValueCodecFieldCapture(&sealed) = func(v s00.HOReportingCause, options aper.DecodeState) (s00.HOReportingCause, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(
 				options)
 			f := s.Begin()
@@ -20616,7 +14667,7 @@ func HOReportingCauseCodec() s00.HOReportingCauseValueCodec {
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s00.BridgeHOReportingCauseValueCodecFieldCompare(&sealed) = func(v s00.HOReportingCause, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+		*s01.BridgeHOReportingCauseValueCodecFieldCompare(&sealed) = func(v s00.HOReportingCause, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
 			BridgeCompareS1APHOReportingCause(&v, &s)
@@ -20624,7 +14675,7 @@ func HOReportingCauseCodec() s00.HOReportingCauseValueCodec {
 			return s.
 				Plan(), s.BudgetValue()
 		}
-		*s00.BridgeHOReportingCauseValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s01.BridgeHOReportingCauseValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HOReportingCause"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -20636,11 +14687,11 @@ func HOReportingCauseCodec() s00.HOReportingCauseValueCodec {
 }
 
 // HoReportTypeCodec binds the complete source value type.
-func HoReportTypeCodec() s00.HoReportTypeValueCodec {
-	return func() s00.HoReportTypeValueCodec {
-		sealed := s00.HoReportTypeValueCodec{}
-		*s00.BridgeHoReportTypeValueCodecFieldPath(&sealed) = "HoReportType"
-		*s00.BridgeHoReportTypeValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.HoReportType, error) {
+func HoReportTypeCodec() s01.HoReportTypeValueCodec {
+	return func() s01.HoReportTypeValueCodec {
+		sealed := s01.HoReportTypeValueCodec{}
+		*s01.BridgeHoReportTypeValueCodecFieldPath(&sealed) = "HoReportType"
+		*s01.BridgeHoReportTypeValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.HoReportType, error) {
 			var zero s00.HoReportType
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -20666,7 +14717,7 @@ func HoReportTypeCodec() s00.HoReportTypeValueCodec {
 			}
 			return value, nil
 		}
-		*s00.BridgeHoReportTypeValueCodecFieldEncode(&sealed) = func(value s00.HoReportType, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s01.BridgeHoReportTypeValueCodecFieldEncode(&sealed) = func(value s00.HoReportType, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (func(value s00.HoReportType, budget *aper.DecodeBudget) ([]byte, error) {
 				bb := aper.NewBudgetBuffer(budget)
 				v := struct{ Value s00.HoReportType }{Value: value}
@@ -20683,7 +14734,7 @@ func HoReportTypeCodec() s00.HoReportTypeValueCodec {
 				return bb.CompleteBytes(), nil
 			})(value, budget)
 		}
-		*s00.BridgeHoReportTypeValueCodecFieldCapture(&sealed) = func(v s00.HoReportType, options aper.DecodeState) (s00.HoReportType, aper.Snapshot) {
+		*s01.BridgeHoReportTypeValueCodecFieldCapture(&sealed) = func(v s00.HoReportType, options aper.DecodeState) (s00.HoReportType, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
 			s00.BridgeCaptureS1APHoReportType(&v, &s)
@@ -20691,7 +14742,7 @@ func HoReportTypeCodec() s00.HoReportTypeValueCodec {
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s00.BridgeHoReportTypeValueCodecFieldCompare(&sealed) = func(v s00.HoReportType, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+		*s01.BridgeHoReportTypeValueCodecFieldCompare(&sealed) = func(v s00.HoReportType, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
 			BridgeCompareS1APHoReportType(&v, &s)
@@ -20700,7 +14751,7 @@ func HoReportTypeCodec() s00.HoReportTypeValueCodec {
 				s.
 					BudgetValue()
 		}
-		*s00.BridgeHoReportTypeValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s01.BridgeHoReportTypeValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HoReportType"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -20712,11 +14763,11 @@ func HoReportTypeCodec() s00.HoReportTypeValueCodec {
 }
 
 // HoTypeCodec binds the complete source value type.
-func HoTypeCodec() s00.HoTypeValueCodec {
-	return func() s00.HoTypeValueCodec {
-		sealed := s00.HoTypeValueCodec{}
-		*s00.BridgeHoTypeValueCodecFieldPath(&sealed) = "HoType"
-		*s00.BridgeHoTypeValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.HoType, error) {
+func HoTypeCodec() s01.HoTypeValueCodec {
+	return func() s01.HoTypeValueCodec {
+		sealed := s01.HoTypeValueCodec{}
+		*s01.BridgeHoTypeValueCodecFieldPath(&sealed) = "HoType"
+		*s01.BridgeHoTypeValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.HoType, error) {
 			var zero s00.HoType
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -20742,7 +14793,7 @@ func HoTypeCodec() s00.HoTypeValueCodec {
 			}
 			return value, nil
 		}
-		*s00.BridgeHoTypeValueCodecFieldEncode(&sealed) = func(value s00.HoType, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s01.BridgeHoTypeValueCodecFieldEncode(&sealed) = func(value s00.HoType, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (func(value s00.HoType, budget *aper.DecodeBudget) ([]byte, error) {
 				bb := aper.NewBudgetBuffer(budget)
 				v := struct{ Value s00.HoType }{Value: value}
@@ -20759,7 +14810,7 @@ func HoTypeCodec() s00.HoTypeValueCodec {
 				return bb.CompleteBytes(), nil
 			})(value, budget)
 		}
-		*s00.BridgeHoTypeValueCodecFieldCapture(&sealed) = func(v s00.HoType, options aper.DecodeState) (s00.HoType, aper.Snapshot) {
+		*s01.BridgeHoTypeValueCodecFieldCapture(&sealed) = func(v s00.HoType, options aper.DecodeState) (s00.HoType, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.
 				Begin()
@@ -20768,7 +14819,7 @@ func HoTypeCodec() s00.HoTypeValueCodec {
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s00.BridgeHoTypeValueCodecFieldCompare(&sealed) = func(v s00.HoType, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s01.BridgeHoTypeValueCodecFieldCompare(&sealed) = func(v s00.HoType, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -20776,7 +14827,7 @@ func HoTypeCodec() s00.HoTypeValueCodec {
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s00.BridgeHoTypeValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s01.BridgeHoTypeValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HoType"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -24283,647 +18334,747 @@ func ProSeDirectCommunicationCodec() s01.ProSeDirectCommunicationValueCodec {
 	}()
 
 }
-
-// ProSeDirectDiscoveryCodec binds the complete source value type.
-func ProSeDirectDiscoveryCodec() s01.ProSeDirectDiscoveryValueCodec {
-	return func() s01.ProSeDirectDiscoveryValueCodec {
-		sealed := s01.ProSeDirectDiscoveryValueCodec{}
-		*s01.BridgeProSeDirectDiscoveryValueCodecFieldPath(&sealed) = "ProSeDirectDiscovery"
-		*s01.BridgeProSeDirectDiscoveryValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.ProSeDirectDiscovery, error) {
-			var zero s00.ProSeDirectDiscovery
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return zero, err
-			}
-			value, err := (func(bb *aper.BitBuffer) (s00.ProSeDirectDiscovery, error) {
-				var v struct{ Value s00.ProSeDirectDiscovery }
-				err := func() error {
-					val_value, err := aper.DecodeEnumeratedAligned(bb, 2, true, aper.EnumerationSource{KnownExtensions: 0, Path: "Value"})
-					if err != nil {
-						return runtime.WrapDecodePath(err, "Value")
-					}
-					v.Value = s00.ProSeDirectDiscovery(val_value)
-					return nil
-				}()
-				return v.Value, err
-			})(bb)
-			if err != nil {
-				return zero, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProSeDirectDiscovery"); err != nil {
-				return zero, err
-			}
-			return value, nil
-		}
-		*s01.BridgeProSeDirectDiscoveryValueCodecFieldEncode(&sealed) = func(value s00.ProSeDirectDiscovery, _ bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (func(value s00.ProSeDirectDiscovery, budget *aper.DecodeBudget) ([]byte, error) {
-				bb := aper.NewBudgetBuffer(budget)
-				v := struct{ Value s00.ProSeDirectDiscovery }{Value: value}
-				_ = v
-				err := func() error {
-					if err := aper.EncodeEnumeratedAligned(bb, int64(v.Value), 2, true); err != nil {
-						return fmt.Errorf("encoding value: %w", err)
-					}
-					return nil
-				}()
-				if err != nil {
-					return nil, err
-				}
-				return bb.CompleteBytes(), nil
-			})(value, budget)
-		}
-		*s01.BridgeProSeDirectDiscoveryValueCodecFieldCapture(&sealed) = func(v s00.ProSeDirectDiscovery, options aper.DecodeState) (s00.ProSeDirectDiscovery, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s00.BridgeCaptureS1APProSeDirectDiscovery(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s01.BridgeProSeDirectDiscoveryValueCodecFieldCompare(&sealed) = func(v s00.ProSeDirectDiscovery, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeCompareS1APProSeDirectDiscovery(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s01.BridgeProSeDirectDiscoveryValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProSeDirectDiscovery"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func BridgeAdditionalGUTIExtIEsValueFieldId(v *AdditionalGUTIExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
-}
-func BridgeAdditionalGUTIExtIEsValueFieldIsOpaque(v *AdditionalGUTIExtIEsValue) *bool {
-	return &v.isOpaque
-}
-func BridgeAdditionalGUTIExtIEsValueFieldOpaque(v *AdditionalGUTIExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
-}
-func BridgeAdditionalGUTIExtIEsValueFieldReceived(v *AdditionalGUTIExtIEsValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeAdditionalGUTIExtIEsValueFieldReplay(v *AdditionalGUTIExtIEsValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeAdditionalGUTIExtIEsValueMethodCaptureSemantics(v AdditionalGUTIExtIEsValue, a0 aper.SemanticCapture) AdditionalGUTIExtIEsValue {
-	return v.captureSemantics(a0)
-}
-func BridgeAdditionalGUTIExtIEsValueMethodCompareSemantics(v AdditionalGUTIExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
-}
-func BridgeAdditionalGUTIExtIEsValueMethodDecode(v AdditionalGUTIExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (AdditionalGUTIExtIEsValue, error) {
-	return v.decode(a0, a1)
-}
-func BridgeAdditionalGUTIExtIEsValueMethodEncode(v AdditionalGUTIExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeRelativeMMECapacityValueCodecFieldCapture(v *RelativeMMECapacityValueCodec) *func(s00.RelativeMMECapacity, aper.DecodeState) (s00.RelativeMMECapacity, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeAdditionalGUTIExtIEsValueMethodEncodeFresh(v AdditionalGUTIExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeRelativeMMECapacityValueCodecFieldCompare(v *RelativeMMECapacityValueCodec) *func(s00.RelativeMMECapacity, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeAdditionalGUTIExtIEsValueMethodMatchesID(v AdditionalGUTIExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeRelativeMMECapacityValueCodecFieldContext(v *RelativeMMECapacityValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeAdditionalGUTIExtIEsValueMethodReason(v AdditionalGUTIExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeRelativeMMECapacityValueCodecFieldDecode(v *RelativeMMECapacityValueCodec) *func([]byte, aper.DecodeState) (s00.RelativeMMECapacity, error) {
+	return &v.decode
 }
-func BridgeAdditionalGUTIExtIEsValueMethodRule(v AdditionalGUTIExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeRelativeMMECapacityValueCodecFieldEncode(v *RelativeMMECapacityValueCodec) *func(s00.RelativeMMECapacity, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueFieldId(v *AllocationAndRetentionPriorityExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeRelativeMMECapacityValueCodecFieldPath(v *RelativeMMECapacityValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueFieldIsOpaque(v *AllocationAndRetentionPriorityExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeRelayNodeIndicatorValueCodecFieldCapture(v *RelayNodeIndicatorValueCodec) *func(s00.RelayNodeIndicator, aper.DecodeState) (s00.RelayNodeIndicator, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueFieldOpaque(v *AllocationAndRetentionPriorityExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeRelayNodeIndicatorValueCodecFieldCompare(v *RelayNodeIndicatorValueCodec) *func(s00.RelayNodeIndicator, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueFieldReceived(v *AllocationAndRetentionPriorityExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeRelayNodeIndicatorValueCodecFieldContext(v *RelayNodeIndicatorValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueFieldReplay(v *AllocationAndRetentionPriorityExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeRelayNodeIndicatorValueCodecFieldDecode(v *RelayNodeIndicatorValueCodec) *func([]byte, aper.DecodeState) (s00.RelayNodeIndicator, error) {
+	return &v.decode
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueMethodCaptureSemantics(v AllocationAndRetentionPriorityExtIEsValue, a0 aper.SemanticCapture) AllocationAndRetentionPriorityExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeRelayNodeIndicatorValueCodecFieldEncode(v *RelayNodeIndicatorValueCodec) *func(s00.RelayNodeIndicator, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueMethodCompareSemantics(v AllocationAndRetentionPriorityExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeRelayNodeIndicatorValueCodecFieldPath(v *RelayNodeIndicatorValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueMethodDecode(v AllocationAndRetentionPriorityExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (AllocationAndRetentionPriorityExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeRepetitionPeriodValueCodecFieldCapture(v *RepetitionPeriodValueCodec) *func(s00.RepetitionPeriod, aper.DecodeState) (s00.RepetitionPeriod, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueMethodEncode(v AllocationAndRetentionPriorityExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeRepetitionPeriodValueCodecFieldCompare(v *RepetitionPeriodValueCodec) *func(s00.RepetitionPeriod, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueMethodEncodeFresh(v AllocationAndRetentionPriorityExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeRepetitionPeriodValueCodecFieldContext(v *RepetitionPeriodValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueMethodMatchesID(v AllocationAndRetentionPriorityExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeRepetitionPeriodValueCodecFieldDecode(v *RepetitionPeriodValueCodec) *func([]byte, aper.DecodeState) (s00.RepetitionPeriod, error) {
+	return &v.decode
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueMethodReason(v AllocationAndRetentionPriorityExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeRepetitionPeriodValueCodecFieldEncode(v *RepetitionPeriodValueCodec) *func(s00.RepetitionPeriod, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeAllocationAndRetentionPriorityExtIEsValueMethodRule(v AllocationAndRetentionPriorityExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeRepetitionPeriodValueCodecFieldPath(v *RepetitionPeriodValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeAssistanceDataForPagingExtIEsValueFieldId(v *AssistanceDataForPagingExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeReportAmountMDTValueCodecFieldCapture(v *ReportAmountMDTValueCodec) *func(s00.ReportAmountMDT, aper.DecodeState) (s00.ReportAmountMDT, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeAssistanceDataForPagingExtIEsValueFieldIsOpaque(v *AssistanceDataForPagingExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeReportAmountMDTValueCodecFieldCompare(v *ReportAmountMDTValueCodec) *func(s00.ReportAmountMDT, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeAssistanceDataForPagingExtIEsValueFieldOpaque(v *AssistanceDataForPagingExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeReportAmountMDTValueCodecFieldContext(v *ReportAmountMDTValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeAssistanceDataForPagingExtIEsValueFieldReceived(v *AssistanceDataForPagingExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeReportAmountMDTValueCodecFieldDecode(v *ReportAmountMDTValueCodec) *func([]byte, aper.DecodeState) (s00.ReportAmountMDT, error) {
+	return &v.decode
 }
-func BridgeAssistanceDataForPagingExtIEsValueFieldReplay(v *AssistanceDataForPagingExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeReportAmountMDTValueCodecFieldEncode(v *ReportAmountMDTValueCodec) *func(s00.ReportAmountMDT, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeAssistanceDataForPagingExtIEsValueMethodCaptureSemantics(v AssistanceDataForPagingExtIEsValue, a0 aper.SemanticCapture) AssistanceDataForPagingExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeReportAmountMDTValueCodecFieldPath(v *ReportAmountMDTValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeAssistanceDataForPagingExtIEsValueMethodCompareSemantics(v AssistanceDataForPagingExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeReportAreaValueCodecFieldCapture(v *ReportAreaValueCodec) *func(s00.ReportArea, aper.DecodeState) (s00.ReportArea, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeAssistanceDataForPagingExtIEsValueMethodDecode(v AssistanceDataForPagingExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (AssistanceDataForPagingExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeReportAreaValueCodecFieldCompare(v *ReportAreaValueCodec) *func(s00.ReportArea, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeAssistanceDataForPagingExtIEsValueMethodEncode(v AssistanceDataForPagingExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeReportAreaValueCodecFieldContext(v *ReportAreaValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeAssistanceDataForPagingExtIEsValueMethodEncodeFresh(v AssistanceDataForPagingExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeReportAreaValueCodecFieldDecode(v *ReportAreaValueCodec) *func([]byte, aper.DecodeState) (s00.ReportArea, error) {
+	return &v.decode
 }
-func BridgeAssistanceDataForPagingExtIEsValueMethodMatchesID(v AssistanceDataForPagingExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeReportAreaValueCodecFieldEncode(v *ReportAreaValueCodec) *func(s00.ReportArea, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeAssistanceDataForPagingExtIEsValueMethodReason(v AssistanceDataForPagingExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeReportAreaValueCodecFieldPath(v *ReportAreaValueCodec) *aper.Path { return &v.path }
+func BridgeReportIntervalMDTValueCodecFieldCapture(v *ReportIntervalMDTValueCodec) *func(s00.ReportIntervalMDT, aper.DecodeState) (s00.ReportIntervalMDT, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeAssistanceDataForPagingExtIEsValueMethodRule(v AssistanceDataForPagingExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeReportIntervalMDTValueCodecFieldCompare(v *ReportIntervalMDTValueCodec) *func(s00.ReportIntervalMDT, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueFieldId(v *AssistanceDataForRecommendedCellsExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeReportIntervalMDTValueCodecFieldContext(v *ReportIntervalMDTValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueFieldIsOpaque(v *AssistanceDataForRecommendedCellsExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeReportIntervalMDTValueCodecFieldDecode(v *ReportIntervalMDTValueCodec) *func([]byte, aper.DecodeState) (s00.ReportIntervalMDT, error) {
+	return &v.decode
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueFieldOpaque(v *AssistanceDataForRecommendedCellsExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeReportIntervalMDTValueCodecFieldEncode(v *ReportIntervalMDTValueCodec) *func(s00.ReportIntervalMDT, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueFieldReceived(v *AssistanceDataForRecommendedCellsExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeReportIntervalMDTValueCodecFieldPath(v *ReportIntervalMDTValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueFieldReplay(v *AssistanceDataForRecommendedCellsExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeRequestTypeAdditionalInfoValueCodecFieldCapture(v *RequestTypeAdditionalInfoValueCodec) *func(s00.RequestTypeAdditionalInfo, aper.DecodeState) (s00.RequestTypeAdditionalInfo, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueMethodCaptureSemantics(v AssistanceDataForRecommendedCellsExtIEsValue, a0 aper.SemanticCapture) AssistanceDataForRecommendedCellsExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeRequestTypeAdditionalInfoValueCodecFieldCompare(v *RequestTypeAdditionalInfoValueCodec) *func(s00.RequestTypeAdditionalInfo, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueMethodCompareSemantics(v AssistanceDataForRecommendedCellsExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeRequestTypeAdditionalInfoValueCodecFieldContext(v *RequestTypeAdditionalInfoValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueMethodDecode(v AssistanceDataForRecommendedCellsExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (AssistanceDataForRecommendedCellsExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeRequestTypeAdditionalInfoValueCodecFieldDecode(v *RequestTypeAdditionalInfoValueCodec) *func([]byte, aper.DecodeState) (s00.RequestTypeAdditionalInfo, error) {
+	return &v.decode
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueMethodEncode(v AssistanceDataForRecommendedCellsExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeRequestTypeAdditionalInfoValueCodecFieldEncode(v *RequestTypeAdditionalInfoValueCodec) *func(s00.RequestTypeAdditionalInfo, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueMethodEncodeFresh(v AssistanceDataForRecommendedCellsExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeRequestTypeAdditionalInfoValueCodecFieldPath(v *RequestTypeAdditionalInfoValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueMethodMatchesID(v AssistanceDataForRecommendedCellsExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeResetAllValueCodecFieldCapture(v *ResetAllValueCodec) *func(s00.ResetAll, aper.DecodeState) (s00.ResetAll, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueMethodReason(v AssistanceDataForRecommendedCellsExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeResetAllValueCodecFieldCompare(v *ResetAllValueCodec) *func(s00.ResetAll, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeAssistanceDataForRecommendedCellsExtIEsValueMethodRule(v AssistanceDataForRecommendedCellsExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeResetAllValueCodecFieldContext(v *ResetAllValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueFieldId(v *BearersSubjectToDLDiscardingItemExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeResetAllValueCodecFieldDecode(v *ResetAllValueCodec) *func([]byte, aper.DecodeState) (s00.ResetAll, error) {
+	return &v.decode
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueFieldIsOpaque(v *BearersSubjectToDLDiscardingItemExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeResetAllValueCodecFieldEncode(v *ResetAllValueCodec) *func(s00.ResetAll, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueFieldOpaque(v *BearersSubjectToDLDiscardingItemExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeResetAllValueCodecFieldPath(v *ResetAllValueCodec) *aper.Path { return &v.path }
+func BridgeRoutingIDValueCodecFieldCapture(v *RoutingIDValueCodec) *func(s00.RoutingID, aper.DecodeState) (s00.RoutingID, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueFieldReceived(v *BearersSubjectToDLDiscardingItemExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeRoutingIDValueCodecFieldCompare(v *RoutingIDValueCodec) *func(s00.RoutingID, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueFieldReplay(v *BearersSubjectToDLDiscardingItemExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeRoutingIDValueCodecFieldContext(v *RoutingIDValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueMethodCaptureSemantics(v BearersSubjectToDLDiscardingItemExtIEsValue, a0 aper.SemanticCapture) BearersSubjectToDLDiscardingItemExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeRoutingIDValueCodecFieldDecode(v *RoutingIDValueCodec) *func([]byte, aper.DecodeState) (s00.RoutingID, error) {
+	return &v.decode
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueMethodCompareSemantics(v BearersSubjectToDLDiscardingItemExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeRoutingIDValueCodecFieldEncode(v *RoutingIDValueCodec) *func(s00.RoutingID, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueMethodDecode(v BearersSubjectToDLDiscardingItemExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (BearersSubjectToDLDiscardingItemExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeRoutingIDValueCodecFieldPath(v *RoutingIDValueCodec) *aper.Path { return &v.path }
+func BridgeS1APIEsMobilityInformationValueCodecFieldCapture(v *S1APIEsMobilityInformationValueCodec) *func(s00.S1APIEsMobilityInformation, aper.DecodeState) (s00.S1APIEsMobilityInformation, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueMethodEncode(v BearersSubjectToDLDiscardingItemExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeS1APIEsMobilityInformationValueCodecFieldCompare(v *S1APIEsMobilityInformationValueCodec) *func(s00.S1APIEsMobilityInformation, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueMethodEncodeFresh(v BearersSubjectToDLDiscardingItemExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeS1APIEsMobilityInformationValueCodecFieldContext(v *S1APIEsMobilityInformationValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueMethodMatchesID(v BearersSubjectToDLDiscardingItemExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeS1APIEsMobilityInformationValueCodecFieldDecode(v *S1APIEsMobilityInformationValueCodec) *func([]byte, aper.DecodeState) (s00.S1APIEsMobilityInformation, error) {
+	return &v.decode
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueMethodReason(v BearersSubjectToDLDiscardingItemExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeS1APIEsMobilityInformationValueCodecFieldEncode(v *S1APIEsMobilityInformationValueCodec) *func(s00.S1APIEsMobilityInformation, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeBearersSubjectToDLDiscardingItemExtIEsValueMethodRule(v BearersSubjectToDLDiscardingItemExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeS1APIEsMobilityInformationValueCodecFieldPath(v *S1APIEsMobilityInformationValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueFieldId(v *BearersSubjectToEarlyStatusTransferItemExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeSONInformationRequestValueCodecFieldCapture(v *SONInformationRequestValueCodec) *func(s00.SONInformationRequest, aper.DecodeState) (s00.SONInformationRequest, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueFieldIsOpaque(v *BearersSubjectToEarlyStatusTransferItemExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeSONInformationRequestValueCodecFieldCompare(v *SONInformationRequestValueCodec) *func(s00.SONInformationRequest, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueFieldOpaque(v *BearersSubjectToEarlyStatusTransferItemExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeSONInformationRequestValueCodecFieldContext(v *SONInformationRequestValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueFieldReceived(v *BearersSubjectToEarlyStatusTransferItemExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeSONInformationRequestValueCodecFieldDecode(v *SONInformationRequestValueCodec) *func([]byte, aper.DecodeState) (s00.SONInformationRequest, error) {
+	return &v.decode
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueFieldReplay(v *BearersSubjectToEarlyStatusTransferItemExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeSONInformationRequestValueCodecFieldEncode(v *SONInformationRequestValueCodec) *func(s00.SONInformationRequest, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueMethodCaptureSemantics(v BearersSubjectToEarlyStatusTransferItemExtIEsValue, a0 aper.SemanticCapture) BearersSubjectToEarlyStatusTransferItemExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeSONInformationRequestValueCodecFieldPath(v *SONInformationRequestValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueMethodCompareSemantics(v BearersSubjectToEarlyStatusTransferItemExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeSONtransferApplicationIdentityValueCodecFieldCapture(v *SONtransferApplicationIdentityValueCodec) *func(s00.SONtransferApplicationIdentity, aper.DecodeState) (s00.SONtransferApplicationIdentity, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueMethodDecode(v BearersSubjectToEarlyStatusTransferItemExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (BearersSubjectToEarlyStatusTransferItemExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeSONtransferApplicationIdentityValueCodecFieldCompare(v *SONtransferApplicationIdentityValueCodec) *func(s00.SONtransferApplicationIdentity, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueMethodEncode(v BearersSubjectToEarlyStatusTransferItemExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeSONtransferApplicationIdentityValueCodecFieldContext(v *SONtransferApplicationIdentityValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueMethodEncodeFresh(v BearersSubjectToEarlyStatusTransferItemExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeSONtransferApplicationIdentityValueCodecFieldDecode(v *SONtransferApplicationIdentityValueCodec) *func([]byte, aper.DecodeState) (s00.SONtransferApplicationIdentity, error) {
+	return &v.decode
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueMethodMatchesID(v BearersSubjectToEarlyStatusTransferItemExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeSONtransferApplicationIdentityValueCodecFieldEncode(v *SONtransferApplicationIdentityValueCodec) *func(s00.SONtransferApplicationIdentity, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueMethodReason(v BearersSubjectToEarlyStatusTransferItemExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeSONtransferApplicationIdentityValueCodecFieldPath(v *SONtransferApplicationIdentityValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueMethodRule(v BearersSubjectToEarlyStatusTransferItemExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeSRVCCHOIndicationValueCodecFieldCapture(v *SRVCCHOIndicationValueCodec) *func(s00.SRVCCHOIndication, aper.DecodeState) (s00.SRVCCHOIndication, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueFieldId(v *BluetoothMeasurementConfigurationExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeSRVCCHOIndicationValueCodecFieldCompare(v *SRVCCHOIndicationValueCodec) *func(s00.SRVCCHOIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueFieldIsOpaque(v *BluetoothMeasurementConfigurationExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeSRVCCHOIndicationValueCodecFieldContext(v *SRVCCHOIndicationValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueFieldOpaque(v *BluetoothMeasurementConfigurationExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeSRVCCHOIndicationValueCodecFieldDecode(v *SRVCCHOIndicationValueCodec) *func([]byte, aper.DecodeState) (s00.SRVCCHOIndication, error) {
+	return &v.decode
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueFieldReceived(v *BluetoothMeasurementConfigurationExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeSRVCCHOIndicationValueCodecFieldEncode(v *SRVCCHOIndicationValueCodec) *func(s00.SRVCCHOIndication, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueFieldReplay(v *BluetoothMeasurementConfigurationExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeSRVCCHOIndicationValueCodecFieldPath(v *SRVCCHOIndicationValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueMethodCaptureSemantics(v BluetoothMeasurementConfigurationExtIEsValue, a0 aper.SemanticCapture) BluetoothMeasurementConfigurationExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeSRVCCOperationNotPossibleValueCodecFieldCapture(v *SRVCCOperationNotPossibleValueCodec) *func(s00.SRVCCOperationNotPossible, aper.DecodeState) (s00.SRVCCOperationNotPossible, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueMethodCompareSemantics(v BluetoothMeasurementConfigurationExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeSRVCCOperationNotPossibleValueCodecFieldCompare(v *SRVCCOperationNotPossibleValueCodec) *func(s00.SRVCCOperationNotPossible, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueMethodDecode(v BluetoothMeasurementConfigurationExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (BluetoothMeasurementConfigurationExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeSRVCCOperationNotPossibleValueCodecFieldContext(v *SRVCCOperationNotPossibleValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueMethodEncode(v BluetoothMeasurementConfigurationExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeSRVCCOperationNotPossibleValueCodecFieldDecode(v *SRVCCOperationNotPossibleValueCodec) *func([]byte, aper.DecodeState) (s00.SRVCCOperationNotPossible, error) {
+	return &v.decode
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueMethodEncodeFresh(v BluetoothMeasurementConfigurationExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeSRVCCOperationNotPossibleValueCodecFieldEncode(v *SRVCCOperationNotPossibleValueCodec) *func(s00.SRVCCOperationNotPossible, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueMethodMatchesID(v BluetoothMeasurementConfigurationExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeSRVCCOperationNotPossibleValueCodecFieldPath(v *SRVCCOperationNotPossibleValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueMethodReason(v BluetoothMeasurementConfigurationExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeSRVCCOperationPossibleValueCodecFieldCapture(v *SRVCCOperationPossibleValueCodec) *func(s00.SRVCCOperationPossible, aper.DecodeState) (s00.SRVCCOperationPossible, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeBluetoothMeasurementConfigurationExtIEsValueMethodRule(v BluetoothMeasurementConfigurationExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeSRVCCOperationPossibleValueCodecFieldCompare(v *SRVCCOperationPossibleValueCodec) *func(s00.SRVCCOperationPossible, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCGIExtIEsValueFieldId(v *CGIExtIEsValue) *s00.ProtocolIEID        { return &v.id }
-func BridgeCGIExtIEsValueFieldIsOpaque(v *CGIExtIEsValue) *bool              { return &v.isOpaque }
-func BridgeCGIExtIEsValueFieldOpaque(v *CGIExtIEsValue) *aper.OpaqueOpenType { return &v.opaque }
-func BridgeCGIExtIEsValueFieldReceived(v *CGIExtIEsValue) *aper.WireSpan     { return &v.received }
-func BridgeCGIExtIEsValueFieldReplay(v *CGIExtIEsValue) *aper.Snapshot       { return &v.replay }
-func BridgeCGIExtIEsValueMethodCaptureSemantics(v CGIExtIEsValue, a0 aper.SemanticCapture) CGIExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeSRVCCOperationPossibleValueCodecFieldContext(v *SRVCCOperationPossibleValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCGIExtIEsValueMethodCompareSemantics(v CGIExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeSRVCCOperationPossibleValueCodecFieldDecode(v *SRVCCOperationPossibleValueCodec) *func([]byte, aper.DecodeState) (s00.SRVCCOperationPossible, error) {
+	return &v.decode
 }
-func BridgeCGIExtIEsValueMethodDecode(v CGIExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (CGIExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeSRVCCOperationPossibleValueCodecFieldEncode(v *SRVCCOperationPossibleValueCodec) *func(s00.SRVCCOperationPossible, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCGIExtIEsValueMethodEncode(v CGIExtIEsValue) ([]byte, error) { return v.encode() }
-func BridgeCGIExtIEsValueMethodEncodeFresh(v CGIExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeSRVCCOperationPossibleValueCodecFieldPath(v *SRVCCOperationPossibleValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeCGIExtIEsValueMethodMatchesID(v CGIExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeSecondaryRATDataUsageRequestValueCodecFieldCapture(v *SecondaryRATDataUsageRequestValueCodec) *func(s00.SecondaryRATDataUsageRequest, aper.DecodeState) (s00.SecondaryRATDataUsageRequest, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCGIExtIEsValueMethodReason(v CGIExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeSecondaryRATDataUsageRequestValueCodecFieldCompare(v *SecondaryRATDataUsageRequestValueCodec) *func(s00.SecondaryRATDataUsageRequest, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCGIExtIEsValueMethodRule(v CGIExtIEsValue) aper.SourceRule { return v.rule() }
-func BridgeCNTypeRestrictionsItemExtIEsValueFieldId(v *CNTypeRestrictionsItemExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeSecondaryRATDataUsageRequestValueCodecFieldContext(v *SecondaryRATDataUsageRequestValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueFieldIsOpaque(v *CNTypeRestrictionsItemExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeSecondaryRATDataUsageRequestValueCodecFieldDecode(v *SecondaryRATDataUsageRequestValueCodec) *func([]byte, aper.DecodeState) (s00.SecondaryRATDataUsageRequest, error) {
+	return &v.decode
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueFieldOpaque(v *CNTypeRestrictionsItemExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeSecondaryRATDataUsageRequestValueCodecFieldEncode(v *SecondaryRATDataUsageRequestValueCodec) *func(s00.SecondaryRATDataUsageRequest, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueFieldReceived(v *CNTypeRestrictionsItemExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeSecondaryRATDataUsageRequestValueCodecFieldPath(v *SecondaryRATDataUsageRequestValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueFieldReplay(v *CNTypeRestrictionsItemExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeSecondaryRATTypeValueCodecFieldCapture(v *SecondaryRATTypeValueCodec) *func(s00.SecondaryRATType, aper.DecodeState) (s00.SecondaryRATType, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueMethodCaptureSemantics(v CNTypeRestrictionsItemExtIEsValue, a0 aper.SemanticCapture) CNTypeRestrictionsItemExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeSecondaryRATTypeValueCodecFieldCompare(v *SecondaryRATTypeValueCodec) *func(s00.SecondaryRATType, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueMethodCompareSemantics(v CNTypeRestrictionsItemExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeSecondaryRATTypeValueCodecFieldContext(v *SecondaryRATTypeValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueMethodDecode(v CNTypeRestrictionsItemExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (CNTypeRestrictionsItemExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeSecondaryRATTypeValueCodecFieldDecode(v *SecondaryRATTypeValueCodec) *func([]byte, aper.DecodeState) (s00.SecondaryRATType, error) {
+	return &v.decode
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueMethodEncode(v CNTypeRestrictionsItemExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeSecondaryRATTypeValueCodecFieldEncode(v *SecondaryRATTypeValueCodec) *func(s00.SecondaryRATType, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueMethodEncodeFresh(v CNTypeRestrictionsItemExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeSecondaryRATTypeValueCodecFieldPath(v *SecondaryRATTypeValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueMethodMatchesID(v CNTypeRestrictionsItemExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeSecurityKeyValueCodecFieldCapture(v *SecurityKeyValueCodec) *func(s00.SecurityKey, aper.DecodeState) (s00.SecurityKey, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueMethodReason(v CNTypeRestrictionsItemExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeSecurityKeyValueCodecFieldCompare(v *SecurityKeyValueCodec) *func(s00.SecurityKey, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCNTypeRestrictionsItemExtIEsValueMethodRule(v CNTypeRestrictionsItemExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeSecurityKeyValueCodecFieldContext(v *SecurityKeyValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCOUNTValueExtendedExtIEsValueFieldId(v *COUNTValueExtendedExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeSecurityKeyValueCodecFieldDecode(v *SecurityKeyValueCodec) *func([]byte, aper.DecodeState) (s00.SecurityKey, error) {
+	return &v.decode
 }
-func BridgeCOUNTValueExtendedExtIEsValueFieldIsOpaque(v *COUNTValueExtendedExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeSecurityKeyValueCodecFieldEncode(v *SecurityKeyValueCodec) *func(s00.SecurityKey, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCOUNTValueExtendedExtIEsValueFieldOpaque(v *COUNTValueExtendedExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeSecurityKeyValueCodecFieldPath(v *SecurityKeyValueCodec) *aper.Path { return &v.path }
+func BridgeSensorMeasConfigValueCodecFieldCapture(v *SensorMeasConfigValueCodec) *func(s00.SensorMeasConfig, aper.DecodeState) (s00.SensorMeasConfig, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCOUNTValueExtendedExtIEsValueFieldReceived(v *COUNTValueExtendedExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeSensorMeasConfigValueCodecFieldCompare(v *SensorMeasConfigValueCodec) *func(s00.SensorMeasConfig, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCOUNTValueExtendedExtIEsValueFieldReplay(v *COUNTValueExtendedExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeSensorMeasConfigValueCodecFieldContext(v *SensorMeasConfigValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCOUNTValueExtendedExtIEsValueMethodCaptureSemantics(v COUNTValueExtendedExtIEsValue, a0 aper.SemanticCapture) COUNTValueExtendedExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeSensorMeasConfigValueCodecFieldDecode(v *SensorMeasConfigValueCodec) *func([]byte, aper.DecodeState) (s00.SensorMeasConfig, error) {
+	return &v.decode
 }
-func BridgeCOUNTValueExtendedExtIEsValueMethodCompareSemantics(v COUNTValueExtendedExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeSensorMeasConfigValueCodecFieldEncode(v *SensorMeasConfigValueCodec) *func(s00.SensorMeasConfig, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCOUNTValueExtendedExtIEsValueMethodDecode(v COUNTValueExtendedExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (COUNTValueExtendedExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeSensorMeasConfigValueCodecFieldPath(v *SensorMeasConfigValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeCOUNTValueExtendedExtIEsValueMethodEncode(v COUNTValueExtendedExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeSerialNumberValueCodecFieldCapture(v *SerialNumberValueCodec) *func(s00.SerialNumber, aper.DecodeState) (s00.SerialNumber, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCOUNTValueExtendedExtIEsValueMethodEncodeFresh(v COUNTValueExtendedExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeSerialNumberValueCodecFieldCompare(v *SerialNumberValueCodec) *func(s00.SerialNumber, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCOUNTValueExtendedExtIEsValueMethodMatchesID(v COUNTValueExtendedExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeSerialNumberValueCodecFieldContext(v *SerialNumberValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCOUNTValueExtendedExtIEsValueMethodReason(v COUNTValueExtendedExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeSerialNumberValueCodecFieldDecode(v *SerialNumberValueCodec) *func([]byte, aper.DecodeState) (s00.SerialNumber, error) {
+	return &v.decode
 }
-func BridgeCOUNTValueExtendedExtIEsValueMethodRule(v COUNTValueExtendedExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeSerialNumberValueCodecFieldEncode(v *SerialNumberValueCodec) *func(s00.SerialNumber, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCOUNTvalueExtIEsValueFieldId(v *COUNTvalueExtIEsValue) *s00.ProtocolIEID { return &v.id }
-func BridgeCOUNTvalueExtIEsValueFieldIsOpaque(v *COUNTvalueExtIEsValue) *bool       { return &v.isOpaque }
-func BridgeCOUNTvalueExtIEsValueFieldOpaque(v *COUNTvalueExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeSerialNumberValueCodecFieldPath(v *SerialNumberValueCodec) *aper.Path { return &v.path }
+func BridgeServedGroupIDsValueCodecFieldCapture(v *ServedGroupIDsValueCodec) *func(s00.ServedGroupIDs, aper.DecodeState) (s00.ServedGroupIDs, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCOUNTvalueExtIEsValueFieldReceived(v *COUNTvalueExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeServedGroupIDsValueCodecFieldCompare(v *ServedGroupIDsValueCodec) *func(s00.ServedGroupIDs, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCOUNTvalueExtIEsValueFieldReplay(v *COUNTvalueExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeServedGroupIDsValueCodecFieldContext(v *ServedGroupIDsValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCOUNTvalueExtIEsValueMethodCaptureSemantics(v COUNTvalueExtIEsValue, a0 aper.SemanticCapture) COUNTvalueExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeServedGroupIDsValueCodecFieldDecode(v *ServedGroupIDsValueCodec) *func([]byte, aper.DecodeState) (s00.ServedGroupIDs, error) {
+	return &v.decode
 }
-func BridgeCOUNTvalueExtIEsValueMethodCompareSemantics(v COUNTvalueExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeServedGroupIDsValueCodecFieldEncode(v *ServedGroupIDsValueCodec) *func(s00.ServedGroupIDs, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCOUNTvalueExtIEsValueMethodDecode(v COUNTvalueExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (COUNTvalueExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeServedGroupIDsValueCodecFieldPath(v *ServedGroupIDsValueCodec) *aper.Path { return &v.path }
+func BridgeServedMMECsValueCodecFieldCapture(v *ServedMMECsValueCodec) *func(s00.ServedMMECs, aper.DecodeState) (s00.ServedMMECs, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCOUNTvalueExtIEsValueMethodEncode(v COUNTvalueExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeServedMMECsValueCodecFieldCompare(v *ServedMMECsValueCodec) *func(s00.ServedMMECs, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCOUNTvalueExtIEsValueMethodEncodeFresh(v COUNTvalueExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeServedMMECsValueCodecFieldContext(v *ServedMMECsValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCOUNTvalueExtIEsValueMethodMatchesID(v COUNTvalueExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeServedMMECsValueCodecFieldDecode(v *ServedMMECsValueCodec) *func([]byte, aper.DecodeState) (s00.ServedMMECs, error) {
+	return &v.decode
 }
-func BridgeCOUNTvalueExtIEsValueMethodReason(v COUNTvalueExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeServedMMECsValueCodecFieldEncode(v *ServedMMECsValueCodec) *func(s00.ServedMMECs, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCOUNTvalueExtIEsValueMethodRule(v COUNTvalueExtIEsValue) aper.SourceRule { return v.rule() }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueFieldId(v *COUNTvaluePDCPSNlength18ExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeServedMMECsValueCodecFieldPath(v *ServedMMECsValueCodec) *aper.Path { return &v.path }
+func BridgeServedPLMNsValueCodecFieldCapture(v *ServedPLMNsValueCodec) *func(s00.ServedPLMNs, aper.DecodeState) (s00.ServedPLMNs, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueFieldIsOpaque(v *COUNTvaluePDCPSNlength18ExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeServedPLMNsValueCodecFieldCompare(v *ServedPLMNsValueCodec) *func(s00.ServedPLMNs, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueFieldOpaque(v *COUNTvaluePDCPSNlength18ExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeServedPLMNsValueCodecFieldContext(v *ServedPLMNsValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueFieldReceived(v *COUNTvaluePDCPSNlength18ExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeServedPLMNsValueCodecFieldDecode(v *ServedPLMNsValueCodec) *func([]byte, aper.DecodeState) (s00.ServedPLMNs, error) {
+	return &v.decode
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueFieldReplay(v *COUNTvaluePDCPSNlength18ExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeServedPLMNsValueCodecFieldEncode(v *ServedPLMNsValueCodec) *func(s00.ServedPLMNs, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueMethodCaptureSemantics(v COUNTvaluePDCPSNlength18ExtIEsValue, a0 aper.SemanticCapture) COUNTvaluePDCPSNlength18ExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeServedPLMNsValueCodecFieldPath(v *ServedPLMNsValueCodec) *aper.Path { return &v.path }
+func BridgeServiceTypeValueCodecFieldCapture(v *ServiceTypeValueCodec) *func(s00.ServiceType, aper.DecodeState) (s00.ServiceType, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueMethodCompareSemantics(v COUNTvaluePDCPSNlength18ExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeServiceTypeValueCodecFieldCompare(v *ServiceTypeValueCodec) *func(s00.ServiceType, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueMethodDecode(v COUNTvaluePDCPSNlength18ExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (COUNTvaluePDCPSNlength18ExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeServiceTypeValueCodecFieldContext(v *ServiceTypeValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueMethodEncode(v COUNTvaluePDCPSNlength18ExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeServiceTypeValueCodecFieldDecode(v *ServiceTypeValueCodec) *func([]byte, aper.DecodeState) (s00.ServiceType, error) {
+	return &v.decode
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueMethodEncodeFresh(v COUNTvaluePDCPSNlength18ExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeServiceTypeValueCodecFieldEncode(v *ServiceTypeValueCodec) *func(s00.ServiceType, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueMethodMatchesID(v COUNTvaluePDCPSNlength18ExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeServiceTypeValueCodecFieldPath(v *ServiceTypeValueCodec) *aper.Path { return &v.path }
+func BridgeSliceByteValueCodecFieldCapture(v *SliceByteValueCodec) *func([]byte, aper.DecodeState) ([]byte, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueMethodReason(v COUNTvaluePDCPSNlength18ExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeSliceByteValueCodecFieldCompare(v *SliceByteValueCodec) *func([]byte, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCOUNTvaluePDCPSNlength18ExtIEsValueMethodRule(v COUNTvaluePDCPSNlength18ExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeSliceByteValueCodecFieldContext(v *SliceByteValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCSGIdListItemExtIEsValueFieldId(v *CSGIdListItemExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeSliceByteValueCodecFieldDecode(v *SliceByteValueCodec) *func([]byte, aper.DecodeState) ([]byte, error) {
+	return &v.decode
 }
-func BridgeCSGIdListItemExtIEsValueFieldIsOpaque(v *CSGIdListItemExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeSliceByteValueCodecFieldEncode(v *SliceByteValueCodec) *func([]byte, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCSGIdListItemExtIEsValueFieldOpaque(v *CSGIdListItemExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeSliceByteValueCodecFieldPath(v *SliceByteValueCodec) *aper.Path { return &v.path }
+func BridgeSonTransferIEsMobilityInformationValueCodecFieldCapture(v *SonTransferIEsMobilityInformationValueCodec) *func(s00.SonTransferIEsMobilityInformation, aper.DecodeState) (s00.SonTransferIEsMobilityInformation, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCSGIdListItemExtIEsValueFieldReceived(v *CSGIdListItemExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeSonTransferIEsMobilityInformationValueCodecFieldCompare(v *SonTransferIEsMobilityInformationValueCodec) *func(s00.SonTransferIEsMobilityInformation, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCSGIdListItemExtIEsValueFieldReplay(v *CSGIdListItemExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeSonTransferIEsMobilityInformationValueCodecFieldContext(v *SonTransferIEsMobilityInformationValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCSGIdListItemExtIEsValueMethodCaptureSemantics(v CSGIdListItemExtIEsValue, a0 aper.SemanticCapture) CSGIdListItemExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeSonTransferIEsMobilityInformationValueCodecFieldDecode(v *SonTransferIEsMobilityInformationValueCodec) *func([]byte, aper.DecodeState) (s00.SonTransferIEsMobilityInformation, error) {
+	return &v.decode
 }
-func BridgeCSGIdListItemExtIEsValueMethodCompareSemantics(v CSGIdListItemExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeSonTransferIEsMobilityInformationValueCodecFieldEncode(v *SonTransferIEsMobilityInformationValueCodec) *func(s00.SonTransferIEsMobilityInformation, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCSGIdListItemExtIEsValueMethodDecode(v CSGIdListItemExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (CSGIdListItemExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeSonTransferIEsMobilityInformationValueCodecFieldPath(v *SonTransferIEsMobilityInformationValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeCSGIdListItemExtIEsValueMethodEncode(v CSGIdListItemExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeSourceBSSToTargetBSSTransparentContainerValueCodecFieldCapture(v *SourceBSSToTargetBSSTransparentContainerValueCodec) *func(s00.SourceBSSToTargetBSSTransparentContainer, aper.DecodeState) (s00.SourceBSSToTargetBSSTransparentContainer, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCSGIdListItemExtIEsValueMethodEncodeFresh(v CSGIdListItemExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeSourceBSSToTargetBSSTransparentContainerValueCodecFieldCompare(v *SourceBSSToTargetBSSTransparentContainerValueCodec) *func(s00.SourceBSSToTargetBSSTransparentContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCSGIdListItemExtIEsValueMethodMatchesID(v CSGIdListItemExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeSourceBSSToTargetBSSTransparentContainerValueCodecFieldContext(v *SourceBSSToTargetBSSTransparentContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCSGIdListItemExtIEsValueMethodReason(v CSGIdListItemExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeSourceBSSToTargetBSSTransparentContainerValueCodecFieldDecode(v *SourceBSSToTargetBSSTransparentContainerValueCodec) *func([]byte, aper.DecodeState) (s00.SourceBSSToTargetBSSTransparentContainer, error) {
+	return &v.decode
 }
-func BridgeCSGIdListItemExtIEsValueMethodRule(v CSGIdListItemExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeSourceBSSToTargetBSSTransparentContainerValueCodecFieldEncode(v *SourceBSSToTargetBSSTransparentContainerValueCodec) *func(s00.SourceBSSToTargetBSSTransparentContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCSGMembershipInfoExtIEsValueFieldId(v *CSGMembershipInfoExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeSourceBSSToTargetBSSTransparentContainerValueCodecFieldPath(v *SourceBSSToTargetBSSTransparentContainerValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeCSGMembershipInfoExtIEsValueFieldIsOpaque(v *CSGMembershipInfoExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeSourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodecFieldCapture(v *SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) *func(s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer, aper.DecodeState) (s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCSGMembershipInfoExtIEsValueFieldOpaque(v *CSGMembershipInfoExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeSourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodecFieldCompare(v *SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) *func(s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCSGMembershipInfoExtIEsValueFieldReceived(v *CSGMembershipInfoExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeSourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodecFieldContext(v *SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCSGMembershipInfoExtIEsValueFieldReplay(v *CSGMembershipInfoExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeSourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodecFieldDecode(v *SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) *func([]byte, aper.DecodeState) (s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer, error) {
+	return &v.decode
 }
-func BridgeCSGMembershipInfoExtIEsValueMethodCaptureSemantics(v CSGMembershipInfoExtIEsValue, a0 aper.SemanticCapture) CSGMembershipInfoExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeSourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodecFieldEncode(v *SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) *func(s00.SourceNgRanNodeToTargetNgRanNodeTransparentContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCSGMembershipInfoExtIEsValueMethodCompareSemantics(v CSGMembershipInfoExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeSourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodecFieldPath(v *SourceNgRanNodeToTargetNgRanNodeTransparentContainerValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeCSGMembershipInfoExtIEsValueMethodDecode(v CSGMembershipInfoExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (CSGMembershipInfoExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeSourceOfUEActivityBehaviourInformationValueCodecFieldCapture(v *SourceOfUEActivityBehaviourInformationValueCodec) *func(s00.SourceOfUEActivityBehaviourInformation, aper.DecodeState) (s00.SourceOfUEActivityBehaviourInformation, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCSGMembershipInfoExtIEsValueMethodEncode(v CSGMembershipInfoExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeSourceOfUEActivityBehaviourInformationValueCodecFieldCompare(v *SourceOfUEActivityBehaviourInformationValueCodec) *func(s00.SourceOfUEActivityBehaviourInformation, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCSGMembershipInfoExtIEsValueMethodEncodeFresh(v CSGMembershipInfoExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeSourceOfUEActivityBehaviourInformationValueCodecFieldContext(v *SourceOfUEActivityBehaviourInformationValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCSGMembershipInfoExtIEsValueMethodMatchesID(v CSGMembershipInfoExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeSourceOfUEActivityBehaviourInformationValueCodecFieldDecode(v *SourceOfUEActivityBehaviourInformationValueCodec) *func([]byte, aper.DecodeState) (s00.SourceOfUEActivityBehaviourInformation, error) {
+	return &v.decode
 }
-func BridgeCSGMembershipInfoExtIEsValueMethodReason(v CSGMembershipInfoExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeSourceOfUEActivityBehaviourInformationValueCodecFieldEncode(v *SourceOfUEActivityBehaviourInformationValueCodec) *func(s00.SourceOfUEActivityBehaviourInformation, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCSGMembershipInfoExtIEsValueMethodRule(v CSGMembershipInfoExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeSourceOfUEActivityBehaviourInformationValueCodecFieldPath(v *SourceOfUEActivityBehaviourInformationValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeCancelledCellinEAIItemExtIEsValueFieldId(v *CancelledCellinEAIItemExtIEsValue) *s00.ProtocolIEID {
-	return &v.id
+func BridgeSourceRNCToTargetRNCTransparentContainerValueCodecFieldCapture(v *SourceRNCToTargetRNCTransparentContainerValueCodec) *func(s00.SourceRNCToTargetRNCTransparentContainer, aper.DecodeState) (s00.SourceRNCToTargetRNCTransparentContainer, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCancelledCellinEAIItemExtIEsValueFieldIsOpaque(v *CancelledCellinEAIItemExtIEsValue) *bool {
-	return &v.isOpaque
+func BridgeSourceRNCToTargetRNCTransparentContainerValueCodecFieldCompare(v *SourceRNCToTargetRNCTransparentContainerValueCodec) *func(s00.SourceRNCToTargetRNCTransparentContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCancelledCellinEAIItemExtIEsValueFieldOpaque(v *CancelledCellinEAIItemExtIEsValue) *aper.OpaqueOpenType {
-	return &v.opaque
+func BridgeSourceRNCToTargetRNCTransparentContainerValueCodecFieldContext(v *SourceRNCToTargetRNCTransparentContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCancelledCellinEAIItemExtIEsValueFieldReceived(v *CancelledCellinEAIItemExtIEsValue) *aper.WireSpan {
-	return &v.received
+func BridgeSourceRNCToTargetRNCTransparentContainerValueCodecFieldDecode(v *SourceRNCToTargetRNCTransparentContainerValueCodec) *func([]byte, aper.DecodeState) (s00.SourceRNCToTargetRNCTransparentContainer, error) {
+	return &v.decode
 }
-func BridgeCancelledCellinEAIItemExtIEsValueFieldReplay(v *CancelledCellinEAIItemExtIEsValue) *aper.Snapshot {
-	return &v.replay
+func BridgeSourceRNCToTargetRNCTransparentContainerValueCodecFieldEncode(v *SourceRNCToTargetRNCTransparentContainerValueCodec) *func(s00.SourceRNCToTargetRNCTransparentContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCancelledCellinEAIItemExtIEsValueMethodCaptureSemantics(v CancelledCellinEAIItemExtIEsValue, a0 aper.SemanticCapture) CancelledCellinEAIItemExtIEsValue {
-	return v.captureSemantics(a0)
+func BridgeSourceRNCToTargetRNCTransparentContainerValueCodecFieldPath(v *SourceRNCToTargetRNCTransparentContainerValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeCancelledCellinEAIItemExtIEsValueMethodCompareSemantics(v CancelledCellinEAIItemExtIEsValue, a0 aper.SemanticComparison) aper.SemanticComparison {
-	return v.compareSemantics(a0)
+func BridgeSourceToTargetTransparentContainerValueCodecFieldCapture(v *SourceToTargetTransparentContainerValueCodec) *func(s00.SourceToTargetTransparentContainer, aper.DecodeState) (s00.SourceToTargetTransparentContainer, aper.Snapshot) {
+	return &v.capture
 }
-func BridgeCancelledCellinEAIItemExtIEsValueMethodDecode(v CancelledCellinEAIItemExtIEsValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (CancelledCellinEAIItemExtIEsValue, error) {
-	return v.decode(a0, a1)
+func BridgeSourceToTargetTransparentContainerValueCodecFieldCompare(v *SourceToTargetTransparentContainerValueCodec) *func(s00.SourceToTargetTransparentContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
 }
-func BridgeCancelledCellinEAIItemExtIEsValueMethodEncode(v CancelledCellinEAIItemExtIEsValue) ([]byte, error) {
-	return v.encode()
+func BridgeSourceToTargetTransparentContainerValueCodecFieldContext(v *SourceToTargetTransparentContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
 }
-func BridgeCancelledCellinEAIItemExtIEsValueMethodEncodeFresh(v CancelledCellinEAIItemExtIEsValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
-	return v.encodeFresh(a0, a1)
+func BridgeSourceToTargetTransparentContainerValueCodecFieldDecode(v *SourceToTargetTransparentContainerValueCodec) *func([]byte, aper.DecodeState) (s00.SourceToTargetTransparentContainer, error) {
+	return &v.decode
 }
-func BridgeCancelledCellinEAIItemExtIEsValueMethodMatchesID(v CancelledCellinEAIItemExtIEsValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
-	return v.matchesID(a0, a1...)
+func BridgeSourceToTargetTransparentContainerValueCodecFieldEncode(v *SourceToTargetTransparentContainerValueCodec) *func(s00.SourceToTargetTransparentContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
 }
-func BridgeCancelledCellinEAIItemExtIEsValueMethodReason(v CancelledCellinEAIItemExtIEsValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
-	return v.reason(a0)
+func BridgeSourceToTargetTransparentContainerValueCodecFieldPath(v *SourceToTargetTransparentContainerValueCodec) *aper.Path {
+	return &v.path
 }
-func BridgeCancelledCellinEAIItemExtIEsValueMethodRule(v CancelledCellinEAIItemExtIEsValue) aper.SourceRule {
-	return v.rule()
+func BridgeStratumLevelValueCodecFieldCapture(v *StratumLevelValueCodec) *func(s00.StratumLevel, aper.DecodeState) (s00.StratumLevel, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeStratumLevelValueCodecFieldCompare(v *StratumLevelValueCodec) *func(s00.StratumLevel, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeStratumLevelValueCodecFieldContext(v *StratumLevelValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeStratumLevelValueCodecFieldDecode(v *StratumLevelValueCodec) *func([]byte, aper.DecodeState) (s00.StratumLevel, error) {
+	return &v.decode
+}
+func BridgeStratumLevelValueCodecFieldEncode(v *StratumLevelValueCodec) *func(s00.StratumLevel, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeStratumLevelValueCodecFieldPath(v *StratumLevelValueCodec) *aper.Path { return &v.path }
+func BridgeSubscriberProfileIDforRFPValueCodecFieldCapture(v *SubscriberProfileIDforRFPValueCodec) *func(s00.SubscriberProfileIDforRFP, aper.DecodeState) (s00.SubscriberProfileIDforRFP, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeSubscriberProfileIDforRFPValueCodecFieldCompare(v *SubscriberProfileIDforRFPValueCodec) *func(s00.SubscriberProfileIDforRFP, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeSubscriberProfileIDforRFPValueCodecFieldContext(v *SubscriberProfileIDforRFPValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeSubscriberProfileIDforRFPValueCodecFieldDecode(v *SubscriberProfileIDforRFPValueCodec) *func([]byte, aper.DecodeState) (s00.SubscriberProfileIDforRFP, error) {
+	return &v.decode
+}
+func BridgeSubscriberProfileIDforRFPValueCodecFieldEncode(v *SubscriberProfileIDforRFPValueCodec) *func(s00.SubscriberProfileIDforRFP, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeSubscriberProfileIDforRFPValueCodecFieldPath(v *SubscriberProfileIDforRFPValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeSynchronisationStatusValueCodecFieldCapture(v *SynchronisationStatusValueCodec) *func(s00.SynchronisationStatus, aper.DecodeState) (s00.SynchronisationStatus, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeSynchronisationStatusValueCodecFieldCompare(v *SynchronisationStatusValueCodec) *func(s00.SynchronisationStatus, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeSynchronisationStatusValueCodecFieldContext(v *SynchronisationStatusValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeSynchronisationStatusValueCodecFieldDecode(v *SynchronisationStatusValueCodec) *func([]byte, aper.DecodeState) (s00.SynchronisationStatus, error) {
+	return &v.decode
+}
+func BridgeSynchronisationStatusValueCodecFieldEncode(v *SynchronisationStatusValueCodec) *func(s00.SynchronisationStatus, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeSynchronisationStatusValueCodecFieldPath(v *SynchronisationStatusValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeTACListInLTENTNValueCodecFieldCapture(v *TACListInLTENTNValueCodec) *func(s00.TACListInLTENTN, aper.DecodeState) (s00.TACListInLTENTN, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeTACListInLTENTNValueCodecFieldCompare(v *TACListInLTENTNValueCodec) *func(s00.TACListInLTENTN, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeTACListInLTENTNValueCodecFieldContext(v *TACListInLTENTNValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeTACListInLTENTNValueCodecFieldDecode(v *TACListInLTENTNValueCodec) *func([]byte, aper.DecodeState) (s00.TACListInLTENTN, error) {
+	return &v.decode
+}
+func BridgeTACListInLTENTNValueCodecFieldEncode(v *TACListInLTENTNValueCodec) *func(s00.TACListInLTENTN, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeTACListInLTENTNValueCodecFieldPath(v *TACListInLTENTNValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeTACValueCodecFieldCapture(v *TACValueCodec) *func(s00.TAC, aper.DecodeState) (s00.TAC, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeTACValueCodecFieldCompare(v *TACValueCodec) *func(s00.TAC, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeTACValueCodecFieldContext(v *TACValueCodec) *s00.BridgeCodecContext { return &v.context }
+func BridgeTACValueCodecFieldDecode(v *TACValueCodec) *func([]byte, aper.DecodeState) (s00.TAC, error) {
+	return &v.decode
+}
+func BridgeTACValueCodecFieldEncode(v *TACValueCodec) *func(s00.TAC, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeTACValueCodecFieldPath(v *TACValueCodec) *aper.Path { return &v.path }
+func BridgeTAListforMDTValueCodecFieldCapture(v *TAListforMDTValueCodec) *func(s00.TAListforMDT, aper.DecodeState) (s00.TAListforMDT, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeTAListforMDTValueCodecFieldCompare(v *TAListforMDTValueCodec) *func(s00.TAListforMDT, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeTAListforMDTValueCodecFieldContext(v *TAListforMDTValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeTAListforMDTValueCodecFieldDecode(v *TAListforMDTValueCodec) *func([]byte, aper.DecodeState) (s00.TAListforMDT, error) {
+	return &v.decode
+}
+func BridgeTAListforMDTValueCodecFieldEncode(v *TAListforMDTValueCodec) *func(s00.TAListforMDT, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeTAListforMDTValueCodecFieldPath(v *TAListforMDTValueCodec) *aper.Path { return &v.path }
+func BridgeTAListforQMCValueCodecFieldCapture(v *TAListforQMCValueCodec) *func(s00.TAListforQMC, aper.DecodeState) (s00.TAListforQMC, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeTAListforQMCValueCodecFieldCompare(v *TAListforQMCValueCodec) *func(s00.TAListforQMC, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeTAListforQMCValueCodecFieldContext(v *TAListforQMCValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeTAListforQMCValueCodecFieldDecode(v *TAListforQMCValueCodec) *func([]byte, aper.DecodeState) (s00.TAListforQMC, error) {
+	return &v.decode
+}
+func BridgeTAListforQMCValueCodecFieldEncode(v *TAListforQMCValueCodec) *func(s00.TAListforQMC, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeTAListforQMCValueCodecFieldPath(v *TAListforQMCValueCodec) *aper.Path { return &v.path }
+func BridgeTBCDSTRINGValueCodecFieldCapture(v *TBCDSTRINGValueCodec) *func(s00.TBCDSTRING, aper.DecodeState) (s00.TBCDSTRING, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeTBCDSTRINGValueCodecFieldCompare(v *TBCDSTRINGValueCodec) *func(s00.TBCDSTRING, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeTBCDSTRINGValueCodecFieldContext(v *TBCDSTRINGValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeTBCDSTRINGValueCodecFieldDecode(v *TBCDSTRINGValueCodec) *func([]byte, aper.DecodeState) (s00.TBCDSTRING, error) {
+	return &v.decode
+}
+func BridgeTBCDSTRINGValueCodecFieldEncode(v *TBCDSTRINGValueCodec) *func(s00.TBCDSTRING, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeTBCDSTRINGValueCodecFieldPath(v *TBCDSTRINGValueCodec) *aper.Path { return &v.path }
+func BridgeTargetBSSToSourceBSSTransparentContainerValueCodecFieldCapture(v *TargetBSSToSourceBSSTransparentContainerValueCodec) *func(s00.TargetBSSToSourceBSSTransparentContainer, aper.DecodeState) (s00.TargetBSSToSourceBSSTransparentContainer, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeTargetBSSToSourceBSSTransparentContainerValueCodecFieldCompare(v *TargetBSSToSourceBSSTransparentContainerValueCodec) *func(s00.TargetBSSToSourceBSSTransparentContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeTargetBSSToSourceBSSTransparentContainerValueCodecFieldContext(v *TargetBSSToSourceBSSTransparentContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeTargetBSSToSourceBSSTransparentContainerValueCodecFieldDecode(v *TargetBSSToSourceBSSTransparentContainerValueCodec) *func([]byte, aper.DecodeState) (s00.TargetBSSToSourceBSSTransparentContainer, error) {
+	return &v.decode
+}
+func BridgeTargetBSSToSourceBSSTransparentContainerValueCodecFieldEncode(v *TargetBSSToSourceBSSTransparentContainerValueCodec) *func(s00.TargetBSSToSourceBSSTransparentContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeTargetBSSToSourceBSSTransparentContainerValueCodecFieldPath(v *TargetBSSToSourceBSSTransparentContainerValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeTargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodecFieldCapture(v *TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) *func(s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer, aper.DecodeState) (s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeTargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodecFieldCompare(v *TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) *func(s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeTargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodecFieldContext(v *TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeTargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodecFieldDecode(v *TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) *func([]byte, aper.DecodeState) (s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer, error) {
+	return &v.decode
+}
+func BridgeTargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodecFieldEncode(v *TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) *func(s00.TargetNgRanNodeToSourceNgRanNodeTransparentContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeTargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodecFieldPath(v *TargetNgRanNodeToSourceNgRanNodeTransparentContainerValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeTargetRNCToSourceRNCTransparentContainerValueCodecFieldCapture(v *TargetRNCToSourceRNCTransparentContainerValueCodec) *func(s00.TargetRNCToSourceRNCTransparentContainer, aper.DecodeState) (s00.TargetRNCToSourceRNCTransparentContainer, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeTargetRNCToSourceRNCTransparentContainerValueCodecFieldCompare(v *TargetRNCToSourceRNCTransparentContainerValueCodec) *func(s00.TargetRNCToSourceRNCTransparentContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeTargetRNCToSourceRNCTransparentContainerValueCodecFieldContext(v *TargetRNCToSourceRNCTransparentContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeTargetRNCToSourceRNCTransparentContainerValueCodecFieldDecode(v *TargetRNCToSourceRNCTransparentContainerValueCodec) *func([]byte, aper.DecodeState) (s00.TargetRNCToSourceRNCTransparentContainer, error) {
+	return &v.decode
+}
+func BridgeTargetRNCToSourceRNCTransparentContainerValueCodecFieldEncode(v *TargetRNCToSourceRNCTransparentContainerValueCodec) *func(s00.TargetRNCToSourceRNCTransparentContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeTargetRNCToSourceRNCTransparentContainerValueCodecFieldPath(v *TargetRNCToSourceRNCTransparentContainerValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeTargetToSourceTransparentContainerValueCodecFieldCapture(v *TargetToSourceTransparentContainerValueCodec) *func(s00.TargetToSourceTransparentContainer, aper.DecodeState) (s00.TargetToSourceTransparentContainer, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeTargetToSourceTransparentContainerValueCodecFieldCompare(v *TargetToSourceTransparentContainerValueCodec) *func(s00.TargetToSourceTransparentContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeTargetToSourceTransparentContainerValueCodecFieldContext(v *TargetToSourceTransparentContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeTargetToSourceTransparentContainerValueCodecFieldDecode(v *TargetToSourceTransparentContainerValueCodec) *func([]byte, aper.DecodeState) (s00.TargetToSourceTransparentContainer, error) {
+	return &v.decode
+}
+func BridgeTargetToSourceTransparentContainerValueCodecFieldEncode(v *TargetToSourceTransparentContainerValueCodec) *func(s00.TargetToSourceTransparentContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeTargetToSourceTransparentContainerValueCodecFieldPath(v *TargetToSourceTransparentContainerValueCodec) *aper.Path {
+	return &v.path
 }
 func BridgeThresholdRSRPValueCodecFieldCapture(v *ThresholdRSRPValueCodec) *func(s00.ThresholdRSRP, aper.DecodeState) (s00.ThresholdRSRP, aper.Snapshot) {
 	return &v.capture
@@ -24941,24 +19092,6 @@ func BridgeThresholdRSRPValueCodecFieldEncode(v *ThresholdRSRPValueCodec) *func(
 	return &v.encode
 }
 func BridgeThresholdRSRPValueCodecFieldPath(v *ThresholdRSRPValueCodec) *aper.Path { return &v.path }
-func BridgeThresholdRSRPValueCodecMethodEncodeBudgetValue(v ThresholdRSRPValueCodec, a0 s00.ThresholdRSRP, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeThresholdRSRPValueCodecMethodEncodeChanged(v ThresholdRSRPValueCodec, a0 s00.ThresholdRSRP, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeThresholdRSRQAPERValueFieldContext(v *ThresholdRSRQAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeThresholdRSRQAPERValueFieldReceived(v *ThresholdRSRQAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeThresholdRSRQAPERValueFieldReplay(v *ThresholdRSRQAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeThresholdRSRQAPERValueFieldWithoutReplay(v *ThresholdRSRQAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeThresholdRSRQValueCodecFieldCapture(v *ThresholdRSRQValueCodec) *func(s00.ThresholdRSRQ, aper.DecodeState) (s00.ThresholdRSRQ, aper.Snapshot) {
 	return &v.capture
 }
@@ -24975,24 +19108,6 @@ func BridgeThresholdRSRQValueCodecFieldEncode(v *ThresholdRSRQValueCodec) *func(
 	return &v.encode
 }
 func BridgeThresholdRSRQValueCodecFieldPath(v *ThresholdRSRQValueCodec) *aper.Path { return &v.path }
-func BridgeThresholdRSRQValueCodecMethodEncodeBudgetValue(v ThresholdRSRQValueCodec, a0 s00.ThresholdRSRQ, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeThresholdRSRQValueCodecMethodEncodeChanged(v ThresholdRSRQValueCodec, a0 s00.ThresholdRSRQ, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeTimeRefDistributionAPERValueFieldContext(v *TimeRefDistributionAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTimeRefDistributionAPERValueFieldReceived(v *TimeRefDistributionAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTimeRefDistributionAPERValueFieldReplay(v *TimeRefDistributionAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeTimeRefDistributionAPERValueFieldWithoutReplay(v *TimeRefDistributionAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeTimeRefDistributionValueCodecFieldCapture(v *TimeRefDistributionValueCodec) *func(s00.TimeRefDistribution, aper.DecodeState) (s00.TimeRefDistribution, aper.Snapshot) {
 	return &v.capture
 }
@@ -25010,24 +19125,6 @@ func BridgeTimeRefDistributionValueCodecFieldEncode(v *TimeRefDistributionValueC
 }
 func BridgeTimeRefDistributionValueCodecFieldPath(v *TimeRefDistributionValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeTimeRefDistributionValueCodecMethodEncodeBudgetValue(v TimeRefDistributionValueCodec, a0 s00.TimeRefDistribution, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTimeRefDistributionValueCodecMethodEncodeChanged(v TimeRefDistributionValueCodec, a0 s00.TimeRefDistribution, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeTimeSinceSecondaryNodeReleaseAPERValueFieldContext(v *TimeSinceSecondaryNodeReleaseAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTimeSinceSecondaryNodeReleaseAPERValueFieldReceived(v *TimeSinceSecondaryNodeReleaseAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTimeSinceSecondaryNodeReleaseAPERValueFieldReplay(v *TimeSinceSecondaryNodeReleaseAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeTimeSinceSecondaryNodeReleaseAPERValueFieldWithoutReplay(v *TimeSinceSecondaryNodeReleaseAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeTimeSinceSecondaryNodeReleaseValueCodecFieldCapture(v *TimeSinceSecondaryNodeReleaseValueCodec) *func(s00.TimeSinceSecondaryNodeRelease, aper.DecodeState) (s00.TimeSinceSecondaryNodeRelease, aper.Snapshot) {
 	return &v.capture
@@ -25047,24 +19144,6 @@ func BridgeTimeSinceSecondaryNodeReleaseValueCodecFieldEncode(v *TimeSinceSecond
 func BridgeTimeSinceSecondaryNodeReleaseValueCodecFieldPath(v *TimeSinceSecondaryNodeReleaseValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeTimeSinceSecondaryNodeReleaseValueCodecMethodEncodeBudgetValue(v TimeSinceSecondaryNodeReleaseValueCodec, a0 s00.TimeSinceSecondaryNodeRelease, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTimeSinceSecondaryNodeReleaseValueCodecMethodEncodeChanged(v TimeSinceSecondaryNodeReleaseValueCodec, a0 s00.TimeSinceSecondaryNodeRelease, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeTimeToTriggerAPERValueFieldContext(v *TimeToTriggerAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTimeToTriggerAPERValueFieldReceived(v *TimeToTriggerAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTimeToTriggerAPERValueFieldReplay(v *TimeToTriggerAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeTimeToTriggerAPERValueFieldWithoutReplay(v *TimeToTriggerAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeTimeToTriggerValueCodecFieldCapture(v *TimeToTriggerValueCodec) *func(s00.TimeToTrigger, aper.DecodeState) (s00.TimeToTrigger, aper.Snapshot) {
 	return &v.capture
 }
@@ -25081,22 +19160,6 @@ func BridgeTimeToTriggerValueCodecFieldEncode(v *TimeToTriggerValueCodec) *func(
 	return &v.encode
 }
 func BridgeTimeToTriggerValueCodecFieldPath(v *TimeToTriggerValueCodec) *aper.Path { return &v.path }
-func BridgeTimeToTriggerValueCodecMethodEncodeBudgetValue(v TimeToTriggerValueCodec, a0 s00.TimeToTrigger, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTimeToTriggerValueCodecMethodEncodeChanged(v TimeToTriggerValueCodec, a0 s00.TimeToTrigger, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeTimeToWaitAPERValueFieldContext(v *TimeToWaitAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTimeToWaitAPERValueFieldReceived(v *TimeToWaitAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTimeToWaitAPERValueFieldReplay(v *TimeToWaitAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeTimeToWaitAPERValueFieldWithoutReplay(v *TimeToWaitAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeTimeToWaitValueCodecFieldCapture(v *TimeToWaitValueCodec) *func(s00.TimeToWait, aper.DecodeState) (s00.TimeToWait, aper.Snapshot) {
 	return &v.capture
 }
@@ -25113,36 +19176,6 @@ func BridgeTimeToWaitValueCodecFieldEncode(v *TimeToWaitValueCodec) *func(s00.Ti
 	return &v.encode
 }
 func BridgeTimeToWaitValueCodecFieldPath(v *TimeToWaitValueCodec) *aper.Path { return &v.path }
-func BridgeTimeToWaitValueCodecMethodEncodeBudgetValue(v TimeToWaitValueCodec, a0 s00.TimeToWait, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTimeToWaitValueCodecMethodEncodeChanged(v TimeToWaitValueCodec, a0 s00.TimeToWait, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeTimeUEStayedInCellAPERValueFieldContext(v *TimeUEStayedInCellAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTimeUEStayedInCellAPERValueFieldReceived(v *TimeUEStayedInCellAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTimeUEStayedInCellAPERValueFieldReplay(v *TimeUEStayedInCellAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeTimeUEStayedInCellAPERValueFieldWithoutReplay(v *TimeUEStayedInCellAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeTimeUEStayedInCellEnhancedGranularityAPERValueFieldContext(v *TimeUEStayedInCellEnhancedGranularityAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTimeUEStayedInCellEnhancedGranularityAPERValueFieldReceived(v *TimeUEStayedInCellEnhancedGranularityAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTimeUEStayedInCellEnhancedGranularityAPERValueFieldReplay(v *TimeUEStayedInCellEnhancedGranularityAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeTimeUEStayedInCellEnhancedGranularityAPERValueFieldWithoutReplay(v *TimeUEStayedInCellEnhancedGranularityAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeTimeUEStayedInCellEnhancedGranularityValueCodecFieldCapture(v *TimeUEStayedInCellEnhancedGranularityValueCodec) *func(s00.TimeUEStayedInCellEnhancedGranularity, aper.DecodeState) (s00.TimeUEStayedInCellEnhancedGranularity, aper.Snapshot) {
 	return &v.capture
 }
@@ -25160,12 +19193,6 @@ func BridgeTimeUEStayedInCellEnhancedGranularityValueCodecFieldEncode(v *TimeUES
 }
 func BridgeTimeUEStayedInCellEnhancedGranularityValueCodecFieldPath(v *TimeUEStayedInCellEnhancedGranularityValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeTimeUEStayedInCellEnhancedGranularityValueCodecMethodEncodeBudgetValue(v TimeUEStayedInCellEnhancedGranularityValueCodec, a0 s00.TimeUEStayedInCellEnhancedGranularity, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTimeUEStayedInCellEnhancedGranularityValueCodecMethodEncodeChanged(v TimeUEStayedInCellEnhancedGranularityValueCodec, a0 s00.TimeUEStayedInCellEnhancedGranularity, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeTimeUEStayedInCellValueCodecFieldCapture(v *TimeUEStayedInCellValueCodec) *func(s00.TimeUEStayedInCell, aper.DecodeState) (s00.TimeUEStayedInCell, aper.Snapshot) {
 	return &v.capture
@@ -25185,22 +19212,6 @@ func BridgeTimeUEStayedInCellValueCodecFieldEncode(v *TimeUEStayedInCellValueCod
 func BridgeTimeUEStayedInCellValueCodecFieldPath(v *TimeUEStayedInCellValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeTimeUEStayedInCellValueCodecMethodEncodeBudgetValue(v TimeUEStayedInCellValueCodec, a0 s00.TimeUEStayedInCell, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTimeUEStayedInCellValueCodecMethodEncodeChanged(v TimeUEStayedInCellValueCodec, a0 s00.TimeUEStayedInCell, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeTraceDepthAPERValueFieldContext(v *TraceDepthAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTraceDepthAPERValueFieldReceived(v *TraceDepthAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTraceDepthAPERValueFieldReplay(v *TraceDepthAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeTraceDepthAPERValueFieldWithoutReplay(v *TraceDepthAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeTraceDepthValueCodecFieldCapture(v *TraceDepthValueCodec) *func(s00.TraceDepth, aper.DecodeState) (s00.TraceDepth, aper.Snapshot) {
 	return &v.capture
 }
@@ -25217,24 +19228,6 @@ func BridgeTraceDepthValueCodecFieldEncode(v *TraceDepthValueCodec) *func(s00.Tr
 	return &v.encode
 }
 func BridgeTraceDepthValueCodecFieldPath(v *TraceDepthValueCodec) *aper.Path { return &v.path }
-func BridgeTraceDepthValueCodecMethodEncodeBudgetValue(v TraceDepthValueCodec, a0 s00.TraceDepth, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTraceDepthValueCodecMethodEncodeChanged(v TraceDepthValueCodec, a0 s00.TraceDepth, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeTrafficLoadReductionIndicationAPERValueFieldContext(v *TrafficLoadReductionIndicationAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTrafficLoadReductionIndicationAPERValueFieldReceived(v *TrafficLoadReductionIndicationAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTrafficLoadReductionIndicationAPERValueFieldReplay(v *TrafficLoadReductionIndicationAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeTrafficLoadReductionIndicationAPERValueFieldWithoutReplay(v *TrafficLoadReductionIndicationAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeTrafficLoadReductionIndicationValueCodecFieldCapture(v *TrafficLoadReductionIndicationValueCodec) *func(s00.TrafficLoadReductionIndication, aper.DecodeState) (s00.TrafficLoadReductionIndication, aper.Snapshot) {
 	return &v.capture
 }
@@ -25252,24 +19245,6 @@ func BridgeTrafficLoadReductionIndicationValueCodecFieldEncode(v *TrafficLoadRed
 }
 func BridgeTrafficLoadReductionIndicationValueCodecFieldPath(v *TrafficLoadReductionIndicationValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeTrafficLoadReductionIndicationValueCodecMethodEncodeBudgetValue(v TrafficLoadReductionIndicationValueCodec, a0 s00.TrafficLoadReductionIndication, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTrafficLoadReductionIndicationValueCodecMethodEncodeChanged(v TrafficLoadReductionIndicationValueCodec, a0 s00.TrafficLoadReductionIndication, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeTransportLayerAddressAPERValueFieldContext(v *TransportLayerAddressAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTransportLayerAddressAPERValueFieldReceived(v *TransportLayerAddressAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTransportLayerAddressAPERValueFieldReplay(v *TransportLayerAddressAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeTransportLayerAddressAPERValueFieldWithoutReplay(v *TransportLayerAddressAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeTransportLayerAddressValueCodecFieldCapture(v *TransportLayerAddressValueCodec) *func(s00.TransportLayerAddress, aper.DecodeState) (s00.TransportLayerAddress, aper.Snapshot) {
 	return &v.capture
@@ -25289,24 +19264,6 @@ func BridgeTransportLayerAddressValueCodecFieldEncode(v *TransportLayerAddressVa
 func BridgeTransportLayerAddressValueCodecFieldPath(v *TransportLayerAddressValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeTransportLayerAddressValueCodecMethodEncodeBudgetValue(v TransportLayerAddressValueCodec, a0 s00.TransportLayerAddress, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTransportLayerAddressValueCodecMethodEncodeChanged(v TransportLayerAddressValueCodec, a0 s00.TransportLayerAddress, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeTriggeringMessageAPERValueFieldContext(v *TriggeringMessageAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTriggeringMessageAPERValueFieldReceived(v *TriggeringMessageAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTriggeringMessageAPERValueFieldReplay(v *TriggeringMessageAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeTriggeringMessageAPERValueFieldWithoutReplay(v *TriggeringMessageAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeTriggeringMessageValueCodecFieldCapture(v *TriggeringMessageValueCodec) *func(s00.TriggeringMessage, aper.DecodeState) (s00.TriggeringMessage, aper.Snapshot) {
 	return &v.capture
 }
@@ -25325,22 +19282,6 @@ func BridgeTriggeringMessageValueCodecFieldEncode(v *TriggeringMessageValueCodec
 func BridgeTriggeringMessageValueCodecFieldPath(v *TriggeringMessageValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeTriggeringMessageValueCodecMethodEncodeBudgetValue(v TriggeringMessageValueCodec, a0 s00.TriggeringMessage, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTriggeringMessageValueCodecMethodEncodeChanged(v TriggeringMessageValueCodec, a0 s00.TriggeringMessage, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeTypeOfErrorAPERValueFieldContext(v *TypeOfErrorAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTypeOfErrorAPERValueFieldReceived(v *TypeOfErrorAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTypeOfErrorAPERValueFieldReplay(v *TypeOfErrorAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeTypeOfErrorAPERValueFieldWithoutReplay(v *TypeOfErrorAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeTypeOfErrorValueCodecFieldCapture(v *TypeOfErrorValueCodec) *func(s00.TypeOfError, aper.DecodeState) (s00.TypeOfError, aper.Snapshot) {
 	return &v.capture
 }
@@ -25357,24 +19298,6 @@ func BridgeTypeOfErrorValueCodecFieldEncode(v *TypeOfErrorValueCodec) *func(s00.
 	return &v.encode
 }
 func BridgeTypeOfErrorValueCodecFieldPath(v *TypeOfErrorValueCodec) *aper.Path { return &v.path }
-func BridgeTypeOfErrorValueCodecMethodEncodeBudgetValue(v TypeOfErrorValueCodec, a0 s00.TypeOfError, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTypeOfErrorValueCodecMethodEncodeChanged(v TypeOfErrorValueCodec, a0 s00.TypeOfError, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUEApplicationLayerMeasurementCapabilityAPERValueFieldContext(v *UEApplicationLayerMeasurementCapabilityAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUEApplicationLayerMeasurementCapabilityAPERValueFieldReceived(v *UEApplicationLayerMeasurementCapabilityAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUEApplicationLayerMeasurementCapabilityAPERValueFieldReplay(v *UEApplicationLayerMeasurementCapabilityAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUEApplicationLayerMeasurementCapabilityAPERValueFieldWithoutReplay(v *UEApplicationLayerMeasurementCapabilityAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeUEApplicationLayerMeasurementCapabilityValueCodecFieldCapture(v *UEApplicationLayerMeasurementCapabilityValueCodec) *func(s00.UEApplicationLayerMeasurementCapability, aper.DecodeState) (s00.UEApplicationLayerMeasurementCapability, aper.Snapshot) {
 	return &v.capture
 }
@@ -25392,24 +19315,6 @@ func BridgeUEApplicationLayerMeasurementCapabilityValueCodecFieldEncode(v *UEApp
 }
 func BridgeUEApplicationLayerMeasurementCapabilityValueCodecFieldPath(v *UEApplicationLayerMeasurementCapabilityValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeUEApplicationLayerMeasurementCapabilityValueCodecMethodEncodeBudgetValue(v UEApplicationLayerMeasurementCapabilityValueCodec, a0 s00.UEApplicationLayerMeasurementCapability, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUEApplicationLayerMeasurementCapabilityValueCodecMethodEncodeChanged(v UEApplicationLayerMeasurementCapabilityValueCodec, a0 s00.UEApplicationLayerMeasurementCapability, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUECapabilityInfoRequestAPERValueFieldContext(v *UECapabilityInfoRequestAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUECapabilityInfoRequestAPERValueFieldReceived(v *UECapabilityInfoRequestAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUECapabilityInfoRequestAPERValueFieldReplay(v *UECapabilityInfoRequestAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUECapabilityInfoRequestAPERValueFieldWithoutReplay(v *UECapabilityInfoRequestAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeUECapabilityInfoRequestValueCodecFieldCapture(v *UECapabilityInfoRequestValueCodec) *func(s00.UECapabilityInfoRequest, aper.DecodeState) (s00.UECapabilityInfoRequest, aper.Snapshot) {
 	return &v.capture
@@ -25429,24 +19334,6 @@ func BridgeUECapabilityInfoRequestValueCodecFieldEncode(v *UECapabilityInfoReque
 func BridgeUECapabilityInfoRequestValueCodecFieldPath(v *UECapabilityInfoRequestValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUECapabilityInfoRequestValueCodecMethodEncodeBudgetValue(v UECapabilityInfoRequestValueCodec, a0 s00.UECapabilityInfoRequest, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUECapabilityInfoRequestValueCodecMethodEncodeChanged(v UECapabilityInfoRequestValueCodec, a0 s00.UECapabilityInfoRequest, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUEHistoryInformationFromTheUEAPERValueFieldContext(v *UEHistoryInformationFromTheUEAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUEHistoryInformationFromTheUEAPERValueFieldReceived(v *UEHistoryInformationFromTheUEAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUEHistoryInformationFromTheUEAPERValueFieldReplay(v *UEHistoryInformationFromTheUEAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUEHistoryInformationFromTheUEAPERValueFieldWithoutReplay(v *UEHistoryInformationFromTheUEAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeUEHistoryInformationFromTheUEValueCodecFieldCapture(v *UEHistoryInformationFromTheUEValueCodec) *func(s00.UEHistoryInformationFromTheUE, aper.DecodeState) (s00.UEHistoryInformationFromTheUE, aper.Snapshot) {
 	return &v.capture
 }
@@ -25464,24 +19351,6 @@ func BridgeUEHistoryInformationFromTheUEValueCodecFieldEncode(v *UEHistoryInform
 }
 func BridgeUEHistoryInformationFromTheUEValueCodecFieldPath(v *UEHistoryInformationFromTheUEValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeUEHistoryInformationFromTheUEValueCodecMethodEncodeBudgetValue(v UEHistoryInformationFromTheUEValueCodec, a0 s00.UEHistoryInformationFromTheUE, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUEHistoryInformationFromTheUEValueCodecMethodEncodeChanged(v UEHistoryInformationFromTheUEValueCodec, a0 s00.UEHistoryInformationFromTheUE, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUEIdentityIndexValueAPERValueFieldContext(v *UEIdentityIndexValueAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUEIdentityIndexValueAPERValueFieldReceived(v *UEIdentityIndexValueAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUEIdentityIndexValueAPERValueFieldReplay(v *UEIdentityIndexValueAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUEIdentityIndexValueAPERValueFieldWithoutReplay(v *UEIdentityIndexValueAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeUEIdentityIndexValueValueCodecFieldCapture(v *UEIdentityIndexValueValueCodec) *func(s00.UEIdentityIndexValue, aper.DecodeState) (s00.UEIdentityIndexValue, aper.Snapshot) {
 	return &v.capture
@@ -25501,36 +19370,6 @@ func BridgeUEIdentityIndexValueValueCodecFieldEncode(v *UEIdentityIndexValueValu
 func BridgeUEIdentityIndexValueValueCodecFieldPath(v *UEIdentityIndexValueValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUEIdentityIndexValueValueCodecMethodEncodeBudgetValue(v UEIdentityIndexValueValueCodec, a0 s00.UEIdentityIndexValue, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUEIdentityIndexValueValueCodecMethodEncodeChanged(v UEIdentityIndexValueValueCodec, a0 s00.UEIdentityIndexValue, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUERLFReportContainerAPERValueFieldContext(v *UERLFReportContainerAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUERLFReportContainerAPERValueFieldReceived(v *UERLFReportContainerAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUERLFReportContainerAPERValueFieldReplay(v *UERLFReportContainerAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUERLFReportContainerAPERValueFieldWithoutReplay(v *UERLFReportContainerAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeUERLFReportContainerForExtendedBandsAPERValueFieldContext(v *UERLFReportContainerForExtendedBandsAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUERLFReportContainerForExtendedBandsAPERValueFieldReceived(v *UERLFReportContainerForExtendedBandsAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUERLFReportContainerForExtendedBandsAPERValueFieldReplay(v *UERLFReportContainerForExtendedBandsAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUERLFReportContainerForExtendedBandsAPERValueFieldWithoutReplay(v *UERLFReportContainerForExtendedBandsAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeUERLFReportContainerForExtendedBandsValueCodecFieldCapture(v *UERLFReportContainerForExtendedBandsValueCodec) *func(s00.UERLFReportContainerForExtendedBands, aper.DecodeState) (s00.UERLFReportContainerForExtendedBands, aper.Snapshot) {
 	return &v.capture
 }
@@ -25548,12 +19387,6 @@ func BridgeUERLFReportContainerForExtendedBandsValueCodecFieldEncode(v *UERLFRep
 }
 func BridgeUERLFReportContainerForExtendedBandsValueCodecFieldPath(v *UERLFReportContainerForExtendedBandsValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeUERLFReportContainerForExtendedBandsValueCodecMethodEncodeBudgetValue(v UERLFReportContainerForExtendedBandsValueCodec, a0 s00.UERLFReportContainerForExtendedBands, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUERLFReportContainerForExtendedBandsValueCodecMethodEncodeChanged(v UERLFReportContainerForExtendedBandsValueCodec, a0 s00.UERLFReportContainerForExtendedBands, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeUERLFReportContainerValueCodecFieldCapture(v *UERLFReportContainerValueCodec) *func(s00.UERLFReportContainer, aper.DecodeState) (s00.UERLFReportContainer, aper.Snapshot) {
 	return &v.capture
@@ -25573,36 +19406,6 @@ func BridgeUERLFReportContainerValueCodecFieldEncode(v *UERLFReportContainerValu
 func BridgeUERLFReportContainerValueCodecFieldPath(v *UERLFReportContainerValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUERLFReportContainerValueCodecMethodEncodeBudgetValue(v UERLFReportContainerValueCodec, a0 s00.UERLFReportContainer, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUERLFReportContainerValueCodecMethodEncodeChanged(v UERLFReportContainerValueCodec, a0 s00.UERLFReportContainer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUERadioCapabilityAPERValueFieldContext(v *UERadioCapabilityAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUERadioCapabilityAPERValueFieldReceived(v *UERadioCapabilityAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUERadioCapabilityAPERValueFieldReplay(v *UERadioCapabilityAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUERadioCapabilityAPERValueFieldWithoutReplay(v *UERadioCapabilityAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeUERadioCapabilityForPagingAPERValueFieldContext(v *UERadioCapabilityForPagingAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUERadioCapabilityForPagingAPERValueFieldReceived(v *UERadioCapabilityForPagingAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUERadioCapabilityForPagingAPERValueFieldReplay(v *UERadioCapabilityForPagingAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUERadioCapabilityForPagingAPERValueFieldWithoutReplay(v *UERadioCapabilityForPagingAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeUERadioCapabilityForPagingValueCodecFieldCapture(v *UERadioCapabilityForPagingValueCodec) *func(s00.UERadioCapabilityForPaging, aper.DecodeState) (s00.UERadioCapabilityForPaging, aper.Snapshot) {
 	return &v.capture
 }
@@ -25620,24 +19423,6 @@ func BridgeUERadioCapabilityForPagingValueCodecFieldEncode(v *UERadioCapabilityF
 }
 func BridgeUERadioCapabilityForPagingValueCodecFieldPath(v *UERadioCapabilityForPagingValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeUERadioCapabilityForPagingValueCodecMethodEncodeBudgetValue(v UERadioCapabilityForPagingValueCodec, a0 s00.UERadioCapabilityForPaging, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUERadioCapabilityForPagingValueCodecMethodEncodeChanged(v UERadioCapabilityForPagingValueCodec, a0 s00.UERadioCapabilityForPaging, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUERadioCapabilityIDAPERValueFieldContext(v *UERadioCapabilityIDAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUERadioCapabilityIDAPERValueFieldReceived(v *UERadioCapabilityIDAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUERadioCapabilityIDAPERValueFieldReplay(v *UERadioCapabilityIDAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUERadioCapabilityIDAPERValueFieldWithoutReplay(v *UERadioCapabilityIDAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeUERadioCapabilityIDValueCodecFieldCapture(v *UERadioCapabilityIDValueCodec) *func(s00.UERadioCapabilityID, aper.DecodeState) (s00.UERadioCapabilityID, aper.Snapshot) {
 	return &v.capture
@@ -25657,12 +19442,6 @@ func BridgeUERadioCapabilityIDValueCodecFieldEncode(v *UERadioCapabilityIDValueC
 func BridgeUERadioCapabilityIDValueCodecFieldPath(v *UERadioCapabilityIDValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUERadioCapabilityIDValueCodecMethodEncodeBudgetValue(v UERadioCapabilityIDValueCodec, a0 s00.UERadioCapabilityID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUERadioCapabilityIDValueCodecMethodEncodeChanged(v UERadioCapabilityIDValueCodec, a0 s00.UERadioCapabilityID, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeUERadioCapabilityValueCodecFieldCapture(v *UERadioCapabilityValueCodec) *func(s00.UERadioCapability, aper.DecodeState) (s00.UERadioCapability, aper.Snapshot) {
 	return &v.capture
 }
@@ -25680,24 +19459,6 @@ func BridgeUERadioCapabilityValueCodecFieldEncode(v *UERadioCapabilityValueCodec
 }
 func BridgeUERadioCapabilityValueCodecFieldPath(v *UERadioCapabilityValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeUERadioCapabilityValueCodecMethodEncodeBudgetValue(v UERadioCapabilityValueCodec, a0 s00.UERadioCapability, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUERadioCapabilityValueCodecMethodEncodeChanged(v UERadioCapabilityValueCodec, a0 s00.UERadioCapability, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUERetentionInformationAPERValueFieldContext(v *UERetentionInformationAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUERetentionInformationAPERValueFieldReceived(v *UERetentionInformationAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUERetentionInformationAPERValueFieldReplay(v *UERetentionInformationAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUERetentionInformationAPERValueFieldWithoutReplay(v *UERetentionInformationAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeUERetentionInformationValueCodecFieldCapture(v *UERetentionInformationValueCodec) *func(s00.UERetentionInformation, aper.DecodeState) (s00.UERetentionInformation, aper.Snapshot) {
 	return &v.capture
@@ -25717,22 +19478,6 @@ func BridgeUERetentionInformationValueCodecFieldEncode(v *UERetentionInformation
 func BridgeUERetentionInformationValueCodecFieldPath(v *UERetentionInformationValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUERetentionInformationValueCodecMethodEncodeBudgetValue(v UERetentionInformationValueCodec, a0 s00.UERetentionInformation, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUERetentionInformationValueCodecMethodEncodeChanged(v UERetentionInformationValueCodec, a0 s00.UERetentionInformation, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUEUsageTypeAPERValueFieldContext(v *UEUsageTypeAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUEUsageTypeAPERValueFieldReceived(v *UEUsageTypeAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUEUsageTypeAPERValueFieldReplay(v *UEUsageTypeAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeUEUsageTypeAPERValueFieldWithoutReplay(v *UEUsageTypeAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeUEUsageTypeValueCodecFieldCapture(v *UEUsageTypeValueCodec) *func(s00.UEUsageType, aper.DecodeState) (s00.UEUsageType, aper.Snapshot) {
 	return &v.capture
 }
@@ -25749,24 +19494,6 @@ func BridgeUEUsageTypeValueCodecFieldEncode(v *UEUsageTypeValueCodec) *func(s00.
 	return &v.encode
 }
 func BridgeUEUsageTypeValueCodecFieldPath(v *UEUsageTypeValueCodec) *aper.Path { return &v.path }
-func BridgeUEUsageTypeValueCodecMethodEncodeBudgetValue(v UEUsageTypeValueCodec, a0 s00.UEUsageType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUEUsageTypeValueCodecMethodEncodeChanged(v UEUsageTypeValueCodec, a0 s00.UEUsageType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUEUserPlaneCIoTSupportIndicatorAPERValueFieldContext(v *UEUserPlaneCIoTSupportIndicatorAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUEUserPlaneCIoTSupportIndicatorAPERValueFieldReceived(v *UEUserPlaneCIoTSupportIndicatorAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUEUserPlaneCIoTSupportIndicatorAPERValueFieldReplay(v *UEUserPlaneCIoTSupportIndicatorAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUEUserPlaneCIoTSupportIndicatorAPERValueFieldWithoutReplay(v *UEUserPlaneCIoTSupportIndicatorAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeUEUserPlaneCIoTSupportIndicatorValueCodecFieldCapture(v *UEUserPlaneCIoTSupportIndicatorValueCodec) *func(s00.UEUserPlaneCIoTSupportIndicator, aper.DecodeState) (s00.UEUserPlaneCIoTSupportIndicator, aper.Snapshot) {
 	return &v.capture
 }
@@ -25785,22 +19512,6 @@ func BridgeUEUserPlaneCIoTSupportIndicatorValueCodecFieldEncode(v *UEUserPlaneCI
 func BridgeUEUserPlaneCIoTSupportIndicatorValueCodecFieldPath(v *UEUserPlaneCIoTSupportIndicatorValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUEUserPlaneCIoTSupportIndicatorValueCodecMethodEncodeBudgetValue(v UEUserPlaneCIoTSupportIndicatorValueCodec, a0 s00.UEUserPlaneCIoTSupportIndicator, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUEUserPlaneCIoTSupportIndicatorValueCodecMethodEncodeChanged(v UEUserPlaneCIoTSupportIndicatorValueCodec, a0 s00.UEUserPlaneCIoTSupportIndicator, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeULNASCountAPERValueFieldContext(v *ULNASCountAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeULNASCountAPERValueFieldReceived(v *ULNASCountAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeULNASCountAPERValueFieldReplay(v *ULNASCountAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeULNASCountAPERValueFieldWithoutReplay(v *ULNASCountAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeULNASCountValueCodecFieldCapture(v *ULNASCountValueCodec) *func(s00.ULNASCount, aper.DecodeState) (s00.ULNASCount, aper.Snapshot) {
 	return &v.capture
 }
@@ -25817,18 +19528,6 @@ func BridgeULNASCountValueCodecFieldEncode(v *ULNASCountValueCodec) *func(s00.UL
 	return &v.encode
 }
 func BridgeULNASCountValueCodecFieldPath(v *ULNASCountValueCodec) *aper.Path { return &v.path }
-func BridgeULNASCountValueCodecMethodEncodeBudgetValue(v ULNASCountValueCodec, a0 s00.ULNASCount, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeULNASCountValueCodecMethodEncodeChanged(v ULNASCountValueCodec, a0 s00.ULNASCount, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeULNASMACAPERValueFieldContext(v *ULNASMACAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeULNASMACAPERValueFieldReceived(v *ULNASMACAPERValue) *aper.WireSpan { return &v.received }
-func BridgeULNASMACAPERValueFieldReplay(v *ULNASMACAPERValue) *aper.Snapshot   { return &v.replay }
-func BridgeULNASMACAPERValueFieldWithoutReplay(v *ULNASMACAPERValue) *bool     { return &v.withoutReplay }
 func BridgeULNASMACValueCodecFieldCapture(v *ULNASMACValueCodec) *func(s00.ULNASMAC, aper.DecodeState) (s00.ULNASMAC, aper.Snapshot) {
 	return &v.capture
 }
@@ -25845,22 +19544,6 @@ func BridgeULNASMACValueCodecFieldEncode(v *ULNASMACValueCodec) *func(s00.ULNASM
 	return &v.encode
 }
 func BridgeULNASMACValueCodecFieldPath(v *ULNASMACValueCodec) *aper.Path { return &v.path }
-func BridgeULNASMACValueCodecMethodEncodeBudgetValue(v ULNASMACValueCodec, a0 s00.ULNASMAC, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeULNASMACValueCodecMethodEncodeChanged(v ULNASMACValueCodec, a0 s00.ULNASMAC, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeURIAddressAPERValueFieldContext(v *URIAddressAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeURIAddressAPERValueFieldReceived(v *URIAddressAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeURIAddressAPERValueFieldReplay(v *URIAddressAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeURIAddressAPERValueFieldWithoutReplay(v *URIAddressAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeURIAddressValueCodecFieldCapture(v *URIAddressValueCodec) *func(s00.URIAddress, aper.DecodeState) (s00.URIAddress, aper.Snapshot) {
 	return &v.capture
 }
@@ -25877,24 +19560,6 @@ func BridgeURIAddressValueCodecFieldEncode(v *URIAddressValueCodec) *func(s00.UR
 	return &v.encode
 }
 func BridgeURIAddressValueCodecFieldPath(v *URIAddressValueCodec) *aper.Path { return &v.path }
-func BridgeURIAddressValueCodecMethodEncodeBudgetValue(v URIAddressValueCodec, a0 s00.URIAddress, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeURIAddressValueCodecMethodEncodeChanged(v URIAddressValueCodec, a0 s00.URIAddress, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUnlicensedSpectrumRestrictionAPERValueFieldContext(v *UnlicensedSpectrumRestrictionAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUnlicensedSpectrumRestrictionAPERValueFieldReceived(v *UnlicensedSpectrumRestrictionAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUnlicensedSpectrumRestrictionAPERValueFieldReplay(v *UnlicensedSpectrumRestrictionAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUnlicensedSpectrumRestrictionAPERValueFieldWithoutReplay(v *UnlicensedSpectrumRestrictionAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeUnlicensedSpectrumRestrictionValueCodecFieldCapture(v *UnlicensedSpectrumRestrictionValueCodec) *func(s00.UnlicensedSpectrumRestriction, aper.DecodeState) (s00.UnlicensedSpectrumRestriction, aper.Snapshot) {
 	return &v.capture
 }
@@ -25913,18 +19578,6 @@ func BridgeUnlicensedSpectrumRestrictionValueCodecFieldEncode(v *UnlicensedSpect
 func BridgeUnlicensedSpectrumRestrictionValueCodecFieldPath(v *UnlicensedSpectrumRestrictionValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUnlicensedSpectrumRestrictionValueCodecMethodEncodeBudgetValue(v UnlicensedSpectrumRestrictionValueCodec, a0 s00.UnlicensedSpectrumRestriction, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUnlicensedSpectrumRestrictionValueCodecMethodEncodeChanged(v UnlicensedSpectrumRestrictionValueCodec, a0 s00.UnlicensedSpectrumRestriction, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeVehicleUEAPERValueFieldContext(v *VehicleUEAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeVehicleUEAPERValueFieldReceived(v *VehicleUEAPERValue) *aper.WireSpan { return &v.received }
-func BridgeVehicleUEAPERValueFieldReplay(v *VehicleUEAPERValue) *aper.Snapshot   { return &v.replay }
-func BridgeVehicleUEAPERValueFieldWithoutReplay(v *VehicleUEAPERValue) *bool     { return &v.withoutReplay }
 func BridgeVehicleUEValueCodecFieldCapture(v *VehicleUEValueCodec) *func(s00.VehicleUE, aper.DecodeState) (s00.VehicleUE, aper.Snapshot) {
 	return &v.capture
 }
@@ -25941,24 +19594,6 @@ func BridgeVehicleUEValueCodecFieldEncode(v *VehicleUEValueCodec) *func(s00.Vehi
 	return &v.encode
 }
 func BridgeVehicleUEValueCodecFieldPath(v *VehicleUEValueCodec) *aper.Path { return &v.path }
-func BridgeVehicleUEValueCodecMethodEncodeBudgetValue(v VehicleUEValueCodec, a0 s00.VehicleUE, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeVehicleUEValueCodecMethodEncodeChanged(v VehicleUEValueCodec, a0 s00.VehicleUE, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeVoiceSupportMatchIndicatorAPERValueFieldContext(v *VoiceSupportMatchIndicatorAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeVoiceSupportMatchIndicatorAPERValueFieldReceived(v *VoiceSupportMatchIndicatorAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeVoiceSupportMatchIndicatorAPERValueFieldReplay(v *VoiceSupportMatchIndicatorAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeVoiceSupportMatchIndicatorAPERValueFieldWithoutReplay(v *VoiceSupportMatchIndicatorAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeVoiceSupportMatchIndicatorValueCodecFieldCapture(v *VoiceSupportMatchIndicatorValueCodec) *func(s00.VoiceSupportMatchIndicator, aper.DecodeState) (s00.VoiceSupportMatchIndicator, aper.Snapshot) {
 	return &v.capture
 }
@@ -25976,36 +19611,6 @@ func BridgeVoiceSupportMatchIndicatorValueCodecFieldEncode(v *VoiceSupportMatchI
 }
 func BridgeVoiceSupportMatchIndicatorValueCodecFieldPath(v *VoiceSupportMatchIndicatorValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeVoiceSupportMatchIndicatorValueCodecMethodEncodeBudgetValue(v VoiceSupportMatchIndicatorValueCodec, a0 s00.VoiceSupportMatchIndicator, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeVoiceSupportMatchIndicatorValueCodecMethodEncodeChanged(v VoiceSupportMatchIndicatorValueCodec, a0 s00.VoiceSupportMatchIndicator, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeWLANMeasConfigAPERValueFieldContext(v *WLANMeasConfigAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeWLANMeasConfigAPERValueFieldReceived(v *WLANMeasConfigAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeWLANMeasConfigAPERValueFieldReplay(v *WLANMeasConfigAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeWLANMeasConfigAPERValueFieldWithoutReplay(v *WLANMeasConfigAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeWLANMeasConfigNameListAPERValueFieldContext(v *WLANMeasConfigNameListAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeWLANMeasConfigNameListAPERValueFieldReceived(v *WLANMeasConfigNameListAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeWLANMeasConfigNameListAPERValueFieldReplay(v *WLANMeasConfigNameListAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeWLANMeasConfigNameListAPERValueFieldWithoutReplay(v *WLANMeasConfigNameListAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeWLANMeasConfigNameListValueCodecFieldCapture(v *WLANMeasConfigNameListValueCodec) *func(s00.WLANMeasConfigNameList, aper.DecodeState) (s00.WLANMeasConfigNameList, aper.Snapshot) {
 	return &v.capture
@@ -26025,12 +19630,6 @@ func BridgeWLANMeasConfigNameListValueCodecFieldEncode(v *WLANMeasConfigNameList
 func BridgeWLANMeasConfigNameListValueCodecFieldPath(v *WLANMeasConfigNameListValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeWLANMeasConfigNameListValueCodecMethodEncodeBudgetValue(v WLANMeasConfigNameListValueCodec, a0 s00.WLANMeasConfigNameList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeWLANMeasConfigNameListValueCodecMethodEncodeChanged(v WLANMeasConfigNameListValueCodec, a0 s00.WLANMeasConfigNameList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeWLANMeasConfigValueCodecFieldCapture(v *WLANMeasConfigValueCodec) *func(s00.WLANMeasConfig, aper.DecodeState) (s00.WLANMeasConfig, aper.Snapshot) {
 	return &v.capture
 }
@@ -26047,18 +19646,6 @@ func BridgeWLANMeasConfigValueCodecFieldEncode(v *WLANMeasConfigValueCodec) *fun
 	return &v.encode
 }
 func BridgeWLANMeasConfigValueCodecFieldPath(v *WLANMeasConfigValueCodec) *aper.Path { return &v.path }
-func BridgeWLANMeasConfigValueCodecMethodEncodeBudgetValue(v WLANMeasConfigValueCodec, a0 s00.WLANMeasConfig, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeWLANMeasConfigValueCodecMethodEncodeChanged(v WLANMeasConfigValueCodec, a0 s00.WLANMeasConfig, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeWLANNameAPERValueFieldContext(v *WLANNameAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeWLANNameAPERValueFieldReceived(v *WLANNameAPERValue) *aper.WireSpan { return &v.received }
-func BridgeWLANNameAPERValueFieldReplay(v *WLANNameAPERValue) *aper.Snapshot   { return &v.replay }
-func BridgeWLANNameAPERValueFieldWithoutReplay(v *WLANNameAPERValue) *bool     { return &v.withoutReplay }
 func BridgeWLANNameValueCodecFieldCapture(v *WLANNameValueCodec) *func(s00.WLANName, aper.DecodeState) (s00.WLANName, aper.Snapshot) {
 	return &v.capture
 }
@@ -26075,24 +19662,6 @@ func BridgeWLANNameValueCodecFieldEncode(v *WLANNameValueCodec) *func(s00.WLANNa
 	return &v.encode
 }
 func BridgeWLANNameValueCodecFieldPath(v *WLANNameValueCodec) *aper.Path { return &v.path }
-func BridgeWLANNameValueCodecMethodEncodeBudgetValue(v WLANNameValueCodec, a0 s00.WLANName, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeWLANNameValueCodecMethodEncodeChanged(v WLANNameValueCodec, a0 s00.WLANName, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeWarningAreaCoordinatesAPERValueFieldContext(v *WarningAreaCoordinatesAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeWarningAreaCoordinatesAPERValueFieldReceived(v *WarningAreaCoordinatesAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeWarningAreaCoordinatesAPERValueFieldReplay(v *WarningAreaCoordinatesAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeWarningAreaCoordinatesAPERValueFieldWithoutReplay(v *WarningAreaCoordinatesAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeWarningAreaCoordinatesValueCodecFieldCapture(v *WarningAreaCoordinatesValueCodec) *func(s00.WarningAreaCoordinates, aper.DecodeState) (s00.WarningAreaCoordinates, aper.Snapshot) {
 	return &v.capture
 }
@@ -26110,24 +19679,6 @@ func BridgeWarningAreaCoordinatesValueCodecFieldEncode(v *WarningAreaCoordinates
 }
 func BridgeWarningAreaCoordinatesValueCodecFieldPath(v *WarningAreaCoordinatesValueCodec) *aper.Path {
 	return &v.path
-}
-func BridgeWarningAreaCoordinatesValueCodecMethodEncodeBudgetValue(v WarningAreaCoordinatesValueCodec, a0 s00.WarningAreaCoordinates, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeWarningAreaCoordinatesValueCodecMethodEncodeChanged(v WarningAreaCoordinatesValueCodec, a0 s00.WarningAreaCoordinates, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeWarningMessageContentsAPERValueFieldContext(v *WarningMessageContentsAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeWarningMessageContentsAPERValueFieldReceived(v *WarningMessageContentsAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeWarningMessageContentsAPERValueFieldReplay(v *WarningMessageContentsAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeWarningMessageContentsAPERValueFieldWithoutReplay(v *WarningMessageContentsAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeWarningMessageContentsValueCodecFieldCapture(v *WarningMessageContentsValueCodec) *func(s00.WarningMessageContents, aper.DecodeState) (s00.WarningMessageContents, aper.Snapshot) {
 	return &v.capture
@@ -26147,24 +19698,6 @@ func BridgeWarningMessageContentsValueCodecFieldEncode(v *WarningMessageContents
 func BridgeWarningMessageContentsValueCodecFieldPath(v *WarningMessageContentsValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeWarningMessageContentsValueCodecMethodEncodeBudgetValue(v WarningMessageContentsValueCodec, a0 s00.WarningMessageContents, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeWarningMessageContentsValueCodecMethodEncodeChanged(v WarningMessageContentsValueCodec, a0 s00.WarningMessageContents, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeWarningSecurityInfoAPERValueFieldContext(v *WarningSecurityInfoAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeWarningSecurityInfoAPERValueFieldReceived(v *WarningSecurityInfoAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeWarningSecurityInfoAPERValueFieldReplay(v *WarningSecurityInfoAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeWarningSecurityInfoAPERValueFieldWithoutReplay(v *WarningSecurityInfoAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeWarningSecurityInfoValueCodecFieldCapture(v *WarningSecurityInfoValueCodec) *func(s00.WarningSecurityInfo, aper.DecodeState) (s00.WarningSecurityInfo, aper.Snapshot) {
 	return &v.capture
 }
@@ -26183,22 +19716,6 @@ func BridgeWarningSecurityInfoValueCodecFieldEncode(v *WarningSecurityInfoValueC
 func BridgeWarningSecurityInfoValueCodecFieldPath(v *WarningSecurityInfoValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeWarningSecurityInfoValueCodecMethodEncodeBudgetValue(v WarningSecurityInfoValueCodec, a0 s00.WarningSecurityInfo, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeWarningSecurityInfoValueCodecMethodEncodeChanged(v WarningSecurityInfoValueCodec, a0 s00.WarningSecurityInfo, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeWarningTypeAPERValueFieldContext(v *WarningTypeAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeWarningTypeAPERValueFieldReceived(v *WarningTypeAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeWarningTypeAPERValueFieldReplay(v *WarningTypeAPERValue) *aper.Snapshot { return &v.replay }
-func BridgeWarningTypeAPERValueFieldWithoutReplay(v *WarningTypeAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeWarningTypeValueCodecFieldCapture(v *WarningTypeValueCodec) *func(s00.WarningType, aper.DecodeState) (s00.WarningType, aper.Snapshot) {
 	return &v.capture
 }
@@ -26215,56 +19732,3 @@ func BridgeWarningTypeValueCodecFieldEncode(v *WarningTypeValueCodec) *func(s00.
 	return &v.encode
 }
 func BridgeWarningTypeValueCodecFieldPath(v *WarningTypeValueCodec) *aper.Path { return &v.path }
-func BridgeWarningTypeValueCodecMethodEncodeBudgetValue(v WarningTypeValueCodec, a0 s00.WarningType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeWarningTypeValueCodecMethodEncodeChanged(v WarningTypeValueCodec, a0 s00.WarningType, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *AdditionalGUTIExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *AllocationAndRetentionPriorityExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *AssistanceDataForPagingExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *AssistanceDataForRecommendedCellsExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *BearersSubjectToDLDiscardingItemExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *BearersSubjectToEarlyStatusTransferItemExtIEsValue) Selected() (any, bool) {
-	return nil, false
-}
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *BluetoothMeasurementConfigurationExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *CGIExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *CNTypeRestrictionsItemExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *COUNTValueExtendedExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *COUNTvalueExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *COUNTvaluePDCPSNlength18ExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *CSGIdListItemExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *CSGMembershipInfoExtIEsValue) Selected() (any, bool) { return nil, false }
-
-// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
-func (v *CancelledCellinEAIItemExtIEsValue) Selected() (any, bool) { return nil, false }

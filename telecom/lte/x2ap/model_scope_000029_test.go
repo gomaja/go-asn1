@@ -3,7 +3,7 @@
 package x2ap
 
 import (
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
 	strings "strings"
 	testing "testing"
 )
@@ -11,10 +11,10 @@ import (
 // TestVectorErabSetupMalformedIePath verifies 3GPP TS 36.423 V19.1.0 (2025-12), sections 9.3.4 and 9.3.8; malformed nested open-type diagnostics retain the full field path.
 func TestVectorErabSetupMalformedIePath(t *testing.T) {
 	input := asn1VectorHex(t, "00")
-	if got := s11.ERABsToBeSetupItemIEs().ID().Source().Assignment; got != "E-RABs-ToBeSetup-ItemIEs" {
+	if got := s10.ERABsToBeSetupItemIEs().ID().Source().Assignment; got != "E-RABs-ToBeSetup-ItemIEs" {
 		t.Fatalf("table = %s", got)
 	}
-	codec := s11.ERABsToBeSetupItemIEs().ERABsToBeSetupItem().Codec()
+	codec := s10.ERABsToBeSetupItemIEs().ERABsToBeSetupItem().Codec()
 	decoded, _, err := codec.DecodeAPER(input)
 	if err == nil {
 		t.Fatal("known malformed value decoded successfully")

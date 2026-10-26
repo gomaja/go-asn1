@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
 )
 
-func choiceExtensionapiMust(v aper.ChoiceExtension, err error) aper.ChoiceExtension {
+func enGNBENDCX2RemovalReqIEFieldapiMust(v s07.EnGNBENDCX2RemovalReqIEField, err error) s07.EnGNBENDCX2RemovalReqIEField {
 	if err != nil {
 		panic(err)
 	}

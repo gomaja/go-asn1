@@ -53,57 +53,6 @@ func selectedAssert(t *testing.T, v selectedUnion) {
 		t.Fatalf("%T Selected allocations=%v", v, n)
 	}
 }
-func TestSelectedENDCCellActivationRequestIEValue(t *testing.T) {
-	var absent *ENDCCellActivationRequestIEValue
-	selectedAssert(t, absent)
-	v := ENDCCellActivationRequestIEValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	{
-		v := ENDCCellActivationRequestIEValue{}
-		v.id = s00.ProtocolIEID(267)
-		selectedAssert(t, &v)
-		v.rowServedNRCellsToActivate = new(s08.ServedNRCellsToActivate)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := ENDCCellActivationRequestIEValue{}
-		v.id = s00.ProtocolIEID(256)
-		selectedAssert(t, &v)
-		v.rowActivationID = new(s00.ActivationID)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := ENDCCellActivationRequestIEValue{}
-		v.id = s00.ProtocolIEID(335)
-		selectedAssert(t, &v)
-		v.rowInterfaceInstanceIndication = new(s00.InterfaceInstanceIndication)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	t.Logf("union ENDCCellActivationRequestIEValue: 3 synthetic rows")
-}
 func TestSelectedENDCConfigurationUpdateAcknowledgeIEValue(t *testing.T) {
 	var absent *ENDCConfigurationUpdateAcknowledgeIEValue
 	selectedAssert(t, absent)
@@ -127,7 +76,7 @@ func TestSelectedENDCConfigurationUpdateAcknowledgeIEValue(t *testing.T) {
 		v := ENDCConfigurationUpdateAcknowledgeIEValue{}
 		v.id = s00.ProtocolIEID(247)
 		selectedAssert(t, &v)
-		v.rowRespondingNodeTypeEndcConfigUpdate = new(RespondingNodeTypeEndcConfigUpdate)
+		v.rowRespondingNodeTypeEndcConfigUpdate = new(s17.RespondingNodeTypeEndcConfigUpdate)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
@@ -432,7 +381,7 @@ func TestSelectedENDCX2SetupResponseIEValue(t *testing.T) {
 		v := ENDCX2SetupResponseIEValue{}
 		v.id = s00.ProtocolIEID(246)
 		selectedAssert(t, &v)
-		v.rowRespondingNodeTypeEndcX2Setup = new(RespondingNodeTypeEndcX2Setup)
+		v.rowRespondingNodeTypeEndcX2Setup = new(s17.RespondingNodeTypeEndcX2Setup)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
@@ -459,37 +408,6 @@ func TestSelectedENDCX2SetupResponseIEValue(t *testing.T) {
 		selectedAssert(t, &v)
 	}
 	t.Logf("union ENDCX2SetupResponseIEValue: 3 synthetic rows")
-}
-func TestSelectedEnGNBENDCConfigUpdateAckIEValue(t *testing.T) {
-	var absent *EnGNBENDCConfigUpdateAckIEValue
-	selectedAssert(t, absent)
-	v := EnGNBENDCConfigUpdateAckIEValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	{
-		v := EnGNBENDCConfigUpdateAckIEValue{}
-		v.id = s00.ProtocolIEID(253)
-		selectedAssert(t, &v)
-		v.rowServedNRcellsENDCX2ManagementList = new(s17.ServedNRcellsENDCX2ManagementList)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	t.Logf("union EnGNBENDCConfigUpdateAckIEValue: 1 synthetic rows")
 }
 func TestSelectedEnGNBENDCConfigUpdateIEValue(t *testing.T) {
 	var absent *EnGNBENDCConfigUpdateIEValue
@@ -541,108 +459,6 @@ func TestSelectedEnGNBENDCConfigUpdateIEValue(t *testing.T) {
 		selectedAssert(t, &v)
 	}
 	t.Logf("union EnGNBENDCConfigUpdateIEValue: 3 synthetic rows")
-}
-func TestSelectedEnGNBENDCX2SetupReqAckIEValue(t *testing.T) {
-	var absent *EnGNBENDCX2SetupReqAckIEValue
-	selectedAssert(t, absent)
-	v := EnGNBENDCX2SetupReqAckIEValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	{
-		v := EnGNBENDCX2SetupReqAckIEValue{}
-		v.id = s00.ProtocolIEID(252)
-		selectedAssert(t, &v)
-		v.rowGlobalenGNBID = new(s05.GlobalGNBID)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := EnGNBENDCX2SetupReqAckIEValue{}
-		v.id = s00.ProtocolIEID(253)
-		selectedAssert(t, &v)
-		v.rowServedNRcellsENDCX2ManagementList = new(s17.ServedNRcellsENDCX2ManagementList)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := EnGNBENDCX2SetupReqAckIEValue{}
-		v.id = s00.ProtocolIEID(348)
-		selectedAssert(t, &v)
-		v.rowPartialListIndicator = new(s00.PartialListIndicator)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	t.Logf("union EnGNBENDCX2SetupReqAckIEValue: 3 synthetic rows")
-}
-func TestSelectedEnGNBENDCX2SetupReqIEValue(t *testing.T) {
-	var absent *EnGNBENDCX2SetupReqIEValue
-	selectedAssert(t, absent)
-	v := EnGNBENDCX2SetupReqIEValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	{
-		v := EnGNBENDCX2SetupReqIEValue{}
-		v.id = s00.ProtocolIEID(252)
-		selectedAssert(t, &v)
-		v.rowGlobalenGNBID = new(s05.GlobalGNBID)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := EnGNBENDCX2SetupReqIEValue{}
-		v.id = s00.ProtocolIEID(253)
-		selectedAssert(t, &v)
-		v.rowServedNRcellsENDCX2ManagementList = new(s17.ServedNRcellsENDCX2ManagementList)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := EnGNBENDCX2SetupReqIEValue{}
-		v.id = s00.ProtocolIEID(348)
-		selectedAssert(t, &v)
-		v.rowPartialListIndicator = new(s00.PartialListIndicator)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	t.Logf("union EnGNBENDCX2SetupReqIEValue: 3 synthetic rows")
 }
 func TestSelectedHandoverRequestIEValue(t *testing.T) {
 	var absent *HandoverRequestIEValue
@@ -707,7 +523,7 @@ func TestSelectedHandoverRequestIEValue(t *testing.T) {
 		v := HandoverRequestIEValue{}
 		v.id = s00.ProtocolIEID(14)
 		selectedAssert(t, &v)
-		v.rowUEContextInformation = new(s17.UEContextInformation)
+		v.rowUEContextInformation = new(s16.UEContextInformation)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
@@ -1295,4 +1111,295 @@ func TestSelectedSgNBAdditionRequestIEValue(t *testing.T) {
 		selectedAssert(t, &v)
 	}
 	t.Logf("union SgNBAdditionRequestIEValue: 35 synthetic rows")
+}
+func TestSelectedSuccessfulValue(t *testing.T) {
+	var absent *SuccessfulValue
+	selectedAssert(t, absent)
+	v := SuccessfulValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(0)
+		selectedAssert(t, &v)
+		v.bodyHandoverRequestAcknowledge = new(HandoverRequestAcknowledge)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(6)
+		selectedAssert(t, &v)
+		v.bodyX2SetupResponse = new(X2SetupResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(7)
+		selectedAssert(t, &v)
+		v.bodyResetResponse = new(ResetResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(8)
+		selectedAssert(t, &v)
+		v.bodyENBConfigurationUpdateAcknowledge = new(ENBConfigurationUpdateAcknowledge)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(9)
+		selectedAssert(t, &v)
+		v.bodyResourceStatusResponse = new(ResourceStatusResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(12)
+		selectedAssert(t, &v)
+		v.bodyMobilityChangeAcknowledge = new(MobilityChangeAcknowledge)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(15)
+		selectedAssert(t, &v)
+		v.bodyCellActivationResponse = new(CellActivationResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(18)
+		selectedAssert(t, &v)
+		v.bodyX2RemovalResponse = new(X2RemovalResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(19)
+		selectedAssert(t, &v)
+		v.bodySeNBAdditionRequestAcknowledge = new(SeNBAdditionRequestAcknowledge)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(21)
+		selectedAssert(t, &v)
+		v.bodySeNBModificationRequestAcknowledge = new(SeNBModificationRequestAcknowledge)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(22)
+		selectedAssert(t, &v)
+		v.bodySeNBModificationConfirm = new(SeNBModificationConfirm)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(24)
+		selectedAssert(t, &v)
+		v.bodySeNBReleaseConfirm = new(SeNBReleaseConfirm)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(26)
+		selectedAssert(t, &v)
+		v.bodyRetrieveUEContextResponse = new(RetrieveUEContextResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(27)
+		selectedAssert(t, &v)
+		v.bodySgNBAdditionRequestAcknowledge = new(SgNBAdditionRequestAcknowledge)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(29)
+		selectedAssert(t, &v)
+		v.bodySgNBModificationRequestAcknowledge = new(SgNBModificationRequestAcknowledge)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(30)
+		selectedAssert(t, &v)
+		v.bodySgNBModificationConfirm = new(SgNBModificationConfirm)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(31)
+		selectedAssert(t, &v)
+		v.bodySgNBReleaseRequestAcknowledge = new(SgNBReleaseRequestAcknowledge)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(32)
+		selectedAssert(t, &v)
+		v.bodySgNBReleaseConfirm = new(SgNBReleaseConfirm)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(34)
+		selectedAssert(t, &v)
+		v.bodySgNBChangeConfirm = new(SgNBChangeConfirm)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(36)
+		selectedAssert(t, &v)
+		v.bodyENDCX2SetupResponse = new(ENDCX2SetupResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(37)
+		selectedAssert(t, &v)
+		v.bodyENDCConfigurationUpdateAcknowledge = new(ENDCConfigurationUpdateAcknowledge)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(39)
+		selectedAssert(t, &v)
+		v.bodyENDCCellActivationResponse = new(ENDCCellActivationResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(40)
+		selectedAssert(t, &v)
+		v.bodyENDCPartialResetConfirm = new(ENDCPartialResetConfirm)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(41)
+		selectedAssert(t, &v)
+		v.bodyEUTRANRCellResourceCoordinationResponse = new(EUTRANRCellResourceCoordinationResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(43)
+		selectedAssert(t, &v)
+		v.bodyENDCX2RemovalResponse = new(ENDCX2RemovalResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(54)
+		selectedAssert(t, &v)
+		v.bodyENDCResourceStatusResponse = new(ENDCResourceStatusResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SuccessfulValue{}
+		v.code = s00.ProcedureCode(56)
+		selectedAssert(t, &v)
+		v.bodyUERadioCapabilityIDMappingResponse = new(UERadioCapabilityIDMappingResponse)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union SuccessfulValue: 27 synthetic rows")
 }

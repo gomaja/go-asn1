@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func seNBAdditionRequestIEFieldfreshMust(value s15.SeNBAdditionRequestIEField, err error) s15.SeNBAdditionRequestIEField {
+func cellActivationFailurefreshMust(value s14.CellActivationFailure, err error) s14.CellActivationFailure {
 	if err != nil {
 		panic(err)
 	}

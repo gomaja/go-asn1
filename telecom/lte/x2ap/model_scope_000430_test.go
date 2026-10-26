@@ -3,12 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
 )
 
-func x2APMessageTransferapiMust(v s20.X2APMessageTransfer, err error) s20.X2APMessageTransfer {
-	if err != nil {
-		panic(err)
-	}
-	return v
+func eRABsToBeSetupItemreplayBoundCodecOps(c s10.ERABsToBeSetupItemValueCodec, raw []byte) replayBoundOps {
+	v, _, _ := c.DecodeAPER(raw)
+	return replayBoundOps{decode: func() error { _, _, err := c.DecodeAPER(raw); return err }, encode: func() ([]byte, error) { return c.EncodeAPER(v) }}
 }

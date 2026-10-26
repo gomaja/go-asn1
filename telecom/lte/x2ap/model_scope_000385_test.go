@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 )
 
-func cellTrafficTracefreshMust(value s20.CellTrafficTrace, err error) s20.CellTrafficTrace {
+func eNDCResourceStatusFailureIEFieldfreshMust(value s06.ENDCResourceStatusFailureIEField, err error) s06.ENDCResourceStatusFailureIEField {
 	if err != nil {
 		panic(err)
 	}

@@ -2,11 +2,7 @@
 
 package x2ap
 
-import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-)
-
-func accessAndMobilityIndicationreplayBoundCodecOps(c s20.AccessAndMobilityIndicationValueCodec, raw []byte) replayBoundOps {
+func errorIndicationIEFieldreplayBoundCodecOps(c ErrorIndicationIEFieldValueCodec, raw []byte) replayBoundOps {
 	v, _, _ := c.DecodeAPER(raw)
 	return replayBoundOps{decode: func() error { _, _, err := c.DecodeAPER(raw); return err }, encode: func() ([]byte, error) { return c.EncodeAPER(v) }}
 }

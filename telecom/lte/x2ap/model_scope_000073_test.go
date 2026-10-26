@@ -4,41 +4,51 @@ package x2ap
 
 import (
 	errors "errors"
-	fmt "fmt"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s02 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s02"
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
 	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
-	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-// TS 36.423 V19.1.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
-// which also covers repeated IEs whose IDs are
-// not in the selected object set. Unknown IEs still do not set known-row order.
-func TestPortValidationUnknownDuplicates(t *testing.T) {
-	table := s07.X2SetupFailureIEs()
-	cause := x2SetupFailureIEFieldapiMust(table.Cause().New(causeapiMust(s00.NewCauseMisc(s00.CauseMiscUnspecified))))
-	for _, id := range []s00.ProtocolIEID{65532, 0} {
-		t.Run(fmt.Sprintf("id-%d", id), func(t *testing.T) {
-			unknown := x2SetupFailureIEFieldapiMust(table.NewOpaque(id, s00.CriticalityIgnore, []byte{0}))
-			body := s14.X2SetupFailure{ProtocolIEs: s07.X2SetupFailureIEContainer{cause, unknown, unknown}}
-			report, err := s14.ValidateX2SetupFailure(&body)
-			if err != nil {
-				t.Fatal(err)
-			}
-			portRequireRepeated(t, report, id, "[2]")
-			var build *s12.BuildError
-			if _, err := s14.NewX2SetupFailure(body.ProtocolIEs); !errors.As(err, &build) {
-				t.Errorf("builder accepted duplicate id %d: %v", id, err)
-			}
-		})
+func TestTableSelectedOpenTypeDepth(t *testing.T) {
+	cause := causeapiMust(s00.NewCauseMisc(s00.CauseMiscUnspecified))
+	body := x2SetupFailureapiMust(s14.NewX2SetupFailure(s07.X2SetupFailureIEContainer{x2SetupFailureIEFieldapiMust(s07.X2SetupFailureIEs().Cause().New(cause))}))
+	message := unsuccessfulOutcomeapiMust(s20.X2SetupProcedure().Unsuccessful().Build(body))
+	pdu := x2APPDUapiMust(s20.NewX2APPDUUnsuccessfulOutcome(message))
+	wire := listByteapiMust(pdu.MarshalAPER())
+	state := aper.ApplyDecodeOptions()
+	var shallow s19.X2APPDU
+	if err := s19.X2apInternalX2APPDUUnmarshalAPERWithOptions(&shallow, wire, state); err != nil {
+		t.Fatal(err)
 	}
-	extension := criticalityDiagnosticsExtIEsExtFieldapiMust(s06.CriticalityDiagnosticsExtIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
-	value := s06.CriticalityDiagnostics{IEExtensions: s02.CriticalityDiagnosticsExtIEsExtContainer{extension, extension}}
-	report := s12.ValidationReport{Complete: true}
-	s13.X2apInternalWalkValidationCriticalityDiagnostics(&value, &report, "CriticalityDiagnostics", false)
-	portRequireRepeated(t, report, 65532, "[1]")
+	if usage := state.Usage(); usage.MaxOpenTypeDepth != 2 {
+		t.Fatalf("table-selected scopes=%+v", usage)
+	}
+	var limited s19.X2APPDU
+	if _, err := limited.UnmarshalAPER(wire, aper.WithLimits(aper.Limits{MaxDepth: 1})); !errors.Is(err, aper.ErrLimit) {
+		t.Fatalf("depth limit: %v", err)
+	}
+
+	// A table-selected GlobalENBID contains a known ENBID CHOICE addition.
+	// Its open type must remain nested inside the selected IE's scope.
+	enb := eNBIDapiMust(s00.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18}))
+	global := s05.GlobalENBID{PLMNIdentity: make([]byte, 3), ENBID: enb}
+	field := x2SetupRequestIEFieldapiMust(s17.X2SetupRequestIEs().GlobalENBID().New(global))
+	request := s19.X2SetupRequest{ProtocolIEs: s17.X2SetupRequestIEContainer{field}}
+	outer := s19.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s19.InitiatingMessage{ProcedureCode: s00.IdX2Setup, Criticality: s00.CriticalityReject, Value: s19.X2apInternalConstructT15InitiatingValueF4codeF18bodyX2SetupRequest(s00.IdX2Setup, &request)}}
+	deeper := listByteapiMust(outer.MarshalAPER())
+	state = aper.ApplyDecodeOptions()
+	var nested s19.X2APPDU
+	if err := s19.X2apInternalX2APPDUUnmarshalAPERWithOptions(&nested, deeper, state); err != nil {
+		t.Fatal(err)
+	}
+	if usage := state.Usage(); usage.MaxOpenTypeDepth != 3 {
+		t.Fatalf("nested CHOICE scopes=%+v", usage)
+	}
 }

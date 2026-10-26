@@ -3,12 +3,10 @@
 package x2ap
 
 import (
-	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
+	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
 )
 
-func x2APMessageAPERValueapiMust(v s13.X2APMessageAPERValue, err error) s13.X2APMessageAPERValue {
-	if err != nil {
-		panic(err)
-	}
-	return v
+func globalGNBIDreplayBoundCodecOps(c s05.GlobalGNBIDValueCodec, raw []byte) replayBoundOps {
+	v, _, _ := c.DecodeAPER(raw)
+	return replayBoundOps{decode: func() error { _, _, err := c.DecodeAPER(raw); return err }, encode: func() ([]byte, error) { return c.EncodeAPER(v) }}
 }
