@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/opaque.go; SHA-256 4bbddfa435714a37e63e5cd2b72d480d58be1f89678963f4409eaa2c71169427.
+// Runtime source: runtime/aper/opaque.go; SHA-256 48767f3394858f6a554f52626cd72764828d7f42b9b592300aafee65d651c564.
 package aper
 
 import (
@@ -143,6 +143,7 @@ func originalContiguousRange(bb *BitBuffer, start, end uint64) (BitSpan, bool) {
 	return BitSpan{Start: first, End: last}, true
 }
 
+// Bytes returns an independent copy of the open-type contents, or nil for the zero value.
 func (v OpaqueOpenType) Bytes() []byte {
 	if v.image.Present() {
 		return v.image.Bytes()
@@ -159,6 +160,9 @@ func (v OpaqueOpenType) RetainContents(dst *WireSpan) {
 		*dst = OriginalWire(v.bytes)
 	}
 }
+
+// Origin returns the provenance with an independent copy of its location spans.
+// It returns an empty origin for the zero value or if the operation cannot reserve the copy.
 func (v OpaqueOpenType) Origin() OpaqueOrigin {
 	if v.parent != nil {
 		if err := v.parent.ChargeAllocation(uint64(len(v.origin.Location.Spans)), 16); err != nil {

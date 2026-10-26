@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/bitbuffer.go; SHA-256 3919e269b9fd640e7179dc4f41d6299654fa22ee90c9b239090df60b123fa2d1.
+// Runtime source: runtime/aper/bitbuffer.go; SHA-256 a247f5b93517639655cd81218a9984f36af105622404df65488030082b97f96d.
 package aper
 
 import (
@@ -634,6 +634,7 @@ func octetsForBitLength(bitLen int) (int, error) {
 	return octets, nil
 }
 
+// InheritDecodeOptions shares the non-nil parent's trace and operation budget.
 func (bb *BitBuffer) InheritDecodeOptions(parent *BitBuffer) {
 	bb.trace = parent.trace
 	bb.budget = parent.decodeBudget()

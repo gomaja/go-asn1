@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_error.go; SHA-256 8909cdccff4fb321479796d150da68fefbb6eb04228bbd495b49fddaf1bb522a.
+// Runtime source: runtime/aper/decode_error.go; SHA-256 6a6c99644ce74c2b4a893b410665ef8577521625452450a3287ef89fe7525806.
 package aper
 
 import (
@@ -28,6 +28,7 @@ type DecodeError struct {
 	Err      error
 }
 
+// Error formats the source document, clause, recorded field path and underlying error; with no path and no document, only the underlying error.
 func (e *DecodeError) Error() string {
 	if e.Location.Path == "" {
 		if e.Rule.Document == "" {
@@ -37,7 +38,12 @@ func (e *DecodeError) Error() string {
 	}
 	return fmt.Sprintf("%s %s at %s: %v", e.Rule.Document, e.Rule.Clause, e.Location.Path, e.Err)
 }
+
+// Unwrap returns the underlying error.
 func (e *DecodeError) Unwrap() error { return e.Err }
+
+// Is reports whether target is the sentinel corresponding to the error kind.
+// An unknown kind matches no sentinel.
 func (e *DecodeError) Is(target error) bool {
 	switch e.Kind {
 	case Syntax:

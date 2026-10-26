@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 e860b11994ae7521b377780f4ee8ec37c8677eaa0dd9d6bac4f31d319c2d56ee.
+// Runtime source: runtime/ber/constraints.go; SHA-256 b332d21cae82b0a40ac9985985f39b0aa16b800756b59ecbb071164c9a34bfce.
 package ber
 
 import (
@@ -46,8 +46,10 @@ type Violation struct {
 // protocol-rule violation. A caller can inspect it with errors.As.
 type ValidationError struct{ Violation }
 
+// Unwrap returns ErrInvalidValue for error-chain matching.
 func (e *ValidationError) Unwrap() error { return ErrInvalidValue }
 
+// Error describes the constraint violation using its path and observed length or value.
 func (e *ValidationError) Error() string {
 	if e.ObservedLength != nil {
 		return fmt.Sprintf("%s length %d violates %s", e.Path, *e.ObservedLength, e.Constraint)

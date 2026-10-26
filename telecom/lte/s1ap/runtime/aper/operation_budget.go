@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/operation_budget.go; SHA-256 fb3e16719b5a8b5751235a90a9e56b08f08edb97baab5dc49189bfffa48524bd.
+// Runtime source: runtime/aper/operation_budget.go; SHA-256 be0a4a17c9905a69e8fd307ab74864cfdaaca0665ed18633ca3736c69960303e.
 package aper
 
 import (
@@ -277,6 +277,8 @@ func CopyOpaque(value OpaqueOpenType, budget *DecodeBudget) ([]byte, error) {
 	return append([]byte(nil), value.bytes...), nil
 }
 
+// EncodeBudgetValue initializes an encoding budget from the last limits option, or the defaults
+// when none is supplied; invalid limits, or limits below the operation's own cost, return an error.
 func EncodeBudgetValue(options ...EncodeOption) (DecodeBudget, error) {
 	var raw Limits
 	for _, option := range options {

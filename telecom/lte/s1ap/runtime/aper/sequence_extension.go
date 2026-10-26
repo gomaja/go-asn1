@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/sequence_extension.go; SHA-256 0e819fc2e3d3bee319947fd738e8872a2df772132fb941c972953819d18b38d9.
+// Runtime source: runtime/aper/sequence_extension.go; SHA-256 342f220a1a8318c55df47a3c6d74bd58f76b4475fce416a6c4271c34171b06af.
 package aper
 
 import (
@@ -26,13 +26,21 @@ type SequenceExtension struct {
 	origin   OpaqueOrigin
 }
 
+// NewSequenceExtension returns an addition with independent copies of its
+// contents and origin spans; it does not validate the index or contents.
 func NewSequenceExtension(index uint64, contents []byte, origin OpaqueOrigin) SequenceExtension {
 	origin.Location.Spans = append([]BitSpan(nil), origin.Location.Spans...)
 	return SequenceExtension{index: index, contents: append([]byte(nil), contents...), origin: origin}
 }
 
-func (v SequenceExtension) Index() uint64    { return v.index }
+// Index returns the extension bitmap index; the zero value returns zero.
+func (v SequenceExtension) Index() uint64 { return v.index }
+
+// Contents returns an independent copy of the addition contents, or nil for the zero value.
 func (v SequenceExtension) Contents() []byte { return append([]byte(nil), v.contents...) }
+
+// Origin returns the provenance with an independent copy of its location spans.
+// The zero value returns an empty origin.
 func (v SequenceExtension) Origin() OpaqueOrigin {
 	origin := v.origin
 	origin.Location.Spans = append([]BitSpan(nil), origin.Location.Spans...)

@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/choice_extension.go; SHA-256 c1c6f947202f0c74519409635f15efcdb41f2b85d1d8094e38f9baf2b43a31a0.
+// Runtime source: runtime/aper/choice_extension.go; SHA-256 e4558def18b8d885d840abdf8a792dc420b63b62016744784f9956f67ef11252.
 package aper
 
 import (
@@ -66,13 +66,19 @@ func DecodeChoiceExtensionAligned(bb *BitBuffer, index int64) (result0 ChoiceExt
 	return ChoiceExtension{index: index, contents: raw.bytes, origin: origin, contentLocation: raw.ContentLocation()}, nil
 }
 
+// Index returns the extension alternative index; the zero value returns zero.
 func (v ChoiceExtension) Index() int64 { return v.index }
+
+// Contents returns an independent copy of the alternative contents, or nil for the zero value.
 func (v ChoiceExtension) Contents() []byte {
 	if v.image.Present() {
 		return v.image.Bytes()
 	}
 	return append([]byte(nil), v.contents...)
 }
+
+// Origin returns the provenance with an independent copy of its location spans.
+// The zero value returns an empty origin.
 func (v ChoiceExtension) Origin() OpaqueOrigin {
 	origin := v.origin
 	origin.Location.Spans = append([]BitSpan(nil), origin.Location.Spans...)
@@ -96,12 +102,17 @@ func (v ChoiceExtension) ChildDecodeBuffer(parent *BitBuffer) *BitBuffer {
 	return child
 }
 
+// ObserveUnknown records an unknown extension observation when the parent's operation has
+// a call report, and returns any reporting error. A nil parent returns ErrInvalidValue.
 func (v ChoiceExtension) ObserveUnknown(parent *BitBuffer) error {
 	if parent == nil {
 		return ErrInvalidValue
 	}
 	return (OpaqueOpenType{parent: parent, origin: v.origin, image: v.image, bytes: v.contents}).Observe(UnknownExtension)
 }
+
+// EncodeTo writes the alternative contents with complete open-type framing
+// and returns any copy, budget or encoding error (X.691 (02/2021) §23.8).
 func (v ChoiceExtension) EncodeTo(bb *BitBuffer) error {
 	if v.image.Present() {
 		data, err := CopyReplay(v.image, bb.decodeBudget())

@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/wire_span.go; SHA-256 4b02e1cf4d17134d1ed56a2ecc73278a6658e6c90cb6e8b166dd0073b9799ed7.
+// Runtime source: runtime/aper/wire_span.go; SHA-256 cf615f9e57e6f80f8c62ff548bba8247647346d4b3028049a1c5a487e01d03d0.
 package aper
 
 import "math"
@@ -22,6 +22,8 @@ func OriginalWire(original []byte) WireSpan {
 	}
 	return WireSpan{original: original, end: uint64(len(original)) * 8}
 }
+
+// Present reports whether the span retains an original buffer; the zero value returns false.
 func (s WireSpan) Present() bool { return s.original != nil }
 func (s WireSpan) bitLength() uint64 {
 	if len(s.segments) == 0 {
@@ -33,6 +35,9 @@ func (s WireSpan) bitLength() uint64 {
 	}
 	return n
 }
+
+// Len returns the number of octets needed for the span's bits, rounded up.
+// The zero value returns zero.
 func (s WireSpan) Len() int { return int((s.bitLength() + 7) / 8) }
 
 // Bytes copies complete received octets on demand, including fragmented forms.
@@ -53,6 +58,10 @@ func (s WireSpan) Bytes() []byte {
 	}
 	return writer.data
 }
+
+// CaptureWireSpan retains the bits from start to the current cursor without
+// copying contents. It returns an absent span if the buffer does not own its
+// input, start is invalid, or the original-input mapping is unavailable.
 func (bb *BitBuffer) CaptureWireSpan(start int) WireSpan {
 	if !bb.ownsInput() || start < 0 || start > bb.bitPos {
 		return WireSpan{}

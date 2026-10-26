@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits.go; SHA-256 ec587f0b3337cb5f18d4e2ca2b6d1f5351a57e87ec75b6eb68146985279580a0.
+// Runtime source: runtime/aper/decode_limits.go; SHA-256 55e694a7e4313d851d077fc85938f6a47e925c10a2208a29db800cba0c5cb69a.
 package aper
 
 import "fmt"
@@ -182,11 +182,15 @@ func (bb *BitBuffer) LeaveOpenType() {
 	}
 }
 
+// InheritOpenTypeDecodeOptions shares the non-nil parent's trace and budget,
+// then enters an open-type scope, returning any limit error.
 func (bb *BitBuffer) InheritOpenTypeDecodeOptions(parent *BitBuffer) error {
 	bb.InheritDecodeOptions(parent)
 	return bb.EnterOpenType()
 }
 
+// Usage returns a snapshot of the shared operation counters, including allocated
+// bytes, fragments and reports. An unused zero buffer reports zero counters.
 func (bb *BitBuffer) Usage() DecodeUsage {
 	budget := bb.decodeBudget()
 	usage := budget.usage

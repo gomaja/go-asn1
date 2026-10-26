@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/replay.go; SHA-256 61436b8c7f64110640046030244e1ded74db504599039944df13584f0bb16705.
+// Runtime source: runtime/aper/replay.go; SHA-256 078c81db71fcacc076c3a9e3f05ccbda6e82aae1bcc22b8467c8aed79754382d.
 package aper
 
 import (
@@ -53,12 +53,16 @@ type SemanticCapture struct {
 	countsKnown bool
 }
 
+// NewSemanticCapture creates an empty capture with at least 256 bytes of initial
+// semantic storage; hint requests a larger initial capacity.
 func NewSemanticCapture(hint int) SemanticCapture {
 	if hint < 256 {
 		hint = 256
 	}
 	return SemanticCapture{owner: &semanticArena{data: make([]byte, 0, hint)}}
 }
+
+// Begin starts a nested semantic frame and returns the state needed by End.
 func (s *SemanticCapture) Begin() SemanticFrame {
 	f := SemanticFrame{start: len(s.owner.data), resources: s.resources, ownDepth: s.ownDepth, countsKnown: s.countsKnown}
 	s.resources = replayResources{}
@@ -67,6 +71,10 @@ func (s *SemanticCapture) Begin() SemanticFrame {
 	s.fixed(make([]byte, 8))
 	return f
 }
+
+// End finishes the frame begun by Begin and merges its resource counts into the enclosing
+// frame; a non-nil node also receives the snapshot and keeps the counts. An invalid frame or
+// a failed budget charge returns before the merge. The final boolean argument is ignored.
 func (s *SemanticCapture) End(f SemanticFrame, node *Snapshot, _ bool) {
 	if len(s.owner.data)-f.start < 8 {
 		return
@@ -124,6 +132,8 @@ func (s *SemanticCapture) fixed(data []byte) {
 		s.owner.data = append(s.owner.data, data...)
 	}
 }
+
+// Uint records value as an unsigned 64-bit semantic value.
 func (s *SemanticCapture) Uint(value uint64) {
 	var data [8]byte
 	binary.LittleEndian.PutUint64(data[:], value)
@@ -132,6 +142,8 @@ func (s *SemanticCapture) Uint(value uint64) {
 
 // Int preserves the complete signed value as its unique 64-bit representation.
 func (s *SemanticCapture) Int(value int64) { s.Uint(uint64(value)) }
+
+// Bool records value as a one-byte semantic value.
 func (s *SemanticCapture) Bool(value bool) {
 	var data [1]byte
 	if value {
@@ -139,6 +151,8 @@ func (s *SemanticCapture) Bool(value bool) {
 	}
 	s.fixed(data[:])
 }
+
+// Bytes records the length and an independent copy of value.
 func (s *SemanticCapture) Bytes(value []byte) {
 	s.Uint(uint64(len(value)))
 	s.fixed(value)
@@ -161,6 +175,9 @@ func semanticBits(value []byte, bitLength int) ([]byte, byte, bool) {
 	return value[:whole], value[whole] & byte(0xff<<uint(8-remainder)), true
 }
 
+// BitString records bitLength and, for valid storage, the significant bits of
+// value, excluding unused trailing bits and backing bytes
+// (X.691 (02/2021) §§16.4–16.5).
 func (s *SemanticCapture) BitString(value []byte, bitLength int) {
 	s.Int(int64(bitLength))
 	prefix, tail, hasTail := semanticBits(value, bitLength)
@@ -175,10 +192,15 @@ func (s *SemanticCapture) BitString(value []byte, bitLength int) {
 		s.fixed(last[:])
 	}
 }
+
+// String records the byte length and contents of value.
 func (s *SemanticCapture) String(value string) {
 	s.Uint(uint64(len(value)))
 	s.fixed([]byte(value))
 }
+
+// BigInt records nil distinctly from zero, then the sign and magnitude words
+// of a non-nil value.
 func (s *SemanticCapture) BigInt(value *big.Int) {
 	s.Bool(value == nil)
 	if value == nil {
@@ -190,6 +212,9 @@ func (s *SemanticCapture) BigInt(value *big.Int) {
 		s.Uint(uint64(word))
 	}
 }
+
+// Opaque records the effective contents of value, using its received wire
+// image when present and its stored bytes otherwise.
 func (s *SemanticCapture) Opaque(value OpaqueOpenType) {
 	if !value.image.Present() {
 		s.Bytes(value.bytes)
@@ -204,6 +229,9 @@ func (s *SemanticCapture) Opaque(value OpaqueOpenType) {
 		s.fixed(value.image.original[p.Start/8 : p.End/8])
 	}
 }
+
+// ChoiceExtension records whether value is nil and, when present, its
+// extension index and effective open-type contents.
 func (s *SemanticCapture) ChoiceExtension(value *ChoiceExtension) {
 	s.Bool(value == nil)
 	if value != nil {
@@ -263,6 +291,9 @@ func (p *ReplayPlan) markChanged(node int) {
 	}
 	p.extra[index-len(p.states)] |= mask
 }
+
+// Unchanged reports whether node belongs to the plan and has no recorded
+// change. A nil or zero plan, or a zero snapshot, returns false.
 func (p *ReplayPlan) Unchanged(node Snapshot) bool {
 	if p == nil || p.root.node < 0 || node.owner == nil || node.owner != p.root.owner || node.node < 0 || node.node >= node.owner.nodes {
 		return false
@@ -275,6 +306,7 @@ func (p *ReplayPlan) Unchanged(node Snapshot) bool {
 	return len(p.extra) == 0 || p.extra[index-len(p.states)]&mask == 0
 }
 
+// Present reports whether the snapshot has an owner; a zero snapshot returns false.
 func (s Snapshot) Present() bool { return s.owner != nil }
 
 // SemanticComparison reads the baseline and settles each occurrence in one
@@ -286,6 +318,8 @@ type SemanticComparison struct {
 	valueDepth int
 }
 
+// NewSemanticComparison starts a comparison at root, using the first optional
+// set of limits. Without limits, comparison counters have no ceilings.
 func NewSemanticComparison(root Snapshot, limits ...ComparisonLimits) SemanticComparison {
 	s := SemanticComparison{plan: ReplayPlan{root: root}, pos: root.start, limit: root.end}
 	if len(limits) > 0 {
@@ -294,7 +328,13 @@ func NewSemanticComparison(root Snapshot, limits ...ComparisonLimits) SemanticCo
 
 	return s
 }
+
+// Plan returns the comparison decisions accumulated so far. A zero comparison
+// returns a zero plan.
 func (s *SemanticComparison) Plan() ReplayPlan { return s.plan }
+
+// Begin starts comparison of a nested semantic frame and returns the state
+// needed by End.
 func (s *SemanticComparison) Begin() (f ComparisonFrame) {
 	f.start, f.limit, f.changed, f.valueDepth = s.pos, s.limit, s.changed, s.valueDepth
 	f.end = s.beginFrame()
@@ -316,6 +356,9 @@ func (s *SemanticComparison) beginFrame() int {
 	}
 	return s.limit
 }
+
+// End finishes the frame begun by Begin, marks node changed when its semantics
+// or frame bounds differ or fresh is true, and restores the enclosing frame.
 func (s *SemanticComparison) End(f ComparisonFrame, node Snapshot, fresh bool) {
 	s.valueDepth = f.valueDepth
 	if s.pos != f.end || fresh {
@@ -345,6 +388,8 @@ func (s *SemanticComparison) fixed(data []byte) {
 	}
 	s.pos += len(data)
 }
+
+// Uint compares value with the next unsigned 64-bit baseline value.
 func (s *SemanticComparison) Uint(value uint64) {
 	s.charge(8)
 	if s.Failed() {
@@ -360,7 +405,11 @@ func (s *SemanticComparison) Uint(value uint64) {
 	}
 	s.pos += 8
 }
+
+// Int compares the complete signed value with the next 64-bit baseline value.
 func (s *SemanticComparison) Int(value int64) { s.Uint(uint64(value)) }
+
+// Bool compares value with the next one-byte baseline boolean.
 func (s *SemanticComparison) Bool(value bool) {
 	var data [1]byte
 	if value {
@@ -382,6 +431,8 @@ func (s *SemanticComparison) length() int {
 	}
 	return int(n)
 }
+
+// Bytes compares the length and contents of value with the next baseline byte slice.
 func (s *SemanticComparison) Bytes(value []byte) {
 	n := s.length()
 	if n != len(value) {
@@ -402,6 +453,9 @@ func (s *SemanticComparison) Bytes(value []byte) {
 	s.pos += n
 }
 
+// BitString compares bitLength and, for valid storage, the significant bits of
+// value with the baseline, excluding unused trailing bits and backing bytes
+// (X.691 (02/2021) §§16.4–16.5).
 func (s *SemanticComparison) BitString(value []byte, bitLength int) {
 	s.Int(int64(bitLength))
 	prefix, tail, hasTail := semanticBits(value, bitLength)
@@ -416,6 +470,8 @@ func (s *SemanticComparison) BitString(value []byte, bitLength int) {
 		s.fixed(last[:])
 	}
 }
+
+// String compares the byte contents of value with the next baseline string.
 func (s *SemanticComparison) String(value string) {
 	n := s.length()
 	if n < 0 || n > s.limit-s.pos {
@@ -432,6 +488,9 @@ func (s *SemanticComparison) String(value string) {
 	}
 	s.pos += n
 }
+
+// BigInt compares nil presence and, for non-nil values, sign and magnitude
+// words with the baseline.
 func (s *SemanticComparison) BigInt(value *big.Int) {
 	s.Bool(value == nil)
 	if value == nil {
@@ -446,6 +505,9 @@ func (s *SemanticComparison) BigInt(value *big.Int) {
 		s.Uint(uint64(word))
 	}
 }
+
+// Opaque compares the effective contents of value with the baseline, using
+// its received wire image when present and its stored bytes otherwise.
 func (s *SemanticComparison) Opaque(value OpaqueOpenType) {
 	if !value.image.Present() {
 		s.Bytes(value.bytes)
@@ -470,6 +532,9 @@ func (s *SemanticComparison) Opaque(value OpaqueOpenType) {
 	}
 	s.pos = end
 }
+
+// ChoiceExtension compares nil presence and, for non-nil values, the extension
+// index and effective open-type contents with the baseline.
 func (s *SemanticComparison) ChoiceExtension(value *ChoiceExtension) {
 	s.Bool(value == nil)
 	if value != nil {
@@ -478,6 +543,8 @@ func (s *SemanticComparison) ChoiceExtension(value *ChoiceExtension) {
 	}
 }
 
+// ReplayPlan returns the attached encoder comparison plan, or nil when none
+// is attached. A zero buffer returns nil.
 func (bb *BitBuffer) ReplayPlan() *ReplayPlan {
 	if bb.budget == nil {
 		return nil
@@ -558,6 +625,8 @@ func newSemanticOwner(data []byte) *semanticArena {
 	return owner
 }
 
+// NewCompleteDecodeBuffer creates a reader for data using the decode state
+// owner when available. A zero decode state creates an ordinary byte reader.
 func NewCompleteDecodeBuffer(data []byte, options DecodeState) *BitBuffer {
 	if decodeOwner(options) == nil {
 		return NewBitBufferFromBytes(data)
@@ -603,6 +672,10 @@ func (o *semanticArena) buffer(data []byte, parent *BitBuffer) *BitBuffer {
 	}
 	return bb
 }
+
+// SemanticCaptureFor returns a capture using the decode state owner when
+// available. A zero decode state creates a new capture with 256 bytes of
+// initial semantic storage.
 func SemanticCaptureFor(options DecodeState) SemanticCapture {
 	if decodeOwner(options) == nil {
 		return NewSemanticCapture(256)
@@ -649,6 +722,9 @@ func (s *SemanticCapture) ExtensionData(data [][]byte, spans []WireSpan) {
 	}
 	s.End(f, nil, false)
 }
+
+// ExtensionData compares effective unknown extension contents with the baseline,
+// preferring a non-nil data entry to the corresponding received span.
 func (s *SemanticComparison) ExtensionData(data [][]byte, spans []WireSpan) {
 	f := s.Begin()
 	n := max(len(data), len(spans))
@@ -674,6 +750,9 @@ func (bb *BitBuffer) SuspendReplayPlan() *ReplayPlan {
 	bb.budget.encodePlan = nil
 	return previous
 }
+
+// RestoreReplayPlan restores the encoder plan when the buffer has a budget.
+// It has no effect on a zero buffer.
 func (bb *BitBuffer) RestoreReplayPlan(previous *ReplayPlan) {
 	if bb.budget != nil {
 		bb.budget.encodePlan = previous
@@ -774,7 +853,11 @@ func (s WireSpan) ReplayBytes(budget *DecodeBudget) ([]byte, error) {
 // It never contains a PER baseline and never participates in semantic equality.
 type replayResources struct{ depth, open, elements, fragments uint64 }
 
+// Value records that the current frame contributes one level of value depth.
 func (s *SemanticCapture) Value() { s.ownDepth = 1; s.resources.depth = max(s.resources.depth, 1) }
+
+// Stream adopts element and fragment counts from a present span, suppressing
+// further accumulation of those counts in the current frame.
 func (s *SemanticCapture) Stream(span WireSpan) {
 	if span.Present() {
 		s.resources.elements = span.elements
@@ -782,24 +865,40 @@ func (s *SemanticCapture) Stream(span WireSpan) {
 		s.countsKnown = true
 	}
 }
+
+// Elements adds n to the frame element count unless stream or operation
+// counts have already supplied that count.
 func (s *SemanticCapture) Elements(n uint64) {
 	if !s.countsKnown {
 		s.resources.elements += n
 	}
 }
+
+// OpenBytes records n if it exceeds the frame maximum open-type content length.
 func (s *SemanticCapture) OpenBytes(n uint64) { s.resources.open = max(s.resources.open, n) }
+
+// OperationCounts adopts the decode operation element and fragment counts
+// for the current frame.
 func (s *SemanticCapture) OperationCounts() {
 	s.resources.elements = s.owner.budget.usage.Elements
 	s.resources.fragments = s.owner.budget.fragments
 	s.countsKnown = true
 }
+
+// Value enters a value level and records a comparison failure if the
+// comparison depth ceiling is exceeded.
 func (s *SemanticComparison) Value() {
 	s.valueDepth++
 	if s.plan.limits.limited && s.valueDepth > s.plan.limits.Depth {
 		s.plan.failure = "PER nesting depth exceeded during comparison"
 	}
 }
+
+// Stream has no effect during comparison; stream counts are capture metadata.
 func (s *SemanticComparison) Stream(WireSpan) {}
+
+// Elements adds n to the comparison element count, recording a failure if
+// the comparison element ceiling would be exceeded.
 func (s *SemanticComparison) Elements(n uint64) {
 	if s.plan.limits.limited && n > s.plan.limits.Elements-s.plan.elements {
 		s.plan.failure = "elements exceeded during comparison"
@@ -807,6 +906,8 @@ func (s *SemanticComparison) Elements(n uint64) {
 	}
 	s.plan.elements += n
 }
+
+// OpenBytes has no effect during comparison; open-type sizes are capture metadata.
 func (s *SemanticComparison) OpenBytes(uint64) {}
 
 // ApplyReplay preserves every structural operation ceiling while skipping encoders.
@@ -835,6 +936,10 @@ func (s Snapshot) ApplyReplay(budget *DecodeBudget) error {
 	budget.fragments += r.fragments
 	return nil
 }
+
+// ReplayTo replays span into bb after applying the snapshot resource counts.
+// Incompatible alignment returns false without charging resources; resource
+// or replay failures are returned as errors.
 func (s Snapshot) ReplayTo(span WireSpan, bb *BitBuffer) (bool, error) {
 	// Alignment refusal must not charge an operation which will encode normally.
 	if !span.compatibleAlignment(bb) {
@@ -846,8 +951,16 @@ func (s Snapshot) ReplayTo(span WireSpan, bb *BitBuffer) (bool, error) {
 	return span.ReplayTo(bb)
 }
 
-func (s *SemanticCapture) Failed() bool    { return s.owner.budget.err != nil }
+// Failed reports whether the initialized capture owner has a latched budget
+// failure. A zero capture has no owner and must be initialized before this call.
+func (s *SemanticCapture) Failed() bool { return s.owner.budget.err != nil }
+
+// Failed reports whether a comparison failure has been recorded. A zero
+// comparison returns false.
 func (s *SemanticComparison) Failed() bool { return s.plan.failure != "" }
+
+// Child merges a child snapshot resource summary into the current frame.
+// Snapshots without an owner or retained resource entry are ignored.
 func (s *SemanticCapture) Child(node Snapshot) {
 	if node.owner == nil || node.node >= len(node.owner.resources) {
 		return
@@ -860,6 +973,8 @@ func (s *SemanticCapture) Child(node Snapshot) {
 		s.resources.fragments += r.fragments
 	}
 }
+
+// Child has no effect during comparison; child resource summaries are capture metadata.
 func (s *SemanticComparison) Child(Snapshot) {}
 
 // ComparisonLimits is a by-value copy of the remaining call ceilings. No
@@ -870,6 +985,8 @@ type ComparisonLimits struct {
 	limited                   bool
 }
 
+// ComparisonBudget copies the remaining work, allocation, element and depth
+// ceilings from budget for an independent comparison.
 func ComparisonBudget(budget *DecodeBudget) ComparisonLimits {
 	return ComparisonLimits{Work: uint64(budget.limits.MaxWork) - budget.usage.Work, Allocated: budget.operational.MaxAllocatedBytes - budget.allocated, Elements: uint64(budget.limits.MaxElements) - budget.usage.Elements, Depth: budget.limits.MaxDepth - budget.depth, limited: true}
 }
@@ -883,6 +1000,9 @@ func (s *SemanticComparison) charge(n uint64) {
 	}
 	s.plan.work += n
 }
+
+// ChargeComparison returns any recorded comparison failure, or charges the
+// plan allocation and work counts to budget. A zero plan charges zero counts.
 func (p *ReplayPlan) ChargeComparison(budget *DecodeBudget) error {
 	bb := NewBudgetBuffer(budget)
 	if p.failure != "" {
@@ -899,6 +1019,9 @@ func (p *ReplayPlan) ChargeComparison(budget *DecodeBudget) error {
 func (s *SemanticComparison) Unchanged(root Snapshot) bool {
 	return root.owner != nil && !s.changed && !s.Failed() && root == s.plan.root
 }
+
+// ChargeComparison returns a recorded comparison failure without charging; otherwise it
+// charges the accumulated plan to budget and returns any budget failure. A zero comparison charges nothing.
 func (s *SemanticComparison) ChargeComparison(budget *DecodeBudget) error {
 	return s.plan.ChargeComparison(budget)
 }

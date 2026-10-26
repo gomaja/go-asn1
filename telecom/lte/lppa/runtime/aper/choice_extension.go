@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/choice_extension.go; SHA-256 5df571c58aeb44ec92c714624ec04e8d0097eda99febeeb3861df326406b2253.
+// Runtime source: runtime/aper/choice_extension.go; SHA-256 8686fec5f85db4f95054a111d77d1bb00104e825c72dbfe03c676b0f6b570a5d.
 package aper
 
 import (
@@ -71,13 +71,19 @@ func DecodeChoiceExtensionAligned(bb *BitBuffer, index, knownAlternatives int64)
 	return ChoiceExtension{index: index, contents: raw.Bytes(), origin: origin}, nil
 }
 
+// Index returns the extension alternative index; the zero value returns zero.
 func (v ChoiceExtension) Index() int64 { return v.index }
+
+// Contents returns an independent copy of the alternative contents, or nil for the zero value.
 func (v ChoiceExtension) Contents() []byte {
 	if v.image.Present() {
 		return v.image.Bytes()
 	}
 	return append([]byte(nil), v.contents...)
 }
+
+// Origin returns the provenance with an independent copy of its location spans.
+// The zero value returns an empty origin.
 func (v ChoiceExtension) Origin() OpaqueOrigin {
 	origin := v.origin
 	origin.Location.Spans = append([]BitSpan(nil), origin.Location.Spans...)
@@ -113,6 +119,8 @@ func (v ChoiceExtension) ChildDecodeBuffer(parent *BitBuffer) *BitBuffer {
 	return NewNestedDecodeBuffer(v.contents, parent)
 }
 
+// ContentLength returns the number of content octets without making a copy.
+// The zero value returns zero.
 func (v ChoiceExtension) ContentLength() uint64 {
 	if v.image.Present() {
 		return v.image.ByteLength()

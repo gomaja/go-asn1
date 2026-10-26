@@ -167,6 +167,7 @@ func (v GeneralProblem) Name() (string, bool) {
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v GeneralProblem) String() string {
 	if name, ok := v.Name(); ok {
 		return name
@@ -323,6 +324,7 @@ func (v InvokeProblem) Name() (string, bool) {
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v InvokeProblem) String() string {
 	if name, ok := v.Name(); ok {
 		return name
@@ -434,6 +436,7 @@ func (v ReturnResultProblem) Name() (string, bool) {
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v ReturnResultProblem) String() string {
 	if name, ok := v.Name(); ok {
 		return name
@@ -563,6 +566,7 @@ func (v ReturnErrorProblem) Name() (string, bool) {
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v ReturnErrorProblem) String() string {
 	if name, ok := v.Name(); ok {
 		return name
@@ -818,6 +822,7 @@ func (v RejectProblem) Name() (string, bool) {
 	}
 }
 
+// String returns the ASN.1 named-number label, or the decimal value when unnamed.
 func (v RejectProblem) String() string {
 	if name, ok := v.Name(); ok {
 		return name

@@ -33,7 +33,10 @@ type DecodeError struct {
 	Cause  error
 }
 
+// Error formats the ASN.1 path and underlying decode cause.
 func (err *DecodeError) Error() string { return fmt.Sprintf("decoding %s: %v", err.Path, err.Cause) }
+
+// Unwrap returns the underlying decode cause.
 func (err *DecodeError) Unwrap() error { return err.Cause }
 
 func locateTCAPDecodeError(cause error, data []byte, options []ber.DecodeOption) error {
@@ -303,16 +306,25 @@ func NewOrigTransactionID(value []byte) (OrigTransactionID, error) {
 	}
 	return OrigTransactionID(bytes.Clone(value)), nil
 }
+
+// NewDestTransactionID returns an independent copy of a one-to-four-octet destination transaction identifier.
+// It returns an error for any other length (Q.773 (06/1997) Annex A and §4.2.1.3).
 func NewDestTransactionID(value []byte) (DestTransactionID, error) {
 	if len(value) < 1 || len(value) > 4 {
 		return nil, fmt.Errorf("transaction ID length must be 1..4")
 	}
 	return DestTransactionID(bytes.Clone(value)), nil
 }
+
+// NewTCInvokeIdSetPresentInt64 returns a TCInvokeIdSet selecting present with the supplied integer.
 func NewTCInvokeIdSetPresentInt64(value int64) TCInvokeIdSet {
 	return NewTCInvokeIdSetPresent(big.NewInt(value))
 }
+
+// NewInvokeIdPresentInt64 returns an InvokeId selecting present with the supplied integer.
 func NewInvokeIdPresentInt64(value int64) InvokeId { return NewInvokeIdPresent(big.NewInt(value)) }
+
+// NewInvokeLinkedIdPresentInt64 returns an InvokeLinkedId selecting present with the supplied integer.
 func NewInvokeLinkedIdPresentInt64(value int64) InvokeLinkedId {
 	return NewInvokeLinkedIdPresent(big.NewInt(value))
 }
@@ -323,6 +335,8 @@ type ComponentValidator interface {
 	ValidateComponent(index int, value Component) error
 }
 
+// ValidateComponents refuses a nil context, validates the message with the default BER policy, then calls context for each component in order.
+// It returns the first error, or nil when all checks succeed.
 func (value *TCMessage) ValidateComponents(context ComponentValidator) error {
 	if nilComponentValidator(context) {
 		return fmt.Errorf("nil component validator")
@@ -364,7 +378,7 @@ func nilComponentValidator(value ComponentValidator) bool {
 }
 
 // newProtocolVersion builds source named-bit positions, with bounded storage.
-// X.680 (02/2021) 22.7; Q.773 (06/1997) 3.2.1-3.2.2.
+// X.680 (02/2021) 22.4; Q.773 (06/1997) 3.2.1-3.2.2.
 func newProtocolVersion(set ...int) (rt.BitString, error) {
 	length := 0
 	for _, bit := range set {
@@ -541,48 +555,80 @@ func (value *Abort) checkTCAPDecodedRules(opts []ber.DecodeOption) error {
 	}
 	return nil
 }
+
+// NewAARQApduProtocolVersion builds a BIT STRING from zero-based bit positions.
+// It returns an error for a negative position or one at or above 128*1024*1024.
+// Named-bit positions follow X.680 (02/2021) §22.4 and Q.773 (06/1997) §§3.2.1–3.2.2.
 func NewAARQApduProtocolVersion(set ...int) (rt.BitString, error) { return newProtocolVersion(set...) }
+
+// AARQApduProtocolVersionDefault returns an independent BIT STRING with only version1 (bit zero) set.
 func AARQApduProtocolVersionDefault() rt.BitString {
 	return rt.BitString{Bytes: []byte{0x80}, BitLength: 1}
 }
+
+// EffectiveProtocolVersion returns an independent copy of ProtocolVersion, or the version1 default for an absent field or nil receiver.
 func (value *AARQApdu) EffectiveProtocolVersion() rt.BitString {
 	if value == nil || value.ProtocolVersion == nil {
 		return AARQApduProtocolVersionDefault()
 	}
 	return rt.BitString{Bytes: bytes.Clone(value.ProtocolVersion.Bytes), BitLength: value.ProtocolVersion.BitLength}
 }
+
+// NewAAREApduProtocolVersion builds a BIT STRING from zero-based bit positions.
+// It returns an error for a negative position or one at or above 128*1024*1024.
+// Named-bit positions follow X.680 (02/2021) §22.4 and Q.773 (06/1997) §§3.2.1–3.2.2.
 func NewAAREApduProtocolVersion(set ...int) (rt.BitString, error) { return newProtocolVersion(set...) }
+
+// AAREApduProtocolVersionDefault returns an independent BIT STRING with only version1 (bit zero) set.
 func AAREApduProtocolVersionDefault() rt.BitString {
 	return rt.BitString{Bytes: []byte{0x80}, BitLength: 1}
 }
+
+// EffectiveProtocolVersion returns an independent copy of ProtocolVersion, or the version1 default for an absent field or nil receiver.
 func (value *AAREApdu) EffectiveProtocolVersion() rt.BitString {
 	if value == nil || value.ProtocolVersion == nil {
 		return AAREApduProtocolVersionDefault()
 	}
 	return rt.BitString{Bytes: bytes.Clone(value.ProtocolVersion.Bytes), BitLength: value.ProtocolVersion.BitLength}
 }
+
+// NewAUDTApduProtocolVersion builds a BIT STRING from zero-based bit positions.
+// It returns an error for a negative position or one at or above 128*1024*1024.
+// Named-bit positions follow X.680 (02/2021) §22.4 and Q.773 (06/1997) §§3.2.1–3.2.2.
 func NewAUDTApduProtocolVersion(set ...int) (rt.BitString, error) { return newProtocolVersion(set...) }
+
+// AUDTApduProtocolVersionDefault returns an independent BIT STRING with only version1 (bit zero) set.
 func AUDTApduProtocolVersionDefault() rt.BitString {
 	return rt.BitString{Bytes: []byte{0x80}, BitLength: 1}
 }
+
+// EffectiveProtocolVersion returns an independent copy of ProtocolVersion, or the version1 default for an absent field or nil receiver.
 func (value *AUDTApdu) EffectiveProtocolVersion() rt.BitString {
 	if value == nil || value.ProtocolVersion == nil {
 		return AUDTApduProtocolVersionDefault()
 	}
 	return rt.BitString{Bytes: bytes.Clone(value.ProtocolVersion.Bytes), BitLength: value.ProtocolVersion.BitLength}
 }
+
+// MarshalBER validates the value structure and encodes the value as BER using opts.
+// It returns the encoded bytes or the first validation or encoding error.
 func (value *ComponentPortion) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := value.validateTCAPStructure(); err != nil {
 		return nil, err
 	}
 	return tcapMarshalBERComponentPortion(value, opts...)
 }
+
+// MarshalDER validates the value structure and returns the DER encoding or an error.
 func (value *ComponentPortion) MarshalDER() ([]byte, error) {
 	if err := value.validateTCAPStructure(); err != nil {
 		return nil, err
 	}
 	return tcapMarshalDERComponentPortion(value)
 }
+
+// UnmarshalBER decodes one complete BER value using opts and replaces the receiver only on success.
+// It returns an error for a nil receiver or invalid input.
 func (value *ComponentPortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	if value == nil {
 		return fmt.Errorf("nil ComponentPortion destination")
@@ -594,18 +640,26 @@ func (value *ComponentPortion) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	*value = *decoded
 	return nil
 }
+
+// MarshalBER validates the value structure and encodes the value as BER using opts.
+// It returns the encoded bytes or the first validation or encoding error.
 func (value *UserInformation) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := value.validateTCAPStructure(); err != nil {
 		return nil, err
 	}
 	return tcapMarshalBERUserInformation(value, opts...)
 }
+
+// MarshalDER validates the value structure and returns the DER encoding or an error.
 func (value *UserInformation) MarshalDER() ([]byte, error) {
 	if err := value.validateTCAPStructure(); err != nil {
 		return nil, err
 	}
 	return tcapMarshalDERUserInformation(value)
 }
+
+// UnmarshalBER decodes one complete BER value using opts and replaces the receiver only on success.
+// It returns an error for a nil receiver or invalid input.
 func (value *UserInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	if value == nil {
 		return fmt.Errorf("nil UserInformation destination")
@@ -617,118 +671,176 @@ func (value *UserInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	*value = *decoded
 	return nil
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *TCMessage) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *Begin) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *Continue) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *End) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *Abort) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *Unidirectional) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *ComponentPortion) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *Component) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *ROS) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *Invoke) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *ReturnResult) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *ReturnResultResult) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *ReturnError) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *Reject) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *RejectProblemChoice) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *InvokeId) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *TCInvokeIdSet) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *InvokeLinkedId) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *AbortReason) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *DialoguePortion) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *UserInformation) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *DialoguePDU) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *UniDialoguePDU) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *AARQApdu) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *AAREApdu) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *ABRTApdu) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *AUDTApdu) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *RLRQApdu) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err
 }
+
+// Validate checks whether the value can be BER-encoded with opts and returns the first error, or nil on success.
 func (value *RLREApdu) Validate(opts ...ber.EncodeOption) error {
 	_, err := value.MarshalBER(opts...)
 	return err

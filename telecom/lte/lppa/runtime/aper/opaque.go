@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/opaque.go; SHA-256 5f2a8d9515ef21963324d4f326f6ca89fff28ac044b069d80a91209a7f663b5f.
+// Runtime source: runtime/aper/opaque.go; SHA-256 180ad611f83b3a8a7e566883f9832005f33a4dddb5e9e11e417dd83b446447e9.
 package aper
 
 import (
@@ -186,6 +186,8 @@ func originalRange(bb *BitBuffer, start, end uint64) ([]BitSpan, bool) {
 	return []BitSpan{{Start: first, End: last}}, true
 }
 
+// Bytes returns an independent copy of the open-type contents, or nil for the
+// zero value or when the enclosing operation cannot reserve the copy.
 func (v OpaqueOpenType) Bytes() []byte {
 	if v.image.Present() {
 		if v.parent != nil {
@@ -202,6 +204,9 @@ func (v OpaqueOpenType) Bytes() []byte {
 	}
 	return append([]byte(nil), v.bytes...)
 }
+
+// RetainContents stores an immutable view of the contents in the non-nil dst
+// without copying bytes. The zero value stores an absent span.
 func (v OpaqueOpenType) RetainContents(dst *WireSpan) {
 	if v.image.Present() {
 		*dst = v.image
@@ -209,6 +214,11 @@ func (v OpaqueOpenType) RetainContents(dst *WireSpan) {
 		*dst = OriginalWire(v.bytes)
 	}
 }
+
+// Origin returns the provenance with an independent copy of its location spans.
+// The zero value returns an empty origin. Copying location spans is subject to
+// the enclosing operation budget; a framed origin can retain its path and
+// source metadata even when its location spans cannot be copied.
 func (v OpaqueOpenType) Origin() OpaqueOrigin {
 	origin := v.origin
 	if v.framing.Present() {

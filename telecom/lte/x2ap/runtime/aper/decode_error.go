@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_error.go; SHA-256 c7ea4bcb088354a992e15a12b2b8ca19dd478568f5f3e5e03f43ba92ef1761ec.
+// Runtime source: runtime/aper/decode_error.go; SHA-256 0cca6ea5d5b0a3de256e1be7f21a43cada40307344fd00d78ce3eb4874b370f4.
 package aper
 
 import (
@@ -28,10 +28,16 @@ type DecodeError struct {
 	Err      error
 }
 
+// Error formats the source document, clause, field path and underlying error.
 func (e *DecodeError) Error() string {
 	return fmt.Sprintf("%s %s at %s: %v", e.Rule.Document, e.Rule.Clause, e.Location.Path, e.Err)
 }
+
+// Unwrap returns the underlying error.
 func (e *DecodeError) Unwrap() error { return e.Err }
+
+// Is reports whether target is the sentinel corresponding to the error kind.
+// An unknown kind matches no sentinel.
 func (e *DecodeError) Is(target error) bool {
 	switch e.Kind {
 	case Syntax:

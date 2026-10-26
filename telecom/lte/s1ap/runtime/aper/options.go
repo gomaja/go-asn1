@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/options.go; SHA-256 43871a87b1eaff6696ef0e0ca711b0298e24562b9cbb653d13ab840f18f94649.
+// Runtime source: runtime/aper/options.go; SHA-256 d89688cbf8c9ec4eed7f1dbd48e32f523c14eb89a72e5cbcfb601d8899a5d082.
 package aper
 
 import (
@@ -17,6 +17,8 @@ const (
 	DeferAll
 )
 
+// String returns Eager, DeferOnError or DeferAll for a known policy.
+// Unknown values are formatted as ContainedDecoding(n).
 func (mode ContainedDecoding) String() string {
 	switch mode {
 	case Eager:
