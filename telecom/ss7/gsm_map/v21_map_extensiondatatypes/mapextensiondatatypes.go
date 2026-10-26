@@ -827,7 +827,12 @@ func UnmarshalBERExtensionDataTypesPrivateExtensionList(data []byte, opts ...ber
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding ExtensionDataTypesPrivateExtensionList", qualifyBERError(err, "", "decoding", false))

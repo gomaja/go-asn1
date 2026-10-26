@@ -269,7 +269,12 @@ func UnmarshalBERPriority(data []byte, opts ...ber.DecodeOption) (returnValue *B
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value Priority }{}
 	decode := func() error {
 		content := data

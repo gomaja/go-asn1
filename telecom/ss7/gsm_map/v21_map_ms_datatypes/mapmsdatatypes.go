@@ -8426,7 +8426,12 @@ func UnmarshalBERMSPagingArea(data []byte, opts ...ber.DecodeOption) (returnValu
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSPagingArea", qualifyBERError(err, "", "decoding", false))
@@ -12030,7 +12035,12 @@ func UnmarshalBERMSTripletList(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSTripletList", qualifyBERError(err, "", "decoding", false))
@@ -12185,7 +12195,12 @@ func UnmarshalBERMSQuintupletList(data []byte, opts ...ber.DecodeOption) (return
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSQuintupletList", qualifyBERError(err, "", "decoding", false))
@@ -18391,7 +18406,12 @@ func UnmarshalBERMSEPLMNList(data []byte, opts ...ber.DecodeOption) (returnValue
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSEPLMNList", qualifyBERError(err, "", "decoding", false))
@@ -18551,7 +18571,12 @@ func UnmarshalBERMSAdjacentPLMNList(data []byte, opts ...ber.DecodeOption) (retu
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSAdjacentPLMNList", qualifyBERError(err, "", "decoding", false))
@@ -23101,7 +23126,12 @@ func UnmarshalBERMSBSSMAPServiceHandoverList(data []byte, opts ...ber.DecodeOpti
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSBSSMAPServiceHandoverList", qualifyBERError(err, "", "decoding", false))
@@ -23466,7 +23496,12 @@ func UnmarshalBERMSRadioResourceList(data []byte, opts ...ber.DecodeOption) (ret
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSRadioResourceList", qualifyBERError(err, "", "decoding", false))
@@ -29482,7 +29517,12 @@ func UnmarshalBERMSRelocationNumberList(data []byte, opts ...ber.DecodeOption) (
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSRelocationNumberList", qualifyBERError(err, "", "decoding", false))
@@ -31207,7 +31247,12 @@ func UnmarshalBERMSEPSAuthenticationSetList(data []byte, opts ...ber.DecodeOptio
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSEPSAuthenticationSetList", qualifyBERError(err, "", "decoding", false))
@@ -36595,7 +36640,12 @@ func UnmarshalBERMSEDRXCycleLengthList(data []byte, opts ...ber.DecodeOption) (r
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSEDRXCycleLengthList", qualifyBERError(err, "", "decoding", false))
@@ -36997,7 +37047,12 @@ func UnmarshalBERMSResetIdList(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSResetIdList", qualifyBERError(err, "", "decoding", false))
@@ -37150,7 +37205,12 @@ func UnmarshalBERMSIMSIGroupIdList(data []byte, opts ...ber.DecodeOption) (retur
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSIMSIGroupIdList", qualifyBERError(err, "", "decoding", false))
@@ -37624,7 +37684,12 @@ func UnmarshalBERMSCSGSubscriptionDataList(data []byte, opts ...ber.DecodeOption
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSCSGSubscriptionDataList", qualifyBERError(err, "", "decoding", false))
@@ -38265,7 +38330,12 @@ func UnmarshalBERMSVPLMNCSGSubscriptionDataList(data []byte, opts ...ber.DecodeO
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSVPLMNCSGSubscriptionDataList", qualifyBERError(err, "", "decoding", false))
@@ -38427,7 +38497,12 @@ func UnmarshalBERMSLIPAAllowedAPNList(data []byte, opts ...ber.DecodeOption) (re
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSLIPAAllowedAPNList", qualifyBERError(err, "", "decoding", false))
@@ -39723,7 +39798,12 @@ func UnmarshalBERMSEPSDataList(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSEPSDataList", qualifyBERError(err, "", "decoding", false))
@@ -42284,7 +42364,12 @@ func UnmarshalBERMSSpecificAPNInfoList(data []byte, opts ...ber.DecodeOption) (r
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSSpecificAPNInfoList", qualifyBERError(err, "", "decoding", false))
@@ -43933,7 +44018,12 @@ func UnmarshalBERMSAdjacentAccessRestrictionDataList(data []byte, opts ...ber.De
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSAdjacentAccessRestrictionDataList", qualifyBERError(err, "", "decoding", false))
@@ -45086,7 +45176,12 @@ func UnmarshalBERMSGMLCList(data []byte, opts ...ber.DecodeOption) (returnValue 
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSGMLCList", qualifyBERError(err, "", "decoding", false))
@@ -45244,7 +45339,12 @@ func UnmarshalBERMSGPRSDataList(data []byte, opts ...ber.DecodeOption) (returnVa
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSGPRSDataList", qualifyBERError(err, "", "decoding", false))
@@ -48417,7 +48517,12 @@ func UnmarshalBERMSGPRSCamelTDPDataList(data []byte, opts ...ber.DecodeOption) (
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSGPRSCamelTDPDataList", qualifyBERError(err, "", "decoding", false))
@@ -49020,7 +49125,12 @@ func UnmarshalBERMSLSADataList(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSLSADataList", qualifyBERError(err, "", "decoding", false))
@@ -51099,7 +51209,12 @@ func UnmarshalBERMSBearerServiceList(data []byte, opts ...ber.DecodeOption) (ret
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSBearerServiceList", qualifyBERError(err, "", "decoding", false))
@@ -51259,7 +51374,12 @@ func UnmarshalBERMSTeleserviceList(data []byte, opts ...ber.DecodeOption) (retur
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSTeleserviceList", qualifyBERError(err, "", "decoding", false))
@@ -51760,7 +51880,12 @@ func UnmarshalBERMSExtSSInfoList(data []byte, opts ...ber.DecodeOption) (returnV
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSExtSSInfoList", qualifyBERError(err, "", "decoding", false))
@@ -52615,7 +52740,12 @@ func UnmarshalBERMSExtForwFeatureList(data []byte, opts ...ber.DecodeOption) (re
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSExtForwFeatureList", qualifyBERError(err, "", "decoding", false))
@@ -53777,7 +53907,12 @@ func UnmarshalBERMSExtCallBarFeatureList(data []byte, opts ...ber.DecodeOption) 
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSExtCallBarFeatureList", qualifyBERError(err, "", "decoding", false))
@@ -54600,7 +54735,12 @@ func UnmarshalBERMSCUGSubscriptionList(data []byte, opts ...ber.DecodeOption) (r
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSCUGSubscriptionList", qualifyBERError(err, "", "decoding", false))
@@ -55161,7 +55301,12 @@ func UnmarshalBERMSCUGFeatureList(data []byte, opts ...ber.DecodeOption) (return
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSCUGFeatureList", qualifyBERError(err, "", "decoding", false))
@@ -55316,7 +55461,12 @@ func UnmarshalBERMSExtBasicServiceGroupList(data []byte, opts ...ber.DecodeOptio
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSExtBasicServiceGroupList", qualifyBERError(err, "", "decoding", false))
@@ -56246,7 +56396,12 @@ func UnmarshalBERMSLCSPrivacyExceptionList(data []byte, opts ...ber.DecodeOption
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSLCSPrivacyExceptionList", qualifyBERError(err, "", "decoding", false))
@@ -57177,7 +57332,12 @@ func UnmarshalBERMSExternalClientList(data []byte, opts ...ber.DecodeOption) (re
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSExternalClientList", qualifyBERError(err, "", "decoding", false))
@@ -57315,7 +57475,12 @@ func UnmarshalBERMSPLMNClientList(data []byte, opts ...ber.DecodeOption) (return
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSPLMNClientList", qualifyBERError(err, "", "decoding", false))
@@ -57463,7 +57628,12 @@ func UnmarshalBERMSExtExternalClientList(data []byte, opts ...ber.DecodeOption) 
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSExtExternalClientList", qualifyBERError(err, "", "decoding", false))
@@ -57967,7 +58137,12 @@ func UnmarshalBERMSServiceTypeList(data []byte, opts ...ber.DecodeOption) (retur
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSServiceTypeList", qualifyBERError(err, "", "decoding", false))
@@ -58471,7 +58646,12 @@ func UnmarshalBERMSMOLRList(data []byte, opts ...ber.DecodeOption) (returnValue 
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSMOLRList", qualifyBERError(err, "", "decoding", false))
@@ -58937,7 +59117,12 @@ func UnmarshalBERMSZoneCodeList(data []byte, opts ...ber.DecodeOption) (returnVa
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSZoneCodeList", qualifyBERError(err, "", "decoding", false))
@@ -62357,7 +62542,12 @@ func UnmarshalBERMSContextIdList(data []byte, opts ...ber.DecodeOption) (returnV
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSContextIdList", qualifyBERError(err, "", "decoding", false))
@@ -62680,7 +62870,12 @@ func UnmarshalBERMSLSAIdentityList(data []byte, opts ...ber.DecodeOption) (retur
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSLSAIdentityList", qualifyBERError(err, "", "decoding", false))
@@ -62833,7 +63028,12 @@ func UnmarshalBERMSBasicServiceList(data []byte, opts ...ber.DecodeOption) (retu
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSBasicServiceList", qualifyBERError(err, "", "decoding", false))
@@ -64266,7 +64466,12 @@ func UnmarshalBERMSMTSmsCAMELTDPCriteriaList(data []byte, opts ...ber.DecodeOpti
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSMTSmsCAMELTDPCriteriaList", qualifyBERError(err, "", "decoding", false))
@@ -64687,7 +64892,12 @@ func UnmarshalBERMSTPDUTypeCriterion(data []byte, opts ...ber.DecodeOption) (ret
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSTPDUTypeCriterion", qualifyBERError(err, "", "decoding", false))
@@ -65309,7 +65519,12 @@ func UnmarshalBERMSDPAnalysedInfoCriteriaList(data []byte, opts ...ber.DecodeOpt
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSDPAnalysedInfoCriteriaList", qualifyBERError(err, "", "decoding", false))
@@ -66518,7 +66733,12 @@ func UnmarshalBERMSSSEventList(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSSSEventList", qualifyBERError(err, "", "decoding", false))
@@ -67093,7 +67313,12 @@ func UnmarshalBERMSOBcsmCamelTDPDataList(data []byte, opts ...ber.DecodeOption) 
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSOBcsmCamelTDPDataList", qualifyBERError(err, "", "decoding", false))
@@ -67651,7 +67876,12 @@ func UnmarshalBERMSOBcsmCamelTDPCriteriaList(data []byte, opts ...ber.DecodeOpti
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSOBcsmCamelTDPCriteriaList", qualifyBERError(err, "", "decoding", false))
@@ -67806,7 +68036,12 @@ func UnmarshalBERMSTBCSMCAMELTDPCriteriaList(data []byte, opts ...ber.DecodeOpti
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSTBCSMCAMELTDPCriteriaList", qualifyBERError(err, "", "decoding", false))
@@ -69371,7 +69606,12 @@ func UnmarshalBERMSDestinationNumberList(data []byte, opts ...ber.DecodeOption) 
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSDestinationNumberList", qualifyBERError(err, "", "decoding", false))
@@ -69522,7 +69762,12 @@ func UnmarshalBERMSDestinationNumberLengthList(data []byte, opts ...ber.DecodeOp
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSDestinationNumberLengthList", qualifyBERError(err, "", "decoding", false))
@@ -69675,7 +69920,12 @@ func UnmarshalBERMSBasicServiceCriteria(data []byte, opts ...ber.DecodeOption) (
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSBasicServiceCriteria", qualifyBERError(err, "", "decoding", false))
@@ -69837,7 +70087,12 @@ func UnmarshalBERMSOCauseValueCriteria(data []byte, opts ...ber.DecodeOption) (r
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSOCauseValueCriteria", qualifyBERError(err, "", "decoding", false))
@@ -69997,7 +70252,12 @@ func UnmarshalBERMSTCauseValueCriteria(data []byte, opts ...ber.DecodeOption) (r
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSTCauseValueCriteria", qualifyBERError(err, "", "decoding", false))
@@ -70624,7 +70884,12 @@ func UnmarshalBERMSSMSCAMELTDPDataList(data []byte, opts ...ber.DecodeOption) (r
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSSMSCAMELTDPDataList", qualifyBERError(err, "", "decoding", false))
@@ -72224,7 +72489,12 @@ func UnmarshalBERMSMobilityTriggers(data []byte, opts ...ber.DecodeOption) (retu
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSMobilityTriggers", qualifyBERError(err, "", "decoding", false))
@@ -72799,7 +73069,12 @@ func UnmarshalBERMSTBcsmCamelTDPDataList(data []byte, opts ...ber.DecodeOption) 
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSTBcsmCamelTDPDataList", qualifyBERError(err, "", "decoding", false))
@@ -76989,7 +77264,12 @@ func UnmarshalBERMSVBSDataList(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSVBSDataList", qualifyBERError(err, "", "decoding", false))
@@ -77144,7 +77424,12 @@ func UnmarshalBERMSVGCSDataList(data []byte, opts ...ber.DecodeOption) (returnVa
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSVGCSDataList", qualifyBERError(err, "", "decoding", false))
@@ -78074,7 +78359,12 @@ func UnmarshalBERMSGroupId(data []byte, opts ...ber.DecodeOption) (returnValue *
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value MSGroupId }{}
 	decode := func() error {
 		content := data
@@ -78177,7 +78467,12 @@ func UnmarshalBERMSLongGroupId(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value MSLongGroupId }{}
 	decode := func() error {
 		content := data
@@ -80706,7 +81001,12 @@ func UnmarshalBERMSRouteingNumber(data []byte, opts ...ber.DecodeOption) (return
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value MSRouteingNumber }{}
 	decode := func() error {
 		content := data
@@ -86360,7 +86660,12 @@ func UnmarshalBERMSPDPContextInfoList(data []byte, opts ...ber.DecodeOption) (re
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSPDPContextInfoList", qualifyBERError(err, "", "decoding", false))
@@ -91378,7 +91683,12 @@ func UnmarshalBERMSExtCwFeatureList(data []byte, opts ...ber.DecodeOption) (retu
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSExtCwFeatureList", qualifyBERError(err, "", "decoding", false))
@@ -93799,7 +94109,12 @@ func UnmarshalBERMSMSISDNBSList(data []byte, opts ...ber.DecodeOption) (returnVa
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MSMSISDNBSList", qualifyBERError(err, "", "decoding", false))

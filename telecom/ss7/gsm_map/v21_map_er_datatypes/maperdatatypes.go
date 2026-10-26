@@ -2336,7 +2336,12 @@ func UnmarshalBERERPWRegistrationFailureCause(data []byte, opts ...ber.DecodeOpt
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value ERPWRegistrationFailureCause }{}
 	decode := func() error {
 		content := data

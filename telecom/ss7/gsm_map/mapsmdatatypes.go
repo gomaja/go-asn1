@@ -7924,7 +7924,12 @@ func UnmarshalBERSMServingNodeAddressList(data []byte, opts ...ber.DecodeOption)
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding SMServingNodeAddressList", qualifyBERError(err, "", "decoding", false))
@@ -11272,7 +11277,12 @@ func UnmarshalBERDispatcherList(data []byte, opts ...ber.DecodeOption) (returnVa
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding DispatcherList", qualifyBERError(err, "", "decoding", false))
@@ -11447,7 +11457,12 @@ func UnmarshalBERAdditionalDispatcherList(data []byte, opts ...ber.DecodeOption)
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding AdditionalDispatcherList", qualifyBERError(err, "", "decoding", false))

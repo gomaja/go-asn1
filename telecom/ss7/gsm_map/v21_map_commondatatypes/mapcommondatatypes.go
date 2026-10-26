@@ -990,7 +990,12 @@ func UnmarshalBERCommonDataTypesISDNAddressString(data []byte, opts ...ber.Decod
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct {
 		Value CommonDataTypesISDNAddressString
 	}{}
@@ -1114,7 +1119,12 @@ func UnmarshalBERCommonDataTypesFTNAddressString(data []byte, opts ...ber.Decode
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct {
 		Value CommonDataTypesFTNAddressString
 	}{}
@@ -2034,7 +2044,12 @@ func UnmarshalBERCommonDataTypesIMSI(data []byte, opts ...ber.DecodeOption) (ret
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value CommonDataTypesIMSI }{}
 	decode := func() error {
 		content := data
@@ -2526,7 +2541,12 @@ func UnmarshalBERCommonDataTypesASCICallReference(data []byte, opts ...ber.Decod
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct {
 		Value CommonDataTypesASCICallReference
 	}{}
@@ -2814,7 +2834,12 @@ func UnmarshalBERCommonDataTypesIMEI(data []byte, opts ...ber.DecodeOption) (ret
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value CommonDataTypesIMEI }{}
 	decode := func() error {
 		content := data
@@ -2917,7 +2942,12 @@ func UnmarshalBERCommonDataTypesHLRId(data []byte, opts ...ber.DecodeOption) (re
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value CommonDataTypesHLRId }{}
 	decode := func() error {
 		content := data
@@ -3066,7 +3096,12 @@ func UnmarshalBERCommonDataTypesHLRList(data []byte, opts ...ber.DecodeOption) (
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding CommonDataTypesHLRList", qualifyBERError(err, "", "decoding", false))
