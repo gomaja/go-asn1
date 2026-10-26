@@ -3,6 +3,7 @@ package lppa
 import (
 	"bytes"
 	"errors"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
 
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
@@ -167,9 +168,9 @@ func TestMalformedKnownIEIsAnError(t *testing.T) {
 	opaque := aper.NewOpaqueOpenType([]byte{0xff})
 	malformed := func() ECIDMeasurementInitiationRequestIEValue {
 		sealed := ECIDMeasurementInitiationRequestIEValue{}
-		*s21.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = 2
-		*s21.BridgeECIDMeasurementInitiationRequestIEValueFieldIsOpaque(&sealed) = true
-		*s21.BridgeECIDMeasurementInitiationRequestIEValueFieldOpaque(&sealed) = &opaque
+		*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = 2
+		*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldIsOpaque(&sealed) = true
+		*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldOpaque(&sealed) = &opaque
 		return sealed
 	}()
 	body := ECIDMeasurementInitiationRequest{ProtocolIEs: ECIDMeasurementInitiationRequestIEContainer{{Id: 2, Criticality: CriticalityReject, Value: malformed}}}

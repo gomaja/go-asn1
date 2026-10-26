@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
 )
 
-func privateMessageIEsValuePrivateIEFieldfreshMust(value s00.PrivateMessageIEsValuePrivateIEField, err error) s00.PrivateMessageIEsValuePrivateIEField {
+func resourceStatusUpdateIEFieldfreshMust(value s17.ResourceStatusUpdateIEField, err error) s17.ResourceStatusUpdateIEField {
 	if err != nil {
 		panic(err)
 	}

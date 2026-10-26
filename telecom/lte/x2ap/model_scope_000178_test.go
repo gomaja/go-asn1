@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
 )
 
-func x2APPDUapiMust(v s20.X2APPDU, err error) s20.X2APPDU {
+func enGNBENDCX2RemovalReqAckIEFieldapiMust(v s07.EnGNBENDCX2RemovalReqAckIEField, err error) s07.EnGNBENDCX2RemovalReqAckIEField {
 	if err != nil {
 		panic(err)
 	}

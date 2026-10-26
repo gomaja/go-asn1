@@ -3,12 +3,12 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 )
 
-func initiatingMessagefreshMust(value s20.InitiatingMessage, err error) s20.InitiatingMessage {
+func eNBIDapiMust(v s00.ENBID, err error) s00.ENBID {
 	if err != nil {
 		panic(err)
 	}
-	return value
+	return v
 }

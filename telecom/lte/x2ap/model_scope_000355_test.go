@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func eNDCX2RemovalRequestIEFieldfreshMust(value s07.ENDCX2RemovalRequestIEField, err error) s07.ENDCX2RemovalRequestIEField {
+func eUTRANRCellResourceCoordinationRequestfreshMust(value s19.EUTRANRCellResourceCoordinationRequest, err error) s19.EUTRANRCellResourceCoordinationRequest {
 	if err != nil {
 		panic(err)
 	}

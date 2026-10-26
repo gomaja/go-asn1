@@ -1,12 +1,11 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits.go; SHA-256 66bcb3c9559e8506d9dc440c3bb90308ce1d2588bc1fc9141c53f1199d8401e0.
+// Runtime source: runtime/aper/decode_limits.go; SHA-256 977af4c12a8d4a788d86128bc6784401e9974737a67dd4718936695f266e4971.
 package aper
 
 import "fmt"
 
-// decodeLimits is private instrumentation for the retained recovery/refusal
-// harness. Complete source codecs always use Limits and DefaultLimits.
+// decodeLimits is private instrumentation for low-level reader limits. Complete source codecs always use Limits and DefaultLimits.
 type decodeLimits struct {
 	MaxDepth         int // nested generated values, including the root
 	MaxElements      int // sum of all SEQUENCE OF and SET OF element counts
@@ -14,7 +13,7 @@ type decodeLimits struct {
 	MaxWork          int // total bits examined, including nested rereads
 }
 
-// defaultLegacyLimits preserves the private recovery harness accounting.
+// defaultLegacyLimits preserves low-level reader accounting.
 func defaultLegacyLimits() decodeLimits {
 	return decodeLimits{MaxDepth: 128, MaxElements: 100000, MaxOpenTypeDepth: 128, MaxWork: 64 << 20}
 }
@@ -184,8 +183,8 @@ func (bb *BitBuffer) LeaveOpenType() {
 	}
 }
 
-func (bb *BitBuffer) InheritOpenTypedecodeSettings(parent *BitBuffer) error {
-	bb.InheritdecodeSettings(parent)
+func (bb *BitBuffer) InheritOpenTypeDecodeOptions(parent *BitBuffer) error {
+	bb.InheritDecodeOptions(parent)
 	return bb.EnterOpenType()
 }
 

@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/owned_fragments.go; SHA-256 e61b91d8a947160ef1e8e5f2a5eac5b8ca8a730a7675cd613bb148e8dfc2cc6b.
+// Runtime source: runtime/aper/owned_fragments.go; SHA-256 4695c92ad610b0d950bd846c5bfbe38554501c1fd0ffa72808065807c977e966.
 package aper
 
 import (
@@ -132,7 +132,7 @@ func decodeOwnedOpaque(bb *BitBuffer, reason OpaqueReason, rule SourceRule) (Opa
 			return ErrTruncated
 		}
 		bitStart := bb.BitPos()
-		if err := bb.examineRecoveryBits(uint64(n) * 8); err != nil {
+		if err := bb.examineReadBits(uint64(n) * 8); err != nil {
 			return err
 		}
 		bb.bitPos += int(n) * 8

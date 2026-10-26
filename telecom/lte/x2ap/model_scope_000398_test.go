@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 )
 
-func sCGFailureInformationReportfreshMust(value s20.SCGFailureInformationReport, err error) s20.SCGFailureInformationReport {
+func cPCCancelIEFieldfreshMust(value s11.CPCCancelIEField, err error) s11.CPCCancelIEField {
 	if err != nil {
 		panic(err)
 	}

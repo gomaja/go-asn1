@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/owned_fragments.go; SHA-256 279ea5591662880bccda3fc27944a3ab222fa3726f39b04820a4553abcd4a99d.
+// Runtime source: runtime/aper/owned_fragments.go; SHA-256 88f4f832a63c0a17aede8e73f230db5478f5297b2c2c6b91860dee61f60efa32.
 package aper
 
 import (
@@ -141,7 +141,7 @@ func decodeOwnedOpaque(bb *BitBuffer, reason OpaqueReason, rule SourceRule) (res
 			return fmt.Errorf("%w: fragment requires %d octets with %d bits remaining", ErrTruncated, n, bb.BitsRemaining())
 		}
 		bitStart := bb.BitPos()
-		if err := bb.examineRecoveryBits(uint64(n) * 8); err != nil {
+		if err := bb.examineReadBits(uint64(n) * 8); err != nil {
 			return err
 		}
 		bb.bitPos += int(n) * 8

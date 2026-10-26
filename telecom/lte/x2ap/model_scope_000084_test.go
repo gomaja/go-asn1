@@ -3,32 +3,39 @@
 package x2ap
 
 import (
-	bytes "bytes"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	testing "testing"
 )
 
-// X.691 (02/2021) §14.3: an unrecognized extension index is legal.
-func TestUnknownEnumerationObservation(t *testing.T) {
-	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		value, report, err := s06.TimeToWaitCodec().DecodeAPER([]byte{0x80}, options...)
-		if err != nil || value.Value != s00.TimeToWait(6) || len(report.Observations) != 1 || len(report.Deviations) != 0 {
-			t.Fatalf("unknown enum value=%v report=%+v err=%v", value.Value, report, err)
-		}
-		observation := report.Observations[0]
-		if observation.Kind != aper.UnknownExtension || observation.Rule.Clause != "§14.3" || !observation.Location.HasWireLocation || observation.Location.Path == "" {
-			t.Fatalf("observation=%+v", observation)
-		}
-		replay, err := s06.TimeToWaitCodec().EncodeAPER(value)
-		if err != nil || !bytes.Equal(replay, []byte{0x80}) {
-			t.Fatalf("replay=%x err=%v", replay, err)
-		}
-		// CauseRadioNetwork has the known NR addition.
-		_, report, err = s00.CauseRadioNetworkCodec().DecodeAPER([]byte{0x80}, options...)
-		if err != nil || len(report.Observations) != 0 {
-			t.Fatalf("known enum report=%+v err=%v", report, err)
-		}
+func TestValidationHandlingProvenance(t *testing.T) {
+	field, err := s11.ErrorIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := s19.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
+	report, err := s19.ValidateErrorIndication(&body)
+	if err != nil || len(report.Issues) != 1 {
+		t.Fatalf("report=%+v err=%v", report, err)
+	}
+	issue := report.Issues[0]
+	if issue.Code != s00.NotAllowed || issue.Severity != s00.ValidationSeverityUnrecognized || len(issue.RelatedRules) != 2 || issue.RelatedRules[0].Clause != "§10.3.1" || issue.RelatedRules[1].Clause != "§10.3.4.2" {
+		t.Fatalf("handling: %+v", issue)
+	}
+	message, err := s18.NewOpaqueSuccessfulOutcome(3, s00.CriticalityIgnore, []byte{0})
+	if err != nil {
+		t.Fatal(err)
+	}
+	pdu := s19.X2APPDU{Choice: s00.X2APPDUChoiceSuccessfulOutcome, SuccessfulOutcome: &message}
+	report, err = s20.ValidateMessage(&pdu)
+	if err != nil || len(report.Issues) != 1 {
+		t.Fatalf("outcome report=%+v err=%v", report, err)
+	}
+	issue = report.Issues[0]
+	if issue.Code != s00.UnavailableOutcome || len(issue.RelatedRules) != 2 || issue.RelatedRules[0].Clause != "§10.3.4.1" || issue.RelatedRules[1].Clause != "§10.3.4.1A" {
+		t.Fatalf("outcome handling: %+v", issue)
 	}
 }

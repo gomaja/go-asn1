@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
 )
 
-func x2RemovalRequestfreshMust(value s20.X2RemovalRequest, err error) s20.X2RemovalRequest {
+func seNBReleaseConfirmIEFieldfreshMust(value s15.SeNBReleaseConfirmIEField, err error) s15.SeNBReleaseConfirmIEField {
 	if err != nil {
 		panic(err)
 	}

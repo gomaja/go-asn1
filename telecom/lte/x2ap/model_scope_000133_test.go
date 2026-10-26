@@ -5,43 +5,52 @@ package x2ap
 import (
 	bytes "bytes"
 	hex "encoding/hex"
-	errors "errors"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
-	reflect "reflect"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
+	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
+	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
+	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
+	math "math"
+	big "math/big"
 	testing "testing"
 )
 
-func TestRecordedTerminalPaddingTwoOccurrences(t *testing.T) {
-	// Repeated IEs are a separate validation matter. Wire decoding remains lossless.
-	canonical, err := hex.DecodeString("000340080000010011400100")
-	if err != nil {
-		t.Fatal(err)
+// Complete encodings independently checked against the pinned source model.
+func TestSourceScalarOracleEncodings(t *testing.T) {
+	rows := []struct {
+		name, hex string
+		encode    func() []byte
+	}{
+		{"octets", "03010203", func() []byte {
+			return listByteapiMust(s13.X2APMessageCodec().EncodeAPER(x2APMessageAPERValueapiMust(s13.X2APMessageCodec().New([]byte{1, 2, 3}))))
+		}},
+		{"bits", "0180a0", func() []byte {
+			return listByteapiMust(s09.TransportLayerAddressCodec().EncodeAPER(transportLayerAddressAPERValueapiMust(s09.TransportLayerAddressCodec().New(runtime.BitString{Bytes: []byte{0xa0}, BitLength: 4}))))
+		}},
+		{"integer", "80110400000000000000000000000000000000", func() []byte {
+			return listByteapiMust(s00.CellCapacityClassValueCodec().EncodeAPER(cellCapacityClassValueAPERValueapiMust(s00.CellCapacityClassValueCodec().New(new(big.Int).Lsh(big.NewInt(1), 130)))))
+		}},
+		{"disjoint-integer", "1380", func() []byte {
+			return listByteapiMust(s00.ExpectedActivityPeriodCodec().EncodeAPER(expectedActivityPeriodAPERValueapiMust(s00.ExpectedActivityPeriodCodec().New(big.NewInt(40)))))
+		}},
+		{"visible-string", "1668747470733a2f2f7265662e696e76616c69642f7832", func() []byte {
+			return listByteapiMust(s16.URIAddressCodec().EncodeAPER(uRIAddressAPERValueapiMust(s16.URIAddressCodec().New("https://ref.invalid/x2"))))
+		}},
+		{"uint64", "000000000000000000e0ffffffffffffffffe08000000000000000", func() []byte {
+			return listByteapiMust(s06.ERABUsageReportItemCodec().EncodeAPER(eRABUsageReportItemAPERValueapiMust(s06.ERABUsageReportItemCodec().New(s04.ERABUsageReportItem{StartTimeStamp: make([]byte, 4), EndTimeStamp: make([]byte, 4), UsageCountUL: math.MaxUint64, UsageCountDL: 1 << 63}))))
+		}},
 	}
-	prefix := len(canonical) - 8
-	wire := append(bytes.Clone(canonical[:prefix]), append([]byte{0, 0, 2}, append(bytes.Clone(canonical[len(canonical)-5:]), canonical[len(canonical)-5:]...)...)...)
-	wire[prefix-1] = 13
-	wire[len(wire)-1] |= 1
-	wire[len(wire)-6] |= 1
-	var value s20.X2APPDU
-	report, err := value.UnmarshalAPER(wire, aper.WithNonzeroTerminalPadding())
-	if err != nil || len(report.Observations) != 2 || len(report.Deviations) != 0 {
-		t.Fatalf("two occurrences: wire=%x report=%+v error=%v", wire, report, err)
-	}
-	for i, observation := range report.Observations {
-		end := uint64(len(wire)-5+5*i) * 8
-		want := aper.Location{Path: aper.Path([]string{"X2APPDU.InitiatingMessage.Value.ProtocolIEs[0].Value", "X2APPDU.InitiatingMessage.Value.ProtocolIEs[1].Value"}[i]), HasWireLocation: true, Spans: []aper.BitSpan{{Start: end - 2, End: end}}}
-		if !reflect.DeepEqual(observation.Location, want) || observation.Kind != aper.NonzeroTerminalPadding || observation.PaddingCount != 2 || observation.PaddingBits != 1 || observation.Rule.Clause != "§11.2.1" {
-			t.Fatalf("occurrence %d: %+v want=%+v", i, observation, want)
-		}
-	}
-	replay, err := value.MarshalAPER()
-	if err != nil || !bytes.Equal(replay, wire) {
-		t.Fatalf("two-value replay=%x %v", replay, err)
-	}
-	var limited s20.X2APPDU
-	report, err = limited.UnmarshalAPER(wire, aper.WithNonzeroTerminalPadding(), aper.WithLimits(aper.Limits{MaxReports: 1}))
-	if !errors.Is(err, aper.ErrLimit) || len(report.Observations) != 1 || limited.InitiatingMessage != nil {
-		t.Fatalf("report limit: %+v %v", report, err)
+	for _, row := range rows {
+		t.Run(row.name, func(t *testing.T) {
+			want, err := hex.DecodeString(row.hex)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if got := row.encode(); !bytes.Equal(got, want) {
+				t.Fatalf("source encoding=%x want=%x", got, want)
+			}
+		})
 	}
 }

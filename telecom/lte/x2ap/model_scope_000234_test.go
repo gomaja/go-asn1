@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
 )
 
-func mobilityChangeFailurefreshMust(value s14.MobilityChangeFailure, err error) s14.MobilityChangeFailure {
+func mobilityChangeRequestIEFieldfreshMust(value s07.MobilityChangeRequestIEField, err error) s07.MobilityChangeRequestIEField {
 	if err != nil {
 		panic(err)
 	}

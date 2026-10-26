@@ -3,25 +3,14 @@
 package x2ap
 
 import (
-	bytes "bytes"
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	math "math"
 	testing "testing"
 )
 
-func TestUnchangedLargeValueCopiesOnlyItsResult(t *testing.T) {
-	wire := replayListWire(t, 128)
-	var value s14.CriticalityDiagnosticsIEListComplete
-	if _, err := value.UnmarshalAPER(wire); err != nil {
-		t.Fatal(err)
-	}
-	allocations := testing.AllocsPerRun(20, func() {
-		out, err := value.MarshalAPER()
-		if err != nil || !bytes.Equal(out, wire) {
-			panic("large replay differs")
-		}
-	})
-	t.Logf("unchanged large encode=%v", allocations)
-	if allocations != 1 {
-		t.Fatalf("unchanged encode allocates %v, want one result", allocations)
-	}
+func TestUint64ReplayEditRestore(t *testing.T) {
+	// TS 36.423 V19.1.0 §9.3.5 gives both counters the full unsigned root.
+	initial := s04.ERABUsageReportItem{StartTimeStamp: make([]byte, 4), EndTimeStamp: make([]byte, 4), UsageCountUL: math.MaxUint64, UsageCountDL: 1 << 63}
+	eRABUsageReportItemsemanticEditRestore(t, s06.ERABUsageReportItemCodec(), initial, func(v *s04.ERABUsageReportItem) { v.UsageCountUL = math.MaxUint64 - 1 }, func(v *s04.ERABUsageReportItem) { v.UsageCountUL = math.MaxUint64 })
 }

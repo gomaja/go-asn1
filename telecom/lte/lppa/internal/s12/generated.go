@@ -166,6 +166,40 @@ func BridgeResultRSRPItemExtIEsValueCompareLPPaProtocolExtensionContainer(v *s04
 		s.End(f, aper.Snapshot{}, false)
 	}
 }
+func BridgeResultRSRQItemExtIEsValueCaptureLPPaProtocolExtensionContainer(v *s04.ResultRSRQItemExtIEsExtContainer, s *aper.SemanticCapture) {
+	if s.Failed() {
+		return
+	}
+	{
+		f := s.Begin()
+		s.Uint(uint64(len((*v))))
+		s.Elements(uint64(len((*v))))
+		for i := range *v {
+			if s.Failed() {
+				break
+			}
+			BridgeResultRSRQItemExtIEsValueCaptureLPPaProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+}
+func BridgeResultRSRQItemExtIEsValueCompareLPPaProtocolExtensionContainer(v *s04.ResultRSRQItemExtIEsExtContainer, s *aper.SemanticComparison) {
+	if s.Failed() {
+		return
+	}
+	{
+		f := s.Begin()
+		s.Uint(uint64(len((*v))))
+		s.Elements(uint64(len((*v))))
+		for i := range *v {
+			if s.Failed() {
+				break
+			}
+			BridgeResultRSRQItemExtIEsValueCompareLPPaProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+}
 
 // OTDOAInformationFailureValueCodec is the concrete ValueCodec[OTDOAInformationFailure].
 type OTDOAInformationFailureValueCodec struct {
@@ -1048,6 +1082,24 @@ func BridgeResultGERANItemExtIEsValueValidateLPPaExtensionContainer(fields s04.R
 	}
 	return BridgeResultGERANItemExtIEsValueValidateLPPaIEContainer(asIE, rows, path, budget)
 }
+func BridgeResultRSRPItemExtIEsValueValidateLPPaExtensionContainer(fields s04.ResultRSRPItemExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s09.ValidationReport {
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s04.ResultRSRPItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldErr(&sealed) = err
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
+			return sealed
+		}()
+	}
+	asIE := make(s04.ResultRSRPItemExtIEsIEContainer, len(fields))
+	for i := range fields {
+		asIE[i].Id = fields[i].Id
+		asIE[i].Criticality = fields[i].Criticality
+		asIE[i].Value = fields[i].ExtensionValue
+	}
+	return BridgeResultRSRPItemExtIEsValueValidateLPPaIEContainer(asIE, rows, path, budget)
+}
 
 // oTDOAInformationFailureIEValueProtocolOpenValue is the concrete protocolOpenValue[OTDOAInformationFailureIEValue].
 type OTDOAInformationFailureIEValueProtocolOpenValueConstraint interface {
@@ -1266,6 +1318,32 @@ func BridgeResultRSRPItemExtIEsValueCompareLPPaProtocolExtensionField(v *s04.Res
 
 	*s = s03.BridgeResultRSRPItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s04.BridgeResultRSRPItemExtIEsExtFieldFieldReplay(v), *s04.BridgeResultRSRPItemExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeResultRSRQItemExtIEsValueCaptureLPPaProtocolExtensionField(v *s04.ResultRSRQItemExtIEsExtField, s *aper.SemanticCapture) {
+	if s.Failed() {
+		return
+	}
+	f := s.Begin()
+	s.Value()
+	s.Stream(*s04.BridgeResultRSRQItemExtIEsExtFieldFieldStream(v))
+	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
+	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
+	s.OpenBytes(s03.BridgeResultRSRQItemExtIEsValueMethodCaptureFraming(v.ExtensionValue))
+	v.ExtensionValue = s03.BridgeResultRSRQItemExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
+	s.Child(s03.BridgeResultRSRQItemExtIEsValueMethodCaptureSnapshot(v.ExtensionValue))
+	s.End(f, s04.BridgeResultRSRQItemExtIEsExtFieldFieldReplay(v), *s04.BridgeResultRSRQItemExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeResultRSRQItemExtIEsValueCompareLPPaProtocolExtensionField(v *s04.ResultRSRQItemExtIEsExtField, s *aper.SemanticComparison) {
+	if s.Failed() {
+		return
+	}
+	f := s.Begin()
+	s.Value()
+	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
+	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
+
+	*s = s03.BridgeResultRSRQItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s04.BridgeResultRSRQItemExtIEsExtFieldFieldReplay(v), *s04.BridgeResultRSRQItemExtIEsExtFieldFieldWithoutReplay(v))
 }
 
 // OTDOAInformationFailureAPERValue is the concrete APERValue[OTDOAInformationFailure].
@@ -1928,6 +2006,93 @@ func BridgeResultGERANItemExtIEsValueValidateLPPaIEContainer(fields s04.ResultGE
 	return report
 }
 
+// TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
+// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
+// not determine the order of known rows.
+func BridgeResultRSRPItemExtIEsValueValidateLPPaIEContainer(fields s04.ResultRSRPItemExtIEsIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
+
+) s09.ValidationReport {
+	report := func() s09.ValidationReport {
+		sealed := s09.ValidationReport{Complete: true}
+		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
+		return sealed
+	}()
+	bb := aper.NewBudgetBuffer(budget)
+	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
+		*s09.BridgeValidationReportFieldErr(&report) = err
+		return report
+	}
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
+	for i, row := range rows {
+		byID[row.ID] = i
+	}
+	lastRank := -1
+	for i, field := range fields {
+		if *s09.BridgeValidationReportFieldErr(&report) != nil {
+			return report
+		}
+		if err := bb.ChargeWork(1); err != nil {
+			*s09.BridgeValidationReportFieldErr(&report) = err
+			return report
+		}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
+		if !s03.BridgeResultRSRPItemExtIEsValueMethodMatchesID(field.Value, field.Id, budget) {
+			rule := s03.BridgeResultRSRPItemExtIEsValueMethodRule(field.Value)
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
+				sealed := s00.TableID{}
+				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
+				return sealed
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+		}
+		rank, allowed := byID[field.Id]
+		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
+			// including repetition of unknown selectors.
+			counts, field.Id)
+		if counts[field.Id] > 1 {
+			var row s00.FieldInfo
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			if allowed {
+				row = rows[rank]
+				related = append(related, row.Rule)
+			}
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+		}
+		if !allowed {
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
+			}
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
+			continue
+		}
+		row := rows[rank]
+		if field.Criticality != row.Criticality {
+			expected, received := row.Criticality, field.Criticality
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+		}
+		if rank < lastRank {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+		} else {
+			lastRank = rank
+		}
+	}
+	for _, row := range rows {
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+		}
+		if row.Presence == s00.PresenceConditional {
+			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s09.BridgeValidationReportFieldErr(&report) != nil {
+				return report
+			}
+			report.Complete = false
+		}
+	}
+	return report
+}
+
 // NewPrivateIEIDLocal creates a PrivateIEID with the local alternative.
 func BridgeNewPrivateIEIDLocalLegacy(v int64) s08.PrivateIEID {
 	return s08.PrivateIEID{
@@ -1978,14 +2143,6 @@ func BridgeNewPRSMutingConfigurationTwoLegacy(v runtime.BitString) s08.PRSMuting
 	}
 }
 
-// NewPRSMutingConfigurationFour creates a PRSMutingConfiguration with the four alternative.
-func BridgeNewPRSMutingConfigurationFourLegacy(v runtime.BitString) s08.PRSMutingConfiguration {
-	return s08.PRSMutingConfiguration{
-		Choice: s00.PRSMutingConfigurationChoiceFour,
-		Four:   &v,
-	}
-}
-
 // NewPRSMutingConfigurationSixteen creates a PRSMutingConfiguration with the sixteen alternative.
 func BridgeNewPRSMutingConfigurationSixteenLegacy(v runtime.BitString) s08.PRSMutingConfiguration {
 	return s08.PRSMutingConfiguration{
@@ -2023,14 +2180,6 @@ func BridgeNewPRSMutingConfigurationTwoHundredAndFiftySixLegacy(v runtime.BitStr
 	return s08.PRSMutingConfiguration{
 		Choice:                s00.PRSMutingConfigurationChoiceTwoHundredAndFiftySix,
 		TwoHundredAndFiftySix: &v,
-	}
-}
-
-// NewPRSMutingConfigurationFiveHundredAndTwelve creates a PRSMutingConfiguration with the five-hundred-and-twelve alternative.
-func BridgeNewPRSMutingConfigurationFiveHundredAndTwelveLegacy(v runtime.BitString) s08.PRSMutingConfiguration {
-	return s08.PRSMutingConfiguration{
-		Choice:               s00.PRSMutingConfigurationChoiceFiveHundredAndTwelve,
-		FiveHundredAndTwelve: &v,
 	}
 }
 
@@ -2189,7 +2338,6 @@ func (v *ResultRSRPItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error 
 	}
 	defer bb.LeaveDecodeValue()
 
-	recoveryStart := bb.BitsWritten()
 	hasExtensions := false
 	for _, present := range v.extPresent {
 		hasExtensions = hasExtensions || present
@@ -2240,14 +2388,14 @@ func (v *ResultRSRPItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error 
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2257,7 +2405,7 @@ func (v *ResultRSRPItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error 
 				return err
 			}
 		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2273,8 +2421,6 @@ func (v *ResultRSRPItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error 
 			}
 		}
 	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
@@ -2282,11 +2428,6 @@ func (v *ResultRSRPItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error 
 func (v *ResultRSRPItem) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ResultRSRPItem with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *ResultRSRPItem) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -2300,7 +2441,7 @@ func (v *ResultRSRPItem) unmarshalAPERWithOptions(data []byte, options aper.Deco
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultRSRPItem")
 	}
-	v.perPadding = padding.WithRecords(v.perPadding)
+	v.perPadding = padding
 	return nil
 }
 func (v *ResultRSRPItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
@@ -2312,7 +2453,7 @@ func (v *ResultRSRPItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ResultRSRPItem{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
+	var extAdditions aper.ExtensionAdditions
 	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2357,7 +2498,7 @@ func (v *ResultRSRPItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.ResultRSRPItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2388,7 +2529,7 @@ func (v *ResultRSRPItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2405,12 +2546,12 @@ func (v *ResultRSRPItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
+			if extPresent[i] {
 				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.5"})
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2425,14 +2566,6 @@ func (v *ResultRSRPItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 				v.extOrigin[i] = opaque.Origin()
 			}
 		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 	v.
@@ -2512,7 +2645,6 @@ func (v *ResultGERANItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error
 	}
 	defer bb.LeaveDecodeValue()
 
-	recoveryStart := bb.BitsWritten()
 	hasExtensions := false
 	for _, present := range v.extPresent {
 		hasExtensions = hasExtensions || present
@@ -2555,14 +2687,14 @@ func (v *ResultGERANItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2572,7 +2704,7 @@ func (v *ResultGERANItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error
 				return err
 			}
 		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2588,8 +2720,6 @@ func (v *ResultGERANItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error
 			}
 		}
 	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
@@ -2597,11 +2727,6 @@ func (v *ResultGERANItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error
 func (v *ResultGERANItem) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ResultGERANItem with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *ResultGERANItem) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -2615,7 +2740,7 @@ func (v *ResultGERANItem) unmarshalAPERWithOptions(data []byte, options aper.Dec
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultGERANItem")
 	}
-	v.perPadding = padding.WithRecords(v.perPadding)
+	v.perPadding = padding
 	return nil
 }
 func (v *ResultGERANItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
@@ -2627,7 +2752,7 @@ func (v *ResultGERANItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ResultGERANItem{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
+	var extAdditions aper.ExtensionAdditions
 	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2656,7 +2781,7 @@ func (v *ResultGERANItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.ResultGERANItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2687,7 +2812,7 @@ func (v *ResultGERANItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2704,12 +2829,12 @@ func (v *ResultGERANItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
+			if extPresent[i] {
 				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.5"})
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2724,14 +2849,6 @@ func (v *ResultGERANItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 				v.extOrigin[i] = opaque.Origin()
 			}
 		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 	v.
@@ -3101,19 +3218,6 @@ func NewPRSMutingConfigurationTwo(v runtime.BitString, options ...aper.BuildOpti
 	return value, aper.OperationError(nil, "PRSMutingConfigurationTwo")
 }
 
-// NewPRSMutingConfigurationFour constructs a checked complete value.
-func NewPRSMutingConfigurationFour(v runtime.BitString, options ...aper.BuildOption) (s08.PRSMutingConfiguration, error) {
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return s08.PRSMutingConfiguration{}, aper.OperationError(err, "PRSMutingConfigurationFour")
-	}
-	value := BridgeNewPRSMutingConfigurationFourLegacy(v)
-	if _, err := s08.BridgePRSMutingConfigurationMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return s08.PRSMutingConfiguration{}, aper.OperationError(err, "PRSMutingConfigurationFour")
-	}
-	return value, aper.OperationError(nil, "PRSMutingConfigurationFour")
-}
-
 // NewPRSMutingConfigurationSixteen constructs a checked complete value.
 func NewPRSMutingConfigurationSixteen(v runtime.BitString, options ...aper.BuildOption) (s08.PRSMutingConfiguration, error) {
 	budget, err := aper.BuildBudget(options...)
@@ -3177,19 +3281,6 @@ func NewPRSMutingConfigurationTwoHundredAndFiftySix(v runtime.BitString, options
 		return s08.PRSMutingConfiguration{}, aper.OperationError(err, "PRSMutingConfigurationTwoHundredAndFiftySix")
 	}
 	return value, aper.OperationError(nil, "PRSMutingConfigurationTwoHundredAndFiftySix")
-}
-
-// NewPRSMutingConfigurationFiveHundredAndTwelve constructs a checked complete value.
-func NewPRSMutingConfigurationFiveHundredAndTwelve(v runtime.BitString, options ...aper.BuildOption) (s08.PRSMutingConfiguration, error) {
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return s08.PRSMutingConfiguration{}, aper.OperationError(err, "PRSMutingConfigurationFiveHundredAndTwelve")
-	}
-	value := BridgeNewPRSMutingConfigurationFiveHundredAndTwelveLegacy(v)
-	if _, err := s08.BridgePRSMutingConfigurationMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return s08.PRSMutingConfiguration{}, aper.OperationError(err, "PRSMutingConfigurationFiveHundredAndTwelve")
-	}
-	return value, aper.OperationError(nil, "PRSMutingConfigurationFiveHundredAndTwelve")
 }
 
 // NewPRSMutingConfigurationOneThousandAndTwentyFour constructs a checked complete value.
@@ -3336,7 +3427,6 @@ func (v *OTDOAInformationFailure) marshalAPERTo(bb *aper.BitBuffer, fresh ...boo
 	}
 	defer bb.LeaveDecodeValue()
 
-	recoveryStart := bb.BitsWritten()
 	hasExtensions := false
 	for _, present := range v.extPresent {
 		hasExtensions = hasExtensions || present
@@ -3364,14 +3454,14 @@ func (v *OTDOAInformationFailure) marshalAPERTo(bb *aper.BitBuffer, fresh ...boo
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3381,7 +3471,7 @@ func (v *OTDOAInformationFailure) marshalAPERTo(bb *aper.BitBuffer, fresh ...boo
 				return err
 			}
 		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3397,8 +3487,6 @@ func (v *OTDOAInformationFailure) marshalAPERTo(bb *aper.BitBuffer, fresh ...boo
 			}
 		}
 	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
@@ -3406,11 +3494,6 @@ func (v *OTDOAInformationFailure) marshalAPERTo(bb *aper.BitBuffer, fresh ...boo
 func (v *OTDOAInformationFailure) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes OTDOAInformationFailure with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *OTDOAInformationFailure) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -3424,7 +3507,7 @@ func (v *OTDOAInformationFailure) unmarshalAPERWithOptions(data []byte, options 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationFailure")
 	}
-	v.perPadding = padding.WithRecords(v.perPadding)
+	v.perPadding = padding
 	return nil
 }
 func (v *OTDOAInformationFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
@@ -3436,7 +3519,7 @@ func (v *OTDOAInformationFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = OTDOAInformationFailure{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
+	var extAdditions aper.ExtensionAdditions
 	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3444,7 +3527,7 @@ func (v *OTDOAInformationFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s10.OTDOAInformationFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3473,7 +3556,7 @@ func (v *OTDOAInformationFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3490,12 +3573,12 @@ func (v *OTDOAInformationFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
+			if extPresent[i] {
 				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.4"})
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -3510,14 +3593,6 @@ func (v *OTDOAInformationFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 				v.extOrigin[i] = opaque.Origin()
 			}
 		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 	v.stream.RecordUsage(replayUsage,
@@ -3571,7 +3646,6 @@ func (v *PrivateMessage) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error 
 	}
 	defer bb.LeaveDecodeValue()
 
-	recoveryStart := bb.BitsWritten()
 	hasExtensions := false
 	for _, present := range v.extPresent {
 		hasExtensions = hasExtensions || present
@@ -3599,14 +3673,14 @@ func (v *PrivateMessage) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error 
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3616,7 +3690,7 @@ func (v *PrivateMessage) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error 
 				return err
 			}
 		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3632,8 +3706,6 @@ func (v *PrivateMessage) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error 
 			}
 		}
 	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
@@ -3641,11 +3713,6 @@ func (v *PrivateMessage) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error 
 func (v *PrivateMessage) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes PrivateMessage with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *PrivateMessage) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -3659,7 +3726,7 @@ func (v *PrivateMessage) unmarshalAPERWithOptions(data []byte, options aper.Deco
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateMessage")
 	}
-	v.perPadding = padding.WithRecords(v.perPadding)
+	v.perPadding = padding
 	return nil
 }
 func (v *PrivateMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
@@ -3671,7 +3738,7 @@ func (v *PrivateMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = PrivateMessage{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
+	var extAdditions aper.ExtensionAdditions
 	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3679,7 +3746,7 @@ func (v *PrivateMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	toleranceMark_privateies := bb.EnterComponent("PrivateIEs")
 	v.PrivateIEs = make(s08.PrivateMessageIEsValuePrivateIEContainer, 0)
 	_, errCollection_privateies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_privateies, fragmentLength_privateies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_privateies < 0 || fragmentLength_privateies < 0 || fragmentLength_privateies > int64(^uint(0)>>1) || fragmentOffset_privateies > int64(^uint(0)>>1)-fragmentLength_privateies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3708,7 +3775,7 @@ func (v *PrivateMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3725,12 +3792,12 @@ func (v *PrivateMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
+			if extPresent[i] {
 				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.4"})
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -3745,14 +3812,6 @@ func (v *PrivateMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 				v.extOrigin[i] = opaque.Origin()
 			}
 		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 	v.stream.RecordUsage(replayUsage,

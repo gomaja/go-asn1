@@ -3,32 +3,31 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func receiverUnknownWire(t *testing.T, count int) []byte {
-	t.Helper()
-	field, err := s11.ErrorIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0})
-	if err != nil {
-		t.Fatal(err)
-	}
-	fields := make(s11.ErrorIndicationIEContainer, count)
-	for i := range fields {
-		fields[i] = field
-		fields[i], err = s11.ErrorIndicationIEs().NewOpaque(s00.ProtocolIEID(60000+i), s00.CriticalityIgnore, []byte{0})
-		if err != nil {
-			t.Fatal(err)
+// X.691 (02/2021) §§11.1.4, 11.2.1 forbid an empty complete open encoding.
+// Validation must refuse the same opaque PDU state that both encoders refuse.
+func TestPortEmptyUnknownChoiceValidationParity(t *testing.T) {
+	for _, contents := range [][]byte{nil, {}, {0}} {
+		var extension aper.ChoiceExtension
+		if len(contents) == 0 {
+			if _, err := aper.NewChoiceExtension(0, contents); err == nil {
+				t.Fatal("empty complete extension constructed")
+			}
+		} else {
+			extension = choiceExtensionapiMust(aper.NewChoiceExtension(0, contents))
+		}
+		value := s19.X2APPDU{UnknownExtension: &extension}
+		for _, options := range [][]aper.EncodeOption{nil, {aper.WithoutReplay()}} {
+			_, encodeErr := value.MarshalAPER(options...)
+			report, err := s20.ValidateMessage(&value)
+			if (encodeErr != nil) != (err != nil) {
+				t.Fatalf("unknown contents length %d: encode=%v validate=%v report=%+v", len(contents), encodeErr, err, report)
+			}
 		}
 	}
-	body := s20.ErrorIndication{ProtocolIEs: fields}
-	message := s20.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: s20.X2apInternalConstructT15InitiatingValueF4codeF19bodyErrorIndication(s00.IdErrorIndication, &body)}
-	pdu := s20.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &message}
-	wire, err := pdu.MarshalAPER()
-	if err != nil {
-		t.Fatal(err)
-	}
-	return wire
 }

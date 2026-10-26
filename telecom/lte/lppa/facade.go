@@ -547,7 +547,7 @@ type ECGIExtIEsExtField = s03.ECGIExtIEsExtField
 type ECGIExtIEsValue = s02.ECGIExtIEsValue
 
 // ECGIValueCodec is the concrete ValueCodec[ECGI].
-type ECGIValueCodec = s06.ECGIValueCodec
+type ECGIValueCodec = s05.ECGIValueCodec
 
 // ECIDMeasurementFailureIndication represents the ASN.1 type E-CIDMeasurementFailureIndication (SEQUENCE).
 type ECIDMeasurementFailureIndication = s11.ECIDMeasurementFailureIndication
@@ -611,7 +611,7 @@ type ECIDMeasurementInitiationFailureIEValue = s09.ECIDMeasurementInitiationFail
 var ECIDMeasurementInitiationFailureIEs func() ECIDMeasurementInitiationFailureIETable = s10.ECIDMeasurementInitiationFailureIEs
 
 // ECIDMeasurementInitiationFailureMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementInitiationFailure-IEs}} of TS 36.455.
-type ECIDMeasurementInitiationFailureMeasurementIDIEBinding = s10.ECIDMeasurementInitiationFailureMeasurementIDIEBinding
+type ECIDMeasurementInitiationFailureMeasurementIDIEBinding = s09.ECIDMeasurementInitiationFailureMeasurementIDIEBinding
 
 // ECIDMeasurementInitiationFailureUnsuccessfulBinding is the concrete UnsuccessfulBinding[ECIDMeasurementInitiationFailure].
 type ECIDMeasurementInitiationFailureUnsuccessfulBinding = s16.ECIDMeasurementInitiationFailureUnsuccessfulBinding
@@ -631,12 +631,12 @@ type ECIDMeasurementInitiationRequestAPERValue = s21.ECIDMeasurementInitiationRe
 var ECIDMeasurementInitiationRequestCodec func() ECIDMeasurementInitiationRequestValueCodec = s24.ECIDMeasurementInitiationRequestCodec
 
 // ECIDMeasurementInitiationRequestIEContainer is ProtocolIE-Container {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455: a list of ECIDMeasurementInitiationRequestIEField values.
-type ECIDMeasurementInitiationRequestIEContainer = s21.ECIDMeasurementInitiationRequestIEContainer
+type ECIDMeasurementInitiationRequestIEContainer = s20.ECIDMeasurementInitiationRequestIEContainer
 
 // ECIDMeasurementInitiationRequestIEField is ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementInitiationRequestIEValue.
-type ECIDMeasurementInitiationRequestIEField = s21.ECIDMeasurementInitiationRequestIEField
+type ECIDMeasurementInitiationRequestIEField = s20.ECIDMeasurementInitiationRequestIEField
 type ECIDMeasurementInitiationRequestIETable = s21.ECIDMeasurementInitiationRequestIETable
-type ECIDMeasurementInitiationRequestIEValue = s21.ECIDMeasurementInitiationRequestIEValue
+type ECIDMeasurementInitiationRequestIEValue = s20.ECIDMeasurementInitiationRequestIEValue
 
 var ECIDMeasurementInitiationRequestIEs func() ECIDMeasurementInitiationRequestIETable = s21.ECIDMeasurementInitiationRequestIEs
 
@@ -644,7 +644,7 @@ var ECIDMeasurementInitiationRequestIEs func() ECIDMeasurementInitiationRequestI
 type ECIDMeasurementInitiationRequestInitiatingBinding = s21.ECIDMeasurementInitiationRequestInitiatingBinding
 
 // ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding binds InterRATMeasurementQuantities to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
-type ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding = s21.ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding
+type ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding = s20.ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding
 
 // ECIDMeasurementInitiationRequestMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestMeasurementIDIEBinding = s21.ECIDMeasurementInitiationRequestMeasurementIDIEBinding
@@ -996,10 +996,10 @@ var InitiatingReason func(code ProcedureCode) aper.OpaqueReason = s00.Initiating
 type InitiatingValue = s21.InitiatingValue
 
 // InterRATMeasuredResultsValue represents the ASN.1 CHOICE type InterRATMeasuredResultsValue.
-type InterRATMeasuredResultsValue = s20.InterRATMeasuredResultsValue
+type InterRATMeasuredResultsValue = s19.InterRATMeasuredResultsValue
 
 // InterRATMeasuredResultsValueAPERValue is the concrete APERValue[InterRATMeasuredResultsValue].
-type InterRATMeasuredResultsValueAPERValue = s20.InterRATMeasuredResultsValueAPERValue
+type InterRATMeasuredResultsValueAPERValue = s19.InterRATMeasuredResultsValueAPERValue
 
 // InterRATMeasuredResultsValue choice constants.
 const InterRATMeasuredResultsValueChoiceResultGERAN = s00.InterRATMeasuredResultsValueChoiceResultGERAN
@@ -1416,10 +1416,10 @@ type MeasurementQuantitiesItemIEValueProtocolIESingleContainer = s06.Measurement
 var MeasurementQuantitiesItemIEs func() MeasurementQuantitiesItemIETable = s07.MeasurementQuantitiesItemIEs
 
 // MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding binds MeasurementQuantitiesItem to ProtocolIE-Field {{MeasurementQuantities-ItemIEs}} of TS 36.455.
-type MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding = s07.MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding
+type MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding = s06.MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding
 
 // MeasurementQuantitiesItemValueCodec is the concrete ValueCodec[MeasurementQuantitiesItem].
-type MeasurementQuantitiesItemValueCodec = s07.MeasurementQuantitiesItemValueCodec
+type MeasurementQuantitiesItemValueCodec = s06.MeasurementQuantitiesItemValueCodec
 
 // MeasurementQuantitiesValue represents the ASN.1 ENUMERATED type MeasurementQuantitiesValue.
 type MeasurementQuantitiesValue = s00.MeasurementQuantitiesValue
@@ -1791,10 +1791,10 @@ var NewOpaqueUnsuccessfulOutcome func(code ProcedureCode, criticality Criticalit
 var NewPRSMutingConfigurationEight func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s11.NewPRSMutingConfigurationEight
 
 // NewPRSMutingConfigurationFiveHundredAndTwelve constructs a checked complete value.
-var NewPRSMutingConfigurationFiveHundredAndTwelve func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationFiveHundredAndTwelve
+var NewPRSMutingConfigurationFiveHundredAndTwelve func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s11.NewPRSMutingConfigurationFiveHundredAndTwelve
 
 // NewPRSMutingConfigurationFour constructs a checked complete value.
-var NewPRSMutingConfigurationFour func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationFour
+var NewPRSMutingConfigurationFour func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s11.NewPRSMutingConfigurationFour
 
 // NewPRSMutingConfigurationOneHundredAndTwentyEight constructs a checked complete value.
 var NewPRSMutingConfigurationOneHundredAndTwentyEight func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationOneHundredAndTwentyEight
@@ -2245,7 +2245,7 @@ type OTDOAInformationTypeItemValueCodec = s07.OTDOAInformationTypeItemValueCodec
 type OTDOAInformationTypeOTDOAInformationTypeItemIEBinding = s07.OTDOAInformationTypeOTDOAInformationTypeItemIEBinding
 
 // OTDOAInformationTypeValueCodec is the concrete ValueCodec[OTDOAInformationType].
-type OTDOAInformationTypeValueCodec = s08.OTDOAInformationTypeValueCodec
+type OTDOAInformationTypeValueCodec = s07.OTDOAInformationTypeValueCodec
 
 // OffsetNBChanneltoEARFCN represents the ASN.1 ENUMERATED type OffsetNBChanneltoEARFCN.
 type OffsetNBChanneltoEARFCN = s00.OffsetNBChanneltoEARFCN

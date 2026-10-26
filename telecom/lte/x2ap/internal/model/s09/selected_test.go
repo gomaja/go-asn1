@@ -6,7 +6,6 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
 	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
-	s08 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s08"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	reflect "reflect"
 	strings "strings"
@@ -895,6 +894,37 @@ func TestSelectedERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIEsValue(t 
 	}
 	t.Logf("union ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIEsValue: 3 synthetic rows")
 }
+func TestSelectedERABsToBeModifiedSgNBModReqdItemIEValue(t *testing.T) {
+	var absent *ERABsToBeModifiedSgNBModReqdItemIEValue
+	selectedAssert(t, absent)
+	v := ERABsToBeModifiedSgNBModReqdItemIEValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := ERABsToBeModifiedSgNBModReqdItemIEValue{}
+		v.id = s00.ProtocolIEID(228)
+		selectedAssert(t, &v)
+		v.rowERABsToBeModifiedSgNBModReqdItem = new(ERABsToBeModifiedSgNBModReqdItem)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union ERABsToBeModifiedSgNBModReqdItemIEValue: 1 synthetic rows")
+}
 func TestSelectedERABsToBeSetupItemExtIEsValue(t *testing.T) {
 	var absent *ERABsToBeSetupItemExtIEsValue
 	selectedAssert(t, absent)
@@ -965,96 +995,4 @@ func TestSelectedERABsToBeSetupItemExtIEsValue(t *testing.T) {
 		selectedAssert(t, &v)
 	}
 	t.Logf("union ERABsToBeSetupItemExtIEsValue: 5 synthetic rows")
-}
-func TestSelectedNeighbourInformationExtIEsValue(t *testing.T) {
-	var absent *NeighbourInformationExtIEsValue
-	selectedAssert(t, absent)
-	v := NeighbourInformationExtIEsValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	{
-		v := NeighbourInformationExtIEsValue{}
-		v.id = s00.ProtocolIEID(76)
-		selectedAssert(t, &v)
-		v.rowNeighbourTAC = new(TAC)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := NeighbourInformationExtIEsValue{}
-		v.id = s00.ProtocolIEID(94)
-		selectedAssert(t, &v)
-		v.rowEARFCNExtension = new(s00.EARFCNExtension)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	t.Logf("union NeighbourInformationExtIEsValue: 2 synthetic rows")
-}
-func TestSelectedUEContextInformationSgNBModReqExtIEsValue(t *testing.T) {
-	var absent *UEContextInformationSgNBModReqExtIEsValue
-	selectedAssert(t, absent)
-	v := UEContextInformationSgNBModReqExtIEsValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	{
-		v := UEContextInformationSgNBModReqExtIEsValue{}
-		v.id = s00.ProtocolIEID(275)
-		selectedAssert(t, &v)
-		v.rowSubscriberProfileIDforRFP = new(s08.SubscriberProfileIDforRFP)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := UEContextInformationSgNBModReqExtIEsValue{}
-		v.id = s00.ProtocolIEID(340)
-		selectedAssert(t, &v)
-		v.rowAdditionalRRMPriorityIndex = new(s00.AdditionalRRMPriorityIndex)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := UEContextInformationSgNBModReqExtIEsValue{}
-		v.id = s00.ProtocolIEID(341)
-		selectedAssert(t, &v)
-		v.rowLowerLayerPresenceStatusChange = new(s00.LowerLayerPresenceStatusChange)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	t.Logf("union UEContextInformationSgNBModReqExtIEsValue: 3 synthetic rows")
 }

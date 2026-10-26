@@ -4,34 +4,34 @@ package x2ap
 
 import (
 	bytes "bytes"
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func TestUnknownAdditionRestoreReplaysOriginalBitmap(t *testing.T) {
-	value := s06.CriticalityDiagnostics{}
-	if err := value.SetExtension(0, []byte{0x80}); err != nil {
+func TestReplayReplacementAndCopyGraphs(t *testing.T) {
+	c := s14.CriticalityDiagnosticsIEListCodec()
+	wire := replayListWire(t, 2)
+	a, _, err := c.DecodeAPER(wire)
+	if err != nil {
 		t.Fatal(err)
 	}
-	*s06.X2apInternalCriticalityDiagnosticsFieldExtCount(&value) = 3
-	*s06.X2apInternalCriticalityDiagnosticsFieldExtPresent(&value) = append(*s06.X2apInternalCriticalityDiagnosticsFieldExtPresent(&value), false, false, false)
-	*s06.X2apInternalCriticalityDiagnosticsFieldExtData(&value) = append(*s06.X2apInternalCriticalityDiagnosticsFieldExtData(&value), nil, nil, nil)
-	wire := listByteapiMust(value.MarshalAPER())
-	var decoded s06.CriticalityDiagnostics
-	if _, err := decoded.UnmarshalAPER(wire); err != nil {
+	b, _, err := c.DecodeAPER(wire)
+	if err != nil {
 		t.Fatal(err)
 	}
-	if err := decoded.RemoveExtension(0); err != nil {
-		t.Fatal(err)
+	a.Value[0] = b.Value[0]
+	a.Value[1] = a.Value[0]
+	a.Value[0].IEID = 9
+	if got, want := listByteapiMust(c.EncodeAPER(a)), listByteapiMust(c.EncodeAPER(a, aper.WithoutReplay())); !bytes.Equal(got, want) || bytes.Equal(got, wire) {
+		t.Fatal("foreign owner or duplicate snapshot hid an edit")
 	}
-	if err := decoded.SetExtension(0, []byte{0x80}); err != nil {
-		t.Fatal(err)
+	a.Value[0].IEID = 0
+	if !bytes.Equal(listByteapiMust(c.EncodeAPER(a)), wire) {
+		t.Fatal("restored replacement did not replay")
 	}
-	if !bytes.Equal(listByteapiMust(decoded.MarshalAPER()), wire) {
-		t.Fatal("restored unknown addition lost received bitmap")
-	}
-	if bytes.Equal(listByteapiMust(decoded.MarshalAPER(aper.WithoutReplay())), wire) {
-		t.Fatal("fixture needs nonpreferred bitmap")
+	a.Value[0] = a.Value[0].WithoutReplay()
+	if got, want := listByteapiMust(c.EncodeAPER(a)), listByteapiMust(c.EncodeAPER(a, aper.WithoutReplay())); !bytes.Equal(got, want) {
+		t.Fatal("replacement hid nested fresh marker")
 	}
 }

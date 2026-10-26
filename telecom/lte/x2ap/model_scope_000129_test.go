@@ -4,30 +4,32 @@ package x2ap
 
 import (
 	bytes "bytes"
-	errors "errors"
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
+	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
-	runtime "runtime"
 	testing "testing"
 )
 
-func TestFreshSequenceImageChecksBudgetBeforeCopy(t *testing.T) {
-	payload := bytes.Repeat([]byte{0xab}, 65540)
-	initial := s06.CriticalityDiagnostics{}
-	if err := initial.SetExtension(0, payload); err != nil {
+func TestBitStringStorageOutsideValueIsIgnored(t *testing.T) {
+	c := s09.TransportLayerAddressCodec()
+	encoder := *s09.X2apInternalTransportLayerAddressValueCodecFieldEncode(&c)
+	calls := 0
+	*s09.X2apInternalTransportLayerAddressValueCodecFieldEncode(&c) = func(v runtime.BitString, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		calls++
+		return encoder(v, fresh, budget)
+	}
+	wire := listByteapiMust(c.EncodeAPER(transportLayerAddressAPERValueapiMust(c.New(runtime.BitString{Bytes: []byte{0xa0}, BitLength: 4}))))
+	v, _, err := c.DecodeAPER(wire)
+	if err != nil {
 		t.Fatal(err)
 	}
-	wire := listByteapiMust(initial.MarshalAPER())
-	var value s06.CriticalityDiagnostics
-	if _, err := value.UnmarshalAPER(wire); err != nil {
-		t.Fatal(err)
+	calls = 0
+	v.Value.Bytes[0] |= 0xf
+	if got := listByteapiMust(c.EncodeAPER(v)); calls != 0 || !bytes.Equal(got, wire) {
+		t.Fatal("unused backing bits called encoder")
 	}
-	runtime.GC()
-	var before, after runtime.MemStats
-	runtime.ReadMemStats(&before)
-	_, err := value.MarshalAPER(aper.WithoutReplay(), aper.WithEncodeLimits(aper.Limits{MaxAllocatedBytes: 1024}))
-	runtime.ReadMemStats(&after)
-	if !errors.Is(err, aper.ErrLimit) || after.TotalAlloc-before.TotalAlloc > 16<<10 {
-		t.Fatalf("sequence image copied before budget check: allocated=%d err=%v", after.TotalAlloc-before.TotalAlloc, err)
+	v.Value.Bytes = append(v.Value.Bytes, 0xff)
+	if got := listByteapiMust(c.EncodeAPER(v)); calls != 0 || !bytes.Equal(got, wire) {
+		t.Fatal("unused backing octets called encoder")
 	}
 }

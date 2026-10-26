@@ -4,55 +4,133 @@ package x2ap
 
 import (
 	bytes "bytes"
+	errors "errors"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func TestReceivedFieldsPreserveSiblingFraming(t *testing.T) {
-	// X.691 (02/2021) §§11.9.3.8.1–11.9.3.8.3 require a maximal
-	// 16K fragment followed by its final one-octet remainder here.
-	payload := bytes.Repeat([]byte{165}, 16385)
-	field := []byte{255, 252, 64, 193}
-	field = append(field, payload[:16384]...)
-	field = append(field, 1, payload[16384])
-	cause := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().Cause().New(apiCause()))
-	bb := aper.NewBitBuffer()
-	if err := s11.X2apInternalErrorIndicationIEFieldMarshalAPERTo(&cause, bb); err != nil {
-		t.Fatal(err)
-	}
-	wire := append([]byte{0, 0, 2}, field...)
-	wire = append(wire, bb.CompleteBytes()...)
-	var body s20.ErrorIndication
-	if _, err := body.UnmarshalAPER(wire); err != nil {
-		t.Fatal(err)
-	}
-	observer, ok := any(&body.ProtocolIEs[0]).(interface{ ReceivedForm() aper.ReceivedForm })
-	if !ok {
-		t.Fatal("generic field lacks its received-form accessor")
-	}
-	form := observer.ReceivedForm()
-	if !form.Present() || !form.Location().HasWireLocation || !bytes.Equal(form.OriginalBytes(), field) {
-		t.Fatal("field received framing lost")
-	}
-	clone := form.OriginalBytes()
-	clone[0] = 0
-	if !bytes.Equal(observer.ReceivedForm().OriginalBytes(), field) {
-		t.Fatal("field received form borrowed mutable bytes")
-	}
-	if !bytes.Equal(listByteapiMust(body.MarshalAPER()), wire) {
-		t.Fatal("unchanged field fragments did not replay")
-	}
-	replacement := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().Cause().New(causeapiMust(s00.NewCauseMisc(s00.CauseMisc(3)))))
-	body.ProtocolIEs[1] = replacement
-	edited := listByteapiMust(body.MarshalAPER())
-	if bytes.Equal(edited, wire) || !bytes.Equal(edited[3:3+len(field)], field) {
-		t.Fatal("editing a sibling changed untouched field framing")
-	}
-	fresh := listByteapiMust(body.MarshalAPER(aper.WithoutReplay()))
-	if !bytes.Equal(fresh, edited) {
-		t.Fatal("fresh encoding altered opaque contents")
+func TestAllOutcomeSelectors(t *testing.T) {
+	failure := x2SetupFailureapiMust(s14.NewX2SetupFailure(s07.X2SetupFailureIEContainer{x2SetupFailureIEFieldapiMust(s07.X2SetupFailureIEs().Cause().New(apiCause()))}))
+	for _, opaque := range []bool{false, true} {
+		initiating := initiatingMessageapiMust(s19.ErrorIndicationProcedure().Initiating().Build(s19.ErrorIndication{}))
+		successful := successfulOutcomeapiMust(s19.ResetProcedure().Successful().Build(s18.ResetResponse{}))
+		unsuccessful := unsuccessfulOutcomeapiMust(s20.X2SetupProcedure().Unsuccessful().Build(failure))
+		if opaque {
+			initiating = initiatingMessageapiMust(s19.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0}))
+			successful = successfulOutcomeapiMust(s18.NewOpaqueSuccessfulOutcome(250, s00.CriticalityIgnore, []byte{0}))
+			unsuccessful = unsuccessfulOutcomeapiMust(s14.NewOpaqueUnsuccessfulOutcome(250, s00.CriticalityIgnore, []byte{0}))
+		}
+		t.Run("initiating", func(t *testing.T) {
+			wire := listByteapiMust(initiating.MarshalAPER())
+			var received s19.InitiatingMessage
+			if _, err := received.UnmarshalAPER(wire); err != nil {
+				t.Fatal(err)
+			}
+			for _, v := range []s19.InitiatingMessage{initiating, received} {
+				original := v.ProcedureCode
+				v.ProcedureCode++
+				bb := aper.NewBitBuffer()
+				apiRefused(t, s19.X2apInternalInitiatingMessageMarshalAPERTo(&v, bb))
+				if bb.BitPos() != 0 {
+					t.Fatal("emitted envelope bits before selector refusal")
+				}
+				for _, options := range [][]aper.EncodeOption{nil, {aper.WithoutReplay()}} {
+					_, err := v.MarshalAPER(options...)
+					apiRefused(t, err)
+				}
+				pdu := s19.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &v}
+				r, err := s20.ValidateMessage(&pdu)
+				if err != nil {
+					t.Fatal(err)
+				}
+				apiHas(t, r, s00.ValueIDMismatch)
+				_, err = s20.NewX2APPDUInitiatingMessage(v)
+				var build *s12.BuildError
+				if !errors.As(err, &build) {
+					t.Fatal("PDU builder accepted selector mismatch")
+				}
+				v.ProcedureCode = original
+				if !bytes.Equal(listByteapiMust(v.MarshalAPER()), wire) {
+					t.Fatal("restored selector lost replay")
+				}
+			}
+		})
+		t.Run("successful", func(t *testing.T) {
+			wire := listByteapiMust(successful.MarshalAPER())
+			var received s18.SuccessfulOutcome
+			if _, err := received.UnmarshalAPER(wire); err != nil {
+				t.Fatal(err)
+			}
+			for _, v := range []s18.SuccessfulOutcome{successful, received} {
+				original := v.ProcedureCode
+				v.ProcedureCode++
+				bb := aper.NewBitBuffer()
+				apiRefused(t, s18.X2apInternalSuccessfulOutcomeMarshalAPERTo(&v, bb))
+				if bb.BitPos() != 0 {
+					t.Fatal("emitted envelope bits before selector refusal")
+				}
+				for _, options := range [][]aper.EncodeOption{nil, {aper.WithoutReplay()}} {
+					_, err := v.MarshalAPER(options...)
+					apiRefused(t, err)
+				}
+				pdu := s19.X2APPDU{Choice: s00.X2APPDUChoiceSuccessfulOutcome, SuccessfulOutcome: &v}
+				r, err := s20.ValidateMessage(&pdu)
+				if err != nil {
+					t.Fatal(err)
+				}
+				apiHas(t, r, s00.ValueIDMismatch)
+				_, err = s20.NewX2APPDUSuccessfulOutcome(v)
+				var build *s12.BuildError
+				if !errors.As(err, &build) {
+					t.Fatal("PDU builder accepted selector mismatch")
+				}
+				v.ProcedureCode = original
+				if !bytes.Equal(listByteapiMust(v.MarshalAPER()), wire) {
+					t.Fatal("restored selector lost replay")
+				}
+			}
+		})
+		t.Run("unsuccessful", func(t *testing.T) {
+			wire := listByteapiMust(unsuccessful.MarshalAPER())
+			var received s14.UnsuccessfulOutcome
+			if _, err := received.UnmarshalAPER(wire); err != nil {
+				t.Fatal(err)
+			}
+			for _, v := range []s14.UnsuccessfulOutcome{unsuccessful, received} {
+				original := v.ProcedureCode
+				v.ProcedureCode++
+				bb := aper.NewBitBuffer()
+				apiRefused(t, s14.X2apInternalUnsuccessfulOutcomeMarshalAPERTo(&v, bb))
+				if bb.BitPos() != 0 {
+					t.Fatal("emitted envelope bits before selector refusal")
+				}
+				for _, options := range [][]aper.EncodeOption{nil, {aper.WithoutReplay()}} {
+					_, err := v.MarshalAPER(options...)
+					apiRefused(t, err)
+				}
+				pdu := s19.X2APPDU{Choice: s00.X2APPDUChoiceUnsuccessfulOutcome, UnsuccessfulOutcome: &v}
+				r, err := s20.ValidateMessage(&pdu)
+				if err != nil {
+					t.Fatal(err)
+				}
+				apiHas(t, r, s00.ValueIDMismatch)
+				_, err = s20.NewX2APPDUUnsuccessfulOutcome(v)
+				var build *s12.BuildError
+				if !errors.As(err, &build) {
+					t.Fatal("PDU builder accepted selector mismatch")
+				}
+				v.ProcedureCode = original
+				if !bytes.Equal(listByteapiMust(v.MarshalAPER()), wire) {
+					t.Fatal("restored selector lost replay")
+				}
+			}
+		})
 	}
 }

@@ -3,13 +3,14 @@
 package x2ap
 
 import (
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 	testing "testing"
 )
 
-func FuzzAPERGlobalGNBID(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("0001020300"))
+func FuzzAPERDispatchProtocolIeValueHandoverRequestIEsID15(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("000021f35412345670000005"))
+	f.Add(asn1VectorHexForFuzz("800006f730010840b10000050006f730010220c10000020006f730010840b10000010006f730010220c10000120006f730010840b10000070006f730010220c100000d0006f730010840b100001a0006f730010220c10000030006f730010840b1000062"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		_, _, _ = s11.GlobalGNBIDCodec().DecodeAPER(input)
+		_, _, _ = s18.HandoverRequestIEs().UEHistoryInformation().Codec().DecodeAPER(input)
 	})
 }

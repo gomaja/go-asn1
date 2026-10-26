@@ -3,12 +3,12 @@
 package x2ap
 
 import (
-	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 )
 
-func eRABsToBeSetupRetrieveItemExtIEsExtFieldapiMust(v s10.ERABsToBeSetupRetrieveItemExtIEsExtField, err error) s10.ERABsToBeSetupRetrieveItemExtIEsExtField {
+func sCGFailureInformationReportIEFieldfreshMust(value s11.SCGFailureInformationReportIEField, err error) s11.SCGFailureInformationReportIEField {
 	if err != nil {
 		panic(err)
 	}
-	return v
+	return value
 }

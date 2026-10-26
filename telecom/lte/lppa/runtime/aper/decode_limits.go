@@ -1,12 +1,11 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits.go; SHA-256 27d7939392da909d9e648f616d41ce8094070c8d3b6b9b06e8adf63b8dd04bfa.
+// Runtime source: runtime/aper/decode_limits.go; SHA-256 360e5191af3c9fa109f518b328bef2d133350d30f6dad35152fea4760952631c.
 package aper
 
 import "fmt"
 
-// decodeLimits is private instrumentation for the retained recovery/refusal
-// harness. Complete source codecs always use Limits and DefaultLimits.
+// decodeLimits is private instrumentation for low-level reader limits. Complete source codecs always use Limits and DefaultLimits.
 type decodeLimits struct {
 	MaxDepth         int // nested generated values, including the root
 	MaxElements      int // sum of all SEQUENCE OF and SET OF element counts
@@ -14,7 +13,7 @@ type decodeLimits struct {
 	MaxWork          int // total bits examined, including nested rereads
 }
 
-// defaultLegacyLimits preserves the private recovery harness accounting.
+// defaultLegacyLimits preserves low-level reader accounting.
 func defaultLegacyLimits() decodeLimits {
 	return decodeLimits{MaxDepth: 128, MaxElements: 100000, MaxOpenTypeDepth: 128, MaxWork: 64 << 20}
 }

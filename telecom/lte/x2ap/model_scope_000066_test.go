@@ -3,31 +3,39 @@
 package x2ap
 
 import (
+	bytes "bytes"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
-	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
+	s02 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s02"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
 	testing "testing"
 )
 
-// X.691 (02/2021) §§23.6–23.8 encode only the chosen alternative.
-// The TS 36.423 V19.1.0 §9.3.5 extension tables belong to that value alone.
-func TestNestedValidationIgnoresInactiveChoiceArms(t *testing.T) {
-	bad := lastVisitedEUTRANCellInformationExtIEsExtFieldapiMust(s16.LastVisitedEUTRANCellInformationExtIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
-	bad.Id--
-	inactive := s16.LastVisitedEUTRANCellInformation{IEExtensions: s16.LastVisitedEUTRANCellInformationExtIEsExtContainer{bad}}
-	active := s00.LastVisitedUTRANCellInformation{}
-	value := s16.LastVisitedCellItem{Choice: s00.LastVisitedCellItemChoiceUTRANCell, UTRANCell: &active, EUTRANCell: &inactive}
-	if _, err := value.MarshalAPER(); err != nil {
+func TestExtensionAndPrivateReceivedForms(t *testing.T) {
+	cd := s06.CriticalityDiagnostics{IEExtensions: s02.CriticalityDiagnosticsExtIEsExtContainer{criticalityDiagnosticsExtIEsExtFieldapiMust(s06.CriticalityDiagnosticsExtIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))}}
+	wire := listByteapiMust(cd.MarshalAPER())
+	var decoded s06.CriticalityDiagnostics
+	if _, err := decoded.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}
-	report := s12.ValidationReport{Complete: true}
-	s16.X2apInternalWalkValidationLastVisitedCellItem(&value, &report, "LastVisitedCellItem", false)
-	if len(report.Issues) != 0 || len(report.Deferred) != 0 || len(report.Unchecked) != 0 || !report.Complete {
-		t.Fatalf("inactive EUTRAN arm contaminated selected UTRAN report: %+v", report)
+	form := decoded.IEExtensions[0].ReceivedForm()
+	if !form.Present() || !form.Location().HasWireLocation || len(form.OriginalBytes()) == 0 {
+		t.Fatal("extension received form absent")
 	}
-	// The exact same pointer is validated when its discriminator is selected.
-	value.Choice = s00.LastVisitedCellItemChoiceEUTRANCell
-	report = s12.ValidationReport{Complete: true}
-	s16.X2apInternalWalkValidationLastVisitedCellItem(&value, &report, "LastVisitedCellItem", false)
-	apiHas(t, report, s00.ValueIDMismatch)
+	for _, id := range []s00.PrivateIEID{privateIEIDapiMust(s00.NewPrivateIEIDLocal(1)), privateIEIDapiMust(s00.NewPrivateIEIDGlobal(runtime.MustObjectIdentifier("1.2.3")))} {
+		message := privateMessageapiMust(s19.NewPrivateMessage(s00.PrivateMessageIEsValuePrivateIEContainer{privateMessageIEsValuePrivateIEFieldapiMust(s00.PrivateMessageIEs().NewOpaque(id, s00.CriticalityIgnore, []byte{0}))}))
+		wire := listByteapiMust(message.MarshalAPER())
+		var received s19.PrivateMessage
+		if _, err := received.UnmarshalAPER(wire); err != nil {
+			t.Fatal(err)
+		}
+		form := received.PrivateIEs[0].ReceivedForm()
+		if !form.Present() || !form.Location().HasWireLocation || len(form.OriginalBytes()) == 0 {
+			t.Fatal("private received form absent")
+		}
+		if !bytes.Equal(listByteapiMust(received.MarshalAPER()), wire) {
+			t.Fatal("private received field did not replay")
+		}
+	}
 }

@@ -8,7 +8,6 @@ import (
 	json "encoding/json"
 	fmt "fmt"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s00"
-	s07 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s07"
 	s08 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s08"
 	s09 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s09"
 	s10 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s10"
@@ -17,7 +16,6 @@ import (
 	s13 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s13"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s14"
 	s15 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s15"
-	s16 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s16"
 	s17 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s17"
 	s18 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s18"
 	s19 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s19"
@@ -28,14 +26,11 @@ import (
 	s24 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s24"
 	s25 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s25"
 	s26 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s26"
+	s27 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s27"
 	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
 	s29 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s29"
 	s30 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s30"
 	s31 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s31"
-	s32 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s32"
-	s33 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s33"
-	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
-	s35 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s35"
 	s36 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s36"
 	s37 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s37"
 	s38 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s38"
@@ -54,6 +49,16 @@ import (
 	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
 	s53 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s53"
+	s54 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s54"
+	s55 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s55"
+	s57 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s57"
+	s58 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s58"
+	s59 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s59"
+	s60 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s60"
+	s61 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s61"
+	s64 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s64"
+	s65 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s65"
+	s66 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s66"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	reflect "reflect"
 	strconv "strconv"
@@ -75,6 +80,43 @@ func asn1VectorHexForFuzz(input string) []byte {
 		panic(err)
 	}
 	return decoded
+}
+func asn1VectorCheckPaddingReport(t *testing.T, report aper.DecodeReport, input []byte, fresh bool) {
+	t.Helper()
+	for _, observation := range report.Observations {
+		switch observation.Kind {
+		case aper.NonzeroTerminalPadding, aper.NonzeroEmptyEncoding:
+			if fresh {
+				t.Fatalf("fresh encoding has padding observation: %+v", observation)
+			}
+			count := observation.PaddingCount
+			if count == 0 || count > 8 || (observation.Kind == aper.NonzeroTerminalPadding && count > 7) || (observation.Kind == aper.NonzeroEmptyEncoding && count != 8) {
+				t.Fatalf("invalid padding width: %+v", observation)
+			}
+			if observation.PaddingBits == 0 || uint16(observation.PaddingBits) >= uint16(1)<<count {
+				t.Fatalf("invalid padding bits: %+v", observation)
+			}
+		case aper.UnknownProcedure, aper.UnknownIE, aper.UnknownExtension:
+			if observation.PaddingBits != 0 || observation.PaddingCount != 0 {
+				t.Fatalf("non-padding observation carries padding: %+v", observation)
+			}
+		default:
+			t.Fatalf("unknown observation kind: %+v", observation)
+		}
+		if observation.Location.Path == "" {
+			t.Fatalf("observation has empty path: %+v", observation)
+		}
+		if observation.Location.HasWireLocation {
+			if len(observation.Location.Spans) == 0 {
+				t.Fatalf("located observation has no spans: %+v", observation)
+			}
+			for _, span := range observation.Location.Spans {
+				if span.Start > span.End || span.End > uint64(len(input))*8 {
+					t.Fatalf("observation span outside input: %+v", observation)
+				}
+			}
+		}
+	}
 }
 func TestASN1VectorPathRejectsNegativeIndex(t *testing.T) {
 	if _, err := asn1VectorValueAtPath(reflect.ValueOf([]int{1}), "[-1]"); err == nil {
@@ -194,320 +236,320 @@ func asn1VectorInterface(value reflect.Value) (any, error) {
 }
 
 var asn1TypedTableNames = map[string]string{
-	"AdditionalGUTIExtIEsValue":                                s07.AdditionalGUTIExtIEs().ID().Source().Assignment,
-	"AllocationAndRetentionPriorityExtIEsValue":                s07.AllocationAndRetentionPriorityExtIEs().ID().Source().Assignment,
-	"InformationForCECapableUEsExtIEsValue":                    s09.InformationForCECapableUEsExtIEs().ID().Source().Assignment,
-	"AssistanceDataForPagingExtIEsValue":                       s07.AssistanceDataForPagingExtIEs().ID().Source().Assignment,
-	"AssistanceDataForRecommendedCellsExtIEsValue":             s07.AssistanceDataForRecommendedCellsExtIEs().ID().Source().Assignment,
-	"BearersSubjectToStatusTransferItemIEValue":                s21.BearersSubjectToStatusTransferItemIEs().ID().Source().Assignment,
-	"BearersSubjectToStatusTransferItemExtIEsValue":            s14.BearersSubjectToStatusTransferItemExtIEs().ID().Source().Assignment,
-	"BearersSubjectToEarlyStatusTransferItemIEValue":           s15.BearersSubjectToEarlyStatusTransferItemIEs().ID().Source().Assignment,
-	"BearersSubjectToEarlyStatusTransferItemExtIEsValue":       s07.BearersSubjectToEarlyStatusTransferItemExtIEs().ID().Source().Assignment,
-	"BearersSubjectToDLDiscardingItemIEValue":                  s15.BearersSubjectToDLDiscardingItemIEs().ID().Source().Assignment,
-	"BearersSubjectToDLDiscardingItemExtIEsValue":              s07.BearersSubjectToDLDiscardingItemExtIEs().ID().Source().Assignment,
-	"BluetoothMeasurementConfigurationExtIEsValue":             s07.BluetoothMeasurementConfigurationExtIEs().ID().Source().Assignment,
-	"CancelledCellinEAIItemExtIEsValue":                        s07.CancelledCellinEAIItemExtIEs().ID().Source().Assignment,
-	"CancelledCellinTAIItemExtIEsValue":                        s07.CancelledCellinTAIItemExtIEs().ID().Source().Assignment,
-	"CellIdentifierAndCELevelForCECapableUEsExtIEsValue":       s07.CellIdentifierAndCELevelForCECapableUEsExtIEs().ID().Source().Assignment,
-	"CellIDBroadcastItemExtIEsValue":                           s07.CellIDBroadcastItemExtIEs().ID().Source().Assignment,
-	"CellIDCancelledItemExtIEsValue":                           s07.CellIDCancelledItemExtIEs().ID().Source().Assignment,
-	"CellBasedMDTExtIEsValue":                                  s07.CellBasedMDTExtIEs().ID().Source().Assignment,
-	"CellBasedQMCExtIEsValue":                                  s07.CellBasedQMCExtIEs().ID().Source().Assignment,
-	"Cdma2000OneXSRVCCInfoExtIEsValue":                         s07.Cdma2000OneXSRVCCInfoExtIEs().ID().Source().Assignment,
-	"CellTypeExtIEsValue":                                      s07.CellTypeExtIEs().ID().Source().Assignment,
-	"CGIExtIEsValue":                                           s07.CGIExtIEs().ID().Source().Assignment,
-	"CNTypeRestrictionsItemExtIEsValue":                        s07.CNTypeRestrictionsItemExtIEs().ID().Source().Assignment,
-	"ConnectedengNBItemExtIEsValue":                            s07.ConnectedengNBItemExtIEs().ID().Source().Assignment,
-	"ContextatSourceExtIEsValue":                               s07.ContextatSourceExtIEs().ID().Source().Assignment,
-	"CSGIdListItemExtIEsValue":                                 s07.CSGIdListItemExtIEs().ID().Source().Assignment,
-	"COUNTvalueExtIEsValue":                                    s07.COUNTvalueExtIEs().ID().Source().Assignment,
-	"COUNTValueExtendedExtIEsValue":                            s07.COUNTValueExtendedExtIEs().ID().Source().Assignment,
-	"COUNTvaluePDCPSNlength18ExtIEsValue":                      s07.COUNTvaluePDCPSNlength18ExtIEs().ID().Source().Assignment,
-	"CriticalityDiagnosticsExtIEsValue":                        s07.CriticalityDiagnosticsExtIEs().ID().Source().Assignment,
-	"CriticalityDiagnosticsIEItemExtIEsValue":                  s07.CriticalityDiagnosticsIEItemExtIEs().ID().Source().Assignment,
-	"DAPSRequestInfoExtIEsValue":                               s07.DAPSRequestInfoExtIEs().ID().Source().Assignment,
-	"DAPSResponseInfoListIEValue":                              s15.DAPSResponseInfoListIEs().ID().Source().Assignment,
-	"DAPSResponseInfoItemExtIEsValue":                          s08.DAPSResponseInfoItemExtIEs().ID().Source().Assignment,
-	"DAPSResponseInfoExtIEsValue":                              s08.DAPSResponseInfoExtIEs().ID().Source().Assignment,
-	"ServedDCNsItemExtIEsValue":                                s11.ServedDCNsItemExtIEs().ID().Source().Assignment,
-	"DLCPSecurityInformationExtIEsValue":                       s08.DLCPSecurityInformationExtIEs().ID().Source().Assignment,
-	"EmergencyAreaIDBroadcastItemExtIEsValue":                  s09.EmergencyAreaIDBroadcastItemExtIEs().ID().Source().Assignment,
-	"EmergencyAreaIDCancelledItemExtIEsValue":                  s09.EmergencyAreaIDCancelledItemExtIEs().ID().Source().Assignment,
-	"CompletedCellinEAIItemExtIEsValue":                        s07.CompletedCellinEAIItemExtIEs().ID().Source().Assignment,
-	"ENBEarlyStatusTransferTransparentContainerExtIEsValue":    s38.ENBEarlyStatusTransferTransparentContainerExtIEs().ID().Source().Assignment,
-	"GERANCellIDExtIEsValue":                                   s09.GERANCellIDExtIEs().ID().Source().Assignment,
-	"GlobalENBIDExtIEsValue":                                   s09.GlobalENBIDExtIEs().ID().Source().Assignment,
-	"GlobalEnGNBIDExtIEsValue":                                 s09.GlobalEnGNBIDExtIEs().ID().Source().Assignment,
-	"ENBStatusTransferTransparentContainerExtIEsValue":         s08.ENBStatusTransferTransparentContainerExtIEs().ID().Source().Assignment,
-	"ENDCSONConfigurationTransferExtIEsValue":                  s08.ENDCSONConfigurationTransferExtIEs().ID().Source().Assignment,
-	"ENDCTransferTypeRequestExtIEsValue":                       s08.ENDCTransferTypeRequestExtIEs().ID().Source().Assignment,
-	"ENDCTransferTypeReplyExtIEsValue":                         s08.ENDCTransferTypeReplyExtIEs().ID().Source().Assignment,
-	"ENDCSONeNBIdentificationExtIEsValue":                      s08.ENDCSONeNBIdentificationExtIEs().ID().Source().Assignment,
-	"ENDCSONengNBIdentificationExtIEsValue":                    s08.ENDCSONengNBIdentificationExtIEs().ID().Source().Assignment,
-	"ERABInformationListIEValue":                               s29.ERABInformationListIEs().ID().Source().Assignment,
-	"ERABInformationListItemExtIEsValue":                       s29.ERABInformationListItemExtIEs().ID().Source().Assignment,
-	"ERABItemIEValue":                                          s16.ERABItemIEs().ID().Source().Assignment,
-	"ERABItemExtIEsValue":                                      s08.ERABItemExtIEs().ID().Source().Assignment,
-	"ERABSecurityResultListIEValue":                            s30.ERABSecurityResultListIEs().ID().Source().Assignment,
-	"ERABSecurityResultItemExtIEsValue":                        s08.ERABSecurityResultItemExtIEs().ID().Source().Assignment,
-	"ERABUsageReportItemIEValue":                               s17.ERABUsageReportItemIEs().ID().Source().Assignment,
-	"ERABUsageReportItemExtIEsValue":                           s09.ERABUsageReportItemExtIEs().ID().Source().Assignment,
-	"ERABQoSParametersExtIEsValue":                             s08.ERABQoSParametersExtIEs().ID().Source().Assignment,
-	"EUTRANCGIExtIEsValue":                                     s09.EUTRANCGIExtIEs().ID().Source().Assignment,
-	"EventL1LoggedMDTConfigExtIEsValue":                        s09.EventL1LoggedMDTConfigExtIEs().ID().Source().Assignment,
-	"EventTriggerExtIEValue":                                   s09.EventTriggerExtIEs().ID().Source().Assignment,
-	"ExpectedUEBehaviourExtIEsValue":                           s09.ExpectedUEBehaviourExtIEs().ID().Source().Assignment,
-	"ExpectedUEActivityBehaviourExtIEsValue":                   s09.ExpectedUEActivityBehaviourExtIEs().ID().Source().Assignment,
-	"FiveGSTAIExtIEsValue":                                     s09.FiveGSTAIExtIEs().ID().Source().Assignment,
-	"ForbiddenTAsItemExtIEsValue":                              s09.ForbiddenTAsItemExtIEs().ID().Source().Assignment,
-	"ForbiddenLAsItemExtIEsValue":                              s09.ForbiddenLAsItemExtIEs().ID().Source().Assignment,
-	"GBRQosInformationExtIEsValue":                             s09.GBRQosInformationExtIEs().ID().Source().Assignment,
-	"GUMMEIExtIEsValue":                                        s09.GUMMEIExtIEs().ID().Source().Assignment,
-	"HandoverRestrictionListExtIEsValue":                       s43.HandoverRestrictionListExtIEs().ID().Source().Assignment,
-	"ImmediateMDTExtIEsValue":                                  s48.ImmediateMDTExtIEs().ID().Source().Assignment,
-	"InformationOnRecommendedCellsAndENBsForPagingExtIEsValue": s09.InformationOnRecommendedCellsAndENBsForPagingExtIEs().ID().Source().Assignment,
-	"IntersystemMeasurementConfigurationExtIEsValue":           s09.IntersystemMeasurementConfigurationExtIEs().ID().Source().Assignment,
-	"InterSystemMeasurementParametersExtIEsValue":              s09.InterSystemMeasurementParametersExtIEs().ID().Source().Assignment,
-	"InterSystemMeasurementItemExtIEsValue":                    s09.InterSystemMeasurementItemExtIEs().ID().Source().Assignment,
-	"LAIExtIEsValue":                                           s09.LAIExtIEs().ID().Source().Assignment,
-	"LastVisitedEUTRANCellInformationExtIEsValue":              s42.LastVisitedEUTRANCellInformationExtIEs().ID().Source().Assignment,
-	"LastVisitedPSCellInformationExtIEsValue":                  s09.LastVisitedPSCellInformationExtIEs().ID().Source().Assignment,
-	"ListeningSubframePatternExtIEsValue":                      s09.ListeningSubframePatternExtIEs().ID().Source().Assignment,
-	"LoggedMDTExtIEsValue":                                     s48.LoggedMDTExtIEs().ID().Source().Assignment,
-	"LoggedMBSFNMDTExtIEsValue":                                s09.LoggedMBSFNMDTExtIEs().ID().Source().Assignment,
-	"LTENTNTAIInformationExtIEsValue":                          s09.LTENTNTAIInformationExtIEs().ID().Source().Assignment,
-	"M3ConfigurationExtIEsValue":                               s10.M3ConfigurationExtIEs().ID().Source().Assignment,
-	"M4ConfigurationExtIEsValue":                               s10.M4ConfigurationExtIEs().ID().Source().Assignment,
-	"M5ConfigurationExtIEsValue":                               s10.M5ConfigurationExtIEs().ID().Source().Assignment,
-	"M6ConfigurationExtIEsValue":                               s10.M6ConfigurationExtIEs().ID().Source().Assignment,
-	"M7ConfigurationExtIEsValue":                               s10.M7ConfigurationExtIEs().ID().Source().Assignment,
-	"MDTConfigurationExtIEsValue":                              s42.MDTConfigurationExtIEs().ID().Source().Assignment,
-	"MBSFNResultToLogInfoExtIEsValue":                          s10.MBSFNResultToLogInfoExtIEs().ID().Source().Assignment,
-	"MDTModeExtensionIEIEValue":                                s24.MDTModeExtensionIE().ID().Source().Assignment,
-	"MeasurementThresholdL1LoggedMDTExtIEValue":                s10.MeasurementThresholdL1LoggedMDTExtIEs().ID().Source().Assignment,
-	"MutingPatternInformationExtIEsValue":                      s10.MutingPatternInformationExtIEs().ID().Source().Assignment,
-	"NBIoTPagingEDRXInformationExtIEsValue":                    s10.NBIoTPagingEDRXInformationExtIEs().ID().Source().Assignment,
-	"NRCGIExtIEsValue":                                         s10.NRCGIExtIEs().ID().Source().Assignment,
-	"NRUESecurityCapabilitiesExtIEsValue":                      s10.NRUESecurityCapabilitiesExtIEs().ID().Source().Assignment,
-	"NRV2XServicesAuthorizedExtIEsValue":                       s10.NRV2XServicesAuthorizedExtIEs().ID().Source().Assignment,
-	"NRUESidelinkAggregateMaximumBitrateExtIEsValue":           s10.NRUESidelinkAggregateMaximumBitrateExtIEs().ID().Source().Assignment,
-	"PagingAttemptInformationExtIEsValue":                      s10.PagingAttemptInformationExtIEs().ID().Source().Assignment,
-	"PagingEDRXInformationExtIEsValue":                         s10.PagingEDRXInformationExtIEs().ID().Source().Assignment,
-	"PC5QoSParametersExtIEsValue":                              s10.PC5QoSParametersExtIEs().ID().Source().Assignment,
-	"PC5QoSFlowItemExtIEsValue":                                s10.PC5QoSFlowItemExtIEs().ID().Source().Assignment,
-	"PC5FlowBitRatesExtIEsValue":                               s10.PC5FlowBitRatesExtIEs().ID().Source().Assignment,
-	"M1PeriodicReportingExtIEsValue":                           s10.M1PeriodicReportingExtIEs().ID().Source().Assignment,
-	"PLMNAreaBasedQMCExtIEsValue":                              s10.PLMNAreaBasedQMCExtIEs().ID().Source().Assignment,
-	"ProSeAuthorizedExtIEsValue":                               s10.ProSeAuthorizedExtIEs().ID().Source().Assignment,
-	"PSCellInformationExtIEsValue":                             s10.PSCellInformationExtIEs().ID().Source().Assignment,
-	"RecommendedCellsForPagingExtIEsValue":                     s11.RecommendedCellsForPagingExtIEs().ID().Source().Assignment,
-	"RecommendedCellItemIEValue":                               s26.RecommendedCellItemIEs().ID().Source().Assignment,
-	"RecommendedCellsForPagingItemExtIEsValue":                 s11.RecommendedCellsForPagingItemExtIEs().ID().Source().Assignment,
-	"RecommendedENBsForPagingExtIEsValue":                      s11.RecommendedENBsForPagingExtIEs().ID().Source().Assignment,
-	"RecommendedENBItemIEValue":                                s32.RecommendedENBItemIEs().ID().Source().Assignment,
-	"RecommendedENBItemExtIEsValue":                            s11.RecommendedENBItemExtIEs().ID().Source().Assignment,
-	"RATRestrictionsItemExtIEsValue":                           s10.RATRestrictionsItemExtIEs().ID().Source().Assignment,
-	"RequestedTNLInfoExtIEsValue":                              s11.RequestedTNLInfoExtIEs().ID().Source().Assignment,
-	"RequestTypeExtIEsValue":                                   s11.RequestTypeExtIEs().ID().Source().Assignment,
-	"RIMTransferExtIEsValue":                                   s10.RIMTransferExtIEs().ID().Source().Assignment,
-	"RLFReportInformationExtIEsValue":                          s10.RLFReportInformationExtIEs().ID().Source().Assignment,
-	"SecurityContextExtIEsValue":                               s11.SecurityContextExtIEs().ID().Source().Assignment,
-	"SecondaryRATDataUsageReportItemIEValue":                   s28.SecondaryRATDataUsageReportItemIEs().ID().Source().Assignment,
-	"SecondaryRATDataUsageReportItemExtIEsValue":               s11.SecondaryRATDataUsageReportItemExtIEs().ID().Source().Assignment,
-	"SecurityIndicationExtIEsValue":                            s11.SecurityIndicationExtIEs().ID().Source().Assignment,
-	"SecurityResultExtIEsValue":                                s11.SecurityResultExtIEs().ID().Source().Assignment,
-	"SensorMeasConfigNameItemExtIEsValue":                      s11.SensorMeasConfigNameItemExtIEs().ID().Source().Assignment,
-	"SensorMeasurementConfigurationExtIEsValue":                s11.SensorMeasurementConfigurationExtIEs().ID().Source().Assignment,
-	"SensorNameConfigExtIEValue":                               s11.SensorNameConfigExtIEs().ID().Source().Assignment,
-	"SONInformationExtensionIEIEValue":                         s20.SONInformationExtensionIE().ID().Source().Assignment,
-	"SONInformationReplyExtIEsValue":                           s35.SONInformationReplyExtIEs().ID().Source().Assignment,
-	"SONConfigurationTransferExtIEsValue":                      s51.SONConfigurationTransferExtIEs().ID().Source().Assignment,
-	"SynchronisationInformationExtIEsValue":                    s11.SynchronisationInformationExtIEs().ID().Source().Assignment,
-	"SourceeNBIDExtIEsValue":                                   s11.SourceeNBIDExtIEs().ID().Source().Assignment,
-	"SourceNodeIDExtensionIEIEValue":                           s11.SourceNodeIDExtensionIE().ID().Source().Assignment,
-	"SourceeNBToTargeteNBTransparentContainerExtIEsValue":      s35.SourceeNBToTargeteNBTransparentContainerExtIEs().ID().Source().Assignment,
-	"SourceNgRanNodeIDExtIEsValue":                             s11.SourceNgRanNodeIDExtIEs().ID().Source().Assignment,
-	"ServedGUMMEIsItemExtIEsValue":                             s11.ServedGUMMEIsItemExtIEs().ID().Source().Assignment,
-	"SubscriptionBasedUEDifferentiationInfoExtIEsValue":        s11.SubscriptionBasedUEDifferentiationInfoExtIEs().ID().Source().Assignment,
-	"ScheduledCommunicationTimeExtIEsValue":                    s11.ScheduledCommunicationTimeExtIEs().ID().Source().Assignment,
-	"SupportedTAsItemExtIEsValue":                              s11.SupportedTAsItemExtIEs().ID().Source().Assignment,
-	"TimeSynchronisationInfoExtIEsValue":                       s12.TimeSynchronisationInfoExtIEs().ID().Source().Assignment,
-	"STMSIExtIEsValue":                                         s11.STMSIExtIEs().ID().Source().Assignment,
-	"TAIBasedMDTExtIEsValue":                                   s11.TAIBasedMDTExtIEs().ID().Source().Assignment,
-	"TAIExtIEsValue":                                           s11.TAIExtIEs().ID().Source().Assignment,
-	"TAIBroadcastItemExtIEsValue":                              s11.TAIBroadcastItemExtIEs().ID().Source().Assignment,
-	"TAICancelledItemExtIEsValue":                              s11.TAICancelledItemExtIEs().ID().Source().Assignment,
-	"TABasedMDTExtIEsValue":                                    s11.TABasedMDTExtIEs().ID().Source().Assignment,
-	"TABasedQMCExtIEsValue":                                    s11.TABasedQMCExtIEs().ID().Source().Assignment,
-	"TAIBasedQMCExtIEsValue":                                   s11.TAIBasedQMCExtIEs().ID().Source().Assignment,
-	"CompletedCellinTAIItemExtIEsValue":                        s07.CompletedCellinTAIItemExtIEs().ID().Source().Assignment,
-	"TargeteNBIDExtIEsValue":                                   s11.TargeteNBIDExtIEs().ID().Source().Assignment,
-	"TargetRNCIDExtIEsValue":                                   s11.TargetRNCIDExtIEs().ID().Source().Assignment,
-	"TargetNgRanNodeIDExtIEsValue":                             s11.TargetNgRanNodeIDExtIEs().ID().Source().Assignment,
-	"GNBExtIEsValue":                                           s09.GNBExtIEs().ID().Source().Assignment,
-	"GlobalGNBIDExtIEsValue":                                   s09.GlobalGNBIDExtIEs().ID().Source().Assignment,
-	"NGENBExtIEsValue":                                         s10.NGENBExtIEs().ID().Source().Assignment,
-	"TargeteNBToSourceeNBTransparentContainerExtIEsValue":      s40.TargeteNBToSourceeNBTransparentContainerExtIEs().ID().Source().Assignment,
-	"M1ThresholdEventA2ExtIEsValue":                            s10.M1ThresholdEventA2ExtIEs().ID().Source().Assignment,
-	"TimeBasedHandoverInformationExtIEsValue":                  s11.TimeBasedHandoverInformationExtIEs().ID().Source().Assignment,
-	"TraceActivationExtIEsValue":                               s48.TraceActivationExtIEs().ID().Source().Assignment,
-	"TunnelInformationExtIEsValue":                             s12.TunnelInformationExtIEs().ID().Source().Assignment,
-	"UEAggregateMaximumBitratesExtIEsValue":                    s12.UEAggregateMaximumBitratesExtIEs().ID().Source().Assignment,
-	"UEAppLayerMeasConfigExtIEsValue":                          s12.UEAppLayerMeasConfigExtIEs().ID().Source().Assignment,
-	"UES1APIDPairExtIEsValue":                                  s12.UES1APIDPairExtIEs().ID().Source().Assignment,
-	"UEAssociatedLogicalS1ConnectionItemExtIEsValue":           s12.UEAssociatedLogicalS1ConnectionItemExtIEs().ID().Source().Assignment,
-	"UESecurityCapabilitiesExtIEsValue":                        s12.UESecurityCapabilitiesExtIEs().ID().Source().Assignment,
-	"UESidelinkAggregateMaximumBitratesExtIEsValue":            s12.UESidelinkAggregateMaximumBitratesExtIEs().ID().Source().Assignment,
-	"ULCPSecurityInformationExtIEsValue":                       s12.ULCPSecurityInformationExtIEs().ID().Source().Assignment,
-	"UserLocationInformationExtIEsValue":                       s21.UserLocationInformationExtIEs().ID().Source().Assignment,
-	"V2XServicesAuthorizedExtIEsValue":                         s12.V2XServicesAuthorizedExtIEs().ID().Source().Assignment,
-	"WLANMeasurementConfigurationExtIEsValue":                  s12.WLANMeasurementConfigurationExtIEs().ID().Source().Assignment,
-	"WUSAssistanceInformationExtIEsValue":                      s12.WUSAssistanceInformationExtIEs().ID().Source().Assignment,
-	"X2TNLConfigurationInfoExtIEsValue":                        s39.X2TNLConfigurationInfoExtIEs().ID().Source().Assignment,
-	"ENBX2ExtTLAExtIEsValue":                                   s08.ENBX2ExtTLAExtIEs().ID().Source().Assignment,
-	"HandoverRequiredIEValue":                                  s34.HandoverRequiredIEs().ID().Source().Assignment,
-	"HandoverCommandIEValue":                                   s41.HandoverCommandIEs().ID().Source().Assignment,
-	"ERABDataForwardingItemIEValue":                            s15.ERABDataForwardingItemIEs().ID().Source().Assignment,
-	"ERABDataForwardingItemExtIEsValue":                        s08.ERABDataForwardingItemExtIEs().ID().Source().Assignment,
-	"HandoverPreparationFailureIEValue":                        s22.HandoverPreparationFailureIEs().ID().Source().Assignment,
-	"HandoverRequestIEValue":                                   s49.HandoverRequestIEs().ID().Source().Assignment,
-	"ERABToBeSetupItemHOReqIEValue":                            s30.ERABToBeSetupItemHOReqIEs().ID().Source().Assignment,
-	"ERABToBeSetupItemHOReqExtIEsValue":                        s29.ERABToBeSetupItemHOReqExtIEs().ID().Source().Assignment,
-	"HandoverRequestAcknowledgeIEValue":                        s39.HandoverRequestAcknowledgeIEs().ID().Source().Assignment,
-	"ERABAdmittedItemIEValue":                                  s15.ERABAdmittedItemIEs().ID().Source().Assignment,
-	"ERABAdmittedItemExtIEsValue":                              s08.ERABAdmittedItemExtIEs().ID().Source().Assignment,
-	"ERABFailedtoSetupItemHOReqAckIEValue":                     s16.ERABFailedtoSetupItemHOReqAckIEs().ID().Source().Assignment,
-	"ERABFailedToSetupItemHOReqAckExtIEsValue":                 s08.ERABFailedToSetupItemHOReqAckExtIEs().ID().Source().Assignment,
-	"HandoverFailureIEValue":                                   s22.HandoverFailureIEs().ID().Source().Assignment,
-	"HandoverNotifyIEValue":                                    s35.HandoverNotifyIEs().ID().Source().Assignment,
-	"PathSwitchRequestIEValue":                                 s41.PathSwitchRequestIEs().ID().Source().Assignment,
-	"ERABToBeSwitchedDLItemIEValue":                            s30.ERABToBeSwitchedDLItemIEs().ID().Source().Assignment,
-	"ERABToBeSwitchedDLItemExtIEsValue":                        s29.ERABToBeSwitchedDLItemExtIEs().ID().Source().Assignment,
-	"PathSwitchRequestAcknowledgeIEValue":                      s47.PathSwitchRequestAcknowledgeIEs().ID().Source().Assignment,
-	"ERABToBeSwitchedULItemIEValue":                            s17.ERABToBeSwitchedULItemIEs().ID().Source().Assignment,
-	"ERABToBeSwitchedULItemExtIEsValue":                        s09.ERABToBeSwitchedULItemExtIEs().ID().Source().Assignment,
-	"ERABToBeUpdatedItemIEValue":                               s29.ERABToBeUpdatedItemIEs().ID().Source().Assignment,
-	"ERABToBeUpdatedItemExtIEsValue":                           s09.ERABToBeUpdatedItemExtIEs().ID().Source().Assignment,
-	"PathSwitchRequestFailureIEValue":                          s23.PathSwitchRequestFailureIEs().ID().Source().Assignment,
-	"HandoverCancelIEValue":                                    s18.HandoverCancelIEs().ID().Source().Assignment,
-	"HandoverCancelAcknowledgeIEValue":                         s22.HandoverCancelAcknowledgeIEs().ID().Source().Assignment,
-	"HandoverSuccessIEValue":                                   s09.HandoverSuccessIEs().ID().Source().Assignment,
-	"ENBEarlyStatusTransferIEValue":                            s38.ENBEarlyStatusTransferIEs().ID().Source().Assignment,
-	"MMEEarlyStatusTransferIEValue":                            s38.MMEEarlyStatusTransferIEs().ID().Source().Assignment,
-	"ERABSetupRequestIEValue":                                  s41.ERABSetupRequestIEs().ID().Source().Assignment,
-	"ERABToBeSetupItemBearerSUReqIEValue":                      s30.ERABToBeSetupItemBearerSUReqIEs().ID().Source().Assignment,
-	"ERABToBeSetupItemBearerSUReqExtIEsValue":                  s29.ERABToBeSetupItemBearerSUReqExtIEs().ID().Source().Assignment,
-	"ERABSetupResponseIEValue":                                 s46.ERABSetupResponseIEs().ID().Source().Assignment,
-	"ERABSetupItemBearerSUResIEValue":                          s17.ERABSetupItemBearerSUResIEs().ID().Source().Assignment,
-	"ERABSetupItemBearerSUResExtIEsValue":                      s08.ERABSetupItemBearerSUResExtIEs().ID().Source().Assignment,
-	"ERABModifyRequestIEValue":                                 s41.ERABModifyRequestIEs().ID().Source().Assignment,
-	"ERABToBeModifiedItemBearerModReqIEValue":                  s25.ERABToBeModifiedItemBearerModReqIEs().ID().Source().Assignment,
-	"ERABToBeModifyItemBearerModReqExtIEsValue":                s21.ERABToBeModifyItemBearerModReqExtIEs().ID().Source().Assignment,
-	"ERABModifyResponseIEValue":                                s46.ERABModifyResponseIEs().ID().Source().Assignment,
-	"ERABModifyItemBearerModResIEValue":                        s16.ERABModifyItemBearerModResIEs().ID().Source().Assignment,
-	"ERABModifyItemBearerModResExtIEsValue":                    s08.ERABModifyItemBearerModResExtIEs().ID().Source().Assignment,
-	"ERABReleaseCommandIEValue":                                s40.ERABReleaseCommandIEs().ID().Source().Assignment,
-	"ERABReleaseResponseIEValue":                               s46.ERABReleaseResponseIEs().ID().Source().Assignment,
-	"ERABReleaseItemBearerRelCompIEValue":                      s16.ERABReleaseItemBearerRelCompIEs().ID().Source().Assignment,
-	"ERABReleaseItemBearerRelCompExtIEsValue":                  s08.ERABReleaseItemBearerRelCompExtIEs().ID().Source().Assignment,
-	"ERABReleaseIndicationIEValue":                             s46.ERABReleaseIndicationIEs().ID().Source().Assignment,
-	"InitialContextSetupRequestIEValue":                        s49.InitialContextSetupRequestIEs().ID().Source().Assignment,
-	"ERABToBeSetupItemCtxtSUReqIEValue":                        s30.ERABToBeSetupItemCtxtSUReqIEs().ID().Source().Assignment,
-	"ERABToBeSetupItemCtxtSUReqExtIEsValue":                    s29.ERABToBeSetupItemCtxtSUReqExtIEs().ID().Source().Assignment,
-	"InitialContextSetupResponseIEValue":                       s40.InitialContextSetupResponseIEs().ID().Source().Assignment,
-	"ERABSetupItemCtxtSUResIEValue":                            s17.ERABSetupItemCtxtSUResIEs().ID().Source().Assignment,
-	"ERABSetupItemCtxtSUResExtIEsValue":                        s09.ERABSetupItemCtxtSUResExtIEs().ID().Source().Assignment,
-	"InitialContextSetupFailureIEValue":                        s23.InitialContextSetupFailureIEs().ID().Source().Assignment,
-	"PagingIEValue":                                            s50.PagingIEs().ID().Source().Assignment,
-	"TAIItemIEValue":                                           s34.TAIItemIEs().ID().Source().Assignment,
-	"TAIItemExtIEsValue":                                       s11.TAIItemExtIEs().ID().Source().Assignment,
-	"UEContextReleaseRequestIEValue":                           s43.UEContextReleaseRequestIEs().ID().Source().Assignment,
-	"UEContextReleaseCommandIEValue":                           s37.UEContextReleaseCommandIEs().ID().Source().Assignment,
-	"UEContextReleaseCompleteIEValue":                          s46.UEContextReleaseCompleteIEs().ID().Source().Assignment,
-	"UEContextModificationRequestIEValue":                      s47.UEContextModificationRequestIEs().ID().Source().Assignment,
-	"UEContextModificationResponseIEValue":                     s24.UEContextModificationResponseIEs().ID().Source().Assignment,
-	"UEContextModificationFailureIEValue":                      s23.UEContextModificationFailureIEs().ID().Source().Assignment,
-	"UERadioCapabilityMatchRequestIEValue":                     s12.UERadioCapabilityMatchRequestIEs().ID().Source().Assignment,
-	"UERadioCapabilityMatchResponseIEValue":                    s24.UERadioCapabilityMatchResponseIEs().ID().Source().Assignment,
-	"DownlinkNASTransportIEValue":                              s43.DownlinkNASTransportIEs().ID().Source().Assignment,
-	"InitialUEMessageIEValue":                                  s36.InitialUEMessageIEs().ID().Source().Assignment,
-	"UplinkNASTransportIEValue":                                s32.UplinkNASTransportIEs().ID().Source().Assignment,
-	"NASNonDeliveryIndicationIEValue":                          s19.NASNonDeliveryIndicationIEs().ID().Source().Assignment,
-	"RerouteNASRequestIEValue":                                 s20.RerouteNASRequestIEs().ID().Source().Assignment,
-	"NASDeliveryIndicationIEValue":                             s10.NASDeliveryIndicationIEs().ID().Source().Assignment,
-	"ResetIEValue":                                             s36.ResetIEs().ID().Source().Assignment,
-	"UEAssociatedLogicalS1ConnectionItemResIEValue":            s36.UEAssociatedLogicalS1ConnectionItemRes().ID().Source().Assignment,
-	"ResetAcknowledgeIEValue":                                  s45.ResetAcknowledgeIEs().ID().Source().Assignment,
-	"UEAssociatedLogicalS1ConnectionItemResAckIEValue":         s36.UEAssociatedLogicalS1ConnectionItemResAck().ID().Source().Assignment,
-	"ErrorIndicationIEValue":                                   s28.ErrorIndicationIEs().ID().Source().Assignment,
-	"S1SetupRequestIEValue":                                    s44.S1SetupRequestIEs().ID().Source().Assignment,
-	"S1SetupResponseIEValue":                                   s44.S1SetupResponseIEs().ID().Source().Assignment,
-	"S1SetupFailureIEValue":                                    s23.S1SetupFailureIEs().ID().Source().Assignment,
-	"ENBConfigurationUpdateIEValue":                            s44.ENBConfigurationUpdateIEs().ID().Source().Assignment,
-	"ENBConfigurationUpdateAcknowledgeIEValue":                 s22.ENBConfigurationUpdateAcknowledgeIEs().ID().Source().Assignment,
-	"ENBConfigurationUpdateFailureIEValue":                     s22.ENBConfigurationUpdateFailureIEs().ID().Source().Assignment,
-	"MMEConfigurationUpdateIEValue":                            s44.MMEConfigurationUpdateIEs().ID().Source().Assignment,
-	"MMEConfigurationUpdateAcknowledgeIEValue":                 s23.MMEConfigurationUpdateAcknowledgeIEs().ID().Source().Assignment,
-	"MMEConfigurationUpdateFailureIEValue":                     s23.MMEConfigurationUpdateFailureIEs().ID().Source().Assignment,
-	"DownlinkS1cdma2000tunnellingIEValue":                      s40.DownlinkS1cdma2000tunnellingIEs().ID().Source().Assignment,
-	"UplinkS1cdma2000tunnellingIEValue":                        s21.UplinkS1cdma2000tunnellingIEs().ID().Source().Assignment,
-	"UECapabilityInfoIndicationIEValue":                        s12.UECapabilityInfoIndicationIEs().ID().Source().Assignment,
-	"ENBStatusTransferIEValue":                                 s22.ENBStatusTransferIEs().ID().Source().Assignment,
-	"MMEStatusTransferIEValue":                                 s22.MMEStatusTransferIEs().ID().Source().Assignment,
-	"TraceStartIEValue":                                        s49.TraceStartIEs().ID().Source().Assignment,
-	"TraceFailureIndicationIEValue":                            s21.TraceFailureIndicationIEs().ID().Source().Assignment,
-	"DeactivateTraceIEValue":                                   s08.DeactivateTraceIEs().ID().Source().Assignment,
-	"CellTrafficTraceIEValue":                                  s18.CellTrafficTraceIEs().ID().Source().Assignment,
-	"LocationReportingControlIEValue":                          s26.LocationReportingControlIEs().ID().Source().Assignment,
-	"LocationReportingFailureIndicationIEValue":                s19.LocationReportingFailureIndicationIEs().ID().Source().Assignment,
-	"LocationReportIEValue":                                    s32.LocationReportIEs().ID().Source().Assignment,
-	"OverloadStartIEValue":                                     s42.OverloadStartIEs().ID().Source().Assignment,
-	"OverloadStopIEValue":                                      s42.OverloadStopIEs().ID().Source().Assignment,
-	"WriteReplaceWarningRequestIEValue":                        s33.WriteReplaceWarningRequestIEs().ID().Source().Assignment,
-	"WriteReplaceWarningResponseIEValue":                       s33.WriteReplaceWarningResponseIEs().ID().Source().Assignment,
-	"ENBDirectInformationTransferIEValue":                      s34.ENBDirectInformationTransferIEs().ID().Source().Assignment,
-	"MMEDirectInformationTransferIEValue":                      s34.MMEDirectInformationTransferIEs().ID().Source().Assignment,
-	"ENBConfigurationTransferIEValue":                          s52.ENBConfigurationTransferIEs().ID().Source().Assignment,
-	"MMEConfigurationTransferIEValue":                          s52.MMEConfigurationTransferIEs().ID().Source().Assignment,
-	"KillRequestIEValue":                                       s33.KillRequestIEs().ID().Source().Assignment,
-	"KillResponseIEValue":                                      s33.KillResponseIEs().ID().Source().Assignment,
-	"PWSRestartIndicationIEValue":                              s44.PWSRestartIndicationIEs().ID().Source().Assignment,
-	"PWSFailureIndicationIEValue":                              s43.PWSFailureIndicationIEs().ID().Source().Assignment,
-	"DownlinkUEAssociatedLPPaTransportIEValue":                 s08.DownlinkUEAssociatedLPPaTransportIEs().ID().Source().Assignment,
-	"UplinkUEAssociatedLPPaTransportIEValue":                   s12.UplinkUEAssociatedLPPaTransportIEs().ID().Source().Assignment,
-	"DownlinkNonUEAssociatedLPPaTransportIEValue":              s08.DownlinkNonUEAssociatedLPPaTransportIEs().ID().Source().Assignment,
-	"UplinkNonUEAssociatedLPPaTransportIEValue":                s12.UplinkNonUEAssociatedLPPaTransportIEs().ID().Source().Assignment,
-	"ERABModificationIndicationIEValue":                        s46.ERABModificationIndicationIEs().ID().Source().Assignment,
-	"ERABToBeModifiedItemBearerModIndIEValue":                  s17.ERABToBeModifiedItemBearerModIndIEs().ID().Source().Assignment,
-	"ERABToBeModifiedItemBearerModIndExtIEsValue":              s09.ERABToBeModifiedItemBearerModIndExtIEs().ID().Source().Assignment,
-	"ERABNotToBeModifiedItemBearerModIndIEValue":               s16.ERABNotToBeModifiedItemBearerModIndIEs().ID().Source().Assignment,
-	"ERABNotToBeModifiedItemBearerModIndExtIEsValue":           s08.ERABNotToBeModifiedItemBearerModIndExtIEs().ID().Source().Assignment,
-	"CSGMembershipInfoExtIEsValue":                             s07.CSGMembershipInfoExtIEs().ID().Source().Assignment,
-	"ERABModificationConfirmIEValue":                           s40.ERABModificationConfirmIEs().ID().Source().Assignment,
-	"ERABModifyItemBearerModConfIEValue":                       s16.ERABModifyItemBearerModConfIEs().ID().Source().Assignment,
-	"ERABModifyItemBearerModConfExtIEsValue":                   s08.ERABModifyItemBearerModConfExtIEs().ID().Source().Assignment,
-	"UEContextModificationIndicationIEValue":                   s21.UEContextModificationIndicationIEs().ID().Source().Assignment,
-	"UEContextModificationConfirmIEValue":                      s23.UEContextModificationConfirmIEs().ID().Source().Assignment,
-	"UEContextSuspendRequestIEValue":                           s46.UEContextSuspendRequestIEs().ID().Source().Assignment,
-	"UEContextSuspendResponseIEValue":                          s29.UEContextSuspendResponseIEs().ID().Source().Assignment,
-	"UEContextResumeRequestIEValue":                            s39.UEContextResumeRequestIEs().ID().Source().Assignment,
-	"ERABFailedToResumeItemResumeReqIEValue":                   s16.ERABFailedToResumeItemResumeReqIEs().ID().Source().Assignment,
-	"ERABFailedToResumeItemResumeReqExtIEsValue":               s08.ERABFailedToResumeItemResumeReqExtIEs().ID().Source().Assignment,
-	"UEContextResumeResponseIEValue":                           s39.UEContextResumeResponseIEs().ID().Source().Assignment,
-	"ERABFailedToResumeItemResumeResIEValue":                   s16.ERABFailedToResumeItemResumeResIEs().ID().Source().Assignment,
-	"ERABFailedToResumeItemResumeResExtIEsValue":               s08.ERABFailedToResumeItemResumeResExtIEs().ID().Source().Assignment,
-	"UEContextResumeFailureIEValue":                            s24.UEContextResumeFailureIEs().ID().Source().Assignment,
-	"ConnectionEstablishmentIndicationIEValue":                 s31.ConnectionEstablishmentIndicationIEs().ID().Source().Assignment,
-	"RetrieveUEInformationIEValue":                             s28.RetrieveUEInformationIEs().ID().Source().Assignment,
-	"UEInformationTransferIEValue":                             s31.UEInformationTransferIEs().ID().Source().Assignment,
-	"ENBCPRelocationIndicationIEValue":                         s38.ENBCPRelocationIndicationIEs().ID().Source().Assignment,
-	"MMECPRelocationIndicationIEValue":                         s10.MMECPRelocationIndicationIEs().ID().Source().Assignment,
-	"SecondaryRATDataUsageReportIEValue":                       s46.SecondaryRATDataUsageReportIEs().ID().Source().Assignment,
-	"UERadioCapabilityIDMappingRequestIEValue":                 s12.UERadioCapabilityIDMappingRequestIEs().ID().Source().Assignment,
-	"UERadioCapabilityIDMappingResponseIEValue":                s24.UERadioCapabilityIDMappingResponseIEs().ID().Source().Assignment,
-	"S1RemovalRequestIEValue":                                  s20.S1RemovalRequestIEs().ID().Source().Assignment,
-	"S1RemovalResponseIEValue":                                 s23.S1RemovalResponseIEs().ID().Source().Assignment,
-	"S1RemovalFailureIEValue":                                  s23.S1RemovalFailureIEs().ID().Source().Assignment,
+	"AdditionalGUTIExtIEsValue":                                s08.AdditionalGUTIExtIEs().ID().Source().Assignment,
+	"AllocationAndRetentionPriorityExtIEsValue":                s08.AllocationAndRetentionPriorityExtIEs().ID().Source().Assignment,
+	"InformationForCECapableUEsExtIEsValue":                    s11.InformationForCECapableUEsExtIEs().ID().Source().Assignment,
+	"AssistanceDataForPagingExtIEsValue":                       s08.AssistanceDataForPagingExtIEs().ID().Source().Assignment,
+	"AssistanceDataForRecommendedCellsExtIEsValue":             s08.AssistanceDataForRecommendedCellsExtIEs().ID().Source().Assignment,
+	"BearersSubjectToStatusTransferItemIEValue":                s25.BearersSubjectToStatusTransferItemIEs().ID().Source().Assignment,
+	"BearersSubjectToStatusTransferItemExtIEsValue":            s17.BearersSubjectToStatusTransferItemExtIEs().ID().Source().Assignment,
+	"BearersSubjectToEarlyStatusTransferItemIEValue":           s17.BearersSubjectToEarlyStatusTransferItemIEs().ID().Source().Assignment,
+	"BearersSubjectToEarlyStatusTransferItemExtIEsValue":       s08.BearersSubjectToEarlyStatusTransferItemExtIEs().ID().Source().Assignment,
+	"BearersSubjectToDLDiscardingItemIEValue":                  s17.BearersSubjectToDLDiscardingItemIEs().ID().Source().Assignment,
+	"BearersSubjectToDLDiscardingItemExtIEsValue":              s08.BearersSubjectToDLDiscardingItemExtIEs().ID().Source().Assignment,
+	"BluetoothMeasurementConfigurationExtIEsValue":             s08.BluetoothMeasurementConfigurationExtIEs().ID().Source().Assignment,
+	"CancelledCellinEAIItemExtIEsValue":                        s08.CancelledCellinEAIItemExtIEs().ID().Source().Assignment,
+	"CancelledCellinTAIItemExtIEsValue":                        s08.CancelledCellinTAIItemExtIEs().ID().Source().Assignment,
+	"CellIdentifierAndCELevelForCECapableUEsExtIEsValue":       s09.CellIdentifierAndCELevelForCECapableUEsExtIEs().ID().Source().Assignment,
+	"CellIDBroadcastItemExtIEsValue":                           s09.CellIDBroadcastItemExtIEs().ID().Source().Assignment,
+	"CellIDCancelledItemExtIEsValue":                           s09.CellIDCancelledItemExtIEs().ID().Source().Assignment,
+	"CellBasedMDTExtIEsValue":                                  s08.CellBasedMDTExtIEs().ID().Source().Assignment,
+	"CellBasedQMCExtIEsValue":                                  s08.CellBasedQMCExtIEs().ID().Source().Assignment,
+	"Cdma2000OneXSRVCCInfoExtIEsValue":                         s08.Cdma2000OneXSRVCCInfoExtIEs().ID().Source().Assignment,
+	"CellTypeExtIEsValue":                                      s09.CellTypeExtIEs().ID().Source().Assignment,
+	"CGIExtIEsValue":                                           s08.CGIExtIEs().ID().Source().Assignment,
+	"CNTypeRestrictionsItemExtIEsValue":                        s08.CNTypeRestrictionsItemExtIEs().ID().Source().Assignment,
+	"ConnectedengNBItemExtIEsValue":                            s09.ConnectedengNBItemExtIEs().ID().Source().Assignment,
+	"ContextatSourceExtIEsValue":                               s09.ContextatSourceExtIEs().ID().Source().Assignment,
+	"CSGIdListItemExtIEsValue":                                 s08.CSGIdListItemExtIEs().ID().Source().Assignment,
+	"COUNTvalueExtIEsValue":                                    s08.COUNTvalueExtIEs().ID().Source().Assignment,
+	"COUNTValueExtendedExtIEsValue":                            s08.COUNTValueExtendedExtIEs().ID().Source().Assignment,
+	"COUNTvaluePDCPSNlength18ExtIEsValue":                      s08.COUNTvaluePDCPSNlength18ExtIEs().ID().Source().Assignment,
+	"CriticalityDiagnosticsExtIEsValue":                        s09.CriticalityDiagnosticsExtIEs().ID().Source().Assignment,
+	"CriticalityDiagnosticsIEItemExtIEsValue":                  s09.CriticalityDiagnosticsIEItemExtIEs().ID().Source().Assignment,
+	"DAPSRequestInfoExtIEsValue":                               s09.DAPSRequestInfoExtIEs().ID().Source().Assignment,
+	"DAPSResponseInfoListIEValue":                              s17.DAPSResponseInfoListIEs().ID().Source().Assignment,
+	"DAPSResponseInfoItemExtIEsValue":                          s09.DAPSResponseInfoItemExtIEs().ID().Source().Assignment,
+	"DAPSResponseInfoExtIEsValue":                              s09.DAPSResponseInfoExtIEs().ID().Source().Assignment,
+	"ServedDCNsItemExtIEsValue":                                s13.ServedDCNsItemExtIEs().ID().Source().Assignment,
+	"DLCPSecurityInformationExtIEsValue":                       s09.DLCPSecurityInformationExtIEs().ID().Source().Assignment,
+	"EmergencyAreaIDBroadcastItemExtIEsValue":                  s10.EmergencyAreaIDBroadcastItemExtIEs().ID().Source().Assignment,
+	"EmergencyAreaIDCancelledItemExtIEsValue":                  s10.EmergencyAreaIDCancelledItemExtIEs().ID().Source().Assignment,
+	"CompletedCellinEAIItemExtIEsValue":                        s09.CompletedCellinEAIItemExtIEs().ID().Source().Assignment,
+	"ENBEarlyStatusTransferTransparentContainerExtIEsValue":    s47.ENBEarlyStatusTransferTransparentContainerExtIEs().ID().Source().Assignment,
+	"GERANCellIDExtIEsValue":                                   s11.GERANCellIDExtIEs().ID().Source().Assignment,
+	"GlobalENBIDExtIEsValue":                                   s11.GlobalENBIDExtIEs().ID().Source().Assignment,
+	"GlobalEnGNBIDExtIEsValue":                                 s11.GlobalEnGNBIDExtIEs().ID().Source().Assignment,
+	"ENBStatusTransferTransparentContainerExtIEsValue":         s09.ENBStatusTransferTransparentContainerExtIEs().ID().Source().Assignment,
+	"ENDCSONConfigurationTransferExtIEsValue":                  s09.ENDCSONConfigurationTransferExtIEs().ID().Source().Assignment,
+	"ENDCTransferTypeRequestExtIEsValue":                       s10.ENDCTransferTypeRequestExtIEs().ID().Source().Assignment,
+	"ENDCTransferTypeReplyExtIEsValue":                         s09.ENDCTransferTypeReplyExtIEs().ID().Source().Assignment,
+	"ENDCSONeNBIdentificationExtIEsValue":                      s09.ENDCSONeNBIdentificationExtIEs().ID().Source().Assignment,
+	"ENDCSONengNBIdentificationExtIEsValue":                    s09.ENDCSONengNBIdentificationExtIEs().ID().Source().Assignment,
+	"ERABInformationListIEValue":                               s37.ERABInformationListIEs().ID().Source().Assignment,
+	"ERABInformationListItemExtIEsValue":                       s37.ERABInformationListItemExtIEs().ID().Source().Assignment,
+	"ERABItemIEValue":                                          s19.ERABItemIEs().ID().Source().Assignment,
+	"ERABItemExtIEsValue":                                      s10.ERABItemExtIEs().ID().Source().Assignment,
+	"ERABSecurityResultListIEValue":                            s38.ERABSecurityResultListIEs().ID().Source().Assignment,
+	"ERABSecurityResultItemExtIEsValue":                        s10.ERABSecurityResultItemExtIEs().ID().Source().Assignment,
+	"ERABUsageReportItemIEValue":                               s20.ERABUsageReportItemIEs().ID().Source().Assignment,
+	"ERABUsageReportItemExtIEsValue":                           s10.ERABUsageReportItemExtIEs().ID().Source().Assignment,
+	"ERABQoSParametersExtIEsValue":                             s10.ERABQoSParametersExtIEs().ID().Source().Assignment,
+	"EUTRANCGIExtIEsValue":                                     s10.EUTRANCGIExtIEs().ID().Source().Assignment,
+	"EventL1LoggedMDTConfigExtIEsValue":                        s10.EventL1LoggedMDTConfigExtIEs().ID().Source().Assignment,
+	"EventTriggerExtIEValue":                                   s10.EventTriggerExtIEs().ID().Source().Assignment,
+	"ExpectedUEBehaviourExtIEsValue":                           s10.ExpectedUEBehaviourExtIEs().ID().Source().Assignment,
+	"ExpectedUEActivityBehaviourExtIEsValue":                   s10.ExpectedUEActivityBehaviourExtIEs().ID().Source().Assignment,
+	"FiveGSTAIExtIEsValue":                                     s10.FiveGSTAIExtIEs().ID().Source().Assignment,
+	"ForbiddenTAsItemExtIEsValue":                              s10.ForbiddenTAsItemExtIEs().ID().Source().Assignment,
+	"ForbiddenLAsItemExtIEsValue":                              s10.ForbiddenLAsItemExtIEs().ID().Source().Assignment,
+	"GBRQosInformationExtIEsValue":                             s11.GBRQosInformationExtIEs().ID().Source().Assignment,
+	"GUMMEIExtIEsValue":                                        s11.GUMMEIExtIEs().ID().Source().Assignment,
+	"HandoverRestrictionListExtIEsValue":                       s53.HandoverRestrictionListExtIEs().ID().Source().Assignment,
+	"ImmediateMDTExtIEsValue":                                  s59.ImmediateMDTExtIEs().ID().Source().Assignment,
+	"InformationOnRecommendedCellsAndENBsForPagingExtIEsValue": s11.InformationOnRecommendedCellsAndENBsForPagingExtIEs().ID().Source().Assignment,
+	"IntersystemMeasurementConfigurationExtIEsValue":           s11.IntersystemMeasurementConfigurationExtIEs().ID().Source().Assignment,
+	"InterSystemMeasurementParametersExtIEsValue":              s11.InterSystemMeasurementParametersExtIEs().ID().Source().Assignment,
+	"InterSystemMeasurementItemExtIEsValue":                    s11.InterSystemMeasurementItemExtIEs().ID().Source().Assignment,
+	"LAIExtIEsValue":                                           s11.LAIExtIEs().ID().Source().Assignment,
+	"LastVisitedEUTRANCellInformationExtIEsValue":              s52.LastVisitedEUTRANCellInformationExtIEs().ID().Source().Assignment,
+	"LastVisitedPSCellInformationExtIEsValue":                  s11.LastVisitedPSCellInformationExtIEs().ID().Source().Assignment,
+	"ListeningSubframePatternExtIEsValue":                      s11.ListeningSubframePatternExtIEs().ID().Source().Assignment,
+	"LoggedMDTExtIEsValue":                                     s59.LoggedMDTExtIEs().ID().Source().Assignment,
+	"LoggedMBSFNMDTExtIEsValue":                                s11.LoggedMBSFNMDTExtIEs().ID().Source().Assignment,
+	"LTENTNTAIInformationExtIEsValue":                          s11.LTENTNTAIInformationExtIEs().ID().Source().Assignment,
+	"M3ConfigurationExtIEsValue":                               s11.M3ConfigurationExtIEs().ID().Source().Assignment,
+	"M4ConfigurationExtIEsValue":                               s11.M4ConfigurationExtIEs().ID().Source().Assignment,
+	"M5ConfigurationExtIEsValue":                               s11.M5ConfigurationExtIEs().ID().Source().Assignment,
+	"M6ConfigurationExtIEsValue":                               s11.M6ConfigurationExtIEs().ID().Source().Assignment,
+	"M7ConfigurationExtIEsValue":                               s11.M7ConfigurationExtIEs().ID().Source().Assignment,
+	"MDTConfigurationExtIEsValue":                              s52.MDTConfigurationExtIEs().ID().Source().Assignment,
+	"MBSFNResultToLogInfoExtIEsValue":                          s11.MBSFNResultToLogInfoExtIEs().ID().Source().Assignment,
+	"MDTModeExtensionIEIEValue":                                s28.MDTModeExtensionIE().ID().Source().Assignment,
+	"MeasurementThresholdL1LoggedMDTExtIEValue":                s12.MeasurementThresholdL1LoggedMDTExtIEs().ID().Source().Assignment,
+	"MutingPatternInformationExtIEsValue":                      s12.MutingPatternInformationExtIEs().ID().Source().Assignment,
+	"NBIoTPagingEDRXInformationExtIEsValue":                    s12.NBIoTPagingEDRXInformationExtIEs().ID().Source().Assignment,
+	"NRCGIExtIEsValue":                                         s12.NRCGIExtIEs().ID().Source().Assignment,
+	"NRUESecurityCapabilitiesExtIEsValue":                      s12.NRUESecurityCapabilitiesExtIEs().ID().Source().Assignment,
+	"NRV2XServicesAuthorizedExtIEsValue":                       s12.NRV2XServicesAuthorizedExtIEs().ID().Source().Assignment,
+	"NRUESidelinkAggregateMaximumBitrateExtIEsValue":           s12.NRUESidelinkAggregateMaximumBitrateExtIEs().ID().Source().Assignment,
+	"PagingAttemptInformationExtIEsValue":                      s12.PagingAttemptInformationExtIEs().ID().Source().Assignment,
+	"PagingEDRXInformationExtIEsValue":                         s12.PagingEDRXInformationExtIEs().ID().Source().Assignment,
+	"PC5QoSParametersExtIEsValue":                              s12.PC5QoSParametersExtIEs().ID().Source().Assignment,
+	"PC5QoSFlowItemExtIEsValue":                                s12.PC5QoSFlowItemExtIEs().ID().Source().Assignment,
+	"PC5FlowBitRatesExtIEsValue":                               s12.PC5FlowBitRatesExtIEs().ID().Source().Assignment,
+	"M1PeriodicReportingExtIEsValue":                           s11.M1PeriodicReportingExtIEs().ID().Source().Assignment,
+	"PLMNAreaBasedQMCExtIEsValue":                              s12.PLMNAreaBasedQMCExtIEs().ID().Source().Assignment,
+	"ProSeAuthorizedExtIEsValue":                               s12.ProSeAuthorizedExtIEs().ID().Source().Assignment,
+	"PSCellInformationExtIEsValue":                             s12.PSCellInformationExtIEs().ID().Source().Assignment,
+	"RecommendedCellsForPagingExtIEsValue":                     s12.RecommendedCellsForPagingExtIEs().ID().Source().Assignment,
+	"RecommendedCellItemIEValue":                               s30.RecommendedCellItemIEs().ID().Source().Assignment,
+	"RecommendedCellsForPagingItemExtIEsValue":                 s12.RecommendedCellsForPagingItemExtIEs().ID().Source().Assignment,
+	"RecommendedENBsForPagingExtIEsValue":                      s12.RecommendedENBsForPagingExtIEs().ID().Source().Assignment,
+	"RecommendedENBItemIEValue":                                s40.RecommendedENBItemIEs().ID().Source().Assignment,
+	"RecommendedENBItemExtIEsValue":                            s12.RecommendedENBItemExtIEs().ID().Source().Assignment,
+	"RATRestrictionsItemExtIEsValue":                           s12.RATRestrictionsItemExtIEs().ID().Source().Assignment,
+	"RequestedTNLInfoExtIEsValue":                              s13.RequestedTNLInfoExtIEs().ID().Source().Assignment,
+	"RequestTypeExtIEsValue":                                   s12.RequestTypeExtIEs().ID().Source().Assignment,
+	"RIMTransferExtIEsValue":                                   s12.RIMTransferExtIEs().ID().Source().Assignment,
+	"RLFReportInformationExtIEsValue":                          s12.RLFReportInformationExtIEs().ID().Source().Assignment,
+	"SecurityContextExtIEsValue":                               s13.SecurityContextExtIEs().ID().Source().Assignment,
+	"SecondaryRATDataUsageReportItemIEValue":                   s36.SecondaryRATDataUsageReportItemIEs().ID().Source().Assignment,
+	"SecondaryRATDataUsageReportItemExtIEsValue":               s13.SecondaryRATDataUsageReportItemExtIEs().ID().Source().Assignment,
+	"SecurityIndicationExtIEsValue":                            s13.SecurityIndicationExtIEs().ID().Source().Assignment,
+	"SecurityResultExtIEsValue":                                s13.SecurityResultExtIEs().ID().Source().Assignment,
+	"SensorMeasConfigNameItemExtIEsValue":                      s13.SensorMeasConfigNameItemExtIEs().ID().Source().Assignment,
+	"SensorMeasurementConfigurationExtIEsValue":                s13.SensorMeasurementConfigurationExtIEs().ID().Source().Assignment,
+	"SensorNameConfigExtIEValue":                               s13.SensorNameConfigExtIEs().ID().Source().Assignment,
+	"SONInformationExtensionIEIEValue":                         s24.SONInformationExtensionIE().ID().Source().Assignment,
+	"SONInformationReplyExtIEsValue":                           s44.SONInformationReplyExtIEs().ID().Source().Assignment,
+	"SONConfigurationTransferExtIEsValue":                      s64.SONConfigurationTransferExtIEs().ID().Source().Assignment,
+	"SynchronisationInformationExtIEsValue":                    s13.SynchronisationInformationExtIEs().ID().Source().Assignment,
+	"SourceeNBIDExtIEsValue":                                   s13.SourceeNBIDExtIEs().ID().Source().Assignment,
+	"SourceNodeIDExtensionIEIEValue":                           s13.SourceNodeIDExtensionIE().ID().Source().Assignment,
+	"SourceeNBToTargeteNBTransparentContainerExtIEsValue":      s44.SourceeNBToTargeteNBTransparentContainerExtIEs().ID().Source().Assignment,
+	"SourceNgRanNodeIDExtIEsValue":                             s13.SourceNgRanNodeIDExtIEs().ID().Source().Assignment,
+	"ServedGUMMEIsItemExtIEsValue":                             s13.ServedGUMMEIsItemExtIEs().ID().Source().Assignment,
+	"SubscriptionBasedUEDifferentiationInfoExtIEsValue":        s13.SubscriptionBasedUEDifferentiationInfoExtIEs().ID().Source().Assignment,
+	"ScheduledCommunicationTimeExtIEsValue":                    s13.ScheduledCommunicationTimeExtIEs().ID().Source().Assignment,
+	"SupportedTAsItemExtIEsValue":                              s13.SupportedTAsItemExtIEs().ID().Source().Assignment,
+	"TimeSynchronisationInfoExtIEsValue":                       s14.TimeSynchronisationInfoExtIEs().ID().Source().Assignment,
+	"STMSIExtIEsValue":                                         s13.STMSIExtIEs().ID().Source().Assignment,
+	"TAIBasedMDTExtIEsValue":                                   s13.TAIBasedMDTExtIEs().ID().Source().Assignment,
+	"TAIExtIEsValue":                                           s13.TAIExtIEs().ID().Source().Assignment,
+	"TAIBroadcastItemExtIEsValue":                              s13.TAIBroadcastItemExtIEs().ID().Source().Assignment,
+	"TAICancelledItemExtIEsValue":                              s13.TAICancelledItemExtIEs().ID().Source().Assignment,
+	"TABasedMDTExtIEsValue":                                    s13.TABasedMDTExtIEs().ID().Source().Assignment,
+	"TABasedQMCExtIEsValue":                                    s13.TABasedQMCExtIEs().ID().Source().Assignment,
+	"TAIBasedQMCExtIEsValue":                                   s13.TAIBasedQMCExtIEs().ID().Source().Assignment,
+	"CompletedCellinTAIItemExtIEsValue":                        s09.CompletedCellinTAIItemExtIEs().ID().Source().Assignment,
+	"TargeteNBIDExtIEsValue":                                   s13.TargeteNBIDExtIEs().ID().Source().Assignment,
+	"TargetRNCIDExtIEsValue":                                   s13.TargetRNCIDExtIEs().ID().Source().Assignment,
+	"TargetNgRanNodeIDExtIEsValue":                             s13.TargetNgRanNodeIDExtIEs().ID().Source().Assignment,
+	"GNBExtIEsValue":                                           s11.GNBExtIEs().ID().Source().Assignment,
+	"GlobalGNBIDExtIEsValue":                                   s11.GlobalGNBIDExtIEs().ID().Source().Assignment,
+	"NGENBExtIEsValue":                                         s12.NGENBExtIEs().ID().Source().Assignment,
+	"TargeteNBToSourceeNBTransparentContainerExtIEsValue":      s50.TargeteNBToSourceeNBTransparentContainerExtIEs().ID().Source().Assignment,
+	"M1ThresholdEventA2ExtIEsValue":                            s11.M1ThresholdEventA2ExtIEs().ID().Source().Assignment,
+	"TimeBasedHandoverInformationExtIEsValue":                  s13.TimeBasedHandoverInformationExtIEs().ID().Source().Assignment,
+	"TraceActivationExtIEsValue":                               s59.TraceActivationExtIEs().ID().Source().Assignment,
+	"TunnelInformationExtIEsValue":                             s14.TunnelInformationExtIEs().ID().Source().Assignment,
+	"UEAggregateMaximumBitratesExtIEsValue":                    s14.UEAggregateMaximumBitratesExtIEs().ID().Source().Assignment,
+	"UEAppLayerMeasConfigExtIEsValue":                          s14.UEAppLayerMeasConfigExtIEs().ID().Source().Assignment,
+	"UES1APIDPairExtIEsValue":                                  s14.UES1APIDPairExtIEs().ID().Source().Assignment,
+	"UEAssociatedLogicalS1ConnectionItemExtIEsValue":           s14.UEAssociatedLogicalS1ConnectionItemExtIEs().ID().Source().Assignment,
+	"UESecurityCapabilitiesExtIEsValue":                        s14.UESecurityCapabilitiesExtIEs().ID().Source().Assignment,
+	"UESidelinkAggregateMaximumBitratesExtIEsValue":            s14.UESidelinkAggregateMaximumBitratesExtIEs().ID().Source().Assignment,
+	"ULCPSecurityInformationExtIEsValue":                       s14.ULCPSecurityInformationExtIEs().ID().Source().Assignment,
+	"UserLocationInformationExtIEsValue":                       s25.UserLocationInformationExtIEs().ID().Source().Assignment,
+	"V2XServicesAuthorizedExtIEsValue":                         s14.V2XServicesAuthorizedExtIEs().ID().Source().Assignment,
+	"WLANMeasurementConfigurationExtIEsValue":                  s14.WLANMeasurementConfigurationExtIEs().ID().Source().Assignment,
+	"WUSAssistanceInformationExtIEsValue":                      s15.WUSAssistanceInformationExtIEs().ID().Source().Assignment,
+	"X2TNLConfigurationInfoExtIEsValue":                        s48.X2TNLConfigurationInfoExtIEs().ID().Source().Assignment,
+	"ENBX2ExtTLAExtIEsValue":                                   s09.ENBX2ExtTLAExtIEs().ID().Source().Assignment,
+	"HandoverRequiredIEValue":                                  s43.HandoverRequiredIEs().ID().Source().Assignment,
+	"HandoverCommandIEValue":                                   s50.HandoverCommandIEs().ID().Source().Assignment,
+	"ERABDataForwardingItemIEValue":                            s18.ERABDataForwardingItemIEs().ID().Source().Assignment,
+	"ERABDataForwardingItemExtIEsValue":                        s10.ERABDataForwardingItemExtIEs().ID().Source().Assignment,
+	"HandoverPreparationFailureIEValue":                        s26.HandoverPreparationFailureIEs().ID().Source().Assignment,
+	"HandoverRequestIEValue":                                   s60.HandoverRequestIEs().ID().Source().Assignment,
+	"ERABToBeSetupItemHOReqIEValue":                            s38.ERABToBeSetupItemHOReqIEs().ID().Source().Assignment,
+	"ERABToBeSetupItemHOReqExtIEsValue":                        s37.ERABToBeSetupItemHOReqExtIEs().ID().Source().Assignment,
+	"HandoverRequestAcknowledgeIEValue":                        s49.HandoverRequestAcknowledgeIEs().ID().Source().Assignment,
+	"ERABAdmittedItemIEValue":                                  s18.ERABAdmittedItemIEs().ID().Source().Assignment,
+	"ERABAdmittedItemExtIEsValue":                              s10.ERABAdmittedItemExtIEs().ID().Source().Assignment,
+	"ERABFailedtoSetupItemHOReqAckIEValue":                     s18.ERABFailedtoSetupItemHOReqAckIEs().ID().Source().Assignment,
+	"ERABFailedToSetupItemHOReqAckExtIEsValue":                 s10.ERABFailedToSetupItemHOReqAckExtIEs().ID().Source().Assignment,
+	"HandoverFailureIEValue":                                   s26.HandoverFailureIEs().ID().Source().Assignment,
+	"HandoverNotifyIEValue":                                    s44.HandoverNotifyIEs().ID().Source().Assignment,
+	"PathSwitchRequestIEValue":                                 s51.PathSwitchRequestIEs().ID().Source().Assignment,
+	"ERABToBeSwitchedDLItemIEValue":                            s38.ERABToBeSwitchedDLItemIEs().ID().Source().Assignment,
+	"ERABToBeSwitchedDLItemExtIEsValue":                        s37.ERABToBeSwitchedDLItemExtIEs().ID().Source().Assignment,
+	"PathSwitchRequestAcknowledgeIEValue":                      s58.PathSwitchRequestAcknowledgeIEs().ID().Source().Assignment,
+	"ERABToBeSwitchedULItemIEValue":                            s20.ERABToBeSwitchedULItemIEs().ID().Source().Assignment,
+	"ERABToBeSwitchedULItemExtIEsValue":                        s10.ERABToBeSwitchedULItemExtIEs().ID().Source().Assignment,
+	"ERABToBeUpdatedItemIEValue":                               s37.ERABToBeUpdatedItemIEs().ID().Source().Assignment,
+	"ERABToBeUpdatedItemExtIEsValue":                           s10.ERABToBeUpdatedItemExtIEs().ID().Source().Assignment,
+	"PathSwitchRequestFailureIEValue":                          s27.PathSwitchRequestFailureIEs().ID().Source().Assignment,
+	"HandoverCancelIEValue":                                    s21.HandoverCancelIEs().ID().Source().Assignment,
+	"HandoverCancelAcknowledgeIEValue":                         s26.HandoverCancelAcknowledgeIEs().ID().Source().Assignment,
+	"HandoverSuccessIEValue":                                   s11.HandoverSuccessIEs().ID().Source().Assignment,
+	"ENBEarlyStatusTransferIEValue":                            s47.ENBEarlyStatusTransferIEs().ID().Source().Assignment,
+	"MMEEarlyStatusTransferIEValue":                            s47.MMEEarlyStatusTransferIEs().ID().Source().Assignment,
+	"ERABSetupRequestIEValue":                                  s51.ERABSetupRequestIEs().ID().Source().Assignment,
+	"ERABToBeSetupItemBearerSUReqIEValue":                      s38.ERABToBeSetupItemBearerSUReqIEs().ID().Source().Assignment,
+	"ERABToBeSetupItemBearerSUReqExtIEsValue":                  s37.ERABToBeSetupItemBearerSUReqExtIEs().ID().Source().Assignment,
+	"ERABSetupResponseIEValue":                                 s57.ERABSetupResponseIEs().ID().Source().Assignment,
+	"ERABSetupItemBearerSUResIEValue":                          s19.ERABSetupItemBearerSUResIEs().ID().Source().Assignment,
+	"ERABSetupItemBearerSUResExtIEsValue":                      s10.ERABSetupItemBearerSUResExtIEs().ID().Source().Assignment,
+	"ERABModifyRequestIEValue":                                 s51.ERABModifyRequestIEs().ID().Source().Assignment,
+	"ERABToBeModifiedItemBearerModReqIEValue":                  s29.ERABToBeModifiedItemBearerModReqIEs().ID().Source().Assignment,
+	"ERABToBeModifyItemBearerModReqExtIEsValue":                s24.ERABToBeModifyItemBearerModReqExtIEs().ID().Source().Assignment,
+	"ERABModifyResponseIEValue":                                s57.ERABModifyResponseIEs().ID().Source().Assignment,
+	"ERABModifyItemBearerModResIEValue":                        s19.ERABModifyItemBearerModResIEs().ID().Source().Assignment,
+	"ERABModifyItemBearerModResExtIEsValue":                    s10.ERABModifyItemBearerModResExtIEs().ID().Source().Assignment,
+	"ERABReleaseCommandIEValue":                                s49.ERABReleaseCommandIEs().ID().Source().Assignment,
+	"ERABReleaseResponseIEValue":                               s57.ERABReleaseResponseIEs().ID().Source().Assignment,
+	"ERABReleaseItemBearerRelCompIEValue":                      s19.ERABReleaseItemBearerRelCompIEs().ID().Source().Assignment,
+	"ERABReleaseItemBearerRelCompExtIEsValue":                  s10.ERABReleaseItemBearerRelCompExtIEs().ID().Source().Assignment,
+	"ERABReleaseIndicationIEValue":                             s57.ERABReleaseIndicationIEs().ID().Source().Assignment,
+	"InitialContextSetupRequestIEValue":                        s60.InitialContextSetupRequestIEs().ID().Source().Assignment,
+	"ERABToBeSetupItemCtxtSUReqIEValue":                        s38.ERABToBeSetupItemCtxtSUReqIEs().ID().Source().Assignment,
+	"ERABToBeSetupItemCtxtSUReqExtIEsValue":                    s37.ERABToBeSetupItemCtxtSUReqExtIEs().ID().Source().Assignment,
+	"InitialContextSetupResponseIEValue":                       s50.InitialContextSetupResponseIEs().ID().Source().Assignment,
+	"ERABSetupItemCtxtSUResIEValue":                            s20.ERABSetupItemCtxtSUResIEs().ID().Source().Assignment,
+	"ERABSetupItemCtxtSUResExtIEsValue":                        s10.ERABSetupItemCtxtSUResExtIEs().ID().Source().Assignment,
+	"InitialContextSetupFailureIEValue":                        s26.InitialContextSetupFailureIEs().ID().Source().Assignment,
+	"PagingIEValue":                                            s61.PagingIEs().ID().Source().Assignment,
+	"TAIItemIEValue":                                           s42.TAIItemIEs().ID().Source().Assignment,
+	"TAIItemExtIEsValue":                                       s13.TAIItemExtIEs().ID().Source().Assignment,
+	"UEContextReleaseRequestIEValue":                           s53.UEContextReleaseRequestIEs().ID().Source().Assignment,
+	"UEContextReleaseCommandIEValue":                           s46.UEContextReleaseCommandIEs().ID().Source().Assignment,
+	"UEContextReleaseCompleteIEValue":                          s57.UEContextReleaseCompleteIEs().ID().Source().Assignment,
+	"UEContextModificationRequestIEValue":                      s58.UEContextModificationRequestIEs().ID().Source().Assignment,
+	"UEContextModificationResponseIEValue":                     s27.UEContextModificationResponseIEs().ID().Source().Assignment,
+	"UEContextModificationFailureIEValue":                      s27.UEContextModificationFailureIEs().ID().Source().Assignment,
+	"UERadioCapabilityMatchRequestIEValue":                     s14.UERadioCapabilityMatchRequestIEs().ID().Source().Assignment,
+	"UERadioCapabilityMatchResponseIEValue":                    s28.UERadioCapabilityMatchResponseIEs().ID().Source().Assignment,
+	"DownlinkNASTransportIEValue":                              s53.DownlinkNASTransportIEs().ID().Source().Assignment,
+	"InitialUEMessageIEValue":                                  s44.InitialUEMessageIEs().ID().Source().Assignment,
+	"UplinkNASTransportIEValue":                                s41.UplinkNASTransportIEs().ID().Source().Assignment,
+	"NASNonDeliveryIndicationIEValue":                          s23.NASNonDeliveryIndicationIEs().ID().Source().Assignment,
+	"RerouteNASRequestIEValue":                                 s24.RerouteNASRequestIEs().ID().Source().Assignment,
+	"NASDeliveryIndicationIEValue":                             s12.NASDeliveryIndicationIEs().ID().Source().Assignment,
+	"ResetIEValue":                                             s45.ResetIEs().ID().Source().Assignment,
+	"UEAssociatedLogicalS1ConnectionItemResIEValue":            s45.UEAssociatedLogicalS1ConnectionItemRes().ID().Source().Assignment,
+	"ResetAcknowledgeIEValue":                                  s55.ResetAcknowledgeIEs().ID().Source().Assignment,
+	"UEAssociatedLogicalS1ConnectionItemResAckIEValue":         s45.UEAssociatedLogicalS1ConnectionItemResAck().ID().Source().Assignment,
+	"ErrorIndicationIEValue":                                   s36.ErrorIndicationIEs().ID().Source().Assignment,
+	"S1SetupRequestIEValue":                                    s54.S1SetupRequestIEs().ID().Source().Assignment,
+	"S1SetupResponseIEValue":                                   s54.S1SetupResponseIEs().ID().Source().Assignment,
+	"S1SetupFailureIEValue":                                    s27.S1SetupFailureIEs().ID().Source().Assignment,
+	"ENBConfigurationUpdateIEValue":                            s54.ENBConfigurationUpdateIEs().ID().Source().Assignment,
+	"ENBConfigurationUpdateAcknowledgeIEValue":                 s26.ENBConfigurationUpdateAcknowledgeIEs().ID().Source().Assignment,
+	"ENBConfigurationUpdateFailureIEValue":                     s26.ENBConfigurationUpdateFailureIEs().ID().Source().Assignment,
+	"MMEConfigurationUpdateIEValue":                            s54.MMEConfigurationUpdateIEs().ID().Source().Assignment,
+	"MMEConfigurationUpdateAcknowledgeIEValue":                 s26.MMEConfigurationUpdateAcknowledgeIEs().ID().Source().Assignment,
+	"MMEConfigurationUpdateFailureIEValue":                     s27.MMEConfigurationUpdateFailureIEs().ID().Source().Assignment,
+	"DownlinkS1cdma2000tunnellingIEValue":                      s50.DownlinkS1cdma2000tunnellingIEs().ID().Source().Assignment,
+	"UplinkS1cdma2000tunnellingIEValue":                        s25.UplinkS1cdma2000tunnellingIEs().ID().Source().Assignment,
+	"UECapabilityInfoIndicationIEValue":                        s14.UECapabilityInfoIndicationIEs().ID().Source().Assignment,
+	"ENBStatusTransferIEValue":                                 s25.ENBStatusTransferIEs().ID().Source().Assignment,
+	"MMEStatusTransferIEValue":                                 s25.MMEStatusTransferIEs().ID().Source().Assignment,
+	"TraceStartIEValue":                                        s60.TraceStartIEs().ID().Source().Assignment,
+	"TraceFailureIndicationIEValue":                            s24.TraceFailureIndicationIEs().ID().Source().Assignment,
+	"DeactivateTraceIEValue":                                   s09.DeactivateTraceIEs().ID().Source().Assignment,
+	"CellTrafficTraceIEValue":                                  s21.CellTrafficTraceIEs().ID().Source().Assignment,
+	"LocationReportingControlIEValue":                          s31.LocationReportingControlIEs().ID().Source().Assignment,
+	"LocationReportingFailureIndicationIEValue":                s22.LocationReportingFailureIndicationIEs().ID().Source().Assignment,
+	"LocationReportIEValue":                                    s41.LocationReportIEs().ID().Source().Assignment,
+	"OverloadStartIEValue":                                     s52.OverloadStartIEs().ID().Source().Assignment,
+	"OverloadStopIEValue":                                      s52.OverloadStopIEs().ID().Source().Assignment,
+	"WriteReplaceWarningRequestIEValue":                        s42.WriteReplaceWarningRequestIEs().ID().Source().Assignment,
+	"WriteReplaceWarningResponseIEValue":                       s41.WriteReplaceWarningResponseIEs().ID().Source().Assignment,
+	"ENBDirectInformationTransferIEValue":                      s43.ENBDirectInformationTransferIEs().ID().Source().Assignment,
+	"MMEDirectInformationTransferIEValue":                      s43.MMEDirectInformationTransferIEs().ID().Source().Assignment,
+	"ENBConfigurationTransferIEValue":                          s65.ENBConfigurationTransferIEs().ID().Source().Assignment,
+	"MMEConfigurationTransferIEValue":                          s65.MMEConfigurationTransferIEs().ID().Source().Assignment,
+	"KillRequestIEValue":                                       s42.KillRequestIEs().ID().Source().Assignment,
+	"KillResponseIEValue":                                      s41.KillResponseIEs().ID().Source().Assignment,
+	"PWSRestartIndicationIEValue":                              s55.PWSRestartIndicationIEs().ID().Source().Assignment,
+	"PWSFailureIndicationIEValue":                              s52.PWSFailureIndicationIEs().ID().Source().Assignment,
+	"DownlinkUEAssociatedLPPaTransportIEValue":                 s09.DownlinkUEAssociatedLPPaTransportIEs().ID().Source().Assignment,
+	"UplinkUEAssociatedLPPaTransportIEValue":                   s14.UplinkUEAssociatedLPPaTransportIEs().ID().Source().Assignment,
+	"DownlinkNonUEAssociatedLPPaTransportIEValue":              s09.DownlinkNonUEAssociatedLPPaTransportIEs().ID().Source().Assignment,
+	"UplinkNonUEAssociatedLPPaTransportIEValue":                s14.UplinkNonUEAssociatedLPPaTransportIEs().ID().Source().Assignment,
+	"ERABModificationIndicationIEValue":                        s57.ERABModificationIndicationIEs().ID().Source().Assignment,
+	"ERABToBeModifiedItemBearerModIndIEValue":                  s20.ERABToBeModifiedItemBearerModIndIEs().ID().Source().Assignment,
+	"ERABToBeModifiedItemBearerModIndExtIEsValue":              s10.ERABToBeModifiedItemBearerModIndExtIEs().ID().Source().Assignment,
+	"ERABNotToBeModifiedItemBearerModIndIEValue":               s19.ERABNotToBeModifiedItemBearerModIndIEs().ID().Source().Assignment,
+	"ERABNotToBeModifiedItemBearerModIndExtIEsValue":           s10.ERABNotToBeModifiedItemBearerModIndExtIEs().ID().Source().Assignment,
+	"CSGMembershipInfoExtIEsValue":                             s08.CSGMembershipInfoExtIEs().ID().Source().Assignment,
+	"ERABModificationConfirmIEValue":                           s49.ERABModificationConfirmIEs().ID().Source().Assignment,
+	"ERABModifyItemBearerModConfIEValue":                       s19.ERABModifyItemBearerModConfIEs().ID().Source().Assignment,
+	"ERABModifyItemBearerModConfExtIEsValue":                   s10.ERABModifyItemBearerModConfExtIEs().ID().Source().Assignment,
+	"UEContextModificationIndicationIEValue":                   s24.UEContextModificationIndicationIEs().ID().Source().Assignment,
+	"UEContextModificationConfirmIEValue":                      s27.UEContextModificationConfirmIEs().ID().Source().Assignment,
+	"UEContextSuspendRequestIEValue":                           s57.UEContextSuspendRequestIEs().ID().Source().Assignment,
+	"UEContextSuspendResponseIEValue":                          s37.UEContextSuspendResponseIEs().ID().Source().Assignment,
+	"UEContextResumeRequestIEValue":                            s48.UEContextResumeRequestIEs().ID().Source().Assignment,
+	"ERABFailedToResumeItemResumeReqIEValue":                   s18.ERABFailedToResumeItemResumeReqIEs().ID().Source().Assignment,
+	"ERABFailedToResumeItemResumeReqExtIEsValue":               s10.ERABFailedToResumeItemResumeReqExtIEs().ID().Source().Assignment,
+	"UEContextResumeResponseIEValue":                           s49.UEContextResumeResponseIEs().ID().Source().Assignment,
+	"ERABFailedToResumeItemResumeResIEValue":                   s18.ERABFailedToResumeItemResumeResIEs().ID().Source().Assignment,
+	"ERABFailedToResumeItemResumeResExtIEsValue":               s10.ERABFailedToResumeItemResumeResExtIEs().ID().Source().Assignment,
+	"UEContextResumeFailureIEValue":                            s28.UEContextResumeFailureIEs().ID().Source().Assignment,
+	"ConnectionEstablishmentIndicationIEValue":                 s39.ConnectionEstablishmentIndicationIEs().ID().Source().Assignment,
+	"RetrieveUEInformationIEValue":                             s36.RetrieveUEInformationIEs().ID().Source().Assignment,
+	"UEInformationTransferIEValue":                             s40.UEInformationTransferIEs().ID().Source().Assignment,
+	"ENBCPRelocationIndicationIEValue":                         s47.ENBCPRelocationIndicationIEs().ID().Source().Assignment,
+	"MMECPRelocationIndicationIEValue":                         s12.MMECPRelocationIndicationIEs().ID().Source().Assignment,
+	"SecondaryRATDataUsageReportIEValue":                       s57.SecondaryRATDataUsageReportIEs().ID().Source().Assignment,
+	"UERadioCapabilityIDMappingRequestIEValue":                 s14.UERadioCapabilityIDMappingRequestIEs().ID().Source().Assignment,
+	"UERadioCapabilityIDMappingResponseIEValue":                s28.UERadioCapabilityIDMappingResponseIEs().ID().Source().Assignment,
+	"S1RemovalRequestIEValue":                                  s24.S1RemovalRequestIEs().ID().Source().Assignment,
+	"S1RemovalResponseIEValue":                                 s27.S1RemovalResponseIEs().ID().Source().Assignment,
+	"S1RemovalFailureIEValue":                                  s27.S1RemovalFailureIEs().ID().Source().Assignment,
 }
 
 func asn1SelectedObserve(value reflect.Value) {
@@ -664,7 +706,7 @@ func asn1TypedProjection(value reflect.Value, path string) any {
 // TestVectorUeContextReleaseRequestCauseNas verifies 3GPP TS 36.413 V19.2.0 (2026-06), sections 9.1.4.5 and 9.3.4; CauseNas has four root values before the extension marker.
 func TestVectorUeContextReleaseRequestCauseNas(t *testing.T) {
 	input := asn1VectorHex(t, "001240140000030000000200010008000200020002400126")
-	var decoded s53.S1APPDU
+	var decoded s66.S1APPDU
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -696,7 +738,7 @@ func TestVectorUeContextReleaseRequestCauseNas(t *testing.T) {
 // TestVectorCauseNasRootExtensionBoundary verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4, Cause and CauseNas.
 func TestVectorCauseNasRootExtensionBoundary(t *testing.T) {
 	input := asn1VectorHex(t, "26")
-	var decoded s14.Cause
+	var decoded s17.Cause
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -717,7 +759,7 @@ func TestVectorCauseNasRootExtensionBoundary(t *testing.T) {
 // TestVectorErabInformationDapsExtensionRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-06), sections 9.3.4 and 9.3.6; id-DAPSRequestInfo 317.
 func TestVectorErabInformationDapsExtensionRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "250000013d400100")
-	var decoded s29.ERABInformationListItem
+	var decoded s37.ERABInformationListItem
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -739,7 +781,7 @@ func TestVectorErabInformationDapsExtensionRecursive(t *testing.T) {
 // TestVectorErabInformationUnknownExtensionPreserved verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; unknown/private ProtocolExtensionField values remain raw.
 func TestVectorErabInformationUnknownExtensionPreserved(t *testing.T) {
 	input := asn1VectorHex(t, "250000fffc4004deadbeef")
-	var decoded s29.ERABInformationListItem
+	var decoded s37.ERABInformationListItem
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -761,7 +803,7 @@ func TestVectorErabInformationUnknownExtensionPreserved(t *testing.T) {
 // TestVectorErabInformationMalformedDapsFullPath verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; malformed DAPS extension diagnostics retain the complete containing path.
 func TestVectorErabInformationMalformedDapsFullPath(t *testing.T) {
 	input := asn1VectorHex(t, "250000013d4001ff")
-	var decoded s29.ERABInformationListItem
+	var decoded s37.ERABInformationListItem
 	_, err := decoded.UnmarshalAPER(input)
 	if err == nil {
 		t.Fatal("decode succeeded, want error")
@@ -777,7 +819,7 @@ func TestVectorErabInformationMalformedDapsFullPath(t *testing.T) {
 // TestVectorProtocolIeFieldConstrainedHeader verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.7; ProtocolIE-Field APER constrained header.
 func TestVectorProtocolIeFieldConstrainedHeader(t *testing.T) {
 	input := asn1VectorHex(t, "12344001aa")
-	codec := s13.EventTriggerExtIEValueIEFieldTableCodec(s09.EventTriggerExtIEs().Table())
+	codec := s15.EventTriggerExtIEValueIEFieldTableCodec(s10.EventTriggerExtIEs().Table())
 	complete, _, err := codec.DecodeAPER(input)
 	decoded := complete.Value
 	if err != nil {
@@ -800,7 +842,7 @@ func TestVectorProtocolIeFieldConstrainedHeader(t *testing.T) {
 // TestVectorS1apPduConstrainedHeader verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.2; S1AP-PDU APER constrained header.
 func TestVectorS1apPduConstrainedHeader(t *testing.T) {
 	input := asn1VectorHex(t, "002e0002bbcc")
-	var decoded s53.S1APPDU
+	var decoded s66.S1APPDU
 	_, err := decoded.UnmarshalAPER(input)
 	if err == nil {
 		t.Fatal("decode succeeded, want error")
@@ -813,7 +855,7 @@ func TestVectorS1apPduConstrainedHeader(t *testing.T) {
 // TestVectorPagingTaiListRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-06), sections 9.1.6 and 9.3.3; Paging TAIList applies TAIItemIEs recursively.
 func TestVectorPagingTaiListRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "000001002e400b00002f40060001f0101234")
-	var decoded s50.Paging
+	var decoded s61.Paging
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -836,7 +878,7 @@ func TestVectorPagingTaiListRecursive(t *testing.T) {
 // TestVectorPagingProcedureRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.1.6; initiating Paging procedure recursively resolves its argument and nested TAI items.
 func TestVectorPagingProcedureRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "000a4012000001002e400b00002f40060001f0101234")
-	var decoded s53.S1APPDU
+	var decoded s66.S1APPDU
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -868,7 +910,7 @@ func TestVectorPagingProcedureRecursive(t *testing.T) {
 // TestVectorResetAcknowledgeConnectionListRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.1.8.2; ResetAcknowledge recursively resolves UE-associated logical S1 connections.
 func TestVectorResetAcknowledgeConnectionListRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "000001005d400900005b000460070009")
-	var decoded s45.ResetAcknowledge
+	var decoded s55.ResetAcknowledge
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -891,7 +933,7 @@ func TestVectorResetAcknowledgeConnectionListRecursive(t *testing.T) {
 // TestVectorEventTriggerEmptyChoiceExtensionSet verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; empty extensible EventTrigger-ExtIEs preserves private values.
 func TestVectorEventTriggerEmptyChoiceExtensionSet(t *testing.T) {
 	input := asn1VectorHex(t, "80fffc4004deadbeef")
-	var decoded s19.EventTrigger
+	var decoded s22.EventTrigger
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -914,7 +956,7 @@ func TestVectorEventTriggerEmptyChoiceExtensionSet(t *testing.T) {
 // TestVectorMeasurementThresholdEmptyChoiceExtensionSet verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; empty extensible MeasurementThresholdL1LoggedMDT-ExtIEs preserves private values.
 func TestVectorMeasurementThresholdEmptyChoiceExtensionSet(t *testing.T) {
 	input := asn1VectorHex(t, "80fffc4004deadbeef")
-	var decoded s19.MeasurementThresholdL1LoggedMDT
+	var decoded s22.MeasurementThresholdL1LoggedMDT
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -937,7 +979,7 @@ func TestVectorMeasurementThresholdEmptyChoiceExtensionSet(t *testing.T) {
 // TestVectorSensorNameEmptyChoiceExtensionSet verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; empty extensible SensorNameConfig-ExtIEs preserves private values.
 func TestVectorSensorNameEmptyChoiceExtensionSet(t *testing.T) {
 	input := asn1VectorHex(t, "80fffc4004deadbeef")
-	var decoded s30.SensorNameConfig
+	var decoded s39.SensorNameConfig
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -960,7 +1002,7 @@ func TestVectorSensorNameEmptyChoiceExtensionSet(t *testing.T) {
 // TestVectorTargetTransparentContainerDapsRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; target transparent container DAPS response list and nested private extension.
 func TestVectorTargetTransparentContainerDapsRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "4001010000013e401100013f400c4a000000fffc4004deadbeef")
-	var decoded s40.TargeteNBToSourceeNBTransparentContainer
+	var decoded s50.TargeteNBToSourceeNBTransparentContainer
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -986,7 +1028,7 @@ func TestVectorTargetTransparentContainerDapsRecursive(t *testing.T) {
 // TestVectorTargetTransparentContainerUnknownExtension verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; unknown target transparent container extension remains raw.
 func TestVectorTargetTransparentContainerUnknownExtension(t *testing.T) {
 	input := asn1VectorHex(t, "4001010000fffc4004deadbeef")
-	var decoded s40.TargeteNBToSourceeNBTransparentContainer
+	var decoded s50.TargeteNBToSourceeNBTransparentContainer
 	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -1009,7 +1051,7 @@ func TestVectorTargetTransparentContainerUnknownExtension(t *testing.T) {
 // TestVectorTargetTransparentContainerMalformedDapsPath verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; malformed DAPS response list reports full containing path and identifier.
 func TestVectorTargetTransparentContainerMalformedDapsPath(t *testing.T) {
 	input := asn1VectorHex(t, "4001010000013e4000")
-	var decoded s40.TargeteNBToSourceeNBTransparentContainer
+	var decoded s50.TargeteNBToSourceeNBTransparentContainer
 	_, err := decoded.UnmarshalAPER(input)
 	if err == nil {
 		t.Fatal("decode succeeded, want error")
@@ -1025,7 +1067,7 @@ func TestVectorTargetTransparentContainerMalformedDapsPath(t *testing.T) {
 // TestVectorTargetTransparentContainerDirectExtensionField verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; direct recursive ProtocolExtensionField DAPS decoding and fuzz boundary.
 func TestVectorTargetTransparentContainerDirectExtensionField(t *testing.T) {
 	input := asn1VectorHex(t, "00013f400c4a000000fffc4004deadbeef")
-	binding := s40.TargeteNBToSourceeNBTransparentContainerExtIEs().DAPSResponseInfoList()
+	binding := s50.TargeteNBToSourceeNBTransparentContainerExtIEs().DAPSResponseInfoList()
 	complete, _, err := binding.Codec().DecodeAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -1043,7 +1085,7 @@ func TestVectorTargetTransparentContainerDirectExtensionField(t *testing.T) {
 // TestVectorTaiItemDirectProtocolIeField verifies 3GPP TS 36.413 V19.2.0 (2026-06), sections 9.3.3 and 9.3.7; direct recursive TAIItem ProtocolIE-Field decoding and fuzz boundary.
 func TestVectorTaiItemDirectProtocolIeField(t *testing.T) {
 	input := asn1VectorHex(t, "0001f0101234")
-	binding := s34.TAIItemIEs().TAIItem()
+	binding := s42.TAIItemIEs().TAIItem()
 	complete, _, err := binding.Codec().DecodeAPER(input)
 	if err != nil {
 		t.Fatal(err)
@@ -1058,18 +1100,76 @@ func TestVectorTaiItemDirectProtocolIeField(t *testing.T) {
 	asn1VectorAssertPath(t, subject, "[0].Value.TAI.PLMNidentity", "\"AfAQ\"")
 	asn1VectorAssertPath(t, subject, "[0].Value.TAI.TAC", "\"EjQ=\"")
 }
+func FuzzAPERS1APPDUProtocolValueNonzeroTerminalPadding(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("001240140000030000000200010008000200020002400126"))
+	f.Add(asn1VectorHexForFuzz("000a4012000001002e400b00002f40060001f0101234"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded s66.S1APPDU
+		report, err := decoded.UnmarshalAPER(input, aper.WithNonzeroTerminalPadding())
+		asn1VectorCheckPaddingReport(t, report, input, false)
+		if err != nil {
+			return
+		}
+		replay, err := decoded.MarshalAPER()
+		if err != nil {
+			t.Fatalf("accepted input cannot replay: %v", err)
+		}
+		if !bytes.Equal(replay, input) {
+			t.Fatalf("replay = %x, want %x", replay, input)
+		}
+		fresh, err := decoded.MarshalAPER(aper.WithoutReplay())
+		if err != nil {
+			t.Fatalf("fresh encode: %v", err)
+		}
+		var again s66.S1APPDU
+		freshReport, err := again.UnmarshalAPER(fresh)
+		asn1VectorCheckPaddingReport(t, freshReport, fresh, true)
+		if err != nil {
+			t.Fatalf("fresh decode: %v", err)
+		}
+	})
+}
+func FuzzAPERS1APPDUProtocolValueReceiverNonzeroTerminalPadding(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("001240140000030000000200010008000200020002400126"))
+	f.Add(asn1VectorHexForFuzz("000a4012000001002e400b00002f40060001f0101234"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded s66.S1APPDU
+		report, err := decoded.UnmarshalAPER(input, aper.WithNonzeroTerminalPadding(), aper.WithReceiverMode())
+		asn1VectorCheckPaddingReport(t, report, input, false)
+		if err != nil {
+			return
+		}
+		replay, err := decoded.MarshalAPER()
+		if err != nil {
+			t.Fatalf("accepted input cannot replay: %v", err)
+		}
+		if !bytes.Equal(replay, input) {
+			t.Fatalf("replay = %x, want %x", replay, input)
+		}
+		fresh, err := decoded.MarshalAPER(aper.WithoutReplay())
+		if err != nil {
+			t.Fatalf("fresh encode: %v", err)
+		}
+		var again s66.S1APPDU
+		freshReport, err := again.UnmarshalAPER(fresh, aper.WithReceiverMode())
+		asn1VectorCheckPaddingReport(t, freshReport, fresh, true)
+		if err != nil {
+			t.Fatalf("fresh decode: %v", err)
+		}
+	})
+}
 func FuzzAPERS1APPDUProtocolValue(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("001240140000030000000200010008000200020002400126"))
 	f.Add(asn1VectorHexForFuzz("000a4012000001002e400b00002f40060001f0101234"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded s53.S1APPDU
+		var decoded s66.S1APPDU
 		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
 func FuzzAPERCause(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("26"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded s14.Cause
+		var decoded s17.Cause
 		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
@@ -1078,55 +1178,111 @@ func FuzzAPERERABInformationListItemProtocolExtensions(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("250000fffc4004deadbeef"))
 	f.Add(asn1VectorHexForFuzz("250000013d4001ff"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded s29.ERABInformationListItem
+		var decoded s37.ERABInformationListItem
 		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
 func FuzzAPERProtocolIEField(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("12344001aa"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		_, _, _ = s13.EventTriggerExtIEValueIEFieldTableCodec(s09.EventTriggerExtIEs().Table()).DecodeAPER(input)
+		_, _, _ = s15.EventTriggerExtIEValueIEFieldTableCodec(s10.EventTriggerExtIEs().Table()).DecodeAPER(input)
+	})
+}
+func FuzzAPERS1APPDUNonzeroTerminalPadding(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("002e0002bbcc"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded s66.S1APPDU
+		report, err := decoded.UnmarshalAPER(input, aper.WithNonzeroTerminalPadding())
+		asn1VectorCheckPaddingReport(t, report, input, false)
+		if err != nil {
+			return
+		}
+		replay, err := decoded.MarshalAPER()
+		if err != nil {
+			t.Fatalf("accepted input cannot replay: %v", err)
+		}
+		if !bytes.Equal(replay, input) {
+			t.Fatalf("replay = %x, want %x", replay, input)
+		}
+		fresh, err := decoded.MarshalAPER(aper.WithoutReplay())
+		if err != nil {
+			t.Fatalf("fresh encode: %v", err)
+		}
+		var again s66.S1APPDU
+		freshReport, err := again.UnmarshalAPER(fresh)
+		asn1VectorCheckPaddingReport(t, freshReport, fresh, true)
+		if err != nil {
+			t.Fatalf("fresh decode: %v", err)
+		}
+	})
+}
+func FuzzAPERS1APPDUReceiverNonzeroTerminalPadding(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("002e0002bbcc"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded s66.S1APPDU
+		report, err := decoded.UnmarshalAPER(input, aper.WithNonzeroTerminalPadding(), aper.WithReceiverMode())
+		asn1VectorCheckPaddingReport(t, report, input, false)
+		if err != nil {
+			return
+		}
+		replay, err := decoded.MarshalAPER()
+		if err != nil {
+			t.Fatalf("accepted input cannot replay: %v", err)
+		}
+		if !bytes.Equal(replay, input) {
+			t.Fatalf("replay = %x, want %x", replay, input)
+		}
+		fresh, err := decoded.MarshalAPER(aper.WithoutReplay())
+		if err != nil {
+			t.Fatalf("fresh encode: %v", err)
+		}
+		var again s66.S1APPDU
+		freshReport, err := again.UnmarshalAPER(fresh, aper.WithReceiverMode())
+		asn1VectorCheckPaddingReport(t, freshReport, fresh, true)
+		if err != nil {
+			t.Fatalf("fresh decode: %v", err)
+		}
 	})
 }
 func FuzzAPERS1APPDU(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("002e0002bbcc"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded s53.S1APPDU
+		var decoded s66.S1APPDU
 		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
 func FuzzAPERPagingProtocolIes(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("000001002e400b00002f40060001f0101234"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded s50.Paging
+		var decoded s61.Paging
 		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
 func FuzzAPERResetAcknowledgeProtocolIes(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("000001005d400900005b000460070009"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded s45.ResetAcknowledge
+		var decoded s55.ResetAcknowledge
 		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
 func FuzzAPEREventTriggerProtocolIes(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("80fffc4004deadbeef"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded s19.EventTrigger
+		var decoded s22.EventTrigger
 		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
 func FuzzAPERMeasurementThresholdL1LoggedMDTProtocolIes(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("80fffc4004deadbeef"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded s19.MeasurementThresholdL1LoggedMDT
+		var decoded s22.MeasurementThresholdL1LoggedMDT
 		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
 func FuzzAPERSensorNameConfigProtocolIes(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("80fffc4004deadbeef"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded s30.SensorNameConfig
+		var decoded s39.SensorNameConfig
 		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
@@ -1135,7 +1291,7 @@ func FuzzAPERTargeteNBToSourceeNBTransparentContainerProtocolExtensions(f *testi
 	f.Add(asn1VectorHexForFuzz("4001010000fffc4004deadbeef"))
 	f.Add(asn1VectorHexForFuzz("4001010000013e4000"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded s40.TargeteNBToSourceeNBTransparentContainer
+		var decoded s50.TargeteNBToSourceeNBTransparentContainer
 		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
@@ -1156,7 +1312,7 @@ func FuzzAPERDispatchProtocolExtensionRecursiveFieldTargeteNBToSourceeNBTranspar
 		if err := aper.EncodeOpenTypeAligned(bb, input); err != nil {
 			t.Fatal(err)
 		}
-		_, _, _ = s40.TargeteNBToSourceeNBTransparentContainerExtIEsValueExtensionFieldTableCodec(s40.TargeteNBToSourceeNBTransparentContainerExtIEs().Table()).DecodeAPER(bb.CompleteBytes())
+		_, _, _ = s50.TargeteNBToSourceeNBTransparentContainerExtIEsValueExtensionFieldTableCodec(s50.TargeteNBToSourceeNBTransparentContainerExtIEs().Table()).DecodeAPER(bb.CompleteBytes())
 	})
 }
 func FuzzAPERDispatchProtocolIeRecursiveFieldTAIItemIEsID47(f *testing.F) {
@@ -1176,6 +1332,6 @@ func FuzzAPERDispatchProtocolIeRecursiveFieldTAIItemIEsID47(f *testing.F) {
 		if err := aper.EncodeOpenTypeAligned(bb, input); err != nil {
 			t.Fatal(err)
 		}
-		_, _, _ = s34.TAIItemIEValueIEFieldTableCodec(s34.TAIItemIEs().Table()).DecodeAPER(bb.CompleteBytes())
+		_, _, _ = s42.TAIItemIEValueIEFieldTableCodec(s42.TAIItemIEs().Table()).DecodeAPER(bb.CompleteBytes())
 	})
 }

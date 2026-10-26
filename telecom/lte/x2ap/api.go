@@ -24,7 +24,6 @@ import (
 	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	big "math/big"
@@ -121,16 +120,16 @@ type ABSStatusExtIEsValue = s00.ABSStatusExtIEsValue
 type ABSStatusValueCodec = s06.ABSStatusValueCodec
 
 // APERValue carries a source value and private replay state.
-type APERValue[T any] = s21.APERValue[T]
+type APERValue[T any] = s20.APERValue[T]
 
 // ASSecurityInformation represents the ASN.1 type AS-SecurityInformation (SEQUENCE).
-type ASSecurityInformation = s01.ASSecurityInformation
+type ASSecurityInformation = s00.ASSecurityInformation
 
 // ASSecurityInformationAPERValue is the concrete APERValue[ASSecurityInformation].
-type ASSecurityInformationAPERValue = s01.ASSecurityInformationAPERValue
+type ASSecurityInformationAPERValue = s00.ASSecurityInformationAPERValue
 
 // ASSecurityInformationCodec binds the complete source value type.
-var ASSecurityInformationCodec func() ASSecurityInformationValueCodec = s01.ASSecurityInformationCodec
+var ASSecurityInformationCodec func() ASSecurityInformationValueCodec = s00.ASSecurityInformationCodec
 
 type ASSecurityInformationExtIETable = s06.ASSecurityInformationExtIETable
 
@@ -144,18 +143,18 @@ type ASSecurityInformationExtIEsExtField = s00.ASSecurityInformationExtIEsExtFie
 type ASSecurityInformationExtIEsValue = s00.ASSecurityInformationExtIEsValue
 
 // ASSecurityInformationValueCodec is the concrete ValueCodec[ASSecurityInformation].
-type ASSecurityInformationValueCodec = s01.ASSecurityInformationValueCodec
+type ASSecurityInformationValueCodec = s00.ASSecurityInformationValueCodec
 
 // AccessAndMobilityIndication represents the ASN.1 type AccessAndMobilityIndication (SEQUENCE).
-type AccessAndMobilityIndication = s20.AccessAndMobilityIndication
+type AccessAndMobilityIndication = s19.AccessAndMobilityIndication
 
 // AccessAndMobilityIndicationAPERValue is the concrete APERValue[AccessAndMobilityIndication].
-type AccessAndMobilityIndicationAPERValue = s20.AccessAndMobilityIndicationAPERValue
+type AccessAndMobilityIndicationAPERValue = s19.AccessAndMobilityIndicationAPERValue
 
 // AccessAndMobilityIndicationCodec binds the complete APER value type.
-var AccessAndMobilityIndicationCodec func() AccessAndMobilityIndicationValueCodec = s20.AccessAndMobilityIndicationCodec
+var AccessAndMobilityIndicationCodec func() AccessAndMobilityIndicationValueCodec = s19.AccessAndMobilityIndicationCodec
 
-type AccessAndMobilityIndicationDescriptor = s20.AccessAndMobilityIndicationDescriptor
+type AccessAndMobilityIndicationDescriptor = s19.AccessAndMobilityIndicationDescriptor
 
 // AccessAndMobilityIndicationIEContainer is ProtocolIE-Container {{AccessAndMobilityIndication-IEs}} of TS 36.423 §9.3.8: a list of AccessAndMobilityIndicationIEField values.
 type AccessAndMobilityIndicationIEContainer = s16.AccessAndMobilityIndicationIEContainer
@@ -168,15 +167,15 @@ type AccessAndMobilityIndicationIEValue = s16.AccessAndMobilityIndicationIEValue
 var AccessAndMobilityIndicationIEs func() AccessAndMobilityIndicationIETable = s16.AccessAndMobilityIndicationIEs
 
 // AccessAndMobilityIndicationInitiatingBinding is the concrete InitiatingBinding[AccessAndMobilityIndication].
-type AccessAndMobilityIndicationInitiatingBinding = s20.AccessAndMobilityIndicationInitiatingBinding
+type AccessAndMobilityIndicationInitiatingBinding = s19.AccessAndMobilityIndicationInitiatingBinding
 
 // AccessAndMobilityIndicationNRRAReportIEBinding binds NRRAReport to ProtocolIE-Field {{AccessAndMobilityIndication-IEs}} of TS 36.423 §9.3.8.
 type AccessAndMobilityIndicationNRRAReportIEBinding = s16.AccessAndMobilityIndicationNRRAReportIEBinding
 
-var AccessAndMobilityIndicationProcedure func() AccessAndMobilityIndicationDescriptor = s20.AccessAndMobilityIndicationProcedure
+var AccessAndMobilityIndicationProcedure func() AccessAndMobilityIndicationDescriptor = s19.AccessAndMobilityIndicationProcedure
 
 // AccessAndMobilityIndicationValueCodec is the concrete ValueCodec[AccessAndMobilityIndication].
-type AccessAndMobilityIndicationValueCodec = s20.AccessAndMobilityIndicationValueCodec
+type AccessAndMobilityIndicationValueCodec = s19.AccessAndMobilityIndicationValueCodec
 type ActivatedCellList = s06.ActivatedCellList
 
 // ActivatedCellListAPERValue is the concrete APERValue[ActivatedCellList].
@@ -347,7 +346,7 @@ var AdditionalMeasurementTimingConfigurationListCodec func() AdditionalMeasureme
 
 // AdditionalMeasurementTimingConfigurationListComplete carries a complete AdditionalMeasurementTimingConfigurationList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type AdditionalMeasurementTimingConfigurationListComplete = s14.AdditionalMeasurementTimingConfigurationListComplete
+type AdditionalMeasurementTimingConfigurationListComplete = s13.AdditionalMeasurementTimingConfigurationListComplete
 
 // AdditionalMeasurementTimingConfigurationListValueCodec is the concrete ValueCodec[AdditionalMeasurementTimingConfigurationList].
 type AdditionalMeasurementTimingConfigurationListValueCodec = s06.AdditionalMeasurementTimingConfigurationListValueCodec
@@ -574,13 +573,13 @@ var BPLMNIDInfoEUTRACodec func() BPLMNIDInfoEUTRAValueCodec = s16.BPLMNIDInfoEUT
 type BPLMNIDInfoEUTRAComplete = s14.BPLMNIDInfoEUTRAComplete
 
 // BPLMNIDInfoEUTRAItem represents the ASN.1 type BPLMN-ID-Info-EUTRA-Item (SEQUENCE).
-type BPLMNIDInfoEUTRAItem = s09.BPLMNIDInfoEUTRAItem
+type BPLMNIDInfoEUTRAItem = s08.BPLMNIDInfoEUTRAItem
 
 // BPLMNIDInfoEUTRAItemAPERValue is the concrete APERValue[BPLMNIDInfoEUTRAItem].
-type BPLMNIDInfoEUTRAItemAPERValue = s09.BPLMNIDInfoEUTRAItemAPERValue
+type BPLMNIDInfoEUTRAItemAPERValue = s08.BPLMNIDInfoEUTRAItemAPERValue
 
 // BPLMNIDInfoEUTRAItemCodec binds the complete source value type.
-var BPLMNIDInfoEUTRAItemCodec func() BPLMNIDInfoEUTRAItemValueCodec = s09.BPLMNIDInfoEUTRAItemCodec
+var BPLMNIDInfoEUTRAItemCodec func() BPLMNIDInfoEUTRAItemValueCodec = s08.BPLMNIDInfoEUTRAItemCodec
 
 type BPLMNIDInfoEUTRAItemExtIETable = s06.BPLMNIDInfoEUTRAItemExtIETable
 
@@ -594,7 +593,7 @@ type BPLMNIDInfoEUTRAItemExtIEsExtField = s01.BPLMNIDInfoEUTRAItemExtIEsExtField
 type BPLMNIDInfoEUTRAItemExtIEsValue = s01.BPLMNIDInfoEUTRAItemExtIEsValue
 
 // BPLMNIDInfoEUTRAItemValueCodec is the concrete ValueCodec[BPLMNIDInfoEUTRAItem].
-type BPLMNIDInfoEUTRAItemValueCodec = s09.BPLMNIDInfoEUTRAItemValueCodec
+type BPLMNIDInfoEUTRAItemValueCodec = s08.BPLMNIDInfoEUTRAItemValueCodec
 
 // BPLMNIDInfoEUTRAValueCodec is the concrete ValueCodec[BPLMNIDInfoEUTRA].
 type BPLMNIDInfoEUTRAValueCodec = s09.BPLMNIDInfoEUTRAValueCodec
@@ -945,7 +944,7 @@ type CHOinformationModReq = s01.CHOinformationModReq
 type CHOinformationModReqAPERValue = s01.CHOinformationModReqAPERValue
 
 // CHOinformationModReqCodec binds the complete APER value type.
-var CHOinformationModReqCodec func() CHOinformationModReqValueCodec = s17.CHOinformationModReqCodec
+var CHOinformationModReqCodec func() CHOinformationModReqValueCodec = s16.CHOinformationModReqCodec
 
 type CHOinformationModReqExtIETable = s06.CHOinformationModReqExtIETable
 
@@ -1198,7 +1197,7 @@ type CPAinformationMODACKValueCodec = s06.CPAinformationMODACKValueCodec
 type CPAinformationMODAPERValue = s01.CPAinformationMODAPERValue
 
 // CPAinformationMODCodec binds the complete APER value type.
-var CPAinformationMODCodec func() CPAinformationMODValueCodec = s17.CPAinformationMODCodec
+var CPAinformationMODCodec func() CPAinformationMODValueCodec = s16.CPAinformationMODCodec
 
 type CPAinformationMODExtIETable = s06.CPAinformationMODExtIETable
 
@@ -1261,18 +1260,18 @@ type CPAinformationREQExtIEsValue = s01.CPAinformationREQExtIEsValue
 type CPAinformationREQValueCodec = s01.CPAinformationREQValueCodec
 
 // CPCCancel represents the ASN.1 type CPC-cancel (SEQUENCE).
-type CPCCancel = s20.CPCCancel
+type CPCCancel = s19.CPCCancel
 
 // CPCCancelAPERValue is the concrete APERValue[CPCCancel].
-type CPCCancelAPERValue = s20.CPCCancelAPERValue
+type CPCCancelAPERValue = s19.CPCCancelAPERValue
 
 // CPCCancelCauseIEBinding binds Cause to ProtocolIE-Field {{CPC-cancel-IEs}} of TS 36.423 §9.3.8.
 type CPCCancelCauseIEBinding = s11.CPCCancelCauseIEBinding
 
 // CPCCancelCodec binds the complete APER value type.
-var CPCCancelCodec func() CPCCancelValueCodec = s20.CPCCancelCodec
+var CPCCancelCodec func() CPCCancelValueCodec = s19.CPCCancelCodec
 
-type CPCCancelDescriptor = s20.CPCCancelDescriptor
+type CPCCancelDescriptor = s19.CPCCancelDescriptor
 
 // CPCCancelGlobalGNBIDIEBinding binds GlobalGNBID to ProtocolIE-Field {{CPC-cancel-IEs}} of TS 36.423 §9.3.8.
 type CPCCancelGlobalGNBIDIEBinding = s11.CPCCancelGlobalGNBIDIEBinding
@@ -1288,9 +1287,9 @@ type CPCCancelIEValue = s11.CPCCancelIEValue
 var CPCCancelIEs func() CPCCancelIETable = s11.CPCCancelIEs
 
 // CPCCancelInitiatingBinding is the concrete InitiatingBinding[CPCCancel].
-type CPCCancelInitiatingBinding = s20.CPCCancelInitiatingBinding
+type CPCCancelInitiatingBinding = s19.CPCCancelInitiatingBinding
 
-var CPCCancelProcedure func() CPCCancelDescriptor = s20.CPCCancelProcedure
+var CPCCancelProcedure func() CPCCancelDescriptor = s19.CPCCancelProcedure
 
 // CPCCancelSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{CPC-cancel-IEs}} of TS 36.423 §9.3.8.
 type CPCCancelSgNBUEX2APIDIEBinding = s11.CPCCancelSgNBUEX2APIDIEBinding
@@ -1302,7 +1301,7 @@ type CPCCancelUEX2APIDExtensionIEBinding = s11.CPCCancelUEX2APIDExtensionIEBindi
 type CPCCancelUEX2APIDIEBinding = s11.CPCCancelUEX2APIDIEBinding
 
 // CPCCancelValueCodec is the concrete ValueCodec[CPCCancel].
-type CPCCancelValueCodec = s20.CPCCancelValueCodec
+type CPCCancelValueCodec = s19.CPCCancelValueCodec
 
 // CPCTargetSgNBConfItem represents the ASN.1 type CPC-target-SgNB-conf-item (SEQUENCE).
 type CPCTargetSgNBConfItem = s06.CPCTargetSgNBConfItem
@@ -1523,7 +1522,7 @@ type CPCupdateMOD = s06.CPCupdateMOD
 type CPCupdateMODAPERValue = s06.CPCupdateMODAPERValue
 
 // CPCupdateMODCodec binds the complete APER value type.
-var CPCupdateMODCodec func() CPCupdateMODValueCodec = s17.CPCupdateMODCodec
+var CPCupdateMODCodec func() CPCupdateMODValueCodec = s16.CPCupdateMODCodec
 
 type CPCupdateMODExtIETable = s06.CPCupdateMODExtIETable
 
@@ -2009,7 +2008,7 @@ type CauseTransportValueCodec = s00.CauseTransportValueCodec
 
 // CauseValueCodec is the concrete ValueCodec[Cause].
 type CauseValueCodec = s00.CauseValueCodec
-type CellActivationDescriptor = s20.CellActivationDescriptor
+type CellActivationDescriptor = s19.CellActivationDescriptor
 
 // CellActivationFailure represents the ASN.1 type CellActivationFailure (SEQUENCE).
 type CellActivationFailure = s14.CellActivationFailure
@@ -2021,7 +2020,7 @@ type CellActivationFailureAPERValue = s14.CellActivationFailureAPERValue
 type CellActivationFailureCauseIEBinding = s06.CellActivationFailureCauseIEBinding
 
 // CellActivationFailureCodec binds the complete APER value type.
-var CellActivationFailureCodec func() CellActivationFailureValueCodec = s20.CellActivationFailureCodec
+var CellActivationFailureCodec func() CellActivationFailureValueCodec = s19.CellActivationFailureCodec
 
 // CellActivationFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{CellActivationFailure-IEs}} of TS 36.423 §9.3.8.
 type CellActivationFailureCriticalityDiagnosticsIEBinding = s06.CellActivationFailureCriticalityDiagnosticsIEBinding
@@ -2042,16 +2041,16 @@ type CellActivationFailureUnsuccessfulBinding = s14.CellActivationFailureUnsucce
 // CellActivationFailureValueCodec is the concrete ValueCodec[CellActivationFailure].
 type CellActivationFailureValueCodec = s14.CellActivationFailureValueCodec
 
-var CellActivationProcedure func() CellActivationDescriptor = s20.CellActivationProcedure
+var CellActivationProcedure func() CellActivationDescriptor = s19.CellActivationProcedure
 
 // CellActivationRequest represents the ASN.1 type CellActivationRequest (SEQUENCE).
-type CellActivationRequest = s20.CellActivationRequest
+type CellActivationRequest = s19.CellActivationRequest
 
 // CellActivationRequestAPERValue is the concrete APERValue[CellActivationRequest].
-type CellActivationRequestAPERValue = s20.CellActivationRequestAPERValue
+type CellActivationRequestAPERValue = s19.CellActivationRequestAPERValue
 
 // CellActivationRequestCodec binds the complete APER value type.
-var CellActivationRequestCodec func() CellActivationRequestValueCodec = s20.CellActivationRequestCodec
+var CellActivationRequestCodec func() CellActivationRequestValueCodec = s19.CellActivationRequestCodec
 
 // CellActivationRequestIEContainer is ProtocolIE-Container {{CellActivationRequest-IEs}} of TS 36.423 §9.3.8: a list of CellActivationRequestIEField values.
 type CellActivationRequestIEContainer = s17.CellActivationRequestIEContainer
@@ -2064,25 +2063,25 @@ type CellActivationRequestIEValue = s17.CellActivationRequestIEValue
 var CellActivationRequestIEs func() CellActivationRequestIETable = s17.CellActivationRequestIEs
 
 // CellActivationRequestInitiatingBinding is the concrete InitiatingBinding[CellActivationRequest].
-type CellActivationRequestInitiatingBinding = s20.CellActivationRequestInitiatingBinding
+type CellActivationRequestInitiatingBinding = s19.CellActivationRequestInitiatingBinding
 
 // CellActivationRequestServedCellsToActivateIEBinding binds ServedCellsToActivate to ProtocolIE-Field {{CellActivationRequest-IEs}} of TS 36.423 §9.3.8.
 type CellActivationRequestServedCellsToActivateIEBinding = s17.CellActivationRequestServedCellsToActivateIEBinding
 
 // CellActivationRequestValueCodec is the concrete ValueCodec[CellActivationRequest].
-type CellActivationRequestValueCodec = s20.CellActivationRequestValueCodec
+type CellActivationRequestValueCodec = s19.CellActivationRequestValueCodec
 
 // CellActivationResponse represents the ASN.1 type CellActivationResponse (SEQUENCE).
-type CellActivationResponse = s19.CellActivationResponse
+type CellActivationResponse = s18.CellActivationResponse
 
 // CellActivationResponseAPERValue is the concrete APERValue[CellActivationResponse].
-type CellActivationResponseAPERValue = s19.CellActivationResponseAPERValue
+type CellActivationResponseAPERValue = s18.CellActivationResponseAPERValue
 
 // CellActivationResponseActivatedCellListIEBinding binds ActivatedCellList to ProtocolIE-Field {{CellActivationResponse-IEs}} of TS 36.423 §9.3.8.
 type CellActivationResponseActivatedCellListIEBinding = s13.CellActivationResponseActivatedCellListIEBinding
 
 // CellActivationResponseCodec binds the complete APER value type.
-var CellActivationResponseCodec func() CellActivationResponseValueCodec = s20.CellActivationResponseCodec
+var CellActivationResponseCodec func() CellActivationResponseValueCodec = s19.CellActivationResponseCodec
 
 // CellActivationResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{CellActivationResponse-IEs}} of TS 36.423 §9.3.8.
 type CellActivationResponseCriticalityDiagnosticsIEBinding = s13.CellActivationResponseCriticalityDiagnosticsIEBinding
@@ -2098,10 +2097,10 @@ type CellActivationResponseIEValue = s13.CellActivationResponseIEValue
 var CellActivationResponseIEs func() CellActivationResponseIETable = s13.CellActivationResponseIEs
 
 // CellActivationResponseSuccessfulBinding is the concrete SuccessfulBinding[CellActivationResponse].
-type CellActivationResponseSuccessfulBinding = s19.CellActivationResponseSuccessfulBinding
+type CellActivationResponseSuccessfulBinding = s18.CellActivationResponseSuccessfulBinding
 
 // CellActivationResponseValueCodec is the concrete ValueCodec[CellActivationResponse].
-type CellActivationResponseValueCodec = s19.CellActivationResponseValueCodec
+type CellActivationResponseValueCodec = s18.CellActivationResponseValueCodec
 
 // CellAssistanceInformation represents the ASN.1 CHOICE type CellAssistanceInformation.
 type CellAssistanceInformation = s08.CellAssistanceInformation
@@ -2684,15 +2683,15 @@ type CellToReportNRENDCListComplete = s14.CellToReportNRENDCListComplete
 type CellToReportNRENDCListValueCodec = s08.CellToReportNRENDCListValueCodec
 
 // CellTrafficTrace represents the ASN.1 type CellTrafficTrace (SEQUENCE).
-type CellTrafficTrace = s20.CellTrafficTrace
+type CellTrafficTrace = s19.CellTrafficTrace
 
 // CellTrafficTraceAPERValue is the concrete APERValue[CellTrafficTrace].
-type CellTrafficTraceAPERValue = s20.CellTrafficTraceAPERValue
+type CellTrafficTraceAPERValue = s19.CellTrafficTraceAPERValue
 
 // CellTrafficTraceCodec binds the complete APER value type.
-var CellTrafficTraceCodec func() CellTrafficTraceValueCodec = s20.CellTrafficTraceCodec
+var CellTrafficTraceCodec func() CellTrafficTraceValueCodec = s19.CellTrafficTraceCodec
 
-type CellTrafficTraceDescriptor = s20.CellTrafficTraceDescriptor
+type CellTrafficTraceDescriptor = s19.CellTrafficTraceDescriptor
 
 // CellTrafficTraceEUTRANTraceIDIEBinding binds EUTRANTraceID to ProtocolIE-Field {{CellTrafficTraceIEs}} of TS 36.423 §9.3.8.
 type CellTrafficTraceEUTRANTraceIDIEBinding = s11.CellTrafficTraceEUTRANTraceIDIEBinding
@@ -2708,12 +2707,12 @@ type CellTrafficTraceIEValue = s11.CellTrafficTraceIEValue
 var CellTrafficTraceIEs func() CellTrafficTraceIETable = s11.CellTrafficTraceIEs
 
 // CellTrafficTraceInitiatingBinding is the concrete InitiatingBinding[CellTrafficTrace].
-type CellTrafficTraceInitiatingBinding = s20.CellTrafficTraceInitiatingBinding
+type CellTrafficTraceInitiatingBinding = s19.CellTrafficTraceInitiatingBinding
 
 // CellTrafficTracePrivacyIndicatorIEBinding binds PrivacyIndicator to ProtocolIE-Field {{CellTrafficTraceIEs}} of TS 36.423 §9.3.8.
 type CellTrafficTracePrivacyIndicatorIEBinding = s11.CellTrafficTracePrivacyIndicatorIEBinding
 
-var CellTrafficTraceProcedure func() CellTrafficTraceDescriptor = s20.CellTrafficTraceProcedure
+var CellTrafficTraceProcedure func() CellTrafficTraceDescriptor = s19.CellTrafficTraceProcedure
 
 // CellTrafficTraceSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{CellTrafficTraceIEs}} of TS 36.423 §9.3.8.
 type CellTrafficTraceSgNBUEX2APIDIEBinding = s11.CellTrafficTraceSgNBUEX2APIDIEBinding
@@ -2728,7 +2727,7 @@ type CellTrafficTraceUEX2APIDExtensionIEBinding = s11.CellTrafficTraceUEX2APIDEx
 type CellTrafficTraceUEX2APIDIEBinding = s11.CellTrafficTraceUEX2APIDIEBinding
 
 // CellTrafficTraceValueCodec is the concrete ValueCodec[CellTrafficTrace].
-type CellTrafficTraceValueCodec = s20.CellTrafficTraceValueCodec
+type CellTrafficTraceValueCodec = s19.CellTrafficTraceValueCodec
 
 // CellType represents the ASN.1 type CellType (SEQUENCE).
 type CellType = s04.CellType
@@ -2896,11 +2895,11 @@ type CoMPInformationStartTimeExtIETable = s06.CoMPInformationStartTimeExtIETable
 var CoMPInformationStartTimeExtIEs func() CoMPInformationStartTimeExtIETable = s06.CoMPInformationStartTimeExtIEs
 
 // CoMPInformationStartTimeExtIEsExtContainer is ProtocolExtensionContainer {{CoMPInformationStartTime-ExtIEs}} of TS 36.423 §9.3.8: a list of CoMPInformationStartTimeExtIEsExtField values.
-type CoMPInformationStartTimeExtIEsExtContainer = s02.CoMPInformationStartTimeExtIEsExtContainer
+type CoMPInformationStartTimeExtIEsExtContainer = s01.CoMPInformationStartTimeExtIEsExtContainer
 
 // CoMPInformationStartTimeExtIEsExtField is ProtocolExtensionField {{CoMPInformationStartTime-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
-type CoMPInformationStartTimeExtIEsExtField = s02.CoMPInformationStartTimeExtIEsExtField
-type CoMPInformationStartTimeExtIEsValue = s02.CoMPInformationStartTimeExtIEsValue
+type CoMPInformationStartTimeExtIEsExtField = s01.CoMPInformationStartTimeExtIEsExtField
+type CoMPInformationStartTimeExtIEsValue = s01.CoMPInformationStartTimeExtIEsValue
 
 // CoMPInformationStartTimeValueCodec is the concrete ValueCodec[CoMPInformationStartTime].
 type CoMPInformationStartTimeValueCodec = s06.CoMPInformationStartTimeValueCodec
@@ -3007,10 +3006,10 @@ type CompositeAvailableCapacityGroupValueCodec = s04.CompositeAvailableCapacityG
 type CompositeAvailableCapacityValueCodec = s04.CompositeAvailableCapacityValueCodec
 
 // ConditionalHandoverCancel represents the ASN.1 type ConditionalHandoverCancel (SEQUENCE).
-type ConditionalHandoverCancel = s20.ConditionalHandoverCancel
+type ConditionalHandoverCancel = s19.ConditionalHandoverCancel
 
 // ConditionalHandoverCancelAPERValue is the concrete APERValue[ConditionalHandoverCancel].
-type ConditionalHandoverCancelAPERValue = s20.ConditionalHandoverCancelAPERValue
+type ConditionalHandoverCancelAPERValue = s19.ConditionalHandoverCancelAPERValue
 
 // ConditionalHandoverCancelCandidateCellsToBeCancelledListIEBinding binds CandidateCellsToBeCancelledList to ProtocolIE-Field {{ConditionalHandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type ConditionalHandoverCancelCandidateCellsToBeCancelledListIEBinding = s14.ConditionalHandoverCancelCandidateCellsToBeCancelledListIEBinding
@@ -3019,9 +3018,9 @@ type ConditionalHandoverCancelCandidateCellsToBeCancelledListIEBinding = s14.Con
 type ConditionalHandoverCancelCauseIEBinding = s14.ConditionalHandoverCancelCauseIEBinding
 
 // ConditionalHandoverCancelCodec binds the complete APER value type.
-var ConditionalHandoverCancelCodec func() ConditionalHandoverCancelValueCodec = s20.ConditionalHandoverCancelCodec
+var ConditionalHandoverCancelCodec func() ConditionalHandoverCancelValueCodec = s19.ConditionalHandoverCancelCodec
 
-type ConditionalHandoverCancelDescriptor = s20.ConditionalHandoverCancelDescriptor
+type ConditionalHandoverCancelDescriptor = s19.ConditionalHandoverCancelDescriptor
 
 // ConditionalHandoverCancelIEContainer is ProtocolIE-Container {{ConditionalHandoverCancel-IEs}} of TS 36.423 §9.3.8: a list of ConditionalHandoverCancelIEField values.
 type ConditionalHandoverCancelIEContainer = s14.ConditionalHandoverCancelIEContainer
@@ -3034,9 +3033,9 @@ type ConditionalHandoverCancelIEValue = s14.ConditionalHandoverCancelIEValue
 var ConditionalHandoverCancelIEs func() ConditionalHandoverCancelIETable = s14.ConditionalHandoverCancelIEs
 
 // ConditionalHandoverCancelInitiatingBinding is the concrete InitiatingBinding[ConditionalHandoverCancel].
-type ConditionalHandoverCancelInitiatingBinding = s20.ConditionalHandoverCancelInitiatingBinding
+type ConditionalHandoverCancelInitiatingBinding = s19.ConditionalHandoverCancelInitiatingBinding
 
-var ConditionalHandoverCancelProcedure func() ConditionalHandoverCancelDescriptor = s20.ConditionalHandoverCancelProcedure
+var ConditionalHandoverCancelProcedure func() ConditionalHandoverCancelDescriptor = s19.ConditionalHandoverCancelProcedure
 
 // ConditionalHandoverCancelUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{ConditionalHandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type ConditionalHandoverCancelUEX2APIDExtensionIEBinding = s14.ConditionalHandoverCancelUEX2APIDExtensionIEBinding
@@ -3045,7 +3044,7 @@ type ConditionalHandoverCancelUEX2APIDExtensionIEBinding = s14.ConditionalHandov
 type ConditionalHandoverCancelUEX2APIDIEBinding = s14.ConditionalHandoverCancelUEX2APIDIEBinding
 
 // ConditionalHandoverCancelValueCodec is the concrete ValueCodec[ConditionalHandoverCancel].
-type ConditionalHandoverCancelValueCodec = s20.ConditionalHandoverCancelValueCodec
+type ConditionalHandoverCancelValueCodec = s19.ConditionalHandoverCancelValueCodec
 
 // CorrelationID represents the ASN.1 type Correlation-ID (OCTET_STRING).
 type CorrelationID = s00.CorrelationID
@@ -3412,10 +3411,10 @@ var DRBIDCodec func() DRBIDValueCodec = s00.DRBIDCodec
 type DRBIDValueCodec = s00.DRBIDValueCodec
 
 // DataForwardingAddressIndication represents the ASN.1 type DataForwardingAddressIndication (SEQUENCE).
-type DataForwardingAddressIndication = s20.DataForwardingAddressIndication
+type DataForwardingAddressIndication = s19.DataForwardingAddressIndication
 
 // DataForwardingAddressIndicationAPERValue is the concrete APERValue[DataForwardingAddressIndication].
-type DataForwardingAddressIndicationAPERValue = s20.DataForwardingAddressIndicationAPERValue
+type DataForwardingAddressIndicationAPERValue = s19.DataForwardingAddressIndicationAPERValue
 
 // DataForwardingAddressIndicationCHODCEarlyDataForwardingIEBinding binds CHODCEarlyDataForwarding to ProtocolIE-Field {{DataForwardingAddressIndication-IEs}} of TS 36.423 §9.3.8.
 type DataForwardingAddressIndicationCHODCEarlyDataForwardingIEBinding = s15.DataForwardingAddressIndicationCHODCEarlyDataForwardingIEBinding
@@ -3427,9 +3426,9 @@ type DataForwardingAddressIndicationCHODCIndicatorIEBinding = s15.DataForwarding
 type DataForwardingAddressIndicationCPCinformationNOTIFYIEBinding = s15.DataForwardingAddressIndicationCPCinformationNOTIFYIEBinding
 
 // DataForwardingAddressIndicationCodec binds the complete APER value type.
-var DataForwardingAddressIndicationCodec func() DataForwardingAddressIndicationValueCodec = s20.DataForwardingAddressIndicationCodec
+var DataForwardingAddressIndicationCodec func() DataForwardingAddressIndicationValueCodec = s19.DataForwardingAddressIndicationCodec
 
-type DataForwardingAddressIndicationDescriptor = s20.DataForwardingAddressIndicationDescriptor
+type DataForwardingAddressIndicationDescriptor = s19.DataForwardingAddressIndicationDescriptor
 
 // DataForwardingAddressIndicationERABsDataForwardingAddressListIEBinding binds ERABsDataForwardingAddressList to ProtocolIE-Field {{DataForwardingAddressIndication-IEs}} of TS 36.423 §9.3.8.
 type DataForwardingAddressIndicationERABsDataForwardingAddressListIEBinding = s15.DataForwardingAddressIndicationERABsDataForwardingAddressListIEBinding
@@ -3445,9 +3444,9 @@ type DataForwardingAddressIndicationIEValue = s15.DataForwardingAddressIndicatio
 var DataForwardingAddressIndicationIEs func() DataForwardingAddressIndicationIETable = s15.DataForwardingAddressIndicationIEs
 
 // DataForwardingAddressIndicationInitiatingBinding is the concrete InitiatingBinding[DataForwardingAddressIndication].
-type DataForwardingAddressIndicationInitiatingBinding = s20.DataForwardingAddressIndicationInitiatingBinding
+type DataForwardingAddressIndicationInitiatingBinding = s19.DataForwardingAddressIndicationInitiatingBinding
 
-var DataForwardingAddressIndicationProcedure func() DataForwardingAddressIndicationDescriptor = s20.DataForwardingAddressIndicationProcedure
+var DataForwardingAddressIndicationProcedure func() DataForwardingAddressIndicationDescriptor = s19.DataForwardingAddressIndicationProcedure
 
 // DataForwardingAddressIndicationSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{DataForwardingAddressIndication-IEs}} of TS 36.423 §9.3.8.
 type DataForwardingAddressIndicationSgNBUEX2APIDIEBinding = s15.DataForwardingAddressIndicationSgNBUEX2APIDIEBinding
@@ -3459,7 +3458,7 @@ type DataForwardingAddressIndicationUEX2APIDExtensionIEBinding = s15.DataForward
 type DataForwardingAddressIndicationUEX2APIDIEBinding = s15.DataForwardingAddressIndicationUEX2APIDIEBinding
 
 // DataForwardingAddressIndicationValueCodec is the concrete ValueCodec[DataForwardingAddressIndication].
-type DataForwardingAddressIndicationValueCodec = s20.DataForwardingAddressIndicationValueCodec
+type DataForwardingAddressIndicationValueCodec = s19.DataForwardingAddressIndicationValueCodec
 
 // DataTrafficResourceIndication represents the ASN.1 type DataTrafficResourceIndication (SEQUENCE).
 type DataTrafficResourceIndication = s12.DataTrafficResourceIndication
@@ -3497,15 +3496,15 @@ var DataTrafficResourcesCodec func() DataTrafficResourcesValueCodec = s00.DataTr
 type DataTrafficResourcesValueCodec = s00.DataTrafficResourcesValueCodec
 
 // DeactivateTrace represents the ASN.1 type DeactivateTrace (SEQUENCE).
-type DeactivateTrace = s20.DeactivateTrace
+type DeactivateTrace = s19.DeactivateTrace
 
 // DeactivateTraceAPERValue is the concrete APERValue[DeactivateTrace].
-type DeactivateTraceAPERValue = s20.DeactivateTraceAPERValue
+type DeactivateTraceAPERValue = s19.DeactivateTraceAPERValue
 
 // DeactivateTraceCodec binds the complete APER value type.
-var DeactivateTraceCodec func() DeactivateTraceValueCodec = s20.DeactivateTraceCodec
+var DeactivateTraceCodec func() DeactivateTraceValueCodec = s19.DeactivateTraceCodec
 
-type DeactivateTraceDescriptor = s20.DeactivateTraceDescriptor
+type DeactivateTraceDescriptor = s19.DeactivateTraceDescriptor
 
 // DeactivateTraceEUTRANTraceIDIEBinding binds EUTRANTraceID to ProtocolIE-Field {{DeactivateTraceIEs}} of TS 36.423 §9.3.8.
 type DeactivateTraceEUTRANTraceIDIEBinding = s11.DeactivateTraceEUTRANTraceIDIEBinding
@@ -3521,9 +3520,9 @@ type DeactivateTraceIEValue = s11.DeactivateTraceIEValue
 var DeactivateTraceIEs func() DeactivateTraceIETable = s11.DeactivateTraceIEs
 
 // DeactivateTraceInitiatingBinding is the concrete InitiatingBinding[DeactivateTrace].
-type DeactivateTraceInitiatingBinding = s20.DeactivateTraceInitiatingBinding
+type DeactivateTraceInitiatingBinding = s19.DeactivateTraceInitiatingBinding
 
-var DeactivateTraceProcedure func() DeactivateTraceDescriptor = s20.DeactivateTraceProcedure
+var DeactivateTraceProcedure func() DeactivateTraceDescriptor = s19.DeactivateTraceProcedure
 
 // DeactivateTraceSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{DeactivateTraceIEs}} of TS 36.423 §9.3.8.
 type DeactivateTraceSgNBUEX2APIDIEBinding = s11.DeactivateTraceSgNBUEX2APIDIEBinding
@@ -3535,7 +3534,7 @@ type DeactivateTraceUEX2APIDExtensionIEBinding = s11.DeactivateTraceUEX2APIDExte
 type DeactivateTraceUEX2APIDIEBinding = s11.DeactivateTraceUEX2APIDIEBinding
 
 // DeactivateTraceValueCodec is the concrete ValueCodec[DeactivateTrace].
-type DeactivateTraceValueCodec = s20.DeactivateTraceValueCodec
+type DeactivateTraceValueCodec = s19.DeactivateTraceValueCodec
 
 // DeactivationIndication represents the ASN.1 ENUMERATED type DeactivationIndication.
 type DeactivationIndication = s00.DeactivationIndication
@@ -3725,19 +3724,19 @@ type ECGIExtIEsValue = s02.ECGIExtIEsValue
 type ECGIValueCodec = s04.ECGIValueCodec
 
 // ENBConfigurationUpdate represents the ASN.1 type ENBConfigurationUpdate (SEQUENCE).
-type ENBConfigurationUpdate = s20.ENBConfigurationUpdate
+type ENBConfigurationUpdate = s19.ENBConfigurationUpdate
 
 // ENBConfigurationUpdateAPERValue is the concrete APERValue[ENBConfigurationUpdate].
-type ENBConfigurationUpdateAPERValue = s20.ENBConfigurationUpdateAPERValue
+type ENBConfigurationUpdateAPERValue = s19.ENBConfigurationUpdateAPERValue
 
 // ENBConfigurationUpdateAcknowledge represents the ASN.1 type ENBConfigurationUpdateAcknowledge (SEQUENCE).
-type ENBConfigurationUpdateAcknowledge = s19.ENBConfigurationUpdateAcknowledge
+type ENBConfigurationUpdateAcknowledge = s18.ENBConfigurationUpdateAcknowledge
 
 // ENBConfigurationUpdateAcknowledgeAPERValue is the concrete APERValue[ENBConfigurationUpdateAcknowledge].
-type ENBConfigurationUpdateAcknowledgeAPERValue = s19.ENBConfigurationUpdateAcknowledgeAPERValue
+type ENBConfigurationUpdateAcknowledgeAPERValue = s18.ENBConfigurationUpdateAcknowledgeAPERValue
 
 // ENBConfigurationUpdateAcknowledgeCodec binds the complete APER value type.
-var ENBConfigurationUpdateAcknowledgeCodec func() ENBConfigurationUpdateAcknowledgeValueCodec = s20.ENBConfigurationUpdateAcknowledgeCodec
+var ENBConfigurationUpdateAcknowledgeCodec func() ENBConfigurationUpdateAcknowledgeValueCodec = s19.ENBConfigurationUpdateAcknowledgeCodec
 
 // ENBConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENBConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type ENBConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding = s06.ENBConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding
@@ -3753,17 +3752,17 @@ type ENBConfigurationUpdateAcknowledgeIEValue = s06.ENBConfigurationUpdateAcknow
 var ENBConfigurationUpdateAcknowledgeIEs func() ENBConfigurationUpdateAcknowledgeIETable = s06.ENBConfigurationUpdateAcknowledgeIEs
 
 // ENBConfigurationUpdateAcknowledgeSuccessfulBinding is the concrete SuccessfulBinding[ENBConfigurationUpdateAcknowledge].
-type ENBConfigurationUpdateAcknowledgeSuccessfulBinding = s19.ENBConfigurationUpdateAcknowledgeSuccessfulBinding
+type ENBConfigurationUpdateAcknowledgeSuccessfulBinding = s18.ENBConfigurationUpdateAcknowledgeSuccessfulBinding
 
 // ENBConfigurationUpdateAcknowledgeValueCodec is the concrete ValueCodec[ENBConfigurationUpdateAcknowledge].
-type ENBConfigurationUpdateAcknowledgeValueCodec = s19.ENBConfigurationUpdateAcknowledgeValueCodec
+type ENBConfigurationUpdateAcknowledgeValueCodec = s18.ENBConfigurationUpdateAcknowledgeValueCodec
 
 // ENBConfigurationUpdateCodec binds the complete APER value type.
-var ENBConfigurationUpdateCodec func() ENBConfigurationUpdateValueCodec = s20.ENBConfigurationUpdateCodec
+var ENBConfigurationUpdateCodec func() ENBConfigurationUpdateValueCodec = s19.ENBConfigurationUpdateCodec
 
 // ENBConfigurationUpdateCoverageModificationListIEBinding binds CoverageModificationList to ProtocolIE-Field {{ENBConfigurationUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENBConfigurationUpdateCoverageModificationListIEBinding = s17.ENBConfigurationUpdateCoverageModificationListIEBinding
-type ENBConfigurationUpdateDescriptor = s20.ENBConfigurationUpdateDescriptor
+type ENBConfigurationUpdateDescriptor = s19.ENBConfigurationUpdateDescriptor
 
 // ENBConfigurationUpdateFailure represents the ASN.1 type ENBConfigurationUpdateFailure (SEQUENCE).
 type ENBConfigurationUpdateFailure = s14.ENBConfigurationUpdateFailure
@@ -3775,7 +3774,7 @@ type ENBConfigurationUpdateFailureAPERValue = s14.ENBConfigurationUpdateFailureA
 type ENBConfigurationUpdateFailureCauseIEBinding = s06.ENBConfigurationUpdateFailureCauseIEBinding
 
 // ENBConfigurationUpdateFailureCodec binds the complete APER value type.
-var ENBConfigurationUpdateFailureCodec func() ENBConfigurationUpdateFailureValueCodec = s20.ENBConfigurationUpdateFailureCodec
+var ENBConfigurationUpdateFailureCodec func() ENBConfigurationUpdateFailureValueCodec = s19.ENBConfigurationUpdateFailureCodec
 
 // ENBConfigurationUpdateFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENBConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8.
 type ENBConfigurationUpdateFailureCriticalityDiagnosticsIEBinding = s06.ENBConfigurationUpdateFailureCriticalityDiagnosticsIEBinding
@@ -3813,12 +3812,12 @@ type ENBConfigurationUpdateIEValue = s17.ENBConfigurationUpdateIEValue
 var ENBConfigurationUpdateIEs func() ENBConfigurationUpdateIETable = s17.ENBConfigurationUpdateIEs
 
 // ENBConfigurationUpdateInitiatingBinding is the concrete InitiatingBinding[ENBConfigurationUpdate].
-type ENBConfigurationUpdateInitiatingBinding = s20.ENBConfigurationUpdateInitiatingBinding
+type ENBConfigurationUpdateInitiatingBinding = s19.ENBConfigurationUpdateInitiatingBinding
 
 // ENBConfigurationUpdateOldECGIsIEBinding binds OldECGIs to ProtocolIE-Field {{ENBConfigurationUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENBConfigurationUpdateOldECGIsIEBinding = s17.ENBConfigurationUpdateOldECGIsIEBinding
 
-var ENBConfigurationUpdateProcedure func() ENBConfigurationUpdateDescriptor = s20.ENBConfigurationUpdateProcedure
+var ENBConfigurationUpdateProcedure func() ENBConfigurationUpdateDescriptor = s19.ENBConfigurationUpdateProcedure
 
 // ENBConfigurationUpdateServedCellsIEBinding binds ServedCells to ProtocolIE-Field {{ENBConfigurationUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENBConfigurationUpdateServedCellsIEBinding = s17.ENBConfigurationUpdateServedCellsIEBinding
@@ -3827,7 +3826,7 @@ type ENBConfigurationUpdateServedCellsIEBinding = s17.ENBConfigurationUpdateServ
 type ENBConfigurationUpdateServedCellsToModifyIEBinding = s17.ENBConfigurationUpdateServedCellsToModifyIEBinding
 
 // ENBConfigurationUpdateValueCodec is the concrete ValueCodec[ENBConfigurationUpdate].
-type ENBConfigurationUpdateValueCodec = s20.ENBConfigurationUpdateValueCodec
+type ENBConfigurationUpdateValueCodec = s19.ENBConfigurationUpdateValueCodec
 
 // ENBENDCConfigUpdateAckIEContainer is ProtocolIE-Container {{ENB-ENDCConfigUpdateAckIEs}} of TS 36.423 §9.3.8: a list of ENBENDCConfigUpdateAckIEField values.
 type ENBENDCConfigUpdateAckIEContainer = s02.ENBENDCConfigUpdateAckIEContainer
@@ -4006,7 +4005,7 @@ type ENDCCellActivationFailureActivationIDIEBinding = s06.ENDCCellActivationFail
 type ENDCCellActivationFailureCauseIEBinding = s06.ENDCCellActivationFailureCauseIEBinding
 
 // ENDCCellActivationFailureCodec binds the complete APER value type.
-var ENDCCellActivationFailureCodec func() ENDCCellActivationFailureValueCodec = s20.ENDCCellActivationFailureCodec
+var ENDCCellActivationFailureCodec func() ENDCCellActivationFailureValueCodec = s19.ENDCCellActivationFailureCodec
 
 // ENDCCellActivationFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCCellActivationFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationFailureCriticalityDiagnosticsIEBinding = s06.ENDCCellActivationFailureCriticalityDiagnosticsIEBinding
@@ -4031,44 +4030,44 @@ type ENDCCellActivationFailureUnsuccessfulBinding = s14.ENDCCellActivationFailur
 type ENDCCellActivationFailureValueCodec = s14.ENDCCellActivationFailureValueCodec
 
 // ENDCCellActivationRequest represents the ASN.1 type ENDCCellActivationRequest (SEQUENCE).
-type ENDCCellActivationRequest = s20.ENDCCellActivationRequest
+type ENDCCellActivationRequest = s19.ENDCCellActivationRequest
 
 // ENDCCellActivationRequestAPERValue is the concrete APERValue[ENDCCellActivationRequest].
-type ENDCCellActivationRequestAPERValue = s20.ENDCCellActivationRequestAPERValue
+type ENDCCellActivationRequestAPERValue = s19.ENDCCellActivationRequestAPERValue
 
 // ENDCCellActivationRequestActivationIDIEBinding binds ActivationID to ProtocolIE-Field {{ENDCCellActivationRequest-IEs}} of TS 36.423 §9.3.8.
-type ENDCCellActivationRequestActivationIDIEBinding = s18.ENDCCellActivationRequestActivationIDIEBinding
+type ENDCCellActivationRequestActivationIDIEBinding = s17.ENDCCellActivationRequestActivationIDIEBinding
 
 // ENDCCellActivationRequestCodec binds the complete APER value type.
-var ENDCCellActivationRequestCodec func() ENDCCellActivationRequestValueCodec = s20.ENDCCellActivationRequestCodec
+var ENDCCellActivationRequestCodec func() ENDCCellActivationRequestValueCodec = s19.ENDCCellActivationRequestCodec
 
 // ENDCCellActivationRequestIEContainer is ProtocolIE-Container {{ENDCCellActivationRequest-IEs}} of TS 36.423 §9.3.8: a list of ENDCCellActivationRequestIEField values.
-type ENDCCellActivationRequestIEContainer = s18.ENDCCellActivationRequestIEContainer
+type ENDCCellActivationRequestIEContainer = s17.ENDCCellActivationRequestIEContainer
 
 // ENDCCellActivationRequestIEField is ProtocolIE-Field {{ENDCCellActivationRequest-IEs}} of TS 36.423 §9.3.8: an information element field.
-type ENDCCellActivationRequestIEField = s18.ENDCCellActivationRequestIEField
-type ENDCCellActivationRequestIETable = s18.ENDCCellActivationRequestIETable
-type ENDCCellActivationRequestIEValue = s18.ENDCCellActivationRequestIEValue
+type ENDCCellActivationRequestIEField = s17.ENDCCellActivationRequestIEField
+type ENDCCellActivationRequestIETable = s17.ENDCCellActivationRequestIETable
+type ENDCCellActivationRequestIEValue = s17.ENDCCellActivationRequestIEValue
 
-var ENDCCellActivationRequestIEs func() ENDCCellActivationRequestIETable = s18.ENDCCellActivationRequestIEs
+var ENDCCellActivationRequestIEs func() ENDCCellActivationRequestIETable = s17.ENDCCellActivationRequestIEs
 
 // ENDCCellActivationRequestInitiatingBinding is the concrete InitiatingBinding[ENDCCellActivationRequest].
-type ENDCCellActivationRequestInitiatingBinding = s20.ENDCCellActivationRequestInitiatingBinding
+type ENDCCellActivationRequestInitiatingBinding = s19.ENDCCellActivationRequestInitiatingBinding
 
 // ENDCCellActivationRequestInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCCellActivationRequest-IEs}} of TS 36.423 §9.3.8.
-type ENDCCellActivationRequestInterfaceInstanceIndicationIEBinding = s18.ENDCCellActivationRequestInterfaceInstanceIndicationIEBinding
+type ENDCCellActivationRequestInterfaceInstanceIndicationIEBinding = s17.ENDCCellActivationRequestInterfaceInstanceIndicationIEBinding
 
 // ENDCCellActivationRequestServedNRCellsToActivateIEBinding binds ServedNRCellsToActivate to ProtocolIE-Field {{ENDCCellActivationRequest-IEs}} of TS 36.423 §9.3.8.
-type ENDCCellActivationRequestServedNRCellsToActivateIEBinding = s18.ENDCCellActivationRequestServedNRCellsToActivateIEBinding
+type ENDCCellActivationRequestServedNRCellsToActivateIEBinding = s17.ENDCCellActivationRequestServedNRCellsToActivateIEBinding
 
 // ENDCCellActivationRequestValueCodec is the concrete ValueCodec[ENDCCellActivationRequest].
-type ENDCCellActivationRequestValueCodec = s20.ENDCCellActivationRequestValueCodec
+type ENDCCellActivationRequestValueCodec = s19.ENDCCellActivationRequestValueCodec
 
 // ENDCCellActivationResponse represents the ASN.1 type ENDCCellActivationResponse (SEQUENCE).
-type ENDCCellActivationResponse = s19.ENDCCellActivationResponse
+type ENDCCellActivationResponse = s18.ENDCCellActivationResponse
 
 // ENDCCellActivationResponseAPERValue is the concrete APERValue[ENDCCellActivationResponse].
-type ENDCCellActivationResponseAPERValue = s19.ENDCCellActivationResponseAPERValue
+type ENDCCellActivationResponseAPERValue = s18.ENDCCellActivationResponseAPERValue
 
 // ENDCCellActivationResponseActivatedNRCellListIEBinding binds ActivatedNRCellList to ProtocolIE-Field {{ENDCCellActivationResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationResponseActivatedNRCellListIEBinding = s13.ENDCCellActivationResponseActivatedNRCellListIEBinding
@@ -4077,7 +4076,7 @@ type ENDCCellActivationResponseActivatedNRCellListIEBinding = s13.ENDCCellActiva
 type ENDCCellActivationResponseActivationIDIEBinding = s13.ENDCCellActivationResponseActivationIDIEBinding
 
 // ENDCCellActivationResponseCodec binds the complete APER value type.
-var ENDCCellActivationResponseCodec func() ENDCCellActivationResponseValueCodec = s20.ENDCCellActivationResponseCodec
+var ENDCCellActivationResponseCodec func() ENDCCellActivationResponseValueCodec = s19.ENDCCellActivationResponseCodec
 
 // ENDCCellActivationResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCCellActivationResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationResponseCriticalityDiagnosticsIEBinding = s13.ENDCCellActivationResponseCriticalityDiagnosticsIEBinding
@@ -4096,19 +4095,19 @@ var ENDCCellActivationResponseIEs func() ENDCCellActivationResponseIETable = s13
 type ENDCCellActivationResponseInterfaceInstanceIndicationIEBinding = s13.ENDCCellActivationResponseInterfaceInstanceIndicationIEBinding
 
 // ENDCCellActivationResponseSuccessfulBinding is the concrete SuccessfulBinding[ENDCCellActivationResponse].
-type ENDCCellActivationResponseSuccessfulBinding = s19.ENDCCellActivationResponseSuccessfulBinding
+type ENDCCellActivationResponseSuccessfulBinding = s18.ENDCCellActivationResponseSuccessfulBinding
 
 // ENDCCellActivationResponseValueCodec is the concrete ValueCodec[ENDCCellActivationResponse].
-type ENDCCellActivationResponseValueCodec = s19.ENDCCellActivationResponseValueCodec
+type ENDCCellActivationResponseValueCodec = s18.ENDCCellActivationResponseValueCodec
 
 // ENDCConfigurationTransfer represents the ASN.1 type ENDCConfigurationTransfer (SEQUENCE).
-type ENDCConfigurationTransfer = s20.ENDCConfigurationTransfer
+type ENDCConfigurationTransfer = s19.ENDCConfigurationTransfer
 
 // ENDCConfigurationTransferAPERValue is the concrete APERValue[ENDCConfigurationTransfer].
-type ENDCConfigurationTransferAPERValue = s20.ENDCConfigurationTransferAPERValue
+type ENDCConfigurationTransferAPERValue = s19.ENDCConfigurationTransferAPERValue
 
 // ENDCConfigurationTransferCodec binds the complete APER value type.
-var ENDCConfigurationTransferCodec func() ENDCConfigurationTransferValueCodec = s20.ENDCConfigurationTransferCodec
+var ENDCConfigurationTransferCodec func() ENDCConfigurationTransferValueCodec = s19.ENDCConfigurationTransferCodec
 
 // ENDCConfigurationTransferEndcSONConfigurationTransferIEBinding binds EndcSONConfigurationTransfer to ProtocolIE-Field {{ENDCConfigurationTransfer-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationTransferEndcSONConfigurationTransferIEBinding = s06.ENDCConfigurationTransferEndcSONConfigurationTransferIEBinding
@@ -4124,28 +4123,28 @@ type ENDCConfigurationTransferIEValue = s06.ENDCConfigurationTransferIEValue
 var ENDCConfigurationTransferIEs func() ENDCConfigurationTransferIETable = s06.ENDCConfigurationTransferIEs
 
 // ENDCConfigurationTransferInitiatingBinding is the concrete InitiatingBinding[ENDCConfigurationTransfer].
-type ENDCConfigurationTransferInitiatingBinding = s20.ENDCConfigurationTransferInitiatingBinding
+type ENDCConfigurationTransferInitiatingBinding = s19.ENDCConfigurationTransferInitiatingBinding
 
 // ENDCConfigurationTransferInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCConfigurationTransfer-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationTransferInterfaceInstanceIndicationIEBinding = s06.ENDCConfigurationTransferInterfaceInstanceIndicationIEBinding
 
 // ENDCConfigurationTransferValueCodec is the concrete ValueCodec[ENDCConfigurationTransfer].
-type ENDCConfigurationTransferValueCodec = s20.ENDCConfigurationTransferValueCodec
+type ENDCConfigurationTransferValueCodec = s19.ENDCConfigurationTransferValueCodec
 
 // ENDCConfigurationUpdate represents the ASN.1 type ENDCConfigurationUpdate (SEQUENCE).
-type ENDCConfigurationUpdate = s20.ENDCConfigurationUpdate
+type ENDCConfigurationUpdate = s19.ENDCConfigurationUpdate
 
 // ENDCConfigurationUpdateAPERValue is the concrete APERValue[ENDCConfigurationUpdate].
-type ENDCConfigurationUpdateAPERValue = s20.ENDCConfigurationUpdateAPERValue
+type ENDCConfigurationUpdateAPERValue = s19.ENDCConfigurationUpdateAPERValue
 
 // ENDCConfigurationUpdateAcknowledge represents the ASN.1 type ENDCConfigurationUpdateAcknowledge (SEQUENCE).
-type ENDCConfigurationUpdateAcknowledge = s19.ENDCConfigurationUpdateAcknowledge
+type ENDCConfigurationUpdateAcknowledge = s18.ENDCConfigurationUpdateAcknowledge
 
 // ENDCConfigurationUpdateAcknowledgeAPERValue is the concrete APERValue[ENDCConfigurationUpdateAcknowledge].
-type ENDCConfigurationUpdateAcknowledgeAPERValue = s19.ENDCConfigurationUpdateAcknowledgeAPERValue
+type ENDCConfigurationUpdateAcknowledgeAPERValue = s18.ENDCConfigurationUpdateAcknowledgeAPERValue
 
 // ENDCConfigurationUpdateAcknowledgeCodec binds the complete APER value type.
-var ENDCConfigurationUpdateAcknowledgeCodec func() ENDCConfigurationUpdateAcknowledgeValueCodec = s20.ENDCConfigurationUpdateAcknowledgeCodec
+var ENDCConfigurationUpdateAcknowledgeCodec func() ENDCConfigurationUpdateAcknowledgeValueCodec = s19.ENDCConfigurationUpdateAcknowledgeCodec
 
 // ENDCConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding = s18.ENDCConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding
@@ -4167,7 +4166,7 @@ type ENDCConfigurationUpdateAcknowledgeInterfaceInstanceIndicationIEBinding = s1
 type ENDCConfigurationUpdateAcknowledgeRespondingNodeTypeEndcConfigUpdateIEBinding = s18.ENDCConfigurationUpdateAcknowledgeRespondingNodeTypeEndcConfigUpdateIEBinding
 
 // ENDCConfigurationUpdateAcknowledgeSuccessfulBinding is the concrete SuccessfulBinding[ENDCConfigurationUpdateAcknowledge].
-type ENDCConfigurationUpdateAcknowledgeSuccessfulBinding = s19.ENDCConfigurationUpdateAcknowledgeSuccessfulBinding
+type ENDCConfigurationUpdateAcknowledgeSuccessfulBinding = s18.ENDCConfigurationUpdateAcknowledgeSuccessfulBinding
 
 // ENDCConfigurationUpdateAcknowledgeTNLAFailedToSetupListIEBinding binds TNLAFailedToSetupList to ProtocolIE-Field {{ENDCConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateAcknowledgeTNLAFailedToSetupListIEBinding = s18.ENDCConfigurationUpdateAcknowledgeTNLAFailedToSetupListIEBinding
@@ -4179,10 +4178,10 @@ type ENDCConfigurationUpdateAcknowledgeTNLASetupListIEBinding = s18.ENDCConfigur
 type ENDCConfigurationUpdateAcknowledgeTNLConfigurationInfoIEBinding = s18.ENDCConfigurationUpdateAcknowledgeTNLConfigurationInfoIEBinding
 
 // ENDCConfigurationUpdateAcknowledgeValueCodec is the concrete ValueCodec[ENDCConfigurationUpdateAcknowledge].
-type ENDCConfigurationUpdateAcknowledgeValueCodec = s19.ENDCConfigurationUpdateAcknowledgeValueCodec
+type ENDCConfigurationUpdateAcknowledgeValueCodec = s18.ENDCConfigurationUpdateAcknowledgeValueCodec
 
 // ENDCConfigurationUpdateCodec binds the complete APER value type.
-var ENDCConfigurationUpdateCodec func() ENDCConfigurationUpdateValueCodec = s20.ENDCConfigurationUpdateCodec
+var ENDCConfigurationUpdateCodec func() ENDCConfigurationUpdateValueCodec = s19.ENDCConfigurationUpdateCodec
 
 // ENDCConfigurationUpdateFailure represents the ASN.1 type ENDCConfigurationUpdateFailure (SEQUENCE).
 type ENDCConfigurationUpdateFailure = s14.ENDCConfigurationUpdateFailure
@@ -4194,7 +4193,7 @@ type ENDCConfigurationUpdateFailureAPERValue = s14.ENDCConfigurationUpdateFailur
 type ENDCConfigurationUpdateFailureCauseIEBinding = s06.ENDCConfigurationUpdateFailureCauseIEBinding
 
 // ENDCConfigurationUpdateFailureCodec binds the complete APER value type.
-var ENDCConfigurationUpdateFailureCodec func() ENDCConfigurationUpdateFailureValueCodec = s20.ENDCConfigurationUpdateFailureCodec
+var ENDCConfigurationUpdateFailureCodec func() ENDCConfigurationUpdateFailureValueCodec = s19.ENDCConfigurationUpdateFailureCodec
 
 // ENDCConfigurationUpdateFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCConfigurationUpdateFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateFailureCriticalityDiagnosticsIEBinding = s06.ENDCConfigurationUpdateFailureCriticalityDiagnosticsIEBinding
@@ -4232,7 +4231,7 @@ type ENDCConfigurationUpdateIEValue = s18.ENDCConfigurationUpdateIEValue
 var ENDCConfigurationUpdateIEs func() ENDCConfigurationUpdateIETable = s18.ENDCConfigurationUpdateIEs
 
 // ENDCConfigurationUpdateInitiatingBinding is the concrete InitiatingBinding[ENDCConfigurationUpdate].
-type ENDCConfigurationUpdateInitiatingBinding = s20.ENDCConfigurationUpdateInitiatingBinding
+type ENDCConfigurationUpdateInitiatingBinding = s19.ENDCConfigurationUpdateInitiatingBinding
 
 // ENDCConfigurationUpdateInitiatingNodeTypeEndcConfigUpdateIEBinding binds InitiatingNodeTypeEndcConfigUpdate to ProtocolIE-Field {{ENDCConfigurationUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateInitiatingNodeTypeEndcConfigUpdateIEBinding = s18.ENDCConfigurationUpdateInitiatingNodeTypeEndcConfigUpdateIEBinding
@@ -4253,16 +4252,16 @@ type ENDCConfigurationUpdateTNLAToUpdateListIEBinding = s18.ENDCConfigurationUpd
 type ENDCConfigurationUpdateTNLConfigurationInfoIEBinding = s18.ENDCConfigurationUpdateTNLConfigurationInfoIEBinding
 
 // ENDCConfigurationUpdateValueCodec is the concrete ValueCodec[ENDCConfigurationUpdate].
-type ENDCConfigurationUpdateValueCodec = s20.ENDCConfigurationUpdateValueCodec
+type ENDCConfigurationUpdateValueCodec = s19.ENDCConfigurationUpdateValueCodec
 
 // ENDCPartialResetConfirm represents the ASN.1 type ENDCPartialResetConfirm (SEQUENCE).
-type ENDCPartialResetConfirm = s19.ENDCPartialResetConfirm
+type ENDCPartialResetConfirm = s18.ENDCPartialResetConfirm
 
 // ENDCPartialResetConfirmAPERValue is the concrete APERValue[ENDCPartialResetConfirm].
-type ENDCPartialResetConfirmAPERValue = s19.ENDCPartialResetConfirmAPERValue
+type ENDCPartialResetConfirmAPERValue = s18.ENDCPartialResetConfirmAPERValue
 
 // ENDCPartialResetConfirmCodec binds the complete APER value type.
-var ENDCPartialResetConfirmCodec func() ENDCPartialResetConfirmValueCodec = s20.ENDCPartialResetConfirmCodec
+var ENDCPartialResetConfirmCodec func() ENDCPartialResetConfirmValueCodec = s19.ENDCPartialResetConfirmCodec
 
 // ENDCPartialResetConfirmIEContainer is ProtocolIE-Container {{ENDCPartialResetConfirm-IEs}} of TS 36.423 §9.3.8: a list of ENDCPartialResetConfirmIEField values.
 type ENDCPartialResetConfirmIEContainer = s18.ENDCPartialResetConfirmIEContainer
@@ -4278,25 +4277,25 @@ var ENDCPartialResetConfirmIEs func() ENDCPartialResetConfirmIETable = s18.ENDCP
 type ENDCPartialResetConfirmInterfaceInstanceIndicationIEBinding = s18.ENDCPartialResetConfirmInterfaceInstanceIndicationIEBinding
 
 // ENDCPartialResetConfirmSuccessfulBinding is the concrete SuccessfulBinding[ENDCPartialResetConfirm].
-type ENDCPartialResetConfirmSuccessfulBinding = s19.ENDCPartialResetConfirmSuccessfulBinding
+type ENDCPartialResetConfirmSuccessfulBinding = s18.ENDCPartialResetConfirmSuccessfulBinding
 
 // ENDCPartialResetConfirmUEsToBeResetListIEBinding binds UEsToBeResetList to ProtocolIE-Field {{ENDCPartialResetConfirm-IEs}} of TS 36.423 §9.3.8.
 type ENDCPartialResetConfirmUEsToBeResetListIEBinding = s18.ENDCPartialResetConfirmUEsToBeResetListIEBinding
 
 // ENDCPartialResetConfirmValueCodec is the concrete ValueCodec[ENDCPartialResetConfirm].
-type ENDCPartialResetConfirmValueCodec = s19.ENDCPartialResetConfirmValueCodec
+type ENDCPartialResetConfirmValueCodec = s18.ENDCPartialResetConfirmValueCodec
 
 // ENDCPartialResetRequired represents the ASN.1 type ENDCPartialResetRequired (SEQUENCE).
-type ENDCPartialResetRequired = s20.ENDCPartialResetRequired
+type ENDCPartialResetRequired = s19.ENDCPartialResetRequired
 
 // ENDCPartialResetRequiredAPERValue is the concrete APERValue[ENDCPartialResetRequired].
-type ENDCPartialResetRequiredAPERValue = s20.ENDCPartialResetRequiredAPERValue
+type ENDCPartialResetRequiredAPERValue = s19.ENDCPartialResetRequiredAPERValue
 
 // ENDCPartialResetRequiredCauseIEBinding binds Cause to ProtocolIE-Field {{ENDCPartialResetRequired-IEs}} of TS 36.423 §9.3.8.
 type ENDCPartialResetRequiredCauseIEBinding = s18.ENDCPartialResetRequiredCauseIEBinding
 
 // ENDCPartialResetRequiredCodec binds the complete APER value type.
-var ENDCPartialResetRequiredCodec func() ENDCPartialResetRequiredValueCodec = s20.ENDCPartialResetRequiredCodec
+var ENDCPartialResetRequiredCodec func() ENDCPartialResetRequiredValueCodec = s19.ENDCPartialResetRequiredCodec
 
 // ENDCPartialResetRequiredIEContainer is ProtocolIE-Container {{ENDCPartialResetRequired-IEs}} of TS 36.423 §9.3.8: a list of ENDCPartialResetRequiredIEField values.
 type ENDCPartialResetRequiredIEContainer = s18.ENDCPartialResetRequiredIEContainer
@@ -4309,7 +4308,7 @@ type ENDCPartialResetRequiredIEValue = s18.ENDCPartialResetRequiredIEValue
 var ENDCPartialResetRequiredIEs func() ENDCPartialResetRequiredIETable = s18.ENDCPartialResetRequiredIEs
 
 // ENDCPartialResetRequiredInitiatingBinding is the concrete InitiatingBinding[ENDCPartialResetRequired].
-type ENDCPartialResetRequiredInitiatingBinding = s20.ENDCPartialResetRequiredInitiatingBinding
+type ENDCPartialResetRequiredInitiatingBinding = s19.ENDCPartialResetRequiredInitiatingBinding
 
 // ENDCPartialResetRequiredInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCPartialResetRequired-IEs}} of TS 36.423 §9.3.8.
 type ENDCPartialResetRequiredInterfaceInstanceIndicationIEBinding = s18.ENDCPartialResetRequiredInterfaceInstanceIndicationIEBinding
@@ -4318,7 +4317,7 @@ type ENDCPartialResetRequiredInterfaceInstanceIndicationIEBinding = s18.ENDCPart
 type ENDCPartialResetRequiredUEsToBeResetListIEBinding = s18.ENDCPartialResetRequiredUEsToBeResetListIEBinding
 
 // ENDCPartialResetRequiredValueCodec is the concrete ValueCodec[ENDCPartialResetRequired].
-type ENDCPartialResetRequiredValueCodec = s20.ENDCPartialResetRequiredValueCodec
+type ENDCPartialResetRequiredValueCodec = s19.ENDCPartialResetRequiredValueCodec
 
 // ENDCResourceConfiguration represents the ASN.1 type EN-DC-ResourceConfiguration (SEQUENCE).
 type ENDCResourceConfiguration = s04.ENDCResourceConfiguration
@@ -4353,7 +4352,7 @@ type ENDCResourceStatusFailureAPERValue = s14.ENDCResourceStatusFailureAPERValue
 type ENDCResourceStatusFailureCauseIEBinding = s06.ENDCResourceStatusFailureCauseIEBinding
 
 // ENDCResourceStatusFailureCodec binds the complete APER value type.
-var ENDCResourceStatusFailureCodec func() ENDCResourceStatusFailureValueCodec = s20.ENDCResourceStatusFailureCodec
+var ENDCResourceStatusFailureCodec func() ENDCResourceStatusFailureValueCodec = s19.ENDCResourceStatusFailureCodec
 
 // ENDCResourceStatusFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCResourceStatusFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusFailureCriticalityDiagnosticsIEBinding = s06.ENDCResourceStatusFailureCriticalityDiagnosticsIEBinding
@@ -4381,10 +4380,10 @@ type ENDCResourceStatusFailureUnsuccessfulBinding = s14.ENDCResourceStatusFailur
 type ENDCResourceStatusFailureValueCodec = s14.ENDCResourceStatusFailureValueCodec
 
 // ENDCResourceStatusRequest represents the ASN.1 type ENDCResourceStatusRequest (SEQUENCE).
-type ENDCResourceStatusRequest = s20.ENDCResourceStatusRequest
+type ENDCResourceStatusRequest = s19.ENDCResourceStatusRequest
 
 // ENDCResourceStatusRequestAPERValue is the concrete APERValue[ENDCResourceStatusRequest].
-type ENDCResourceStatusRequestAPERValue = s20.ENDCResourceStatusRequestAPERValue
+type ENDCResourceStatusRequestAPERValue = s19.ENDCResourceStatusRequestAPERValue
 
 // ENDCResourceStatusRequestCellToReportEUTRAENDCListIEBinding binds CellToReportEUTRAENDCList to ProtocolIE-Field {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusRequestCellToReportEUTRAENDCListIEBinding = s14.ENDCResourceStatusRequestCellToReportEUTRAENDCListIEBinding
@@ -4393,7 +4392,7 @@ type ENDCResourceStatusRequestCellToReportEUTRAENDCListIEBinding = s14.ENDCResou
 type ENDCResourceStatusRequestCellToReportNRENDCListIEBinding = s14.ENDCResourceStatusRequestCellToReportNRENDCListIEBinding
 
 // ENDCResourceStatusRequestCodec binds the complete APER value type.
-var ENDCResourceStatusRequestCodec func() ENDCResourceStatusRequestValueCodec = s20.ENDCResourceStatusRequestCodec
+var ENDCResourceStatusRequestCodec func() ENDCResourceStatusRequestValueCodec = s19.ENDCResourceStatusRequestCodec
 
 // ENDCResourceStatusRequestIEContainer is ProtocolIE-Container {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8: a list of ENDCResourceStatusRequestIEField values.
 type ENDCResourceStatusRequestIEContainer = s14.ENDCResourceStatusRequestIEContainer
@@ -4406,7 +4405,7 @@ type ENDCResourceStatusRequestIEValue = s14.ENDCResourceStatusRequestIEValue
 var ENDCResourceStatusRequestIEs func() ENDCResourceStatusRequestIETable = s14.ENDCResourceStatusRequestIEs
 
 // ENDCResourceStatusRequestInitiatingBinding is the concrete InitiatingBinding[ENDCResourceStatusRequest].
-type ENDCResourceStatusRequestInitiatingBinding = s20.ENDCResourceStatusRequestInitiatingBinding
+type ENDCResourceStatusRequestInitiatingBinding = s19.ENDCResourceStatusRequestInitiatingBinding
 
 // ENDCResourceStatusRequestInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusRequestInterfaceInstanceIndicationIEBinding = s14.ENDCResourceStatusRequestInterfaceInstanceIndicationIEBinding
@@ -4424,16 +4423,16 @@ type ENDCResourceStatusRequestReportCharacteristicsENDCIEBinding = s14.ENDCResou
 type ENDCResourceStatusRequestReportingPeriodicityENDCIEBinding = s14.ENDCResourceStatusRequestReportingPeriodicityENDCIEBinding
 
 // ENDCResourceStatusRequestValueCodec is the concrete ValueCodec[ENDCResourceStatusRequest].
-type ENDCResourceStatusRequestValueCodec = s20.ENDCResourceStatusRequestValueCodec
+type ENDCResourceStatusRequestValueCodec = s19.ENDCResourceStatusRequestValueCodec
 
 // ENDCResourceStatusResponse represents the ASN.1 type ENDCResourceStatusResponse (SEQUENCE).
-type ENDCResourceStatusResponse = s19.ENDCResourceStatusResponse
+type ENDCResourceStatusResponse = s18.ENDCResourceStatusResponse
 
 // ENDCResourceStatusResponseAPERValue is the concrete APERValue[ENDCResourceStatusResponse].
-type ENDCResourceStatusResponseAPERValue = s19.ENDCResourceStatusResponseAPERValue
+type ENDCResourceStatusResponseAPERValue = s18.ENDCResourceStatusResponseAPERValue
 
 // ENDCResourceStatusResponseCodec binds the complete APER value type.
-var ENDCResourceStatusResponseCodec func() ENDCResourceStatusResponseValueCodec = s20.ENDCResourceStatusResponseCodec
+var ENDCResourceStatusResponseCodec func() ENDCResourceStatusResponseValueCodec = s19.ENDCResourceStatusResponseCodec
 
 // ENDCResourceStatusResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCResourceStatusResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusResponseCriticalityDiagnosticsIEBinding = s06.ENDCResourceStatusResponseCriticalityDiagnosticsIEBinding
@@ -4455,16 +4454,16 @@ type ENDCResourceStatusResponseInterfaceInstanceIndicationIEBinding = s06.ENDCRe
 type ENDCResourceStatusResponseMeasurementIDENDCIEBinding = s06.ENDCResourceStatusResponseMeasurementIDENDCIEBinding
 
 // ENDCResourceStatusResponseSuccessfulBinding is the concrete SuccessfulBinding[ENDCResourceStatusResponse].
-type ENDCResourceStatusResponseSuccessfulBinding = s19.ENDCResourceStatusResponseSuccessfulBinding
+type ENDCResourceStatusResponseSuccessfulBinding = s18.ENDCResourceStatusResponseSuccessfulBinding
 
 // ENDCResourceStatusResponseValueCodec is the concrete ValueCodec[ENDCResourceStatusResponse].
-type ENDCResourceStatusResponseValueCodec = s19.ENDCResourceStatusResponseValueCodec
+type ENDCResourceStatusResponseValueCodec = s18.ENDCResourceStatusResponseValueCodec
 
 // ENDCResourceStatusUpdate represents the ASN.1 type ENDCResourceStatusUpdate (SEQUENCE).
-type ENDCResourceStatusUpdate = s20.ENDCResourceStatusUpdate
+type ENDCResourceStatusUpdate = s19.ENDCResourceStatusUpdate
 
 // ENDCResourceStatusUpdateAPERValue is the concrete APERValue[ENDCResourceStatusUpdate].
-type ENDCResourceStatusUpdateAPERValue = s20.ENDCResourceStatusUpdateAPERValue
+type ENDCResourceStatusUpdateAPERValue = s19.ENDCResourceStatusUpdateAPERValue
 
 // ENDCResourceStatusUpdateCellMeasurementResultEUTRAENDCListIEBinding binds CellMeasurementResultEUTRAENDCList to ProtocolIE-Field {{ENDCResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusUpdateCellMeasurementResultEUTRAENDCListIEBinding = s14.ENDCResourceStatusUpdateCellMeasurementResultEUTRAENDCListIEBinding
@@ -4473,7 +4472,7 @@ type ENDCResourceStatusUpdateCellMeasurementResultEUTRAENDCListIEBinding = s14.E
 type ENDCResourceStatusUpdateCellMeasurementResultNRENDCListIEBinding = s14.ENDCResourceStatusUpdateCellMeasurementResultNRENDCListIEBinding
 
 // ENDCResourceStatusUpdateCodec binds the complete APER value type.
-var ENDCResourceStatusUpdateCodec func() ENDCResourceStatusUpdateValueCodec = s20.ENDCResourceStatusUpdateCodec
+var ENDCResourceStatusUpdateCodec func() ENDCResourceStatusUpdateValueCodec = s19.ENDCResourceStatusUpdateCodec
 
 // ENDCResourceStatusUpdateIEContainer is ProtocolIE-Container {{ENDCResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8: a list of ENDCResourceStatusUpdateIEField values.
 type ENDCResourceStatusUpdateIEContainer = s14.ENDCResourceStatusUpdateIEContainer
@@ -4486,7 +4485,7 @@ type ENDCResourceStatusUpdateIEValue = s14.ENDCResourceStatusUpdateIEValue
 var ENDCResourceStatusUpdateIEs func() ENDCResourceStatusUpdateIETable = s14.ENDCResourceStatusUpdateIEs
 
 // ENDCResourceStatusUpdateInitiatingBinding is the concrete InitiatingBinding[ENDCResourceStatusUpdate].
-type ENDCResourceStatusUpdateInitiatingBinding = s20.ENDCResourceStatusUpdateInitiatingBinding
+type ENDCResourceStatusUpdateInitiatingBinding = s19.ENDCResourceStatusUpdateInitiatingBinding
 
 // ENDCResourceStatusUpdateInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCResourceStatusUpdateInterfaceInstanceIndicationIEBinding = s14.ENDCResourceStatusUpdateInterfaceInstanceIndicationIEBinding
@@ -4495,7 +4494,7 @@ type ENDCResourceStatusUpdateInterfaceInstanceIndicationIEBinding = s14.ENDCReso
 type ENDCResourceStatusUpdateMeasurementIDENDCIEBinding = s14.ENDCResourceStatusUpdateMeasurementIDENDCIEBinding
 
 // ENDCResourceStatusUpdateValueCodec is the concrete ValueCodec[ENDCResourceStatusUpdate].
-type ENDCResourceStatusUpdateValueCodec = s20.ENDCResourceStatusUpdateValueCodec
+type ENDCResourceStatusUpdateValueCodec = s19.ENDCResourceStatusUpdateValueCodec
 
 // ENDCX2RemovalFailure represents the ASN.1 type ENDCX2RemovalFailure (SEQUENCE).
 type ENDCX2RemovalFailure = s14.ENDCX2RemovalFailure
@@ -4507,7 +4506,7 @@ type ENDCX2RemovalFailureAPERValue = s14.ENDCX2RemovalFailureAPERValue
 type ENDCX2RemovalFailureCauseIEBinding = s06.ENDCX2RemovalFailureCauseIEBinding
 
 // ENDCX2RemovalFailureCodec binds the complete APER value type.
-var ENDCX2RemovalFailureCodec func() ENDCX2RemovalFailureValueCodec = s20.ENDCX2RemovalFailureCodec
+var ENDCX2RemovalFailureCodec func() ENDCX2RemovalFailureValueCodec = s19.ENDCX2RemovalFailureCodec
 
 // ENDCX2RemovalFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCX2RemovalFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2RemovalFailureCriticalityDiagnosticsIEBinding = s06.ENDCX2RemovalFailureCriticalityDiagnosticsIEBinding
@@ -4532,13 +4531,13 @@ type ENDCX2RemovalFailureUnsuccessfulBinding = s14.ENDCX2RemovalFailureUnsuccess
 type ENDCX2RemovalFailureValueCodec = s14.ENDCX2RemovalFailureValueCodec
 
 // ENDCX2RemovalRequest represents the ASN.1 type ENDCX2RemovalRequest (SEQUENCE).
-type ENDCX2RemovalRequest = s20.ENDCX2RemovalRequest
+type ENDCX2RemovalRequest = s19.ENDCX2RemovalRequest
 
 // ENDCX2RemovalRequestAPERValue is the concrete APERValue[ENDCX2RemovalRequest].
-type ENDCX2RemovalRequestAPERValue = s20.ENDCX2RemovalRequestAPERValue
+type ENDCX2RemovalRequestAPERValue = s19.ENDCX2RemovalRequestAPERValue
 
 // ENDCX2RemovalRequestCodec binds the complete APER value type.
-var ENDCX2RemovalRequestCodec func() ENDCX2RemovalRequestValueCodec = s20.ENDCX2RemovalRequestCodec
+var ENDCX2RemovalRequestCodec func() ENDCX2RemovalRequestValueCodec = s19.ENDCX2RemovalRequestCodec
 
 // ENDCX2RemovalRequestIEContainer is ProtocolIE-Container {{ENDCX2RemovalRequest-IEs}} of TS 36.423 §9.3.8: a list of ENDCX2RemovalRequestIEField values.
 type ENDCX2RemovalRequestIEContainer = s07.ENDCX2RemovalRequestIEContainer
@@ -4551,7 +4550,7 @@ type ENDCX2RemovalRequestIEValue = s07.ENDCX2RemovalRequestIEValue
 var ENDCX2RemovalRequestIEs func() ENDCX2RemovalRequestIETable = s07.ENDCX2RemovalRequestIEs
 
 // ENDCX2RemovalRequestInitiatingBinding is the concrete InitiatingBinding[ENDCX2RemovalRequest].
-type ENDCX2RemovalRequestInitiatingBinding = s20.ENDCX2RemovalRequestInitiatingBinding
+type ENDCX2RemovalRequestInitiatingBinding = s19.ENDCX2RemovalRequestInitiatingBinding
 
 // ENDCX2RemovalRequestInitiatingNodeTypeEndcX2RemovalIEBinding binds InitiatingNodeTypeEndcX2Removal to ProtocolIE-Field {{ENDCX2RemovalRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2RemovalRequestInitiatingNodeTypeEndcX2RemovalIEBinding = s07.ENDCX2RemovalRequestInitiatingNodeTypeEndcX2RemovalIEBinding
@@ -4560,16 +4559,16 @@ type ENDCX2RemovalRequestInitiatingNodeTypeEndcX2RemovalIEBinding = s07.ENDCX2Re
 type ENDCX2RemovalRequestInterfaceInstanceIndicationIEBinding = s07.ENDCX2RemovalRequestInterfaceInstanceIndicationIEBinding
 
 // ENDCX2RemovalRequestValueCodec is the concrete ValueCodec[ENDCX2RemovalRequest].
-type ENDCX2RemovalRequestValueCodec = s20.ENDCX2RemovalRequestValueCodec
+type ENDCX2RemovalRequestValueCodec = s19.ENDCX2RemovalRequestValueCodec
 
 // ENDCX2RemovalResponse represents the ASN.1 type ENDCX2RemovalResponse (SEQUENCE).
-type ENDCX2RemovalResponse = s19.ENDCX2RemovalResponse
+type ENDCX2RemovalResponse = s18.ENDCX2RemovalResponse
 
 // ENDCX2RemovalResponseAPERValue is the concrete APERValue[ENDCX2RemovalResponse].
-type ENDCX2RemovalResponseAPERValue = s19.ENDCX2RemovalResponseAPERValue
+type ENDCX2RemovalResponseAPERValue = s18.ENDCX2RemovalResponseAPERValue
 
 // ENDCX2RemovalResponseCodec binds the complete APER value type.
-var ENDCX2RemovalResponseCodec func() ENDCX2RemovalResponseValueCodec = s20.ENDCX2RemovalResponseCodec
+var ENDCX2RemovalResponseCodec func() ENDCX2RemovalResponseValueCodec = s19.ENDCX2RemovalResponseCodec
 
 // ENDCX2RemovalResponseIEContainer is ProtocolIE-Container {{ENDCX2RemovalResponse-IEs}} of TS 36.423 §9.3.8: a list of ENDCX2RemovalResponseIEField values.
 type ENDCX2RemovalResponseIEContainer = s07.ENDCX2RemovalResponseIEContainer
@@ -4588,10 +4587,10 @@ type ENDCX2RemovalResponseInterfaceInstanceIndicationIEBinding = s07.ENDCX2Remov
 type ENDCX2RemovalResponseRespondingNodeTypeEndcX2RemovalIEBinding = s07.ENDCX2RemovalResponseRespondingNodeTypeEndcX2RemovalIEBinding
 
 // ENDCX2RemovalResponseSuccessfulBinding is the concrete SuccessfulBinding[ENDCX2RemovalResponse].
-type ENDCX2RemovalResponseSuccessfulBinding = s19.ENDCX2RemovalResponseSuccessfulBinding
+type ENDCX2RemovalResponseSuccessfulBinding = s18.ENDCX2RemovalResponseSuccessfulBinding
 
 // ENDCX2RemovalResponseValueCodec is the concrete ValueCodec[ENDCX2RemovalResponse].
-type ENDCX2RemovalResponseValueCodec = s19.ENDCX2RemovalResponseValueCodec
+type ENDCX2RemovalResponseValueCodec = s18.ENDCX2RemovalResponseValueCodec
 
 // ENDCX2SetupFailure represents the ASN.1 type ENDCX2SetupFailure (SEQUENCE).
 type ENDCX2SetupFailure = s14.ENDCX2SetupFailure
@@ -4603,7 +4602,7 @@ type ENDCX2SetupFailureAPERValue = s14.ENDCX2SetupFailureAPERValue
 type ENDCX2SetupFailureCauseIEBinding = s06.ENDCX2SetupFailureCauseIEBinding
 
 // ENDCX2SetupFailureCodec binds the complete APER value type.
-var ENDCX2SetupFailureCodec func() ENDCX2SetupFailureValueCodec = s20.ENDCX2SetupFailureCodec
+var ENDCX2SetupFailureCodec func() ENDCX2SetupFailureValueCodec = s19.ENDCX2SetupFailureCodec
 
 // ENDCX2SetupFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCX2SetupFailure-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupFailureCriticalityDiagnosticsIEBinding = s06.ENDCX2SetupFailureCriticalityDiagnosticsIEBinding
@@ -4634,13 +4633,13 @@ type ENDCX2SetupFailureUnsuccessfulBinding = s14.ENDCX2SetupFailureUnsuccessfulB
 type ENDCX2SetupFailureValueCodec = s14.ENDCX2SetupFailureValueCodec
 
 // ENDCX2SetupRequest represents the ASN.1 type ENDCX2SetupRequest (SEQUENCE).
-type ENDCX2SetupRequest = s20.ENDCX2SetupRequest
+type ENDCX2SetupRequest = s19.ENDCX2SetupRequest
 
 // ENDCX2SetupRequestAPERValue is the concrete APERValue[ENDCX2SetupRequest].
-type ENDCX2SetupRequestAPERValue = s20.ENDCX2SetupRequestAPERValue
+type ENDCX2SetupRequestAPERValue = s19.ENDCX2SetupRequestAPERValue
 
 // ENDCX2SetupRequestCodec binds the complete APER value type.
-var ENDCX2SetupRequestCodec func() ENDCX2SetupRequestValueCodec = s20.ENDCX2SetupRequestCodec
+var ENDCX2SetupRequestCodec func() ENDCX2SetupRequestValueCodec = s19.ENDCX2SetupRequestCodec
 
 // ENDCX2SetupRequestIEContainer is ProtocolIE-Container {{ENDCX2SetupRequest-IEs}} of TS 36.423 §9.3.8: a list of ENDCX2SetupRequestIEField values.
 type ENDCX2SetupRequestIEContainer = s18.ENDCX2SetupRequestIEContainer
@@ -4653,7 +4652,7 @@ type ENDCX2SetupRequestIEValue = s18.ENDCX2SetupRequestIEValue
 var ENDCX2SetupRequestIEs func() ENDCX2SetupRequestIETable = s18.ENDCX2SetupRequestIEs
 
 // ENDCX2SetupRequestInitiatingBinding is the concrete InitiatingBinding[ENDCX2SetupRequest].
-type ENDCX2SetupRequestInitiatingBinding = s20.ENDCX2SetupRequestInitiatingBinding
+type ENDCX2SetupRequestInitiatingBinding = s19.ENDCX2SetupRequestInitiatingBinding
 
 // ENDCX2SetupRequestInitiatingNodeTypeEndcX2SetupIEBinding binds InitiatingNodeTypeEndcX2Setup to ProtocolIE-Field {{ENDCX2SetupRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupRequestInitiatingNodeTypeEndcX2SetupIEBinding = s18.ENDCX2SetupRequestInitiatingNodeTypeEndcX2SetupIEBinding
@@ -4665,16 +4664,16 @@ type ENDCX2SetupRequestInterfaceInstanceIndicationIEBinding = s18.ENDCX2SetupReq
 type ENDCX2SetupRequestTNLConfigurationInfoIEBinding = s18.ENDCX2SetupRequestTNLConfigurationInfoIEBinding
 
 // ENDCX2SetupRequestValueCodec is the concrete ValueCodec[ENDCX2SetupRequest].
-type ENDCX2SetupRequestValueCodec = s20.ENDCX2SetupRequestValueCodec
+type ENDCX2SetupRequestValueCodec = s19.ENDCX2SetupRequestValueCodec
 
 // ENDCX2SetupResponse represents the ASN.1 type ENDCX2SetupResponse (SEQUENCE).
-type ENDCX2SetupResponse = s19.ENDCX2SetupResponse
+type ENDCX2SetupResponse = s18.ENDCX2SetupResponse
 
 // ENDCX2SetupResponseAPERValue is the concrete APERValue[ENDCX2SetupResponse].
-type ENDCX2SetupResponseAPERValue = s19.ENDCX2SetupResponseAPERValue
+type ENDCX2SetupResponseAPERValue = s18.ENDCX2SetupResponseAPERValue
 
 // ENDCX2SetupResponseCodec binds the complete APER value type.
-var ENDCX2SetupResponseCodec func() ENDCX2SetupResponseValueCodec = s20.ENDCX2SetupResponseCodec
+var ENDCX2SetupResponseCodec func() ENDCX2SetupResponseValueCodec = s19.ENDCX2SetupResponseCodec
 
 // ENDCX2SetupResponseIEContainer is ProtocolIE-Container {{ENDCX2SetupResponse-IEs}} of TS 36.423 §9.3.8: a list of ENDCX2SetupResponseIEField values.
 type ENDCX2SetupResponseIEContainer = s18.ENDCX2SetupResponseIEContainer
@@ -4693,13 +4692,13 @@ type ENDCX2SetupResponseInterfaceInstanceIndicationIEBinding = s18.ENDCX2SetupRe
 type ENDCX2SetupResponseRespondingNodeTypeEndcX2SetupIEBinding = s18.ENDCX2SetupResponseRespondingNodeTypeEndcX2SetupIEBinding
 
 // ENDCX2SetupResponseSuccessfulBinding is the concrete SuccessfulBinding[ENDCX2SetupResponse].
-type ENDCX2SetupResponseSuccessfulBinding = s19.ENDCX2SetupResponseSuccessfulBinding
+type ENDCX2SetupResponseSuccessfulBinding = s18.ENDCX2SetupResponseSuccessfulBinding
 
 // ENDCX2SetupResponseTNLConfigurationInfoIEBinding binds TNLConfigurationInfo to ProtocolIE-Field {{ENDCX2SetupResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupResponseTNLConfigurationInfoIEBinding = s18.ENDCX2SetupResponseTNLConfigurationInfoIEBinding
 
 // ENDCX2SetupResponseValueCodec is the concrete ValueCodec[ENDCX2SetupResponse].
-type ENDCX2SetupResponseValueCodec = s19.ENDCX2SetupResponseValueCodec
+type ENDCX2SetupResponseValueCodec = s18.ENDCX2SetupResponseValueCodec
 
 // EPCHandoverRestrictionListContainer represents the ASN.1 type EPCHandoverRestrictionListContainer (OCTET_STRING).
 type EPCHandoverRestrictionListContainer = s00.EPCHandoverRestrictionListContainer
@@ -5052,7 +5051,7 @@ type ERABsAdmittedToBeAddedList = s11.ERABsAdmittedToBeAddedList
 type ERABsAdmittedToBeAddedListAPERValue = s11.ERABsAdmittedToBeAddedListAPERValue
 
 // ERABsAdmittedToBeAddedListCodec binds the complete APER value type.
-var ERABsAdmittedToBeAddedListCodec func() ERABsAdmittedToBeAddedListValueCodec = s15.ERABsAdmittedToBeAddedListCodec
+var ERABsAdmittedToBeAddedListCodec func() ERABsAdmittedToBeAddedListValueCodec = s14.ERABsAdmittedToBeAddedListCodec
 
 // ERABsAdmittedToBeAddedListComplete carries a complete ERABsAdmittedToBeAddedList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
@@ -5156,7 +5155,7 @@ var ERABsAdmittedToBeAddedModAckListCodec func() ERABsAdmittedToBeAddedModAckLis
 
 // ERABsAdmittedToBeAddedModAckListComplete carries a complete ERABsAdmittedToBeAddedModAckList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type ERABsAdmittedToBeAddedModAckListComplete = s15.ERABsAdmittedToBeAddedModAckListComplete
+type ERABsAdmittedToBeAddedModAckListComplete = s14.ERABsAdmittedToBeAddedModAckListComplete
 
 // ERABsAdmittedToBeAddedModAckListValueCodec is the concrete ValueCodec[ERABsAdmittedToBeAddedModAckList].
 type ERABsAdmittedToBeAddedModAckListValueCodec = s11.ERABsAdmittedToBeAddedModAckListValueCodec
@@ -5274,7 +5273,7 @@ var ERABsAdmittedToBeAddedSgNBAddReqAckListCodec func() ERABsAdmittedToBeAddedSg
 
 // ERABsAdmittedToBeAddedSgNBAddReqAckListComplete carries a complete ERABsAdmittedToBeAddedSgNBAddReqAckList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type ERABsAdmittedToBeAddedSgNBAddReqAckListComplete = s15.ERABsAdmittedToBeAddedSgNBAddReqAckListComplete
+type ERABsAdmittedToBeAddedSgNBAddReqAckListComplete = s14.ERABsAdmittedToBeAddedSgNBAddReqAckListComplete
 
 // ERABsAdmittedToBeAddedSgNBAddReqAckListValueCodec is the concrete ValueCodec[ERABsAdmittedToBeAddedSgNBAddReqAckList].
 type ERABsAdmittedToBeAddedSgNBAddReqAckListValueCodec = s11.ERABsAdmittedToBeAddedSgNBAddReqAckListValueCodec
@@ -5736,29 +5735,29 @@ type ERABsAdmittedToBeModifiedSgNBModConfListComplete = s15.ERABsAdmittedToBeMod
 type ERABsAdmittedToBeModifiedSgNBModConfListValueCodec = s11.ERABsAdmittedToBeModifiedSgNBModConfListValueCodec
 
 // ERABsAdmittedToBeReleasedModAckItemERABsAdmittedToReleasedModAckItemIEBinding binds ERABsAdmittedToReleasedModAckItem to ProtocolIE-Field {{E-RABs-Admitted-ToBeReleased-ModAckItemIEs}} of TS 36.423 §9.3.8.
-type ERABsAdmittedToBeReleasedModAckItemERABsAdmittedToReleasedModAckItemIEBinding = s07.ERABsAdmittedToBeReleasedModAckItemERABsAdmittedToReleasedModAckItemIEBinding
+type ERABsAdmittedToBeReleasedModAckItemERABsAdmittedToReleasedModAckItemIEBinding = s06.ERABsAdmittedToBeReleasedModAckItemERABsAdmittedToReleasedModAckItemIEBinding
 
 // ERABsAdmittedToBeReleasedModAckItemIEContainer is ProtocolIE-Container {{E-RABs-Admitted-ToBeReleased-ModAckItemIEs}} of TS 36.423 §9.3.8: a list of ERABsAdmittedToBeReleasedModAckItemIEField values.
-type ERABsAdmittedToBeReleasedModAckItemIEContainer = s07.ERABsAdmittedToBeReleasedModAckItemIEContainer
+type ERABsAdmittedToBeReleasedModAckItemIEContainer = s06.ERABsAdmittedToBeReleasedModAckItemIEContainer
 
 // ERABsAdmittedToBeReleasedModAckItemIEField is ProtocolIE-Field {{E-RABs-Admitted-ToBeReleased-ModAckItemIEs}} of TS 36.423 §9.3.8: an information element field.
-type ERABsAdmittedToBeReleasedModAckItemIEField = s07.ERABsAdmittedToBeReleasedModAckItemIEField
-type ERABsAdmittedToBeReleasedModAckItemIETable = s07.ERABsAdmittedToBeReleasedModAckItemIETable
-type ERABsAdmittedToBeReleasedModAckItemIEValue = s07.ERABsAdmittedToBeReleasedModAckItemIEValue
+type ERABsAdmittedToBeReleasedModAckItemIEField = s06.ERABsAdmittedToBeReleasedModAckItemIEField
+type ERABsAdmittedToBeReleasedModAckItemIETable = s06.ERABsAdmittedToBeReleasedModAckItemIETable
+type ERABsAdmittedToBeReleasedModAckItemIEValue = s06.ERABsAdmittedToBeReleasedModAckItemIEValue
 
 // ERABsAdmittedToBeReleasedModAckItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-Admitted-ToBeReleased-ModAckItemIEs}} of TS 36.423 §9.3.8: one information element field.
-type ERABsAdmittedToBeReleasedModAckItemIEValueProtocolIESingleContainer = s07.ERABsAdmittedToBeReleasedModAckItemIEValueProtocolIESingleContainer
+type ERABsAdmittedToBeReleasedModAckItemIEValueProtocolIESingleContainer = s06.ERABsAdmittedToBeReleasedModAckItemIEValueProtocolIESingleContainer
 
-var ERABsAdmittedToBeReleasedModAckItemIEs func() ERABsAdmittedToBeReleasedModAckItemIETable = s07.ERABsAdmittedToBeReleasedModAckItemIEs
+var ERABsAdmittedToBeReleasedModAckItemIEs func() ERABsAdmittedToBeReleasedModAckItemIETable = s06.ERABsAdmittedToBeReleasedModAckItemIEs
 
 // ERABsAdmittedToBeReleasedModAckItemSCGBearer represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-Bearer (SEQUENCE).
-type ERABsAdmittedToBeReleasedModAckItemSCGBearer = s05.ERABsAdmittedToBeReleasedModAckItemSCGBearer
+type ERABsAdmittedToBeReleasedModAckItemSCGBearer = s04.ERABsAdmittedToBeReleasedModAckItemSCGBearer
 
 // ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue is the concrete APERValue[ERABsAdmittedToBeReleasedModAckItemSCGBearer].
-type ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue = s05.ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue
+type ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue = s04.ERABsAdmittedToBeReleasedModAckItemSCGBearerAPERValue
 
 // ERABsAdmittedToBeReleasedModAckItemSCGBearerCodec binds the complete source value type.
-var ERABsAdmittedToBeReleasedModAckItemSCGBearerCodec func() ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec = s05.ERABsAdmittedToBeReleasedModAckItemSCGBearerCodec
+var ERABsAdmittedToBeReleasedModAckItemSCGBearerCodec func() ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec = s04.ERABsAdmittedToBeReleasedModAckItemSCGBearerCodec
 
 type ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIETable = s06.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIETable
 
@@ -5772,16 +5771,16 @@ type ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsExtField = s02.ERABsAdmit
 type ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValue = s02.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValue
 
 // ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec is the concrete ValueCodec[ERABsAdmittedToBeReleasedModAckItemSCGBearer].
-type ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec = s05.ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec
+type ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec = s04.ERABsAdmittedToBeReleasedModAckItemSCGBearerValueCodec
 
 // ERABsAdmittedToBeReleasedModAckItemSplitBearer represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckItem-Split-Bearer (SEQUENCE).
-type ERABsAdmittedToBeReleasedModAckItemSplitBearer = s05.ERABsAdmittedToBeReleasedModAckItemSplitBearer
+type ERABsAdmittedToBeReleasedModAckItemSplitBearer = s04.ERABsAdmittedToBeReleasedModAckItemSplitBearer
 
 // ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue is the concrete APERValue[ERABsAdmittedToBeReleasedModAckItemSplitBearer].
-type ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue = s05.ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue
+type ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue = s04.ERABsAdmittedToBeReleasedModAckItemSplitBearerAPERValue
 
 // ERABsAdmittedToBeReleasedModAckItemSplitBearerCodec binds the complete source value type.
-var ERABsAdmittedToBeReleasedModAckItemSplitBearerCodec func() ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec = s05.ERABsAdmittedToBeReleasedModAckItemSplitBearerCodec
+var ERABsAdmittedToBeReleasedModAckItemSplitBearerCodec func() ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec = s04.ERABsAdmittedToBeReleasedModAckItemSplitBearerCodec
 
 type ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIETable = s06.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIETable
 
@@ -5795,7 +5794,7 @@ type ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtField = s02.ERABsAdm
 type ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValue = s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValue
 
 // ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec is the concrete ValueCodec[ERABsAdmittedToBeReleasedModAckItemSplitBearer].
-type ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec = s05.ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec
+type ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec = s04.ERABsAdmittedToBeReleasedModAckItemSplitBearerValueCodec
 type ERABsAdmittedToBeReleasedModAckList = s08.ERABsAdmittedToBeReleasedModAckList
 
 // ERABsAdmittedToBeReleasedModAckListAPERValue is the concrete APERValue[ERABsAdmittedToBeReleasedModAckList].
@@ -5812,20 +5811,20 @@ type ERABsAdmittedToBeReleasedModAckListComplete = s15.ERABsAdmittedToBeReleased
 type ERABsAdmittedToBeReleasedModAckListValueCodec = s08.ERABsAdmittedToBeReleasedModAckListValueCodec
 
 // ERABsAdmittedToBeReleasedSgNBModAckItemERABsAdmittedToReleasedSgNBModAckItemIEBinding binds ERABsAdmittedToReleasedSgNBModAckItem to ProtocolIE-Field {{E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs}} of TS 36.423 §9.3.8.
-type ERABsAdmittedToBeReleasedSgNBModAckItemERABsAdmittedToReleasedSgNBModAckItemIEBinding = s07.ERABsAdmittedToBeReleasedSgNBModAckItemERABsAdmittedToReleasedSgNBModAckItemIEBinding
+type ERABsAdmittedToBeReleasedSgNBModAckItemERABsAdmittedToReleasedSgNBModAckItemIEBinding = s06.ERABsAdmittedToBeReleasedSgNBModAckItemERABsAdmittedToReleasedSgNBModAckItemIEBinding
 
 // ERABsAdmittedToBeReleasedSgNBModAckItemIEContainer is ProtocolIE-Container {{E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABsAdmittedToBeReleasedSgNBModAckItemIEField values.
-type ERABsAdmittedToBeReleasedSgNBModAckItemIEContainer = s07.ERABsAdmittedToBeReleasedSgNBModAckItemIEContainer
+type ERABsAdmittedToBeReleasedSgNBModAckItemIEContainer = s06.ERABsAdmittedToBeReleasedSgNBModAckItemIEContainer
 
 // ERABsAdmittedToBeReleasedSgNBModAckItemIEField is ProtocolIE-Field {{E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
-type ERABsAdmittedToBeReleasedSgNBModAckItemIEField = s07.ERABsAdmittedToBeReleasedSgNBModAckItemIEField
-type ERABsAdmittedToBeReleasedSgNBModAckItemIETable = s07.ERABsAdmittedToBeReleasedSgNBModAckItemIETable
-type ERABsAdmittedToBeReleasedSgNBModAckItemIEValue = s07.ERABsAdmittedToBeReleasedSgNBModAckItemIEValue
+type ERABsAdmittedToBeReleasedSgNBModAckItemIEField = s06.ERABsAdmittedToBeReleasedSgNBModAckItemIEField
+type ERABsAdmittedToBeReleasedSgNBModAckItemIETable = s06.ERABsAdmittedToBeReleasedSgNBModAckItemIETable
+type ERABsAdmittedToBeReleasedSgNBModAckItemIEValue = s06.ERABsAdmittedToBeReleasedSgNBModAckItemIEValue
 
 // ERABsAdmittedToBeReleasedSgNBModAckItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
-type ERABsAdmittedToBeReleasedSgNBModAckItemIEValueProtocolIESingleContainer = s07.ERABsAdmittedToBeReleasedSgNBModAckItemIEValueProtocolIESingleContainer
+type ERABsAdmittedToBeReleasedSgNBModAckItemIEValueProtocolIESingleContainer = s06.ERABsAdmittedToBeReleasedSgNBModAckItemIEValueProtocolIESingleContainer
 
-var ERABsAdmittedToBeReleasedSgNBModAckItemIEs func() ERABsAdmittedToBeReleasedSgNBModAckItemIETable = s07.ERABsAdmittedToBeReleasedSgNBModAckItemIEs
+var ERABsAdmittedToBeReleasedSgNBModAckItemIEs func() ERABsAdmittedToBeReleasedSgNBModAckItemIETable = s06.ERABsAdmittedToBeReleasedSgNBModAckItemIEs
 
 // ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent = s05.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent
@@ -5894,10 +5893,10 @@ type ERABsAdmittedToBeReleasedSgNBRelReqAckItem = s05.ERABsAdmittedToBeReleasedS
 type ERABsAdmittedToBeReleasedSgNBRelReqAckItemAPERValue = s05.ERABsAdmittedToBeReleasedSgNBRelReqAckItemAPERValue
 
 // ERABsAdmittedToBeReleasedSgNBRelReqAckItemCodec binds the complete APER value type.
-var ERABsAdmittedToBeReleasedSgNBRelReqAckItemCodec func() ERABsAdmittedToBeReleasedSgNBRelReqAckItemValueCodec = s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemCodec
+var ERABsAdmittedToBeReleasedSgNBRelReqAckItemCodec func() ERABsAdmittedToBeReleasedSgNBRelReqAckItemValueCodec = s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemCodec
 
 // ERABsAdmittedToBeReleasedSgNBRelReqAckItemERABsAdmittedToBeReleasedSgNBRelReqAckItemIEBinding binds ERABsAdmittedToBeReleasedSgNBRelReqAckItem to ProtocolIE-Field {{E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs}} of TS 36.423 §9.3.8.
-type ERABsAdmittedToBeReleasedSgNBRelReqAckItemERABsAdmittedToBeReleasedSgNBRelReqAckItemIEBinding = s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemERABsAdmittedToBeReleasedSgNBRelReqAckItemIEBinding
+type ERABsAdmittedToBeReleasedSgNBRelReqAckItemERABsAdmittedToBeReleasedSgNBRelReqAckItemIEBinding = s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemERABsAdmittedToBeReleasedSgNBRelReqAckItemIEBinding
 type ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIETable = s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIETable
 
 var ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEs func() ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIETable = s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEs
@@ -5910,17 +5909,17 @@ type ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsExtField = s02.ERABsAdmitte
 type ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValue = s02.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValue
 
 // ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEContainer is ProtocolIE-Container {{E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEField values.
-type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEContainer = s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEContainer
+type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEContainer = s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEContainer
 
 // ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEField is ProtocolIE-Field {{E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
-type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEField = s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEField
-type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable = s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable
-type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValue = s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValue
+type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEField = s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEField
+type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable = s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable
+type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValue = s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValue
 
 // ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
-type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueProtocolIESingleContainer = s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueProtocolIESingleContainer
+type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueProtocolIESingleContainer = s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueProtocolIESingleContainer
 
-var ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEs func() ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable = s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEs
+var ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEs func() ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable = s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEs
 
 // ERABsAdmittedToBeReleasedSgNBRelReqAckItemValueCodec is the concrete ValueCodec[ERABsAdmittedToBeReleasedSgNBRelReqAckItem].
 type ERABsAdmittedToBeReleasedSgNBRelReqAckItemValueCodec = s05.ERABsAdmittedToBeReleasedSgNBRelReqAckItemValueCodec
@@ -5952,7 +5951,7 @@ const ERABsAdmittedToReleasedModAckItemChoiceSCGBearer = s00.ERABsAdmittedToRele
 const ERABsAdmittedToReleasedModAckItemChoiceSplitBearer = s00.ERABsAdmittedToReleasedModAckItemChoiceSplitBearer
 
 // ERABsAdmittedToReleasedModAckItemCodec binds the complete APER value type.
-var ERABsAdmittedToReleasedModAckItemCodec func() ERABsAdmittedToReleasedModAckItemValueCodec = s07.ERABsAdmittedToReleasedModAckItemCodec
+var ERABsAdmittedToReleasedModAckItemCodec func() ERABsAdmittedToReleasedModAckItemValueCodec = s06.ERABsAdmittedToReleasedModAckItemCodec
 
 // ERABsAdmittedToReleasedModAckItemValueCodec is the concrete ValueCodec[ERABsAdmittedToReleasedModAckItem].
 type ERABsAdmittedToReleasedModAckItemValueCodec = s05.ERABsAdmittedToReleasedModAckItemValueCodec
@@ -5964,7 +5963,7 @@ type ERABsAdmittedToReleasedSgNBModAckItem = s05.ERABsAdmittedToReleasedSgNBModA
 type ERABsAdmittedToReleasedSgNBModAckItemAPERValue = s05.ERABsAdmittedToReleasedSgNBModAckItemAPERValue
 
 // ERABsAdmittedToReleasedSgNBModAckItemCodec binds the complete APER value type.
-var ERABsAdmittedToReleasedSgNBModAckItemCodec func() ERABsAdmittedToReleasedSgNBModAckItemValueCodec = s07.ERABsAdmittedToReleasedSgNBModAckItemCodec
+var ERABsAdmittedToReleasedSgNBModAckItemCodec func() ERABsAdmittedToReleasedSgNBModAckItemValueCodec = s06.ERABsAdmittedToReleasedSgNBModAckItemCodec
 
 // ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-Admitted-ToReleased-SgNBModAck-Item-resource-configuration.
 type ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration = s05.ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration
@@ -6049,7 +6048,7 @@ type ERABsSubjectToCounterCheckItemAPERValue = s05.ERABsSubjectToCounterCheckIte
 var ERABsSubjectToCounterCheckItemCodec func() ERABsSubjectToCounterCheckItemValueCodec = s07.ERABsSubjectToCounterCheckItemCodec
 
 // ERABsSubjectToCounterCheckItemERABsSubjectToCounterCheckItemIEBinding binds ERABsSubjectToCounterCheckItem to ProtocolIE-Field {{E-RABs-SubjectToCounterCheckItemIEs}} of TS 36.423 §9.3.8.
-type ERABsSubjectToCounterCheckItemERABsSubjectToCounterCheckItemIEBinding = s07.ERABsSubjectToCounterCheckItemERABsSubjectToCounterCheckItemIEBinding
+type ERABsSubjectToCounterCheckItemERABsSubjectToCounterCheckItemIEBinding = s06.ERABsSubjectToCounterCheckItemERABsSubjectToCounterCheckItemIEBinding
 type ERABsSubjectToCounterCheckItemExtIETable = s06.ERABsSubjectToCounterCheckItemExtIETable
 
 var ERABsSubjectToCounterCheckItemExtIEs func() ERABsSubjectToCounterCheckItemExtIETable = s06.ERABsSubjectToCounterCheckItemExtIEs
@@ -6062,15 +6061,15 @@ type ERABsSubjectToCounterCheckItemExtIEsExtField = s02.ERABsSubjectToCounterChe
 type ERABsSubjectToCounterCheckItemExtIEsValue = s02.ERABsSubjectToCounterCheckItemExtIEsValue
 
 // ERABsSubjectToCounterCheckItemIEContainer is ProtocolIE-Container {{E-RABs-SubjectToCounterCheckItemIEs}} of TS 36.423 §9.3.8: a list of ERABsSubjectToCounterCheckItemIEField values.
-type ERABsSubjectToCounterCheckItemIEContainer = s07.ERABsSubjectToCounterCheckItemIEContainer
+type ERABsSubjectToCounterCheckItemIEContainer = s06.ERABsSubjectToCounterCheckItemIEContainer
 
 // ERABsSubjectToCounterCheckItemIEField is ProtocolIE-Field {{E-RABs-SubjectToCounterCheckItemIEs}} of TS 36.423 §9.3.8: an information element field.
-type ERABsSubjectToCounterCheckItemIEField = s07.ERABsSubjectToCounterCheckItemIEField
+type ERABsSubjectToCounterCheckItemIEField = s06.ERABsSubjectToCounterCheckItemIEField
 type ERABsSubjectToCounterCheckItemIETable = s07.ERABsSubjectToCounterCheckItemIETable
-type ERABsSubjectToCounterCheckItemIEValue = s07.ERABsSubjectToCounterCheckItemIEValue
+type ERABsSubjectToCounterCheckItemIEValue = s06.ERABsSubjectToCounterCheckItemIEValue
 
 // ERABsSubjectToCounterCheckItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-SubjectToCounterCheckItemIEs}} of TS 36.423 §9.3.8: one information element field.
-type ERABsSubjectToCounterCheckItemIEValueProtocolIESingleContainer = s07.ERABsSubjectToCounterCheckItemIEValueProtocolIESingleContainer
+type ERABsSubjectToCounterCheckItemIEValueProtocolIESingleContainer = s06.ERABsSubjectToCounterCheckItemIEValueProtocolIESingleContainer
 
 var ERABsSubjectToCounterCheckItemIEs func() ERABsSubjectToCounterCheckItemIETable = s07.ERABsSubjectToCounterCheckItemIEs
 
@@ -6663,10 +6662,10 @@ type ERABsToBeAddedSgNBModReqItem = s10.ERABsToBeAddedSgNBModReqItem
 type ERABsToBeAddedSgNBModReqItemAPERValue = s10.ERABsToBeAddedSgNBModReqItemAPERValue
 
 // ERABsToBeAddedSgNBModReqItemCodec binds the complete APER value type.
-var ERABsToBeAddedSgNBModReqItemCodec func() ERABsToBeAddedSgNBModReqItemValueCodec = s11.ERABsToBeAddedSgNBModReqItemCodec
+var ERABsToBeAddedSgNBModReqItemCodec func() ERABsToBeAddedSgNBModReqItemValueCodec = s10.ERABsToBeAddedSgNBModReqItemCodec
 
 // ERABsToBeAddedSgNBModReqItemERABsToBeAddedSgNBModReqItemIEBinding binds ERABsToBeAddedSgNBModReqItem to ProtocolIE-Field {{E-RABs-ToBeAdded-SgNBModReq-ItemIEs}} of TS 36.423 §9.3.8.
-type ERABsToBeAddedSgNBModReqItemERABsToBeAddedSgNBModReqItemIEBinding = s11.ERABsToBeAddedSgNBModReqItemERABsToBeAddedSgNBModReqItemIEBinding
+type ERABsToBeAddedSgNBModReqItemERABsToBeAddedSgNBModReqItemIEBinding = s10.ERABsToBeAddedSgNBModReqItemERABsToBeAddedSgNBModReqItemIEBinding
 type ERABsToBeAddedSgNBModReqItemExtIETable = s06.ERABsToBeAddedSgNBModReqItemExtIETable
 
 var ERABsToBeAddedSgNBModReqItemExtIEs func() ERABsToBeAddedSgNBModReqItemExtIETable = s06.ERABsToBeAddedSgNBModReqItemExtIEs
@@ -6679,17 +6678,17 @@ type ERABsToBeAddedSgNBModReqItemExtIEsExtField = s02.ERABsToBeAddedSgNBModReqIt
 type ERABsToBeAddedSgNBModReqItemExtIEsValue = s02.ERABsToBeAddedSgNBModReqItemExtIEsValue
 
 // ERABsToBeAddedSgNBModReqItemIEContainer is ProtocolIE-Container {{E-RABs-ToBeAdded-SgNBModReq-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABsToBeAddedSgNBModReqItemIEField values.
-type ERABsToBeAddedSgNBModReqItemIEContainer = s11.ERABsToBeAddedSgNBModReqItemIEContainer
+type ERABsToBeAddedSgNBModReqItemIEContainer = s10.ERABsToBeAddedSgNBModReqItemIEContainer
 
 // ERABsToBeAddedSgNBModReqItemIEField is ProtocolIE-Field {{E-RABs-ToBeAdded-SgNBModReq-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
-type ERABsToBeAddedSgNBModReqItemIEField = s11.ERABsToBeAddedSgNBModReqItemIEField
-type ERABsToBeAddedSgNBModReqItemIETable = s11.ERABsToBeAddedSgNBModReqItemIETable
-type ERABsToBeAddedSgNBModReqItemIEValue = s11.ERABsToBeAddedSgNBModReqItemIEValue
+type ERABsToBeAddedSgNBModReqItemIEField = s10.ERABsToBeAddedSgNBModReqItemIEField
+type ERABsToBeAddedSgNBModReqItemIETable = s10.ERABsToBeAddedSgNBModReqItemIETable
+type ERABsToBeAddedSgNBModReqItemIEValue = s10.ERABsToBeAddedSgNBModReqItemIEValue
 
 // ERABsToBeAddedSgNBModReqItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-ToBeAdded-SgNBModReq-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
-type ERABsToBeAddedSgNBModReqItemIEValueProtocolIESingleContainer = s11.ERABsToBeAddedSgNBModReqItemIEValueProtocolIESingleContainer
+type ERABsToBeAddedSgNBModReqItemIEValueProtocolIESingleContainer = s10.ERABsToBeAddedSgNBModReqItemIEValueProtocolIESingleContainer
 
-var ERABsToBeAddedSgNBModReqItemIEs func() ERABsToBeAddedSgNBModReqItemIETable = s11.ERABsToBeAddedSgNBModReqItemIEs
+var ERABsToBeAddedSgNBModReqItemIEs func() ERABsToBeAddedSgNBModReqItemIETable = s10.ERABsToBeAddedSgNBModReqItemIEs
 
 // ERABsToBeAddedSgNBModReqItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeAdded-SgNBModReq-Item-resource-configuration.
 type ERABsToBeAddedSgNBModReqItemResourceConfiguration = s10.ERABsToBeAddedSgNBModReqItemResourceConfiguration
@@ -6888,16 +6887,16 @@ type ERABsToBeModifiedModReqItemSplitBearerValueCodec = s09.ERABsToBeModifiedMod
 type ERABsToBeModifiedModReqItemValueCodec = s09.ERABsToBeModifiedModReqItemValueCodec
 
 // ERABsToBeModifiedSgNBModReqItem represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-Item (SEQUENCE).
-type ERABsToBeModifiedSgNBModReqItem = s11.ERABsToBeModifiedSgNBModReqItem
+type ERABsToBeModifiedSgNBModReqItem = s10.ERABsToBeModifiedSgNBModReqItem
 
 // ERABsToBeModifiedSgNBModReqItemAPERValue is the concrete APERValue[ERABsToBeModifiedSgNBModReqItem].
-type ERABsToBeModifiedSgNBModReqItemAPERValue = s11.ERABsToBeModifiedSgNBModReqItemAPERValue
+type ERABsToBeModifiedSgNBModReqItemAPERValue = s10.ERABsToBeModifiedSgNBModReqItemAPERValue
 
 // ERABsToBeModifiedSgNBModReqItemCodec binds the complete APER value type.
-var ERABsToBeModifiedSgNBModReqItemCodec func() ERABsToBeModifiedSgNBModReqItemValueCodec = s11.ERABsToBeModifiedSgNBModReqItemCodec
+var ERABsToBeModifiedSgNBModReqItemCodec func() ERABsToBeModifiedSgNBModReqItemValueCodec = s10.ERABsToBeModifiedSgNBModReqItemCodec
 
 // ERABsToBeModifiedSgNBModReqItemERABsToBeModifiedSgNBModReqItemIEBinding binds ERABsToBeModifiedSgNBModReqItem to ProtocolIE-Field {{E-RABs-ToBeModified-SgNBModReq-ItemIEs}} of TS 36.423 §9.3.8.
-type ERABsToBeModifiedSgNBModReqItemERABsToBeModifiedSgNBModReqItemIEBinding = s11.ERABsToBeModifiedSgNBModReqItemERABsToBeModifiedSgNBModReqItemIEBinding
+type ERABsToBeModifiedSgNBModReqItemERABsToBeModifiedSgNBModReqItemIEBinding = s10.ERABsToBeModifiedSgNBModReqItemERABsToBeModifiedSgNBModReqItemIEBinding
 type ERABsToBeModifiedSgNBModReqItemExtIETable = s06.ERABsToBeModifiedSgNBModReqItemExtIETable
 
 var ERABsToBeModifiedSgNBModReqItemExtIEs func() ERABsToBeModifiedSgNBModReqItemExtIETable = s06.ERABsToBeModifiedSgNBModReqItemExtIEs
@@ -6910,23 +6909,23 @@ type ERABsToBeModifiedSgNBModReqItemExtIEsExtField = s02.ERABsToBeModifiedSgNBMo
 type ERABsToBeModifiedSgNBModReqItemExtIEsValue = s02.ERABsToBeModifiedSgNBModReqItemExtIEsValue
 
 // ERABsToBeModifiedSgNBModReqItemIEContainer is ProtocolIE-Container {{E-RABs-ToBeModified-SgNBModReq-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABsToBeModifiedSgNBModReqItemIEField values.
-type ERABsToBeModifiedSgNBModReqItemIEContainer = s11.ERABsToBeModifiedSgNBModReqItemIEContainer
+type ERABsToBeModifiedSgNBModReqItemIEContainer = s10.ERABsToBeModifiedSgNBModReqItemIEContainer
 
 // ERABsToBeModifiedSgNBModReqItemIEField is ProtocolIE-Field {{E-RABs-ToBeModified-SgNBModReq-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
-type ERABsToBeModifiedSgNBModReqItemIEField = s11.ERABsToBeModifiedSgNBModReqItemIEField
-type ERABsToBeModifiedSgNBModReqItemIETable = s11.ERABsToBeModifiedSgNBModReqItemIETable
-type ERABsToBeModifiedSgNBModReqItemIEValue = s11.ERABsToBeModifiedSgNBModReqItemIEValue
+type ERABsToBeModifiedSgNBModReqItemIEField = s10.ERABsToBeModifiedSgNBModReqItemIEField
+type ERABsToBeModifiedSgNBModReqItemIETable = s10.ERABsToBeModifiedSgNBModReqItemIETable
+type ERABsToBeModifiedSgNBModReqItemIEValue = s10.ERABsToBeModifiedSgNBModReqItemIEValue
 
 // ERABsToBeModifiedSgNBModReqItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-ToBeModified-SgNBModReq-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
-type ERABsToBeModifiedSgNBModReqItemIEValueProtocolIESingleContainer = s11.ERABsToBeModifiedSgNBModReqItemIEValueProtocolIESingleContainer
+type ERABsToBeModifiedSgNBModReqItemIEValueProtocolIESingleContainer = s10.ERABsToBeModifiedSgNBModReqItemIEValueProtocolIESingleContainer
 
-var ERABsToBeModifiedSgNBModReqItemIEs func() ERABsToBeModifiedSgNBModReqItemIETable = s11.ERABsToBeModifiedSgNBModReqItemIEs
+var ERABsToBeModifiedSgNBModReqItemIEs func() ERABsToBeModifiedSgNBModReqItemIETable = s10.ERABsToBeModifiedSgNBModReqItemIEs
 
 // ERABsToBeModifiedSgNBModReqItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeModified-SgNBModReq-Item-resource-configuration.
-type ERABsToBeModifiedSgNBModReqItemResourceConfiguration = s11.ERABsToBeModifiedSgNBModReqItemResourceConfiguration
+type ERABsToBeModifiedSgNBModReqItemResourceConfiguration = s10.ERABsToBeModifiedSgNBModReqItemResourceConfiguration
 
 // ERABsToBeModifiedSgNBModReqItemResourceConfigurationAPERValue is the concrete APERValue[ERABsToBeModifiedSgNBModReqItemResourceConfiguration].
-type ERABsToBeModifiedSgNBModReqItemResourceConfigurationAPERValue = s11.ERABsToBeModifiedSgNBModReqItemResourceConfigurationAPERValue
+type ERABsToBeModifiedSgNBModReqItemResourceConfigurationAPERValue = s10.ERABsToBeModifiedSgNBModReqItemResourceConfigurationAPERValue
 
 // ERABsToBeModifiedSgNBModReqItemResourceConfiguration choice constants.
 const ERABsToBeModifiedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPnotpresent = s00.ERABsToBeModifiedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPnotpresent
@@ -6935,19 +6934,19 @@ const ERABsToBeModifiedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPnotprese
 const ERABsToBeModifiedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPpresent = s00.ERABsToBeModifiedSgNBModReqItemResourceConfigurationChoiceSgNBPDCPpresent
 
 // ERABsToBeModifiedSgNBModReqItemResourceConfigurationCodec binds the complete source value type.
-var ERABsToBeModifiedSgNBModReqItemResourceConfigurationCodec func() ERABsToBeModifiedSgNBModReqItemResourceConfigurationValueCodec = s11.ERABsToBeModifiedSgNBModReqItemResourceConfigurationCodec
+var ERABsToBeModifiedSgNBModReqItemResourceConfigurationCodec func() ERABsToBeModifiedSgNBModReqItemResourceConfigurationValueCodec = s10.ERABsToBeModifiedSgNBModReqItemResourceConfigurationCodec
 
 // ERABsToBeModifiedSgNBModReqItemResourceConfigurationValueCodec is the concrete ValueCodec[ERABsToBeModifiedSgNBModReqItemResourceConfiguration].
-type ERABsToBeModifiedSgNBModReqItemResourceConfigurationValueCodec = s11.ERABsToBeModifiedSgNBModReqItemResourceConfigurationValueCodec
+type ERABsToBeModifiedSgNBModReqItemResourceConfigurationValueCodec = s10.ERABsToBeModifiedSgNBModReqItemResourceConfigurationValueCodec
 
 // ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresent (SEQUENCE).
-type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent = s11.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent
+type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent = s10.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent
 
 // ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentAPERValue is the concrete APERValue[ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent].
-type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentAPERValue = s11.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentAPERValue
+type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentAPERValue = s10.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentAPERValue
 
 // ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentCodec binds the complete source value type.
-var ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentCodec func() ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentValueCodec = s11.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentCodec
+var ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentCodec func() ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentValueCodec = s10.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentCodec
 
 type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIETable = s09.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIETable
 
@@ -6967,7 +6966,7 @@ type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIEsPDCPSnLengthExtBindi
 type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIEsValue = s09.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIEsValue
 
 // ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentValueCodec is the concrete ValueCodec[ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent].
-type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentValueCodec = s11.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentValueCodec
+type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentValueCodec = s10.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentValueCodec
 
 // ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent = s09.ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent
@@ -6996,7 +6995,7 @@ type ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresentExtIEsValue = s07.ERABsToBeMo
 type ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresentValueCodec = s09.ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresentValueCodec
 
 // ERABsToBeModifiedSgNBModReqItemValueCodec is the concrete ValueCodec[ERABsToBeModifiedSgNBModReqItem].
-type ERABsToBeModifiedSgNBModReqItemValueCodec = s11.ERABsToBeModifiedSgNBModReqItemValueCodec
+type ERABsToBeModifiedSgNBModReqItemValueCodec = s10.ERABsToBeModifiedSgNBModReqItemValueCodec
 type ERABsToBeModifiedSgNBModReqList = s11.ERABsToBeModifiedSgNBModReqList
 
 // ERABsToBeModifiedSgNBModReqListAPERValue is the concrete APERValue[ERABsToBeModifiedSgNBModReqList].
@@ -7013,16 +7012,16 @@ type ERABsToBeModifiedSgNBModReqListComplete = s15.ERABsToBeModifiedSgNBModReqLi
 type ERABsToBeModifiedSgNBModReqListValueCodec = s11.ERABsToBeModifiedSgNBModReqListValueCodec
 
 // ERABsToBeModifiedSgNBModReqdItem represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqd-Item (SEQUENCE).
-type ERABsToBeModifiedSgNBModReqdItem = s10.ERABsToBeModifiedSgNBModReqdItem
+type ERABsToBeModifiedSgNBModReqdItem = s09.ERABsToBeModifiedSgNBModReqdItem
 
 // ERABsToBeModifiedSgNBModReqdItemAPERValue is the concrete APERValue[ERABsToBeModifiedSgNBModReqdItem].
-type ERABsToBeModifiedSgNBModReqdItemAPERValue = s10.ERABsToBeModifiedSgNBModReqdItemAPERValue
+type ERABsToBeModifiedSgNBModReqdItemAPERValue = s09.ERABsToBeModifiedSgNBModReqdItemAPERValue
 
 // ERABsToBeModifiedSgNBModReqdItemCodec binds the complete APER value type.
-var ERABsToBeModifiedSgNBModReqdItemCodec func() ERABsToBeModifiedSgNBModReqdItemValueCodec = s10.ERABsToBeModifiedSgNBModReqdItemCodec
+var ERABsToBeModifiedSgNBModReqdItemCodec func() ERABsToBeModifiedSgNBModReqdItemValueCodec = s09.ERABsToBeModifiedSgNBModReqdItemCodec
 
 // ERABsToBeModifiedSgNBModReqdItemERABsToBeModifiedSgNBModReqdItemIEBinding binds ERABsToBeModifiedSgNBModReqdItem to ProtocolIE-Field {{E-RABs-ToBeModified-SgNBModReqd-ItemIEs}} of TS 36.423 §9.3.8.
-type ERABsToBeModifiedSgNBModReqdItemERABsToBeModifiedSgNBModReqdItemIEBinding = s10.ERABsToBeModifiedSgNBModReqdItemERABsToBeModifiedSgNBModReqdItemIEBinding
+type ERABsToBeModifiedSgNBModReqdItemERABsToBeModifiedSgNBModReqdItemIEBinding = s09.ERABsToBeModifiedSgNBModReqdItemERABsToBeModifiedSgNBModReqdItemIEBinding
 type ERABsToBeModifiedSgNBModReqdItemExtIETable = s06.ERABsToBeModifiedSgNBModReqdItemExtIETable
 
 var ERABsToBeModifiedSgNBModReqdItemExtIEs func() ERABsToBeModifiedSgNBModReqdItemExtIETable = s06.ERABsToBeModifiedSgNBModReqdItemExtIEs
@@ -7035,23 +7034,23 @@ type ERABsToBeModifiedSgNBModReqdItemExtIEsExtField = s02.ERABsToBeModifiedSgNBM
 type ERABsToBeModifiedSgNBModReqdItemExtIEsValue = s02.ERABsToBeModifiedSgNBModReqdItemExtIEsValue
 
 // ERABsToBeModifiedSgNBModReqdItemIEContainer is ProtocolIE-Container {{E-RABs-ToBeModified-SgNBModReqd-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABsToBeModifiedSgNBModReqdItemIEField values.
-type ERABsToBeModifiedSgNBModReqdItemIEContainer = s10.ERABsToBeModifiedSgNBModReqdItemIEContainer
+type ERABsToBeModifiedSgNBModReqdItemIEContainer = s09.ERABsToBeModifiedSgNBModReqdItemIEContainer
 
 // ERABsToBeModifiedSgNBModReqdItemIEField is ProtocolIE-Field {{E-RABs-ToBeModified-SgNBModReqd-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
-type ERABsToBeModifiedSgNBModReqdItemIEField = s10.ERABsToBeModifiedSgNBModReqdItemIEField
-type ERABsToBeModifiedSgNBModReqdItemIETable = s10.ERABsToBeModifiedSgNBModReqdItemIETable
-type ERABsToBeModifiedSgNBModReqdItemIEValue = s10.ERABsToBeModifiedSgNBModReqdItemIEValue
+type ERABsToBeModifiedSgNBModReqdItemIEField = s09.ERABsToBeModifiedSgNBModReqdItemIEField
+type ERABsToBeModifiedSgNBModReqdItemIETable = s09.ERABsToBeModifiedSgNBModReqdItemIETable
+type ERABsToBeModifiedSgNBModReqdItemIEValue = s09.ERABsToBeModifiedSgNBModReqdItemIEValue
 
 // ERABsToBeModifiedSgNBModReqdItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-ToBeModified-SgNBModReqd-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
-type ERABsToBeModifiedSgNBModReqdItemIEValueProtocolIESingleContainer = s10.ERABsToBeModifiedSgNBModReqdItemIEValueProtocolIESingleContainer
+type ERABsToBeModifiedSgNBModReqdItemIEValueProtocolIESingleContainer = s09.ERABsToBeModifiedSgNBModReqdItemIEValueProtocolIESingleContainer
 
-var ERABsToBeModifiedSgNBModReqdItemIEs func() ERABsToBeModifiedSgNBModReqdItemIETable = s10.ERABsToBeModifiedSgNBModReqdItemIEs
+var ERABsToBeModifiedSgNBModReqdItemIEs func() ERABsToBeModifiedSgNBModReqdItemIETable = s09.ERABsToBeModifiedSgNBModReqdItemIEs
 
 // ERABsToBeModifiedSgNBModReqdItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeModified-SgNBModReqd-Item-resource-configuration.
-type ERABsToBeModifiedSgNBModReqdItemResourceConfiguration = s10.ERABsToBeModifiedSgNBModReqdItemResourceConfiguration
+type ERABsToBeModifiedSgNBModReqdItemResourceConfiguration = s09.ERABsToBeModifiedSgNBModReqdItemResourceConfiguration
 
 // ERABsToBeModifiedSgNBModReqdItemResourceConfigurationAPERValue is the concrete APERValue[ERABsToBeModifiedSgNBModReqdItemResourceConfiguration].
-type ERABsToBeModifiedSgNBModReqdItemResourceConfigurationAPERValue = s10.ERABsToBeModifiedSgNBModReqdItemResourceConfigurationAPERValue
+type ERABsToBeModifiedSgNBModReqdItemResourceConfigurationAPERValue = s09.ERABsToBeModifiedSgNBModReqdItemResourceConfigurationAPERValue
 
 // ERABsToBeModifiedSgNBModReqdItemResourceConfiguration choice constants.
 const ERABsToBeModifiedSgNBModReqdItemResourceConfigurationChoiceSgNBPDCPnotpresent = s00.ERABsToBeModifiedSgNBModReqdItemResourceConfigurationChoiceSgNBPDCPnotpresent
@@ -7060,19 +7059,19 @@ const ERABsToBeModifiedSgNBModReqdItemResourceConfigurationChoiceSgNBPDCPnotpres
 const ERABsToBeModifiedSgNBModReqdItemResourceConfigurationChoiceSgNBPDCPpresent = s00.ERABsToBeModifiedSgNBModReqdItemResourceConfigurationChoiceSgNBPDCPpresent
 
 // ERABsToBeModifiedSgNBModReqdItemResourceConfigurationCodec binds the complete source value type.
-var ERABsToBeModifiedSgNBModReqdItemResourceConfigurationCodec func() ERABsToBeModifiedSgNBModReqdItemResourceConfigurationValueCodec = s10.ERABsToBeModifiedSgNBModReqdItemResourceConfigurationCodec
+var ERABsToBeModifiedSgNBModReqdItemResourceConfigurationCodec func() ERABsToBeModifiedSgNBModReqdItemResourceConfigurationValueCodec = s09.ERABsToBeModifiedSgNBModReqdItemResourceConfigurationCodec
 
 // ERABsToBeModifiedSgNBModReqdItemResourceConfigurationValueCodec is the concrete ValueCodec[ERABsToBeModifiedSgNBModReqdItemResourceConfiguration].
-type ERABsToBeModifiedSgNBModReqdItemResourceConfigurationValueCodec = s10.ERABsToBeModifiedSgNBModReqdItemResourceConfigurationValueCodec
+type ERABsToBeModifiedSgNBModReqdItemResourceConfigurationValueCodec = s09.ERABsToBeModifiedSgNBModReqdItemResourceConfigurationValueCodec
 
 // ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresent (SEQUENCE).
-type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent = s10.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent
+type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent = s09.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent
 
 // ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentAPERValue is the concrete APERValue[ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent].
-type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentAPERValue = s10.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentAPERValue
+type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentAPERValue = s09.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentAPERValue
 
 // ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentCodec binds the complete source value type.
-var ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentCodec func() ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentValueCodec = s10.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentCodec
+var ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentCodec func() ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentValueCodec = s09.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentCodec
 
 type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentExtIETable = s07.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentExtIETable
 
@@ -7092,16 +7091,16 @@ type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentExtIEsRLCStatusExtBinding
 type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentExtIEsValue = s07.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentExtIEsValue
 
 // ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentValueCodec is the concrete ValueCodec[ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent].
-type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentValueCodec = s10.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentValueCodec
+type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentValueCodec = s09.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentValueCodec
 
 // ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresent (SEQUENCE).
-type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent = s10.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent
+type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent = s09.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent
 
 // ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentAPERValue is the concrete APERValue[ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent].
-type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentAPERValue = s10.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentAPERValue
+type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentAPERValue = s09.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentAPERValue
 
 // ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentCodec binds the complete source value type.
-var ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentCodec func() ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentValueCodec = s10.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentCodec
+var ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentCodec func() ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentValueCodec = s09.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentCodec
 
 type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentExtIETable = s07.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentExtIETable
 
@@ -7121,10 +7120,10 @@ type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentExtIEsPDCPSnLengthExtBinding
 type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentExtIEsValue = s07.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentExtIEsValue
 
 // ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentValueCodec is the concrete ValueCodec[ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent].
-type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentValueCodec = s10.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentValueCodec
+type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentValueCodec = s09.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentValueCodec
 
 // ERABsToBeModifiedSgNBModReqdItemValueCodec is the concrete ValueCodec[ERABsToBeModifiedSgNBModReqdItem].
-type ERABsToBeModifiedSgNBModReqdItemValueCodec = s10.ERABsToBeModifiedSgNBModReqdItemValueCodec
+type ERABsToBeModifiedSgNBModReqdItemValueCodec = s09.ERABsToBeModifiedSgNBModReqdItemValueCodec
 type ERABsToBeModifiedSgNBModReqdList = s11.ERABsToBeModifiedSgNBModReqdList
 
 // ERABsToBeModifiedSgNBModReqdListAPERValue is the concrete APERValue[ERABsToBeModifiedSgNBModReqdList].
@@ -7214,13 +7213,13 @@ type ERABsToBeReleasedModReqItemIEValueProtocolIESingleContainer = s10.ERABsToBe
 var ERABsToBeReleasedModReqItemIEs func() ERABsToBeReleasedModReqItemIETable = s10.ERABsToBeReleasedModReqItemIEs
 
 // ERABsToBeReleasedModReqItemSCGBearer represents the ASN.1 type E-RABs-ToBeReleased-ModReqItem-SCG-Bearer (SEQUENCE).
-type ERABsToBeReleasedModReqItemSCGBearer = s10.ERABsToBeReleasedModReqItemSCGBearer
+type ERABsToBeReleasedModReqItemSCGBearer = s09.ERABsToBeReleasedModReqItemSCGBearer
 
 // ERABsToBeReleasedModReqItemSCGBearerAPERValue is the concrete APERValue[ERABsToBeReleasedModReqItemSCGBearer].
-type ERABsToBeReleasedModReqItemSCGBearerAPERValue = s10.ERABsToBeReleasedModReqItemSCGBearerAPERValue
+type ERABsToBeReleasedModReqItemSCGBearerAPERValue = s09.ERABsToBeReleasedModReqItemSCGBearerAPERValue
 
 // ERABsToBeReleasedModReqItemSCGBearerCodec binds the complete source value type.
-var ERABsToBeReleasedModReqItemSCGBearerCodec func() ERABsToBeReleasedModReqItemSCGBearerValueCodec = s10.ERABsToBeReleasedModReqItemSCGBearerCodec
+var ERABsToBeReleasedModReqItemSCGBearerCodec func() ERABsToBeReleasedModReqItemSCGBearerValueCodec = s09.ERABsToBeReleasedModReqItemSCGBearerCodec
 
 type ERABsToBeReleasedModReqItemSCGBearerExtIETable = s06.ERABsToBeReleasedModReqItemSCGBearerExtIETable
 
@@ -7234,16 +7233,16 @@ type ERABsToBeReleasedModReqItemSCGBearerExtIEsExtField = s02.ERABsToBeReleasedM
 type ERABsToBeReleasedModReqItemSCGBearerExtIEsValue = s02.ERABsToBeReleasedModReqItemSCGBearerExtIEsValue
 
 // ERABsToBeReleasedModReqItemSCGBearerValueCodec is the concrete ValueCodec[ERABsToBeReleasedModReqItemSCGBearer].
-type ERABsToBeReleasedModReqItemSCGBearerValueCodec = s10.ERABsToBeReleasedModReqItemSCGBearerValueCodec
+type ERABsToBeReleasedModReqItemSCGBearerValueCodec = s09.ERABsToBeReleasedModReqItemSCGBearerValueCodec
 
 // ERABsToBeReleasedModReqItemSplitBearer represents the ASN.1 type E-RABs-ToBeReleased-ModReqItem-Split-Bearer (SEQUENCE).
-type ERABsToBeReleasedModReqItemSplitBearer = s10.ERABsToBeReleasedModReqItemSplitBearer
+type ERABsToBeReleasedModReqItemSplitBearer = s09.ERABsToBeReleasedModReqItemSplitBearer
 
 // ERABsToBeReleasedModReqItemSplitBearerAPERValue is the concrete APERValue[ERABsToBeReleasedModReqItemSplitBearer].
-type ERABsToBeReleasedModReqItemSplitBearerAPERValue = s10.ERABsToBeReleasedModReqItemSplitBearerAPERValue
+type ERABsToBeReleasedModReqItemSplitBearerAPERValue = s09.ERABsToBeReleasedModReqItemSplitBearerAPERValue
 
 // ERABsToBeReleasedModReqItemSplitBearerCodec binds the complete source value type.
-var ERABsToBeReleasedModReqItemSplitBearerCodec func() ERABsToBeReleasedModReqItemSplitBearerValueCodec = s10.ERABsToBeReleasedModReqItemSplitBearerCodec
+var ERABsToBeReleasedModReqItemSplitBearerCodec func() ERABsToBeReleasedModReqItemSplitBearerValueCodec = s09.ERABsToBeReleasedModReqItemSplitBearerCodec
 
 type ERABsToBeReleasedModReqItemSplitBearerExtIETable = s06.ERABsToBeReleasedModReqItemSplitBearerExtIETable
 
@@ -7257,7 +7256,7 @@ type ERABsToBeReleasedModReqItemSplitBearerExtIEsExtField = s02.ERABsToBeRelease
 type ERABsToBeReleasedModReqItemSplitBearerExtIEsValue = s02.ERABsToBeReleasedModReqItemSplitBearerExtIEsValue
 
 // ERABsToBeReleasedModReqItemSplitBearerValueCodec is the concrete ValueCodec[ERABsToBeReleasedModReqItemSplitBearer].
-type ERABsToBeReleasedModReqItemSplitBearerValueCodec = s10.ERABsToBeReleasedModReqItemSplitBearerValueCodec
+type ERABsToBeReleasedModReqItemSplitBearerValueCodec = s09.ERABsToBeReleasedModReqItemSplitBearerValueCodec
 
 // ERABsToBeReleasedModReqItemValueCodec is the concrete ValueCodec[ERABsToBeReleasedModReqItem].
 type ERABsToBeReleasedModReqItemValueCodec = s10.ERABsToBeReleasedModReqItemValueCodec
@@ -7475,16 +7474,16 @@ type ERABsToBeReleasedRelReqItemSplitBearerValueCodec = s10.ERABsToBeReleasedRel
 type ERABsToBeReleasedRelReqItemValueCodec = s10.ERABsToBeReleasedRelReqItemValueCodec
 
 // ERABsToBeReleasedSgNBChaConfItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item (SEQUENCE).
-type ERABsToBeReleasedSgNBChaConfItem = s14.ERABsToBeReleasedSgNBChaConfItem
+type ERABsToBeReleasedSgNBChaConfItem = s13.ERABsToBeReleasedSgNBChaConfItem
 
 // ERABsToBeReleasedSgNBChaConfItemAPERValue is the concrete APERValue[ERABsToBeReleasedSgNBChaConfItem].
-type ERABsToBeReleasedSgNBChaConfItemAPERValue = s14.ERABsToBeReleasedSgNBChaConfItemAPERValue
+type ERABsToBeReleasedSgNBChaConfItemAPERValue = s13.ERABsToBeReleasedSgNBChaConfItemAPERValue
 
 // ERABsToBeReleasedSgNBChaConfItemCodec binds the complete APER value type.
-var ERABsToBeReleasedSgNBChaConfItemCodec func() ERABsToBeReleasedSgNBChaConfItemValueCodec = s14.ERABsToBeReleasedSgNBChaConfItemCodec
+var ERABsToBeReleasedSgNBChaConfItemCodec func() ERABsToBeReleasedSgNBChaConfItemValueCodec = s13.ERABsToBeReleasedSgNBChaConfItemCodec
 
 // ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding binds ERABsToBeReleasedSgNBChaConfItem to ProtocolIE-Field {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8.
-type ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding = s14.ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding
+type ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding = s13.ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding
 type ERABsToBeReleasedSgNBChaConfItemExtIETable = s06.ERABsToBeReleasedSgNBChaConfItemExtIETable
 
 var ERABsToBeReleasedSgNBChaConfItemExtIEs func() ERABsToBeReleasedSgNBChaConfItemExtIETable = s06.ERABsToBeReleasedSgNBChaConfItemExtIEs
@@ -7497,23 +7496,23 @@ type ERABsToBeReleasedSgNBChaConfItemExtIEsExtField = s02.ERABsToBeReleasedSgNBC
 type ERABsToBeReleasedSgNBChaConfItemExtIEsValue = s02.ERABsToBeReleasedSgNBChaConfItemExtIEsValue
 
 // ERABsToBeReleasedSgNBChaConfItemIEContainer is ProtocolIE-Container {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABsToBeReleasedSgNBChaConfItemIEField values.
-type ERABsToBeReleasedSgNBChaConfItemIEContainer = s14.ERABsToBeReleasedSgNBChaConfItemIEContainer
+type ERABsToBeReleasedSgNBChaConfItemIEContainer = s13.ERABsToBeReleasedSgNBChaConfItemIEContainer
 
 // ERABsToBeReleasedSgNBChaConfItemIEField is ProtocolIE-Field {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
-type ERABsToBeReleasedSgNBChaConfItemIEField = s14.ERABsToBeReleasedSgNBChaConfItemIEField
-type ERABsToBeReleasedSgNBChaConfItemIETable = s14.ERABsToBeReleasedSgNBChaConfItemIETable
-type ERABsToBeReleasedSgNBChaConfItemIEValue = s14.ERABsToBeReleasedSgNBChaConfItemIEValue
+type ERABsToBeReleasedSgNBChaConfItemIEField = s13.ERABsToBeReleasedSgNBChaConfItemIEField
+type ERABsToBeReleasedSgNBChaConfItemIETable = s13.ERABsToBeReleasedSgNBChaConfItemIETable
+type ERABsToBeReleasedSgNBChaConfItemIEValue = s13.ERABsToBeReleasedSgNBChaConfItemIEValue
 
 // ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
-type ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer = s14.ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer
+type ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer = s13.ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer
 
-var ERABsToBeReleasedSgNBChaConfItemIEs func() ERABsToBeReleasedSgNBChaConfItemIETable = s14.ERABsToBeReleasedSgNBChaConfItemIEs
+var ERABsToBeReleasedSgNBChaConfItemIEs func() ERABsToBeReleasedSgNBChaConfItemIETable = s13.ERABsToBeReleasedSgNBChaConfItemIEs
 
 // ERABsToBeReleasedSgNBChaConfItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeReleased-SgNBChaConf-Item-resource-configuration.
-type ERABsToBeReleasedSgNBChaConfItemResourceConfiguration = s14.ERABsToBeReleasedSgNBChaConfItemResourceConfiguration
+type ERABsToBeReleasedSgNBChaConfItemResourceConfiguration = s13.ERABsToBeReleasedSgNBChaConfItemResourceConfiguration
 
 // ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue is the concrete APERValue[ERABsToBeReleasedSgNBChaConfItemResourceConfiguration].
-type ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue = s14.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue
+type ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue = s13.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue
 
 // ERABsToBeReleasedSgNBChaConfItemResourceConfiguration choice constants.
 const ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpresent = s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpresent
@@ -7522,10 +7521,10 @@ const ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpres
 const ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPpresent = s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPpresent
 
 // ERABsToBeReleasedSgNBChaConfItemResourceConfigurationCodec binds the complete source value type.
-var ERABsToBeReleasedSgNBChaConfItemResourceConfigurationCodec func() ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec = s14.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationCodec
+var ERABsToBeReleasedSgNBChaConfItemResourceConfigurationCodec func() ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec = s13.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationCodec
 
 // ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec is the concrete ValueCodec[ERABsToBeReleasedSgNBChaConfItemResourceConfiguration].
-type ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec = s14.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec
+type ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec = s13.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec
 
 // ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent = s05.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent
@@ -7551,13 +7550,13 @@ type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsValue = s02.ERABsTo
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentValueCodec = s05.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentValueCodec
 
 // ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresent (SEQUENCE).
-type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent = s14.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent
+type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent = s13.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent
 
 // ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue is the concrete APERValue[ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent].
-type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue = s14.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue
+type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue = s13.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue
 
 // ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentCodec binds the complete source value type.
-var ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentCodec func() ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec = s14.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentCodec
+var ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentCodec func() ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec = s13.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentCodec
 
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIETable = s13.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIETable
 
@@ -7574,14 +7573,14 @@ type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtField = s13.ERABsTo
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue = s13.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue
 
 // ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec is the concrete ValueCodec[ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent].
-type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec = s14.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec
+type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec = s13.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec
 
 // ERABsToBeReleasedSgNBChaConfItemValueCodec is the concrete ValueCodec[ERABsToBeReleasedSgNBChaConfItem].
-type ERABsToBeReleasedSgNBChaConfItemValueCodec = s14.ERABsToBeReleasedSgNBChaConfItemValueCodec
-type ERABsToBeReleasedSgNBChaConfList = s14.ERABsToBeReleasedSgNBChaConfList
+type ERABsToBeReleasedSgNBChaConfItemValueCodec = s13.ERABsToBeReleasedSgNBChaConfItemValueCodec
+type ERABsToBeReleasedSgNBChaConfList = s13.ERABsToBeReleasedSgNBChaConfList
 
 // ERABsToBeReleasedSgNBChaConfListAPERValue is the concrete APERValue[ERABsToBeReleasedSgNBChaConfList].
-type ERABsToBeReleasedSgNBChaConfListAPERValue = s14.ERABsToBeReleasedSgNBChaConfListAPERValue
+type ERABsToBeReleasedSgNBChaConfListAPERValue = s13.ERABsToBeReleasedSgNBChaConfListAPERValue
 
 // ERABsToBeReleasedSgNBChaConfListCodec binds the complete APER value type.
 var ERABsToBeReleasedSgNBChaConfListCodec func() ERABsToBeReleasedSgNBChaConfListValueCodec = s15.ERABsToBeReleasedSgNBChaConfListCodec
@@ -7591,7 +7590,7 @@ var ERABsToBeReleasedSgNBChaConfListCodec func() ERABsToBeReleasedSgNBChaConfLis
 type ERABsToBeReleasedSgNBChaConfListComplete = s15.ERABsToBeReleasedSgNBChaConfListComplete
 
 // ERABsToBeReleasedSgNBChaConfListValueCodec is the concrete ValueCodec[ERABsToBeReleasedSgNBChaConfList].
-type ERABsToBeReleasedSgNBChaConfListValueCodec = s14.ERABsToBeReleasedSgNBChaConfListValueCodec
+type ERABsToBeReleasedSgNBChaConfListValueCodec = s13.ERABsToBeReleasedSgNBChaConfListValueCodec
 type ERABsToBeReleasedSgNBModAckItemExtIETable = s06.ERABsToBeReleasedSgNBModAckItemExtIETable
 
 var ERABsToBeReleasedSgNBModAckItemExtIEs func() ERABsToBeReleasedSgNBModAckItemExtIETable = s06.ERABsToBeReleasedSgNBModAckItemExtIEs
@@ -8059,16 +8058,16 @@ type ERABsToBeReleasedSgNBRelReqdListComplete = s15.ERABsToBeReleasedSgNBRelReqd
 type ERABsToBeReleasedSgNBRelReqdListValueCodec = s08.ERABsToBeReleasedSgNBRelReqdListValueCodec
 
 // ERABsToBeSetupItem represents the ASN.1 type E-RABs-ToBeSetup-Item (SEQUENCE).
-type ERABsToBeSetupItem = s11.ERABsToBeSetupItem
+type ERABsToBeSetupItem = s10.ERABsToBeSetupItem
 
 // ERABsToBeSetupItemAPERValue is the concrete APERValue[ERABsToBeSetupItem].
-type ERABsToBeSetupItemAPERValue = s11.ERABsToBeSetupItemAPERValue
+type ERABsToBeSetupItemAPERValue = s10.ERABsToBeSetupItemAPERValue
 
 // ERABsToBeSetupItemCodec binds the complete APER value type.
-var ERABsToBeSetupItemCodec func() ERABsToBeSetupItemValueCodec = s11.ERABsToBeSetupItemCodec
+var ERABsToBeSetupItemCodec func() ERABsToBeSetupItemValueCodec = s10.ERABsToBeSetupItemCodec
 
 // ERABsToBeSetupItemERABsToBeSetupItemIEBinding binds ERABsToBeSetupItem to ProtocolIE-Field {{E-RABs-ToBeSetup-ItemIEs}} of TS 36.423 §9.3.8.
-type ERABsToBeSetupItemERABsToBeSetupItemIEBinding = s11.ERABsToBeSetupItemERABsToBeSetupItemIEBinding
+type ERABsToBeSetupItemERABsToBeSetupItemIEBinding = s10.ERABsToBeSetupItemERABsToBeSetupItemIEBinding
 type ERABsToBeSetupItemExtIETable = s09.ERABsToBeSetupItemExtIETable
 
 var ERABsToBeSetupItemExtIEs func() ERABsToBeSetupItemExtIETable = s09.ERABsToBeSetupItemExtIEs
@@ -8096,20 +8095,20 @@ type ERABsToBeSetupItemExtIEsTransportLayerAddressExtBinding = s09.ERABsToBeSetu
 type ERABsToBeSetupItemExtIEsValue = s09.ERABsToBeSetupItemExtIEsValue
 
 // ERABsToBeSetupItemIEContainer is ProtocolIE-Container {{E-RABs-ToBeSetup-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABsToBeSetupItemIEField values.
-type ERABsToBeSetupItemIEContainer = s11.ERABsToBeSetupItemIEContainer
+type ERABsToBeSetupItemIEContainer = s10.ERABsToBeSetupItemIEContainer
 
 // ERABsToBeSetupItemIEField is ProtocolIE-Field {{E-RABs-ToBeSetup-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
-type ERABsToBeSetupItemIEField = s11.ERABsToBeSetupItemIEField
-type ERABsToBeSetupItemIETable = s11.ERABsToBeSetupItemIETable
-type ERABsToBeSetupItemIEValue = s11.ERABsToBeSetupItemIEValue
+type ERABsToBeSetupItemIEField = s10.ERABsToBeSetupItemIEField
+type ERABsToBeSetupItemIETable = s10.ERABsToBeSetupItemIETable
+type ERABsToBeSetupItemIEValue = s10.ERABsToBeSetupItemIEValue
 
 // ERABsToBeSetupItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-ToBeSetup-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
-type ERABsToBeSetupItemIEValueProtocolIESingleContainer = s11.ERABsToBeSetupItemIEValueProtocolIESingleContainer
+type ERABsToBeSetupItemIEValueProtocolIESingleContainer = s10.ERABsToBeSetupItemIEValueProtocolIESingleContainer
 
-var ERABsToBeSetupItemIEs func() ERABsToBeSetupItemIETable = s11.ERABsToBeSetupItemIEs
+var ERABsToBeSetupItemIEs func() ERABsToBeSetupItemIETable = s10.ERABsToBeSetupItemIEs
 
 // ERABsToBeSetupItemValueCodec is the concrete ValueCodec[ERABsToBeSetupItem].
-type ERABsToBeSetupItemValueCodec = s11.ERABsToBeSetupItemValueCodec
+type ERABsToBeSetupItemValueCodec = s10.ERABsToBeSetupItemValueCodec
 type ERABsToBeSetupList = s11.ERABsToBeSetupList
 
 // ERABsToBeSetupListAPERValue is the concrete APERValue[ERABsToBeSetupList].
@@ -8221,71 +8220,71 @@ var EUTRANCellIdentifierCodec func() EUTRANCellIdentifierValueCodec = s11.EUTRAN
 
 // EUTRANCellIdentifierValueCodec is the concrete ValueCodec[EUTRANCellIdentifier].
 type EUTRANCellIdentifierValueCodec = s00.EUTRANCellIdentifierValueCodec
-type EUTRANRCellResourceCoordinationDescriptor = s20.EUTRANRCellResourceCoordinationDescriptor
+type EUTRANRCellResourceCoordinationDescriptor = s19.EUTRANRCellResourceCoordinationDescriptor
 
-var EUTRANRCellResourceCoordinationProcedure func() EUTRANRCellResourceCoordinationDescriptor = s20.EUTRANRCellResourceCoordinationProcedure
+var EUTRANRCellResourceCoordinationProcedure func() EUTRANRCellResourceCoordinationDescriptor = s19.EUTRANRCellResourceCoordinationProcedure
 
 // EUTRANRCellResourceCoordinationRequest represents the ASN.1 type EUTRANRCellResourceCoordinationRequest (SEQUENCE).
-type EUTRANRCellResourceCoordinationRequest = s20.EUTRANRCellResourceCoordinationRequest
+type EUTRANRCellResourceCoordinationRequest = s19.EUTRANRCellResourceCoordinationRequest
 
 // EUTRANRCellResourceCoordinationRequestAPERValue is the concrete APERValue[EUTRANRCellResourceCoordinationRequest].
-type EUTRANRCellResourceCoordinationRequestAPERValue = s20.EUTRANRCellResourceCoordinationRequestAPERValue
+type EUTRANRCellResourceCoordinationRequestAPERValue = s19.EUTRANRCellResourceCoordinationRequestAPERValue
 
 // EUTRANRCellResourceCoordinationRequestCodec binds the complete APER value type.
-var EUTRANRCellResourceCoordinationRequestCodec func() EUTRANRCellResourceCoordinationRequestValueCodec = s20.EUTRANRCellResourceCoordinationRequestCodec
+var EUTRANRCellResourceCoordinationRequestCodec func() EUTRANRCellResourceCoordinationRequestValueCodec = s19.EUTRANRCellResourceCoordinationRequestCodec
 
 // EUTRANRCellResourceCoordinationRequestIEContainer is ProtocolIE-Container {{EUTRANRCellResourceCoordinationRequest-IEs}} of TS 36.423 §9.3.8: a list of EUTRANRCellResourceCoordinationRequestIEField values.
-type EUTRANRCellResourceCoordinationRequestIEContainer = s16.EUTRANRCellResourceCoordinationRequestIEContainer
+type EUTRANRCellResourceCoordinationRequestIEContainer = s15.EUTRANRCellResourceCoordinationRequestIEContainer
 
 // EUTRANRCellResourceCoordinationRequestIEField is ProtocolIE-Field {{EUTRANRCellResourceCoordinationRequest-IEs}} of TS 36.423 §9.3.8: an information element field.
-type EUTRANRCellResourceCoordinationRequestIEField = s16.EUTRANRCellResourceCoordinationRequestIEField
-type EUTRANRCellResourceCoordinationRequestIETable = s16.EUTRANRCellResourceCoordinationRequestIETable
-type EUTRANRCellResourceCoordinationRequestIEValue = s16.EUTRANRCellResourceCoordinationRequestIEValue
+type EUTRANRCellResourceCoordinationRequestIEField = s15.EUTRANRCellResourceCoordinationRequestIEField
+type EUTRANRCellResourceCoordinationRequestIETable = s15.EUTRANRCellResourceCoordinationRequestIETable
+type EUTRANRCellResourceCoordinationRequestIEValue = s15.EUTRANRCellResourceCoordinationRequestIEValue
 
-var EUTRANRCellResourceCoordinationRequestIEs func() EUTRANRCellResourceCoordinationRequestIETable = s16.EUTRANRCellResourceCoordinationRequestIEs
+var EUTRANRCellResourceCoordinationRequestIEs func() EUTRANRCellResourceCoordinationRequestIETable = s15.EUTRANRCellResourceCoordinationRequestIEs
 
 // EUTRANRCellResourceCoordinationRequestInitiatingBinding is the concrete InitiatingBinding[EUTRANRCellResourceCoordinationRequest].
-type EUTRANRCellResourceCoordinationRequestInitiatingBinding = s20.EUTRANRCellResourceCoordinationRequestInitiatingBinding
+type EUTRANRCellResourceCoordinationRequestInitiatingBinding = s19.EUTRANRCellResourceCoordinationRequestInitiatingBinding
 
 // EUTRANRCellResourceCoordinationRequestInitiatingNodeTypeEutranrCellResourceCoordinationIEBinding binds InitiatingNodeTypeEutranrCellResourceCoordination to ProtocolIE-Field {{EUTRANRCellResourceCoordinationRequest-IEs}} of TS 36.423 §9.3.8.
-type EUTRANRCellResourceCoordinationRequestInitiatingNodeTypeEutranrCellResourceCoordinationIEBinding = s16.EUTRANRCellResourceCoordinationRequestInitiatingNodeTypeEutranrCellResourceCoordinationIEBinding
+type EUTRANRCellResourceCoordinationRequestInitiatingNodeTypeEutranrCellResourceCoordinationIEBinding = s15.EUTRANRCellResourceCoordinationRequestInitiatingNodeTypeEutranrCellResourceCoordinationIEBinding
 
 // EUTRANRCellResourceCoordinationRequestInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{EUTRANRCellResourceCoordinationRequest-IEs}} of TS 36.423 §9.3.8.
-type EUTRANRCellResourceCoordinationRequestInterfaceInstanceIndicationIEBinding = s16.EUTRANRCellResourceCoordinationRequestInterfaceInstanceIndicationIEBinding
+type EUTRANRCellResourceCoordinationRequestInterfaceInstanceIndicationIEBinding = s15.EUTRANRCellResourceCoordinationRequestInterfaceInstanceIndicationIEBinding
 
 // EUTRANRCellResourceCoordinationRequestValueCodec is the concrete ValueCodec[EUTRANRCellResourceCoordinationRequest].
-type EUTRANRCellResourceCoordinationRequestValueCodec = s20.EUTRANRCellResourceCoordinationRequestValueCodec
+type EUTRANRCellResourceCoordinationRequestValueCodec = s19.EUTRANRCellResourceCoordinationRequestValueCodec
 
 // EUTRANRCellResourceCoordinationResponse represents the ASN.1 type EUTRANRCellResourceCoordinationResponse (SEQUENCE).
-type EUTRANRCellResourceCoordinationResponse = s19.EUTRANRCellResourceCoordinationResponse
+type EUTRANRCellResourceCoordinationResponse = s18.EUTRANRCellResourceCoordinationResponse
 
 // EUTRANRCellResourceCoordinationResponseAPERValue is the concrete APERValue[EUTRANRCellResourceCoordinationResponse].
-type EUTRANRCellResourceCoordinationResponseAPERValue = s19.EUTRANRCellResourceCoordinationResponseAPERValue
+type EUTRANRCellResourceCoordinationResponseAPERValue = s18.EUTRANRCellResourceCoordinationResponseAPERValue
 
 // EUTRANRCellResourceCoordinationResponseCodec binds the complete APER value type.
-var EUTRANRCellResourceCoordinationResponseCodec func() EUTRANRCellResourceCoordinationResponseValueCodec = s20.EUTRANRCellResourceCoordinationResponseCodec
+var EUTRANRCellResourceCoordinationResponseCodec func() EUTRANRCellResourceCoordinationResponseValueCodec = s19.EUTRANRCellResourceCoordinationResponseCodec
 
 // EUTRANRCellResourceCoordinationResponseIEContainer is ProtocolIE-Container {{EUTRANRCellResourceCoordinationResponse-IEs}} of TS 36.423 §9.3.8: a list of EUTRANRCellResourceCoordinationResponseIEField values.
-type EUTRANRCellResourceCoordinationResponseIEContainer = s16.EUTRANRCellResourceCoordinationResponseIEContainer
+type EUTRANRCellResourceCoordinationResponseIEContainer = s15.EUTRANRCellResourceCoordinationResponseIEContainer
 
 // EUTRANRCellResourceCoordinationResponseIEField is ProtocolIE-Field {{EUTRANRCellResourceCoordinationResponse-IEs}} of TS 36.423 §9.3.8: an information element field.
-type EUTRANRCellResourceCoordinationResponseIEField = s16.EUTRANRCellResourceCoordinationResponseIEField
-type EUTRANRCellResourceCoordinationResponseIETable = s16.EUTRANRCellResourceCoordinationResponseIETable
-type EUTRANRCellResourceCoordinationResponseIEValue = s16.EUTRANRCellResourceCoordinationResponseIEValue
+type EUTRANRCellResourceCoordinationResponseIEField = s15.EUTRANRCellResourceCoordinationResponseIEField
+type EUTRANRCellResourceCoordinationResponseIETable = s15.EUTRANRCellResourceCoordinationResponseIETable
+type EUTRANRCellResourceCoordinationResponseIEValue = s15.EUTRANRCellResourceCoordinationResponseIEValue
 
-var EUTRANRCellResourceCoordinationResponseIEs func() EUTRANRCellResourceCoordinationResponseIETable = s16.EUTRANRCellResourceCoordinationResponseIEs
+var EUTRANRCellResourceCoordinationResponseIEs func() EUTRANRCellResourceCoordinationResponseIETable = s15.EUTRANRCellResourceCoordinationResponseIEs
 
 // EUTRANRCellResourceCoordinationResponseInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{EUTRANRCellResourceCoordinationResponse-IEs}} of TS 36.423 §9.3.8.
-type EUTRANRCellResourceCoordinationResponseInterfaceInstanceIndicationIEBinding = s16.EUTRANRCellResourceCoordinationResponseInterfaceInstanceIndicationIEBinding
+type EUTRANRCellResourceCoordinationResponseInterfaceInstanceIndicationIEBinding = s15.EUTRANRCellResourceCoordinationResponseInterfaceInstanceIndicationIEBinding
 
 // EUTRANRCellResourceCoordinationResponseRespondingNodeTypeEutranrCellResourceCoordinationIEBinding binds RespondingNodeTypeEutranrCellResourceCoordination to ProtocolIE-Field {{EUTRANRCellResourceCoordinationResponse-IEs}} of TS 36.423 §9.3.8.
-type EUTRANRCellResourceCoordinationResponseRespondingNodeTypeEutranrCellResourceCoordinationIEBinding = s16.EUTRANRCellResourceCoordinationResponseRespondingNodeTypeEutranrCellResourceCoordinationIEBinding
+type EUTRANRCellResourceCoordinationResponseRespondingNodeTypeEutranrCellResourceCoordinationIEBinding = s15.EUTRANRCellResourceCoordinationResponseRespondingNodeTypeEutranrCellResourceCoordinationIEBinding
 
 // EUTRANRCellResourceCoordinationResponseSuccessfulBinding is the concrete SuccessfulBinding[EUTRANRCellResourceCoordinationResponse].
-type EUTRANRCellResourceCoordinationResponseSuccessfulBinding = s19.EUTRANRCellResourceCoordinationResponseSuccessfulBinding
+type EUTRANRCellResourceCoordinationResponseSuccessfulBinding = s18.EUTRANRCellResourceCoordinationResponseSuccessfulBinding
 
 // EUTRANRCellResourceCoordinationResponseValueCodec is the concrete ValueCodec[EUTRANRCellResourceCoordinationResponse].
-type EUTRANRCellResourceCoordinationResponseValueCodec = s19.EUTRANRCellResourceCoordinationResponseValueCodec
+type EUTRANRCellResourceCoordinationResponseValueCodec = s18.EUTRANRCellResourceCoordinationResponseValueCodec
 
 // EUTRANTraceID represents the ASN.1 type EUTRANTraceID (OCTET_STRING).
 type EUTRANTraceID = s00.EUTRANTraceID
@@ -8300,15 +8299,15 @@ var EUTRANTraceIDCodec func() EUTRANTraceIDValueCodec = s11.EUTRANTraceIDCodec
 type EUTRANTraceIDValueCodec = s00.EUTRANTraceIDValueCodec
 
 // EarlyStatusTransfer represents the ASN.1 type EarlyStatusTransfer (SEQUENCE).
-type EarlyStatusTransfer = s20.EarlyStatusTransfer
+type EarlyStatusTransfer = s19.EarlyStatusTransfer
 
 // EarlyStatusTransferAPERValue is the concrete APERValue[EarlyStatusTransfer].
-type EarlyStatusTransferAPERValue = s20.EarlyStatusTransferAPERValue
+type EarlyStatusTransferAPERValue = s19.EarlyStatusTransferAPERValue
 
 // EarlyStatusTransferCodec binds the complete APER value type.
-var EarlyStatusTransferCodec func() EarlyStatusTransferValueCodec = s20.EarlyStatusTransferCodec
+var EarlyStatusTransferCodec func() EarlyStatusTransferValueCodec = s19.EarlyStatusTransferCodec
 
-type EarlyStatusTransferDescriptor = s20.EarlyStatusTransferDescriptor
+type EarlyStatusTransferDescriptor = s19.EarlyStatusTransferDescriptor
 
 // EarlyStatusTransferIEContainer is ProtocolIE-Container {{EarlyStatusTransfer-IEs}} of TS 36.423 §9.3.8: a list of EarlyStatusTransferIEField values.
 type EarlyStatusTransferIEContainer = s11.EarlyStatusTransferIEContainer
@@ -8321,9 +8320,9 @@ type EarlyStatusTransferIEValue = s11.EarlyStatusTransferIEValue
 var EarlyStatusTransferIEs func() EarlyStatusTransferIETable = s11.EarlyStatusTransferIEs
 
 // EarlyStatusTransferInitiatingBinding is the concrete InitiatingBinding[EarlyStatusTransfer].
-type EarlyStatusTransferInitiatingBinding = s20.EarlyStatusTransferInitiatingBinding
+type EarlyStatusTransferInitiatingBinding = s19.EarlyStatusTransferInitiatingBinding
 
-var EarlyStatusTransferProcedure func() EarlyStatusTransferDescriptor = s20.EarlyStatusTransferProcedure
+var EarlyStatusTransferProcedure func() EarlyStatusTransferDescriptor = s19.EarlyStatusTransferProcedure
 
 // EarlyStatusTransferProcedureStageChoiceIEBinding binds ProcedureStageChoice to ProtocolIE-Field {{EarlyStatusTransfer-IEs}} of TS 36.423 §9.3.8.
 type EarlyStatusTransferProcedureStageChoiceIEBinding = s11.EarlyStatusTransferProcedureStageChoiceIEBinding
@@ -8338,20 +8337,20 @@ type EarlyStatusTransferUEX2APIDExtensionIEBinding = s11.EarlyStatusTransferUEX2
 type EarlyStatusTransferUEX2APIDIEBinding = s11.EarlyStatusTransferUEX2APIDIEBinding
 
 // EarlyStatusTransferValueCodec is the concrete ValueCodec[EarlyStatusTransfer].
-type EarlyStatusTransferValueCodec = s20.EarlyStatusTransferValueCodec
+type EarlyStatusTransferValueCodec = s19.EarlyStatusTransferValueCodec
 
 // EnGNBENDCConfigUpdateAckIEContainer is ProtocolIE-Container {{En-gNB-ENDCConfigUpdateAckIEs}} of TS 36.423 §9.3.8: a list of EnGNBENDCConfigUpdateAckIEField values.
-type EnGNBENDCConfigUpdateAckIEContainer = s18.EnGNBENDCConfigUpdateAckIEContainer
+type EnGNBENDCConfigUpdateAckIEContainer = s17.EnGNBENDCConfigUpdateAckIEContainer
 
 // EnGNBENDCConfigUpdateAckIEField is ProtocolIE-Field {{En-gNB-ENDCConfigUpdateAckIEs}} of TS 36.423 §9.3.8: an information element field.
-type EnGNBENDCConfigUpdateAckIEField = s18.EnGNBENDCConfigUpdateAckIEField
-type EnGNBENDCConfigUpdateAckIETable = s18.EnGNBENDCConfigUpdateAckIETable
-type EnGNBENDCConfigUpdateAckIEValue = s18.EnGNBENDCConfigUpdateAckIEValue
+type EnGNBENDCConfigUpdateAckIEField = s17.EnGNBENDCConfigUpdateAckIEField
+type EnGNBENDCConfigUpdateAckIETable = s17.EnGNBENDCConfigUpdateAckIETable
+type EnGNBENDCConfigUpdateAckIEValue = s17.EnGNBENDCConfigUpdateAckIEValue
 
-var EnGNBENDCConfigUpdateAckIEs func() EnGNBENDCConfigUpdateAckIETable = s18.EnGNBENDCConfigUpdateAckIEs
+var EnGNBENDCConfigUpdateAckIEs func() EnGNBENDCConfigUpdateAckIETable = s17.EnGNBENDCConfigUpdateAckIEs
 
 // EnGNBENDCConfigUpdateAckServedNRcellsENDCX2ManagementListIEBinding binds ServedNRcellsENDCX2ManagementList to ProtocolIE-Field {{En-gNB-ENDCConfigUpdateAckIEs}} of TS 36.423 §9.3.8.
-type EnGNBENDCConfigUpdateAckServedNRcellsENDCX2ManagementListIEBinding = s18.EnGNBENDCConfigUpdateAckServedNRcellsENDCX2ManagementListIEBinding
+type EnGNBENDCConfigUpdateAckServedNRcellsENDCX2ManagementListIEBinding = s17.EnGNBENDCConfigUpdateAckServedNRcellsENDCX2ManagementListIEBinding
 
 // EnGNBENDCConfigUpdateIEContainer is ProtocolIE-Container {{En-gNB-ENDCConfigUpdateIEs}} of TS 36.423 §9.3.8: a list of EnGNBENDCConfigUpdateIEField values.
 type EnGNBENDCConfigUpdateIEContainer = s18.EnGNBENDCConfigUpdateIEContainer
@@ -8399,61 +8398,61 @@ type EnGNBENDCX2RemovalReqIEValue = s07.EnGNBENDCX2RemovalReqIEValue
 var EnGNBENDCX2RemovalReqIEs func() EnGNBENDCX2RemovalReqIETable = s07.EnGNBENDCX2RemovalReqIEs
 
 // EnGNBENDCX2SetupReqAckGlobalGNBIDIEBinding binds GlobalGNBID to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqAckIEs}} of TS 36.423 §9.3.8.
-type EnGNBENDCX2SetupReqAckGlobalGNBIDIEBinding = s18.EnGNBENDCX2SetupReqAckGlobalGNBIDIEBinding
+type EnGNBENDCX2SetupReqAckGlobalGNBIDIEBinding = s17.EnGNBENDCX2SetupReqAckGlobalGNBIDIEBinding
 
 // EnGNBENDCX2SetupReqAckIEContainer is ProtocolIE-Container {{En-gNB-ENDCX2SetupReqAckIEs}} of TS 36.423 §9.3.8: a list of EnGNBENDCX2SetupReqAckIEField values.
-type EnGNBENDCX2SetupReqAckIEContainer = s18.EnGNBENDCX2SetupReqAckIEContainer
+type EnGNBENDCX2SetupReqAckIEContainer = s17.EnGNBENDCX2SetupReqAckIEContainer
 
 // EnGNBENDCX2SetupReqAckIEField is ProtocolIE-Field {{En-gNB-ENDCX2SetupReqAckIEs}} of TS 36.423 §9.3.8: an information element field.
-type EnGNBENDCX2SetupReqAckIEField = s18.EnGNBENDCX2SetupReqAckIEField
-type EnGNBENDCX2SetupReqAckIETable = s18.EnGNBENDCX2SetupReqAckIETable
-type EnGNBENDCX2SetupReqAckIEValue = s18.EnGNBENDCX2SetupReqAckIEValue
+type EnGNBENDCX2SetupReqAckIEField = s17.EnGNBENDCX2SetupReqAckIEField
+type EnGNBENDCX2SetupReqAckIETable = s17.EnGNBENDCX2SetupReqAckIETable
+type EnGNBENDCX2SetupReqAckIEValue = s17.EnGNBENDCX2SetupReqAckIEValue
 
-var EnGNBENDCX2SetupReqAckIEs func() EnGNBENDCX2SetupReqAckIETable = s18.EnGNBENDCX2SetupReqAckIEs
+var EnGNBENDCX2SetupReqAckIEs func() EnGNBENDCX2SetupReqAckIETable = s17.EnGNBENDCX2SetupReqAckIEs
 
 // EnGNBENDCX2SetupReqAckPartialListIndicatorIEBinding binds PartialListIndicator to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqAckIEs}} of TS 36.423 §9.3.8.
-type EnGNBENDCX2SetupReqAckPartialListIndicatorIEBinding = s18.EnGNBENDCX2SetupReqAckPartialListIndicatorIEBinding
+type EnGNBENDCX2SetupReqAckPartialListIndicatorIEBinding = s17.EnGNBENDCX2SetupReqAckPartialListIndicatorIEBinding
 
 // EnGNBENDCX2SetupReqAckServedNRcellsENDCX2ManagementListIEBinding binds ServedNRcellsENDCX2ManagementList to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqAckIEs}} of TS 36.423 §9.3.8.
-type EnGNBENDCX2SetupReqAckServedNRcellsENDCX2ManagementListIEBinding = s18.EnGNBENDCX2SetupReqAckServedNRcellsENDCX2ManagementListIEBinding
+type EnGNBENDCX2SetupReqAckServedNRcellsENDCX2ManagementListIEBinding = s17.EnGNBENDCX2SetupReqAckServedNRcellsENDCX2ManagementListIEBinding
 
 // EnGNBENDCX2SetupReqGlobalGNBIDIEBinding binds GlobalGNBID to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqIEs}} of TS 36.423 §9.3.8.
-type EnGNBENDCX2SetupReqGlobalGNBIDIEBinding = s18.EnGNBENDCX2SetupReqGlobalGNBIDIEBinding
+type EnGNBENDCX2SetupReqGlobalGNBIDIEBinding = s17.EnGNBENDCX2SetupReqGlobalGNBIDIEBinding
 
 // EnGNBENDCX2SetupReqIEContainer is ProtocolIE-Container {{En-gNB-ENDCX2SetupReqIEs}} of TS 36.423 §9.3.8: a list of EnGNBENDCX2SetupReqIEField values.
-type EnGNBENDCX2SetupReqIEContainer = s18.EnGNBENDCX2SetupReqIEContainer
+type EnGNBENDCX2SetupReqIEContainer = s17.EnGNBENDCX2SetupReqIEContainer
 
 // EnGNBENDCX2SetupReqIEField is ProtocolIE-Field {{En-gNB-ENDCX2SetupReqIEs}} of TS 36.423 §9.3.8: an information element field.
-type EnGNBENDCX2SetupReqIEField = s18.EnGNBENDCX2SetupReqIEField
-type EnGNBENDCX2SetupReqIETable = s18.EnGNBENDCX2SetupReqIETable
-type EnGNBENDCX2SetupReqIEValue = s18.EnGNBENDCX2SetupReqIEValue
+type EnGNBENDCX2SetupReqIEField = s17.EnGNBENDCX2SetupReqIEField
+type EnGNBENDCX2SetupReqIETable = s17.EnGNBENDCX2SetupReqIETable
+type EnGNBENDCX2SetupReqIEValue = s17.EnGNBENDCX2SetupReqIEValue
 
-var EnGNBENDCX2SetupReqIEs func() EnGNBENDCX2SetupReqIETable = s18.EnGNBENDCX2SetupReqIEs
+var EnGNBENDCX2SetupReqIEs func() EnGNBENDCX2SetupReqIETable = s17.EnGNBENDCX2SetupReqIEs
 
 // EnGNBENDCX2SetupReqPartialListIndicatorIEBinding binds PartialListIndicator to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqIEs}} of TS 36.423 §9.3.8.
-type EnGNBENDCX2SetupReqPartialListIndicatorIEBinding = s18.EnGNBENDCX2SetupReqPartialListIndicatorIEBinding
+type EnGNBENDCX2SetupReqPartialListIndicatorIEBinding = s17.EnGNBENDCX2SetupReqPartialListIndicatorIEBinding
 
 // EnGNBENDCX2SetupReqServedNRcellsENDCX2ManagementListIEBinding binds ServedNRcellsENDCX2ManagementList to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqIEs}} of TS 36.423 §9.3.8.
-type EnGNBENDCX2SetupReqServedNRcellsENDCX2ManagementListIEBinding = s18.EnGNBENDCX2SetupReqServedNRcellsENDCX2ManagementListIEBinding
+type EnGNBENDCX2SetupReqServedNRcellsENDCX2ManagementListIEBinding = s17.EnGNBENDCX2SetupReqServedNRcellsENDCX2ManagementListIEBinding
 
 // EnGNBEUTRANRCellResourceCoordinationReqAckDataTrafficResourceIndicationIEBinding binds DataTrafficResourceIndication to ProtocolIE-Field {{En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs}} of TS 36.423 §9.3.8.
-type EnGNBEUTRANRCellResourceCoordinationReqAckDataTrafficResourceIndicationIEBinding = s16.EnGNBEUTRANRCellResourceCoordinationReqAckDataTrafficResourceIndicationIEBinding
+type EnGNBEUTRANRCellResourceCoordinationReqAckDataTrafficResourceIndicationIEBinding = s15.EnGNBEUTRANRCellResourceCoordinationReqAckDataTrafficResourceIndicationIEBinding
 
 // EnGNBEUTRANRCellResourceCoordinationReqAckIEContainer is ProtocolIE-Container {{En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs}} of TS 36.423 §9.3.8: a list of EnGNBEUTRANRCellResourceCoordinationReqAckIEField values.
-type EnGNBEUTRANRCellResourceCoordinationReqAckIEContainer = s16.EnGNBEUTRANRCellResourceCoordinationReqAckIEContainer
+type EnGNBEUTRANRCellResourceCoordinationReqAckIEContainer = s15.EnGNBEUTRANRCellResourceCoordinationReqAckIEContainer
 
 // EnGNBEUTRANRCellResourceCoordinationReqAckIEField is ProtocolIE-Field {{En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs}} of TS 36.423 §9.3.8: an information element field.
-type EnGNBEUTRANRCellResourceCoordinationReqAckIEField = s16.EnGNBEUTRANRCellResourceCoordinationReqAckIEField
-type EnGNBEUTRANRCellResourceCoordinationReqAckIETable = s16.EnGNBEUTRANRCellResourceCoordinationReqAckIETable
-type EnGNBEUTRANRCellResourceCoordinationReqAckIEValue = s16.EnGNBEUTRANRCellResourceCoordinationReqAckIEValue
+type EnGNBEUTRANRCellResourceCoordinationReqAckIEField = s15.EnGNBEUTRANRCellResourceCoordinationReqAckIEField
+type EnGNBEUTRANRCellResourceCoordinationReqAckIETable = s15.EnGNBEUTRANRCellResourceCoordinationReqAckIETable
+type EnGNBEUTRANRCellResourceCoordinationReqAckIEValue = s15.EnGNBEUTRANRCellResourceCoordinationReqAckIEValue
 
-var EnGNBEUTRANRCellResourceCoordinationReqAckIEs func() EnGNBEUTRANRCellResourceCoordinationReqAckIETable = s16.EnGNBEUTRANRCellResourceCoordinationReqAckIEs
+var EnGNBEUTRANRCellResourceCoordinationReqAckIEs func() EnGNBEUTRANRCellResourceCoordinationReqAckIETable = s15.EnGNBEUTRANRCellResourceCoordinationReqAckIEs
 
 // EnGNBEUTRANRCellResourceCoordinationReqAckListofNRCellsinNRCoordinationRespIEBinding binds ListofNRCellsinNRCoordinationResp to ProtocolIE-Field {{En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs}} of TS 36.423 §9.3.8.
-type EnGNBEUTRANRCellResourceCoordinationReqAckListofNRCellsinNRCoordinationRespIEBinding = s16.EnGNBEUTRANRCellResourceCoordinationReqAckListofNRCellsinNRCoordinationRespIEBinding
+type EnGNBEUTRANRCellResourceCoordinationReqAckListofNRCellsinNRCoordinationRespIEBinding = s15.EnGNBEUTRANRCellResourceCoordinationReqAckListofNRCellsinNRCoordinationRespIEBinding
 
 // EnGNBEUTRANRCellResourceCoordinationReqAckSpectrumSharingGroupIDIEBinding binds SpectrumSharingGroupID to ProtocolIE-Field {{En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs}} of TS 36.423 §9.3.8.
-type EnGNBEUTRANRCellResourceCoordinationReqAckSpectrumSharingGroupIDIEBinding = s16.EnGNBEUTRANRCellResourceCoordinationReqAckSpectrumSharingGroupIDIEBinding
+type EnGNBEUTRANRCellResourceCoordinationReqAckSpectrumSharingGroupIDIEBinding = s15.EnGNBEUTRANRCellResourceCoordinationReqAckSpectrumSharingGroupIDIEBinding
 
 // EnGNBEUTRANRCellResourceCoordinationReqDataTrafficResourceIndicationIEBinding binds DataTrafficResourceIndication to ProtocolIE-Field {{En-gNB-EUTRA-NRCellResourceCoordinationReqIEs}} of TS 36.423 §9.3.8.
 type EnGNBEUTRANRCellResourceCoordinationReqDataTrafficResourceIndicationIEBinding = s15.EnGNBEUTRANRCellResourceCoordinationReqDataTrafficResourceIndicationIEBinding
@@ -8502,21 +8501,21 @@ var EncryptionAlgorithmsCodec func() EncryptionAlgorithmsValueCodec = s00.Encryp
 
 // EncryptionAlgorithmsValueCodec is the concrete ValueCodec[EncryptionAlgorithms].
 type EncryptionAlgorithmsValueCodec = s00.EncryptionAlgorithmsValueCodec
-type EndcCellActivationDescriptor = s20.EndcCellActivationDescriptor
+type EndcCellActivationDescriptor = s19.EndcCellActivationDescriptor
 
-var EndcCellActivationProcedure func() EndcCellActivationDescriptor = s20.EndcCellActivationProcedure
+var EndcCellActivationProcedure func() EndcCellActivationDescriptor = s19.EndcCellActivationProcedure
 
-type EndcConfigurationTransferDescriptor = s20.EndcConfigurationTransferDescriptor
+type EndcConfigurationTransferDescriptor = s19.EndcConfigurationTransferDescriptor
 
-var EndcConfigurationTransferProcedure func() EndcConfigurationTransferDescriptor = s20.EndcConfigurationTransferProcedure
+var EndcConfigurationTransferProcedure func() EndcConfigurationTransferDescriptor = s19.EndcConfigurationTransferProcedure
 
-type EndcConfigurationUpdateDescriptor = s20.EndcConfigurationUpdateDescriptor
+type EndcConfigurationUpdateDescriptor = s19.EndcConfigurationUpdateDescriptor
 
-var EndcConfigurationUpdateProcedure func() EndcConfigurationUpdateDescriptor = s20.EndcConfigurationUpdateProcedure
+var EndcConfigurationUpdateProcedure func() EndcConfigurationUpdateDescriptor = s19.EndcConfigurationUpdateProcedure
 
-type EndcPartialResetDescriptor = s20.EndcPartialResetDescriptor
+type EndcPartialResetDescriptor = s19.EndcPartialResetDescriptor
 
-var EndcPartialResetProcedure func() EndcPartialResetDescriptor = s20.EndcPartialResetProcedure
+var EndcPartialResetProcedure func() EndcPartialResetDescriptor = s19.EndcPartialResetProcedure
 
 // EndcSONConfigurationTransfer represents the ASN.1 type EndcSONConfigurationTransfer (OCTET_STRING).
 type EndcSONConfigurationTransfer = s00.EndcSONConfigurationTransfer
@@ -8529,19 +8528,19 @@ var EndcSONConfigurationTransferCodec func() EndcSONConfigurationTransferValueCo
 
 // EndcSONConfigurationTransferValueCodec is the concrete ValueCodec[EndcSONConfigurationTransfer].
 type EndcSONConfigurationTransferValueCodec = s00.EndcSONConfigurationTransferValueCodec
-type EndcX2RemovalDescriptor = s20.EndcX2RemovalDescriptor
+type EndcX2RemovalDescriptor = s19.EndcX2RemovalDescriptor
 
-var EndcX2RemovalProcedure func() EndcX2RemovalDescriptor = s20.EndcX2RemovalProcedure
+var EndcX2RemovalProcedure func() EndcX2RemovalDescriptor = s19.EndcX2RemovalProcedure
 
-type EndcX2SetupDescriptor = s20.EndcX2SetupDescriptor
+type EndcX2SetupDescriptor = s19.EndcX2SetupDescriptor
 
-var EndcX2SetupProcedure func() EndcX2SetupDescriptor = s20.EndcX2SetupProcedure
+var EndcX2SetupProcedure func() EndcX2SetupDescriptor = s19.EndcX2SetupProcedure
 
-type EndcresourceStatusReportingDescriptor = s20.EndcresourceStatusReportingDescriptor
-type EndcresourceStatusReportingInitiationDescriptor = s20.EndcresourceStatusReportingInitiationDescriptor
+type EndcresourceStatusReportingDescriptor = s19.EndcresourceStatusReportingDescriptor
+type EndcresourceStatusReportingInitiationDescriptor = s19.EndcresourceStatusReportingInitiationDescriptor
 
-var EndcresourceStatusReportingInitiationProcedure func() EndcresourceStatusReportingInitiationDescriptor = s20.EndcresourceStatusReportingInitiationProcedure
-var EndcresourceStatusReportingProcedure func() EndcresourceStatusReportingDescriptor = s20.EndcresourceStatusReportingProcedure
+var EndcresourceStatusReportingInitiationProcedure func() EndcresourceStatusReportingInitiationDescriptor = s19.EndcresourceStatusReportingInitiationProcedure
+var EndcresourceStatusReportingProcedure func() EndcresourceStatusReportingDescriptor = s19.EndcresourceStatusReportingProcedure
 
 // EnhancedRNTP represents the ASN.1 type EnhancedRNTP (SEQUENCE).
 type EnhancedRNTP = s05.EnhancedRNTP
@@ -8590,20 +8589,20 @@ type EnhancedRNTPStartTimeValueCodec = s05.EnhancedRNTPStartTimeValueCodec
 type EnhancedRNTPValueCodec = s05.EnhancedRNTPValueCodec
 
 // ErrorIndication represents the ASN.1 type ErrorIndication (SEQUENCE).
-type ErrorIndication = s20.ErrorIndication
+type ErrorIndication = s19.ErrorIndication
 
 // ErrorIndicationAPERValue is the concrete APERValue[ErrorIndication].
-type ErrorIndicationAPERValue = s20.ErrorIndicationAPERValue
+type ErrorIndicationAPERValue = s19.ErrorIndicationAPERValue
 
 // ErrorIndicationCauseIEBinding binds Cause to ProtocolIE-Field {{ErrorIndication-IEs}} of TS 36.423 §9.3.8.
 type ErrorIndicationCauseIEBinding = s11.ErrorIndicationCauseIEBinding
 
 // ErrorIndicationCodec binds the complete APER value type.
-var ErrorIndicationCodec func() ErrorIndicationValueCodec = s20.ErrorIndicationCodec
+var ErrorIndicationCodec func() ErrorIndicationValueCodec = s19.ErrorIndicationCodec
 
 // ErrorIndicationCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ErrorIndication-IEs}} of TS 36.423 §9.3.8.
 type ErrorIndicationCriticalityDiagnosticsIEBinding = s11.ErrorIndicationCriticalityDiagnosticsIEBinding
-type ErrorIndicationDescriptor = s20.ErrorIndicationDescriptor
+type ErrorIndicationDescriptor = s19.ErrorIndicationDescriptor
 
 // ErrorIndicationIEContainer is ProtocolIE-Container {{ErrorIndication-IEs}} of TS 36.423 §9.3.8: a list of ErrorIndicationIEField values.
 type ErrorIndicationIEContainer = s11.ErrorIndicationIEContainer
@@ -8616,12 +8615,12 @@ type ErrorIndicationIEValue = s11.ErrorIndicationIEValue
 var ErrorIndicationIEs func() ErrorIndicationIETable = s11.ErrorIndicationIEs
 
 // ErrorIndicationInitiatingBinding is the concrete InitiatingBinding[ErrorIndication].
-type ErrorIndicationInitiatingBinding = s20.ErrorIndicationInitiatingBinding
+type ErrorIndicationInitiatingBinding = s19.ErrorIndicationInitiatingBinding
 
 // ErrorIndicationInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ErrorIndication-IEs}} of TS 36.423 §9.3.8.
 type ErrorIndicationInterfaceInstanceIndicationIEBinding = s11.ErrorIndicationInterfaceInstanceIndicationIEBinding
 
-var ErrorIndicationProcedure func() ErrorIndicationDescriptor = s20.ErrorIndicationProcedure
+var ErrorIndicationProcedure func() ErrorIndicationDescriptor = s19.ErrorIndicationProcedure
 
 // ErrorIndicationSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{ErrorIndication-IEs}} of TS 36.423 §9.3.8.
 type ErrorIndicationSgNBUEX2APIDIEBinding = s11.ErrorIndicationSgNBUEX2APIDIEBinding
@@ -8633,7 +8632,7 @@ type ErrorIndicationUEX2APIDExtensionIEBinding = s11.ErrorIndicationUEX2APIDExte
 type ErrorIndicationUEX2APIDIEBinding = s11.ErrorIndicationUEX2APIDIEBinding
 
 // ErrorIndicationValueCodec is the concrete ValueCodec[ErrorIndication].
-type ErrorIndicationValueCodec = s20.ErrorIndicationValueCodec
+type ErrorIndicationValueCodec = s19.ErrorIndicationValueCodec
 
 // EthernetType represents the ASN.1 ENUMERATED type Ethernet-Type.
 type EthernetType = s00.EthernetType
@@ -8779,11 +8778,11 @@ type ExtendedULInterferenceOverloadInfoExtIETable = s06.ExtendedULInterferenceOv
 var ExtendedULInterferenceOverloadInfoExtIEs func() ExtendedULInterferenceOverloadInfoExtIETable = s06.ExtendedULInterferenceOverloadInfoExtIEs
 
 // ExtendedULInterferenceOverloadInfoExtIEsExtContainer is ProtocolExtensionContainer {{ExtendedULInterferenceOverloadInfo-ExtIEs}} of TS 36.423 §9.3.8: a list of ExtendedULInterferenceOverloadInfoExtIEsExtField values.
-type ExtendedULInterferenceOverloadInfoExtIEsExtContainer = s03.ExtendedULInterferenceOverloadInfoExtIEsExtContainer
+type ExtendedULInterferenceOverloadInfoExtIEsExtContainer = s02.ExtendedULInterferenceOverloadInfoExtIEsExtContainer
 
 // ExtendedULInterferenceOverloadInfoExtIEsExtField is ProtocolExtensionField {{ExtendedULInterferenceOverloadInfo-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
-type ExtendedULInterferenceOverloadInfoExtIEsExtField = s03.ExtendedULInterferenceOverloadInfoExtIEsExtField
-type ExtendedULInterferenceOverloadInfoExtIEsValue = s03.ExtendedULInterferenceOverloadInfoExtIEsValue
+type ExtendedULInterferenceOverloadInfoExtIEsExtField = s02.ExtendedULInterferenceOverloadInfoExtIEsExtField
+type ExtendedULInterferenceOverloadInfoExtIEsValue = s02.ExtendedULInterferenceOverloadInfoExtIEsValue
 
 // ExtendedULInterferenceOverloadInfoValueCodec is the concrete ValueCodec[ExtendedULInterferenceOverloadInfo].
 type ExtendedULInterferenceOverloadInfoValueCodec = s12.ExtendedULInterferenceOverloadInfoValueCodec
@@ -8801,15 +8800,15 @@ var F1CTrafficContainerCodec func() F1CTrafficContainerValueCodec = s11.F1CTraff
 type F1CTrafficContainerValueCodec = s00.F1CTrafficContainerValueCodec
 
 // F1CTrafficTransfer represents the ASN.1 type F1CTrafficTransfer (SEQUENCE).
-type F1CTrafficTransfer = s20.F1CTrafficTransfer
+type F1CTrafficTransfer = s19.F1CTrafficTransfer
 
 // F1CTrafficTransferAPERValue is the concrete APERValue[F1CTrafficTransfer].
-type F1CTrafficTransferAPERValue = s20.F1CTrafficTransferAPERValue
+type F1CTrafficTransferAPERValue = s19.F1CTrafficTransferAPERValue
 
 // F1CTrafficTransferCodec binds the complete APER value type.
-var F1CTrafficTransferCodec func() F1CTrafficTransferValueCodec = s20.F1CTrafficTransferCodec
+var F1CTrafficTransferCodec func() F1CTrafficTransferValueCodec = s19.F1CTrafficTransferCodec
 
-type F1CTrafficTransferDescriptor = s20.F1CTrafficTransferDescriptor
+type F1CTrafficTransferDescriptor = s19.F1CTrafficTransferDescriptor
 
 // F1CTrafficTransferF1CTrafficContainerIEBinding binds F1CTrafficContainer to ProtocolIE-Field {{F1CTrafficTransfer-IEs}} of TS 36.423 §9.3.8.
 type F1CTrafficTransferF1CTrafficContainerIEBinding = s11.F1CTrafficTransferF1CTrafficContainerIEBinding
@@ -8825,9 +8824,9 @@ type F1CTrafficTransferIEValue = s11.F1CTrafficTransferIEValue
 var F1CTrafficTransferIEs func() F1CTrafficTransferIETable = s11.F1CTrafficTransferIEs
 
 // F1CTrafficTransferInitiatingBinding is the concrete InitiatingBinding[F1CTrafficTransfer].
-type F1CTrafficTransferInitiatingBinding = s20.F1CTrafficTransferInitiatingBinding
+type F1CTrafficTransferInitiatingBinding = s19.F1CTrafficTransferInitiatingBinding
 
-var F1CTrafficTransferProcedure func() F1CTrafficTransferDescriptor = s20.F1CTrafficTransferProcedure
+var F1CTrafficTransferProcedure func() F1CTrafficTransferDescriptor = s19.F1CTrafficTransferProcedure
 
 // F1CTrafficTransferSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{F1CTrafficTransfer-IEs}} of TS 36.423 §9.3.8.
 type F1CTrafficTransferSgNBUEX2APIDIEBinding = s11.F1CTrafficTransferSgNBUEX2APIDIEBinding
@@ -8839,16 +8838,16 @@ type F1CTrafficTransferUEX2APIDExtensionIEBinding = s11.F1CTrafficTransferUEX2AP
 type F1CTrafficTransferUEX2APIDIEBinding = s11.F1CTrafficTransferUEX2APIDIEBinding
 
 // F1CTrafficTransferValueCodec is the concrete ValueCodec[F1CTrafficTransfer].
-type F1CTrafficTransferValueCodec = s20.F1CTrafficTransferValueCodec
+type F1CTrafficTransferValueCodec = s19.F1CTrafficTransferValueCodec
 
 // FDDInfo represents the ASN.1 type FDD-Info (SEQUENCE).
-type FDDInfo = s08.FDDInfo
+type FDDInfo = s07.FDDInfo
 
 // FDDInfoAPERValue is the concrete APERValue[FDDInfo].
-type FDDInfoAPERValue = s08.FDDInfoAPERValue
+type FDDInfoAPERValue = s07.FDDInfoAPERValue
 
 // FDDInfoCodec binds the complete source value type.
-var FDDInfoCodec func() FDDInfoValueCodec = s08.FDDInfoCodec
+var FDDInfoCodec func() FDDInfoValueCodec = s07.FDDInfoCodec
 
 type FDDInfoExtIETable = s07.FDDInfoExtIETable
 
@@ -8926,7 +8925,7 @@ type FDDInfoServedNRCellInformationExtIEsValue = s16.FDDInfoServedNRCellInformat
 type FDDInfoServedNRCellInformationValueCodec = s16.FDDInfoServedNRCellInformationValueCodec
 
 // FDDInfoValueCodec is the concrete ValueCodec[FDDInfo].
-type FDDInfoValueCodec = s08.FDDInfoValueCodec
+type FDDInfoValueCodec = s07.FDDInfoValueCodec
 
 // FastMCGRecovery represents the ASN.1 type FastMCGRecovery (SEQUENCE).
 type FastMCGRecovery = s08.FastMCGRecovery
@@ -9214,13 +9213,13 @@ const FrequencyShift7p5khzTrue = s00.FrequencyShift7p5khzTrue
 type FrequencyShift7p5khzValueCodec = s00.FrequencyShift7p5khzValueCodec
 
 // GBRQosInformation represents the ASN.1 type GBR-QosInformation (SEQUENCE).
-type GBRQosInformation = s08.GBRQosInformation
+type GBRQosInformation = s07.GBRQosInformation
 
 // GBRQosInformationAPERValue is the concrete APERValue[GBRQosInformation].
-type GBRQosInformationAPERValue = s08.GBRQosInformationAPERValue
+type GBRQosInformationAPERValue = s07.GBRQosInformationAPERValue
 
 // GBRQosInformationCodec binds the complete source value type.
-var GBRQosInformationCodec func() GBRQosInformationValueCodec = s08.GBRQosInformationCodec
+var GBRQosInformationCodec func() GBRQosInformationValueCodec = s07.GBRQosInformationCodec
 
 type GBRQosInformationExtIETable = s07.GBRQosInformationExtIETable
 
@@ -9237,7 +9236,7 @@ type GBRQosInformationExtIEsExtendedBitRateExtBinding = s07.GBRQosInformationExt
 type GBRQosInformationExtIEsValue = s07.GBRQosInformationExtIEsValue
 
 // GBRQosInformationValueCodec is the concrete ValueCodec[GBRQosInformation].
-type GBRQosInformationValueCodec = s08.GBRQosInformationValueCodec
+type GBRQosInformationValueCodec = s07.GBRQosInformationValueCodec
 
 // GNBID represents the ASN.1 CHOICE type GNB-ID.
 type GNBID = s00.GNBID
@@ -9270,15 +9269,15 @@ const GNBOverloadInformationOverloaded = s00.GNBOverloadInformationOverloaded
 type GNBOverloadInformationValueCodec = s00.GNBOverloadInformationValueCodec
 
 // GNBStatusIndication represents the ASN.1 type GNBStatusIndication (SEQUENCE).
-type GNBStatusIndication = s20.GNBStatusIndication
+type GNBStatusIndication = s19.GNBStatusIndication
 
 // GNBStatusIndicationAPERValue is the concrete APERValue[GNBStatusIndication].
-type GNBStatusIndicationAPERValue = s20.GNBStatusIndicationAPERValue
+type GNBStatusIndicationAPERValue = s19.GNBStatusIndicationAPERValue
 
 // GNBStatusIndicationCodec binds the complete APER value type.
-var GNBStatusIndicationCodec func() GNBStatusIndicationValueCodec = s20.GNBStatusIndicationCodec
+var GNBStatusIndicationCodec func() GNBStatusIndicationValueCodec = s19.GNBStatusIndicationCodec
 
-type GNBStatusIndicationDescriptor = s20.GNBStatusIndicationDescriptor
+type GNBStatusIndicationDescriptor = s19.GNBStatusIndicationDescriptor
 
 // GNBStatusIndicationGNBOverloadInformationIEBinding binds GNBOverloadInformation to ProtocolIE-Field {{GNBStatusIndicationIEs}} of TS 36.423 §9.3.8.
 type GNBStatusIndicationGNBOverloadInformationIEBinding = s07.GNBStatusIndicationGNBOverloadInformationIEBinding
@@ -9294,15 +9293,15 @@ type GNBStatusIndicationIEValue = s07.GNBStatusIndicationIEValue
 var GNBStatusIndicationIEs func() GNBStatusIndicationIETable = s07.GNBStatusIndicationIEs
 
 // GNBStatusIndicationInitiatingBinding is the concrete InitiatingBinding[GNBStatusIndication].
-type GNBStatusIndicationInitiatingBinding = s20.GNBStatusIndicationInitiatingBinding
+type GNBStatusIndicationInitiatingBinding = s19.GNBStatusIndicationInitiatingBinding
 
 // GNBStatusIndicationInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{GNBStatusIndicationIEs}} of TS 36.423 §9.3.8.
 type GNBStatusIndicationInterfaceInstanceIndicationIEBinding = s07.GNBStatusIndicationInterfaceInstanceIndicationIEBinding
 
-var GNBStatusIndicationProcedure func() GNBStatusIndicationDescriptor = s20.GNBStatusIndicationProcedure
+var GNBStatusIndicationProcedure func() GNBStatusIndicationDescriptor = s19.GNBStatusIndicationProcedure
 
 // GNBStatusIndicationValueCodec is the concrete ValueCodec[GNBStatusIndication].
-type GNBStatusIndicationValueCodec = s20.GNBStatusIndicationValueCodec
+type GNBStatusIndicationValueCodec = s19.GNBStatusIndicationValueCodec
 
 // GTPTEI represents the ASN.1 type GTP-TEI (OCTET_STRING).
 type GTPTEI = s00.GTPTEI
@@ -9576,10 +9575,10 @@ type HWLoadIndicatorExtIEsValue = s03.HWLoadIndicatorExtIEsValue
 type HWLoadIndicatorValueCodec = s05.HWLoadIndicatorValueCodec
 
 // HandoverCancel represents the ASN.1 type HandoverCancel (SEQUENCE).
-type HandoverCancel = s20.HandoverCancel
+type HandoverCancel = s19.HandoverCancel
 
 // HandoverCancelAPERValue is the concrete APERValue[HandoverCancel].
-type HandoverCancelAPERValue = s20.HandoverCancelAPERValue
+type HandoverCancelAPERValue = s19.HandoverCancelAPERValue
 
 // HandoverCancelCandidateCellsToBeCancelledListIEBinding binds CandidateCellsToBeCancelledList to ProtocolIE-Field {{HandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type HandoverCancelCandidateCellsToBeCancelledListIEBinding = s14.HandoverCancelCandidateCellsToBeCancelledListIEBinding
@@ -9588,9 +9587,9 @@ type HandoverCancelCandidateCellsToBeCancelledListIEBinding = s14.HandoverCancel
 type HandoverCancelCauseIEBinding = s14.HandoverCancelCauseIEBinding
 
 // HandoverCancelCodec binds the complete APER value type.
-var HandoverCancelCodec func() HandoverCancelValueCodec = s20.HandoverCancelCodec
+var HandoverCancelCodec func() HandoverCancelValueCodec = s19.HandoverCancelCodec
 
-type HandoverCancelDescriptor = s20.HandoverCancelDescriptor
+type HandoverCancelDescriptor = s19.HandoverCancelDescriptor
 
 // HandoverCancelIEContainer is ProtocolIE-Container {{HandoverCancel-IEs}} of TS 36.423 §9.3.8: a list of HandoverCancelIEField values.
 type HandoverCancelIEContainer = s14.HandoverCancelIEContainer
@@ -9603,9 +9602,9 @@ type HandoverCancelIEValue = s14.HandoverCancelIEValue
 var HandoverCancelIEs func() HandoverCancelIETable = s14.HandoverCancelIEs
 
 // HandoverCancelInitiatingBinding is the concrete InitiatingBinding[HandoverCancel].
-type HandoverCancelInitiatingBinding = s20.HandoverCancelInitiatingBinding
+type HandoverCancelInitiatingBinding = s19.HandoverCancelInitiatingBinding
 
-var HandoverCancelProcedure func() HandoverCancelDescriptor = s20.HandoverCancelProcedure
+var HandoverCancelProcedure func() HandoverCancelDescriptor = s19.HandoverCancelProcedure
 
 // HandoverCancelUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{HandoverCancel-IEs}} of TS 36.423 §9.3.8.
 type HandoverCancelUEX2APIDExtensionIEBinding = s14.HandoverCancelUEX2APIDExtensionIEBinding
@@ -9614,8 +9613,8 @@ type HandoverCancelUEX2APIDExtensionIEBinding = s14.HandoverCancelUEX2APIDExtens
 type HandoverCancelUEX2APIDIEBinding = s14.HandoverCancelUEX2APIDIEBinding
 
 // HandoverCancelValueCodec is the concrete ValueCodec[HandoverCancel].
-type HandoverCancelValueCodec = s20.HandoverCancelValueCodec
-type HandoverPreparationDescriptor = s20.HandoverPreparationDescriptor
+type HandoverCancelValueCodec = s19.HandoverCancelValueCodec
+type HandoverPreparationDescriptor = s19.HandoverPreparationDescriptor
 
 // HandoverPreparationFailure represents the ASN.1 type HandoverPreparationFailure (SEQUENCE).
 type HandoverPreparationFailure = s14.HandoverPreparationFailure
@@ -9627,7 +9626,7 @@ type HandoverPreparationFailureAPERValue = s14.HandoverPreparationFailureAPERVal
 type HandoverPreparationFailureCauseIEBinding = s11.HandoverPreparationFailureCauseIEBinding
 
 // HandoverPreparationFailureCodec binds the complete APER value type.
-var HandoverPreparationFailureCodec func() HandoverPreparationFailureValueCodec = s20.HandoverPreparationFailureCodec
+var HandoverPreparationFailureCodec func() HandoverPreparationFailureValueCodec = s19.HandoverPreparationFailureCodec
 
 // HandoverPreparationFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{HandoverPreparationFailure-IEs}} of TS 36.423 §9.3.8.
 type HandoverPreparationFailureCriticalityDiagnosticsIEBinding = s11.HandoverPreparationFailureCriticalityDiagnosticsIEBinding
@@ -9657,13 +9656,13 @@ type HandoverPreparationFailureUnsuccessfulBinding = s14.HandoverPreparationFail
 // HandoverPreparationFailureValueCodec is the concrete ValueCodec[HandoverPreparationFailure].
 type HandoverPreparationFailureValueCodec = s14.HandoverPreparationFailureValueCodec
 
-var HandoverPreparationProcedure func() HandoverPreparationDescriptor = s20.HandoverPreparationProcedure
+var HandoverPreparationProcedure func() HandoverPreparationDescriptor = s19.HandoverPreparationProcedure
 
 // HandoverReport represents the ASN.1 type HandoverReport (SEQUENCE).
-type HandoverReport = s20.HandoverReport
+type HandoverReport = s19.HandoverReport
 
 // HandoverReportAPERValue is the concrete APERValue[HandoverReport].
-type HandoverReportAPERValue = s20.HandoverReportAPERValue
+type HandoverReportAPERValue = s19.HandoverReportAPERValue
 
 // HandoverReportCRNTIIEBinding binds CRNTI to ProtocolIE-Field {{HandoverReport-IEs}} of TS 36.423 §9.3.8.
 type HandoverReportCRNTIIEBinding = s11.HandoverReportCRNTIIEBinding
@@ -9672,9 +9671,9 @@ type HandoverReportCRNTIIEBinding = s11.HandoverReportCRNTIIEBinding
 type HandoverReportCauseIEBinding = s11.HandoverReportCauseIEBinding
 
 // HandoverReportCodec binds the complete APER value type.
-var HandoverReportCodec func() HandoverReportValueCodec = s20.HandoverReportCodec
+var HandoverReportCodec func() HandoverReportValueCodec = s19.HandoverReportCodec
 
-type HandoverReportDescriptor = s20.HandoverReportDescriptor
+type HandoverReportDescriptor = s19.HandoverReportDescriptor
 
 // HandoverReportECGIIEBinding binds ECGI to ProtocolIE-Field {{HandoverReport-IEs}} of TS 36.423 §9.3.8.
 type HandoverReportECGIIEBinding = s11.HandoverReportECGIIEBinding
@@ -9693,12 +9692,12 @@ type HandoverReportIEValue = s11.HandoverReportIEValue
 var HandoverReportIEs func() HandoverReportIETable = s11.HandoverReportIEs
 
 // HandoverReportInitiatingBinding is the concrete InitiatingBinding[HandoverReport].
-type HandoverReportInitiatingBinding = s20.HandoverReportInitiatingBinding
+type HandoverReportInitiatingBinding = s19.HandoverReportInitiatingBinding
 
 // HandoverReportMobilityInformationIEBinding binds MobilityInformation to ProtocolIE-Field {{HandoverReport-IEs}} of TS 36.423 §9.3.8.
 type HandoverReportMobilityInformationIEBinding = s11.HandoverReportMobilityInformationIEBinding
 
-var HandoverReportProcedure func() HandoverReportDescriptor = s20.HandoverReportProcedure
+var HandoverReportProcedure func() HandoverReportDescriptor = s19.HandoverReportProcedure
 
 // HandoverReportTargetCellInNGRANIEBinding binds TargetCellInNGRAN to ProtocolIE-Field {{HandoverReport-IEs}} of TS 36.423 §9.3.8.
 type HandoverReportTargetCellInNGRANIEBinding = s11.HandoverReportTargetCellInNGRANIEBinding
@@ -9730,25 +9729,25 @@ type HandoverReportUERLFReportContainerForExtendedBandsIEBinding = s11.HandoverR
 type HandoverReportUERLFReportContainerIEBinding = s11.HandoverReportUERLFReportContainerIEBinding
 
 // HandoverReportValueCodec is the concrete ValueCodec[HandoverReport].
-type HandoverReportValueCodec = s20.HandoverReportValueCodec
+type HandoverReportValueCodec = s19.HandoverReportValueCodec
 
 // HandoverRequest represents the ASN.1 type HandoverRequest (SEQUENCE).
-type HandoverRequest = s20.HandoverRequest
+type HandoverRequest = s19.HandoverRequest
 
 // HandoverRequestAPERValue is the concrete APERValue[HandoverRequest].
-type HandoverRequestAPERValue = s20.HandoverRequestAPERValue
+type HandoverRequestAPERValue = s19.HandoverRequestAPERValue
 
 // HandoverRequestAcknowledge represents the ASN.1 type HandoverRequestAcknowledge (SEQUENCE).
-type HandoverRequestAcknowledge = s19.HandoverRequestAcknowledge
+type HandoverRequestAcknowledge = s18.HandoverRequestAcknowledge
 
 // HandoverRequestAcknowledgeAPERValue is the concrete APERValue[HandoverRequestAcknowledge].
-type HandoverRequestAcknowledgeAPERValue = s19.HandoverRequestAcknowledgeAPERValue
+type HandoverRequestAcknowledgeAPERValue = s18.HandoverRequestAcknowledgeAPERValue
 
 // HandoverRequestAcknowledgeCHOinformationACKIEBinding binds CHOinformationACK to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeCHOinformationACKIEBinding = s14.HandoverRequestAcknowledgeCHOinformationACKIEBinding
 
 // HandoverRequestAcknowledgeCodec binds the complete APER value type.
-var HandoverRequestAcknowledgeCodec func() HandoverRequestAcknowledgeValueCodec = s20.HandoverRequestAcknowledgeCodec
+var HandoverRequestAcknowledgeCodec func() HandoverRequestAcknowledgeValueCodec = s19.HandoverRequestAcknowledgeCodec
 
 // HandoverRequestAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeCriticalityDiagnosticsIEBinding = s14.HandoverRequestAcknowledgeCriticalityDiagnosticsIEBinding
@@ -9770,7 +9769,7 @@ type HandoverRequestAcknowledgeIEValue = s14.HandoverRequestAcknowledgeIEValue
 var HandoverRequestAcknowledgeIEs func() HandoverRequestAcknowledgeIETable = s14.HandoverRequestAcknowledgeIEs
 
 // HandoverRequestAcknowledgeSuccessfulBinding is the concrete SuccessfulBinding[HandoverRequestAcknowledge].
-type HandoverRequestAcknowledgeSuccessfulBinding = s19.HandoverRequestAcknowledgeSuccessfulBinding
+type HandoverRequestAcknowledgeSuccessfulBinding = s18.HandoverRequestAcknowledgeSuccessfulBinding
 
 // HandoverRequestAcknowledgeTargeteNBtoSourceENBTransparentContainerIEBinding binds TargeteNBtoSourceENBTransparentContainer to ProtocolIE-Field {{HandoverRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAcknowledgeTargeteNBtoSourceENBTransparentContainerIEBinding = s14.HandoverRequestAcknowledgeTargeteNBtoSourceENBTransparentContainerIEBinding
@@ -9785,7 +9784,7 @@ type HandoverRequestAcknowledgeUEX2APIDExtensionIEBinding = s14.HandoverRequestA
 type HandoverRequestAcknowledgeUEX2APIDIEBinding = s14.HandoverRequestAcknowledgeUEX2APIDIEBinding
 
 // HandoverRequestAcknowledgeValueCodec is the concrete ValueCodec[HandoverRequestAcknowledge].
-type HandoverRequestAcknowledgeValueCodec = s19.HandoverRequestAcknowledgeValueCodec
+type HandoverRequestAcknowledgeValueCodec = s18.HandoverRequestAcknowledgeValueCodec
 
 // HandoverRequestAerialUEsubscriptionInformationIEBinding binds AerialUEsubscriptionInformation to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAerialUEsubscriptionInformationIEBinding = s18.HandoverRequestAerialUEsubscriptionInformationIEBinding
@@ -9800,7 +9799,7 @@ type HandoverRequestCSGMembershipStatusIEBinding = s18.HandoverRequestCSGMembers
 type HandoverRequestCauseIEBinding = s18.HandoverRequestCauseIEBinding
 
 // HandoverRequestCodec binds the complete APER value type.
-var HandoverRequestCodec func() HandoverRequestValueCodec = s20.HandoverRequestCodec
+var HandoverRequestCodec func() HandoverRequestValueCodec = s19.HandoverRequestCodec
 
 // HandoverRequestECGIIEBinding binds ECGI to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestECGIIEBinding = s18.HandoverRequestECGIIEBinding
@@ -9825,7 +9824,7 @@ type HandoverRequestIEValue = s18.HandoverRequestIEValue
 var HandoverRequestIEs func() HandoverRequestIETable = s18.HandoverRequestIEs
 
 // HandoverRequestInitiatingBinding is the concrete InitiatingBinding[HandoverRequest].
-type HandoverRequestInitiatingBinding = s20.HandoverRequestInitiatingBinding
+type HandoverRequestInitiatingBinding = s19.HandoverRequestInitiatingBinding
 
 // HandoverRequestMaskedIMEISVIEBinding binds MaskedIMEISV to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestMaskedIMEISVIEBinding = s18.HandoverRequestMaskedIMEISVIEBinding
@@ -9882,7 +9881,7 @@ type HandoverRequestUEX2APIDIEBinding = s18.HandoverRequestUEX2APIDIEBinding
 type HandoverRequestV2XServicesAuthorizedIEBinding = s18.HandoverRequestV2XServicesAuthorizedIEBinding
 
 // HandoverRequestValueCodec is the concrete ValueCodec[HandoverRequest].
-type HandoverRequestValueCodec = s20.HandoverRequestValueCodec
+type HandoverRequestValueCodec = s19.HandoverRequestValueCodec
 
 // HandoverRestrictionList represents the ASN.1 type HandoverRestrictionList (SEQUENCE).
 type HandoverRestrictionList = s16.HandoverRestrictionList
@@ -9926,15 +9925,15 @@ type HandoverRestrictionListExtIEsValue = s16.HandoverRestrictionListExtIEsValue
 type HandoverRestrictionListValueCodec = s16.HandoverRestrictionListValueCodec
 
 // HandoverSuccess represents the ASN.1 type HandoverSuccess (SEQUENCE).
-type HandoverSuccess = s20.HandoverSuccess
+type HandoverSuccess = s19.HandoverSuccess
 
 // HandoverSuccessAPERValue is the concrete APERValue[HandoverSuccess].
-type HandoverSuccessAPERValue = s20.HandoverSuccessAPERValue
+type HandoverSuccessAPERValue = s19.HandoverSuccessAPERValue
 
 // HandoverSuccessCodec binds the complete APER value type.
-var HandoverSuccessCodec func() HandoverSuccessValueCodec = s20.HandoverSuccessCodec
+var HandoverSuccessCodec func() HandoverSuccessValueCodec = s19.HandoverSuccessCodec
 
-type HandoverSuccessDescriptor = s20.HandoverSuccessDescriptor
+type HandoverSuccessDescriptor = s19.HandoverSuccessDescriptor
 
 // HandoverSuccessECGIIEBinding binds ECGI to ProtocolIE-Field {{HandoverSuccess-IEs}} of TS 36.423 §9.3.8.
 type HandoverSuccessECGIIEBinding = s11.HandoverSuccessECGIIEBinding
@@ -9950,9 +9949,9 @@ type HandoverSuccessIEValue = s11.HandoverSuccessIEValue
 var HandoverSuccessIEs func() HandoverSuccessIETable = s11.HandoverSuccessIEs
 
 // HandoverSuccessInitiatingBinding is the concrete InitiatingBinding[HandoverSuccess].
-type HandoverSuccessInitiatingBinding = s20.HandoverSuccessInitiatingBinding
+type HandoverSuccessInitiatingBinding = s19.HandoverSuccessInitiatingBinding
 
-var HandoverSuccessProcedure func() HandoverSuccessDescriptor = s20.HandoverSuccessProcedure
+var HandoverSuccessProcedure func() HandoverSuccessDescriptor = s19.HandoverSuccessProcedure
 
 // HandoverSuccessUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{HandoverSuccess-IEs}} of TS 36.423 §9.3.8.
 type HandoverSuccessUEX2APIDExtensionIEBinding = s11.HandoverSuccessUEX2APIDExtensionIEBinding
@@ -9961,7 +9960,7 @@ type HandoverSuccessUEX2APIDExtensionIEBinding = s11.HandoverSuccessUEX2APIDExte
 type HandoverSuccessUEX2APIDIEBinding = s11.HandoverSuccessUEX2APIDIEBinding
 
 // HandoverSuccessValueCodec is the concrete ValueCodec[HandoverSuccess].
-type HandoverSuccessValueCodec = s20.HandoverSuccessValueCodec
+type HandoverSuccessValueCodec = s19.HandoverSuccessValueCodec
 
 // IABAuthorized represents the ASN.1 ENUMERATED type IABAuthorized.
 type IABAuthorized = s00.IABAuthorized
@@ -11525,19 +11524,19 @@ const IdX2RemovalThreshold = s00.IdX2RemovalThreshold
 // IdX2Setup is the integer constant for id-x2Setup.
 const IdX2Setup = s00.IdX2Setup
 
-type InitiatingBinding[T any] = s21.InitiatingBinding[T]
+type InitiatingBinding[T any] = s20.InitiatingBinding[T]
 
 // InitiatingMessage represents the ASN.1 type InitiatingMessage (SEQUENCE).
-type InitiatingMessage = s20.InitiatingMessage
+type InitiatingMessage = s19.InitiatingMessage
 
 // InitiatingMessageAPERValue is the concrete APERValue[InitiatingMessage].
-type InitiatingMessageAPERValue = s20.InitiatingMessageAPERValue
+type InitiatingMessageAPERValue = s19.InitiatingMessageAPERValue
 
 // InitiatingMessageCodec binds the complete source value type.
-var InitiatingMessageCodec func() InitiatingMessageValueCodec = s20.InitiatingMessageCodec
+var InitiatingMessageCodec func() InitiatingMessageValueCodec = s19.InitiatingMessageCodec
 
 // InitiatingMessageValueCodec is the concrete ValueCodec[InitiatingMessage].
-type InitiatingMessageValueCodec = s20.InitiatingMessageValueCodec
+type InitiatingMessageValueCodec = s19.InitiatingMessageValueCodec
 
 // InitiatingNodeTypeEndcConfigUpdate represents the ASN.1 CHOICE type InitiatingNodeType-EndcConfigUpdate.
 type InitiatingNodeTypeEndcConfigUpdate = s18.InitiatingNodeTypeEndcConfigUpdate
@@ -11606,14 +11605,14 @@ const InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateENB = s00.I
 const InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateEnGNB = s00.InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateEnGNB
 
 // InitiatingNodeTypeEutranrCellResourceCoordinationCodec binds the complete APER value type.
-var InitiatingNodeTypeEutranrCellResourceCoordinationCodec func() InitiatingNodeTypeEutranrCellResourceCoordinationValueCodec = s16.InitiatingNodeTypeEutranrCellResourceCoordinationCodec
+var InitiatingNodeTypeEutranrCellResourceCoordinationCodec func() InitiatingNodeTypeEutranrCellResourceCoordinationValueCodec = s15.InitiatingNodeTypeEutranrCellResourceCoordinationCodec
 
 // InitiatingNodeTypeEutranrCellResourceCoordinationValueCodec is the concrete ValueCodec[InitiatingNodeTypeEutranrCellResourceCoordination].
 type InitiatingNodeTypeEutranrCellResourceCoordinationValueCodec = s15.InitiatingNodeTypeEutranrCellResourceCoordinationValueCodec
 
 var InitiatingReason func(code ProcedureCode) aper.OpaqueReason = s00.InitiatingReason
 
-type InitiatingValue = s20.InitiatingValue
+type InitiatingValue = s19.InitiatingValue
 
 // IntegrityProtectionAlgorithms represents the ASN.1 type IntegrityProtectionAlgorithms (BIT_STRING).
 type IntegrityProtectionAlgorithms = s00.IntegrityProtectionAlgorithms
@@ -11980,17 +11979,17 @@ type ListofNRCellsinNRCoordinationResp = s08.ListofNRCellsinNRCoordinationResp
 type ListofNRCellsinNRCoordinationRespAPERValue = s08.ListofNRCellsinNRCoordinationRespAPERValue
 
 // ListofNRCellsinNRCoordinationRespCodec binds the complete APER value type.
-var ListofNRCellsinNRCoordinationRespCodec func() ListofNRCellsinNRCoordinationRespValueCodec = s16.ListofNRCellsinNRCoordinationRespCodec
+var ListofNRCellsinNRCoordinationRespCodec func() ListofNRCellsinNRCoordinationRespValueCodec = s15.ListofNRCellsinNRCoordinationRespCodec
 
 // ListofNRCellsinNRCoordinationRespComplete carries a complete ListofNRCellsinNRCoordinationResp encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type ListofNRCellsinNRCoordinationRespComplete = s16.ListofNRCellsinNRCoordinationRespComplete
+type ListofNRCellsinNRCoordinationRespComplete = s15.ListofNRCellsinNRCoordinationRespComplete
 
 // ListofNRCellsinNRCoordinationRespValueCodec is the concrete ValueCodec[ListofNRCellsinNRCoordinationResp].
 type ListofNRCellsinNRCoordinationRespValueCodec = s08.ListofNRCellsinNRCoordinationRespValueCodec
-type LoadIndicationDescriptor = s20.LoadIndicationDescriptor
+type LoadIndicationDescriptor = s19.LoadIndicationDescriptor
 
-var LoadIndicationProcedure func() LoadIndicationDescriptor = s20.LoadIndicationProcedure
+var LoadIndicationProcedure func() LoadIndicationDescriptor = s19.LoadIndicationProcedure
 
 // LoadIndicator represents the ASN.1 ENUMERATED type LoadIndicator.
 type LoadIndicator = s00.LoadIndicator
@@ -12010,16 +12009,16 @@ const LoadIndicatorOverLoad = s00.LoadIndicatorOverLoad
 type LoadIndicatorValueCodec = s00.LoadIndicatorValueCodec
 
 // LoadInformation represents the ASN.1 type LoadInformation (SEQUENCE).
-type LoadInformation = s20.LoadInformation
+type LoadInformation = s19.LoadInformation
 
 // LoadInformationAPERValue is the concrete APERValue[LoadInformation].
-type LoadInformationAPERValue = s20.LoadInformationAPERValue
+type LoadInformationAPERValue = s19.LoadInformationAPERValue
 
 // LoadInformationCellInformationListIEBinding binds CellInformationList to ProtocolIE-Field {{LoadInformation-IEs}} of TS 36.423 §9.3.8.
 type LoadInformationCellInformationListIEBinding = s14.LoadInformationCellInformationListIEBinding
 
 // LoadInformationCodec binds the complete APER value type.
-var LoadInformationCodec func() LoadInformationValueCodec = s20.LoadInformationCodec
+var LoadInformationCodec func() LoadInformationValueCodec = s19.LoadInformationCodec
 
 // LoadInformationIEContainer is ProtocolIE-Container {{LoadInformation-IEs}} of TS 36.423 §9.3.8: a list of LoadInformationIEField values.
 type LoadInformationIEContainer = s14.LoadInformationIEContainer
@@ -12032,10 +12031,10 @@ type LoadInformationIEValue = s14.LoadInformationIEValue
 var LoadInformationIEs func() LoadInformationIETable = s14.LoadInformationIEs
 
 // LoadInformationInitiatingBinding is the concrete InitiatingBinding[LoadInformation].
-type LoadInformationInitiatingBinding = s20.LoadInformationInitiatingBinding
+type LoadInformationInitiatingBinding = s19.LoadInformationInitiatingBinding
 
 // LoadInformationValueCodec is the concrete ValueCodec[LoadInformation].
-type LoadInformationValueCodec = s20.LoadInformationValueCodec
+type LoadInformationValueCodec = s19.LoadInformationValueCodec
 
 // LocationInformationSgNB represents the ASN.1 type LocationInformationSgNB (SEQUENCE).
 type LocationInformationSgNB = s05.LocationInformationSgNB
@@ -12075,13 +12074,13 @@ type LocationInformationSgNBReportingValueCodec = s00.LocationInformationSgNBRep
 type LocationInformationSgNBValueCodec = s05.LocationInformationSgNBValueCodec
 
 // LocationReportingInformation represents the ASN.1 type LocationReportingInformation (SEQUENCE).
-type LocationReportingInformation = s08.LocationReportingInformation
+type LocationReportingInformation = s07.LocationReportingInformation
 
 // LocationReportingInformationAPERValue is the concrete APERValue[LocationReportingInformation].
-type LocationReportingInformationAPERValue = s08.LocationReportingInformationAPERValue
+type LocationReportingInformationAPERValue = s07.LocationReportingInformationAPERValue
 
 // LocationReportingInformationCodec binds the complete source value type.
-var LocationReportingInformationCodec func() LocationReportingInformationValueCodec = s08.LocationReportingInformationCodec
+var LocationReportingInformationCodec func() LocationReportingInformationValueCodec = s07.LocationReportingInformationCodec
 
 type LocationReportingInformationExtIETable = s07.LocationReportingInformationExtIETable
 
@@ -12098,7 +12097,7 @@ type LocationReportingInformationExtIEsExtField = s07.LocationReportingInformati
 type LocationReportingInformationExtIEsValue = s07.LocationReportingInformationExtIEsValue
 
 // LocationReportingInformationValueCodec is the concrete ValueCodec[LocationReportingInformation].
-type LocationReportingInformationValueCodec = s08.LocationReportingInformationValueCodec
+type LocationReportingInformationValueCodec = s07.LocationReportingInformationValueCodec
 
 // LowerLayerPresenceStatusChange represents the ASN.1 ENUMERATED type LowerLayerPresenceStatusChange.
 type LowerLayerPresenceStatusChange = s00.LowerLayerPresenceStatusChange
@@ -12107,7 +12106,7 @@ type LowerLayerPresenceStatusChange = s00.LowerLayerPresenceStatusChange
 type LowerLayerPresenceStatusChangeAPERValue = s00.LowerLayerPresenceStatusChangeAPERValue
 
 // LowerLayerPresenceStatusChangeCodec binds the complete APER value type.
-var LowerLayerPresenceStatusChangeCodec func() LowerLayerPresenceStatusChangeValueCodec = s09.LowerLayerPresenceStatusChangeCodec
+var LowerLayerPresenceStatusChangeCodec func() LowerLayerPresenceStatusChangeValueCodec = s08.LowerLayerPresenceStatusChangeCodec
 
 const LowerLayerPresenceStatusChangeReEstablishLowerLayers = s00.LowerLayerPresenceStatusChangeReEstablishLowerLayers
 const LowerLayerPresenceStatusChangeReleaseLowerLayers = s00.LowerLayerPresenceStatusChangeReleaseLowerLayers
@@ -12220,10 +12219,10 @@ const M3periodMs10000 = s00.M3periodMs10000
 type M3periodValueCodec = s00.M3periodValueCodec
 
 // M4Configuration represents the ASN.1 type M4Configuration (SEQUENCE).
-type M4Configuration = s08.M4Configuration
+type M4Configuration = s07.M4Configuration
 
 // M4ConfigurationAPERValue is the concrete APERValue[M4Configuration].
-type M4ConfigurationAPERValue = s08.M4ConfigurationAPERValue
+type M4ConfigurationAPERValue = s07.M4ConfigurationAPERValue
 
 // M4ConfigurationCodec binds the complete APER value type.
 var M4ConfigurationCodec func() M4ConfigurationValueCodec = s16.M4ConfigurationCodec
@@ -12243,7 +12242,7 @@ type M4ConfigurationExtIEsM4ReportAmountMDTExtBinding = s07.M4ConfigurationExtIE
 type M4ConfigurationExtIEsValue = s07.M4ConfigurationExtIEsValue
 
 // M4ConfigurationValueCodec is the concrete ValueCodec[M4Configuration].
-type M4ConfigurationValueCodec = s08.M4ConfigurationValueCodec
+type M4ConfigurationValueCodec = s07.M4ConfigurationValueCodec
 
 // M4ReportAmountMDT represents the ASN.1 ENUMERATED type M4ReportAmountMDT.
 type M4ReportAmountMDT = s00.M4ReportAmountMDT
@@ -12285,10 +12284,10 @@ const M4periodMs5120 = s00.M4periodMs5120
 type M4periodValueCodec = s00.M4periodValueCodec
 
 // M5Configuration represents the ASN.1 type M5Configuration (SEQUENCE).
-type M5Configuration = s08.M5Configuration
+type M5Configuration = s07.M5Configuration
 
 // M5ConfigurationAPERValue is the concrete APERValue[M5Configuration].
-type M5ConfigurationAPERValue = s08.M5ConfigurationAPERValue
+type M5ConfigurationAPERValue = s07.M5ConfigurationAPERValue
 
 // M5ConfigurationCodec binds the complete APER value type.
 var M5ConfigurationCodec func() M5ConfigurationValueCodec = s16.M5ConfigurationCodec
@@ -12308,7 +12307,7 @@ type M5ConfigurationExtIEsM5ReportAmountMDTExtBinding = s07.M5ConfigurationExtIE
 type M5ConfigurationExtIEsValue = s07.M5ConfigurationExtIEsValue
 
 // M5ConfigurationValueCodec is the concrete ValueCodec[M5Configuration].
-type M5ConfigurationValueCodec = s08.M5ConfigurationValueCodec
+type M5ConfigurationValueCodec = s07.M5ConfigurationValueCodec
 
 // M5ReportAmountMDT represents the ASN.1 ENUMERATED type M5ReportAmountMDT.
 type M5ReportAmountMDT = s00.M5ReportAmountMDT
@@ -12516,7 +12515,7 @@ var MBMSServiceAreaIdentityListCodec func() MBMSServiceAreaIdentityListValueCode
 
 // MBMSServiceAreaIdentityListComplete carries a complete MBMSServiceAreaIdentityList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type MBMSServiceAreaIdentityListComplete = s16.MBMSServiceAreaIdentityListComplete
+type MBMSServiceAreaIdentityListComplete = s15.MBMSServiceAreaIdentityListComplete
 
 // MBMSServiceAreaIdentityListValueCodec is the concrete ValueCodec[MBMSServiceAreaIdentityList].
 type MBMSServiceAreaIdentityListValueCodec = s00.MBMSServiceAreaIdentityListValueCodec
@@ -12556,7 +12555,7 @@ var MBSFNSubframeInfolistCodec func() MBSFNSubframeInfolistValueCodec = s16.MBSF
 
 // MBSFNSubframeInfolistComplete carries a complete MBSFNSubframeInfolist encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type MBSFNSubframeInfolistComplete = s16.MBSFNSubframeInfolistComplete
+type MBSFNSubframeInfolistComplete = s15.MBSFNSubframeInfolistComplete
 
 // MBSFNSubframeInfolistValueCodec is the concrete ValueCodec[MBSFNSubframeInfolist].
 type MBSFNSubframeInfolistValueCodec = s08.MBSFNSubframeInfolistValueCodec
@@ -12662,7 +12661,7 @@ var MDTPLMNListCodec func() MDTPLMNListValueCodec = s16.MDTPLMNListCodec
 
 // MDTPLMNListComplete carries a complete MDTPLMNList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type MDTPLMNListComplete = s16.MDTPLMNListComplete
+type MDTPLMNListComplete = s15.MDTPLMNListComplete
 
 // MDTPLMNListValueCodec is the concrete ValueCodec[MDTPLMNList].
 type MDTPLMNListValueCodec = s00.MDTPLMNListValueCodec
@@ -12752,7 +12751,7 @@ var MarshalAPERActivatedNRCellList func(v ActivatedNRCellListComplete, options .
 var MarshalAPERAdditionalListofForwardingGTPTunnelEndpoint func(v AdditionalListofForwardingGTPTunnelEndpointComplete, options ...aper.EncodeOption) ([]byte, error) = s13.MarshalAPERAdditionalListofForwardingGTPTunnelEndpoint
 
 // MarshalAPERAdditionalMeasurementTimingConfigurationList encodes a complete named list.
-var MarshalAPERAdditionalMeasurementTimingConfigurationList func(v AdditionalMeasurementTimingConfigurationListComplete, options ...aper.EncodeOption) ([]byte, error) = s14.MarshalAPERAdditionalMeasurementTimingConfigurationList
+var MarshalAPERAdditionalMeasurementTimingConfigurationList func(v AdditionalMeasurementTimingConfigurationListComplete, options ...aper.EncodeOption) ([]byte, error) = s13.MarshalAPERAdditionalMeasurementTimingConfigurationList
 
 // MarshalAPERAdditionalPLMNsItem encodes a complete named list.
 var MarshalAPERAdditionalPLMNsItem func(v AdditionalPLMNsItemComplete, options ...aper.EncodeOption) ([]byte, error) = s14.MarshalAPERAdditionalPLMNsItem
@@ -12875,10 +12874,10 @@ var MarshalAPERERABsAdmittedList func(v ERABsAdmittedListComplete, options ...ap
 var MarshalAPERERABsAdmittedToBeAddedList func(v ERABsAdmittedToBeAddedListComplete, options ...aper.EncodeOption) ([]byte, error) = s14.MarshalAPERERABsAdmittedToBeAddedList
 
 // MarshalAPERERABsAdmittedToBeAddedModAckList encodes a complete named list.
-var MarshalAPERERABsAdmittedToBeAddedModAckList func(v ERABsAdmittedToBeAddedModAckListComplete, options ...aper.EncodeOption) ([]byte, error) = s15.MarshalAPERERABsAdmittedToBeAddedModAckList
+var MarshalAPERERABsAdmittedToBeAddedModAckList func(v ERABsAdmittedToBeAddedModAckListComplete, options ...aper.EncodeOption) ([]byte, error) = s14.MarshalAPERERABsAdmittedToBeAddedModAckList
 
 // MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList encodes a complete named list.
-var MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList func(v ERABsAdmittedToBeAddedSgNBAddReqAckListComplete, options ...aper.EncodeOption) ([]byte, error) = s15.MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList
+var MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList func(v ERABsAdmittedToBeAddedSgNBAddReqAckListComplete, options ...aper.EncodeOption) ([]byte, error) = s14.MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList
 
 // MarshalAPERERABsAdmittedToBeAddedSgNBModAckList encodes a complete named list.
 var MarshalAPERERABsAdmittedToBeAddedSgNBModAckList func(v ERABsAdmittedToBeAddedSgNBModAckListComplete, options ...aper.EncodeOption) ([]byte, error) = s15.MarshalAPERERABsAdmittedToBeAddedSgNBModAckList
@@ -13013,16 +13012,16 @@ var MarshalAPERListofEUTRACellsinNRCoordinationReq func(v ListofEUTRACellsinNRCo
 var MarshalAPERListofNRCellsinNRCoordinationReq func(v ListofNRCellsinNRCoordinationReqComplete, options ...aper.EncodeOption) ([]byte, error) = s15.MarshalAPERListofNRCellsinNRCoordinationReq
 
 // MarshalAPERListofNRCellsinNRCoordinationResp encodes a complete named list.
-var MarshalAPERListofNRCellsinNRCoordinationResp func(v ListofNRCellsinNRCoordinationRespComplete, options ...aper.EncodeOption) ([]byte, error) = s16.MarshalAPERListofNRCellsinNRCoordinationResp
+var MarshalAPERListofNRCellsinNRCoordinationResp func(v ListofNRCellsinNRCoordinationRespComplete, options ...aper.EncodeOption) ([]byte, error) = s15.MarshalAPERListofNRCellsinNRCoordinationResp
 
 // MarshalAPERMBMSServiceAreaIdentityList encodes a complete named list.
-var MarshalAPERMBMSServiceAreaIdentityList func(v MBMSServiceAreaIdentityListComplete, options ...aper.EncodeOption) ([]byte, error) = s16.MarshalAPERMBMSServiceAreaIdentityList
+var MarshalAPERMBMSServiceAreaIdentityList func(v MBMSServiceAreaIdentityListComplete, options ...aper.EncodeOption) ([]byte, error) = s15.MarshalAPERMBMSServiceAreaIdentityList
 
 // MarshalAPERMBSFNSubframeInfolist encodes a complete named list.
-var MarshalAPERMBSFNSubframeInfolist func(v MBSFNSubframeInfolistComplete, options ...aper.EncodeOption) ([]byte, error) = s16.MarshalAPERMBSFNSubframeInfolist
+var MarshalAPERMBSFNSubframeInfolist func(v MBSFNSubframeInfolistComplete, options ...aper.EncodeOption) ([]byte, error) = s15.MarshalAPERMBSFNSubframeInfolist
 
 // MarshalAPERMDTPLMNList encodes a complete named list.
-var MarshalAPERMDTPLMNList func(v MDTPLMNListComplete, options ...aper.EncodeOption) ([]byte, error) = s16.MarshalAPERMDTPLMNList
+var MarshalAPERMDTPLMNList func(v MDTPLMNListComplete, options ...aper.EncodeOption) ([]byte, error) = s15.MarshalAPERMDTPLMNList
 
 // MarshalAPERMeasurementFailureCauseList encodes a complete named list.
 var MarshalAPERMeasurementFailureCauseList func(v MeasurementFailureCauseListComplete, options ...aper.EncodeOption) ([]byte, error) = s16.MarshalAPERMeasurementFailureCauseList
@@ -13124,10 +13123,10 @@ var MarshalAPERServedEUTRAcellsToDeleteListENDCConfUpd func(v ServedEUTRAcellsTo
 var MarshalAPERServedEUTRAcellsToModifyListENDCConfUpd func(v ServedEUTRAcellsToModifyListENDCConfUpdComplete, options ...aper.EncodeOption) ([]byte, error) = s17.MarshalAPERServedEUTRAcellsToModifyListENDCConfUpd
 
 // MarshalAPERServedNRCellsToActivate encodes a complete named list.
-var MarshalAPERServedNRCellsToActivate func(v ServedNRCellsToActivateComplete, options ...aper.EncodeOption) ([]byte, error) = s18.MarshalAPERServedNRCellsToActivate
+var MarshalAPERServedNRCellsToActivate func(v ServedNRCellsToActivateComplete, options ...aper.EncodeOption) ([]byte, error) = s17.MarshalAPERServedNRCellsToActivate
 
 // MarshalAPERServedNRcellsENDCX2ManagementList encodes a complete named list.
-var MarshalAPERServedNRcellsENDCX2ManagementList func(v ServedNRcellsENDCX2ManagementListComplete, options ...aper.EncodeOption) ([]byte, error) = s18.MarshalAPERServedNRcellsENDCX2ManagementList
+var MarshalAPERServedNRcellsENDCX2ManagementList func(v ServedNRcellsENDCX2ManagementListComplete, options ...aper.EncodeOption) ([]byte, error) = s17.MarshalAPERServedNRcellsENDCX2ManagementList
 
 // MarshalAPERServedNRcellsToDeleteENDCConfUpdList encodes a complete named list.
 var MarshalAPERServedNRcellsToDeleteENDCConfUpdList func(v ServedNRcellsToDeleteENDCConfUpdListComplete, options ...aper.EncodeOption) ([]byte, error) = s18.MarshalAPERServedNRcellsToDeleteENDCConfUpdList
@@ -13178,13 +13177,13 @@ var MarshalAPERUEHistoryInformation func(v UEHistoryInformationComplete, options
 var MarshalAPERUEsToBeResetList func(v UEsToBeResetListComplete, options ...aper.EncodeOption) ([]byte, error) = s18.MarshalAPERUEsToBeResetList
 
 // MarshalAPERULHighInterferenceIndicationInfo encodes a complete named list.
-var MarshalAPERULHighInterferenceIndicationInfo func(v ULHighInterferenceIndicationInfoComplete, options ...aper.EncodeOption) ([]byte, error) = s21.MarshalAPERULHighInterferenceIndicationInfo
+var MarshalAPERULHighInterferenceIndicationInfo func(v ULHighInterferenceIndicationInfoComplete, options ...aper.EncodeOption) ([]byte, error) = s20.MarshalAPERULHighInterferenceIndicationInfo
 
 // MarshalAPERULInterferenceOverloadIndication encodes a complete named list.
-var MarshalAPERULInterferenceOverloadIndication func(v ULInterferenceOverloadIndicationComplete, options ...aper.EncodeOption) ([]byte, error) = s21.MarshalAPERULInterferenceOverloadIndication
+var MarshalAPERULInterferenceOverloadIndication func(v ULInterferenceOverloadIndicationComplete, options ...aper.EncodeOption) ([]byte, error) = s20.MarshalAPERULInterferenceOverloadIndication
 
 // MarshalAPERWLANMeasConfigNameList encodes a complete named list.
-var MarshalAPERWLANMeasConfigNameList func(v WLANMeasConfigNameListComplete, options ...aper.EncodeOption) ([]byte, error) = s21.MarshalAPERWLANMeasConfigNameList
+var MarshalAPERWLANMeasConfigNameList func(v WLANMeasConfigNameListComplete, options ...aper.EncodeOption) ([]byte, error) = s20.MarshalAPERWLANMeasConfigNameList
 
 // MaskedIMEISV represents the ASN.1 type Masked-IMEISV (BIT_STRING).
 type MaskedIMEISV = s00.MaskedIMEISV
@@ -13474,21 +13473,21 @@ type MeNBResourceCoordinationInformationExtIEsValue = s07.MeNBResourceCoordinati
 
 // MeNBResourceCoordinationInformationValueCodec is the concrete ValueCodec[MeNBResourceCoordinationInformation].
 type MeNBResourceCoordinationInformationValueCodec = s08.MeNBResourceCoordinationInformationValueCodec
-type MeNBinitiatedSeNBModificationPreparationDescriptor = s20.MeNBinitiatedSeNBModificationPreparationDescriptor
+type MeNBinitiatedSeNBModificationPreparationDescriptor = s19.MeNBinitiatedSeNBModificationPreparationDescriptor
 
-var MeNBinitiatedSeNBModificationPreparationProcedure func() MeNBinitiatedSeNBModificationPreparationDescriptor = s20.MeNBinitiatedSeNBModificationPreparationProcedure
+var MeNBinitiatedSeNBModificationPreparationProcedure func() MeNBinitiatedSeNBModificationPreparationDescriptor = s19.MeNBinitiatedSeNBModificationPreparationProcedure
 
-type MeNBinitiatedSeNBReleaseDescriptor = s20.MeNBinitiatedSeNBReleaseDescriptor
+type MeNBinitiatedSeNBReleaseDescriptor = s19.MeNBinitiatedSeNBReleaseDescriptor
 
-var MeNBinitiatedSeNBReleaseProcedure func() MeNBinitiatedSeNBReleaseDescriptor = s20.MeNBinitiatedSeNBReleaseProcedure
+var MeNBinitiatedSeNBReleaseProcedure func() MeNBinitiatedSeNBReleaseDescriptor = s19.MeNBinitiatedSeNBReleaseProcedure
 
-type MeNBinitiatedSgNBModificationPreparationDescriptor = s21.MeNBinitiatedSgNBModificationPreparationDescriptor
+type MeNBinitiatedSgNBModificationPreparationDescriptor = s19.MeNBinitiatedSgNBModificationPreparationDescriptor
 
-var MeNBinitiatedSgNBModificationPreparationProcedure func() MeNBinitiatedSgNBModificationPreparationDescriptor = s21.MeNBinitiatedSgNBModificationPreparationProcedure
+var MeNBinitiatedSgNBModificationPreparationProcedure func() MeNBinitiatedSgNBModificationPreparationDescriptor = s19.MeNBinitiatedSgNBModificationPreparationProcedure
 
-type MeNBinitiatedSgNBReleaseDescriptor = s21.MeNBinitiatedSgNBReleaseDescriptor
+type MeNBinitiatedSgNBReleaseDescriptor = s20.MeNBinitiatedSgNBReleaseDescriptor
 
-var MeNBinitiatedSgNBReleaseProcedure func() MeNBinitiatedSgNBReleaseDescriptor = s21.MeNBinitiatedSgNBReleaseProcedure
+var MeNBinitiatedSgNBReleaseProcedure func() MeNBinitiatedSgNBReleaseDescriptor = s20.MeNBinitiatedSgNBReleaseProcedure
 
 // MeNBtoSeNBContainer represents the ASN.1 type MeNBtoSeNBContainer (OCTET_STRING).
 type MeNBtoSeNBContainer = s00.MeNBtoSeNBContainer
@@ -13737,13 +13736,13 @@ type MessageOversizeNotificationValueCodec = s05.MessageOversizeNotificationValu
 const MissingMandatory = s00.MissingMandatory
 
 // MobilityChangeAcknowledge represents the ASN.1 type MobilityChangeAcknowledge (SEQUENCE).
-type MobilityChangeAcknowledge = s19.MobilityChangeAcknowledge
+type MobilityChangeAcknowledge = s18.MobilityChangeAcknowledge
 
 // MobilityChangeAcknowledgeAPERValue is the concrete APERValue[MobilityChangeAcknowledge].
-type MobilityChangeAcknowledgeAPERValue = s19.MobilityChangeAcknowledgeAPERValue
+type MobilityChangeAcknowledgeAPERValue = s18.MobilityChangeAcknowledgeAPERValue
 
 // MobilityChangeAcknowledgeCodec binds the complete APER value type.
-var MobilityChangeAcknowledgeCodec func() MobilityChangeAcknowledgeValueCodec = s20.MobilityChangeAcknowledgeCodec
+var MobilityChangeAcknowledgeCodec func() MobilityChangeAcknowledgeValueCodec = s19.MobilityChangeAcknowledgeCodec
 
 // MobilityChangeAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{MobilityChangeAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type MobilityChangeAcknowledgeCriticalityDiagnosticsIEBinding = s07.MobilityChangeAcknowledgeCriticalityDiagnosticsIEBinding
@@ -13762,10 +13761,10 @@ type MobilityChangeAcknowledgeIEValue = s07.MobilityChangeAcknowledgeIEValue
 var MobilityChangeAcknowledgeIEs func() MobilityChangeAcknowledgeIETable = s07.MobilityChangeAcknowledgeIEs
 
 // MobilityChangeAcknowledgeSuccessfulBinding is the concrete SuccessfulBinding[MobilityChangeAcknowledge].
-type MobilityChangeAcknowledgeSuccessfulBinding = s19.MobilityChangeAcknowledgeSuccessfulBinding
+type MobilityChangeAcknowledgeSuccessfulBinding = s18.MobilityChangeAcknowledgeSuccessfulBinding
 
 // MobilityChangeAcknowledgeValueCodec is the concrete ValueCodec[MobilityChangeAcknowledge].
-type MobilityChangeAcknowledgeValueCodec = s19.MobilityChangeAcknowledgeValueCodec
+type MobilityChangeAcknowledgeValueCodec = s18.MobilityChangeAcknowledgeValueCodec
 
 // MobilityChangeFailure represents the ASN.1 type MobilityChangeFailure (SEQUENCE).
 type MobilityChangeFailure = s14.MobilityChangeFailure
@@ -13777,7 +13776,7 @@ type MobilityChangeFailureAPERValue = s14.MobilityChangeFailureAPERValue
 type MobilityChangeFailureCauseIEBinding = s07.MobilityChangeFailureCauseIEBinding
 
 // MobilityChangeFailureCodec binds the complete APER value type.
-var MobilityChangeFailureCodec func() MobilityChangeFailureValueCodec = s20.MobilityChangeFailureCodec
+var MobilityChangeFailureCodec func() MobilityChangeFailureValueCodec = s19.MobilityChangeFailureCodec
 
 // MobilityChangeFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{MobilityChangeFailure-IEs}} of TS 36.423 §9.3.8.
 type MobilityChangeFailureCriticalityDiagnosticsIEBinding = s07.MobilityChangeFailureCriticalityDiagnosticsIEBinding
@@ -13805,16 +13804,16 @@ type MobilityChangeFailureUnsuccessfulBinding = s14.MobilityChangeFailureUnsucce
 type MobilityChangeFailureValueCodec = s14.MobilityChangeFailureValueCodec
 
 // MobilityChangeRequest represents the ASN.1 type MobilityChangeRequest (SEQUENCE).
-type MobilityChangeRequest = s20.MobilityChangeRequest
+type MobilityChangeRequest = s19.MobilityChangeRequest
 
 // MobilityChangeRequestAPERValue is the concrete APERValue[MobilityChangeRequest].
-type MobilityChangeRequestAPERValue = s20.MobilityChangeRequestAPERValue
+type MobilityChangeRequestAPERValue = s19.MobilityChangeRequestAPERValue
 
 // MobilityChangeRequestCauseIEBinding binds Cause to ProtocolIE-Field {{MobilityChangeRequest-IEs}} of TS 36.423 §9.3.8.
 type MobilityChangeRequestCauseIEBinding = s07.MobilityChangeRequestCauseIEBinding
 
 // MobilityChangeRequestCodec binds the complete APER value type.
-var MobilityChangeRequestCodec func() MobilityChangeRequestValueCodec = s20.MobilityChangeRequestCodec
+var MobilityChangeRequestCodec func() MobilityChangeRequestValueCodec = s19.MobilityChangeRequestCodec
 
 // MobilityChangeRequestECGIIEBinding binds ECGI to ProtocolIE-Field {{MobilityChangeRequest-IEs}} of TS 36.423 §9.3.8.
 type MobilityChangeRequestECGIIEBinding = s07.MobilityChangeRequestECGIIEBinding
@@ -13830,13 +13829,13 @@ type MobilityChangeRequestIEValue = s07.MobilityChangeRequestIEValue
 var MobilityChangeRequestIEs func() MobilityChangeRequestIETable = s07.MobilityChangeRequestIEs
 
 // MobilityChangeRequestInitiatingBinding is the concrete InitiatingBinding[MobilityChangeRequest].
-type MobilityChangeRequestInitiatingBinding = s20.MobilityChangeRequestInitiatingBinding
+type MobilityChangeRequestInitiatingBinding = s19.MobilityChangeRequestInitiatingBinding
 
 // MobilityChangeRequestMobilityParametersInformationIEBinding binds MobilityParametersInformation to ProtocolIE-Field {{MobilityChangeRequest-IEs}} of TS 36.423 §9.3.8.
 type MobilityChangeRequestMobilityParametersInformationIEBinding = s07.MobilityChangeRequestMobilityParametersInformationIEBinding
 
 // MobilityChangeRequestValueCodec is the concrete ValueCodec[MobilityChangeRequest].
-type MobilityChangeRequestValueCodec = s20.MobilityChangeRequestValueCodec
+type MobilityChangeRequestValueCodec = s19.MobilityChangeRequestValueCodec
 
 // MobilityInformation represents the ASN.1 type MobilityInformation (BIT_STRING).
 type MobilityInformation = s00.MobilityInformation
@@ -13873,9 +13872,9 @@ var MobilityParametersModificationRangeCodec func() MobilityParametersModificati
 
 // MobilityParametersModificationRangeValueCodec is the concrete ValueCodec[MobilityParametersModificationRange].
 type MobilityParametersModificationRangeValueCodec = s00.MobilityParametersModificationRangeValueCodec
-type MobilitySettingsChangeDescriptor = s20.MobilitySettingsChangeDescriptor
+type MobilitySettingsChangeDescriptor = s19.MobilitySettingsChangeDescriptor
 
-var MobilitySettingsChangeProcedure func() MobilitySettingsChangeDescriptor = s20.MobilitySettingsChangeProcedure
+var MobilitySettingsChangeProcedure func() MobilitySettingsChangeDescriptor = s19.MobilitySettingsChangeProcedure
 
 type MultibandInfoList = s08.MultibandInfoList
 
@@ -14338,23 +14337,23 @@ type NRNeighbourInformationExtIETable = s14.NRNeighbourInformationExtIETable
 var NRNeighbourInformationExtIEs func() NRNeighbourInformationExtIETable = s14.NRNeighbourInformationExtIEs
 
 // NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding binds AdditionalMeasurementTimingConfigurationList to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
-type NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding = s14.NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding
+type NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding = s13.NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding
 
 // NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding binds CSIRSTransmissionIndication to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
-type NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding = s14.NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding
+type NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding = s13.NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding
 
 // NRNeighbourInformationExtIEsExtContainer is ProtocolExtensionContainer {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8: a list of NRNeighbourInformationExtIEsExtField values.
-type NRNeighbourInformationExtIEsExtContainer = s14.NRNeighbourInformationExtIEsExtContainer
+type NRNeighbourInformationExtIEsExtContainer = s13.NRNeighbourInformationExtIEsExtContainer
 
 // NRNeighbourInformationExtIEsExtField is ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
-type NRNeighbourInformationExtIEsExtField = s14.NRNeighbourInformationExtIEsExtField
+type NRNeighbourInformationExtIEsExtField = s13.NRNeighbourInformationExtIEsExtField
 
 // NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding binds NRCellPRACHConfig to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
-type NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding = s14.NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding
+type NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding = s13.NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding
 
 // NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding binds SSBPositionsInBurst to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
-type NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding = s14.NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding
-type NRNeighbourInformationExtIEsValue = s14.NRNeighbourInformationExtIEsValue
+type NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding = s13.NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding
+type NRNeighbourInformationExtIEsValue = s13.NRNeighbourInformationExtIEsValue
 
 // NRNeighbourInformationValueCodec is the concrete ValueCodec[NRNeighbourInformation].
 type NRNeighbourInformationValueCodec = s16.NRNeighbourInformationValueCodec
@@ -14688,22 +14687,22 @@ var NeighbourInformationElemCodec func() NeighbourInformationElemValueCodec = s0
 
 // NeighbourInformationElemValueCodec is the concrete ValueCodec[NeighbourInformationElem].
 type NeighbourInformationElemValueCodec = s09.NeighbourInformationElemValueCodec
-type NeighbourInformationExtIETable = s09.NeighbourInformationExtIETable
+type NeighbourInformationExtIETable = s08.NeighbourInformationExtIETable
 
-var NeighbourInformationExtIEs func() NeighbourInformationExtIETable = s09.NeighbourInformationExtIEs
+var NeighbourInformationExtIEs func() NeighbourInformationExtIETable = s08.NeighbourInformationExtIEs
 
 // NeighbourInformationExtIEsEARFCNExtensionExtBinding binds EARFCNExtension to ProtocolExtensionField {{Neighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
-type NeighbourInformationExtIEsEARFCNExtensionExtBinding = s09.NeighbourInformationExtIEsEARFCNExtensionExtBinding
+type NeighbourInformationExtIEsEARFCNExtensionExtBinding = s08.NeighbourInformationExtIEsEARFCNExtensionExtBinding
 
 // NeighbourInformationExtIEsExtContainer is ProtocolExtensionContainer {{Neighbour-Information-ExtIEs}} of TS 36.423 §9.3.8: a list of NeighbourInformationExtIEsExtField values.
-type NeighbourInformationExtIEsExtContainer = s09.NeighbourInformationExtIEsExtContainer
+type NeighbourInformationExtIEsExtContainer = s08.NeighbourInformationExtIEsExtContainer
 
 // NeighbourInformationExtIEsExtField is ProtocolExtensionField {{Neighbour-Information-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
-type NeighbourInformationExtIEsExtField = s09.NeighbourInformationExtIEsExtField
+type NeighbourInformationExtIEsExtField = s08.NeighbourInformationExtIEsExtField
 
 // NeighbourInformationExtIEsTACExtBinding binds TAC to ProtocolExtensionField {{Neighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
-type NeighbourInformationExtIEsTACExtBinding = s09.NeighbourInformationExtIEsTACExtBinding
-type NeighbourInformationExtIEsValue = s09.NeighbourInformationExtIEsValue
+type NeighbourInformationExtIEsTACExtBinding = s08.NeighbourInformationExtIEsTACExtBinding
+type NeighbourInformationExtIEsValue = s08.NeighbourInformationExtIEsValue
 
 // NeighbourInformationValueCodec is the concrete ValueCodec[NeighbourInformation].
 type NeighbourInformationValueCodec = s09.NeighbourInformationValueCodec
@@ -14719,7 +14718,7 @@ var NewABSInformationTdd func(v ABSInformationTDD, options ...aper.BuildOption) 
 
 // NewABSInformationUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewABSInformationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ABSInformation, error) = s00.NewABSInformationUnknownExtension
-var NewAccessAndMobilityIndication func(fields AccessAndMobilityIndicationIEContainer, options ...aper.BuildOption) (AccessAndMobilityIndication, error) = s20.NewAccessAndMobilityIndication
+var NewAccessAndMobilityIndication func(fields AccessAndMobilityIndicationIEContainer, options ...aper.BuildOption) (AccessAndMobilityIndication, error) = s19.NewAccessAndMobilityIndication
 
 // NewAreaScopeOfMDTCellBased constructs a checked complete value.
 var NewAreaScopeOfMDTCellBased func(v CellBasedMDT, options ...aper.BuildOption) (AreaScopeOfMDT, error) = s09.NewAreaScopeOfMDTCellBased
@@ -14750,7 +14749,7 @@ var NewAreaScopeOfQMCTAIBased func(v TAIBasedQMC, options ...aper.BuildOption) (
 
 // NewAreaScopeOfQMCUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewAreaScopeOfQMCUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (AreaScopeOfQMC, error) = s09.NewAreaScopeOfQMCUnknownExtension
-var NewCPCCancel func(fields CPCCancelIEContainer, options ...aper.BuildOption) (CPCCancel, error) = s20.NewCPCCancel
+var NewCPCCancel func(fields CPCCancelIEContainer, options ...aper.BuildOption) (CPCCancel, error) = s19.NewCPCCancel
 
 // NewCPTransportLayerInformationEndpointIPAddress constructs a checked complete value.
 var NewCPTransportLayerInformationEndpointIPAddress func(v TransportLayerAddress, options ...aper.BuildOption) (CPTransportLayerInformation, error) = s11.NewCPTransportLayerInformationEndpointIPAddress
@@ -14776,8 +14775,8 @@ var NewCauseTransport func(v CauseTransport, options ...aper.BuildOption) (Cause
 // NewCauseUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewCauseUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (Cause, error) = s00.NewCauseUnknownExtension
 var NewCellActivationFailure func(fields CellActivationFailureIEContainer, options ...aper.BuildOption) (CellActivationFailure, error) = s14.NewCellActivationFailure
-var NewCellActivationRequest func(fields CellActivationRequestIEContainer, options ...aper.BuildOption) (CellActivationRequest, error) = s20.NewCellActivationRequest
-var NewCellActivationResponse func(fields CellActivationResponseIEContainer, options ...aper.BuildOption) (CellActivationResponse, error) = s20.NewCellActivationResponse
+var NewCellActivationRequest func(fields CellActivationRequestIEContainer, options ...aper.BuildOption) (CellActivationRequest, error) = s19.NewCellActivationRequest
+var NewCellActivationResponse func(fields CellActivationResponseIEContainer, options ...aper.BuildOption) (CellActivationResponse, error) = s19.NewCellActivationResponse
 
 // NewCellAssistanceInformationFullList constructs a checked complete value.
 var NewCellAssistanceInformationFullList func(v int64, options ...aper.BuildOption) (CellAssistanceInformation, error) = s08.NewCellAssistanceInformationFullList
@@ -14787,8 +14786,8 @@ var NewCellAssistanceInformationLimitedList func(v LimitedList, options ...aper.
 
 // NewCellAssistanceInformationUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewCellAssistanceInformationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (CellAssistanceInformation, error) = s08.NewCellAssistanceInformationUnknownExtension
-var NewCellTrafficTrace func(fields CellTrafficTraceIEContainer, options ...aper.BuildOption) (CellTrafficTrace, error) = s20.NewCellTrafficTrace
-var NewConditionalHandoverCancel func(fields ConditionalHandoverCancelIEContainer, options ...aper.BuildOption) (ConditionalHandoverCancel, error) = s20.NewConditionalHandoverCancel
+var NewCellTrafficTrace func(fields CellTrafficTraceIEContainer, options ...aper.BuildOption) (CellTrafficTrace, error) = s19.NewCellTrafficTrace
+var NewConditionalHandoverCancel func(fields ConditionalHandoverCancelIEContainer, options ...aper.BuildOption) (ConditionalHandoverCancel, error) = s19.NewConditionalHandoverCancel
 
 // NewDLResourcesULandDLSharingChanged constructs a checked complete value.
 var NewDLResourcesULandDLSharingChanged func(v DLResourceBitmapULandDLSharing, options ...aper.BuildOption) (DLResourcesULandDLSharing, error) = s00.NewDLResourcesULandDLSharingChanged
@@ -14813,8 +14812,8 @@ const NewDRBIDrequestTrue = s00.NewDRBIDrequestTrue
 // NewDRBIDrequestValueCodec is the concrete ValueCodec[NewDRBIDrequest].
 type NewDRBIDrequestValueCodec = s00.NewDRBIDrequestValueCodec
 
-var NewDataForwardingAddressIndication func(fields DataForwardingAddressIndicationIEContainer, options ...aper.BuildOption) (DataForwardingAddressIndication, error) = s20.NewDataForwardingAddressIndication
-var NewDeactivateTrace func(fields DeactivateTraceIEContainer, options ...aper.BuildOption) (DeactivateTrace, error) = s20.NewDeactivateTrace
+var NewDataForwardingAddressIndication func(fields DataForwardingAddressIndicationIEContainer, options ...aper.BuildOption) (DataForwardingAddressIndication, error) = s19.NewDataForwardingAddressIndication
+var NewDeactivateTrace func(fields DeactivateTraceIEContainer, options ...aper.BuildOption) (DeactivateTrace, error) = s19.NewDeactivateTrace
 
 // NewDynamicDLTransmissionInformationNaicsActive constructs a checked complete value.
 var NewDynamicDLTransmissionInformationNaicsActive func(v DynamicNAICSInformation, options ...aper.BuildOption) (DynamicDLTransmissionInformation, error) = s05.NewDynamicDLTransmissionInformationNaicsActive
@@ -14824,8 +14823,8 @@ var NewDynamicDLTransmissionInformationNaicsInactive func(v struct{}, options ..
 
 // NewDynamicDLTransmissionInformationUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewDynamicDLTransmissionInformationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (DynamicDLTransmissionInformation, error) = s04.NewDynamicDLTransmissionInformationUnknownExtension
-var NewENBConfigurationUpdate func(fields ENBConfigurationUpdateIEContainer, options ...aper.BuildOption) (ENBConfigurationUpdate, error) = s20.NewENBConfigurationUpdate
-var NewENBConfigurationUpdateAcknowledge func(fields ENBConfigurationUpdateAcknowledgeIEContainer, options ...aper.BuildOption) (ENBConfigurationUpdateAcknowledge, error) = s20.NewENBConfigurationUpdateAcknowledge
+var NewENBConfigurationUpdate func(fields ENBConfigurationUpdateIEContainer, options ...aper.BuildOption) (ENBConfigurationUpdate, error) = s19.NewENBConfigurationUpdate
+var NewENBConfigurationUpdateAcknowledge func(fields ENBConfigurationUpdateAcknowledgeIEContainer, options ...aper.BuildOption) (ENBConfigurationUpdateAcknowledge, error) = s19.NewENBConfigurationUpdateAcknowledge
 var NewENBConfigurationUpdateFailure func(fields ENBConfigurationUpdateFailureIEContainer, options ...aper.BuildOption) (ENBConfigurationUpdateFailure, error) = s14.NewENBConfigurationUpdateFailure
 
 // NewENBIDHomeENBID constructs a checked complete value.
@@ -14843,24 +14842,24 @@ var NewENBIDShortMacroENBID func(v runtime.BitString, options ...aper.BuildOptio
 // NewENBIDUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewENBIDUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ENBID, error) = s00.NewENBIDUnknownExtension
 var NewENDCCellActivationFailure func(fields ENDCCellActivationFailureIEContainer, options ...aper.BuildOption) (ENDCCellActivationFailure, error) = s14.NewENDCCellActivationFailure
-var NewENDCCellActivationRequest func(fields ENDCCellActivationRequestIEContainer, options ...aper.BuildOption) (ENDCCellActivationRequest, error) = s20.NewENDCCellActivationRequest
-var NewENDCCellActivationResponse func(fields ENDCCellActivationResponseIEContainer, options ...aper.BuildOption) (ENDCCellActivationResponse, error) = s20.NewENDCCellActivationResponse
-var NewENDCConfigurationTransfer func(fields ENDCConfigurationTransferIEContainer, options ...aper.BuildOption) (ENDCConfigurationTransfer, error) = s20.NewENDCConfigurationTransfer
-var NewENDCConfigurationUpdate func(fields ENDCConfigurationUpdateIEContainer, options ...aper.BuildOption) (ENDCConfigurationUpdate, error) = s20.NewENDCConfigurationUpdate
-var NewENDCConfigurationUpdateAcknowledge func(fields ENDCConfigurationUpdateAcknowledgeIEContainer, options ...aper.BuildOption) (ENDCConfigurationUpdateAcknowledge, error) = s20.NewENDCConfigurationUpdateAcknowledge
+var NewENDCCellActivationRequest func(fields ENDCCellActivationRequestIEContainer, options ...aper.BuildOption) (ENDCCellActivationRequest, error) = s19.NewENDCCellActivationRequest
+var NewENDCCellActivationResponse func(fields ENDCCellActivationResponseIEContainer, options ...aper.BuildOption) (ENDCCellActivationResponse, error) = s19.NewENDCCellActivationResponse
+var NewENDCConfigurationTransfer func(fields ENDCConfigurationTransferIEContainer, options ...aper.BuildOption) (ENDCConfigurationTransfer, error) = s19.NewENDCConfigurationTransfer
+var NewENDCConfigurationUpdate func(fields ENDCConfigurationUpdateIEContainer, options ...aper.BuildOption) (ENDCConfigurationUpdate, error) = s19.NewENDCConfigurationUpdate
+var NewENDCConfigurationUpdateAcknowledge func(fields ENDCConfigurationUpdateAcknowledgeIEContainer, options ...aper.BuildOption) (ENDCConfigurationUpdateAcknowledge, error) = s19.NewENDCConfigurationUpdateAcknowledge
 var NewENDCConfigurationUpdateFailure func(fields ENDCConfigurationUpdateFailureIEContainer, options ...aper.BuildOption) (ENDCConfigurationUpdateFailure, error) = s14.NewENDCConfigurationUpdateFailure
-var NewENDCPartialResetConfirm func(fields ENDCPartialResetConfirmIEContainer, options ...aper.BuildOption) (ENDCPartialResetConfirm, error) = s20.NewENDCPartialResetConfirm
-var NewENDCPartialResetRequired func(fields ENDCPartialResetRequiredIEContainer, options ...aper.BuildOption) (ENDCPartialResetRequired, error) = s20.NewENDCPartialResetRequired
+var NewENDCPartialResetConfirm func(fields ENDCPartialResetConfirmIEContainer, options ...aper.BuildOption) (ENDCPartialResetConfirm, error) = s19.NewENDCPartialResetConfirm
+var NewENDCPartialResetRequired func(fields ENDCPartialResetRequiredIEContainer, options ...aper.BuildOption) (ENDCPartialResetRequired, error) = s19.NewENDCPartialResetRequired
 var NewENDCResourceStatusFailure func(fields ENDCResourceStatusFailureIEContainer, options ...aper.BuildOption) (ENDCResourceStatusFailure, error) = s14.NewENDCResourceStatusFailure
-var NewENDCResourceStatusRequest func(fields ENDCResourceStatusRequestIEContainer, options ...aper.BuildOption) (ENDCResourceStatusRequest, error) = s20.NewENDCResourceStatusRequest
-var NewENDCResourceStatusResponse func(fields ENDCResourceStatusResponseIEContainer, options ...aper.BuildOption) (ENDCResourceStatusResponse, error) = s20.NewENDCResourceStatusResponse
-var NewENDCResourceStatusUpdate func(fields ENDCResourceStatusUpdateIEContainer, options ...aper.BuildOption) (ENDCResourceStatusUpdate, error) = s20.NewENDCResourceStatusUpdate
+var NewENDCResourceStatusRequest func(fields ENDCResourceStatusRequestIEContainer, options ...aper.BuildOption) (ENDCResourceStatusRequest, error) = s19.NewENDCResourceStatusRequest
+var NewENDCResourceStatusResponse func(fields ENDCResourceStatusResponseIEContainer, options ...aper.BuildOption) (ENDCResourceStatusResponse, error) = s19.NewENDCResourceStatusResponse
+var NewENDCResourceStatusUpdate func(fields ENDCResourceStatusUpdateIEContainer, options ...aper.BuildOption) (ENDCResourceStatusUpdate, error) = s19.NewENDCResourceStatusUpdate
 var NewENDCX2RemovalFailure func(fields ENDCX2RemovalFailureIEContainer, options ...aper.BuildOption) (ENDCX2RemovalFailure, error) = s14.NewENDCX2RemovalFailure
-var NewENDCX2RemovalRequest func(fields ENDCX2RemovalRequestIEContainer, options ...aper.BuildOption) (ENDCX2RemovalRequest, error) = s20.NewENDCX2RemovalRequest
-var NewENDCX2RemovalResponse func(fields ENDCX2RemovalResponseIEContainer, options ...aper.BuildOption) (ENDCX2RemovalResponse, error) = s20.NewENDCX2RemovalResponse
+var NewENDCX2RemovalRequest func(fields ENDCX2RemovalRequestIEContainer, options ...aper.BuildOption) (ENDCX2RemovalRequest, error) = s19.NewENDCX2RemovalRequest
+var NewENDCX2RemovalResponse func(fields ENDCX2RemovalResponseIEContainer, options ...aper.BuildOption) (ENDCX2RemovalResponse, error) = s19.NewENDCX2RemovalResponse
 var NewENDCX2SetupFailure func(fields ENDCX2SetupFailureIEContainer, options ...aper.BuildOption) (ENDCX2SetupFailure, error) = s14.NewENDCX2SetupFailure
-var NewENDCX2SetupRequest func(fields ENDCX2SetupRequestIEContainer, options ...aper.BuildOption) (ENDCX2SetupRequest, error) = s20.NewENDCX2SetupRequest
-var NewENDCX2SetupResponse func(fields ENDCX2SetupResponseIEContainer, options ...aper.BuildOption) (ENDCX2SetupResponse, error) = s20.NewENDCX2SetupResponse
+var NewENDCX2SetupRequest func(fields ENDCX2SetupRequestIEContainer, options ...aper.BuildOption) (ENDCX2SetupRequest, error) = s19.NewENDCX2SetupRequest
+var NewENDCX2SetupResponse func(fields ENDCX2SetupResponseIEContainer, options ...aper.BuildOption) (ENDCX2SetupResponse, error) = s19.NewENDCX2SetupResponse
 
 // NewERABsAdmittedToBeAddedItemSCGBearer constructs a checked complete value.
 var NewERABsAdmittedToBeAddedItemSCGBearer func(v ERABsAdmittedToBeAddedItemSCGBearer, options ...aper.BuildOption) (ERABsAdmittedToBeAddedItem, error) = s11.NewERABsAdmittedToBeAddedItemSCGBearer
@@ -14995,7 +14994,7 @@ var NewERABsToBeModifiedSgNBModReqItemResourceConfigurationSgNBPDCPnotpresent fu
 var NewERABsToBeModifiedSgNBModReqItemResourceConfigurationSgNBPDCPpresent func(v ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent, options ...aper.BuildOption) (ERABsToBeModifiedSgNBModReqItemResourceConfiguration, error) = s11.NewERABsToBeModifiedSgNBModReqItemResourceConfigurationSgNBPDCPpresent
 
 // NewERABsToBeModifiedSgNBModReqItemResourceConfigurationUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewERABsToBeModifiedSgNBModReqItemResourceConfigurationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ERABsToBeModifiedSgNBModReqItemResourceConfiguration, error) = s11.NewERABsToBeModifiedSgNBModReqItemResourceConfigurationUnknownExtension
+var NewERABsToBeModifiedSgNBModReqItemResourceConfigurationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ERABsToBeModifiedSgNBModReqItemResourceConfiguration, error) = s10.NewERABsToBeModifiedSgNBModReqItemResourceConfigurationUnknownExtension
 
 // NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationSgNBPDCPnotpresent constructs a checked complete value.
 var NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationSgNBPDCPnotpresent func(v ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent, options ...aper.BuildOption) (ERABsToBeModifiedSgNBModReqdItemResourceConfiguration, error) = s11.NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationSgNBPDCPnotpresent
@@ -15004,7 +15003,7 @@ var NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationSgNBPDCPnotpresent f
 var NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationSgNBPDCPpresent func(v ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent, options ...aper.BuildOption) (ERABsToBeModifiedSgNBModReqdItemResourceConfiguration, error) = s11.NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationSgNBPDCPpresent
 
 // NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ERABsToBeModifiedSgNBModReqdItemResourceConfiguration, error) = s10.NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationUnknownExtension
+var NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ERABsToBeModifiedSgNBModReqdItemResourceConfiguration, error) = s09.NewERABsToBeModifiedSgNBModReqdItemResourceConfigurationUnknownExtension
 
 // NewERABsToBeReleasedModReqItemSCGBearer constructs a checked complete value.
 var NewERABsToBeReleasedModReqItemSCGBearer func(v ERABsToBeReleasedModReqItemSCGBearer, options ...aper.BuildOption) (ERABsToBeReleasedModReqItem, error) = s11.NewERABsToBeReleasedModReqItemSCGBearer
@@ -15034,13 +15033,13 @@ var NewERABsToBeReleasedRelReqItemSplitBearer func(v ERABsToBeReleasedRelReqItem
 var NewERABsToBeReleasedRelReqItemUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ERABsToBeReleasedRelReqItem, error) = s10.NewERABsToBeReleasedRelReqItemUnknownExtension
 
 // NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent constructs a checked complete value.
-var NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent func(v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent, options ...aper.BuildOption) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error) = s14.NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent
+var NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent func(v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent, options ...aper.BuildOption) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error) = s13.NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent
 
 // NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent constructs a checked complete value.
-var NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent func(v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, options ...aper.BuildOption) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error) = s14.NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent
+var NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent func(v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, options ...aper.BuildOption) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error) = s13.NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent
 
 // NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error) = s14.NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension
+var NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error) = s13.NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension
 
 // NewERABsToBeReleasedSgNBModReqItemResourceConfigurationSgNBPDCPnotpresent constructs a checked complete value.
 var NewERABsToBeReleasedSgNBModReqItemResourceConfigurationSgNBPDCPnotpresent func(v ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent, options ...aper.BuildOption) (ERABsToBeReleasedSgNBModReqItemResourceConfiguration, error) = s11.NewERABsToBeReleasedSgNBModReqItemResourceConfigurationSgNBPDCPnotpresent
@@ -15077,30 +15076,30 @@ var NewEUTRAModeInfoTDD func(v TDDInfo, options ...aper.BuildOption) (EUTRAModeI
 
 // NewEUTRAModeInfoUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewEUTRAModeInfoUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (EUTRAModeInfo, error) = s08.NewEUTRAModeInfoUnknownExtension
-var NewEUTRANRCellResourceCoordinationRequest func(fields EUTRANRCellResourceCoordinationRequestIEContainer, options ...aper.BuildOption) (EUTRANRCellResourceCoordinationRequest, error) = s20.NewEUTRANRCellResourceCoordinationRequest
-var NewEUTRANRCellResourceCoordinationResponse func(fields EUTRANRCellResourceCoordinationResponseIEContainer, options ...aper.BuildOption) (EUTRANRCellResourceCoordinationResponse, error) = s20.NewEUTRANRCellResourceCoordinationResponse
-var NewEarlyStatusTransfer func(fields EarlyStatusTransferIEContainer, options ...aper.BuildOption) (EarlyStatusTransfer, error) = s20.NewEarlyStatusTransfer
-var NewErrorIndication func(fields ErrorIndicationIEContainer, options ...aper.BuildOption) (ErrorIndication, error) = s20.NewErrorIndication
-var NewF1CTrafficTransfer func(fields F1CTrafficTransferIEContainer, options ...aper.BuildOption) (F1CTrafficTransfer, error) = s20.NewF1CTrafficTransfer
+var NewEUTRANRCellResourceCoordinationRequest func(fields EUTRANRCellResourceCoordinationRequestIEContainer, options ...aper.BuildOption) (EUTRANRCellResourceCoordinationRequest, error) = s19.NewEUTRANRCellResourceCoordinationRequest
+var NewEUTRANRCellResourceCoordinationResponse func(fields EUTRANRCellResourceCoordinationResponseIEContainer, options ...aper.BuildOption) (EUTRANRCellResourceCoordinationResponse, error) = s19.NewEUTRANRCellResourceCoordinationResponse
+var NewEarlyStatusTransfer func(fields EarlyStatusTransferIEContainer, options ...aper.BuildOption) (EarlyStatusTransfer, error) = s19.NewEarlyStatusTransfer
+var NewErrorIndication func(fields ErrorIndicationIEContainer, options ...aper.BuildOption) (ErrorIndication, error) = s19.NewErrorIndication
+var NewF1CTrafficTransfer func(fields F1CTrafficTransferIEContainer, options ...aper.BuildOption) (F1CTrafficTransfer, error) = s19.NewF1CTrafficTransfer
 
 // NewGNBIDGNBID constructs a checked complete value.
 var NewGNBIDGNBID func(v runtime.BitString, options ...aper.BuildOption) (GNBID, error) = s00.NewGNBIDGNBID
 
 // NewGNBIDUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewGNBIDUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (GNBID, error) = s00.NewGNBIDUnknownExtension
-var NewGNBStatusIndication func(fields GNBStatusIndicationIEContainer, options ...aper.BuildOption) (GNBStatusIndication, error) = s20.NewGNBStatusIndication
+var NewGNBStatusIndication func(fields GNBStatusIndicationIEContainer, options ...aper.BuildOption) (GNBStatusIndication, error) = s19.NewGNBStatusIndication
 
 // NewGlobalRANNODEIDChoiceExtension constructs a checked complete value.
 var NewGlobalRANNODEIDChoiceExtension func(v GlobalRANNODEIDExtIEValueProtocolIESingleContainer, options ...aper.BuildOption) (GlobalRANNODEID, error) = s05.NewGlobalRANNODEIDChoiceExtension
 
 // NewGlobalRANNODEIDGNB constructs a checked complete value.
 var NewGlobalRANNODEIDGNB func(v GlobalGNBID, options ...aper.BuildOption) (GlobalRANNODEID, error) = s05.NewGlobalRANNODEIDGNB
-var NewHandoverCancel func(fields HandoverCancelIEContainer, options ...aper.BuildOption) (HandoverCancel, error) = s20.NewHandoverCancel
+var NewHandoverCancel func(fields HandoverCancelIEContainer, options ...aper.BuildOption) (HandoverCancel, error) = s19.NewHandoverCancel
 var NewHandoverPreparationFailure func(fields HandoverPreparationFailureIEContainer, options ...aper.BuildOption) (HandoverPreparationFailure, error) = s14.NewHandoverPreparationFailure
-var NewHandoverReport func(fields HandoverReportIEContainer, options ...aper.BuildOption) (HandoverReport, error) = s20.NewHandoverReport
-var NewHandoverRequest func(fields HandoverRequestIEContainer, options ...aper.BuildOption) (HandoverRequest, error) = s20.NewHandoverRequest
-var NewHandoverRequestAcknowledge func(fields HandoverRequestAcknowledgeIEContainer, options ...aper.BuildOption) (HandoverRequestAcknowledge, error) = s20.NewHandoverRequestAcknowledge
-var NewHandoverSuccess func(fields HandoverSuccessIEContainer, options ...aper.BuildOption) (HandoverSuccess, error) = s20.NewHandoverSuccess
+var NewHandoverReport func(fields HandoverReportIEContainer, options ...aper.BuildOption) (HandoverReport, error) = s19.NewHandoverReport
+var NewHandoverRequest func(fields HandoverRequestIEContainer, options ...aper.BuildOption) (HandoverRequest, error) = s19.NewHandoverRequest
+var NewHandoverRequestAcknowledge func(fields HandoverRequestAcknowledgeIEContainer, options ...aper.BuildOption) (HandoverRequestAcknowledge, error) = s19.NewHandoverRequestAcknowledge
+var NewHandoverSuccess func(fields HandoverSuccessIEContainer, options ...aper.BuildOption) (HandoverSuccess, error) = s19.NewHandoverSuccess
 
 // NewInitiatingNodeTypeEndcConfigUpdateInitENB constructs a checked complete value.
 var NewInitiatingNodeTypeEndcConfigUpdateInitENB func(v ENBENDCConfigUpdateIEContainer, options ...aper.BuildOption) (InitiatingNodeTypeEndcConfigUpdate, error) = s18.NewInitiatingNodeTypeEndcConfigUpdateInitENB
@@ -15130,10 +15129,10 @@ var NewInitiatingNodeTypeEndcX2SetupInitEnGNB func(v EnGNBENDCX2SetupReqIEContai
 var NewInitiatingNodeTypeEndcX2SetupUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (InitiatingNodeTypeEndcX2Setup, error) = s18.NewInitiatingNodeTypeEndcX2SetupUnknownExtension
 
 // NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateENB constructs a checked complete value.
-var NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateENB func(v ENBEUTRANRCellResourceCoordinationReqIEContainer, options ...aper.BuildOption) (InitiatingNodeTypeEutranrCellResourceCoordination, error) = s16.NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateENB
+var NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateENB func(v ENBEUTRANRCellResourceCoordinationReqIEContainer, options ...aper.BuildOption) (InitiatingNodeTypeEutranrCellResourceCoordination, error) = s15.NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateENB
 
 // NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateEnGNB constructs a checked complete value.
-var NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateEnGNB func(v EnGNBEUTRANRCellResourceCoordinationReqIEContainer, options ...aper.BuildOption) (InitiatingNodeTypeEutranrCellResourceCoordination, error) = s16.NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateEnGNB
+var NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateEnGNB func(v EnGNBEUTRANRCellResourceCoordinationReqIEContainer, options ...aper.BuildOption) (InitiatingNodeTypeEutranrCellResourceCoordination, error) = s15.NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateEnGNB
 
 // NewInitiatingNodeTypeEutranrCellResourceCoordinationUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewInitiatingNodeTypeEutranrCellResourceCoordinationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (InitiatingNodeTypeEutranrCellResourceCoordination, error) = s15.NewInitiatingNodeTypeEutranrCellResourceCoordinationUnknownExtension
@@ -15158,7 +15157,7 @@ var NewLastVisitedGERANCellInformationUndefined func(v struct{}, options ...aper
 
 // NewLastVisitedGERANCellInformationUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewLastVisitedGERANCellInformationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (LastVisitedGERANCellInformation, error) = s00.NewLastVisitedGERANCellInformationUnknownExtension
-var NewLoadInformation func(fields LoadInformationIEContainer, options ...aper.BuildOption) (LoadInformation, error) = s20.NewLoadInformation
+var NewLoadInformation func(fields LoadInformationIEContainer, options ...aper.BuildOption) (LoadInformation, error) = s19.NewLoadInformation
 
 // NewMeasurementThresholdA2ThresholdRSRP constructs a checked complete value.
 var NewMeasurementThresholdA2ThresholdRSRP func(v ThresholdRSRP, options ...aper.BuildOption) (MeasurementThresholdA2, error) = s09.NewMeasurementThresholdA2ThresholdRSRP
@@ -15168,9 +15167,9 @@ var NewMeasurementThresholdA2ThresholdRSRQ func(v ThresholdRSRQ, options ...aper
 
 // NewMeasurementThresholdA2UnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewMeasurementThresholdA2UnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (MeasurementThresholdA2, error) = s09.NewMeasurementThresholdA2UnknownExtension
-var NewMobilityChangeAcknowledge func(fields MobilityChangeAcknowledgeIEContainer, options ...aper.BuildOption) (MobilityChangeAcknowledge, error) = s20.NewMobilityChangeAcknowledge
+var NewMobilityChangeAcknowledge func(fields MobilityChangeAcknowledgeIEContainer, options ...aper.BuildOption) (MobilityChangeAcknowledge, error) = s19.NewMobilityChangeAcknowledge
 var NewMobilityChangeFailure func(fields MobilityChangeFailureIEContainer, options ...aper.BuildOption) (MobilityChangeFailure, error) = s14.NewMobilityChangeFailure
-var NewMobilityChangeRequest func(fields MobilityChangeRequestIEContainer, options ...aper.BuildOption) (MobilityChangeRequest, error) = s20.NewMobilityChangeRequest
+var NewMobilityChangeRequest func(fields MobilityChangeRequestIEContainer, options ...aper.BuildOption) (MobilityChangeRequest, error) = s19.NewMobilityChangeRequest
 
 // NewNPRACHConfigurationFddOrTddFdd constructs a checked complete value.
 var NewNPRACHConfigurationFddOrTddFdd func(v NPRACHConfigurationFDD, options ...aper.BuildOption) (NPRACHConfigurationFddOrTdd, error) = s08.NewNPRACHConfigurationFddOrTddFdd
@@ -15189,8 +15188,8 @@ var NewNRNeighbourInformationElemNRNeighbourModeInfoTdd func(v TDDInfoNeighbourS
 
 // NewNRNeighbourInformationElemNRNeighbourModeInfoUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewNRNeighbourInformationElemNRNeighbourModeInfoUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (NRNeighbourInformationElemNRNeighbourModeInfo, error) = s16.NewNRNeighbourInformationElemNRNeighbourModeInfoUnknownExtension
-var NewOpaqueInitiatingMessage func(code ProcedureCode, criticality Criticality, data []byte) (InitiatingMessage, error) = s20.NewOpaqueInitiatingMessage
-var NewOpaqueSuccessfulOutcome func(code ProcedureCode, criticality Criticality, data []byte) (SuccessfulOutcome, error) = s19.NewOpaqueSuccessfulOutcome
+var NewOpaqueInitiatingMessage func(code ProcedureCode, criticality Criticality, data []byte) (InitiatingMessage, error) = s19.NewOpaqueInitiatingMessage
+var NewOpaqueSuccessfulOutcome func(code ProcedureCode, criticality Criticality, data []byte) (SuccessfulOutcome, error) = s18.NewOpaqueSuccessfulOutcome
 var NewOpaqueUnsuccessfulOutcome func(code ProcedureCode, criticality Criticality, data []byte) (UnsuccessfulOutcome, error) = s14.NewOpaqueUnsuccessfulOutcome
 
 type NewPayloadCodec[T any] = s00.NewPayloadCodec[T]
@@ -15200,7 +15199,7 @@ var NewPrivateIEIDGlobal func(v runtime.ObjectIdentifier, options ...aper.BuildO
 
 // NewPrivateIEIDLocal constructs a checked complete value.
 var NewPrivateIEIDLocal func(v int64, options ...aper.BuildOption) (PrivateIEID, error) = s00.NewPrivateIEIDLocal
-var NewPrivateMessage func(fields PrivateMessageIEsValuePrivateIEContainer, options ...aper.BuildOption) (PrivateMessage, error) = s20.NewPrivateMessage
+var NewPrivateMessage func(fields PrivateMessageIEsValuePrivateIEContainer, options ...aper.BuildOption) (PrivateMessage, error) = s19.NewPrivateMessage
 
 // NewProcedureStageChoiceChoiceExtension constructs a checked complete value.
 var NewProcedureStageChoiceChoiceExtension func(v ProcedureStageChoiceExtIEValueProtocolIESingleContainer, options ...aper.BuildOption) (ProcedureStageChoice, error) = s06.NewProcedureStageChoiceChoiceExtension
@@ -15210,15 +15209,15 @@ var NewProcedureStageChoiceDlDiscarding func(v DLDiscarding, options ...aper.Bui
 
 // NewProcedureStageChoiceFirstDlCount constructs a checked complete value.
 var NewProcedureStageChoiceFirstDlCount func(v FirstDLCount, options ...aper.BuildOption) (ProcedureStageChoice, error) = s06.NewProcedureStageChoiceFirstDlCount
-var NewRLFIndication func(fields RLFIndicationIEContainer, options ...aper.BuildOption) (RLFIndication, error) = s20.NewRLFIndication
-var NewRRCTransfer func(fields RRCTransferIEContainer, options ...aper.BuildOption) (RRCTransfer, error) = s20.NewRRCTransfer
-var NewRachIndication func(fields RachIndicationIEContainer, options ...aper.BuildOption) (RachIndication, error) = s20.NewRachIndication
-var NewResetRequest func(fields ResetRequestIEContainer, options ...aper.BuildOption) (ResetRequest, error) = s20.NewResetRequest
-var NewResetResponse func(fields ResetResponseIEContainer, options ...aper.BuildOption) (ResetResponse, error) = s20.NewResetResponse
+var NewRLFIndication func(fields RLFIndicationIEContainer, options ...aper.BuildOption) (RLFIndication, error) = s19.NewRLFIndication
+var NewRRCTransfer func(fields RRCTransferIEContainer, options ...aper.BuildOption) (RRCTransfer, error) = s19.NewRRCTransfer
+var NewRachIndication func(fields RachIndicationIEContainer, options ...aper.BuildOption) (RachIndication, error) = s19.NewRachIndication
+var NewResetRequest func(fields ResetRequestIEContainer, options ...aper.BuildOption) (ResetRequest, error) = s19.NewResetRequest
+var NewResetResponse func(fields ResetResponseIEContainer, options ...aper.BuildOption) (ResetResponse, error) = s19.NewResetResponse
 var NewResourceStatusFailure func(fields ResourceStatusFailureIEContainer, options ...aper.BuildOption) (ResourceStatusFailure, error) = s14.NewResourceStatusFailure
-var NewResourceStatusRequest func(fields ResourceStatusRequestIEContainer, options ...aper.BuildOption) (ResourceStatusRequest, error) = s20.NewResourceStatusRequest
-var NewResourceStatusResponse func(fields ResourceStatusResponseIEContainer, options ...aper.BuildOption) (ResourceStatusResponse, error) = s20.NewResourceStatusResponse
-var NewResourceStatusUpdate func(fields ResourceStatusUpdateIEContainer, options ...aper.BuildOption) (ResourceStatusUpdate, error) = s20.NewResourceStatusUpdate
+var NewResourceStatusRequest func(fields ResourceStatusRequestIEContainer, options ...aper.BuildOption) (ResourceStatusRequest, error) = s19.NewResourceStatusRequest
+var NewResourceStatusResponse func(fields ResourceStatusResponseIEContainer, options ...aper.BuildOption) (ResourceStatusResponse, error) = s19.NewResourceStatusResponse
+var NewResourceStatusUpdate func(fields ResourceStatusUpdateIEContainer, options ...aper.BuildOption) (ResourceStatusUpdate, error) = s19.NewResourceStatusUpdate
 
 // NewRespondingNodeTypeEndcConfigUpdateRespondENB constructs a checked complete value.
 var NewRespondingNodeTypeEndcConfigUpdateRespondENB func(v ENBENDCConfigUpdateAckIEContainer, options ...aper.BuildOption) (RespondingNodeTypeEndcConfigUpdate, error) = s18.NewRespondingNodeTypeEndcConfigUpdateRespondENB
@@ -15227,7 +15226,7 @@ var NewRespondingNodeTypeEndcConfigUpdateRespondENB func(v ENBENDCConfigUpdateAc
 var NewRespondingNodeTypeEndcConfigUpdateRespondEnGNB func(v EnGNBENDCConfigUpdateAckIEContainer, options ...aper.BuildOption) (RespondingNodeTypeEndcConfigUpdate, error) = s18.NewRespondingNodeTypeEndcConfigUpdateRespondEnGNB
 
 // NewRespondingNodeTypeEndcConfigUpdateUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewRespondingNodeTypeEndcConfigUpdateUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (RespondingNodeTypeEndcConfigUpdate, error) = s18.NewRespondingNodeTypeEndcConfigUpdateUnknownExtension
+var NewRespondingNodeTypeEndcConfigUpdateUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (RespondingNodeTypeEndcConfigUpdate, error) = s17.NewRespondingNodeTypeEndcConfigUpdateUnknownExtension
 
 // NewRespondingNodeTypeEndcX2RemovalRespondENB constructs a checked complete value.
 var NewRespondingNodeTypeEndcX2RemovalRespondENB func(v ENBENDCX2RemovalReqAckIEContainer, options ...aper.BuildOption) (RespondingNodeTypeEndcX2Removal, error) = s08.NewRespondingNodeTypeEndcX2RemovalRespondENB
@@ -15245,16 +15244,16 @@ var NewRespondingNodeTypeEndcX2SetupRespondENB func(v ENBENDCX2SetupReqAckIECont
 var NewRespondingNodeTypeEndcX2SetupRespondEnGNB func(v EnGNBENDCX2SetupReqAckIEContainer, options ...aper.BuildOption) (RespondingNodeTypeEndcX2Setup, error) = s18.NewRespondingNodeTypeEndcX2SetupRespondEnGNB
 
 // NewRespondingNodeTypeEndcX2SetupUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewRespondingNodeTypeEndcX2SetupUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (RespondingNodeTypeEndcX2Setup, error) = s18.NewRespondingNodeTypeEndcX2SetupUnknownExtension
+var NewRespondingNodeTypeEndcX2SetupUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (RespondingNodeTypeEndcX2Setup, error) = s17.NewRespondingNodeTypeEndcX2SetupUnknownExtension
 
 // NewRespondingNodeTypeEutranrCellResourceCoordinationRespondENB constructs a checked complete value.
-var NewRespondingNodeTypeEutranrCellResourceCoordinationRespondENB func(v ENBEUTRANRCellResourceCoordinationReqAckIEContainer, options ...aper.BuildOption) (RespondingNodeTypeEutranrCellResourceCoordination, error) = s16.NewRespondingNodeTypeEutranrCellResourceCoordinationRespondENB
+var NewRespondingNodeTypeEutranrCellResourceCoordinationRespondENB func(v ENBEUTRANRCellResourceCoordinationReqAckIEContainer, options ...aper.BuildOption) (RespondingNodeTypeEutranrCellResourceCoordination, error) = s15.NewRespondingNodeTypeEutranrCellResourceCoordinationRespondENB
 
 // NewRespondingNodeTypeEutranrCellResourceCoordinationRespondEnGNB constructs a checked complete value.
-var NewRespondingNodeTypeEutranrCellResourceCoordinationRespondEnGNB func(v EnGNBEUTRANRCellResourceCoordinationReqAckIEContainer, options ...aper.BuildOption) (RespondingNodeTypeEutranrCellResourceCoordination, error) = s16.NewRespondingNodeTypeEutranrCellResourceCoordinationRespondEnGNB
+var NewRespondingNodeTypeEutranrCellResourceCoordinationRespondEnGNB func(v EnGNBEUTRANRCellResourceCoordinationReqAckIEContainer, options ...aper.BuildOption) (RespondingNodeTypeEutranrCellResourceCoordination, error) = s15.NewRespondingNodeTypeEutranrCellResourceCoordinationRespondEnGNB
 
 // NewRespondingNodeTypeEutranrCellResourceCoordinationUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewRespondingNodeTypeEutranrCellResourceCoordinationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (RespondingNodeTypeEutranrCellResourceCoordination, error) = s16.NewRespondingNodeTypeEutranrCellResourceCoordinationUnknownExtension
+var NewRespondingNodeTypeEutranrCellResourceCoordinationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (RespondingNodeTypeEutranrCellResourceCoordination, error) = s15.NewRespondingNodeTypeEutranrCellResourceCoordinationUnknownExtension
 
 // NewResponseInformationSeNBReconfCompRejectByMeNB constructs a checked complete value.
 var NewResponseInformationSeNBReconfCompRejectByMeNB func(v ResponseInformationSeNBReconfCompRejectByMeNBItem, options ...aper.BuildOption) (ResponseInformationSeNBReconfComp, error) = s05.NewResponseInformationSeNBReconfCompRejectByMeNB
@@ -15283,11 +15282,11 @@ var NewResumeIDTruncated func(v runtime.BitString, options ...aper.BuildOption) 
 // NewResumeIDUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewResumeIDUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ResumeID, error) = s00.NewResumeIDUnknownExtension
 var NewRetrieveUEContextFailure func(fields RetrieveUEContextFailureIEContainer, options ...aper.BuildOption) (RetrieveUEContextFailure, error) = s14.NewRetrieveUEContextFailure
-var NewRetrieveUEContextRequest func(fields RetrieveUEContextRequestIEContainer, options ...aper.BuildOption) (RetrieveUEContextRequest, error) = s20.NewRetrieveUEContextRequest
-var NewRetrieveUEContextResponse func(fields RetrieveUEContextResponseIEContainer, options ...aper.BuildOption) (RetrieveUEContextResponse, error) = s20.NewRetrieveUEContextResponse
-var NewSCGFailureInformationReport func(fields SCGFailureInformationReportIEContainer, options ...aper.BuildOption) (SCGFailureInformationReport, error) = s20.NewSCGFailureInformationReport
-var NewSCGFailureTransfer func(fields SCGFailureTransferIEContainer, options ...aper.BuildOption) (SCGFailureTransfer, error) = s20.NewSCGFailureTransfer
-var NewSNStatusTransfer func(fields SNStatusTransferIEContainer, options ...aper.BuildOption) (SNStatusTransfer, error) = s20.NewSNStatusTransfer
+var NewRetrieveUEContextRequest func(fields RetrieveUEContextRequestIEContainer, options ...aper.BuildOption) (RetrieveUEContextRequest, error) = s19.NewRetrieveUEContextRequest
+var NewRetrieveUEContextResponse func(fields RetrieveUEContextResponseIEContainer, options ...aper.BuildOption) (RetrieveUEContextResponse, error) = s19.NewRetrieveUEContextResponse
+var NewSCGFailureInformationReport func(fields SCGFailureInformationReportIEContainer, options ...aper.BuildOption) (SCGFailureInformationReport, error) = s19.NewSCGFailureInformationReport
+var NewSCGFailureTransfer func(fields SCGFailureTransferIEContainer, options ...aper.BuildOption) (SCGFailureTransfer, error) = s19.NewSCGFailureTransfer
+var NewSNStatusTransfer func(fields SNStatusTransferIEContainer, options ...aper.BuildOption) (SNStatusTransfer, error) = s19.NewSNStatusTransfer
 
 // NewSSBPositionsInBurstChoiceExtension constructs a checked complete value.
 var NewSSBPositionsInBurstChoiceExtension func(v SSBPositionsInBurstExtIEValueProtocolIESingleContainer, options ...aper.BuildOption) (SSBPositionsInBurst, error) = s05.NewSSBPositionsInBurstChoiceExtension
@@ -15300,21 +15299,21 @@ var NewSSBPositionsInBurstMediumBitmap func(v runtime.BitString, options ...aper
 
 // NewSSBPositionsInBurstShortBitmap constructs a checked complete value.
 var NewSSBPositionsInBurstShortBitmap func(v runtime.BitString, options ...aper.BuildOption) (SSBPositionsInBurst, error) = s05.NewSSBPositionsInBurstShortBitmap
-var NewSeNBAdditionRequest func(fields SeNBAdditionRequestIEContainer, options ...aper.BuildOption) (SeNBAdditionRequest, error) = s20.NewSeNBAdditionRequest
-var NewSeNBAdditionRequestAcknowledge func(fields SeNBAdditionRequestAcknowledgeIEContainer, options ...aper.BuildOption) (SeNBAdditionRequestAcknowledge, error) = s20.NewSeNBAdditionRequestAcknowledge
+var NewSeNBAdditionRequest func(fields SeNBAdditionRequestIEContainer, options ...aper.BuildOption) (SeNBAdditionRequest, error) = s19.NewSeNBAdditionRequest
+var NewSeNBAdditionRequestAcknowledge func(fields SeNBAdditionRequestAcknowledgeIEContainer, options ...aper.BuildOption) (SeNBAdditionRequestAcknowledge, error) = s19.NewSeNBAdditionRequestAcknowledge
 var NewSeNBAdditionRequestReject func(fields SeNBAdditionRequestRejectIEContainer, options ...aper.BuildOption) (SeNBAdditionRequestReject, error) = s14.NewSeNBAdditionRequestReject
-var NewSeNBCounterCheckRequest func(fields SeNBCounterCheckRequestIEContainer, options ...aper.BuildOption) (SeNBCounterCheckRequest, error) = s20.NewSeNBCounterCheckRequest
-var NewSeNBModificationConfirm func(fields SeNBModificationConfirmIEContainer, options ...aper.BuildOption) (SeNBModificationConfirm, error) = s20.NewSeNBModificationConfirm
+var NewSeNBCounterCheckRequest func(fields SeNBCounterCheckRequestIEContainer, options ...aper.BuildOption) (SeNBCounterCheckRequest, error) = s19.NewSeNBCounterCheckRequest
+var NewSeNBModificationConfirm func(fields SeNBModificationConfirmIEContainer, options ...aper.BuildOption) (SeNBModificationConfirm, error) = s19.NewSeNBModificationConfirm
 var NewSeNBModificationRefuse func(fields SeNBModificationRefuseIEContainer, options ...aper.BuildOption) (SeNBModificationRefuse, error) = s14.NewSeNBModificationRefuse
-var NewSeNBModificationRequest func(fields SeNBModificationRequestIEContainer, options ...aper.BuildOption) (SeNBModificationRequest, error) = s20.NewSeNBModificationRequest
-var NewSeNBModificationRequestAcknowledge func(fields SeNBModificationRequestAcknowledgeIEContainer, options ...aper.BuildOption) (SeNBModificationRequestAcknowledge, error) = s20.NewSeNBModificationRequestAcknowledge
+var NewSeNBModificationRequest func(fields SeNBModificationRequestIEContainer, options ...aper.BuildOption) (SeNBModificationRequest, error) = s19.NewSeNBModificationRequest
+var NewSeNBModificationRequestAcknowledge func(fields SeNBModificationRequestAcknowledgeIEContainer, options ...aper.BuildOption) (SeNBModificationRequestAcknowledge, error) = s19.NewSeNBModificationRequestAcknowledge
 var NewSeNBModificationRequestReject func(fields SeNBModificationRequestRejectIEContainer, options ...aper.BuildOption) (SeNBModificationRequestReject, error) = s14.NewSeNBModificationRequestReject
-var NewSeNBModificationRequired func(fields SeNBModificationRequiredIEContainer, options ...aper.BuildOption) (SeNBModificationRequired, error) = s20.NewSeNBModificationRequired
-var NewSeNBReconfigurationComplete func(fields SeNBReconfigurationCompleteIEContainer, options ...aper.BuildOption) (SeNBReconfigurationComplete, error) = s20.NewSeNBReconfigurationComplete
-var NewSeNBReleaseConfirm func(fields SeNBReleaseConfirmIEContainer, options ...aper.BuildOption) (SeNBReleaseConfirm, error) = s20.NewSeNBReleaseConfirm
-var NewSeNBReleaseRequest func(fields SeNBReleaseRequestIEContainer, options ...aper.BuildOption) (SeNBReleaseRequest, error) = s20.NewSeNBReleaseRequest
-var NewSeNBReleaseRequired func(fields SeNBReleaseRequiredIEContainer, options ...aper.BuildOption) (SeNBReleaseRequired, error) = s20.NewSeNBReleaseRequired
-var NewSecondaryRATDataUsageReport func(fields SecondaryRATDataUsageReportIEContainer, options ...aper.BuildOption) (SecondaryRATDataUsageReport, error) = s20.NewSecondaryRATDataUsageReport
+var NewSeNBModificationRequired func(fields SeNBModificationRequiredIEContainer, options ...aper.BuildOption) (SeNBModificationRequired, error) = s19.NewSeNBModificationRequired
+var NewSeNBReconfigurationComplete func(fields SeNBReconfigurationCompleteIEContainer, options ...aper.BuildOption) (SeNBReconfigurationComplete, error) = s19.NewSeNBReconfigurationComplete
+var NewSeNBReleaseConfirm func(fields SeNBReleaseConfirmIEContainer, options ...aper.BuildOption) (SeNBReleaseConfirm, error) = s19.NewSeNBReleaseConfirm
+var NewSeNBReleaseRequest func(fields SeNBReleaseRequestIEContainer, options ...aper.BuildOption) (SeNBReleaseRequest, error) = s19.NewSeNBReleaseRequest
+var NewSeNBReleaseRequired func(fields SeNBReleaseRequiredIEContainer, options ...aper.BuildOption) (SeNBReleaseRequired, error) = s19.NewSeNBReleaseRequired
+var NewSecondaryRATDataUsageReport func(fields SecondaryRATDataUsageReportIEContainer, options ...aper.BuildOption) (SecondaryRATDataUsageReport, error) = s19.NewSecondaryRATDataUsageReport
 
 // NewSensorNameConfigChoiceExtension constructs a checked complete value.
 var NewSensorNameConfigChoiceExtension func(v SensorNameConfigExtIEValueProtocolIESingleContainer, options ...aper.BuildOption) (SensorNameConfig, error) = s05.NewSensorNameConfigChoiceExtension
@@ -15330,26 +15329,26 @@ var NewServedNRCellInformationNrModeInfoTdd func(v TDDInfoServedNRCellInformatio
 
 // NewServedNRCellInformationNrModeInfoUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewServedNRCellInformationNrModeInfoUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (ServedNRCellInformationNrModeInfo, error) = s16.NewServedNRCellInformationNrModeInfoUnknownExtension
-var NewSgNBActivityNotification func(fields SgNBActivityNotificationIEContainer, options ...aper.BuildOption) (SgNBActivityNotification, error) = s20.NewSgNBActivityNotification
-var NewSgNBAdditionRequest func(fields SgNBAdditionRequestIEContainer, options ...aper.BuildOption) (SgNBAdditionRequest, error) = s20.NewSgNBAdditionRequest
-var NewSgNBAdditionRequestAcknowledge func(fields SgNBAdditionRequestAcknowledgeIEContainer, options ...aper.BuildOption) (SgNBAdditionRequestAcknowledge, error) = s20.NewSgNBAdditionRequestAcknowledge
+var NewSgNBActivityNotification func(fields SgNBActivityNotificationIEContainer, options ...aper.BuildOption) (SgNBActivityNotification, error) = s19.NewSgNBActivityNotification
+var NewSgNBAdditionRequest func(fields SgNBAdditionRequestIEContainer, options ...aper.BuildOption) (SgNBAdditionRequest, error) = s19.NewSgNBAdditionRequest
+var NewSgNBAdditionRequestAcknowledge func(fields SgNBAdditionRequestAcknowledgeIEContainer, options ...aper.BuildOption) (SgNBAdditionRequestAcknowledge, error) = s19.NewSgNBAdditionRequestAcknowledge
 var NewSgNBAdditionRequestReject func(fields SgNBAdditionRequestRejectIEContainer, options ...aper.BuildOption) (SgNBAdditionRequestReject, error) = s14.NewSgNBAdditionRequestReject
-var NewSgNBChangeConfirm func(fields SgNBChangeConfirmIEContainer, options ...aper.BuildOption) (SgNBChangeConfirm, error) = s20.NewSgNBChangeConfirm
+var NewSgNBChangeConfirm func(fields SgNBChangeConfirmIEContainer, options ...aper.BuildOption) (SgNBChangeConfirm, error) = s19.NewSgNBChangeConfirm
 var NewSgNBChangeRefuse func(fields SgNBChangeRefuseIEContainer, options ...aper.BuildOption) (SgNBChangeRefuse, error) = s14.NewSgNBChangeRefuse
-var NewSgNBChangeRequired func(fields SgNBChangeRequiredIEContainer, options ...aper.BuildOption) (SgNBChangeRequired, error) = s20.NewSgNBChangeRequired
-var NewSgNBCounterCheckRequest func(fields SgNBCounterCheckRequestIEContainer, options ...aper.BuildOption) (SgNBCounterCheckRequest, error) = s20.NewSgNBCounterCheckRequest
-var NewSgNBModificationConfirm func(fields SgNBModificationConfirmIEContainer, options ...aper.BuildOption) (SgNBModificationConfirm, error) = s20.NewSgNBModificationConfirm
+var NewSgNBChangeRequired func(fields SgNBChangeRequiredIEContainer, options ...aper.BuildOption) (SgNBChangeRequired, error) = s19.NewSgNBChangeRequired
+var NewSgNBCounterCheckRequest func(fields SgNBCounterCheckRequestIEContainer, options ...aper.BuildOption) (SgNBCounterCheckRequest, error) = s19.NewSgNBCounterCheckRequest
+var NewSgNBModificationConfirm func(fields SgNBModificationConfirmIEContainer, options ...aper.BuildOption) (SgNBModificationConfirm, error) = s19.NewSgNBModificationConfirm
 var NewSgNBModificationRefuse func(fields SgNBModificationRefuseIEContainer, options ...aper.BuildOption) (SgNBModificationRefuse, error) = s14.NewSgNBModificationRefuse
-var NewSgNBModificationRequest func(fields SgNBModificationRequestIEContainer, options ...aper.BuildOption) (SgNBModificationRequest, error) = s20.NewSgNBModificationRequest
-var NewSgNBModificationRequestAcknowledge func(fields SgNBModificationRequestAcknowledgeIEContainer, options ...aper.BuildOption) (SgNBModificationRequestAcknowledge, error) = s21.NewSgNBModificationRequestAcknowledge
+var NewSgNBModificationRequest func(fields SgNBModificationRequestIEContainer, options ...aper.BuildOption) (SgNBModificationRequest, error) = s19.NewSgNBModificationRequest
+var NewSgNBModificationRequestAcknowledge func(fields SgNBModificationRequestAcknowledgeIEContainer, options ...aper.BuildOption) (SgNBModificationRequestAcknowledge, error) = s19.NewSgNBModificationRequestAcknowledge
 var NewSgNBModificationRequestReject func(fields SgNBModificationRequestRejectIEContainer, options ...aper.BuildOption) (SgNBModificationRequestReject, error) = s14.NewSgNBModificationRequestReject
-var NewSgNBModificationRequired func(fields SgNBModificationRequiredIEContainer, options ...aper.BuildOption) (SgNBModificationRequired, error) = s21.NewSgNBModificationRequired
-var NewSgNBReconfigurationComplete func(fields SgNBReconfigurationCompleteIEContainer, options ...aper.BuildOption) (SgNBReconfigurationComplete, error) = s21.NewSgNBReconfigurationComplete
-var NewSgNBReleaseConfirm func(fields SgNBReleaseConfirmIEContainer, options ...aper.BuildOption) (SgNBReleaseConfirm, error) = s21.NewSgNBReleaseConfirm
-var NewSgNBReleaseRequest func(fields SgNBReleaseRequestIEContainer, options ...aper.BuildOption) (SgNBReleaseRequest, error) = s21.NewSgNBReleaseRequest
-var NewSgNBReleaseRequestAcknowledge func(fields SgNBReleaseRequestAcknowledgeIEContainer, options ...aper.BuildOption) (SgNBReleaseRequestAcknowledge, error) = s21.NewSgNBReleaseRequestAcknowledge
+var NewSgNBModificationRequired func(fields SgNBModificationRequiredIEContainer, options ...aper.BuildOption) (SgNBModificationRequired, error) = s19.NewSgNBModificationRequired
+var NewSgNBReconfigurationComplete func(fields SgNBReconfigurationCompleteIEContainer, options ...aper.BuildOption) (SgNBReconfigurationComplete, error) = s19.NewSgNBReconfigurationComplete
+var NewSgNBReleaseConfirm func(fields SgNBReleaseConfirmIEContainer, options ...aper.BuildOption) (SgNBReleaseConfirm, error) = s19.NewSgNBReleaseConfirm
+var NewSgNBReleaseRequest func(fields SgNBReleaseRequestIEContainer, options ...aper.BuildOption) (SgNBReleaseRequest, error) = s19.NewSgNBReleaseRequest
+var NewSgNBReleaseRequestAcknowledge func(fields SgNBReleaseRequestAcknowledgeIEContainer, options ...aper.BuildOption) (SgNBReleaseRequestAcknowledge, error) = s20.NewSgNBReleaseRequestAcknowledge
 var NewSgNBReleaseRequestReject func(fields SgNBReleaseRequestRejectIEContainer, options ...aper.BuildOption) (SgNBReleaseRequestReject, error) = s14.NewSgNBReleaseRequestReject
-var NewSgNBReleaseRequired func(fields SgNBReleaseRequiredIEContainer, options ...aper.BuildOption) (SgNBReleaseRequired, error) = s21.NewSgNBReleaseRequired
+var NewSgNBReleaseRequired func(fields SgNBReleaseRequiredIEContainer, options ...aper.BuildOption) (SgNBReleaseRequired, error) = s20.NewSgNBReleaseRequired
 
 // NewSharedResourceTypeULOnlySharing constructs a checked complete value.
 var NewSharedResourceTypeULOnlySharing func(v ULOnlySharing, options ...aper.BuildOption) (SharedResourceType, error) = s12.NewSharedResourceTypeULOnlySharing
@@ -15395,10 +15394,10 @@ var NewSubframeAllocationOneframe func(v Oneframe, options ...aper.BuildOption) 
 
 // NewSubframeAllocationUnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewSubframeAllocationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (SubframeAllocation, error) = s00.NewSubframeAllocationUnknownExtension
-var NewTraceStart func(fields TraceStartIEContainer, options ...aper.BuildOption) (TraceStart, error) = s21.NewTraceStart
-var NewUEContextRelease func(fields UEContextReleaseIEContainer, options ...aper.BuildOption) (UEContextRelease, error) = s21.NewUEContextRelease
-var NewUERadioCapabilityIDMappingRequest func(fields UERadioCapabilityIDMappingRequestIEContainer, options ...aper.BuildOption) (UERadioCapabilityIDMappingRequest, error) = s21.NewUERadioCapabilityIDMappingRequest
-var NewUERadioCapabilityIDMappingResponse func(fields UERadioCapabilityIDMappingResponseIEContainer, options ...aper.BuildOption) (UERadioCapabilityIDMappingResponse, error) = s21.NewUERadioCapabilityIDMappingResponse
+var NewTraceStart func(fields TraceStartIEContainer, options ...aper.BuildOption) (TraceStart, error) = s20.NewTraceStart
+var NewUEContextRelease func(fields UEContextReleaseIEContainer, options ...aper.BuildOption) (UEContextRelease, error) = s20.NewUEContextRelease
+var NewUERadioCapabilityIDMappingRequest func(fields UERadioCapabilityIDMappingRequestIEContainer, options ...aper.BuildOption) (UERadioCapabilityIDMappingRequest, error) = s20.NewUERadioCapabilityIDMappingRequest
+var NewUERadioCapabilityIDMappingResponse func(fields UERadioCapabilityIDMappingResponseIEContainer, options ...aper.BuildOption) (UERadioCapabilityIDMappingResponse, error) = s20.NewUERadioCapabilityIDMappingResponse
 
 // NewULResourcesULandDLSharingChanged constructs a checked complete value.
 var NewULResourcesULandDLSharingChanged func(v ULResourceBitmapULandDLSharing, options ...aper.BuildOption) (ULResourcesULandDLSharing, error) = s12.NewULResourcesULandDLSharingChanged
@@ -15435,26 +15434,26 @@ var NewWidebandCQICodeword1ThreeBitSpatialDifferentialCQI func(v *big.Int, optio
 
 // NewWidebandCQICodeword1UnknownExtension builds a checked, owned unknown CHOICE alternative.
 var NewWidebandCQICodeword1UnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (WidebandCQICodeword1, error) = s00.NewWidebandCQICodeword1UnknownExtension
-var NewX2APMessageTransfer func(fields X2APMessageTransferIEContainer, options ...aper.BuildOption) (X2APMessageTransfer, error) = s21.NewX2APMessageTransfer
+var NewX2APMessageTransfer func(fields X2APMessageTransferIEContainer, options ...aper.BuildOption) (X2APMessageTransfer, error) = s20.NewX2APMessageTransfer
 
 // NewX2APPDUInitiatingMessage constructs and validates a complete X2AP message.
-var NewX2APPDUInitiatingMessage func(v InitiatingMessage, options ...aper.BuildOption) (X2APPDU, error) = s21.NewX2APPDUInitiatingMessage
+var NewX2APPDUInitiatingMessage func(v InitiatingMessage, options ...aper.BuildOption) (X2APPDU, error) = s20.NewX2APPDUInitiatingMessage
 
 // NewX2APPDUSuccessfulOutcome constructs and validates a complete X2AP message.
-var NewX2APPDUSuccessfulOutcome func(v SuccessfulOutcome, options ...aper.BuildOption) (X2APPDU, error) = s21.NewX2APPDUSuccessfulOutcome
+var NewX2APPDUSuccessfulOutcome func(v SuccessfulOutcome, options ...aper.BuildOption) (X2APPDU, error) = s20.NewX2APPDUSuccessfulOutcome
 
 // NewX2APPDUUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewX2APPDUUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (X2APPDU, error) = s20.NewX2APPDUUnknownExtension
+var NewX2APPDUUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (X2APPDU, error) = s19.NewX2APPDUUnknownExtension
 
 // NewX2APPDUUnsuccessfulOutcome constructs and validates a complete X2AP message.
-var NewX2APPDUUnsuccessfulOutcome func(v UnsuccessfulOutcome, options ...aper.BuildOption) (X2APPDU, error) = s21.NewX2APPDUUnsuccessfulOutcome
-var NewX2Release func(fields X2ReleaseIEContainer, options ...aper.BuildOption) (X2Release, error) = s21.NewX2Release
+var NewX2APPDUUnsuccessfulOutcome func(v UnsuccessfulOutcome, options ...aper.BuildOption) (X2APPDU, error) = s20.NewX2APPDUUnsuccessfulOutcome
+var NewX2Release func(fields X2ReleaseIEContainer, options ...aper.BuildOption) (X2Release, error) = s20.NewX2Release
 var NewX2RemovalFailure func(fields X2RemovalFailureIEContainer, options ...aper.BuildOption) (X2RemovalFailure, error) = s14.NewX2RemovalFailure
-var NewX2RemovalRequest func(fields X2RemovalRequestIEContainer, options ...aper.BuildOption) (X2RemovalRequest, error) = s21.NewX2RemovalRequest
-var NewX2RemovalResponse func(fields X2RemovalResponseIEContainer, options ...aper.BuildOption) (X2RemovalResponse, error) = s21.NewX2RemovalResponse
+var NewX2RemovalRequest func(fields X2RemovalRequestIEContainer, options ...aper.BuildOption) (X2RemovalRequest, error) = s20.NewX2RemovalRequest
+var NewX2RemovalResponse func(fields X2RemovalResponseIEContainer, options ...aper.BuildOption) (X2RemovalResponse, error) = s20.NewX2RemovalResponse
 var NewX2SetupFailure func(fields X2SetupFailureIEContainer, options ...aper.BuildOption) (X2SetupFailure, error) = s14.NewX2SetupFailure
-var NewX2SetupRequest func(fields X2SetupRequestIEContainer, options ...aper.BuildOption) (X2SetupRequest, error) = s21.NewX2SetupRequest
-var NewX2SetupResponse func(fields X2SetupResponseIEContainer, options ...aper.BuildOption) (X2SetupResponse, error) = s21.NewX2SetupResponse
+var NewX2SetupRequest func(fields X2SetupRequestIEContainer, options ...aper.BuildOption) (X2SetupRequest, error) = s20.NewX2SetupRequest
+var NewX2SetupResponse func(fields X2SetupResponseIEContainer, options ...aper.BuildOption) (X2SetupResponse, error) = s20.NewX2SetupResponse
 
 // NewmaxEARFCN is the integer constant for newmaxEARFCN.
 const NewmaxEARFCN = s00.NewmaxEARFCN
@@ -15866,7 +15865,7 @@ type PSCellHistoryInformationRetrieve = s00.PSCellHistoryInformationRetrieve
 type PSCellHistoryInformationRetrieveAPERValue = s00.PSCellHistoryInformationRetrieveAPERValue
 
 // PSCellHistoryInformationRetrieveCodec binds the complete APER value type.
-var PSCellHistoryInformationRetrieveCodec func() PSCellHistoryInformationRetrieveValueCodec = s17.PSCellHistoryInformationRetrieveCodec
+var PSCellHistoryInformationRetrieveCodec func() PSCellHistoryInformationRetrieveValueCodec = s16.PSCellHistoryInformationRetrieveCodec
 
 const PSCellHistoryInformationRetrieveQuery = s00.PSCellHistoryInformationRetrieveQuery
 
@@ -15918,7 +15917,7 @@ type PartialListIndicator = s00.PartialListIndicator
 type PartialListIndicatorAPERValue = s00.PartialListIndicatorAPERValue
 
 // PartialListIndicatorCodec binds the complete APER value type.
-var PartialListIndicatorCodec func() PartialListIndicatorValueCodec = s18.PartialListIndicatorCodec
+var PartialListIndicatorCodec func() PartialListIndicatorValueCodec = s17.PartialListIndicatorCodec
 
 const PartialListIndicatorPartial = s00.PartialListIndicatorPartial
 
@@ -16075,15 +16074,15 @@ var PrivateIEIDCodec func() PrivateIEIDValueCodec = s00.PrivateIEIDCodec
 type PrivateIEIDValueCodec = s00.PrivateIEIDValueCodec
 
 // PrivateMessage represents the ASN.1 type PrivateMessage (SEQUENCE).
-type PrivateMessage = s20.PrivateMessage
+type PrivateMessage = s19.PrivateMessage
 
 // PrivateMessageAPERValue is the concrete APERValue[PrivateMessage].
-type PrivateMessageAPERValue = s20.PrivateMessageAPERValue
+type PrivateMessageAPERValue = s19.PrivateMessageAPERValue
 
 // PrivateMessageCodec binds the complete APER value type.
-var PrivateMessageCodec func() PrivateMessageValueCodec = s20.PrivateMessageCodec
+var PrivateMessageCodec func() PrivateMessageValueCodec = s19.PrivateMessageCodec
 
-type PrivateMessageDescriptor = s20.PrivateMessageDescriptor
+type PrivateMessageDescriptor = s19.PrivateMessageDescriptor
 type PrivateMessageIETable = s00.PrivateMessageIETable
 
 var PrivateMessageIEs func() PrivateMessageIETable = s00.PrivateMessageIEs
@@ -16097,12 +16096,12 @@ type PrivateMessageIEsValuePrivateIEContainer = s00.PrivateMessageIEsValuePrivat
 type PrivateMessageIEsValuePrivateIEField = s00.PrivateMessageIEsValuePrivateIEField
 
 // PrivateMessageInitiatingBinding is the concrete InitiatingBinding[PrivateMessage].
-type PrivateMessageInitiatingBinding = s20.PrivateMessageInitiatingBinding
+type PrivateMessageInitiatingBinding = s19.PrivateMessageInitiatingBinding
 
-var PrivateMessageProcedure func() PrivateMessageDescriptor = s20.PrivateMessageProcedure
+var PrivateMessageProcedure func() PrivateMessageDescriptor = s19.PrivateMessageProcedure
 
 // PrivateMessageValueCodec is the concrete ValueCodec[PrivateMessage].
-type PrivateMessageValueCodec = s20.PrivateMessageValueCodec
+type PrivateMessageValueCodec = s19.PrivateMessageValueCodec
 
 // ProSeAuthorized represents the ASN.1 type ProSeAuthorized (SEQUENCE).
 type ProSeAuthorized = s08.ProSeAuthorized
@@ -16445,18 +16444,18 @@ type RLCStatusExtIEsValue = s03.RLCStatusExtIEsValue
 type RLCStatusValueCodec = s05.RLCStatusValueCodec
 
 // RLFIndication represents the ASN.1 type RLFIndication (SEQUENCE).
-type RLFIndication = s20.RLFIndication
+type RLFIndication = s19.RLFIndication
 
 // RLFIndicationAPERValue is the concrete APERValue[RLFIndication].
-type RLFIndicationAPERValue = s20.RLFIndicationAPERValue
+type RLFIndicationAPERValue = s19.RLFIndicationAPERValue
 
 // RLFIndicationCRNTIIEBinding binds CRNTI to ProtocolIE-Field {{RLFIndication-IEs}} of TS 36.423 §9.3.8.
 type RLFIndicationCRNTIIEBinding = s11.RLFIndicationCRNTIIEBinding
 
 // RLFIndicationCodec binds the complete APER value type.
-var RLFIndicationCodec func() RLFIndicationValueCodec = s20.RLFIndicationCodec
+var RLFIndicationCodec func() RLFIndicationValueCodec = s19.RLFIndicationCodec
 
-type RLFIndicationDescriptor = s20.RLFIndicationDescriptor
+type RLFIndicationDescriptor = s19.RLFIndicationDescriptor
 
 // RLFIndicationECGIIEBinding binds ECGI to ProtocolIE-Field {{RLFIndication-IEs}} of TS 36.423 §9.3.8.
 type RLFIndicationECGIIEBinding = s11.RLFIndicationECGIIEBinding
@@ -16472,7 +16471,7 @@ type RLFIndicationIEValue = s11.RLFIndicationIEValue
 var RLFIndicationIEs func() RLFIndicationIETable = s11.RLFIndicationIEs
 
 // RLFIndicationInitiatingBinding is the concrete InitiatingBinding[RLFIndication].
-type RLFIndicationInitiatingBinding = s20.RLFIndicationInitiatingBinding
+type RLFIndicationInitiatingBinding = s19.RLFIndicationInitiatingBinding
 
 // RLFIndicationNBIoTRLFReportContainerIEBinding binds NBIoTRLFReportContainer to ProtocolIE-Field {{RLFIndication-IEs}} of TS 36.423 §9.3.8.
 type RLFIndicationNBIoTRLFReportContainerIEBinding = s11.RLFIndicationNBIoTRLFReportContainerIEBinding
@@ -16480,7 +16479,7 @@ type RLFIndicationNBIoTRLFReportContainerIEBinding = s11.RLFIndicationNBIoTRLFRe
 // RLFIndicationPCIIEBinding binds PCI to ProtocolIE-Field {{RLFIndication-IEs}} of TS 36.423 §9.3.8.
 type RLFIndicationPCIIEBinding = s11.RLFIndicationPCIIEBinding
 
-var RLFIndicationProcedure func() RLFIndicationDescriptor = s20.RLFIndicationProcedure
+var RLFIndicationProcedure func() RLFIndicationDescriptor = s19.RLFIndicationProcedure
 
 // RLFIndicationRRCConnReestabIndicatorIEBinding binds RRCConnReestabIndicator to ProtocolIE-Field {{RLFIndication-IEs}} of TS 36.423 §9.3.8.
 type RLFIndicationRRCConnReestabIndicatorIEBinding = s11.RLFIndicationRRCConnReestabIndicatorIEBinding
@@ -16498,7 +16497,7 @@ type RLFIndicationUERLFReportContainerForExtendedBandsIEBinding = s11.RLFIndicat
 type RLFIndicationUERLFReportContainerIEBinding = s11.RLFIndicationUERLFReportContainerIEBinding
 
 // RLFIndicationValueCodec is the concrete ValueCodec[RLFIndication].
-type RLFIndicationValueCodec = s20.RLFIndicationValueCodec
+type RLFIndicationValueCodec = s19.RLFIndicationValueCodec
 
 // RNLHeader represents the ASN.1 type RNL-Header (SEQUENCE).
 type RNLHeader = s05.RNLHeader
@@ -16623,15 +16622,15 @@ var RRCContextCodec func() RRCContextValueCodec = s08.RRCContextCodec
 type RRCContextValueCodec = s08.RRCContextValueCodec
 
 // RRCTransfer represents the ASN.1 type RRCTransfer (SEQUENCE).
-type RRCTransfer = s20.RRCTransfer
+type RRCTransfer = s19.RRCTransfer
 
 // RRCTransferAPERValue is the concrete APERValue[RRCTransfer].
-type RRCTransferAPERValue = s20.RRCTransferAPERValue
+type RRCTransferAPERValue = s19.RRCTransferAPERValue
 
 // RRCTransferCodec binds the complete APER value type.
-var RRCTransferCodec func() RRCTransferValueCodec = s20.RRCTransferCodec
+var RRCTransferCodec func() RRCTransferValueCodec = s19.RRCTransferCodec
 
-type RRCTransferDescriptor = s20.RRCTransferDescriptor
+type RRCTransferDescriptor = s19.RRCTransferDescriptor
 
 // RRCTransferFastMCGRecoveryIEBinding binds FastMCGRecovery to ProtocolIE-Field {{RRCTransfer-IEs}} of TS 36.423 §9.3.8.
 type RRCTransferFastMCGRecoveryIEBinding = s11.RRCTransferFastMCGRecoveryIEBinding
@@ -16647,12 +16646,12 @@ type RRCTransferIEValue = s11.RRCTransferIEValue
 var RRCTransferIEs func() RRCTransferIETable = s11.RRCTransferIEs
 
 // RRCTransferInitiatingBinding is the concrete InitiatingBinding[RRCTransfer].
-type RRCTransferInitiatingBinding = s20.RRCTransferInitiatingBinding
+type RRCTransferInitiatingBinding = s19.RRCTransferInitiatingBinding
 
 // RRCTransferNRUeReportIEBinding binds NRUeReport to ProtocolIE-Field {{RRCTransfer-IEs}} of TS 36.423 §9.3.8.
 type RRCTransferNRUeReportIEBinding = s11.RRCTransferNRUeReportIEBinding
 
-var RRCTransferProcedure func() RRCTransferDescriptor = s20.RRCTransferProcedure
+var RRCTransferProcedure func() RRCTransferDescriptor = s19.RRCTransferProcedure
 
 // RRCTransferSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{RRCTransfer-IEs}} of TS 36.423 §9.3.8.
 type RRCTransferSgNBUEX2APIDIEBinding = s11.RRCTransferSgNBUEX2APIDIEBinding
@@ -16667,7 +16666,7 @@ type RRCTransferUEX2APIDExtensionIEBinding = s11.RRCTransferUEX2APIDExtensionIEB
 type RRCTransferUEX2APIDIEBinding = s11.RRCTransferUEX2APIDIEBinding
 
 // RRCTransferValueCodec is the concrete ValueCodec[RRCTransfer].
-type RRCTransferValueCodec = s20.RRCTransferValueCodec
+type RRCTransferValueCodec = s19.RRCTransferValueCodec
 type RSRPMRList = s11.RSRPMRList
 
 // RSRPMRListAPERValue is the concrete APERValue[RSRPMRList].
@@ -16782,15 +16781,15 @@ type RaReportIndicationListItemValueCodec = s11.RaReportIndicationListItemValueC
 type RaReportIndicationListValueCodec = s12.RaReportIndicationListValueCodec
 
 // RachIndication represents the ASN.1 type RachIndication (SEQUENCE).
-type RachIndication = s20.RachIndication
+type RachIndication = s19.RachIndication
 
 // RachIndicationAPERValue is the concrete APERValue[RachIndication].
-type RachIndicationAPERValue = s20.RachIndicationAPERValue
+type RachIndicationAPERValue = s19.RachIndicationAPERValue
 
 // RachIndicationCodec binds the complete APER value type.
-var RachIndicationCodec func() RachIndicationValueCodec = s20.RachIndicationCodec
+var RachIndicationCodec func() RachIndicationValueCodec = s19.RachIndicationCodec
 
-type RachIndicationDescriptor = s20.RachIndicationDescriptor
+type RachIndicationDescriptor = s19.RachIndicationDescriptor
 
 // RachIndicationIEContainer is ProtocolIE-Container {{RachIndication-IEs}} of TS 36.423 §9.3.8: a list of RachIndicationIEField values.
 type RachIndicationIEContainer = s17.RachIndicationIEContainer
@@ -16803,15 +16802,15 @@ type RachIndicationIEValue = s17.RachIndicationIEValue
 var RachIndicationIEs func() RachIndicationIETable = s17.RachIndicationIEs
 
 // RachIndicationInitiatingBinding is the concrete InitiatingBinding[RachIndication].
-type RachIndicationInitiatingBinding = s20.RachIndicationInitiatingBinding
+type RachIndicationInitiatingBinding = s19.RachIndicationInitiatingBinding
 
-var RachIndicationProcedure func() RachIndicationDescriptor = s20.RachIndicationProcedure
+var RachIndicationProcedure func() RachIndicationDescriptor = s19.RachIndicationProcedure
 
 // RachIndicationRaReportIndicationListIEBinding binds RaReportIndicationList to ProtocolIE-Field {{RachIndication-IEs}} of TS 36.423 §9.3.8.
 type RachIndicationRaReportIndicationListIEBinding = s17.RachIndicationRaReportIndicationListIEBinding
 
 // RachIndicationValueCodec is the concrete ValueCodec[RachIndication].
-type RachIndicationValueCodec = s20.RachIndicationValueCodec
+type RachIndicationValueCodec = s19.RachIndicationValueCodec
 
 // RadioResourceStatus represents the ASN.1 type RadioResourceStatus (SEQUENCE).
 type RadioResourceStatus = s12.RadioResourceStatus
@@ -17221,7 +17220,7 @@ type RequestedFastMCGRecoveryViaSRB3Release = s00.RequestedFastMCGRecoveryViaSRB
 type RequestedFastMCGRecoveryViaSRB3ReleaseAPERValue = s00.RequestedFastMCGRecoveryViaSRB3ReleaseAPERValue
 
 // RequestedFastMCGRecoveryViaSRB3ReleaseCodec binds the complete APER value type.
-var RequestedFastMCGRecoveryViaSRB3ReleaseCodec func() RequestedFastMCGRecoveryViaSRB3ReleaseValueCodec = s17.RequestedFastMCGRecoveryViaSRB3ReleaseCodec
+var RequestedFastMCGRecoveryViaSRB3ReleaseCodec func() RequestedFastMCGRecoveryViaSRB3ReleaseValueCodec = s16.RequestedFastMCGRecoveryViaSRB3ReleaseCodec
 
 const RequestedFastMCGRecoveryViaSRB3ReleaseTrue = s00.RequestedFastMCGRecoveryViaSRB3ReleaseTrue
 
@@ -17255,21 +17254,21 @@ type ReservedSubframePatternExtIEsValue = s03.ReservedSubframePatternExtIEsValue
 
 // ReservedSubframePatternValueCodec is the concrete ValueCodec[ReservedSubframePattern].
 type ReservedSubframePatternValueCodec = s05.ReservedSubframePatternValueCodec
-type ResetDescriptor = s20.ResetDescriptor
+type ResetDescriptor = s19.ResetDescriptor
 
-var ResetProcedure func() ResetDescriptor = s20.ResetProcedure
+var ResetProcedure func() ResetDescriptor = s19.ResetProcedure
 
 // ResetRequest represents the ASN.1 type ResetRequest (SEQUENCE).
-type ResetRequest = s20.ResetRequest
+type ResetRequest = s19.ResetRequest
 
 // ResetRequestAPERValue is the concrete APERValue[ResetRequest].
-type ResetRequestAPERValue = s20.ResetRequestAPERValue
+type ResetRequestAPERValue = s19.ResetRequestAPERValue
 
 // ResetRequestCauseIEBinding binds Cause to ProtocolIE-Field {{ResetRequest-IEs}} of TS 36.423 §9.3.8.
 type ResetRequestCauseIEBinding = s07.ResetRequestCauseIEBinding
 
 // ResetRequestCodec binds the complete APER value type.
-var ResetRequestCodec func() ResetRequestValueCodec = s20.ResetRequestCodec
+var ResetRequestCodec func() ResetRequestValueCodec = s19.ResetRequestCodec
 
 // ResetRequestIEContainer is ProtocolIE-Container {{ResetRequest-IEs}} of TS 36.423 §9.3.8: a list of ResetRequestIEField values.
 type ResetRequestIEContainer = s07.ResetRequestIEContainer
@@ -17282,22 +17281,22 @@ type ResetRequestIEValue = s07.ResetRequestIEValue
 var ResetRequestIEs func() ResetRequestIETable = s07.ResetRequestIEs
 
 // ResetRequestInitiatingBinding is the concrete InitiatingBinding[ResetRequest].
-type ResetRequestInitiatingBinding = s20.ResetRequestInitiatingBinding
+type ResetRequestInitiatingBinding = s19.ResetRequestInitiatingBinding
 
 // ResetRequestInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ResetRequest-IEs}} of TS 36.423 §9.3.8.
 type ResetRequestInterfaceInstanceIndicationIEBinding = s07.ResetRequestInterfaceInstanceIndicationIEBinding
 
 // ResetRequestValueCodec is the concrete ValueCodec[ResetRequest].
-type ResetRequestValueCodec = s20.ResetRequestValueCodec
+type ResetRequestValueCodec = s19.ResetRequestValueCodec
 
 // ResetResponse represents the ASN.1 type ResetResponse (SEQUENCE).
-type ResetResponse = s19.ResetResponse
+type ResetResponse = s18.ResetResponse
 
 // ResetResponseAPERValue is the concrete APERValue[ResetResponse].
-type ResetResponseAPERValue = s19.ResetResponseAPERValue
+type ResetResponseAPERValue = s18.ResetResponseAPERValue
 
 // ResetResponseCodec binds the complete APER value type.
-var ResetResponseCodec func() ResetResponseValueCodec = s20.ResetResponseCodec
+var ResetResponseCodec func() ResetResponseValueCodec = s19.ResetResponseCodec
 
 // ResetResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ResetResponse-IEs}} of TS 36.423 §9.3.8.
 type ResetResponseCriticalityDiagnosticsIEBinding = s07.ResetResponseCriticalityDiagnosticsIEBinding
@@ -17316,10 +17315,10 @@ var ResetResponseIEs func() ResetResponseIETable = s07.ResetResponseIEs
 type ResetResponseInterfaceInstanceIndicationIEBinding = s07.ResetResponseInterfaceInstanceIndicationIEBinding
 
 // ResetResponseSuccessfulBinding is the concrete SuccessfulBinding[ResetResponse].
-type ResetResponseSuccessfulBinding = s19.ResetResponseSuccessfulBinding
+type ResetResponseSuccessfulBinding = s18.ResetResponseSuccessfulBinding
 
 // ResetResponseValueCodec is the concrete ValueCodec[ResetResponse].
-type ResetResponseValueCodec = s19.ResetResponseValueCodec
+type ResetResponseValueCodec = s18.ResetResponseValueCodec
 
 // ResourceStatusFailure represents the ASN.1 type ResourceStatusFailure (SEQUENCE).
 type ResourceStatusFailure = s14.ResourceStatusFailure
@@ -17331,7 +17330,7 @@ type ResourceStatusFailureAPERValue = s14.ResourceStatusFailureAPERValue
 type ResourceStatusFailureCauseIEBinding = s14.ResourceStatusFailureCauseIEBinding
 
 // ResourceStatusFailureCodec binds the complete APER value type.
-var ResourceStatusFailureCodec func() ResourceStatusFailureValueCodec = s20.ResourceStatusFailureCodec
+var ResourceStatusFailureCodec func() ResourceStatusFailureValueCodec = s19.ResourceStatusFailureCodec
 
 // ResourceStatusFailureCompleteFailureCauseInformationListIEBinding binds CompleteFailureCauseInformationList to ProtocolIE-Field {{ResourceStatusFailure-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusFailureCompleteFailureCauseInformationListIEBinding = s14.ResourceStatusFailureCompleteFailureCauseInformationListIEBinding
@@ -17357,23 +17356,23 @@ type ResourceStatusFailureUnsuccessfulBinding = s14.ResourceStatusFailureUnsucce
 
 // ResourceStatusFailureValueCodec is the concrete ValueCodec[ResourceStatusFailure].
 type ResourceStatusFailureValueCodec = s14.ResourceStatusFailureValueCodec
-type ResourceStatusReportingDescriptor = s20.ResourceStatusReportingDescriptor
-type ResourceStatusReportingInitiationDescriptor = s20.ResourceStatusReportingInitiationDescriptor
+type ResourceStatusReportingDescriptor = s19.ResourceStatusReportingDescriptor
+type ResourceStatusReportingInitiationDescriptor = s19.ResourceStatusReportingInitiationDescriptor
 
-var ResourceStatusReportingInitiationProcedure func() ResourceStatusReportingInitiationDescriptor = s20.ResourceStatusReportingInitiationProcedure
-var ResourceStatusReportingProcedure func() ResourceStatusReportingDescriptor = s20.ResourceStatusReportingProcedure
+var ResourceStatusReportingInitiationProcedure func() ResourceStatusReportingInitiationDescriptor = s19.ResourceStatusReportingInitiationProcedure
+var ResourceStatusReportingProcedure func() ResourceStatusReportingDescriptor = s19.ResourceStatusReportingProcedure
 
 // ResourceStatusRequest represents the ASN.1 type ResourceStatusRequest (SEQUENCE).
-type ResourceStatusRequest = s20.ResourceStatusRequest
+type ResourceStatusRequest = s19.ResourceStatusRequest
 
 // ResourceStatusRequestAPERValue is the concrete APERValue[ResourceStatusRequest].
-type ResourceStatusRequestAPERValue = s20.ResourceStatusRequestAPERValue
+type ResourceStatusRequestAPERValue = s19.ResourceStatusRequestAPERValue
 
 // ResourceStatusRequestCellToReportListIEBinding binds CellToReportList to ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusRequestCellToReportListIEBinding = s14.ResourceStatusRequestCellToReportListIEBinding
 
 // ResourceStatusRequestCodec binds the complete APER value type.
-var ResourceStatusRequestCodec func() ResourceStatusRequestValueCodec = s20.ResourceStatusRequestCodec
+var ResourceStatusRequestCodec func() ResourceStatusRequestValueCodec = s19.ResourceStatusRequestCodec
 
 // ResourceStatusRequestIEContainer is ProtocolIE-Container {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8: a list of ResourceStatusRequestIEField values.
 type ResourceStatusRequestIEContainer = s14.ResourceStatusRequestIEContainer
@@ -17386,7 +17385,7 @@ type ResourceStatusRequestIEValue = s14.ResourceStatusRequestIEValue
 var ResourceStatusRequestIEs func() ResourceStatusRequestIETable = s14.ResourceStatusRequestIEs
 
 // ResourceStatusRequestInitiatingBinding is the concrete InitiatingBinding[ResourceStatusRequest].
-type ResourceStatusRequestInitiatingBinding = s20.ResourceStatusRequestInitiatingBinding
+type ResourceStatusRequestInitiatingBinding = s19.ResourceStatusRequestInitiatingBinding
 
 // ResourceStatusRequestMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{ResourceStatusRequest-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusRequestMeasurementIDIEBinding = s14.ResourceStatusRequestMeasurementIDIEBinding
@@ -17410,16 +17409,16 @@ type ResourceStatusRequestReportingPeriodicityIEBinding = s14.ResourceStatusRequ
 type ResourceStatusRequestReportingPeriodicityRSRPMRIEBinding = s14.ResourceStatusRequestReportingPeriodicityRSRPMRIEBinding
 
 // ResourceStatusRequestValueCodec is the concrete ValueCodec[ResourceStatusRequest].
-type ResourceStatusRequestValueCodec = s20.ResourceStatusRequestValueCodec
+type ResourceStatusRequestValueCodec = s19.ResourceStatusRequestValueCodec
 
 // ResourceStatusResponse represents the ASN.1 type ResourceStatusResponse (SEQUENCE).
-type ResourceStatusResponse = s19.ResourceStatusResponse
+type ResourceStatusResponse = s18.ResourceStatusResponse
 
 // ResourceStatusResponseAPERValue is the concrete APERValue[ResourceStatusResponse].
-type ResourceStatusResponseAPERValue = s19.ResourceStatusResponseAPERValue
+type ResourceStatusResponseAPERValue = s18.ResourceStatusResponseAPERValue
 
 // ResourceStatusResponseCodec binds the complete APER value type.
-var ResourceStatusResponseCodec func() ResourceStatusResponseValueCodec = s20.ResourceStatusResponseCodec
+var ResourceStatusResponseCodec func() ResourceStatusResponseValueCodec = s19.ResourceStatusResponseCodec
 
 // ResourceStatusResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ResourceStatusResponse-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusResponseCriticalityDiagnosticsIEBinding = s16.ResourceStatusResponseCriticalityDiagnosticsIEBinding
@@ -17441,22 +17440,22 @@ type ResourceStatusResponseMeasurementIDIEBinding = s16.ResourceStatusResponseMe
 type ResourceStatusResponseMeasurementInitiationResultListIEBinding = s16.ResourceStatusResponseMeasurementInitiationResultListIEBinding
 
 // ResourceStatusResponseSuccessfulBinding is the concrete SuccessfulBinding[ResourceStatusResponse].
-type ResourceStatusResponseSuccessfulBinding = s19.ResourceStatusResponseSuccessfulBinding
+type ResourceStatusResponseSuccessfulBinding = s18.ResourceStatusResponseSuccessfulBinding
 
 // ResourceStatusResponseValueCodec is the concrete ValueCodec[ResourceStatusResponse].
-type ResourceStatusResponseValueCodec = s19.ResourceStatusResponseValueCodec
+type ResourceStatusResponseValueCodec = s18.ResourceStatusResponseValueCodec
 
 // ResourceStatusUpdate represents the ASN.1 type ResourceStatusUpdate (SEQUENCE).
-type ResourceStatusUpdate = s20.ResourceStatusUpdate
+type ResourceStatusUpdate = s19.ResourceStatusUpdate
 
 // ResourceStatusUpdateAPERValue is the concrete APERValue[ResourceStatusUpdate].
-type ResourceStatusUpdateAPERValue = s20.ResourceStatusUpdateAPERValue
+type ResourceStatusUpdateAPERValue = s19.ResourceStatusUpdateAPERValue
 
 // ResourceStatusUpdateCellMeasurementResultListIEBinding binds CellMeasurementResultList to ProtocolIE-Field {{ResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusUpdateCellMeasurementResultListIEBinding = s17.ResourceStatusUpdateCellMeasurementResultListIEBinding
 
 // ResourceStatusUpdateCodec binds the complete APER value type.
-var ResourceStatusUpdateCodec func() ResourceStatusUpdateValueCodec = s20.ResourceStatusUpdateCodec
+var ResourceStatusUpdateCodec func() ResourceStatusUpdateValueCodec = s19.ResourceStatusUpdateCodec
 
 // ResourceStatusUpdateIEContainer is ProtocolIE-Container {{ResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8: a list of ResourceStatusUpdateIEField values.
 type ResourceStatusUpdateIEContainer = s17.ResourceStatusUpdateIEContainer
@@ -17469,13 +17468,13 @@ type ResourceStatusUpdateIEValue = s17.ResourceStatusUpdateIEValue
 var ResourceStatusUpdateIEs func() ResourceStatusUpdateIETable = s17.ResourceStatusUpdateIEs
 
 // ResourceStatusUpdateInitiatingBinding is the concrete InitiatingBinding[ResourceStatusUpdate].
-type ResourceStatusUpdateInitiatingBinding = s20.ResourceStatusUpdateInitiatingBinding
+type ResourceStatusUpdateInitiatingBinding = s19.ResourceStatusUpdateInitiatingBinding
 
 // ResourceStatusUpdateMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{ResourceStatusUpdate-IEs}} of TS 36.423 §9.3.8.
 type ResourceStatusUpdateMeasurementIDIEBinding = s17.ResourceStatusUpdateMeasurementIDIEBinding
 
 // ResourceStatusUpdateValueCodec is the concrete ValueCodec[ResourceStatusUpdate].
-type ResourceStatusUpdateValueCodec = s20.ResourceStatusUpdateValueCodec
+type ResourceStatusUpdateValueCodec = s19.ResourceStatusUpdateValueCodec
 
 // ResourceType represents the ASN.1 ENUMERATED type ResourceType.
 type ResourceType = s00.ResourceType
@@ -17495,10 +17494,10 @@ const ResourceTypeUplink = s00.ResourceTypeUplink
 type ResourceTypeValueCodec = s00.ResourceTypeValueCodec
 
 // RespondingNodeTypeEndcConfigUpdate represents the ASN.1 CHOICE type RespondingNodeType-EndcConfigUpdate.
-type RespondingNodeTypeEndcConfigUpdate = s18.RespondingNodeTypeEndcConfigUpdate
+type RespondingNodeTypeEndcConfigUpdate = s17.RespondingNodeTypeEndcConfigUpdate
 
 // RespondingNodeTypeEndcConfigUpdateAPERValue is the concrete APERValue[RespondingNodeTypeEndcConfigUpdate].
-type RespondingNodeTypeEndcConfigUpdateAPERValue = s18.RespondingNodeTypeEndcConfigUpdateAPERValue
+type RespondingNodeTypeEndcConfigUpdateAPERValue = s17.RespondingNodeTypeEndcConfigUpdateAPERValue
 
 // RespondingNodeTypeEndcConfigUpdate choice constants.
 const RespondingNodeTypeEndcConfigUpdateChoiceRespondENB = s00.RespondingNodeTypeEndcConfigUpdateChoiceRespondENB
@@ -17510,7 +17509,7 @@ const RespondingNodeTypeEndcConfigUpdateChoiceRespondEnGNB = s00.RespondingNodeT
 var RespondingNodeTypeEndcConfigUpdateCodec func() RespondingNodeTypeEndcConfigUpdateValueCodec = s18.RespondingNodeTypeEndcConfigUpdateCodec
 
 // RespondingNodeTypeEndcConfigUpdateValueCodec is the concrete ValueCodec[RespondingNodeTypeEndcConfigUpdate].
-type RespondingNodeTypeEndcConfigUpdateValueCodec = s18.RespondingNodeTypeEndcConfigUpdateValueCodec
+type RespondingNodeTypeEndcConfigUpdateValueCodec = s17.RespondingNodeTypeEndcConfigUpdateValueCodec
 
 // RespondingNodeTypeEndcX2Removal represents the ASN.1 CHOICE type RespondingNodeType-EndcX2Removal.
 type RespondingNodeTypeEndcX2Removal = s07.RespondingNodeTypeEndcX2Removal
@@ -17531,10 +17530,10 @@ var RespondingNodeTypeEndcX2RemovalCodec func() RespondingNodeTypeEndcX2RemovalV
 type RespondingNodeTypeEndcX2RemovalValueCodec = s07.RespondingNodeTypeEndcX2RemovalValueCodec
 
 // RespondingNodeTypeEndcX2Setup represents the ASN.1 CHOICE type RespondingNodeType-EndcX2Setup.
-type RespondingNodeTypeEndcX2Setup = s18.RespondingNodeTypeEndcX2Setup
+type RespondingNodeTypeEndcX2Setup = s17.RespondingNodeTypeEndcX2Setup
 
 // RespondingNodeTypeEndcX2SetupAPERValue is the concrete APERValue[RespondingNodeTypeEndcX2Setup].
-type RespondingNodeTypeEndcX2SetupAPERValue = s18.RespondingNodeTypeEndcX2SetupAPERValue
+type RespondingNodeTypeEndcX2SetupAPERValue = s17.RespondingNodeTypeEndcX2SetupAPERValue
 
 // RespondingNodeTypeEndcX2Setup choice constants.
 const RespondingNodeTypeEndcX2SetupChoiceRespondENB = s00.RespondingNodeTypeEndcX2SetupChoiceRespondENB
@@ -17546,13 +17545,13 @@ const RespondingNodeTypeEndcX2SetupChoiceRespondEnGNB = s00.RespondingNodeTypeEn
 var RespondingNodeTypeEndcX2SetupCodec func() RespondingNodeTypeEndcX2SetupValueCodec = s18.RespondingNodeTypeEndcX2SetupCodec
 
 // RespondingNodeTypeEndcX2SetupValueCodec is the concrete ValueCodec[RespondingNodeTypeEndcX2Setup].
-type RespondingNodeTypeEndcX2SetupValueCodec = s18.RespondingNodeTypeEndcX2SetupValueCodec
+type RespondingNodeTypeEndcX2SetupValueCodec = s17.RespondingNodeTypeEndcX2SetupValueCodec
 
 // RespondingNodeTypeEutranrCellResourceCoordination represents the ASN.1 CHOICE type RespondingNodeType-EutranrCellResourceCoordination.
-type RespondingNodeTypeEutranrCellResourceCoordination = s16.RespondingNodeTypeEutranrCellResourceCoordination
+type RespondingNodeTypeEutranrCellResourceCoordination = s15.RespondingNodeTypeEutranrCellResourceCoordination
 
 // RespondingNodeTypeEutranrCellResourceCoordinationAPERValue is the concrete APERValue[RespondingNodeTypeEutranrCellResourceCoordination].
-type RespondingNodeTypeEutranrCellResourceCoordinationAPERValue = s16.RespondingNodeTypeEutranrCellResourceCoordinationAPERValue
+type RespondingNodeTypeEutranrCellResourceCoordinationAPERValue = s15.RespondingNodeTypeEutranrCellResourceCoordinationAPERValue
 
 // RespondingNodeTypeEutranrCellResourceCoordination choice constants.
 const RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondENB = s00.RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondENB
@@ -17561,10 +17560,10 @@ const RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondENB = s00.Re
 const RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondEnGNB = s00.RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondEnGNB
 
 // RespondingNodeTypeEutranrCellResourceCoordinationCodec binds the complete APER value type.
-var RespondingNodeTypeEutranrCellResourceCoordinationCodec func() RespondingNodeTypeEutranrCellResourceCoordinationValueCodec = s16.RespondingNodeTypeEutranrCellResourceCoordinationCodec
+var RespondingNodeTypeEutranrCellResourceCoordinationCodec func() RespondingNodeTypeEutranrCellResourceCoordinationValueCodec = s15.RespondingNodeTypeEutranrCellResourceCoordinationCodec
 
 // RespondingNodeTypeEutranrCellResourceCoordinationValueCodec is the concrete ValueCodec[RespondingNodeTypeEutranrCellResourceCoordination].
-type RespondingNodeTypeEutranrCellResourceCoordinationValueCodec = s16.RespondingNodeTypeEutranrCellResourceCoordinationValueCodec
+type RespondingNodeTypeEutranrCellResourceCoordinationValueCodec = s15.RespondingNodeTypeEutranrCellResourceCoordinationValueCodec
 
 // ResponseInformationSeNBReconfComp represents the ASN.1 CHOICE type ResponseInformationSeNBReconfComp.
 type ResponseInformationSeNBReconfComp = s05.ResponseInformationSeNBReconfComp
@@ -17711,7 +17710,7 @@ var ResumeIDCodec func() ResumeIDValueCodec = s11.ResumeIDCodec
 
 // ResumeIDValueCodec is the concrete ValueCodec[ResumeID].
 type ResumeIDValueCodec = s00.ResumeIDValueCodec
-type RetrieveUEContextDescriptor = s20.RetrieveUEContextDescriptor
+type RetrieveUEContextDescriptor = s19.RetrieveUEContextDescriptor
 
 // RetrieveUEContextFailure represents the ASN.1 type RetrieveUEContextFailure (SEQUENCE).
 type RetrieveUEContextFailure = s14.RetrieveUEContextFailure
@@ -17723,7 +17722,7 @@ type RetrieveUEContextFailureAPERValue = s14.RetrieveUEContextFailureAPERValue
 type RetrieveUEContextFailureCauseIEBinding = s11.RetrieveUEContextFailureCauseIEBinding
 
 // RetrieveUEContextFailureCodec binds the complete APER value type.
-var RetrieveUEContextFailureCodec func() RetrieveUEContextFailureValueCodec = s20.RetrieveUEContextFailureCodec
+var RetrieveUEContextFailureCodec func() RetrieveUEContextFailureValueCodec = s19.RetrieveUEContextFailureCodec
 
 // RetrieveUEContextFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{RetrieveUEContextFailure-IEs}} of TS 36.423 §9.3.8.
 type RetrieveUEContextFailureCriticalityDiagnosticsIEBinding = s11.RetrieveUEContextFailureCriticalityDiagnosticsIEBinding
@@ -17750,19 +17749,19 @@ type RetrieveUEContextFailureUnsuccessfulBinding = s14.RetrieveUEContextFailureU
 // RetrieveUEContextFailureValueCodec is the concrete ValueCodec[RetrieveUEContextFailure].
 type RetrieveUEContextFailureValueCodec = s14.RetrieveUEContextFailureValueCodec
 
-var RetrieveUEContextProcedure func() RetrieveUEContextDescriptor = s20.RetrieveUEContextProcedure
+var RetrieveUEContextProcedure func() RetrieveUEContextDescriptor = s19.RetrieveUEContextProcedure
 
 // RetrieveUEContextRequest represents the ASN.1 type RetrieveUEContextRequest (SEQUENCE).
-type RetrieveUEContextRequest = s20.RetrieveUEContextRequest
+type RetrieveUEContextRequest = s19.RetrieveUEContextRequest
 
 // RetrieveUEContextRequestAPERValue is the concrete APERValue[RetrieveUEContextRequest].
-type RetrieveUEContextRequestAPERValue = s20.RetrieveUEContextRequestAPERValue
+type RetrieveUEContextRequestAPERValue = s19.RetrieveUEContextRequestAPERValue
 
 // RetrieveUEContextRequestCRNTIIEBinding binds CRNTI to ProtocolIE-Field {{RetrieveUEContextRequest-IEs}} of TS 36.423 §9.3.8.
 type RetrieveUEContextRequestCRNTIIEBinding = s11.RetrieveUEContextRequestCRNTIIEBinding
 
 // RetrieveUEContextRequestCodec binds the complete APER value type.
-var RetrieveUEContextRequestCodec func() RetrieveUEContextRequestValueCodec = s20.RetrieveUEContextRequestCodec
+var RetrieveUEContextRequestCodec func() RetrieveUEContextRequestValueCodec = s19.RetrieveUEContextRequestCodec
 
 // RetrieveUEContextRequestEUTRANCellIdentifierIEBinding binds EUTRANCellIdentifier to ProtocolIE-Field {{RetrieveUEContextRequest-IEs}} of TS 36.423 §9.3.8.
 type RetrieveUEContextRequestEUTRANCellIdentifierIEBinding = s11.RetrieveUEContextRequestEUTRANCellIdentifierIEBinding
@@ -17778,7 +17777,7 @@ type RetrieveUEContextRequestIEValue = s11.RetrieveUEContextRequestIEValue
 var RetrieveUEContextRequestIEs func() RetrieveUEContextRequestIETable = s11.RetrieveUEContextRequestIEs
 
 // RetrieveUEContextRequestInitiatingBinding is the concrete InitiatingBinding[RetrieveUEContextRequest].
-type RetrieveUEContextRequestInitiatingBinding = s20.RetrieveUEContextRequestInitiatingBinding
+type RetrieveUEContextRequestInitiatingBinding = s19.RetrieveUEContextRequestInitiatingBinding
 
 // RetrieveUEContextRequestPCIIEBinding binds PCI to ProtocolIE-Field {{RetrieveUEContextRequest-IEs}} of TS 36.423 §9.3.8.
 type RetrieveUEContextRequestPCIIEBinding = s11.RetrieveUEContextRequestPCIIEBinding
@@ -17796,19 +17795,19 @@ type RetrieveUEContextRequestUEX2APIDExtensionIEBinding = s11.RetrieveUEContextR
 type RetrieveUEContextRequestUEX2APIDIEBinding = s11.RetrieveUEContextRequestUEX2APIDIEBinding
 
 // RetrieveUEContextRequestValueCodec is the concrete ValueCodec[RetrieveUEContextRequest].
-type RetrieveUEContextRequestValueCodec = s20.RetrieveUEContextRequestValueCodec
+type RetrieveUEContextRequestValueCodec = s19.RetrieveUEContextRequestValueCodec
 
 // RetrieveUEContextResponse represents the ASN.1 type RetrieveUEContextResponse (SEQUENCE).
-type RetrieveUEContextResponse = s19.RetrieveUEContextResponse
+type RetrieveUEContextResponse = s18.RetrieveUEContextResponse
 
 // RetrieveUEContextResponseAPERValue is the concrete APERValue[RetrieveUEContextResponse].
-type RetrieveUEContextResponseAPERValue = s19.RetrieveUEContextResponseAPERValue
+type RetrieveUEContextResponseAPERValue = s18.RetrieveUEContextResponseAPERValue
 
 // RetrieveUEContextResponseAerialUEsubscriptionInformationIEBinding binds AerialUEsubscriptionInformation to ProtocolIE-Field {{RetrieveUEContextResponse-IEs}} of TS 36.423 §9.3.8.
 type RetrieveUEContextResponseAerialUEsubscriptionInformationIEBinding = s17.RetrieveUEContextResponseAerialUEsubscriptionInformationIEBinding
 
 // RetrieveUEContextResponseCodec binds the complete APER value type.
-var RetrieveUEContextResponseCodec func() RetrieveUEContextResponseValueCodec = s20.RetrieveUEContextResponseCodec
+var RetrieveUEContextResponseCodec func() RetrieveUEContextResponseValueCodec = s19.RetrieveUEContextResponseCodec
 
 // RetrieveUEContextResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{RetrieveUEContextResponse-IEs}} of TS 36.423 §9.3.8.
 type RetrieveUEContextResponseCriticalityDiagnosticsIEBinding = s17.RetrieveUEContextResponseCriticalityDiagnosticsIEBinding
@@ -17848,7 +17847,7 @@ type RetrieveUEContextResponseSRVCCOperationPossibleIEBinding = s17.RetrieveUECo
 type RetrieveUEContextResponseSubscriptionBasedUEDifferentiationInfoIEBinding = s17.RetrieveUEContextResponseSubscriptionBasedUEDifferentiationInfoIEBinding
 
 // RetrieveUEContextResponseSuccessfulBinding is the concrete SuccessfulBinding[RetrieveUEContextResponse].
-type RetrieveUEContextResponseSuccessfulBinding = s19.RetrieveUEContextResponseSuccessfulBinding
+type RetrieveUEContextResponseSuccessfulBinding = s18.RetrieveUEContextResponseSuccessfulBinding
 
 // RetrieveUEContextResponseTraceActivationIEBinding binds TraceActivation to ProtocolIE-Field {{RetrieveUEContextResponse-IEs}} of TS 36.423 §9.3.8.
 type RetrieveUEContextResponseTraceActivationIEBinding = s17.RetrieveUEContextResponseTraceActivationIEBinding
@@ -17866,7 +17865,7 @@ type RetrieveUEContextResponseUEX2APIDIEBinding = s17.RetrieveUEContextResponseU
 type RetrieveUEContextResponseV2XServicesAuthorizedIEBinding = s17.RetrieveUEContextResponseV2XServicesAuthorizedIEBinding
 
 // RetrieveUEContextResponseValueCodec is the concrete ValueCodec[RetrieveUEContextResponse].
-type RetrieveUEContextResponseValueCodec = s19.RetrieveUEContextResponseValueCodec
+type RetrieveUEContextResponseValueCodec = s18.RetrieveUEContextResponseValueCodec
 
 // S1TNLLoadIndicator represents the ASN.1 type S1TNLLoadIndicator (SEQUENCE).
 type S1TNLLoadIndicator = s05.S1TNLLoadIndicator
@@ -17945,7 +17944,7 @@ type SCGConfigurationQuery = s00.SCGConfigurationQuery
 type SCGConfigurationQueryAPERValue = s00.SCGConfigurationQueryAPERValue
 
 // SCGConfigurationQueryCodec binds the complete APER value type.
-var SCGConfigurationQueryCodec func() SCGConfigurationQueryValueCodec = s17.SCGConfigurationQueryCodec
+var SCGConfigurationQueryCodec func() SCGConfigurationQueryValueCodec = s16.SCGConfigurationQueryCodec
 
 const SCGConfigurationQueryTrue = s00.SCGConfigurationQueryTrue
 
@@ -17953,13 +17952,13 @@ const SCGConfigurationQueryTrue = s00.SCGConfigurationQueryTrue
 type SCGConfigurationQueryValueCodec = s00.SCGConfigurationQueryValueCodec
 
 // SCGFailureInformationReport represents the ASN.1 type SCGFailureInformationReport (SEQUENCE).
-type SCGFailureInformationReport = s20.SCGFailureInformationReport
+type SCGFailureInformationReport = s19.SCGFailureInformationReport
 
 // SCGFailureInformationReportAPERValue is the concrete APERValue[SCGFailureInformationReport].
-type SCGFailureInformationReportAPERValue = s20.SCGFailureInformationReportAPERValue
+type SCGFailureInformationReportAPERValue = s19.SCGFailureInformationReportAPERValue
 
 // SCGFailureInformationReportCodec binds the complete APER value type.
-var SCGFailureInformationReportCodec func() SCGFailureInformationReportValueCodec = s20.SCGFailureInformationReportCodec
+var SCGFailureInformationReportCodec func() SCGFailureInformationReportValueCodec = s19.SCGFailureInformationReportCodec
 
 // SCGFailureInformationReportIEContainer is ProtocolIE-Container {{SCGFailureInformationReport-IEs}} of TS 36.423 §9.3.8: a list of SCGFailureInformationReportIEField values.
 type SCGFailureInformationReportIEContainer = s11.SCGFailureInformationReportIEContainer
@@ -17972,7 +17971,7 @@ type SCGFailureInformationReportIEValue = s11.SCGFailureInformationReportIEValue
 var SCGFailureInformationReportIEs func() SCGFailureInformationReportIETable = s11.SCGFailureInformationReportIEs
 
 // SCGFailureInformationReportInitiatingBinding is the concrete InitiatingBinding[SCGFailureInformationReport].
-type SCGFailureInformationReportInitiatingBinding = s20.SCGFailureInformationReportInitiatingBinding
+type SCGFailureInformationReportInitiatingBinding = s19.SCGFailureInformationReportInitiatingBinding
 
 // SCGFailureInformationReportNRCGIIEBinding binds NRCGI to ProtocolIE-Field {{SCGFailureInformationReport-IEs}} of TS 36.423 §9.3.8.
 type SCGFailureInformationReportNRCGIIEBinding = s11.SCGFailureInformationReportNRCGIIEBinding
@@ -17990,7 +17989,7 @@ type SCGFailureInformationReportTimeSCGFailureIEBinding = s11.SCGFailureInformat
 type SCGFailureInformationReportUEX2APIDIEBinding = s11.SCGFailureInformationReportUEX2APIDIEBinding
 
 // SCGFailureInformationReportValueCodec is the concrete ValueCodec[SCGFailureInformationReport].
-type SCGFailureInformationReportValueCodec = s20.SCGFailureInformationReportValueCodec
+type SCGFailureInformationReportValueCodec = s19.SCGFailureInformationReportValueCodec
 
 // SCGFailureReportContainer represents the ASN.1 type SCG-FailureReportContainer (OCTET_STRING).
 type SCGFailureReportContainer = s08.SCGFailureReportContainer
@@ -18005,13 +18004,13 @@ var SCGFailureReportContainerCodec func() SCGFailureReportContainerValueCodec = 
 type SCGFailureReportContainerValueCodec = s08.SCGFailureReportContainerValueCodec
 
 // SCGFailureTransfer represents the ASN.1 type SCGFailureTransfer (SEQUENCE).
-type SCGFailureTransfer = s20.SCGFailureTransfer
+type SCGFailureTransfer = s19.SCGFailureTransfer
 
 // SCGFailureTransferAPERValue is the concrete APERValue[SCGFailureTransfer].
-type SCGFailureTransferAPERValue = s20.SCGFailureTransferAPERValue
+type SCGFailureTransferAPERValue = s19.SCGFailureTransferAPERValue
 
 // SCGFailureTransferCodec binds the complete APER value type.
-var SCGFailureTransferCodec func() SCGFailureTransferValueCodec = s20.SCGFailureTransferCodec
+var SCGFailureTransferCodec func() SCGFailureTransferValueCodec = s19.SCGFailureTransferCodec
 
 // SCGFailureTransferIEContainer is ProtocolIE-Container {{SCGFailureTransfer-IEs}} of TS 36.423 §9.3.8: a list of SCGFailureTransferIEField values.
 type SCGFailureTransferIEContainer = s11.SCGFailureTransferIEContainer
@@ -18024,7 +18023,7 @@ type SCGFailureTransferIEValue = s11.SCGFailureTransferIEValue
 var SCGFailureTransferIEs func() SCGFailureTransferIETable = s11.SCGFailureTransferIEs
 
 // SCGFailureTransferInitiatingBinding is the concrete InitiatingBinding[SCGFailureTransfer].
-type SCGFailureTransferInitiatingBinding = s20.SCGFailureTransferInitiatingBinding
+type SCGFailureTransferInitiatingBinding = s19.SCGFailureTransferInitiatingBinding
 
 // SCGFailureTransferSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{SCGFailureTransfer-IEs}} of TS 36.423 §9.3.8.
 type SCGFailureTransferSgNBUEX2APIDIEBinding = s11.SCGFailureTransferSgNBUEX2APIDIEBinding
@@ -18033,7 +18032,7 @@ type SCGFailureTransferSgNBUEX2APIDIEBinding = s11.SCGFailureTransferSgNBUEX2API
 type SCGFailureTransferUEX2APIDIEBinding = s11.SCGFailureTransferUEX2APIDIEBinding
 
 // SCGFailureTransferValueCodec is the concrete ValueCodec[SCGFailureTransfer].
-type SCGFailureTransferValueCodec = s20.SCGFailureTransferValueCodec
+type SCGFailureTransferValueCodec = s19.SCGFailureTransferValueCodec
 type SCGUEHistoryInformation = s08.SCGUEHistoryInformation
 
 // SCGUEHistoryInformationAPERValue is the concrete APERValue[SCGUEHistoryInformation].
@@ -18119,13 +18118,13 @@ const SIPTOBearerDeactivationIndicationTrue = s00.SIPTOBearerDeactivationIndicat
 type SIPTOBearerDeactivationIndicationValueCodec = s00.SIPTOBearerDeactivationIndicationValueCodec
 
 // SNStatusTransfer represents the ASN.1 type SNStatusTransfer (SEQUENCE).
-type SNStatusTransfer = s20.SNStatusTransfer
+type SNStatusTransfer = s19.SNStatusTransfer
 
 // SNStatusTransferAPERValue is the concrete APERValue[SNStatusTransfer].
-type SNStatusTransferAPERValue = s20.SNStatusTransferAPERValue
+type SNStatusTransferAPERValue = s19.SNStatusTransferAPERValue
 
 // SNStatusTransferCodec binds the complete APER value type.
-var SNStatusTransferCodec func() SNStatusTransferValueCodec = s20.SNStatusTransferCodec
+var SNStatusTransferCodec func() SNStatusTransferValueCodec = s19.SNStatusTransferCodec
 
 // SNStatusTransferERABsSubjectToStatusTransferListIEBinding binds ERABsSubjectToStatusTransferList to ProtocolIE-Field {{SNStatusTransfer-IEs}} of TS 36.423 §9.3.8.
 type SNStatusTransferERABsSubjectToStatusTransferListIEBinding = s15.SNStatusTransferERABsSubjectToStatusTransferListIEBinding
@@ -18141,7 +18140,7 @@ type SNStatusTransferIEValue = s15.SNStatusTransferIEValue
 var SNStatusTransferIEs func() SNStatusTransferIETable = s15.SNStatusTransferIEs
 
 // SNStatusTransferInitiatingBinding is the concrete InitiatingBinding[SNStatusTransfer].
-type SNStatusTransferInitiatingBinding = s20.SNStatusTransferInitiatingBinding
+type SNStatusTransferInitiatingBinding = s19.SNStatusTransferInitiatingBinding
 
 // SNStatusTransferSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{SNStatusTransfer-IEs}} of TS 36.423 §9.3.8.
 type SNStatusTransferSgNBUEX2APIDIEBinding = s15.SNStatusTransferSgNBUEX2APIDIEBinding
@@ -18153,7 +18152,7 @@ type SNStatusTransferUEX2APIDExtensionIEBinding = s15.SNStatusTransferUEX2APIDEx
 type SNStatusTransferUEX2APIDIEBinding = s15.SNStatusTransferUEX2APIDIEBinding
 
 // SNStatusTransferValueCodec is the concrete ValueCodec[SNStatusTransfer].
-type SNStatusTransferValueCodec = s20.SNStatusTransferValueCodec
+type SNStatusTransferValueCodec = s19.SNStatusTransferValueCodec
 
 // SNtriggered represents the ASN.1 ENUMERATED type SNtriggered.
 type SNtriggered = s00.SNtriggered
@@ -18162,7 +18161,7 @@ type SNtriggered = s00.SNtriggered
 type SNtriggeredAPERValue = s00.SNtriggeredAPERValue
 
 // SNtriggeredCodec binds the complete APER value type.
-var SNtriggeredCodec func() SNtriggeredValueCodec = s17.SNtriggeredCodec
+var SNtriggeredCodec func() SNtriggeredValueCodec = s16.SNtriggeredCodec
 
 const SNtriggeredTrue = s00.SNtriggeredTrue
 
@@ -18384,13 +18383,13 @@ type SULInformationExtIEsValue = s16.SULInformationExtIEsValue
 
 // SULInformationValueCodec is the concrete ValueCodec[SULInformation].
 type SULInformationValueCodec = s16.SULInformationValueCodec
-type ScgFailureInformationReportDescriptor = s20.ScgFailureInformationReportDescriptor
+type ScgFailureInformationReportDescriptor = s19.ScgFailureInformationReportDescriptor
 
-var ScgFailureInformationReportProcedure func() ScgFailureInformationReportDescriptor = s20.ScgFailureInformationReportProcedure
+var ScgFailureInformationReportProcedure func() ScgFailureInformationReportDescriptor = s19.ScgFailureInformationReportProcedure
 
-type ScgFailureTransferDescriptor = s20.ScgFailureTransferDescriptor
+type ScgFailureTransferDescriptor = s19.ScgFailureTransferDescriptor
 
-var ScgFailureTransferProcedure func() ScgFailureTransferDescriptor = s20.ScgFailureTransferProcedure
+var ScgFailureTransferProcedure func() ScgFailureTransferDescriptor = s19.ScgFailureTransferProcedure
 
 // ScheduledCommunicationTime represents the ASN.1 type ScheduledCommunicationTime (SEQUENCE).
 type ScheduledCommunicationTime = s05.ScheduledCommunicationTime
@@ -18414,70 +18413,70 @@ type ScheduledCommunicationTimeExtIEsValue = s03.ScheduledCommunicationTimeExtIE
 
 // ScheduledCommunicationTimeValueCodec is the concrete ValueCodec[ScheduledCommunicationTime].
 type ScheduledCommunicationTimeValueCodec = s05.ScheduledCommunicationTimeValueCodec
-type SeNBAdditionPreparationDescriptor = s20.SeNBAdditionPreparationDescriptor
+type SeNBAdditionPreparationDescriptor = s19.SeNBAdditionPreparationDescriptor
 
-var SeNBAdditionPreparationProcedure func() SeNBAdditionPreparationDescriptor = s20.SeNBAdditionPreparationProcedure
+var SeNBAdditionPreparationProcedure func() SeNBAdditionPreparationDescriptor = s19.SeNBAdditionPreparationProcedure
 
 // SeNBAdditionRequest represents the ASN.1 type SeNBAdditionRequest (SEQUENCE).
-type SeNBAdditionRequest = s20.SeNBAdditionRequest
+type SeNBAdditionRequest = s19.SeNBAdditionRequest
 
 // SeNBAdditionRequestAPERValue is the concrete APERValue[SeNBAdditionRequest].
-type SeNBAdditionRequestAPERValue = s20.SeNBAdditionRequestAPERValue
+type SeNBAdditionRequestAPERValue = s19.SeNBAdditionRequestAPERValue
 
 // SeNBAdditionRequestAcknowledge represents the ASN.1 type SeNBAdditionRequestAcknowledge (SEQUENCE).
-type SeNBAdditionRequestAcknowledge = s19.SeNBAdditionRequestAcknowledge
+type SeNBAdditionRequestAcknowledge = s18.SeNBAdditionRequestAcknowledge
 
 // SeNBAdditionRequestAcknowledgeAPERValue is the concrete APERValue[SeNBAdditionRequestAcknowledge].
-type SeNBAdditionRequestAcknowledgeAPERValue = s19.SeNBAdditionRequestAcknowledgeAPERValue
+type SeNBAdditionRequestAcknowledgeAPERValue = s18.SeNBAdditionRequestAcknowledgeAPERValue
 
 // SeNBAdditionRequestAcknowledgeCodec binds the complete APER value type.
-var SeNBAdditionRequestAcknowledgeCodec func() SeNBAdditionRequestAcknowledgeValueCodec = s20.SeNBAdditionRequestAcknowledgeCodec
+var SeNBAdditionRequestAcknowledgeCodec func() SeNBAdditionRequestAcknowledgeValueCodec = s19.SeNBAdditionRequestAcknowledgeCodec
 
 // SeNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SeNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding = s15.SeNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding
+type SeNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding = s14.SeNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding
 
 // SeNBAdditionRequestAcknowledgeERABListIEBinding binds ERABList to ProtocolIE-Field {{SeNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestAcknowledgeERABListIEBinding = s15.SeNBAdditionRequestAcknowledgeERABListIEBinding
+type SeNBAdditionRequestAcknowledgeERABListIEBinding = s14.SeNBAdditionRequestAcknowledgeERABListIEBinding
 
 // SeNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedListIEBinding binds ERABsAdmittedToBeAddedList to ProtocolIE-Field {{SeNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedListIEBinding = s15.SeNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedListIEBinding
+type SeNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedListIEBinding = s14.SeNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedListIEBinding
 
 // SeNBAdditionRequestAcknowledgeIEContainer is ProtocolIE-Container {{SeNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8: a list of SeNBAdditionRequestAcknowledgeIEField values.
-type SeNBAdditionRequestAcknowledgeIEContainer = s15.SeNBAdditionRequestAcknowledgeIEContainer
+type SeNBAdditionRequestAcknowledgeIEContainer = s14.SeNBAdditionRequestAcknowledgeIEContainer
 
 // SeNBAdditionRequestAcknowledgeIEField is ProtocolIE-Field {{SeNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8: an information element field.
-type SeNBAdditionRequestAcknowledgeIEField = s15.SeNBAdditionRequestAcknowledgeIEField
-type SeNBAdditionRequestAcknowledgeIETable = s15.SeNBAdditionRequestAcknowledgeIETable
-type SeNBAdditionRequestAcknowledgeIEValue = s15.SeNBAdditionRequestAcknowledgeIEValue
+type SeNBAdditionRequestAcknowledgeIEField = s14.SeNBAdditionRequestAcknowledgeIEField
+type SeNBAdditionRequestAcknowledgeIETable = s14.SeNBAdditionRequestAcknowledgeIETable
+type SeNBAdditionRequestAcknowledgeIEValue = s14.SeNBAdditionRequestAcknowledgeIEValue
 
-var SeNBAdditionRequestAcknowledgeIEs func() SeNBAdditionRequestAcknowledgeIETable = s15.SeNBAdditionRequestAcknowledgeIEs
+var SeNBAdditionRequestAcknowledgeIEs func() SeNBAdditionRequestAcknowledgeIETable = s14.SeNBAdditionRequestAcknowledgeIEs
 
 // SeNBAdditionRequestAcknowledgeSeNBtoMeNBContainerIEBinding binds SeNBtoMeNBContainer to ProtocolIE-Field {{SeNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestAcknowledgeSeNBtoMeNBContainerIEBinding = s15.SeNBAdditionRequestAcknowledgeSeNBtoMeNBContainerIEBinding
+type SeNBAdditionRequestAcknowledgeSeNBtoMeNBContainerIEBinding = s14.SeNBAdditionRequestAcknowledgeSeNBtoMeNBContainerIEBinding
 
 // SeNBAdditionRequestAcknowledgeSuccessfulBinding is the concrete SuccessfulBinding[SeNBAdditionRequestAcknowledge].
-type SeNBAdditionRequestAcknowledgeSuccessfulBinding = s19.SeNBAdditionRequestAcknowledgeSuccessfulBinding
+type SeNBAdditionRequestAcknowledgeSuccessfulBinding = s18.SeNBAdditionRequestAcknowledgeSuccessfulBinding
 
 // SeNBAdditionRequestAcknowledgeTransportLayerAddressIEBinding binds TransportLayerAddress to ProtocolIE-Field {{SeNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestAcknowledgeTransportLayerAddressIEBinding = s15.SeNBAdditionRequestAcknowledgeTransportLayerAddressIEBinding
+type SeNBAdditionRequestAcknowledgeTransportLayerAddressIEBinding = s14.SeNBAdditionRequestAcknowledgeTransportLayerAddressIEBinding
 
 // SeNBAdditionRequestAcknowledgeTunnelInformationIEBinding binds TunnelInformation to ProtocolIE-Field {{SeNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestAcknowledgeTunnelInformationIEBinding = s15.SeNBAdditionRequestAcknowledgeTunnelInformationIEBinding
+type SeNBAdditionRequestAcknowledgeTunnelInformationIEBinding = s14.SeNBAdditionRequestAcknowledgeTunnelInformationIEBinding
 
 // SeNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SeNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding = s15.SeNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding
+type SeNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding = s14.SeNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding
 
 // SeNBAdditionRequestAcknowledgeUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{SeNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestAcknowledgeUEX2APIDIEBinding = s15.SeNBAdditionRequestAcknowledgeUEX2APIDIEBinding
+type SeNBAdditionRequestAcknowledgeUEX2APIDIEBinding = s14.SeNBAdditionRequestAcknowledgeUEX2APIDIEBinding
 
 // SeNBAdditionRequestAcknowledgeValueCodec is the concrete ValueCodec[SeNBAdditionRequestAcknowledge].
-type SeNBAdditionRequestAcknowledgeValueCodec = s19.SeNBAdditionRequestAcknowledgeValueCodec
+type SeNBAdditionRequestAcknowledgeValueCodec = s18.SeNBAdditionRequestAcknowledgeValueCodec
 
 // SeNBAdditionRequestCSGMembershipStatusIEBinding binds CSGMembershipStatus to ProtocolIE-Field {{SeNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SeNBAdditionRequestCSGMembershipStatusIEBinding = s15.SeNBAdditionRequestCSGMembershipStatusIEBinding
 
 // SeNBAdditionRequestCodec binds the complete APER value type.
-var SeNBAdditionRequestCodec func() SeNBAdditionRequestValueCodec = s20.SeNBAdditionRequestCodec
+var SeNBAdditionRequestCodec func() SeNBAdditionRequestValueCodec = s19.SeNBAdditionRequestCodec
 
 // SeNBAdditionRequestERABsToBeAddedListIEBinding binds ERABsToBeAddedList to ProtocolIE-Field {{SeNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SeNBAdditionRequestERABsToBeAddedListIEBinding = s15.SeNBAdditionRequestERABsToBeAddedListIEBinding
@@ -18496,7 +18495,7 @@ type SeNBAdditionRequestIEValue = s15.SeNBAdditionRequestIEValue
 var SeNBAdditionRequestIEs func() SeNBAdditionRequestIETable = s15.SeNBAdditionRequestIEs
 
 // SeNBAdditionRequestInitiatingBinding is the concrete InitiatingBinding[SeNBAdditionRequest].
-type SeNBAdditionRequestInitiatingBinding = s20.SeNBAdditionRequestInitiatingBinding
+type SeNBAdditionRequestInitiatingBinding = s19.SeNBAdditionRequestInitiatingBinding
 
 // SeNBAdditionRequestMeNBtoSeNBContainerIEBinding binds MeNBtoSeNBContainer to ProtocolIE-Field {{SeNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SeNBAdditionRequestMeNBtoSeNBContainerIEBinding = s15.SeNBAdditionRequestMeNBtoSeNBContainerIEBinding
@@ -18511,29 +18510,29 @@ type SeNBAdditionRequestReject = s14.SeNBAdditionRequestReject
 type SeNBAdditionRequestRejectAPERValue = s14.SeNBAdditionRequestRejectAPERValue
 
 // SeNBAdditionRequestRejectCauseIEBinding binds Cause to ProtocolIE-Field {{SeNBAdditionRequestReject-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestRejectCauseIEBinding = s12.SeNBAdditionRequestRejectCauseIEBinding
+type SeNBAdditionRequestRejectCauseIEBinding = s11.SeNBAdditionRequestRejectCauseIEBinding
 
 // SeNBAdditionRequestRejectCodec binds the complete APER value type.
-var SeNBAdditionRequestRejectCodec func() SeNBAdditionRequestRejectValueCodec = s20.SeNBAdditionRequestRejectCodec
+var SeNBAdditionRequestRejectCodec func() SeNBAdditionRequestRejectValueCodec = s19.SeNBAdditionRequestRejectCodec
 
 // SeNBAdditionRequestRejectCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SeNBAdditionRequestReject-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestRejectCriticalityDiagnosticsIEBinding = s12.SeNBAdditionRequestRejectCriticalityDiagnosticsIEBinding
+type SeNBAdditionRequestRejectCriticalityDiagnosticsIEBinding = s11.SeNBAdditionRequestRejectCriticalityDiagnosticsIEBinding
 
 // SeNBAdditionRequestRejectIEContainer is ProtocolIE-Container {{SeNBAdditionRequestReject-IEs}} of TS 36.423 §9.3.8: a list of SeNBAdditionRequestRejectIEField values.
-type SeNBAdditionRequestRejectIEContainer = s12.SeNBAdditionRequestRejectIEContainer
+type SeNBAdditionRequestRejectIEContainer = s11.SeNBAdditionRequestRejectIEContainer
 
 // SeNBAdditionRequestRejectIEField is ProtocolIE-Field {{SeNBAdditionRequestReject-IEs}} of TS 36.423 §9.3.8: an information element field.
-type SeNBAdditionRequestRejectIEField = s12.SeNBAdditionRequestRejectIEField
-type SeNBAdditionRequestRejectIETable = s12.SeNBAdditionRequestRejectIETable
-type SeNBAdditionRequestRejectIEValue = s12.SeNBAdditionRequestRejectIEValue
+type SeNBAdditionRequestRejectIEField = s11.SeNBAdditionRequestRejectIEField
+type SeNBAdditionRequestRejectIETable = s11.SeNBAdditionRequestRejectIETable
+type SeNBAdditionRequestRejectIEValue = s11.SeNBAdditionRequestRejectIEValue
 
-var SeNBAdditionRequestRejectIEs func() SeNBAdditionRequestRejectIETable = s12.SeNBAdditionRequestRejectIEs
+var SeNBAdditionRequestRejectIEs func() SeNBAdditionRequestRejectIETable = s11.SeNBAdditionRequestRejectIEs
 
 // SeNBAdditionRequestRejectUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SeNBAdditionRequestReject-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestRejectUEX2APIDExtensionIEBinding = s12.SeNBAdditionRequestRejectUEX2APIDExtensionIEBinding
+type SeNBAdditionRequestRejectUEX2APIDExtensionIEBinding = s11.SeNBAdditionRequestRejectUEX2APIDExtensionIEBinding
 
 // SeNBAdditionRequestRejectUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{SeNBAdditionRequestReject-IEs}} of TS 36.423 §9.3.8.
-type SeNBAdditionRequestRejectUEX2APIDIEBinding = s12.SeNBAdditionRequestRejectUEX2APIDIEBinding
+type SeNBAdditionRequestRejectUEX2APIDIEBinding = s11.SeNBAdditionRequestRejectUEX2APIDIEBinding
 
 // SeNBAdditionRequestRejectUnsuccessfulBinding is the concrete UnsuccessfulBinding[SeNBAdditionRequestReject].
 type SeNBAdditionRequestRejectUnsuccessfulBinding = s14.SeNBAdditionRequestRejectUnsuccessfulBinding
@@ -18557,19 +18556,19 @@ type SeNBAdditionRequestUEX2APIDExtensionIEBinding = s15.SeNBAdditionRequestUEX2
 type SeNBAdditionRequestUEX2APIDIEBinding = s15.SeNBAdditionRequestUEX2APIDIEBinding
 
 // SeNBAdditionRequestValueCodec is the concrete ValueCodec[SeNBAdditionRequest].
-type SeNBAdditionRequestValueCodec = s20.SeNBAdditionRequestValueCodec
-type SeNBCounterCheckDescriptor = s20.SeNBCounterCheckDescriptor
+type SeNBAdditionRequestValueCodec = s19.SeNBAdditionRequestValueCodec
+type SeNBCounterCheckDescriptor = s19.SeNBCounterCheckDescriptor
 
-var SeNBCounterCheckProcedure func() SeNBCounterCheckDescriptor = s20.SeNBCounterCheckProcedure
+var SeNBCounterCheckProcedure func() SeNBCounterCheckDescriptor = s19.SeNBCounterCheckProcedure
 
 // SeNBCounterCheckRequest represents the ASN.1 type SeNBCounterCheckRequest (SEQUENCE).
-type SeNBCounterCheckRequest = s20.SeNBCounterCheckRequest
+type SeNBCounterCheckRequest = s19.SeNBCounterCheckRequest
 
 // SeNBCounterCheckRequestAPERValue is the concrete APERValue[SeNBCounterCheckRequest].
-type SeNBCounterCheckRequestAPERValue = s20.SeNBCounterCheckRequestAPERValue
+type SeNBCounterCheckRequestAPERValue = s19.SeNBCounterCheckRequestAPERValue
 
 // SeNBCounterCheckRequestCodec binds the complete APER value type.
-var SeNBCounterCheckRequestCodec func() SeNBCounterCheckRequestValueCodec = s20.SeNBCounterCheckRequestCodec
+var SeNBCounterCheckRequestCodec func() SeNBCounterCheckRequestValueCodec = s19.SeNBCounterCheckRequestCodec
 
 // SeNBCounterCheckRequestERABsSubjectToCounterCheckListIEBinding binds ERABsSubjectToCounterCheckList to ProtocolIE-Field {{SeNBCounterCheckRequest-IEs}} of TS 36.423 §9.3.8.
 type SeNBCounterCheckRequestERABsSubjectToCounterCheckListIEBinding = s15.SeNBCounterCheckRequestERABsSubjectToCounterCheckListIEBinding
@@ -18585,7 +18584,7 @@ type SeNBCounterCheckRequestIEValue = s15.SeNBCounterCheckRequestIEValue
 var SeNBCounterCheckRequestIEs func() SeNBCounterCheckRequestIETable = s15.SeNBCounterCheckRequestIEs
 
 // SeNBCounterCheckRequestInitiatingBinding is the concrete InitiatingBinding[SeNBCounterCheckRequest].
-type SeNBCounterCheckRequestInitiatingBinding = s20.SeNBCounterCheckRequestInitiatingBinding
+type SeNBCounterCheckRequestInitiatingBinding = s19.SeNBCounterCheckRequestInitiatingBinding
 
 // SeNBCounterCheckRequestUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SeNBCounterCheckRequest-IEs}} of TS 36.423 §9.3.8.
 type SeNBCounterCheckRequestUEX2APIDExtensionIEBinding = s15.SeNBCounterCheckRequestUEX2APIDExtensionIEBinding
@@ -18594,44 +18593,44 @@ type SeNBCounterCheckRequestUEX2APIDExtensionIEBinding = s15.SeNBCounterCheckReq
 type SeNBCounterCheckRequestUEX2APIDIEBinding = s15.SeNBCounterCheckRequestUEX2APIDIEBinding
 
 // SeNBCounterCheckRequestValueCodec is the concrete ValueCodec[SeNBCounterCheckRequest].
-type SeNBCounterCheckRequestValueCodec = s20.SeNBCounterCheckRequestValueCodec
+type SeNBCounterCheckRequestValueCodec = s19.SeNBCounterCheckRequestValueCodec
 
 // SeNBModificationConfirm represents the ASN.1 type SeNBModificationConfirm (SEQUENCE).
-type SeNBModificationConfirm = s19.SeNBModificationConfirm
+type SeNBModificationConfirm = s18.SeNBModificationConfirm
 
 // SeNBModificationConfirmAPERValue is the concrete APERValue[SeNBModificationConfirm].
-type SeNBModificationConfirmAPERValue = s19.SeNBModificationConfirmAPERValue
+type SeNBModificationConfirmAPERValue = s18.SeNBModificationConfirmAPERValue
 
 // SeNBModificationConfirmCodec binds the complete APER value type.
-var SeNBModificationConfirmCodec func() SeNBModificationConfirmValueCodec = s20.SeNBModificationConfirmCodec
+var SeNBModificationConfirmCodec func() SeNBModificationConfirmValueCodec = s19.SeNBModificationConfirmCodec
 
 // SeNBModificationConfirmCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SeNBModificationConfirm-IEs}} of TS 36.423 §9.3.8.
-type SeNBModificationConfirmCriticalityDiagnosticsIEBinding = s12.SeNBModificationConfirmCriticalityDiagnosticsIEBinding
+type SeNBModificationConfirmCriticalityDiagnosticsIEBinding = s11.SeNBModificationConfirmCriticalityDiagnosticsIEBinding
 
 // SeNBModificationConfirmIEContainer is ProtocolIE-Container {{SeNBModificationConfirm-IEs}} of TS 36.423 §9.3.8: a list of SeNBModificationConfirmIEField values.
-type SeNBModificationConfirmIEContainer = s12.SeNBModificationConfirmIEContainer
+type SeNBModificationConfirmIEContainer = s11.SeNBModificationConfirmIEContainer
 
 // SeNBModificationConfirmIEField is ProtocolIE-Field {{SeNBModificationConfirm-IEs}} of TS 36.423 §9.3.8: an information element field.
-type SeNBModificationConfirmIEField = s12.SeNBModificationConfirmIEField
-type SeNBModificationConfirmIETable = s12.SeNBModificationConfirmIETable
-type SeNBModificationConfirmIEValue = s12.SeNBModificationConfirmIEValue
+type SeNBModificationConfirmIEField = s11.SeNBModificationConfirmIEField
+type SeNBModificationConfirmIETable = s11.SeNBModificationConfirmIETable
+type SeNBModificationConfirmIEValue = s11.SeNBModificationConfirmIEValue
 
-var SeNBModificationConfirmIEs func() SeNBModificationConfirmIETable = s12.SeNBModificationConfirmIEs
+var SeNBModificationConfirmIEs func() SeNBModificationConfirmIETable = s11.SeNBModificationConfirmIEs
 
 // SeNBModificationConfirmMeNBtoSeNBContainerIEBinding binds MeNBtoSeNBContainer to ProtocolIE-Field {{SeNBModificationConfirm-IEs}} of TS 36.423 §9.3.8.
-type SeNBModificationConfirmMeNBtoSeNBContainerIEBinding = s12.SeNBModificationConfirmMeNBtoSeNBContainerIEBinding
+type SeNBModificationConfirmMeNBtoSeNBContainerIEBinding = s11.SeNBModificationConfirmMeNBtoSeNBContainerIEBinding
 
 // SeNBModificationConfirmSuccessfulBinding is the concrete SuccessfulBinding[SeNBModificationConfirm].
-type SeNBModificationConfirmSuccessfulBinding = s19.SeNBModificationConfirmSuccessfulBinding
+type SeNBModificationConfirmSuccessfulBinding = s18.SeNBModificationConfirmSuccessfulBinding
 
 // SeNBModificationConfirmUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SeNBModificationConfirm-IEs}} of TS 36.423 §9.3.8.
-type SeNBModificationConfirmUEX2APIDExtensionIEBinding = s12.SeNBModificationConfirmUEX2APIDExtensionIEBinding
+type SeNBModificationConfirmUEX2APIDExtensionIEBinding = s11.SeNBModificationConfirmUEX2APIDExtensionIEBinding
 
 // SeNBModificationConfirmUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{SeNBModificationConfirm-IEs}} of TS 36.423 §9.3.8.
-type SeNBModificationConfirmUEX2APIDIEBinding = s12.SeNBModificationConfirmUEX2APIDIEBinding
+type SeNBModificationConfirmUEX2APIDIEBinding = s11.SeNBModificationConfirmUEX2APIDIEBinding
 
 // SeNBModificationConfirmValueCodec is the concrete ValueCodec[SeNBModificationConfirm].
-type SeNBModificationConfirmValueCodec = s19.SeNBModificationConfirmValueCodec
+type SeNBModificationConfirmValueCodec = s18.SeNBModificationConfirmValueCodec
 
 // SeNBModificationRefuse represents the ASN.1 type SeNBModificationRefuse (SEQUENCE).
 type SeNBModificationRefuse = s14.SeNBModificationRefuse
@@ -18640,32 +18639,32 @@ type SeNBModificationRefuse = s14.SeNBModificationRefuse
 type SeNBModificationRefuseAPERValue = s14.SeNBModificationRefuseAPERValue
 
 // SeNBModificationRefuseCauseIEBinding binds Cause to ProtocolIE-Field {{SeNBModificationRefuse-IEs}} of TS 36.423 §9.3.8.
-type SeNBModificationRefuseCauseIEBinding = s12.SeNBModificationRefuseCauseIEBinding
+type SeNBModificationRefuseCauseIEBinding = s11.SeNBModificationRefuseCauseIEBinding
 
 // SeNBModificationRefuseCodec binds the complete APER value type.
-var SeNBModificationRefuseCodec func() SeNBModificationRefuseValueCodec = s20.SeNBModificationRefuseCodec
+var SeNBModificationRefuseCodec func() SeNBModificationRefuseValueCodec = s19.SeNBModificationRefuseCodec
 
 // SeNBModificationRefuseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SeNBModificationRefuse-IEs}} of TS 36.423 §9.3.8.
-type SeNBModificationRefuseCriticalityDiagnosticsIEBinding = s12.SeNBModificationRefuseCriticalityDiagnosticsIEBinding
+type SeNBModificationRefuseCriticalityDiagnosticsIEBinding = s11.SeNBModificationRefuseCriticalityDiagnosticsIEBinding
 
 // SeNBModificationRefuseIEContainer is ProtocolIE-Container {{SeNBModificationRefuse-IEs}} of TS 36.423 §9.3.8: a list of SeNBModificationRefuseIEField values.
-type SeNBModificationRefuseIEContainer = s12.SeNBModificationRefuseIEContainer
+type SeNBModificationRefuseIEContainer = s11.SeNBModificationRefuseIEContainer
 
 // SeNBModificationRefuseIEField is ProtocolIE-Field {{SeNBModificationRefuse-IEs}} of TS 36.423 §9.3.8: an information element field.
-type SeNBModificationRefuseIEField = s12.SeNBModificationRefuseIEField
-type SeNBModificationRefuseIETable = s12.SeNBModificationRefuseIETable
-type SeNBModificationRefuseIEValue = s12.SeNBModificationRefuseIEValue
+type SeNBModificationRefuseIEField = s11.SeNBModificationRefuseIEField
+type SeNBModificationRefuseIETable = s11.SeNBModificationRefuseIETable
+type SeNBModificationRefuseIEValue = s11.SeNBModificationRefuseIEValue
 
-var SeNBModificationRefuseIEs func() SeNBModificationRefuseIETable = s12.SeNBModificationRefuseIEs
+var SeNBModificationRefuseIEs func() SeNBModificationRefuseIETable = s11.SeNBModificationRefuseIEs
 
 // SeNBModificationRefuseMeNBtoSeNBContainerIEBinding binds MeNBtoSeNBContainer to ProtocolIE-Field {{SeNBModificationRefuse-IEs}} of TS 36.423 §9.3.8.
-type SeNBModificationRefuseMeNBtoSeNBContainerIEBinding = s12.SeNBModificationRefuseMeNBtoSeNBContainerIEBinding
+type SeNBModificationRefuseMeNBtoSeNBContainerIEBinding = s11.SeNBModificationRefuseMeNBtoSeNBContainerIEBinding
 
 // SeNBModificationRefuseUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SeNBModificationRefuse-IEs}} of TS 36.423 §9.3.8.
-type SeNBModificationRefuseUEX2APIDExtensionIEBinding = s12.SeNBModificationRefuseUEX2APIDExtensionIEBinding
+type SeNBModificationRefuseUEX2APIDExtensionIEBinding = s11.SeNBModificationRefuseUEX2APIDExtensionIEBinding
 
 // SeNBModificationRefuseUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{SeNBModificationRefuse-IEs}} of TS 36.423 §9.3.8.
-type SeNBModificationRefuseUEX2APIDIEBinding = s12.SeNBModificationRefuseUEX2APIDIEBinding
+type SeNBModificationRefuseUEX2APIDIEBinding = s11.SeNBModificationRefuseUEX2APIDIEBinding
 
 // SeNBModificationRefuseUnsuccessfulBinding is the concrete UnsuccessfulBinding[SeNBModificationRefuse].
 type SeNBModificationRefuseUnsuccessfulBinding = s14.SeNBModificationRefuseUnsuccessfulBinding
@@ -18674,19 +18673,19 @@ type SeNBModificationRefuseUnsuccessfulBinding = s14.SeNBModificationRefuseUnsuc
 type SeNBModificationRefuseValueCodec = s14.SeNBModificationRefuseValueCodec
 
 // SeNBModificationRequest represents the ASN.1 type SeNBModificationRequest (SEQUENCE).
-type SeNBModificationRequest = s20.SeNBModificationRequest
+type SeNBModificationRequest = s19.SeNBModificationRequest
 
 // SeNBModificationRequestAPERValue is the concrete APERValue[SeNBModificationRequest].
-type SeNBModificationRequestAPERValue = s20.SeNBModificationRequestAPERValue
+type SeNBModificationRequestAPERValue = s19.SeNBModificationRequestAPERValue
 
 // SeNBModificationRequestAcknowledge represents the ASN.1 type SeNBModificationRequestAcknowledge (SEQUENCE).
-type SeNBModificationRequestAcknowledge = s19.SeNBModificationRequestAcknowledge
+type SeNBModificationRequestAcknowledge = s18.SeNBModificationRequestAcknowledge
 
 // SeNBModificationRequestAcknowledgeAPERValue is the concrete APERValue[SeNBModificationRequestAcknowledge].
-type SeNBModificationRequestAcknowledgeAPERValue = s19.SeNBModificationRequestAcknowledgeAPERValue
+type SeNBModificationRequestAcknowledgeAPERValue = s18.SeNBModificationRequestAcknowledgeAPERValue
 
 // SeNBModificationRequestAcknowledgeCodec binds the complete APER value type.
-var SeNBModificationRequestAcknowledgeCodec func() SeNBModificationRequestAcknowledgeValueCodec = s20.SeNBModificationRequestAcknowledgeCodec
+var SeNBModificationRequestAcknowledgeCodec func() SeNBModificationRequestAcknowledgeValueCodec = s19.SeNBModificationRequestAcknowledgeCodec
 
 // SeNBModificationRequestAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SeNBModificationRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type SeNBModificationRequestAcknowledgeCriticalityDiagnosticsIEBinding = s15.SeNBModificationRequestAcknowledgeCriticalityDiagnosticsIEBinding
@@ -18717,7 +18716,7 @@ var SeNBModificationRequestAcknowledgeIEs func() SeNBModificationRequestAcknowle
 type SeNBModificationRequestAcknowledgeSeNBtoMeNBContainerIEBinding = s15.SeNBModificationRequestAcknowledgeSeNBtoMeNBContainerIEBinding
 
 // SeNBModificationRequestAcknowledgeSuccessfulBinding is the concrete SuccessfulBinding[SeNBModificationRequestAcknowledge].
-type SeNBModificationRequestAcknowledgeSuccessfulBinding = s19.SeNBModificationRequestAcknowledgeSuccessfulBinding
+type SeNBModificationRequestAcknowledgeSuccessfulBinding = s18.SeNBModificationRequestAcknowledgeSuccessfulBinding
 
 // SeNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SeNBModificationRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type SeNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding = s15.SeNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding
@@ -18726,7 +18725,7 @@ type SeNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding = s15.SeNBModi
 type SeNBModificationRequestAcknowledgeUEX2APIDIEBinding = s15.SeNBModificationRequestAcknowledgeUEX2APIDIEBinding
 
 // SeNBModificationRequestAcknowledgeValueCodec is the concrete ValueCodec[SeNBModificationRequestAcknowledge].
-type SeNBModificationRequestAcknowledgeValueCodec = s19.SeNBModificationRequestAcknowledgeValueCodec
+type SeNBModificationRequestAcknowledgeValueCodec = s18.SeNBModificationRequestAcknowledgeValueCodec
 
 // SeNBModificationRequestCSGMembershipStatusIEBinding binds CSGMembershipStatus to ProtocolIE-Field {{SeNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
 type SeNBModificationRequestCSGMembershipStatusIEBinding = s12.SeNBModificationRequestCSGMembershipStatusIEBinding
@@ -18735,7 +18734,7 @@ type SeNBModificationRequestCSGMembershipStatusIEBinding = s12.SeNBModificationR
 type SeNBModificationRequestCauseIEBinding = s12.SeNBModificationRequestCauseIEBinding
 
 // SeNBModificationRequestCodec binds the complete APER value type.
-var SeNBModificationRequestCodec func() SeNBModificationRequestValueCodec = s20.SeNBModificationRequestCodec
+var SeNBModificationRequestCodec func() SeNBModificationRequestValueCodec = s19.SeNBModificationRequestCodec
 
 // SeNBModificationRequestIEContainer is ProtocolIE-Container {{SeNBModificationRequest-IEs}} of TS 36.423 §9.3.8: a list of SeNBModificationRequestIEField values.
 type SeNBModificationRequestIEContainer = s12.SeNBModificationRequestIEContainer
@@ -18748,7 +18747,7 @@ type SeNBModificationRequestIEValue = s12.SeNBModificationRequestIEValue
 var SeNBModificationRequestIEs func() SeNBModificationRequestIETable = s12.SeNBModificationRequestIEs
 
 // SeNBModificationRequestInitiatingBinding is the concrete InitiatingBinding[SeNBModificationRequest].
-type SeNBModificationRequestInitiatingBinding = s20.SeNBModificationRequestInitiatingBinding
+type SeNBModificationRequestInitiatingBinding = s19.SeNBModificationRequestInitiatingBinding
 
 // SeNBModificationRequestMeNBtoSeNBContainerIEBinding binds MeNBtoSeNBContainer to ProtocolIE-Field {{SeNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
 type SeNBModificationRequestMeNBtoSeNBContainerIEBinding = s12.SeNBModificationRequestMeNBtoSeNBContainerIEBinding
@@ -18766,7 +18765,7 @@ type SeNBModificationRequestRejectAPERValue = s14.SeNBModificationRequestRejectA
 type SeNBModificationRequestRejectCauseIEBinding = s12.SeNBModificationRequestRejectCauseIEBinding
 
 // SeNBModificationRequestRejectCodec binds the complete APER value type.
-var SeNBModificationRequestRejectCodec func() SeNBModificationRequestRejectValueCodec = s20.SeNBModificationRequestRejectCodec
+var SeNBModificationRequestRejectCodec func() SeNBModificationRequestRejectValueCodec = s19.SeNBModificationRequestRejectCodec
 
 // SeNBModificationRequestRejectCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SeNBModificationRequestReject-IEs}} of TS 36.423 §9.3.8.
 type SeNBModificationRequestRejectCriticalityDiagnosticsIEBinding = s12.SeNBModificationRequestRejectCriticalityDiagnosticsIEBinding
@@ -18806,19 +18805,19 @@ type SeNBModificationRequestUEX2APIDExtensionIEBinding = s12.SeNBModificationReq
 type SeNBModificationRequestUEX2APIDIEBinding = s12.SeNBModificationRequestUEX2APIDIEBinding
 
 // SeNBModificationRequestValueCodec is the concrete ValueCodec[SeNBModificationRequest].
-type SeNBModificationRequestValueCodec = s20.SeNBModificationRequestValueCodec
+type SeNBModificationRequestValueCodec = s19.SeNBModificationRequestValueCodec
 
 // SeNBModificationRequired represents the ASN.1 type SeNBModificationRequired (SEQUENCE).
-type SeNBModificationRequired = s20.SeNBModificationRequired
+type SeNBModificationRequired = s19.SeNBModificationRequired
 
 // SeNBModificationRequiredAPERValue is the concrete APERValue[SeNBModificationRequired].
-type SeNBModificationRequiredAPERValue = s20.SeNBModificationRequiredAPERValue
+type SeNBModificationRequiredAPERValue = s19.SeNBModificationRequiredAPERValue
 
 // SeNBModificationRequiredCauseIEBinding binds Cause to ProtocolIE-Field {{SeNBModificationRequired-IEs}} of TS 36.423 §9.3.8.
 type SeNBModificationRequiredCauseIEBinding = s15.SeNBModificationRequiredCauseIEBinding
 
 // SeNBModificationRequiredCodec binds the complete APER value type.
-var SeNBModificationRequiredCodec func() SeNBModificationRequiredValueCodec = s20.SeNBModificationRequiredCodec
+var SeNBModificationRequiredCodec func() SeNBModificationRequiredValueCodec = s19.SeNBModificationRequiredCodec
 
 // SeNBModificationRequiredERABsToBeReleasedModReqdIEBinding binds ERABsToBeReleasedModReqd to ProtocolIE-Field {{SeNBModificationRequired-IEs}} of TS 36.423 §9.3.8.
 type SeNBModificationRequiredERABsToBeReleasedModReqdIEBinding = s15.SeNBModificationRequiredERABsToBeReleasedModReqdIEBinding
@@ -18834,7 +18833,7 @@ type SeNBModificationRequiredIEValue = s15.SeNBModificationRequiredIEValue
 var SeNBModificationRequiredIEs func() SeNBModificationRequiredIETable = s15.SeNBModificationRequiredIEs
 
 // SeNBModificationRequiredInitiatingBinding is the concrete InitiatingBinding[SeNBModificationRequired].
-type SeNBModificationRequiredInitiatingBinding = s20.SeNBModificationRequiredInitiatingBinding
+type SeNBModificationRequiredInitiatingBinding = s19.SeNBModificationRequiredInitiatingBinding
 
 // SeNBModificationRequiredSCGChangeIndicationIEBinding binds SCGChangeIndication to ProtocolIE-Field {{SeNBModificationRequired-IEs}} of TS 36.423 §9.3.8.
 type SeNBModificationRequiredSCGChangeIndicationIEBinding = s15.SeNBModificationRequiredSCGChangeIndicationIEBinding
@@ -18849,16 +18848,16 @@ type SeNBModificationRequiredUEX2APIDExtensionIEBinding = s15.SeNBModificationRe
 type SeNBModificationRequiredUEX2APIDIEBinding = s15.SeNBModificationRequiredUEX2APIDIEBinding
 
 // SeNBModificationRequiredValueCodec is the concrete ValueCodec[SeNBModificationRequired].
-type SeNBModificationRequiredValueCodec = s20.SeNBModificationRequiredValueCodec
+type SeNBModificationRequiredValueCodec = s19.SeNBModificationRequiredValueCodec
 
 // SeNBReconfigurationComplete represents the ASN.1 type SeNBReconfigurationComplete (SEQUENCE).
-type SeNBReconfigurationComplete = s20.SeNBReconfigurationComplete
+type SeNBReconfigurationComplete = s19.SeNBReconfigurationComplete
 
 // SeNBReconfigurationCompleteAPERValue is the concrete APERValue[SeNBReconfigurationComplete].
-type SeNBReconfigurationCompleteAPERValue = s20.SeNBReconfigurationCompleteAPERValue
+type SeNBReconfigurationCompleteAPERValue = s19.SeNBReconfigurationCompleteAPERValue
 
 // SeNBReconfigurationCompleteCodec binds the complete APER value type.
-var SeNBReconfigurationCompleteCodec func() SeNBReconfigurationCompleteValueCodec = s20.SeNBReconfigurationCompleteCodec
+var SeNBReconfigurationCompleteCodec func() SeNBReconfigurationCompleteValueCodec = s19.SeNBReconfigurationCompleteCodec
 
 // SeNBReconfigurationCompleteIEContainer is ProtocolIE-Container {{SeNBReconfigurationComplete-IEs}} of TS 36.423 §9.3.8: a list of SeNBReconfigurationCompleteIEField values.
 type SeNBReconfigurationCompleteIEContainer = s12.SeNBReconfigurationCompleteIEContainer
@@ -18871,7 +18870,7 @@ type SeNBReconfigurationCompleteIEValue = s12.SeNBReconfigurationCompleteIEValue
 var SeNBReconfigurationCompleteIEs func() SeNBReconfigurationCompleteIETable = s12.SeNBReconfigurationCompleteIEs
 
 // SeNBReconfigurationCompleteInitiatingBinding is the concrete InitiatingBinding[SeNBReconfigurationComplete].
-type SeNBReconfigurationCompleteInitiatingBinding = s20.SeNBReconfigurationCompleteInitiatingBinding
+type SeNBReconfigurationCompleteInitiatingBinding = s19.SeNBReconfigurationCompleteInitiatingBinding
 
 // SeNBReconfigurationCompleteResponseInformationSeNBReconfCompIEBinding binds ResponseInformationSeNBReconfComp to ProtocolIE-Field {{SeNBReconfigurationComplete-IEs}} of TS 36.423 §9.3.8.
 type SeNBReconfigurationCompleteResponseInformationSeNBReconfCompIEBinding = s12.SeNBReconfigurationCompleteResponseInformationSeNBReconfCompIEBinding
@@ -18883,19 +18882,19 @@ type SeNBReconfigurationCompleteUEX2APIDExtensionIEBinding = s12.SeNBReconfigura
 type SeNBReconfigurationCompleteUEX2APIDIEBinding = s12.SeNBReconfigurationCompleteUEX2APIDIEBinding
 
 // SeNBReconfigurationCompleteValueCodec is the concrete ValueCodec[SeNBReconfigurationComplete].
-type SeNBReconfigurationCompleteValueCodec = s20.SeNBReconfigurationCompleteValueCodec
-type SeNBReconfigurationCompletionDescriptor = s20.SeNBReconfigurationCompletionDescriptor
+type SeNBReconfigurationCompleteValueCodec = s19.SeNBReconfigurationCompleteValueCodec
+type SeNBReconfigurationCompletionDescriptor = s19.SeNBReconfigurationCompletionDescriptor
 
-var SeNBReconfigurationCompletionProcedure func() SeNBReconfigurationCompletionDescriptor = s20.SeNBReconfigurationCompletionProcedure
+var SeNBReconfigurationCompletionProcedure func() SeNBReconfigurationCompletionDescriptor = s19.SeNBReconfigurationCompletionProcedure
 
 // SeNBReleaseConfirm represents the ASN.1 type SeNBReleaseConfirm (SEQUENCE).
-type SeNBReleaseConfirm = s19.SeNBReleaseConfirm
+type SeNBReleaseConfirm = s18.SeNBReleaseConfirm
 
 // SeNBReleaseConfirmAPERValue is the concrete APERValue[SeNBReleaseConfirm].
-type SeNBReleaseConfirmAPERValue = s19.SeNBReleaseConfirmAPERValue
+type SeNBReleaseConfirmAPERValue = s18.SeNBReleaseConfirmAPERValue
 
 // SeNBReleaseConfirmCodec binds the complete APER value type.
-var SeNBReleaseConfirmCodec func() SeNBReleaseConfirmValueCodec = s20.SeNBReleaseConfirmCodec
+var SeNBReleaseConfirmCodec func() SeNBReleaseConfirmValueCodec = s19.SeNBReleaseConfirmCodec
 
 // SeNBReleaseConfirmCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SeNBReleaseConfirm-IEs}} of TS 36.423 §9.3.8.
 type SeNBReleaseConfirmCriticalityDiagnosticsIEBinding = s15.SeNBReleaseConfirmCriticalityDiagnosticsIEBinding
@@ -18914,7 +18913,7 @@ type SeNBReleaseConfirmIEValue = s15.SeNBReleaseConfirmIEValue
 var SeNBReleaseConfirmIEs func() SeNBReleaseConfirmIETable = s15.SeNBReleaseConfirmIEs
 
 // SeNBReleaseConfirmSuccessfulBinding is the concrete SuccessfulBinding[SeNBReleaseConfirm].
-type SeNBReleaseConfirmSuccessfulBinding = s19.SeNBReleaseConfirmSuccessfulBinding
+type SeNBReleaseConfirmSuccessfulBinding = s18.SeNBReleaseConfirmSuccessfulBinding
 
 // SeNBReleaseConfirmUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SeNBReleaseConfirm-IEs}} of TS 36.423 §9.3.8.
 type SeNBReleaseConfirmUEX2APIDExtensionIEBinding = s15.SeNBReleaseConfirmUEX2APIDExtensionIEBinding
@@ -18923,19 +18922,19 @@ type SeNBReleaseConfirmUEX2APIDExtensionIEBinding = s15.SeNBReleaseConfirmUEX2AP
 type SeNBReleaseConfirmUEX2APIDIEBinding = s15.SeNBReleaseConfirmUEX2APIDIEBinding
 
 // SeNBReleaseConfirmValueCodec is the concrete ValueCodec[SeNBReleaseConfirm].
-type SeNBReleaseConfirmValueCodec = s19.SeNBReleaseConfirmValueCodec
+type SeNBReleaseConfirmValueCodec = s18.SeNBReleaseConfirmValueCodec
 
 // SeNBReleaseRequest represents the ASN.1 type SeNBReleaseRequest (SEQUENCE).
-type SeNBReleaseRequest = s20.SeNBReleaseRequest
+type SeNBReleaseRequest = s19.SeNBReleaseRequest
 
 // SeNBReleaseRequestAPERValue is the concrete APERValue[SeNBReleaseRequest].
-type SeNBReleaseRequestAPERValue = s20.SeNBReleaseRequestAPERValue
+type SeNBReleaseRequestAPERValue = s19.SeNBReleaseRequestAPERValue
 
 // SeNBReleaseRequestCauseIEBinding binds Cause to ProtocolIE-Field {{SeNBReleaseRequest-IEs}} of TS 36.423 §9.3.8.
 type SeNBReleaseRequestCauseIEBinding = s15.SeNBReleaseRequestCauseIEBinding
 
 // SeNBReleaseRequestCodec binds the complete APER value type.
-var SeNBReleaseRequestCodec func() SeNBReleaseRequestValueCodec = s20.SeNBReleaseRequestCodec
+var SeNBReleaseRequestCodec func() SeNBReleaseRequestValueCodec = s19.SeNBReleaseRequestCodec
 
 // SeNBReleaseRequestERABsToBeReleasedListRelReqIEBinding binds ERABsToBeReleasedListRelReq to ProtocolIE-Field {{SeNBReleaseRequest-IEs}} of TS 36.423 §9.3.8.
 type SeNBReleaseRequestERABsToBeReleasedListRelReqIEBinding = s15.SeNBReleaseRequestERABsToBeReleasedListRelReqIEBinding
@@ -18951,7 +18950,7 @@ type SeNBReleaseRequestIEValue = s15.SeNBReleaseRequestIEValue
 var SeNBReleaseRequestIEs func() SeNBReleaseRequestIETable = s15.SeNBReleaseRequestIEs
 
 // SeNBReleaseRequestInitiatingBinding is the concrete InitiatingBinding[SeNBReleaseRequest].
-type SeNBReleaseRequestInitiatingBinding = s20.SeNBReleaseRequestInitiatingBinding
+type SeNBReleaseRequestInitiatingBinding = s19.SeNBReleaseRequestInitiatingBinding
 
 // SeNBReleaseRequestMakeBeforeBreakIndicatorIEBinding binds MakeBeforeBreakIndicator to ProtocolIE-Field {{SeNBReleaseRequest-IEs}} of TS 36.423 §9.3.8.
 type SeNBReleaseRequestMakeBeforeBreakIndicatorIEBinding = s15.SeNBReleaseRequestMakeBeforeBreakIndicatorIEBinding
@@ -18966,19 +18965,19 @@ type SeNBReleaseRequestUEX2APIDExtensionIEBinding = s15.SeNBReleaseRequestUEX2AP
 type SeNBReleaseRequestUEX2APIDIEBinding = s15.SeNBReleaseRequestUEX2APIDIEBinding
 
 // SeNBReleaseRequestValueCodec is the concrete ValueCodec[SeNBReleaseRequest].
-type SeNBReleaseRequestValueCodec = s20.SeNBReleaseRequestValueCodec
+type SeNBReleaseRequestValueCodec = s19.SeNBReleaseRequestValueCodec
 
 // SeNBReleaseRequired represents the ASN.1 type SeNBReleaseRequired (SEQUENCE).
-type SeNBReleaseRequired = s20.SeNBReleaseRequired
+type SeNBReleaseRequired = s19.SeNBReleaseRequired
 
 // SeNBReleaseRequiredAPERValue is the concrete APERValue[SeNBReleaseRequired].
-type SeNBReleaseRequiredAPERValue = s20.SeNBReleaseRequiredAPERValue
+type SeNBReleaseRequiredAPERValue = s19.SeNBReleaseRequiredAPERValue
 
 // SeNBReleaseRequiredCauseIEBinding binds Cause to ProtocolIE-Field {{SeNBReleaseRequired-IEs}} of TS 36.423 §9.3.8.
 type SeNBReleaseRequiredCauseIEBinding = s12.SeNBReleaseRequiredCauseIEBinding
 
 // SeNBReleaseRequiredCodec binds the complete APER value type.
-var SeNBReleaseRequiredCodec func() SeNBReleaseRequiredValueCodec = s20.SeNBReleaseRequiredCodec
+var SeNBReleaseRequiredCodec func() SeNBReleaseRequiredValueCodec = s19.SeNBReleaseRequiredCodec
 
 // SeNBReleaseRequiredIEContainer is ProtocolIE-Container {{SeNBReleaseRequired-IEs}} of TS 36.423 §9.3.8: a list of SeNBReleaseRequiredIEField values.
 type SeNBReleaseRequiredIEContainer = s12.SeNBReleaseRequiredIEContainer
@@ -18991,7 +18990,7 @@ type SeNBReleaseRequiredIEValue = s12.SeNBReleaseRequiredIEValue
 var SeNBReleaseRequiredIEs func() SeNBReleaseRequiredIETable = s12.SeNBReleaseRequiredIEs
 
 // SeNBReleaseRequiredInitiatingBinding is the concrete InitiatingBinding[SeNBReleaseRequired].
-type SeNBReleaseRequiredInitiatingBinding = s20.SeNBReleaseRequiredInitiatingBinding
+type SeNBReleaseRequiredInitiatingBinding = s19.SeNBReleaseRequiredInitiatingBinding
 
 // SeNBReleaseRequiredUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SeNBReleaseRequired-IEs}} of TS 36.423 §9.3.8.
 type SeNBReleaseRequiredUEX2APIDExtensionIEBinding = s12.SeNBReleaseRequiredUEX2APIDExtensionIEBinding
@@ -19000,7 +18999,7 @@ type SeNBReleaseRequiredUEX2APIDExtensionIEBinding = s12.SeNBReleaseRequiredUEX2
 type SeNBReleaseRequiredUEX2APIDIEBinding = s12.SeNBReleaseRequiredUEX2APIDIEBinding
 
 // SeNBReleaseRequiredValueCodec is the concrete ValueCodec[SeNBReleaseRequired].
-type SeNBReleaseRequiredValueCodec = s20.SeNBReleaseRequiredValueCodec
+type SeNBReleaseRequiredValueCodec = s19.SeNBReleaseRequiredValueCodec
 
 // SeNBSecurityKey represents the ASN.1 type SeNBSecurityKey (BIT_STRING).
 type SeNBSecurityKey = s08.SeNBSecurityKey
@@ -19013,13 +19012,13 @@ var SeNBSecurityKeyCodec func() SeNBSecurityKeyValueCodec = s15.SeNBSecurityKeyC
 
 // SeNBSecurityKeyValueCodec is the concrete ValueCodec[SeNBSecurityKey].
 type SeNBSecurityKeyValueCodec = s08.SeNBSecurityKeyValueCodec
-type SeNBinitiatedSeNBModificationDescriptor = s20.SeNBinitiatedSeNBModificationDescriptor
+type SeNBinitiatedSeNBModificationDescriptor = s19.SeNBinitiatedSeNBModificationDescriptor
 
-var SeNBinitiatedSeNBModificationProcedure func() SeNBinitiatedSeNBModificationDescriptor = s20.SeNBinitiatedSeNBModificationProcedure
+var SeNBinitiatedSeNBModificationProcedure func() SeNBinitiatedSeNBModificationDescriptor = s19.SeNBinitiatedSeNBModificationProcedure
 
-type SeNBinitiatedSeNBReleaseDescriptor = s20.SeNBinitiatedSeNBReleaseDescriptor
+type SeNBinitiatedSeNBReleaseDescriptor = s19.SeNBinitiatedSeNBReleaseDescriptor
 
-var SeNBinitiatedSeNBReleaseProcedure func() SeNBinitiatedSeNBReleaseDescriptor = s20.SeNBinitiatedSeNBReleaseProcedure
+var SeNBinitiatedSeNBReleaseProcedure func() SeNBinitiatedSeNBReleaseDescriptor = s19.SeNBinitiatedSeNBReleaseProcedure
 
 // SeNBtoMeNBContainer represents the ASN.1 type SeNBtoMeNBContainer (OCTET_STRING).
 type SeNBtoMeNBContainer = s08.SeNBtoMeNBContainer
@@ -19028,21 +19027,21 @@ type SeNBtoMeNBContainer = s08.SeNBtoMeNBContainer
 type SeNBtoMeNBContainerAPERValue = s08.SeNBtoMeNBContainerAPERValue
 
 // SeNBtoMeNBContainerCodec binds the complete APER value type.
-var SeNBtoMeNBContainerCodec func() SeNBtoMeNBContainerValueCodec = s15.SeNBtoMeNBContainerCodec
+var SeNBtoMeNBContainerCodec func() SeNBtoMeNBContainerValueCodec = s14.SeNBtoMeNBContainerCodec
 
 // SeNBtoMeNBContainerValueCodec is the concrete ValueCodec[SeNBtoMeNBContainer].
 type SeNBtoMeNBContainerValueCodec = s08.SeNBtoMeNBContainerValueCodec
 
 // SecondaryRATDataUsageReport represents the ASN.1 type SecondaryRATDataUsageReport (SEQUENCE).
-type SecondaryRATDataUsageReport = s20.SecondaryRATDataUsageReport
+type SecondaryRATDataUsageReport = s19.SecondaryRATDataUsageReport
 
 // SecondaryRATDataUsageReportAPERValue is the concrete APERValue[SecondaryRATDataUsageReport].
-type SecondaryRATDataUsageReportAPERValue = s20.SecondaryRATDataUsageReportAPERValue
+type SecondaryRATDataUsageReportAPERValue = s19.SecondaryRATDataUsageReportAPERValue
 
 // SecondaryRATDataUsageReportCodec binds the complete APER value type.
-var SecondaryRATDataUsageReportCodec func() SecondaryRATDataUsageReportValueCodec = s20.SecondaryRATDataUsageReportCodec
+var SecondaryRATDataUsageReportCodec func() SecondaryRATDataUsageReportValueCodec = s19.SecondaryRATDataUsageReportCodec
 
-type SecondaryRATDataUsageReportDescriptor = s20.SecondaryRATDataUsageReportDescriptor
+type SecondaryRATDataUsageReportDescriptor = s19.SecondaryRATDataUsageReportDescriptor
 
 // SecondaryRATDataUsageReportIEContainer is ProtocolIE-Container {{SecondaryRATDataUsageReport-IEs}} of TS 36.423 §9.3.8: a list of SecondaryRATDataUsageReportIEField values.
 type SecondaryRATDataUsageReportIEContainer = s17.SecondaryRATDataUsageReportIEContainer
@@ -19055,9 +19054,9 @@ type SecondaryRATDataUsageReportIEValue = s17.SecondaryRATDataUsageReportIEValue
 var SecondaryRATDataUsageReportIEs func() SecondaryRATDataUsageReportIETable = s17.SecondaryRATDataUsageReportIEs
 
 // SecondaryRATDataUsageReportInitiatingBinding is the concrete InitiatingBinding[SecondaryRATDataUsageReport].
-type SecondaryRATDataUsageReportInitiatingBinding = s20.SecondaryRATDataUsageReportInitiatingBinding
+type SecondaryRATDataUsageReportInitiatingBinding = s19.SecondaryRATDataUsageReportInitiatingBinding
 
-var SecondaryRATDataUsageReportProcedure func() SecondaryRATDataUsageReportDescriptor = s20.SecondaryRATDataUsageReportProcedure
+var SecondaryRATDataUsageReportProcedure func() SecondaryRATDataUsageReportDescriptor = s19.SecondaryRATDataUsageReportProcedure
 
 // SecondaryRATDataUsageReportSecondaryRATUsageReportListIEBinding binds SecondaryRATUsageReportList to ProtocolIE-Field {{SecondaryRATDataUsageReport-IEs}} of TS 36.423 §9.3.8.
 type SecondaryRATDataUsageReportSecondaryRATUsageReportListIEBinding = s17.SecondaryRATDataUsageReportSecondaryRATUsageReportListIEBinding
@@ -19072,7 +19071,7 @@ type SecondaryRATDataUsageReportUEX2APIDExtensionIEBinding = s17.SecondaryRATDat
 type SecondaryRATDataUsageReportUEX2APIDIEBinding = s17.SecondaryRATDataUsageReportUEX2APIDIEBinding
 
 // SecondaryRATDataUsageReportValueCodec is the concrete ValueCodec[SecondaryRATDataUsageReport].
-type SecondaryRATDataUsageReportValueCodec = s20.SecondaryRATDataUsageReportValueCodec
+type SecondaryRATDataUsageReportValueCodec = s19.SecondaryRATDataUsageReportValueCodec
 
 // SecondaryRATUsageReportItem represents the ASN.1 type SecondaryRATUsageReport-Item (SEQUENCE).
 type SecondaryRATUsageReportItem = s08.SecondaryRATUsageReportItem
@@ -19141,11 +19140,11 @@ type SecurityIndicationExtIETable = s08.SecurityIndicationExtIETable
 var SecurityIndicationExtIEs func() SecurityIndicationExtIETable = s08.SecurityIndicationExtIEs
 
 // SecurityIndicationExtIEsExtContainer is ProtocolExtensionContainer {{SecurityIndication-ExtIEs}} of TS 36.423 §9.3.8: a list of SecurityIndicationExtIEsExtField values.
-type SecurityIndicationExtIEsExtContainer = s04.SecurityIndicationExtIEsExtContainer
+type SecurityIndicationExtIEsExtContainer = s03.SecurityIndicationExtIEsExtContainer
 
 // SecurityIndicationExtIEsExtField is ProtocolExtensionField {{SecurityIndication-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
-type SecurityIndicationExtIEsExtField = s04.SecurityIndicationExtIEsExtField
-type SecurityIndicationExtIEsValue = s04.SecurityIndicationExtIEsValue
+type SecurityIndicationExtIEsExtField = s03.SecurityIndicationExtIEsExtField
+type SecurityIndicationExtIEsValue = s03.SecurityIndicationExtIEsValue
 
 // SecurityIndicationValueCodec is the concrete ValueCodec[SecurityIndication].
 type SecurityIndicationValueCodec = s05.SecurityIndicationValueCodec
@@ -19649,7 +19648,7 @@ type ServedNRCellsToActivate = s08.ServedNRCellsToActivate
 type ServedNRCellsToActivateAPERValue = s08.ServedNRCellsToActivateAPERValue
 
 // ServedNRCellsToActivateCodec binds the complete APER value type.
-var ServedNRCellsToActivateCodec func() ServedNRCellsToActivateValueCodec = s18.ServedNRCellsToActivateCodec
+var ServedNRCellsToActivateCodec func() ServedNRCellsToActivateValueCodec = s17.ServedNRCellsToActivateCodec
 
 // ServedNRCellsToActivateComplete carries a complete ServedNRCellsToActivate encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
@@ -19709,11 +19708,11 @@ type ServedNRcellsENDCX2ManagementList = s17.ServedNRcellsENDCX2ManagementList
 type ServedNRcellsENDCX2ManagementListAPERValue = s17.ServedNRcellsENDCX2ManagementListAPERValue
 
 // ServedNRcellsENDCX2ManagementListCodec binds the complete APER value type.
-var ServedNRcellsENDCX2ManagementListCodec func() ServedNRcellsENDCX2ManagementListValueCodec = s18.ServedNRcellsENDCX2ManagementListCodec
+var ServedNRcellsENDCX2ManagementListCodec func() ServedNRcellsENDCX2ManagementListValueCodec = s17.ServedNRcellsENDCX2ManagementListCodec
 
 // ServedNRcellsENDCX2ManagementListComplete carries a complete ServedNRcellsENDCX2ManagementList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type ServedNRcellsENDCX2ManagementListComplete = s18.ServedNRcellsENDCX2ManagementListComplete
+type ServedNRcellsENDCX2ManagementListComplete = s17.ServedNRcellsENDCX2ManagementListComplete
 
 // ServedNRcellsENDCX2ManagementListElem represents the ASN.1 type ServedNRcellsENDCX2ManagementList-Elem (SEQUENCE).
 type ServedNRcellsENDCX2ManagementListElem = s17.ServedNRcellsENDCX2ManagementListElem
@@ -19774,15 +19773,15 @@ const ServiceTypeQMCForStreamingService = s00.ServiceTypeQMCForStreamingService
 type ServiceTypeValueCodec = s00.ServiceTypeValueCodec
 
 // SgNBActivityNotification represents the ASN.1 type SgNBActivityNotification (SEQUENCE).
-type SgNBActivityNotification = s20.SgNBActivityNotification
+type SgNBActivityNotification = s19.SgNBActivityNotification
 
 // SgNBActivityNotificationAPERValue is the concrete APERValue[SgNBActivityNotification].
-type SgNBActivityNotificationAPERValue = s20.SgNBActivityNotificationAPERValue
+type SgNBActivityNotificationAPERValue = s19.SgNBActivityNotificationAPERValue
 
 // SgNBActivityNotificationCodec binds the complete APER value type.
-var SgNBActivityNotificationCodec func() SgNBActivityNotificationValueCodec = s20.SgNBActivityNotificationCodec
+var SgNBActivityNotificationCodec func() SgNBActivityNotificationValueCodec = s19.SgNBActivityNotificationCodec
 
-type SgNBActivityNotificationDescriptor = s20.SgNBActivityNotificationDescriptor
+type SgNBActivityNotificationDescriptor = s19.SgNBActivityNotificationDescriptor
 
 // SgNBActivityNotificationERABActivityNotifyItemListIEBinding binds ERABActivityNotifyItemList to ProtocolIE-Field {{SgNBActivityNotification-IEs}} of TS 36.423 §9.3.8.
 type SgNBActivityNotificationERABActivityNotifyItemListIEBinding = s14.SgNBActivityNotificationERABActivityNotifyItemListIEBinding
@@ -19798,9 +19797,9 @@ type SgNBActivityNotificationIEValue = s14.SgNBActivityNotificationIEValue
 var SgNBActivityNotificationIEs func() SgNBActivityNotificationIETable = s14.SgNBActivityNotificationIEs
 
 // SgNBActivityNotificationInitiatingBinding is the concrete InitiatingBinding[SgNBActivityNotification].
-type SgNBActivityNotificationInitiatingBinding = s20.SgNBActivityNotificationInitiatingBinding
+type SgNBActivityNotificationInitiatingBinding = s19.SgNBActivityNotificationInitiatingBinding
 
-var SgNBActivityNotificationProcedure func() SgNBActivityNotificationDescriptor = s20.SgNBActivityNotificationProcedure
+var SgNBActivityNotificationProcedure func() SgNBActivityNotificationDescriptor = s19.SgNBActivityNotificationProcedure
 
 // SgNBActivityNotificationSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{SgNBActivityNotification-IEs}} of TS 36.423 §9.3.8.
 type SgNBActivityNotificationSgNBUEX2APIDIEBinding = s14.SgNBActivityNotificationSgNBUEX2APIDIEBinding
@@ -19815,86 +19814,86 @@ type SgNBActivityNotificationUEX2APIDIEBinding = s14.SgNBActivityNotificationUEX
 type SgNBActivityNotificationUserPlaneTrafficActivityReportIEBinding = s14.SgNBActivityNotificationUserPlaneTrafficActivityReportIEBinding
 
 // SgNBActivityNotificationValueCodec is the concrete ValueCodec[SgNBActivityNotification].
-type SgNBActivityNotificationValueCodec = s20.SgNBActivityNotificationValueCodec
-type SgNBAdditionPreparationDescriptor = s20.SgNBAdditionPreparationDescriptor
+type SgNBActivityNotificationValueCodec = s19.SgNBActivityNotificationValueCodec
+type SgNBAdditionPreparationDescriptor = s19.SgNBAdditionPreparationDescriptor
 
-var SgNBAdditionPreparationProcedure func() SgNBAdditionPreparationDescriptor = s20.SgNBAdditionPreparationProcedure
+var SgNBAdditionPreparationProcedure func() SgNBAdditionPreparationDescriptor = s19.SgNBAdditionPreparationProcedure
 
 // SgNBAdditionRequest represents the ASN.1 type SgNBAdditionRequest (SEQUENCE).
-type SgNBAdditionRequest = s20.SgNBAdditionRequest
+type SgNBAdditionRequest = s19.SgNBAdditionRequest
 
 // SgNBAdditionRequestAPERValue is the concrete APERValue[SgNBAdditionRequest].
-type SgNBAdditionRequestAPERValue = s20.SgNBAdditionRequestAPERValue
+type SgNBAdditionRequestAPERValue = s19.SgNBAdditionRequestAPERValue
 
 // SgNBAdditionRequestAcknowledge represents the ASN.1 type SgNBAdditionRequestAcknowledge (SEQUENCE).
-type SgNBAdditionRequestAcknowledge = s19.SgNBAdditionRequestAcknowledge
+type SgNBAdditionRequestAcknowledge = s18.SgNBAdditionRequestAcknowledge
 
 // SgNBAdditionRequestAcknowledgeAPERValue is the concrete APERValue[SgNBAdditionRequestAcknowledge].
-type SgNBAdditionRequestAcknowledgeAPERValue = s19.SgNBAdditionRequestAcknowledgeAPERValue
+type SgNBAdditionRequestAcknowledgeAPERValue = s18.SgNBAdditionRequestAcknowledgeAPERValue
 
 // SgNBAdditionRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding binds AvailableFastMCGRecoveryViaSRB3 to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding = s15.SgNBAdditionRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding
+type SgNBAdditionRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding = s14.SgNBAdditionRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding
 
 // SgNBAdditionRequestAcknowledgeCPAinformationREQACKIEBinding binds CPAinformationREQACK to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeCPAinformationREQACKIEBinding = s15.SgNBAdditionRequestAcknowledgeCPAinformationREQACKIEBinding
+type SgNBAdditionRequestAcknowledgeCPAinformationREQACKIEBinding = s14.SgNBAdditionRequestAcknowledgeCPAinformationREQACKIEBinding
 
 // SgNBAdditionRequestAcknowledgeCodec binds the complete APER value type.
-var SgNBAdditionRequestAcknowledgeCodec func() SgNBAdditionRequestAcknowledgeValueCodec = s20.SgNBAdditionRequestAcknowledgeCodec
+var SgNBAdditionRequestAcknowledgeCodec func() SgNBAdditionRequestAcknowledgeValueCodec = s19.SgNBAdditionRequestAcknowledgeCodec
 
 // SgNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding = s15.SgNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding
+type SgNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding = s14.SgNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding
 
 // SgNBAdditionRequestAcknowledgeDirectForwardingPathAvailabilityIEBinding binds DirectForwardingPathAvailability to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeDirectForwardingPathAvailabilityIEBinding = s15.SgNBAdditionRequestAcknowledgeDirectForwardingPathAvailabilityIEBinding
+type SgNBAdditionRequestAcknowledgeDirectForwardingPathAvailabilityIEBinding = s14.SgNBAdditionRequestAcknowledgeDirectForwardingPathAvailabilityIEBinding
 
 // SgNBAdditionRequestAcknowledgeERABListIEBinding binds ERABList to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeERABListIEBinding = s15.SgNBAdditionRequestAcknowledgeERABListIEBinding
+type SgNBAdditionRequestAcknowledgeERABListIEBinding = s14.SgNBAdditionRequestAcknowledgeERABListIEBinding
 
 // SgNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedSgNBAddReqAckListIEBinding binds ERABsAdmittedToBeAddedSgNBAddReqAckList to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedSgNBAddReqAckListIEBinding = s15.SgNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedSgNBAddReqAckListIEBinding
+type SgNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedSgNBAddReqAckListIEBinding = s14.SgNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedSgNBAddReqAckListIEBinding
 
 // SgNBAdditionRequestAcknowledgeIEContainer is ProtocolIE-Container {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8: a list of SgNBAdditionRequestAcknowledgeIEField values.
-type SgNBAdditionRequestAcknowledgeIEContainer = s15.SgNBAdditionRequestAcknowledgeIEContainer
+type SgNBAdditionRequestAcknowledgeIEContainer = s14.SgNBAdditionRequestAcknowledgeIEContainer
 
 // SgNBAdditionRequestAcknowledgeIEField is ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8: an information element field.
-type SgNBAdditionRequestAcknowledgeIEField = s15.SgNBAdditionRequestAcknowledgeIEField
+type SgNBAdditionRequestAcknowledgeIEField = s14.SgNBAdditionRequestAcknowledgeIEField
 type SgNBAdditionRequestAcknowledgeIETable = s15.SgNBAdditionRequestAcknowledgeIETable
-type SgNBAdditionRequestAcknowledgeIEValue = s15.SgNBAdditionRequestAcknowledgeIEValue
+type SgNBAdditionRequestAcknowledgeIEValue = s14.SgNBAdditionRequestAcknowledgeIEValue
 
 var SgNBAdditionRequestAcknowledgeIEs func() SgNBAdditionRequestAcknowledgeIETable = s15.SgNBAdditionRequestAcknowledgeIEs
 
 // SgNBAdditionRequestAcknowledgeLocationInformationSgNBIEBinding binds LocationInformationSgNB to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeLocationInformationSgNBIEBinding = s15.SgNBAdditionRequestAcknowledgeLocationInformationSgNBIEBinding
+type SgNBAdditionRequestAcknowledgeLocationInformationSgNBIEBinding = s14.SgNBAdditionRequestAcknowledgeLocationInformationSgNBIEBinding
 
 // SgNBAdditionRequestAcknowledgeRRCConfigIndIEBinding binds RRCConfigInd to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeRRCConfigIndIEBinding = s15.SgNBAdditionRequestAcknowledgeRRCConfigIndIEBinding
+type SgNBAdditionRequestAcknowledgeRRCConfigIndIEBinding = s14.SgNBAdditionRequestAcknowledgeRRCConfigIndIEBinding
 
 // SgNBAdditionRequestAcknowledgeSCGActivationStatusIEBinding binds SCGActivationStatus to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeSCGActivationStatusIEBinding = s15.SgNBAdditionRequestAcknowledgeSCGActivationStatusIEBinding
+type SgNBAdditionRequestAcknowledgeSCGActivationStatusIEBinding = s14.SgNBAdditionRequestAcknowledgeSCGActivationStatusIEBinding
 
 // SgNBAdditionRequestAcknowledgeSgNBResourceCoordinationInformationIEBinding binds SgNBResourceCoordinationInformation to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeSgNBResourceCoordinationInformationIEBinding = s15.SgNBAdditionRequestAcknowledgeSgNBResourceCoordinationInformationIEBinding
+type SgNBAdditionRequestAcknowledgeSgNBResourceCoordinationInformationIEBinding = s14.SgNBAdditionRequestAcknowledgeSgNBResourceCoordinationInformationIEBinding
 
 // SgNBAdditionRequestAcknowledgeSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeSgNBUEX2APIDIEBinding = s15.SgNBAdditionRequestAcknowledgeSgNBUEX2APIDIEBinding
+type SgNBAdditionRequestAcknowledgeSgNBUEX2APIDIEBinding = s14.SgNBAdditionRequestAcknowledgeSgNBUEX2APIDIEBinding
 
 // SgNBAdditionRequestAcknowledgeSgNBtoMeNBContainerIEBinding binds SgNBtoMeNBContainer to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeSgNBtoMeNBContainerIEBinding = s15.SgNBAdditionRequestAcknowledgeSgNBtoMeNBContainerIEBinding
+type SgNBAdditionRequestAcknowledgeSgNBtoMeNBContainerIEBinding = s14.SgNBAdditionRequestAcknowledgeSgNBtoMeNBContainerIEBinding
 
 // SgNBAdditionRequestAcknowledgeSplitSRBsIEBinding binds SplitSRBs to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeSplitSRBsIEBinding = s15.SgNBAdditionRequestAcknowledgeSplitSRBsIEBinding
+type SgNBAdditionRequestAcknowledgeSplitSRBsIEBinding = s14.SgNBAdditionRequestAcknowledgeSplitSRBsIEBinding
 
 // SgNBAdditionRequestAcknowledgeSuccessfulBinding is the concrete SuccessfulBinding[SgNBAdditionRequestAcknowledge].
-type SgNBAdditionRequestAcknowledgeSuccessfulBinding = s19.SgNBAdditionRequestAcknowledgeSuccessfulBinding
+type SgNBAdditionRequestAcknowledgeSuccessfulBinding = s18.SgNBAdditionRequestAcknowledgeSuccessfulBinding
 
 // SgNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding = s15.SgNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding
+type SgNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding = s14.SgNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding
 
 // SgNBAdditionRequestAcknowledgeUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{SgNBAdditionRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
-type SgNBAdditionRequestAcknowledgeUEX2APIDIEBinding = s15.SgNBAdditionRequestAcknowledgeUEX2APIDIEBinding
+type SgNBAdditionRequestAcknowledgeUEX2APIDIEBinding = s14.SgNBAdditionRequestAcknowledgeUEX2APIDIEBinding
 
 // SgNBAdditionRequestAcknowledgeValueCodec is the concrete ValueCodec[SgNBAdditionRequestAcknowledge].
-type SgNBAdditionRequestAcknowledgeValueCodec = s19.SgNBAdditionRequestAcknowledgeValueCodec
+type SgNBAdditionRequestAcknowledgeValueCodec = s18.SgNBAdditionRequestAcknowledgeValueCodec
 
 // SgNBAdditionRequestAdditionalRRMPriorityIndexIEBinding binds AdditionalRRMPriorityIndex to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestAdditionalRRMPriorityIndexIEBinding = s18.SgNBAdditionRequestAdditionalRRMPriorityIndexIEBinding
@@ -19906,7 +19905,7 @@ type SgNBAdditionRequestCHOinformationAddReqIEBinding = s18.SgNBAdditionRequestC
 type SgNBAdditionRequestCPAinformationREQIEBinding = s18.SgNBAdditionRequestCPAinformationREQIEBinding
 
 // SgNBAdditionRequestCodec binds the complete APER value type.
-var SgNBAdditionRequestCodec func() SgNBAdditionRequestValueCodec = s20.SgNBAdditionRequestCodec
+var SgNBAdditionRequestCodec func() SgNBAdditionRequestValueCodec = s19.SgNBAdditionRequestCodec
 
 // SgNBAdditionRequestDesiredActNotificationLevelIEBinding binds DesiredActNotificationLevel to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestDesiredActNotificationLevelIEBinding = s18.SgNBAdditionRequestDesiredActNotificationLevelIEBinding
@@ -19943,7 +19942,7 @@ type SgNBAdditionRequestIEValue = s18.SgNBAdditionRequestIEValue
 var SgNBAdditionRequestIEs func() SgNBAdditionRequestIETable = s18.SgNBAdditionRequestIEs
 
 // SgNBAdditionRequestInitiatingBinding is the concrete InitiatingBinding[SgNBAdditionRequest].
-type SgNBAdditionRequestInitiatingBinding = s20.SgNBAdditionRequestInitiatingBinding
+type SgNBAdditionRequestInitiatingBinding = s19.SgNBAdditionRequestInitiatingBinding
 
 // SgNBAdditionRequestLocationInformationSgNBReportingIEBinding binds LocationInformationSgNBReporting to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestLocationInformationSgNBReportingIEBinding = s18.SgNBAdditionRequestLocationInformationSgNBReportingIEBinding
@@ -19985,7 +19984,7 @@ type SgNBAdditionRequestRejectAPERValue = s14.SgNBAdditionRequestRejectAPERValue
 type SgNBAdditionRequestRejectCauseIEBinding = s12.SgNBAdditionRequestRejectCauseIEBinding
 
 // SgNBAdditionRequestRejectCodec binds the complete APER value type.
-var SgNBAdditionRequestRejectCodec func() SgNBAdditionRequestRejectValueCodec = s20.SgNBAdditionRequestRejectCodec
+var SgNBAdditionRequestRejectCodec func() SgNBAdditionRequestRejectValueCodec = s19.SgNBAdditionRequestRejectCodec
 
 // SgNBAdditionRequestRejectCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBAdditionRequestReject-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestRejectCriticalityDiagnosticsIEBinding = s12.SgNBAdditionRequestRejectCriticalityDiagnosticsIEBinding
@@ -20058,19 +20057,19 @@ type SgNBAdditionRequestUEX2APIDExtensionIEBinding = s18.SgNBAdditionRequestUEX2
 type SgNBAdditionRequestUEX2APIDIEBinding = s18.SgNBAdditionRequestUEX2APIDIEBinding
 
 // SgNBAdditionRequestValueCodec is the concrete ValueCodec[SgNBAdditionRequest].
-type SgNBAdditionRequestValueCodec = s20.SgNBAdditionRequestValueCodec
+type SgNBAdditionRequestValueCodec = s19.SgNBAdditionRequestValueCodec
 
 // SgNBChangeConfirm represents the ASN.1 type SgNBChangeConfirm (SEQUENCE).
-type SgNBChangeConfirm = s19.SgNBChangeConfirm
+type SgNBChangeConfirm = s18.SgNBChangeConfirm
 
 // SgNBChangeConfirmAPERValue is the concrete APERValue[SgNBChangeConfirm].
-type SgNBChangeConfirmAPERValue = s19.SgNBChangeConfirmAPERValue
+type SgNBChangeConfirmAPERValue = s18.SgNBChangeConfirmAPERValue
 
 // SgNBChangeConfirmCPCinformationCONFIEBinding binds CPCinformationCONF to ProtocolIE-Field {{SgNBChangeConfirm-IEs}} of TS 36.423 §9.3.8.
 type SgNBChangeConfirmCPCinformationCONFIEBinding = s15.SgNBChangeConfirmCPCinformationCONFIEBinding
 
 // SgNBChangeConfirmCodec binds the complete APER value type.
-var SgNBChangeConfirmCodec func() SgNBChangeConfirmValueCodec = s20.SgNBChangeConfirmCodec
+var SgNBChangeConfirmCodec func() SgNBChangeConfirmValueCodec = s19.SgNBChangeConfirmCodec
 
 // SgNBChangeConfirmCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBChangeConfirm-IEs}} of TS 36.423 §9.3.8.
 type SgNBChangeConfirmCriticalityDiagnosticsIEBinding = s15.SgNBChangeConfirmCriticalityDiagnosticsIEBinding
@@ -20095,7 +20094,7 @@ type SgNBChangeConfirmMeNBtoSgNBContainerIEBinding = s15.SgNBChangeConfirmMeNBto
 type SgNBChangeConfirmSgNBUEX2APIDIEBinding = s15.SgNBChangeConfirmSgNBUEX2APIDIEBinding
 
 // SgNBChangeConfirmSuccessfulBinding is the concrete SuccessfulBinding[SgNBChangeConfirm].
-type SgNBChangeConfirmSuccessfulBinding = s19.SgNBChangeConfirmSuccessfulBinding
+type SgNBChangeConfirmSuccessfulBinding = s18.SgNBChangeConfirmSuccessfulBinding
 
 // SgNBChangeConfirmUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SgNBChangeConfirm-IEs}} of TS 36.423 §9.3.8.
 type SgNBChangeConfirmUEX2APIDExtensionIEBinding = s15.SgNBChangeConfirmUEX2APIDExtensionIEBinding
@@ -20104,10 +20103,10 @@ type SgNBChangeConfirmUEX2APIDExtensionIEBinding = s15.SgNBChangeConfirmUEX2APID
 type SgNBChangeConfirmUEX2APIDIEBinding = s15.SgNBChangeConfirmUEX2APIDIEBinding
 
 // SgNBChangeConfirmValueCodec is the concrete ValueCodec[SgNBChangeConfirm].
-type SgNBChangeConfirmValueCodec = s19.SgNBChangeConfirmValueCodec
-type SgNBChangeDescriptor = s20.SgNBChangeDescriptor
+type SgNBChangeConfirmValueCodec = s18.SgNBChangeConfirmValueCodec
+type SgNBChangeDescriptor = s19.SgNBChangeDescriptor
 
-var SgNBChangeProcedure func() SgNBChangeDescriptor = s20.SgNBChangeProcedure
+var SgNBChangeProcedure func() SgNBChangeDescriptor = s19.SgNBChangeProcedure
 
 // SgNBChangeRefuse represents the ASN.1 type SgNBChangeRefuse (SEQUENCE).
 type SgNBChangeRefuse = s14.SgNBChangeRefuse
@@ -20119,7 +20118,7 @@ type SgNBChangeRefuseAPERValue = s14.SgNBChangeRefuseAPERValue
 type SgNBChangeRefuseCauseIEBinding = s12.SgNBChangeRefuseCauseIEBinding
 
 // SgNBChangeRefuseCodec binds the complete APER value type.
-var SgNBChangeRefuseCodec func() SgNBChangeRefuseValueCodec = s20.SgNBChangeRefuseCodec
+var SgNBChangeRefuseCodec func() SgNBChangeRefuseValueCodec = s19.SgNBChangeRefuseCodec
 
 // SgNBChangeRefuseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBChangeRefuse-IEs}} of TS 36.423 §9.3.8.
 type SgNBChangeRefuseCriticalityDiagnosticsIEBinding = s12.SgNBChangeRefuseCriticalityDiagnosticsIEBinding
@@ -20150,10 +20149,10 @@ type SgNBChangeRefuseUnsuccessfulBinding = s14.SgNBChangeRefuseUnsuccessfulBindi
 type SgNBChangeRefuseValueCodec = s14.SgNBChangeRefuseValueCodec
 
 // SgNBChangeRequired represents the ASN.1 type SgNBChangeRequired (SEQUENCE).
-type SgNBChangeRequired = s20.SgNBChangeRequired
+type SgNBChangeRequired = s19.SgNBChangeRequired
 
 // SgNBChangeRequiredAPERValue is the concrete APERValue[SgNBChangeRequired].
-type SgNBChangeRequiredAPERValue = s20.SgNBChangeRequiredAPERValue
+type SgNBChangeRequiredAPERValue = s19.SgNBChangeRequiredAPERValue
 
 // SgNBChangeRequiredCPCinformationREQDIEBinding binds CPCinformationREQD to ProtocolIE-Field {{SgNBChangeRequired-IEs}} of TS 36.423 §9.3.8.
 type SgNBChangeRequiredCPCinformationREQDIEBinding = s17.SgNBChangeRequiredCPCinformationREQDIEBinding
@@ -20162,7 +20161,7 @@ type SgNBChangeRequiredCPCinformationREQDIEBinding = s17.SgNBChangeRequiredCPCin
 type SgNBChangeRequiredCauseIEBinding = s17.SgNBChangeRequiredCauseIEBinding
 
 // SgNBChangeRequiredCodec binds the complete APER value type.
-var SgNBChangeRequiredCodec func() SgNBChangeRequiredValueCodec = s20.SgNBChangeRequiredCodec
+var SgNBChangeRequiredCodec func() SgNBChangeRequiredValueCodec = s19.SgNBChangeRequiredCodec
 
 // SgNBChangeRequiredGlobalGNBIDIEBinding binds GlobalGNBID to ProtocolIE-Field {{SgNBChangeRequired-IEs}} of TS 36.423 §9.3.8.
 type SgNBChangeRequiredGlobalGNBIDIEBinding = s17.SgNBChangeRequiredGlobalGNBIDIEBinding
@@ -20178,7 +20177,7 @@ type SgNBChangeRequiredIEValue = s17.SgNBChangeRequiredIEValue
 var SgNBChangeRequiredIEs func() SgNBChangeRequiredIETable = s17.SgNBChangeRequiredIEs
 
 // SgNBChangeRequiredInitiatingBinding is the concrete InitiatingBinding[SgNBChangeRequired].
-type SgNBChangeRequiredInitiatingBinding = s20.SgNBChangeRequiredInitiatingBinding
+type SgNBChangeRequiredInitiatingBinding = s19.SgNBChangeRequiredInitiatingBinding
 
 // SgNBChangeRequiredSCGUEHistoryInformationIEBinding binds SCGUEHistoryInformation to ProtocolIE-Field {{SgNBChangeRequired-IEs}} of TS 36.423 §9.3.8.
 type SgNBChangeRequiredSCGUEHistoryInformationIEBinding = s17.SgNBChangeRequiredSCGUEHistoryInformationIEBinding
@@ -20196,7 +20195,7 @@ type SgNBChangeRequiredUEX2APIDExtensionIEBinding = s17.SgNBChangeRequiredUEX2AP
 type SgNBChangeRequiredUEX2APIDIEBinding = s17.SgNBChangeRequiredUEX2APIDIEBinding
 
 // SgNBChangeRequiredValueCodec is the concrete ValueCodec[SgNBChangeRequired].
-type SgNBChangeRequiredValueCodec = s20.SgNBChangeRequiredValueCodec
+type SgNBChangeRequiredValueCodec = s19.SgNBChangeRequiredValueCodec
 
 // SgNBCoordinationAssistanceInformation represents the ASN.1 ENUMERATED type SgNBCoordinationAssistanceInformation.
 type SgNBCoordinationAssistanceInformation = s00.SgNBCoordinationAssistanceInformation
@@ -20211,18 +20210,18 @@ const SgNBCoordinationAssistanceInformationCoordinationNotRequired = s00.SgNBCoo
 
 // SgNBCoordinationAssistanceInformationValueCodec is the concrete ValueCodec[SgNBCoordinationAssistanceInformation].
 type SgNBCoordinationAssistanceInformationValueCodec = s00.SgNBCoordinationAssistanceInformationValueCodec
-type SgNBCounterCheckDescriptor = s20.SgNBCounterCheckDescriptor
+type SgNBCounterCheckDescriptor = s19.SgNBCounterCheckDescriptor
 
-var SgNBCounterCheckProcedure func() SgNBCounterCheckDescriptor = s20.SgNBCounterCheckProcedure
+var SgNBCounterCheckProcedure func() SgNBCounterCheckDescriptor = s19.SgNBCounterCheckProcedure
 
 // SgNBCounterCheckRequest represents the ASN.1 type SgNBCounterCheckRequest (SEQUENCE).
-type SgNBCounterCheckRequest = s20.SgNBCounterCheckRequest
+type SgNBCounterCheckRequest = s19.SgNBCounterCheckRequest
 
 // SgNBCounterCheckRequestAPERValue is the concrete APERValue[SgNBCounterCheckRequest].
-type SgNBCounterCheckRequestAPERValue = s20.SgNBCounterCheckRequestAPERValue
+type SgNBCounterCheckRequestAPERValue = s19.SgNBCounterCheckRequestAPERValue
 
 // SgNBCounterCheckRequestCodec binds the complete APER value type.
-var SgNBCounterCheckRequestCodec func() SgNBCounterCheckRequestValueCodec = s20.SgNBCounterCheckRequestCodec
+var SgNBCounterCheckRequestCodec func() SgNBCounterCheckRequestValueCodec = s19.SgNBCounterCheckRequestCodec
 
 // SgNBCounterCheckRequestERABsSubjectToSgNBCounterCheckListIEBinding binds ERABsSubjectToSgNBCounterCheckList to ProtocolIE-Field {{SgNBCounterCheckRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBCounterCheckRequestERABsSubjectToSgNBCounterCheckListIEBinding = s15.SgNBCounterCheckRequestERABsSubjectToSgNBCounterCheckListIEBinding
@@ -20238,7 +20237,7 @@ type SgNBCounterCheckRequestIEValue = s15.SgNBCounterCheckRequestIEValue
 var SgNBCounterCheckRequestIEs func() SgNBCounterCheckRequestIETable = s15.SgNBCounterCheckRequestIEs
 
 // SgNBCounterCheckRequestInitiatingBinding is the concrete InitiatingBinding[SgNBCounterCheckRequest].
-type SgNBCounterCheckRequestInitiatingBinding = s20.SgNBCounterCheckRequestInitiatingBinding
+type SgNBCounterCheckRequestInitiatingBinding = s19.SgNBCounterCheckRequestInitiatingBinding
 
 // SgNBCounterCheckRequestSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{SgNBCounterCheckRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBCounterCheckRequestSgNBUEX2APIDIEBinding = s15.SgNBCounterCheckRequestSgNBUEX2APIDIEBinding
@@ -20250,16 +20249,16 @@ type SgNBCounterCheckRequestUEX2APIDExtensionIEBinding = s15.SgNBCounterCheckReq
 type SgNBCounterCheckRequestUEX2APIDIEBinding = s15.SgNBCounterCheckRequestUEX2APIDIEBinding
 
 // SgNBCounterCheckRequestValueCodec is the concrete ValueCodec[SgNBCounterCheckRequest].
-type SgNBCounterCheckRequestValueCodec = s20.SgNBCounterCheckRequestValueCodec
+type SgNBCounterCheckRequestValueCodec = s19.SgNBCounterCheckRequestValueCodec
 
 // SgNBModificationConfirm represents the ASN.1 type SgNBModificationConfirm (SEQUENCE).
-type SgNBModificationConfirm = s19.SgNBModificationConfirm
+type SgNBModificationConfirm = s18.SgNBModificationConfirm
 
 // SgNBModificationConfirmAPERValue is the concrete APERValue[SgNBModificationConfirm].
-type SgNBModificationConfirmAPERValue = s19.SgNBModificationConfirmAPERValue
+type SgNBModificationConfirmAPERValue = s18.SgNBModificationConfirmAPERValue
 
 // SgNBModificationConfirmCodec binds the complete APER value type.
-var SgNBModificationConfirmCodec func() SgNBModificationConfirmValueCodec = s21.SgNBModificationConfirmCodec
+var SgNBModificationConfirmCodec func() SgNBModificationConfirmValueCodec = s19.SgNBModificationConfirmCodec
 
 // SgNBModificationConfirmCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBModificationConfirm-IEs}} of TS 36.423 §9.3.8.
 type SgNBModificationConfirmCriticalityDiagnosticsIEBinding = s15.SgNBModificationConfirmCriticalityDiagnosticsIEBinding
@@ -20287,7 +20286,7 @@ type SgNBModificationConfirmMeNBtoSgNBContainerIEBinding = s15.SgNBModificationC
 type SgNBModificationConfirmSgNBUEX2APIDIEBinding = s15.SgNBModificationConfirmSgNBUEX2APIDIEBinding
 
 // SgNBModificationConfirmSuccessfulBinding is the concrete SuccessfulBinding[SgNBModificationConfirm].
-type SgNBModificationConfirmSuccessfulBinding = s19.SgNBModificationConfirmSuccessfulBinding
+type SgNBModificationConfirmSuccessfulBinding = s18.SgNBModificationConfirmSuccessfulBinding
 
 // SgNBModificationConfirmUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SgNBModificationConfirm-IEs}} of TS 36.423 §9.3.8.
 type SgNBModificationConfirmUEX2APIDExtensionIEBinding = s15.SgNBModificationConfirmUEX2APIDExtensionIEBinding
@@ -20296,7 +20295,7 @@ type SgNBModificationConfirmUEX2APIDExtensionIEBinding = s15.SgNBModificationCon
 type SgNBModificationConfirmUEX2APIDIEBinding = s15.SgNBModificationConfirmUEX2APIDIEBinding
 
 // SgNBModificationConfirmValueCodec is the concrete ValueCodec[SgNBModificationConfirm].
-type SgNBModificationConfirmValueCodec = s19.SgNBModificationConfirmValueCodec
+type SgNBModificationConfirmValueCodec = s18.SgNBModificationConfirmValueCodec
 
 // SgNBModificationRefuse represents the ASN.1 type SgNBModificationRefuse (SEQUENCE).
 type SgNBModificationRefuse = s14.SgNBModificationRefuse
@@ -20308,7 +20307,7 @@ type SgNBModificationRefuseAPERValue = s14.SgNBModificationRefuseAPERValue
 type SgNBModificationRefuseCauseIEBinding = s12.SgNBModificationRefuseCauseIEBinding
 
 // SgNBModificationRefuseCodec binds the complete APER value type.
-var SgNBModificationRefuseCodec func() SgNBModificationRefuseValueCodec = s21.SgNBModificationRefuseCodec
+var SgNBModificationRefuseCodec func() SgNBModificationRefuseValueCodec = s19.SgNBModificationRefuseCodec
 
 // SgNBModificationRefuseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBModificationRefuse-IEs}} of TS 36.423 §9.3.8.
 type SgNBModificationRefuseCriticalityDiagnosticsIEBinding = s12.SgNBModificationRefuseCriticalityDiagnosticsIEBinding
@@ -20342,16 +20341,16 @@ type SgNBModificationRefuseUnsuccessfulBinding = s14.SgNBModificationRefuseUnsuc
 type SgNBModificationRefuseValueCodec = s14.SgNBModificationRefuseValueCodec
 
 // SgNBModificationRequest represents the ASN.1 type SgNBModificationRequest (SEQUENCE).
-type SgNBModificationRequest = s20.SgNBModificationRequest
+type SgNBModificationRequest = s19.SgNBModificationRequest
 
 // SgNBModificationRequestAPERValue is the concrete APERValue[SgNBModificationRequest].
-type SgNBModificationRequestAPERValue = s20.SgNBModificationRequestAPERValue
+type SgNBModificationRequestAPERValue = s19.SgNBModificationRequestAPERValue
 
 // SgNBModificationRequestAcknowledge represents the ASN.1 type SgNBModificationRequestAcknowledge (SEQUENCE).
-type SgNBModificationRequestAcknowledge = s19.SgNBModificationRequestAcknowledge
+type SgNBModificationRequestAcknowledge = s18.SgNBModificationRequestAcknowledge
 
 // SgNBModificationRequestAcknowledgeAPERValue is the concrete APERValue[SgNBModificationRequestAcknowledge].
-type SgNBModificationRequestAcknowledgeAPERValue = s19.SgNBModificationRequestAcknowledgeAPERValue
+type SgNBModificationRequestAcknowledgeAPERValue = s18.SgNBModificationRequestAcknowledgeAPERValue
 
 // SgNBModificationRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding binds AvailableFastMCGRecoveryViaSRB3 to ProtocolIE-Field {{SgNBModificationRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type SgNBModificationRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding = s17.SgNBModificationRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding
@@ -20360,7 +20359,7 @@ type SgNBModificationRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding 
 type SgNBModificationRequestAcknowledgeCPAinformationMODACKIEBinding = s17.SgNBModificationRequestAcknowledgeCPAinformationMODACKIEBinding
 
 // SgNBModificationRequestAcknowledgeCodec binds the complete APER value type.
-var SgNBModificationRequestAcknowledgeCodec func() SgNBModificationRequestAcknowledgeValueCodec = s21.SgNBModificationRequestAcknowledgeCodec
+var SgNBModificationRequestAcknowledgeCodec func() SgNBModificationRequestAcknowledgeValueCodec = s19.SgNBModificationRequestAcknowledgeCodec
 
 // SgNBModificationRequestAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBModificationRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type SgNBModificationRequestAcknowledgeCriticalityDiagnosticsIEBinding = s17.SgNBModificationRequestAcknowledgeCriticalityDiagnosticsIEBinding
@@ -20415,7 +20414,7 @@ type SgNBModificationRequestAcknowledgeSgNBtoMeNBContainerIEBinding = s17.SgNBMo
 type SgNBModificationRequestAcknowledgeSplitSRBsIEBinding = s17.SgNBModificationRequestAcknowledgeSplitSRBsIEBinding
 
 // SgNBModificationRequestAcknowledgeSuccessfulBinding is the concrete SuccessfulBinding[SgNBModificationRequestAcknowledge].
-type SgNBModificationRequestAcknowledgeSuccessfulBinding = s19.SgNBModificationRequestAcknowledgeSuccessfulBinding
+type SgNBModificationRequestAcknowledgeSuccessfulBinding = s18.SgNBModificationRequestAcknowledgeSuccessfulBinding
 
 // SgNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SgNBModificationRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type SgNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding = s17.SgNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding
@@ -20424,65 +20423,65 @@ type SgNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding = s17.SgNBModi
 type SgNBModificationRequestAcknowledgeUEX2APIDIEBinding = s17.SgNBModificationRequestAcknowledgeUEX2APIDIEBinding
 
 // SgNBModificationRequestAcknowledgeValueCodec is the concrete ValueCodec[SgNBModificationRequestAcknowledge].
-type SgNBModificationRequestAcknowledgeValueCodec = s19.SgNBModificationRequestAcknowledgeValueCodec
+type SgNBModificationRequestAcknowledgeValueCodec = s18.SgNBModificationRequestAcknowledgeValueCodec
 
 // SgNBModificationRequestCHOinformationModReqIEBinding binds CHOinformationModReq to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestCHOinformationModReqIEBinding = s17.SgNBModificationRequestCHOinformationModReqIEBinding
+type SgNBModificationRequestCHOinformationModReqIEBinding = s16.SgNBModificationRequestCHOinformationModReqIEBinding
 
 // SgNBModificationRequestCPAinformationMODIEBinding binds CPAinformationMOD to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestCPAinformationMODIEBinding = s17.SgNBModificationRequestCPAinformationMODIEBinding
+type SgNBModificationRequestCPAinformationMODIEBinding = s16.SgNBModificationRequestCPAinformationMODIEBinding
 
 // SgNBModificationRequestCPCupdateMODIEBinding binds CPCupdateMOD to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestCPCupdateMODIEBinding = s17.SgNBModificationRequestCPCupdateMODIEBinding
+type SgNBModificationRequestCPCupdateMODIEBinding = s16.SgNBModificationRequestCPCupdateMODIEBinding
 
 // SgNBModificationRequestCauseIEBinding binds Cause to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestCauseIEBinding = s17.SgNBModificationRequestCauseIEBinding
+type SgNBModificationRequestCauseIEBinding = s16.SgNBModificationRequestCauseIEBinding
 
 // SgNBModificationRequestCodec binds the complete APER value type.
-var SgNBModificationRequestCodec func() SgNBModificationRequestValueCodec = s21.SgNBModificationRequestCodec
+var SgNBModificationRequestCodec func() SgNBModificationRequestValueCodec = s19.SgNBModificationRequestCodec
 
 // SgNBModificationRequestDesiredActNotificationLevelIEBinding binds DesiredActNotificationLevel to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestDesiredActNotificationLevelIEBinding = s17.SgNBModificationRequestDesiredActNotificationLevelIEBinding
+type SgNBModificationRequestDesiredActNotificationLevelIEBinding = s16.SgNBModificationRequestDesiredActNotificationLevelIEBinding
 
 // SgNBModificationRequestECGIIEBinding binds ECGI to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestECGIIEBinding = s17.SgNBModificationRequestECGIIEBinding
+type SgNBModificationRequestECGIIEBinding = s16.SgNBModificationRequestECGIIEBinding
 
 // SgNBModificationRequestHandoverRestrictionListIEBinding binds HandoverRestrictionList to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestHandoverRestrictionListIEBinding = s17.SgNBModificationRequestHandoverRestrictionListIEBinding
+type SgNBModificationRequestHandoverRestrictionListIEBinding = s16.SgNBModificationRequestHandoverRestrictionListIEBinding
 
 // SgNBModificationRequestIABAuthorizedIEBinding binds IABAuthorized to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestIABAuthorizedIEBinding = s17.SgNBModificationRequestIABAuthorizedIEBinding
+type SgNBModificationRequestIABAuthorizedIEBinding = s16.SgNBModificationRequestIABAuthorizedIEBinding
 
 // SgNBModificationRequestIABNodeIndicationIEBinding binds IABNodeIndication to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestIABNodeIndicationIEBinding = s17.SgNBModificationRequestIABNodeIndicationIEBinding
+type SgNBModificationRequestIABNodeIndicationIEBinding = s16.SgNBModificationRequestIABNodeIndicationIEBinding
 
 // SgNBModificationRequestIEContainer is ProtocolIE-Container {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8: a list of SgNBModificationRequestIEField values.
-type SgNBModificationRequestIEContainer = s17.SgNBModificationRequestIEContainer
+type SgNBModificationRequestIEContainer = s16.SgNBModificationRequestIEContainer
 
 // SgNBModificationRequestIEField is ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8: an information element field.
-type SgNBModificationRequestIEField = s17.SgNBModificationRequestIEField
-type SgNBModificationRequestIETable = s17.SgNBModificationRequestIETable
-type SgNBModificationRequestIEValue = s17.SgNBModificationRequestIEValue
+type SgNBModificationRequestIEField = s16.SgNBModificationRequestIEField
+type SgNBModificationRequestIETable = s16.SgNBModificationRequestIETable
+type SgNBModificationRequestIEValue = s16.SgNBModificationRequestIEValue
 
-var SgNBModificationRequestIEs func() SgNBModificationRequestIETable = s17.SgNBModificationRequestIEs
+var SgNBModificationRequestIEs func() SgNBModificationRequestIETable = s16.SgNBModificationRequestIEs
 
 // SgNBModificationRequestInitiatingBinding is the concrete InitiatingBinding[SgNBModificationRequest].
-type SgNBModificationRequestInitiatingBinding = s20.SgNBModificationRequestInitiatingBinding
+type SgNBModificationRequestInitiatingBinding = s19.SgNBModificationRequestInitiatingBinding
 
 // SgNBModificationRequestLocationInformationSgNBReportingIEBinding binds LocationInformationSgNBReporting to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestLocationInformationSgNBReportingIEBinding = s17.SgNBModificationRequestLocationInformationSgNBReportingIEBinding
+type SgNBModificationRequestLocationInformationSgNBReportingIEBinding = s16.SgNBModificationRequestLocationInformationSgNBReportingIEBinding
 
 // SgNBModificationRequestMeNBResourceCoordinationInformationIEBinding binds MeNBResourceCoordinationInformation to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestMeNBResourceCoordinationInformationIEBinding = s17.SgNBModificationRequestMeNBResourceCoordinationInformationIEBinding
+type SgNBModificationRequestMeNBResourceCoordinationInformationIEBinding = s16.SgNBModificationRequestMeNBResourceCoordinationInformationIEBinding
 
 // SgNBModificationRequestMeNBtoSgNBContainerIEBinding binds MeNBtoSgNBContainer to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestMeNBtoSgNBContainerIEBinding = s17.SgNBModificationRequestMeNBtoSgNBContainerIEBinding
+type SgNBModificationRequestMeNBtoSgNBContainerIEBinding = s16.SgNBModificationRequestMeNBtoSgNBContainerIEBinding
 
 // SgNBModificationRequestPLMNIdentityIEBinding binds PLMNIdentity to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestPLMNIdentityIEBinding = s17.SgNBModificationRequestPLMNIdentityIEBinding
+type SgNBModificationRequestPLMNIdentityIEBinding = s16.SgNBModificationRequestPLMNIdentityIEBinding
 
 // SgNBModificationRequestPSCellHistoryInformationRetrieveIEBinding binds PSCellHistoryInformationRetrieve to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestPSCellHistoryInformationRetrieveIEBinding = s17.SgNBModificationRequestPSCellHistoryInformationRetrieveIEBinding
+type SgNBModificationRequestPSCellHistoryInformationRetrieveIEBinding = s16.SgNBModificationRequestPSCellHistoryInformationRetrieveIEBinding
 
 // SgNBModificationRequestReject represents the ASN.1 type SgNBModificationRequestReject (SEQUENCE).
 type SgNBModificationRequestReject = s14.SgNBModificationRequestReject
@@ -20494,7 +20493,7 @@ type SgNBModificationRequestRejectAPERValue = s14.SgNBModificationRequestRejectA
 type SgNBModificationRequestRejectCauseIEBinding = s12.SgNBModificationRequestRejectCauseIEBinding
 
 // SgNBModificationRequestRejectCodec binds the complete APER value type.
-var SgNBModificationRequestRejectCodec func() SgNBModificationRequestRejectValueCodec = s21.SgNBModificationRequestRejectCodec
+var SgNBModificationRequestRejectCodec func() SgNBModificationRequestRejectValueCodec = s19.SgNBModificationRequestRejectCodec
 
 // SgNBModificationRequestRejectCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBModificationRequestReject-IEs}} of TS 36.423 §9.3.8.
 type SgNBModificationRequestRejectCriticalityDiagnosticsIEBinding = s12.SgNBModificationRequestRejectCriticalityDiagnosticsIEBinding
@@ -20525,46 +20524,46 @@ type SgNBModificationRequestRejectUnsuccessfulBinding = s14.SgNBModificationRequ
 type SgNBModificationRequestRejectValueCodec = s14.SgNBModificationRequestRejectValueCodec
 
 // SgNBModificationRequestRequestedFastMCGRecoveryViaSRB3IEBinding binds RequestedFastMCGRecoveryViaSRB3 to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestRequestedFastMCGRecoveryViaSRB3IEBinding = s17.SgNBModificationRequestRequestedFastMCGRecoveryViaSRB3IEBinding
+type SgNBModificationRequestRequestedFastMCGRecoveryViaSRB3IEBinding = s16.SgNBModificationRequestRequestedFastMCGRecoveryViaSRB3IEBinding
 
 // SgNBModificationRequestRequestedFastMCGRecoveryViaSRB3ReleaseIEBinding binds RequestedFastMCGRecoveryViaSRB3Release to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestRequestedFastMCGRecoveryViaSRB3ReleaseIEBinding = s17.SgNBModificationRequestRequestedFastMCGRecoveryViaSRB3ReleaseIEBinding
+type SgNBModificationRequestRequestedFastMCGRecoveryViaSRB3ReleaseIEBinding = s16.SgNBModificationRequestRequestedFastMCGRecoveryViaSRB3ReleaseIEBinding
 
 // SgNBModificationRequestSCGActivationRequestIEBinding binds SCGActivationRequest to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestSCGActivationRequestIEBinding = s17.SgNBModificationRequestSCGActivationRequestIEBinding
+type SgNBModificationRequestSCGActivationRequestIEBinding = s16.SgNBModificationRequestSCGActivationRequestIEBinding
 
 // SgNBModificationRequestSCGConfigurationQueryIEBinding binds SCGConfigurationQuery to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestSCGConfigurationQueryIEBinding = s17.SgNBModificationRequestSCGConfigurationQueryIEBinding
+type SgNBModificationRequestSCGConfigurationQueryIEBinding = s16.SgNBModificationRequestSCGConfigurationQueryIEBinding
 
 // SgNBModificationRequestSNtriggeredIEBinding binds SNtriggered to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestSNtriggeredIEBinding = s17.SgNBModificationRequestSNtriggeredIEBinding
+type SgNBModificationRequestSNtriggeredIEBinding = s16.SgNBModificationRequestSNtriggeredIEBinding
 
 // SgNBModificationRequestSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestSgNBUEX2APIDIEBinding = s17.SgNBModificationRequestSgNBUEX2APIDIEBinding
+type SgNBModificationRequestSgNBUEX2APIDIEBinding = s16.SgNBModificationRequestSgNBUEX2APIDIEBinding
 
 // SgNBModificationRequestSplitSRBsIEBinding binds SplitSRBs to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestSplitSRBsIEBinding = s17.SgNBModificationRequestSplitSRBsIEBinding
+type SgNBModificationRequestSplitSRBsIEBinding = s16.SgNBModificationRequestSplitSRBsIEBinding
 
 // SgNBModificationRequestUEContextInformationSgNBModReqIEBinding binds UEContextInformationSgNBModReq to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestUEContextInformationSgNBModReqIEBinding = s17.SgNBModificationRequestUEContextInformationSgNBModReqIEBinding
+type SgNBModificationRequestUEContextInformationSgNBModReqIEBinding = s16.SgNBModificationRequestUEContextInformationSgNBModReqIEBinding
 
 // SgNBModificationRequestUEHistoryInformationFromTheUEIEBinding binds UEHistoryInformationFromTheUE to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestUEHistoryInformationFromTheUEIEBinding = s17.SgNBModificationRequestUEHistoryInformationFromTheUEIEBinding
+type SgNBModificationRequestUEHistoryInformationFromTheUEIEBinding = s16.SgNBModificationRequestUEHistoryInformationFromTheUEIEBinding
 
 // SgNBModificationRequestUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestUEX2APIDExtensionIEBinding = s17.SgNBModificationRequestUEX2APIDExtensionIEBinding
+type SgNBModificationRequestUEX2APIDExtensionIEBinding = s16.SgNBModificationRequestUEX2APIDExtensionIEBinding
 
 // SgNBModificationRequestUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{SgNBModificationRequest-IEs}} of TS 36.423 §9.3.8.
-type SgNBModificationRequestUEX2APIDIEBinding = s17.SgNBModificationRequestUEX2APIDIEBinding
+type SgNBModificationRequestUEX2APIDIEBinding = s16.SgNBModificationRequestUEX2APIDIEBinding
 
 // SgNBModificationRequestValueCodec is the concrete ValueCodec[SgNBModificationRequest].
-type SgNBModificationRequestValueCodec = s20.SgNBModificationRequestValueCodec
+type SgNBModificationRequestValueCodec = s19.SgNBModificationRequestValueCodec
 
 // SgNBModificationRequired represents the ASN.1 type SgNBModificationRequired (SEQUENCE).
-type SgNBModificationRequired = s20.SgNBModificationRequired
+type SgNBModificationRequired = s19.SgNBModificationRequired
 
 // SgNBModificationRequiredAPERValue is the concrete APERValue[SgNBModificationRequired].
-type SgNBModificationRequiredAPERValue = s20.SgNBModificationRequiredAPERValue
+type SgNBModificationRequiredAPERValue = s19.SgNBModificationRequiredAPERValue
 
 // SgNBModificationRequiredCPACinformationREQDIEBinding binds CPACinformationREQD to ProtocolIE-Field {{SgNBModificationRequired-IEs}} of TS 36.423 §9.3.8.
 type SgNBModificationRequiredCPACinformationREQDIEBinding = s17.SgNBModificationRequiredCPACinformationREQDIEBinding
@@ -20573,7 +20572,7 @@ type SgNBModificationRequiredCPACinformationREQDIEBinding = s17.SgNBModification
 type SgNBModificationRequiredCauseIEBinding = s17.SgNBModificationRequiredCauseIEBinding
 
 // SgNBModificationRequiredCodec binds the complete APER value type.
-var SgNBModificationRequiredCodec func() SgNBModificationRequiredValueCodec = s21.SgNBModificationRequiredCodec
+var SgNBModificationRequiredCodec func() SgNBModificationRequiredValueCodec = s19.SgNBModificationRequiredCodec
 
 // SgNBModificationRequiredERABsToBeModifiedSgNBModReqdListIEBinding binds ERABsToBeModifiedSgNBModReqdList to ProtocolIE-Field {{SgNBModificationRequired-IEs}} of TS 36.423 §9.3.8.
 type SgNBModificationRequiredERABsToBeModifiedSgNBModReqdListIEBinding = s17.SgNBModificationRequiredERABsToBeModifiedSgNBModReqdListIEBinding
@@ -20592,7 +20591,7 @@ type SgNBModificationRequiredIEValue = s17.SgNBModificationRequiredIEValue
 var SgNBModificationRequiredIEs func() SgNBModificationRequiredIETable = s17.SgNBModificationRequiredIEs
 
 // SgNBModificationRequiredInitiatingBinding is the concrete InitiatingBinding[SgNBModificationRequired].
-type SgNBModificationRequiredInitiatingBinding = s20.SgNBModificationRequiredInitiatingBinding
+type SgNBModificationRequiredInitiatingBinding = s19.SgNBModificationRequiredInitiatingBinding
 
 // SgNBModificationRequiredLocationInformationSgNBIEBinding binds LocationInformationSgNB to ProtocolIE-Field {{SgNBModificationRequired-IEs}} of TS 36.423 §9.3.8.
 type SgNBModificationRequiredLocationInformationSgNBIEBinding = s17.SgNBModificationRequiredLocationInformationSgNBIEBinding
@@ -20628,16 +20627,16 @@ type SgNBModificationRequiredUEX2APIDExtensionIEBinding = s17.SgNBModificationRe
 type SgNBModificationRequiredUEX2APIDIEBinding = s17.SgNBModificationRequiredUEX2APIDIEBinding
 
 // SgNBModificationRequiredValueCodec is the concrete ValueCodec[SgNBModificationRequired].
-type SgNBModificationRequiredValueCodec = s20.SgNBModificationRequiredValueCodec
+type SgNBModificationRequiredValueCodec = s19.SgNBModificationRequiredValueCodec
 
 // SgNBReconfigurationComplete represents the ASN.1 type SgNBReconfigurationComplete (SEQUENCE).
-type SgNBReconfigurationComplete = s20.SgNBReconfigurationComplete
+type SgNBReconfigurationComplete = s19.SgNBReconfigurationComplete
 
 // SgNBReconfigurationCompleteAPERValue is the concrete APERValue[SgNBReconfigurationComplete].
-type SgNBReconfigurationCompleteAPERValue = s20.SgNBReconfigurationCompleteAPERValue
+type SgNBReconfigurationCompleteAPERValue = s19.SgNBReconfigurationCompleteAPERValue
 
 // SgNBReconfigurationCompleteCodec binds the complete APER value type.
-var SgNBReconfigurationCompleteCodec func() SgNBReconfigurationCompleteValueCodec = s21.SgNBReconfigurationCompleteCodec
+var SgNBReconfigurationCompleteCodec func() SgNBReconfigurationCompleteValueCodec = s19.SgNBReconfigurationCompleteCodec
 
 // SgNBReconfigurationCompleteIEContainer is ProtocolIE-Container {{SgNBReconfigurationComplete-IEs}} of TS 36.423 §9.3.8: a list of SgNBReconfigurationCompleteIEField values.
 type SgNBReconfigurationCompleteIEContainer = s12.SgNBReconfigurationCompleteIEContainer
@@ -20650,7 +20649,7 @@ type SgNBReconfigurationCompleteIEValue = s12.SgNBReconfigurationCompleteIEValue
 var SgNBReconfigurationCompleteIEs func() SgNBReconfigurationCompleteIETable = s12.SgNBReconfigurationCompleteIEs
 
 // SgNBReconfigurationCompleteInitiatingBinding is the concrete InitiatingBinding[SgNBReconfigurationComplete].
-type SgNBReconfigurationCompleteInitiatingBinding = s20.SgNBReconfigurationCompleteInitiatingBinding
+type SgNBReconfigurationCompleteInitiatingBinding = s19.SgNBReconfigurationCompleteInitiatingBinding
 
 // SgNBReconfigurationCompleteResponseInformationSgNBReconfCompIEBinding binds ResponseInformationSgNBReconfComp to ProtocolIE-Field {{SgNBReconfigurationComplete-IEs}} of TS 36.423 §9.3.8.
 type SgNBReconfigurationCompleteResponseInformationSgNBReconfCompIEBinding = s12.SgNBReconfigurationCompleteResponseInformationSgNBReconfCompIEBinding
@@ -20665,19 +20664,19 @@ type SgNBReconfigurationCompleteUEX2APIDExtensionIEBinding = s12.SgNBReconfigura
 type SgNBReconfigurationCompleteUEX2APIDIEBinding = s12.SgNBReconfigurationCompleteUEX2APIDIEBinding
 
 // SgNBReconfigurationCompleteValueCodec is the concrete ValueCodec[SgNBReconfigurationComplete].
-type SgNBReconfigurationCompleteValueCodec = s20.SgNBReconfigurationCompleteValueCodec
-type SgNBReconfigurationCompletionDescriptor = s21.SgNBReconfigurationCompletionDescriptor
+type SgNBReconfigurationCompleteValueCodec = s19.SgNBReconfigurationCompleteValueCodec
+type SgNBReconfigurationCompletionDescriptor = s19.SgNBReconfigurationCompletionDescriptor
 
-var SgNBReconfigurationCompletionProcedure func() SgNBReconfigurationCompletionDescriptor = s21.SgNBReconfigurationCompletionProcedure
+var SgNBReconfigurationCompletionProcedure func() SgNBReconfigurationCompletionDescriptor = s19.SgNBReconfigurationCompletionProcedure
 
 // SgNBReleaseConfirm represents the ASN.1 type SgNBReleaseConfirm (SEQUENCE).
-type SgNBReleaseConfirm = s19.SgNBReleaseConfirm
+type SgNBReleaseConfirm = s18.SgNBReleaseConfirm
 
 // SgNBReleaseConfirmAPERValue is the concrete APERValue[SgNBReleaseConfirm].
-type SgNBReleaseConfirmAPERValue = s19.SgNBReleaseConfirmAPERValue
+type SgNBReleaseConfirmAPERValue = s18.SgNBReleaseConfirmAPERValue
 
 // SgNBReleaseConfirmCodec binds the complete APER value type.
-var SgNBReleaseConfirmCodec func() SgNBReleaseConfirmValueCodec = s21.SgNBReleaseConfirmCodec
+var SgNBReleaseConfirmCodec func() SgNBReleaseConfirmValueCodec = s20.SgNBReleaseConfirmCodec
 
 // SgNBReleaseConfirmCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBReleaseConfirm-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseConfirmCriticalityDiagnosticsIEBinding = s15.SgNBReleaseConfirmCriticalityDiagnosticsIEBinding
@@ -20699,7 +20698,7 @@ var SgNBReleaseConfirmIEs func() SgNBReleaseConfirmIETable = s15.SgNBReleaseConf
 type SgNBReleaseConfirmSgNBUEX2APIDIEBinding = s15.SgNBReleaseConfirmSgNBUEX2APIDIEBinding
 
 // SgNBReleaseConfirmSuccessfulBinding is the concrete SuccessfulBinding[SgNBReleaseConfirm].
-type SgNBReleaseConfirmSuccessfulBinding = s19.SgNBReleaseConfirmSuccessfulBinding
+type SgNBReleaseConfirmSuccessfulBinding = s18.SgNBReleaseConfirmSuccessfulBinding
 
 // SgNBReleaseConfirmUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SgNBReleaseConfirm-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseConfirmUEX2APIDExtensionIEBinding = s15.SgNBReleaseConfirmUEX2APIDExtensionIEBinding
@@ -20708,22 +20707,22 @@ type SgNBReleaseConfirmUEX2APIDExtensionIEBinding = s15.SgNBReleaseConfirmUEX2AP
 type SgNBReleaseConfirmUEX2APIDIEBinding = s15.SgNBReleaseConfirmUEX2APIDIEBinding
 
 // SgNBReleaseConfirmValueCodec is the concrete ValueCodec[SgNBReleaseConfirm].
-type SgNBReleaseConfirmValueCodec = s19.SgNBReleaseConfirmValueCodec
+type SgNBReleaseConfirmValueCodec = s18.SgNBReleaseConfirmValueCodec
 
 // SgNBReleaseRequest represents the ASN.1 type SgNBReleaseRequest (SEQUENCE).
-type SgNBReleaseRequest = s20.SgNBReleaseRequest
+type SgNBReleaseRequest = s19.SgNBReleaseRequest
 
 // SgNBReleaseRequestAPERValue is the concrete APERValue[SgNBReleaseRequest].
-type SgNBReleaseRequestAPERValue = s20.SgNBReleaseRequestAPERValue
+type SgNBReleaseRequestAPERValue = s19.SgNBReleaseRequestAPERValue
 
 // SgNBReleaseRequestAcknowledge represents the ASN.1 type SgNBReleaseRequestAcknowledge (SEQUENCE).
-type SgNBReleaseRequestAcknowledge = s19.SgNBReleaseRequestAcknowledge
+type SgNBReleaseRequestAcknowledge = s18.SgNBReleaseRequestAcknowledge
 
 // SgNBReleaseRequestAcknowledgeAPERValue is the concrete APERValue[SgNBReleaseRequestAcknowledge].
-type SgNBReleaseRequestAcknowledgeAPERValue = s19.SgNBReleaseRequestAcknowledgeAPERValue
+type SgNBReleaseRequestAcknowledgeAPERValue = s18.SgNBReleaseRequestAcknowledgeAPERValue
 
 // SgNBReleaseRequestAcknowledgeCodec binds the complete APER value type.
-var SgNBReleaseRequestAcknowledgeCodec func() SgNBReleaseRequestAcknowledgeValueCodec = s21.SgNBReleaseRequestAcknowledgeCodec
+var SgNBReleaseRequestAcknowledgeCodec func() SgNBReleaseRequestAcknowledgeValueCodec = s20.SgNBReleaseRequestAcknowledgeCodec
 
 // SgNBReleaseRequestAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBReleaseRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseRequestAcknowledgeCriticalityDiagnosticsIEBinding = s17.SgNBReleaseRequestAcknowledgeCriticalityDiagnosticsIEBinding
@@ -20748,7 +20747,7 @@ type SgNBReleaseRequestAcknowledgeSCGUEHistoryInformationIEBinding = s17.SgNBRel
 type SgNBReleaseRequestAcknowledgeSgNBUEX2APIDIEBinding = s17.SgNBReleaseRequestAcknowledgeSgNBUEX2APIDIEBinding
 
 // SgNBReleaseRequestAcknowledgeSuccessfulBinding is the concrete SuccessfulBinding[SgNBReleaseRequestAcknowledge].
-type SgNBReleaseRequestAcknowledgeSuccessfulBinding = s19.SgNBReleaseRequestAcknowledgeSuccessfulBinding
+type SgNBReleaseRequestAcknowledgeSuccessfulBinding = s18.SgNBReleaseRequestAcknowledgeSuccessfulBinding
 
 // SgNBReleaseRequestAcknowledgeUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SgNBReleaseRequestAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseRequestAcknowledgeUEX2APIDExtensionIEBinding = s17.SgNBReleaseRequestAcknowledgeUEX2APIDExtensionIEBinding
@@ -20757,13 +20756,13 @@ type SgNBReleaseRequestAcknowledgeUEX2APIDExtensionIEBinding = s17.SgNBReleaseRe
 type SgNBReleaseRequestAcknowledgeUEX2APIDIEBinding = s17.SgNBReleaseRequestAcknowledgeUEX2APIDIEBinding
 
 // SgNBReleaseRequestAcknowledgeValueCodec is the concrete ValueCodec[SgNBReleaseRequestAcknowledge].
-type SgNBReleaseRequestAcknowledgeValueCodec = s19.SgNBReleaseRequestAcknowledgeValueCodec
+type SgNBReleaseRequestAcknowledgeValueCodec = s18.SgNBReleaseRequestAcknowledgeValueCodec
 
 // SgNBReleaseRequestCauseIEBinding binds Cause to ProtocolIE-Field {{SgNBReleaseRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseRequestCauseIEBinding = s15.SgNBReleaseRequestCauseIEBinding
 
 // SgNBReleaseRequestCodec binds the complete APER value type.
-var SgNBReleaseRequestCodec func() SgNBReleaseRequestValueCodec = s21.SgNBReleaseRequestCodec
+var SgNBReleaseRequestCodec func() SgNBReleaseRequestValueCodec = s20.SgNBReleaseRequestCodec
 
 // SgNBReleaseRequestERABListIEBinding binds ERABList to ProtocolIE-Field {{SgNBReleaseRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseRequestERABListIEBinding = s15.SgNBReleaseRequestERABListIEBinding
@@ -20782,7 +20781,7 @@ type SgNBReleaseRequestIEValue = s15.SgNBReleaseRequestIEValue
 var SgNBReleaseRequestIEs func() SgNBReleaseRequestIETable = s15.SgNBReleaseRequestIEs
 
 // SgNBReleaseRequestInitiatingBinding is the concrete InitiatingBinding[SgNBReleaseRequest].
-type SgNBReleaseRequestInitiatingBinding = s20.SgNBReleaseRequestInitiatingBinding
+type SgNBReleaseRequestInitiatingBinding = s19.SgNBReleaseRequestInitiatingBinding
 
 // SgNBReleaseRequestMeNBtoSgNBContainerIEBinding binds MeNBtoSgNBContainer to ProtocolIE-Field {{SgNBReleaseRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseRequestMeNBtoSgNBContainerIEBinding = s15.SgNBReleaseRequestMeNBtoSgNBContainerIEBinding
@@ -20797,7 +20796,7 @@ type SgNBReleaseRequestRejectAPERValue = s14.SgNBReleaseRequestRejectAPERValue
 type SgNBReleaseRequestRejectCauseIEBinding = s12.SgNBReleaseRequestRejectCauseIEBinding
 
 // SgNBReleaseRequestRejectCodec binds the complete APER value type.
-var SgNBReleaseRequestRejectCodec func() SgNBReleaseRequestRejectValueCodec = s21.SgNBReleaseRequestRejectCodec
+var SgNBReleaseRequestRejectCodec func() SgNBReleaseRequestRejectValueCodec = s20.SgNBReleaseRequestRejectCodec
 
 // SgNBReleaseRequestRejectCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{SgNBReleaseRequestReject-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseRequestRejectCriticalityDiagnosticsIEBinding = s12.SgNBReleaseRequestRejectCriticalityDiagnosticsIEBinding
@@ -20840,19 +20839,19 @@ type SgNBReleaseRequestUEX2APIDExtensionIEBinding = s15.SgNBReleaseRequestUEX2AP
 type SgNBReleaseRequestUEX2APIDIEBinding = s15.SgNBReleaseRequestUEX2APIDIEBinding
 
 // SgNBReleaseRequestValueCodec is the concrete ValueCodec[SgNBReleaseRequest].
-type SgNBReleaseRequestValueCodec = s20.SgNBReleaseRequestValueCodec
+type SgNBReleaseRequestValueCodec = s19.SgNBReleaseRequestValueCodec
 
 // SgNBReleaseRequired represents the ASN.1 type SgNBReleaseRequired (SEQUENCE).
-type SgNBReleaseRequired = s20.SgNBReleaseRequired
+type SgNBReleaseRequired = s19.SgNBReleaseRequired
 
 // SgNBReleaseRequiredAPERValue is the concrete APERValue[SgNBReleaseRequired].
-type SgNBReleaseRequiredAPERValue = s20.SgNBReleaseRequiredAPERValue
+type SgNBReleaseRequiredAPERValue = s19.SgNBReleaseRequiredAPERValue
 
 // SgNBReleaseRequiredCauseIEBinding binds Cause to ProtocolIE-Field {{SgNBReleaseRequired-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseRequiredCauseIEBinding = s17.SgNBReleaseRequiredCauseIEBinding
 
 // SgNBReleaseRequiredCodec binds the complete APER value type.
-var SgNBReleaseRequiredCodec func() SgNBReleaseRequiredValueCodec = s21.SgNBReleaseRequiredCodec
+var SgNBReleaseRequiredCodec func() SgNBReleaseRequiredValueCodec = s20.SgNBReleaseRequiredCodec
 
 // SgNBReleaseRequiredERABsToBeReleasedSgNBRelReqdListIEBinding binds ERABsToBeReleasedSgNBRelReqdList to ProtocolIE-Field {{SgNBReleaseRequired-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseRequiredERABsToBeReleasedSgNBRelReqdListIEBinding = s17.SgNBReleaseRequiredERABsToBeReleasedSgNBRelReqdListIEBinding
@@ -20868,7 +20867,7 @@ type SgNBReleaseRequiredIEValue = s17.SgNBReleaseRequiredIEValue
 var SgNBReleaseRequiredIEs func() SgNBReleaseRequiredIETable = s17.SgNBReleaseRequiredIEs
 
 // SgNBReleaseRequiredInitiatingBinding is the concrete InitiatingBinding[SgNBReleaseRequired].
-type SgNBReleaseRequiredInitiatingBinding = s20.SgNBReleaseRequiredInitiatingBinding
+type SgNBReleaseRequiredInitiatingBinding = s19.SgNBReleaseRequiredInitiatingBinding
 
 // SgNBReleaseRequiredSCGUEHistoryInformationIEBinding binds SCGUEHistoryInformation to ProtocolIE-Field {{SgNBReleaseRequired-IEs}} of TS 36.423 §9.3.8.
 type SgNBReleaseRequiredSCGUEHistoryInformationIEBinding = s17.SgNBReleaseRequiredSCGUEHistoryInformationIEBinding
@@ -20886,7 +20885,7 @@ type SgNBReleaseRequiredUEX2APIDExtensionIEBinding = s17.SgNBReleaseRequiredUEX2
 type SgNBReleaseRequiredUEX2APIDIEBinding = s17.SgNBReleaseRequiredUEX2APIDIEBinding
 
 // SgNBReleaseRequiredValueCodec is the concrete ValueCodec[SgNBReleaseRequired].
-type SgNBReleaseRequiredValueCodec = s20.SgNBReleaseRequiredValueCodec
+type SgNBReleaseRequiredValueCodec = s19.SgNBReleaseRequiredValueCodec
 
 // SgNBResourceCoordinationInformation represents the ASN.1 type SgNBResourceCoordinationInformation (SEQUENCE).
 type SgNBResourceCoordinationInformation = s08.SgNBResourceCoordinationInformation
@@ -20940,13 +20939,13 @@ var SgNBUEX2APIDCodec func() SgNBUEX2APIDValueCodec = s11.SgNBUEX2APIDCodec
 
 // SgNBUEX2APIDValueCodec is the concrete ValueCodec[SgNBUEX2APID].
 type SgNBUEX2APIDValueCodec = s08.SgNBUEX2APIDValueCodec
-type SgNBinitiatedSgNBModificationDescriptor = s21.SgNBinitiatedSgNBModificationDescriptor
+type SgNBinitiatedSgNBModificationDescriptor = s19.SgNBinitiatedSgNBModificationDescriptor
 
-var SgNBinitiatedSgNBModificationProcedure func() SgNBinitiatedSgNBModificationDescriptor = s21.SgNBinitiatedSgNBModificationProcedure
+var SgNBinitiatedSgNBModificationProcedure func() SgNBinitiatedSgNBModificationDescriptor = s19.SgNBinitiatedSgNBModificationProcedure
 
-type SgNBinitiatedSgNBReleaseDescriptor = s21.SgNBinitiatedSgNBReleaseDescriptor
+type SgNBinitiatedSgNBReleaseDescriptor = s20.SgNBinitiatedSgNBReleaseDescriptor
 
-var SgNBinitiatedSgNBReleaseProcedure func() SgNBinitiatedSgNBReleaseDescriptor = s21.SgNBinitiatedSgNBReleaseProcedure
+var SgNBinitiatedSgNBReleaseProcedure func() SgNBinitiatedSgNBReleaseDescriptor = s20.SgNBinitiatedSgNBReleaseProcedure
 
 // SgNBtoMeNBContainer represents the ASN.1 type SgNBtoMeNBContainer (OCTET_STRING).
 type SgNBtoMeNBContainer = s08.SgNBtoMeNBContainer
@@ -20989,9 +20988,9 @@ var ShortMACICodec func() ShortMACIValueCodec = s11.ShortMACICodec
 
 // ShortMACIValueCodec is the concrete ValueCodec[ShortMACI].
 type ShortMACIValueCodec = s08.ShortMACIValueCodec
-type SnStatusTransferDescriptor = s20.SnStatusTransferDescriptor
+type SnStatusTransferDescriptor = s19.SnStatusTransferDescriptor
 
-var SnStatusTransferProcedure func() SnStatusTransferDescriptor = s20.SnStatusTransferProcedure
+var SnStatusTransferProcedure func() SnStatusTransferDescriptor = s19.SnStatusTransferProcedure
 
 // SourceDLForwardingIPAddress represents the ASN.1 type SourceDLForwardingIPAddress (BIT_STRING).
 type SourceDLForwardingIPAddress = s08.SourceDLForwardingIPAddress
@@ -21312,9 +21311,9 @@ type SubscriptionBasedUEDifferentiationInfoAPERValue = s05.SubscriptionBasedUEDi
 // SubscriptionBasedUEDifferentiationInfoCodec binds the complete APER value type.
 var SubscriptionBasedUEDifferentiationInfoCodec func() SubscriptionBasedUEDifferentiationInfoValueCodec = s18.SubscriptionBasedUEDifferentiationInfoCodec
 
-type SubscriptionBasedUEDifferentiationInfoExtIETable = s09.SubscriptionBasedUEDifferentiationInfoExtIETable
+type SubscriptionBasedUEDifferentiationInfoExtIETable = s08.SubscriptionBasedUEDifferentiationInfoExtIETable
 
-var SubscriptionBasedUEDifferentiationInfoExtIEs func() SubscriptionBasedUEDifferentiationInfoExtIETable = s09.SubscriptionBasedUEDifferentiationInfoExtIEs
+var SubscriptionBasedUEDifferentiationInfoExtIEs func() SubscriptionBasedUEDifferentiationInfoExtIETable = s08.SubscriptionBasedUEDifferentiationInfoExtIEs
 
 // SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer is ProtocolExtensionContainer {{Subscription-Based-UE-DifferentiationInfo-ExtIEs}} of TS 36.423 §9.3.8: a list of SubscriptionBasedUEDifferentiationInfoExtIEsExtField values.
 type SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer = s04.SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer
@@ -21325,36 +21324,36 @@ type SubscriptionBasedUEDifferentiationInfoExtIEsValue = s04.SubscriptionBasedUE
 
 // SubscriptionBasedUEDifferentiationInfoValueCodec is the concrete ValueCodec[SubscriptionBasedUEDifferentiationInfo].
 type SubscriptionBasedUEDifferentiationInfoValueCodec = s05.SubscriptionBasedUEDifferentiationInfoValueCodec
-type SuccessfulBinding[T any] = s21.SuccessfulBinding[T]
+type SuccessfulBinding[T any] = s20.SuccessfulBinding[T]
 
 // SuccessfulOutcome represents the ASN.1 type SuccessfulOutcome (SEQUENCE).
-type SuccessfulOutcome = s19.SuccessfulOutcome
+type SuccessfulOutcome = s18.SuccessfulOutcome
 
 // SuccessfulOutcomeAPERValue is the concrete APERValue[SuccessfulOutcome].
-type SuccessfulOutcomeAPERValue = s19.SuccessfulOutcomeAPERValue
+type SuccessfulOutcomeAPERValue = s18.SuccessfulOutcomeAPERValue
 
 // SuccessfulOutcomeCodec binds the complete source value type.
-var SuccessfulOutcomeCodec func() SuccessfulOutcomeValueCodec = s19.SuccessfulOutcomeCodec
+var SuccessfulOutcomeCodec func() SuccessfulOutcomeValueCodec = s18.SuccessfulOutcomeCodec
 
 // SuccessfulOutcomeValueCodec is the concrete ValueCodec[SuccessfulOutcome].
-type SuccessfulOutcomeValueCodec = s19.SuccessfulOutcomeValueCodec
+type SuccessfulOutcomeValueCodec = s18.SuccessfulOutcomeValueCodec
 
 var SuccessfulReason func(code ProcedureCode) aper.OpaqueReason = s00.SuccessfulReason
 
-type SuccessfulValue = s19.SuccessfulValue
+type SuccessfulValue = s18.SuccessfulValue
 
 // SupportedSULFreqBandItem represents the ASN.1 type SupportedSULFreqBandItem (SEQUENCE).
-type SupportedSULFreqBandItem = s06.SupportedSULFreqBandItem
+type SupportedSULFreqBandItem = s05.SupportedSULFreqBandItem
 
 // SupportedSULFreqBandItemAPERValue is the concrete APERValue[SupportedSULFreqBandItem].
-type SupportedSULFreqBandItemAPERValue = s06.SupportedSULFreqBandItemAPERValue
+type SupportedSULFreqBandItemAPERValue = s05.SupportedSULFreqBandItemAPERValue
 
 // SupportedSULFreqBandItemCodec binds the complete source value type.
-var SupportedSULFreqBandItemCodec func() SupportedSULFreqBandItemValueCodec = s06.SupportedSULFreqBandItemCodec
+var SupportedSULFreqBandItemCodec func() SupportedSULFreqBandItemValueCodec = s05.SupportedSULFreqBandItemCodec
 
-type SupportedSULFreqBandItemExtIETable = s09.SupportedSULFreqBandItemExtIETable
+type SupportedSULFreqBandItemExtIETable = s08.SupportedSULFreqBandItemExtIETable
 
-var SupportedSULFreqBandItemExtIEs func() SupportedSULFreqBandItemExtIETable = s09.SupportedSULFreqBandItemExtIEs
+var SupportedSULFreqBandItemExtIEs func() SupportedSULFreqBandItemExtIETable = s08.SupportedSULFreqBandItemExtIEs
 
 // SupportedSULFreqBandItemExtIEsExtContainer is ProtocolExtensionContainer {{SupportedSULFreqBandItem-ExtIEs}} of TS 36.423 §9.3.8: a list of SupportedSULFreqBandItemExtIEsExtField values.
 type SupportedSULFreqBandItemExtIEsExtContainer = s04.SupportedSULFreqBandItemExtIEsExtContainer
@@ -21364,7 +21363,7 @@ type SupportedSULFreqBandItemExtIEsExtField = s04.SupportedSULFreqBandItemExtIEs
 type SupportedSULFreqBandItemExtIEsValue = s04.SupportedSULFreqBandItemExtIEsValue
 
 // SupportedSULFreqBandItemValueCodec is the concrete ValueCodec[SupportedSULFreqBandItem].
-type SupportedSULFreqBandItemValueCodec = s06.SupportedSULFreqBandItemValueCodec
+type SupportedSULFreqBandItemValueCodec = s05.SupportedSULFreqBandItemValueCodec
 
 // TABasedMDT represents the ASN.1 type TABasedMDT (SEQUENCE).
 type TABasedMDT = s09.TABasedMDT
@@ -21375,9 +21374,9 @@ type TABasedMDTAPERValue = s09.TABasedMDTAPERValue
 // TABasedMDTCodec binds the complete source value type.
 var TABasedMDTCodec func() TABasedMDTValueCodec = s09.TABasedMDTCodec
 
-type TABasedMDTExtIETable = s09.TABasedMDTExtIETable
+type TABasedMDTExtIETable = s08.TABasedMDTExtIETable
 
-var TABasedMDTExtIEs func() TABasedMDTExtIETable = s09.TABasedMDTExtIEs
+var TABasedMDTExtIEs func() TABasedMDTExtIETable = s08.TABasedMDTExtIEs
 
 // TABasedMDTExtIEsExtContainer is ProtocolExtensionContainer {{TABasedMDT-ExtIEs}} of TS 36.423 §9.3.8: a list of TABasedMDTExtIEsExtField values.
 type TABasedMDTExtIEsExtContainer = s04.TABasedMDTExtIEsExtContainer
@@ -21398,9 +21397,9 @@ type TABasedQMCAPERValue = s09.TABasedQMCAPERValue
 // TABasedQMCCodec binds the complete source value type.
 var TABasedQMCCodec func() TABasedQMCValueCodec = s09.TABasedQMCCodec
 
-type TABasedQMCExtIETable = s09.TABasedQMCExtIETable
+type TABasedQMCExtIETable = s08.TABasedQMCExtIETable
 
-var TABasedQMCExtIEs func() TABasedQMCExtIETable = s09.TABasedQMCExtIEs
+var TABasedQMCExtIEs func() TABasedQMCExtIETable = s08.TABasedQMCExtIEs
 
 // TABasedQMCExtIEsExtContainer is ProtocolExtensionContainer {{TABasedQMC-ExtIEs}} of TS 36.423 §9.3.8: a list of TABasedQMCExtIEsExtField values.
 type TABasedQMCExtIEsExtContainer = s04.TABasedQMCExtIEsExtContainer
@@ -21413,16 +21412,16 @@ type TABasedQMCExtIEsValue = s04.TABasedQMCExtIEsValue
 type TABasedQMCValueCodec = s09.TABasedQMCValueCodec
 
 // TAC represents the ASN.1 type TAC (OCTET_STRING).
-type TAC = s09.TAC
+type TAC = s08.TAC
 
 // TACAPERValue is the concrete APERValue[TAC].
-type TACAPERValue = s09.TACAPERValue
+type TACAPERValue = s08.TACAPERValue
 
 // TACCodec binds the complete APER value type.
-var TACCodec func() TACValueCodec = s09.TACCodec
+var TACCodec func() TACValueCodec = s08.TACCodec
 
 // TACValueCodec is the concrete ValueCodec[TAC].
-type TACValueCodec = s09.TACValueCodec
+type TACValueCodec = s08.TACValueCodec
 
 // TAIBasedMDT represents the ASN.1 type TAIBasedMDT (SEQUENCE).
 type TAIBasedMDT = s09.TAIBasedMDT
@@ -21471,13 +21470,13 @@ type TAIBasedQMCExtIEsValue = s04.TAIBasedQMCExtIEsValue
 type TAIBasedQMCValueCodec = s09.TAIBasedQMCValueCodec
 
 // TAIItem represents the ASN.1 type TAI-Item (SEQUENCE).
-type TAIItem = s09.TAIItem
+type TAIItem = s08.TAIItem
 
 // TAIItemAPERValue is the concrete APERValue[TAIItem].
-type TAIItemAPERValue = s09.TAIItemAPERValue
+type TAIItemAPERValue = s08.TAIItemAPERValue
 
 // TAIItemCodec binds the complete source value type.
-var TAIItemCodec func() TAIItemValueCodec = s09.TAIItemCodec
+var TAIItemCodec func() TAIItemValueCodec = s08.TAIItemCodec
 
 type TAIItemExtIETable = s09.TAIItemExtIETable
 
@@ -21491,7 +21490,7 @@ type TAIItemExtIEsExtField = s04.TAIItemExtIEsExtField
 type TAIItemExtIEsValue = s04.TAIItemExtIEsValue
 
 // TAIItemValueCodec is the concrete ValueCodec[TAIItem].
-type TAIItemValueCodec = s09.TAIItemValueCodec
+type TAIItemValueCodec = s08.TAIItemValueCodec
 type TAIListforMDT = s09.TAIListforMDT
 
 // TAIListforMDTAPERValue is the concrete APERValue[TAIListforMDT].
@@ -21866,13 +21865,13 @@ const TNLAssociationUsageUe = s00.TNLAssociationUsageUe
 type TNLAssociationUsageValueCodec = s00.TNLAssociationUsageValueCodec
 
 // TNLCapacityIndicator represents the ASN.1 type TNLCapacityIndicator (SEQUENCE).
-type TNLCapacityIndicator = s06.TNLCapacityIndicator
+type TNLCapacityIndicator = s05.TNLCapacityIndicator
 
 // TNLCapacityIndicatorAPERValue is the concrete APERValue[TNLCapacityIndicator].
-type TNLCapacityIndicatorAPERValue = s06.TNLCapacityIndicatorAPERValue
+type TNLCapacityIndicatorAPERValue = s05.TNLCapacityIndicatorAPERValue
 
 // TNLCapacityIndicatorCodec binds the complete source value type.
-var TNLCapacityIndicatorCodec func() TNLCapacityIndicatorValueCodec = s06.TNLCapacityIndicatorCodec
+var TNLCapacityIndicatorCodec func() TNLCapacityIndicatorValueCodec = s05.TNLCapacityIndicatorCodec
 
 type TNLCapacityIndicatorExtIETable = s09.TNLCapacityIndicatorExtIETable
 
@@ -21886,7 +21885,7 @@ type TNLCapacityIndicatorExtIEsExtField = s04.TNLCapacityIndicatorExtIEsExtField
 type TNLCapacityIndicatorExtIEsValue = s04.TNLCapacityIndicatorExtIEsValue
 
 // TNLCapacityIndicatorValueCodec is the concrete ValueCodec[TNLCapacityIndicator].
-type TNLCapacityIndicatorValueCodec = s06.TNLCapacityIndicatorValueCodec
+type TNLCapacityIndicatorValueCodec = s05.TNLCapacityIndicatorValueCodec
 
 // TNLConfigurationInfo represents the ASN.1 type TNLConfigurationInfo (SEQUENCE).
 type TNLConfigurationInfo = s11.TNLConfigurationInfo
@@ -22094,15 +22093,15 @@ const TraceDepthMinimumWithoutVendorSpecificExtension = s00.TraceDepthMinimumWit
 type TraceDepthValueCodec = s00.TraceDepthValueCodec
 
 // TraceStart represents the ASN.1 type TraceStart (SEQUENCE).
-type TraceStart = s20.TraceStart
+type TraceStart = s19.TraceStart
 
 // TraceStartAPERValue is the concrete APERValue[TraceStart].
-type TraceStartAPERValue = s20.TraceStartAPERValue
+type TraceStartAPERValue = s19.TraceStartAPERValue
 
 // TraceStartCodec binds the complete APER value type.
-var TraceStartCodec func() TraceStartValueCodec = s21.TraceStartCodec
+var TraceStartCodec func() TraceStartValueCodec = s20.TraceStartCodec
 
-type TraceStartDescriptor = s21.TraceStartDescriptor
+type TraceStartDescriptor = s20.TraceStartDescriptor
 
 // TraceStartIEContainer is ProtocolIE-Container {{TraceStartIEs}} of TS 36.423 §9.3.8: a list of TraceStartIEField values.
 type TraceStartIEContainer = s16.TraceStartIEContainer
@@ -22115,9 +22114,9 @@ type TraceStartIEValue = s16.TraceStartIEValue
 var TraceStartIEs func() TraceStartIETable = s16.TraceStartIEs
 
 // TraceStartInitiatingBinding is the concrete InitiatingBinding[TraceStart].
-type TraceStartInitiatingBinding = s20.TraceStartInitiatingBinding
+type TraceStartInitiatingBinding = s19.TraceStartInitiatingBinding
 
-var TraceStartProcedure func() TraceStartDescriptor = s21.TraceStartProcedure
+var TraceStartProcedure func() TraceStartDescriptor = s20.TraceStartProcedure
 
 // TraceStartSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{TraceStartIEs}} of TS 36.423 §9.3.8.
 type TraceStartSgNBUEX2APIDIEBinding = s16.TraceStartSgNBUEX2APIDIEBinding
@@ -22132,7 +22131,7 @@ type TraceStartUEX2APIDExtensionIEBinding = s16.TraceStartUEX2APIDExtensionIEBin
 type TraceStartUEX2APIDIEBinding = s16.TraceStartUEX2APIDIEBinding
 
 // TraceStartValueCodec is the concrete ValueCodec[TraceStart].
-type TraceStartValueCodec = s20.TraceStartValueCodec
+type TraceStartValueCodec = s19.TraceStartValueCodec
 
 // TransmissionBandwidth represents the ASN.1 ENUMERATED type Transmission-Bandwidth.
 type TransmissionBandwidth = s00.TransmissionBandwidth
@@ -22275,7 +22274,7 @@ type TunnelInformation = s10.TunnelInformation
 type TunnelInformationAPERValue = s10.TunnelInformationAPERValue
 
 // TunnelInformationCodec binds the complete APER value type.
-var TunnelInformationCodec func() TunnelInformationValueCodec = s15.TunnelInformationCodec
+var TunnelInformationCodec func() TunnelInformationValueCodec = s14.TunnelInformationCodec
 
 type TunnelInformationExtIETable = s11.TunnelInformationExtIETable
 
@@ -22359,10 +22358,10 @@ type UEAppLayerMeasConfigExtIEsValue = s07.UEAppLayerMeasConfigExtIEsValue
 type UEAppLayerMeasConfigValueCodec = s09.UEAppLayerMeasConfigValueCodec
 
 // UEContextInformation represents the ASN.1 type UE-ContextInformation (SEQUENCE).
-type UEContextInformation = s17.UEContextInformation
+type UEContextInformation = s16.UEContextInformation
 
 // UEContextInformationAPERValue is the concrete APERValue[UEContextInformation].
-type UEContextInformationAPERValue = s17.UEContextInformationAPERValue
+type UEContextInformationAPERValue = s16.UEContextInformationAPERValue
 
 // UEContextInformationCodec binds the complete APER value type.
 var UEContextInformationCodec func() UEContextInformationValueCodec = s18.UEContextInformationCodec
@@ -22403,10 +22402,10 @@ type UEContextInformationExtIEsUESidelinkAggregateMaximumBitRateExtBinding = s16
 type UEContextInformationExtIEsValue = s16.UEContextInformationExtIEsValue
 
 // UEContextInformationRetrieve represents the ASN.1 type UE-ContextInformationRetrieve (SEQUENCE).
-type UEContextInformationRetrieve = s17.UEContextInformationRetrieve
+type UEContextInformationRetrieve = s16.UEContextInformationRetrieve
 
 // UEContextInformationRetrieveAPERValue is the concrete APERValue[UEContextInformationRetrieve].
-type UEContextInformationRetrieveAPERValue = s17.UEContextInformationRetrieveAPERValue
+type UEContextInformationRetrieveAPERValue = s16.UEContextInformationRetrieveAPERValue
 
 // UEContextInformationRetrieveCodec binds the complete APER value type.
 var UEContextInformationRetrieveCodec func() UEContextInformationRetrieveValueCodec = s17.UEContextInformationRetrieveCodec
@@ -22441,7 +22440,7 @@ type UEContextInformationRetrieveExtIEsUESidelinkAggregateMaximumBitRateExtBindi
 type UEContextInformationRetrieveExtIEsValue = s11.UEContextInformationRetrieveExtIEsValue
 
 // UEContextInformationRetrieveValueCodec is the concrete ValueCodec[UEContextInformationRetrieve].
-type UEContextInformationRetrieveValueCodec = s17.UEContextInformationRetrieveValueCodec
+type UEContextInformationRetrieveValueCodec = s16.UEContextInformationRetrieveValueCodec
 
 // UEContextInformationSeNBModReq represents the ASN.1 type UE-ContextInformationSeNBModReq (SEQUENCE).
 type UEContextInformationSeNBModReq = s11.UEContextInformationSeNBModReq
@@ -22473,33 +22472,33 @@ type UEContextInformationSgNBModReq = s11.UEContextInformationSgNBModReq
 type UEContextInformationSgNBModReqAPERValue = s11.UEContextInformationSgNBModReqAPERValue
 
 // UEContextInformationSgNBModReqCodec binds the complete APER value type.
-var UEContextInformationSgNBModReqCodec func() UEContextInformationSgNBModReqValueCodec = s17.UEContextInformationSgNBModReqCodec
+var UEContextInformationSgNBModReqCodec func() UEContextInformationSgNBModReqValueCodec = s16.UEContextInformationSgNBModReqCodec
 
-type UEContextInformationSgNBModReqExtIETable = s09.UEContextInformationSgNBModReqExtIETable
+type UEContextInformationSgNBModReqExtIETable = s08.UEContextInformationSgNBModReqExtIETable
 
-var UEContextInformationSgNBModReqExtIEs func() UEContextInformationSgNBModReqExtIETable = s09.UEContextInformationSgNBModReqExtIEs
+var UEContextInformationSgNBModReqExtIEs func() UEContextInformationSgNBModReqExtIETable = s08.UEContextInformationSgNBModReqExtIEs
 
 // UEContextInformationSgNBModReqExtIEsAdditionalRRMPriorityIndexExtBinding binds AdditionalRRMPriorityIndex to ProtocolExtensionField {{UE-ContextInformationSgNBModReqExtIEs}} of TS 36.423 §9.3.8.
-type UEContextInformationSgNBModReqExtIEsAdditionalRRMPriorityIndexExtBinding = s09.UEContextInformationSgNBModReqExtIEsAdditionalRRMPriorityIndexExtBinding
+type UEContextInformationSgNBModReqExtIEsAdditionalRRMPriorityIndexExtBinding = s08.UEContextInformationSgNBModReqExtIEsAdditionalRRMPriorityIndexExtBinding
 
 // UEContextInformationSgNBModReqExtIEsExtContainer is ProtocolExtensionContainer {{UE-ContextInformationSgNBModReqExtIEs}} of TS 36.423 §9.3.8: a list of UEContextInformationSgNBModReqExtIEsExtField values.
-type UEContextInformationSgNBModReqExtIEsExtContainer = s09.UEContextInformationSgNBModReqExtIEsExtContainer
+type UEContextInformationSgNBModReqExtIEsExtContainer = s08.UEContextInformationSgNBModReqExtIEsExtContainer
 
 // UEContextInformationSgNBModReqExtIEsExtField is ProtocolExtensionField {{UE-ContextInformationSgNBModReqExtIEs}} of TS 36.423 §9.3.8: an extension field.
-type UEContextInformationSgNBModReqExtIEsExtField = s09.UEContextInformationSgNBModReqExtIEsExtField
+type UEContextInformationSgNBModReqExtIEsExtField = s08.UEContextInformationSgNBModReqExtIEsExtField
 
 // UEContextInformationSgNBModReqExtIEsLowerLayerPresenceStatusChangeExtBinding binds LowerLayerPresenceStatusChange to ProtocolExtensionField {{UE-ContextInformationSgNBModReqExtIEs}} of TS 36.423 §9.3.8.
-type UEContextInformationSgNBModReqExtIEsLowerLayerPresenceStatusChangeExtBinding = s09.UEContextInformationSgNBModReqExtIEsLowerLayerPresenceStatusChangeExtBinding
+type UEContextInformationSgNBModReqExtIEsLowerLayerPresenceStatusChangeExtBinding = s08.UEContextInformationSgNBModReqExtIEsLowerLayerPresenceStatusChangeExtBinding
 
 // UEContextInformationSgNBModReqExtIEsSubscriberProfileIDforRFPExtBinding binds SubscriberProfileIDforRFP to ProtocolExtensionField {{UE-ContextInformationSgNBModReqExtIEs}} of TS 36.423 §9.3.8.
-type UEContextInformationSgNBModReqExtIEsSubscriberProfileIDforRFPExtBinding = s09.UEContextInformationSgNBModReqExtIEsSubscriberProfileIDforRFPExtBinding
-type UEContextInformationSgNBModReqExtIEsValue = s09.UEContextInformationSgNBModReqExtIEsValue
+type UEContextInformationSgNBModReqExtIEsSubscriberProfileIDforRFPExtBinding = s08.UEContextInformationSgNBModReqExtIEsSubscriberProfileIDforRFPExtBinding
+type UEContextInformationSgNBModReqExtIEsValue = s08.UEContextInformationSgNBModReqExtIEsValue
 
 // UEContextInformationSgNBModReqValueCodec is the concrete ValueCodec[UEContextInformationSgNBModReq].
 type UEContextInformationSgNBModReqValueCodec = s11.UEContextInformationSgNBModReqValueCodec
 
 // UEContextInformationValueCodec is the concrete ValueCodec[UEContextInformation].
-type UEContextInformationValueCodec = s17.UEContextInformationValueCodec
+type UEContextInformationValueCodec = s16.UEContextInformationValueCodec
 
 // UEContextKeptIndicator represents the ASN.1 ENUMERATED type UE-ContextKeptIndicator.
 type UEContextKeptIndicator = s00.UEContextKeptIndicator
@@ -22585,15 +22584,15 @@ type UEContextReferenceAtWTItemExtIEsValue = s04.UEContextReferenceAtWTItemExtIE
 type UEContextReferenceAtWTValueCodec = s13.UEContextReferenceAtWTValueCodec
 
 // UEContextRelease represents the ASN.1 type UEContextRelease (SEQUENCE).
-type UEContextRelease = s20.UEContextRelease
+type UEContextRelease = s19.UEContextRelease
 
 // UEContextReleaseAPERValue is the concrete APERValue[UEContextRelease].
-type UEContextReleaseAPERValue = s20.UEContextReleaseAPERValue
+type UEContextReleaseAPERValue = s19.UEContextReleaseAPERValue
 
 // UEContextReleaseCodec binds the complete APER value type.
-var UEContextReleaseCodec func() UEContextReleaseValueCodec = s21.UEContextReleaseCodec
+var UEContextReleaseCodec func() UEContextReleaseValueCodec = s20.UEContextReleaseCodec
 
-type UEContextReleaseDescriptor = s21.UEContextReleaseDescriptor
+type UEContextReleaseDescriptor = s20.UEContextReleaseDescriptor
 
 // UEContextReleaseIEContainer is ProtocolIE-Container {{UEContextRelease-IEs}} of TS 36.423 §9.3.8: a list of UEContextReleaseIEField values.
 type UEContextReleaseIEContainer = s12.UEContextReleaseIEContainer
@@ -22606,9 +22605,9 @@ type UEContextReleaseIEValue = s12.UEContextReleaseIEValue
 var UEContextReleaseIEs func() UEContextReleaseIETable = s12.UEContextReleaseIEs
 
 // UEContextReleaseInitiatingBinding is the concrete InitiatingBinding[UEContextRelease].
-type UEContextReleaseInitiatingBinding = s20.UEContextReleaseInitiatingBinding
+type UEContextReleaseInitiatingBinding = s19.UEContextReleaseInitiatingBinding
 
-var UEContextReleaseProcedure func() UEContextReleaseDescriptor = s21.UEContextReleaseProcedure
+var UEContextReleaseProcedure func() UEContextReleaseDescriptor = s20.UEContextReleaseProcedure
 
 // UEContextReleaseSIPTOBearerDeactivationIndicationIEBinding binds SIPTOBearerDeactivationIndication to ProtocolIE-Field {{UEContextRelease-IEs}} of TS 36.423 §9.3.8.
 type UEContextReleaseSIPTOBearerDeactivationIndicationIEBinding = s12.UEContextReleaseSIPTOBearerDeactivationIndicationIEBinding
@@ -22623,7 +22622,7 @@ type UEContextReleaseUEX2APIDExtensionIEBinding = s12.UEContextReleaseUEX2APIDEx
 type UEContextReleaseUEX2APIDIEBinding = s12.UEContextReleaseUEX2APIDIEBinding
 
 // UEContextReleaseValueCodec is the concrete ValueCodec[UEContextRelease].
-type UEContextReleaseValueCodec = s20.UEContextReleaseValueCodec
+type UEContextReleaseValueCodec = s19.UEContextReleaseValueCodec
 type UEHistoryInformation = s16.UEHistoryInformation
 
 // UEHistoryInformationAPERValue is the concrete APERValue[UEHistoryInformation].
@@ -22705,18 +22704,18 @@ type UERadioCapabilityIDAPERValue = s11.UERadioCapabilityIDAPERValue
 // UERadioCapabilityIDCodec binds the complete APER value type.
 var UERadioCapabilityIDCodec func() UERadioCapabilityIDValueCodec = s18.UERadioCapabilityIDCodec
 
-type UERadioCapabilityIDMappingDescriptor = s21.UERadioCapabilityIDMappingDescriptor
+type UERadioCapabilityIDMappingDescriptor = s20.UERadioCapabilityIDMappingDescriptor
 
-var UERadioCapabilityIDMappingProcedure func() UERadioCapabilityIDMappingDescriptor = s21.UERadioCapabilityIDMappingProcedure
+var UERadioCapabilityIDMappingProcedure func() UERadioCapabilityIDMappingDescriptor = s20.UERadioCapabilityIDMappingProcedure
 
 // UERadioCapabilityIDMappingRequest represents the ASN.1 type UERadioCapabilityIDMappingRequest (SEQUENCE).
-type UERadioCapabilityIDMappingRequest = s20.UERadioCapabilityIDMappingRequest
+type UERadioCapabilityIDMappingRequest = s19.UERadioCapabilityIDMappingRequest
 
 // UERadioCapabilityIDMappingRequestAPERValue is the concrete APERValue[UERadioCapabilityIDMappingRequest].
-type UERadioCapabilityIDMappingRequestAPERValue = s20.UERadioCapabilityIDMappingRequestAPERValue
+type UERadioCapabilityIDMappingRequestAPERValue = s19.UERadioCapabilityIDMappingRequestAPERValue
 
 // UERadioCapabilityIDMappingRequestCodec binds the complete APER value type.
-var UERadioCapabilityIDMappingRequestCodec func() UERadioCapabilityIDMappingRequestValueCodec = s21.UERadioCapabilityIDMappingRequestCodec
+var UERadioCapabilityIDMappingRequestCodec func() UERadioCapabilityIDMappingRequestValueCodec = s20.UERadioCapabilityIDMappingRequestCodec
 
 // UERadioCapabilityIDMappingRequestIEContainer is ProtocolIE-Container {{UERadioCapabilityIDMappingRequestIEs}} of TS 36.423 §9.3.8: a list of UERadioCapabilityIDMappingRequestIEField values.
 type UERadioCapabilityIDMappingRequestIEContainer = s11.UERadioCapabilityIDMappingRequestIEContainer
@@ -22729,22 +22728,22 @@ type UERadioCapabilityIDMappingRequestIEValue = s11.UERadioCapabilityIDMappingRe
 var UERadioCapabilityIDMappingRequestIEs func() UERadioCapabilityIDMappingRequestIETable = s11.UERadioCapabilityIDMappingRequestIEs
 
 // UERadioCapabilityIDMappingRequestInitiatingBinding is the concrete InitiatingBinding[UERadioCapabilityIDMappingRequest].
-type UERadioCapabilityIDMappingRequestInitiatingBinding = s20.UERadioCapabilityIDMappingRequestInitiatingBinding
+type UERadioCapabilityIDMappingRequestInitiatingBinding = s19.UERadioCapabilityIDMappingRequestInitiatingBinding
 
 // UERadioCapabilityIDMappingRequestUERadioCapabilityIDIEBinding binds UERadioCapabilityID to ProtocolIE-Field {{UERadioCapabilityIDMappingRequestIEs}} of TS 36.423 §9.3.8.
 type UERadioCapabilityIDMappingRequestUERadioCapabilityIDIEBinding = s11.UERadioCapabilityIDMappingRequestUERadioCapabilityIDIEBinding
 
 // UERadioCapabilityIDMappingRequestValueCodec is the concrete ValueCodec[UERadioCapabilityIDMappingRequest].
-type UERadioCapabilityIDMappingRequestValueCodec = s20.UERadioCapabilityIDMappingRequestValueCodec
+type UERadioCapabilityIDMappingRequestValueCodec = s19.UERadioCapabilityIDMappingRequestValueCodec
 
 // UERadioCapabilityIDMappingResponse represents the ASN.1 type UERadioCapabilityIDMappingResponse (SEQUENCE).
-type UERadioCapabilityIDMappingResponse = s19.UERadioCapabilityIDMappingResponse
+type UERadioCapabilityIDMappingResponse = s18.UERadioCapabilityIDMappingResponse
 
 // UERadioCapabilityIDMappingResponseAPERValue is the concrete APERValue[UERadioCapabilityIDMappingResponse].
-type UERadioCapabilityIDMappingResponseAPERValue = s19.UERadioCapabilityIDMappingResponseAPERValue
+type UERadioCapabilityIDMappingResponseAPERValue = s18.UERadioCapabilityIDMappingResponseAPERValue
 
 // UERadioCapabilityIDMappingResponseCodec binds the complete APER value type.
-var UERadioCapabilityIDMappingResponseCodec func() UERadioCapabilityIDMappingResponseValueCodec = s21.UERadioCapabilityIDMappingResponseCodec
+var UERadioCapabilityIDMappingResponseCodec func() UERadioCapabilityIDMappingResponseValueCodec = s20.UERadioCapabilityIDMappingResponseCodec
 
 // UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{UERadioCapabilityIDMappingResponseIEs}} of TS 36.423 §9.3.8.
 type UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding = s11.UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding
@@ -22760,7 +22759,7 @@ type UERadioCapabilityIDMappingResponseIEValue = s11.UERadioCapabilityIDMappingR
 var UERadioCapabilityIDMappingResponseIEs func() UERadioCapabilityIDMappingResponseIETable = s11.UERadioCapabilityIDMappingResponseIEs
 
 // UERadioCapabilityIDMappingResponseSuccessfulBinding is the concrete SuccessfulBinding[UERadioCapabilityIDMappingResponse].
-type UERadioCapabilityIDMappingResponseSuccessfulBinding = s19.UERadioCapabilityIDMappingResponseSuccessfulBinding
+type UERadioCapabilityIDMappingResponseSuccessfulBinding = s18.UERadioCapabilityIDMappingResponseSuccessfulBinding
 
 // UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding binds UERadioCapabilityID to ProtocolIE-Field {{UERadioCapabilityIDMappingResponseIEs}} of TS 36.423 §9.3.8.
 type UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding = s11.UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding
@@ -22769,7 +22768,7 @@ type UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding = s11.UERadi
 type UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding = s11.UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding
 
 // UERadioCapabilityIDMappingResponseValueCodec is the concrete ValueCodec[UERadioCapabilityIDMappingResponse].
-type UERadioCapabilityIDMappingResponseValueCodec = s19.UERadioCapabilityIDMappingResponseValueCodec
+type UERadioCapabilityIDMappingResponseValueCodec = s18.UERadioCapabilityIDMappingResponseValueCodec
 
 // UERadioCapabilityIDValueCodec is the concrete ValueCodec[UERadioCapabilityID].
 type UERadioCapabilityIDValueCodec = s11.UERadioCapabilityIDValueCodec
@@ -22790,10 +22789,10 @@ var UES1APIDCodec func() UES1APIDValueCodec = s11.UES1APIDCodec
 type UES1APIDValueCodec = s11.UES1APIDValueCodec
 
 // UESecurityCapabilities represents the ASN.1 type UESecurityCapabilities (SEQUENCE).
-type UESecurityCapabilities = s06.UESecurityCapabilities
+type UESecurityCapabilities = s05.UESecurityCapabilities
 
 // UESecurityCapabilitiesAPERValue is the concrete APERValue[UESecurityCapabilities].
-type UESecurityCapabilitiesAPERValue = s06.UESecurityCapabilitiesAPERValue
+type UESecurityCapabilitiesAPERValue = s05.UESecurityCapabilitiesAPERValue
 
 // UESecurityCapabilitiesCodec binds the complete APER value type.
 var UESecurityCapabilitiesCodec func() UESecurityCapabilitiesValueCodec = s15.UESecurityCapabilitiesCodec
@@ -22810,7 +22809,7 @@ type UESecurityCapabilitiesExtIEsExtField = s04.UESecurityCapabilitiesExtIEsExtF
 type UESecurityCapabilitiesExtIEsValue = s04.UESecurityCapabilitiesExtIEsValue
 
 // UESecurityCapabilitiesValueCodec is the concrete ValueCodec[UESecurityCapabilities].
-type UESecurityCapabilitiesValueCodec = s06.UESecurityCapabilitiesValueCodec
+type UESecurityCapabilitiesValueCodec = s05.UESecurityCapabilitiesValueCodec
 
 // UESidelinkAggregateMaximumBitRate represents the ASN.1 type UESidelinkAggregateMaximumBitRate (SEQUENCE).
 type UESidelinkAggregateMaximumBitRate = s06.UESidelinkAggregateMaximumBitRate
@@ -22958,11 +22957,11 @@ type ULHighInterferenceIndicationInfo = s12.ULHighInterferenceIndicationInfo
 type ULHighInterferenceIndicationInfoAPERValue = s12.ULHighInterferenceIndicationInfoAPERValue
 
 // ULHighInterferenceIndicationInfoCodec binds the complete source value type.
-var ULHighInterferenceIndicationInfoCodec func() ULHighInterferenceIndicationInfoValueCodec = s21.ULHighInterferenceIndicationInfoCodec
+var ULHighInterferenceIndicationInfoCodec func() ULHighInterferenceIndicationInfoValueCodec = s20.ULHighInterferenceIndicationInfoCodec
 
 // ULHighInterferenceIndicationInfoComplete carries a complete ULHighInterferenceIndicationInfo encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type ULHighInterferenceIndicationInfoComplete = s21.ULHighInterferenceIndicationInfoComplete
+type ULHighInterferenceIndicationInfoComplete = s20.ULHighInterferenceIndicationInfoComplete
 
 // ULHighInterferenceIndicationInfoItem represents the ASN.1 type UL-HighInterferenceIndicationInfo-Item (SEQUENCE).
 type ULHighInterferenceIndicationInfoItem = s12.ULHighInterferenceIndicationInfoItem
@@ -22998,11 +22997,11 @@ type ULInterferenceOverloadIndication = s12.ULInterferenceOverloadIndication
 type ULInterferenceOverloadIndicationAPERValue = s12.ULInterferenceOverloadIndicationAPERValue
 
 // ULInterferenceOverloadIndicationCodec binds the complete source value type.
-var ULInterferenceOverloadIndicationCodec func() ULInterferenceOverloadIndicationValueCodec = s21.ULInterferenceOverloadIndicationCodec
+var ULInterferenceOverloadIndicationCodec func() ULInterferenceOverloadIndicationValueCodec = s20.ULInterferenceOverloadIndicationCodec
 
 // ULInterferenceOverloadIndicationComplete carries a complete ULInterferenceOverloadIndication encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type ULInterferenceOverloadIndicationComplete = s21.ULInterferenceOverloadIndicationComplete
+type ULInterferenceOverloadIndicationComplete = s20.ULInterferenceOverloadIndicationComplete
 
 // ULInterferenceOverloadIndicationItem represents the ASN.1 ENUMERATED type UL-InterferenceOverloadIndication-Item.
 type ULInterferenceOverloadIndicationItem = s00.ULInterferenceOverloadIndicationItem
@@ -23214,7 +23213,7 @@ var UnmarshalAPERActivatedNRCellList func(data []byte, options ...aper.DecodeOpt
 var UnmarshalAPERAdditionalListofForwardingGTPTunnelEndpoint func(data []byte, options ...aper.DecodeOption) (AdditionalListofForwardingGTPTunnelEndpointComplete, aper.DecodeReport, error) = s13.UnmarshalAPERAdditionalListofForwardingGTPTunnelEndpoint
 
 // UnmarshalAPERAdditionalMeasurementTimingConfigurationList decodes a complete named list.
-var UnmarshalAPERAdditionalMeasurementTimingConfigurationList func(data []byte, options ...aper.DecodeOption) (AdditionalMeasurementTimingConfigurationListComplete, aper.DecodeReport, error) = s14.UnmarshalAPERAdditionalMeasurementTimingConfigurationList
+var UnmarshalAPERAdditionalMeasurementTimingConfigurationList func(data []byte, options ...aper.DecodeOption) (AdditionalMeasurementTimingConfigurationListComplete, aper.DecodeReport, error) = s13.UnmarshalAPERAdditionalMeasurementTimingConfigurationList
 
 // UnmarshalAPERAdditionalPLMNsItem decodes a complete named list.
 var UnmarshalAPERAdditionalPLMNsItem func(data []byte, options ...aper.DecodeOption) (AdditionalPLMNsItemComplete, aper.DecodeReport, error) = s14.UnmarshalAPERAdditionalPLMNsItem
@@ -23337,10 +23336,10 @@ var UnmarshalAPERERABsAdmittedList func(data []byte, options ...aper.DecodeOptio
 var UnmarshalAPERERABsAdmittedToBeAddedList func(data []byte, options ...aper.DecodeOption) (ERABsAdmittedToBeAddedListComplete, aper.DecodeReport, error) = s14.UnmarshalAPERERABsAdmittedToBeAddedList
 
 // UnmarshalAPERERABsAdmittedToBeAddedModAckList decodes a complete named list.
-var UnmarshalAPERERABsAdmittedToBeAddedModAckList func(data []byte, options ...aper.DecodeOption) (ERABsAdmittedToBeAddedModAckListComplete, aper.DecodeReport, error) = s15.UnmarshalAPERERABsAdmittedToBeAddedModAckList
+var UnmarshalAPERERABsAdmittedToBeAddedModAckList func(data []byte, options ...aper.DecodeOption) (ERABsAdmittedToBeAddedModAckListComplete, aper.DecodeReport, error) = s14.UnmarshalAPERERABsAdmittedToBeAddedModAckList
 
 // UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList decodes a complete named list.
-var UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList func(data []byte, options ...aper.DecodeOption) (ERABsAdmittedToBeAddedSgNBAddReqAckListComplete, aper.DecodeReport, error) = s15.UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList
+var UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList func(data []byte, options ...aper.DecodeOption) (ERABsAdmittedToBeAddedSgNBAddReqAckListComplete, aper.DecodeReport, error) = s14.UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList
 
 // UnmarshalAPERERABsAdmittedToBeAddedSgNBModAckList decodes a complete named list.
 var UnmarshalAPERERABsAdmittedToBeAddedSgNBModAckList func(data []byte, options ...aper.DecodeOption) (ERABsAdmittedToBeAddedSgNBModAckListComplete, aper.DecodeReport, error) = s15.UnmarshalAPERERABsAdmittedToBeAddedSgNBModAckList
@@ -23475,16 +23474,16 @@ var UnmarshalAPERListofEUTRACellsinNRCoordinationReq func(data []byte, options .
 var UnmarshalAPERListofNRCellsinNRCoordinationReq func(data []byte, options ...aper.DecodeOption) (ListofNRCellsinNRCoordinationReqComplete, aper.DecodeReport, error) = s15.UnmarshalAPERListofNRCellsinNRCoordinationReq
 
 // UnmarshalAPERListofNRCellsinNRCoordinationResp decodes a complete named list.
-var UnmarshalAPERListofNRCellsinNRCoordinationResp func(data []byte, options ...aper.DecodeOption) (ListofNRCellsinNRCoordinationRespComplete, aper.DecodeReport, error) = s16.UnmarshalAPERListofNRCellsinNRCoordinationResp
+var UnmarshalAPERListofNRCellsinNRCoordinationResp func(data []byte, options ...aper.DecodeOption) (ListofNRCellsinNRCoordinationRespComplete, aper.DecodeReport, error) = s15.UnmarshalAPERListofNRCellsinNRCoordinationResp
 
 // UnmarshalAPERMBMSServiceAreaIdentityList decodes a complete named list.
-var UnmarshalAPERMBMSServiceAreaIdentityList func(data []byte, options ...aper.DecodeOption) (MBMSServiceAreaIdentityListComplete, aper.DecodeReport, error) = s16.UnmarshalAPERMBMSServiceAreaIdentityList
+var UnmarshalAPERMBMSServiceAreaIdentityList func(data []byte, options ...aper.DecodeOption) (MBMSServiceAreaIdentityListComplete, aper.DecodeReport, error) = s15.UnmarshalAPERMBMSServiceAreaIdentityList
 
 // UnmarshalAPERMBSFNSubframeInfolist decodes a complete named list.
-var UnmarshalAPERMBSFNSubframeInfolist func(data []byte, options ...aper.DecodeOption) (MBSFNSubframeInfolistComplete, aper.DecodeReport, error) = s16.UnmarshalAPERMBSFNSubframeInfolist
+var UnmarshalAPERMBSFNSubframeInfolist func(data []byte, options ...aper.DecodeOption) (MBSFNSubframeInfolistComplete, aper.DecodeReport, error) = s15.UnmarshalAPERMBSFNSubframeInfolist
 
 // UnmarshalAPERMDTPLMNList decodes a complete named list.
-var UnmarshalAPERMDTPLMNList func(data []byte, options ...aper.DecodeOption) (MDTPLMNListComplete, aper.DecodeReport, error) = s16.UnmarshalAPERMDTPLMNList
+var UnmarshalAPERMDTPLMNList func(data []byte, options ...aper.DecodeOption) (MDTPLMNListComplete, aper.DecodeReport, error) = s15.UnmarshalAPERMDTPLMNList
 
 // UnmarshalAPERMeasurementFailureCauseList decodes a complete named list.
 var UnmarshalAPERMeasurementFailureCauseList func(data []byte, options ...aper.DecodeOption) (MeasurementFailureCauseListComplete, aper.DecodeReport, error) = s16.UnmarshalAPERMeasurementFailureCauseList
@@ -23586,10 +23585,10 @@ var UnmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpd func(data []byte, optio
 var UnmarshalAPERServedEUTRAcellsToModifyListENDCConfUpd func(data []byte, options ...aper.DecodeOption) (ServedEUTRAcellsToModifyListENDCConfUpdComplete, aper.DecodeReport, error) = s17.UnmarshalAPERServedEUTRAcellsToModifyListENDCConfUpd
 
 // UnmarshalAPERServedNRCellsToActivate decodes a complete named list.
-var UnmarshalAPERServedNRCellsToActivate func(data []byte, options ...aper.DecodeOption) (ServedNRCellsToActivateComplete, aper.DecodeReport, error) = s18.UnmarshalAPERServedNRCellsToActivate
+var UnmarshalAPERServedNRCellsToActivate func(data []byte, options ...aper.DecodeOption) (ServedNRCellsToActivateComplete, aper.DecodeReport, error) = s17.UnmarshalAPERServedNRCellsToActivate
 
 // UnmarshalAPERServedNRcellsENDCX2ManagementList decodes a complete named list.
-var UnmarshalAPERServedNRcellsENDCX2ManagementList func(data []byte, options ...aper.DecodeOption) (ServedNRcellsENDCX2ManagementListComplete, aper.DecodeReport, error) = s18.UnmarshalAPERServedNRcellsENDCX2ManagementList
+var UnmarshalAPERServedNRcellsENDCX2ManagementList func(data []byte, options ...aper.DecodeOption) (ServedNRcellsENDCX2ManagementListComplete, aper.DecodeReport, error) = s17.UnmarshalAPERServedNRcellsENDCX2ManagementList
 
 // UnmarshalAPERServedNRcellsToDeleteENDCConfUpdList decodes a complete named list.
 var UnmarshalAPERServedNRcellsToDeleteENDCConfUpdList func(data []byte, options ...aper.DecodeOption) (ServedNRcellsToDeleteENDCConfUpdListComplete, aper.DecodeReport, error) = s18.UnmarshalAPERServedNRcellsToDeleteENDCConfUpdList
@@ -23640,15 +23639,15 @@ var UnmarshalAPERUEHistoryInformation func(data []byte, options ...aper.DecodeOp
 var UnmarshalAPERUEsToBeResetList func(data []byte, options ...aper.DecodeOption) (UEsToBeResetListComplete, aper.DecodeReport, error) = s18.UnmarshalAPERUEsToBeResetList
 
 // UnmarshalAPERULHighInterferenceIndicationInfo decodes a complete named list.
-var UnmarshalAPERULHighInterferenceIndicationInfo func(data []byte, options ...aper.DecodeOption) (ULHighInterferenceIndicationInfoComplete, aper.DecodeReport, error) = s21.UnmarshalAPERULHighInterferenceIndicationInfo
+var UnmarshalAPERULHighInterferenceIndicationInfo func(data []byte, options ...aper.DecodeOption) (ULHighInterferenceIndicationInfoComplete, aper.DecodeReport, error) = s20.UnmarshalAPERULHighInterferenceIndicationInfo
 
 // UnmarshalAPERULInterferenceOverloadIndication decodes a complete named list.
-var UnmarshalAPERULInterferenceOverloadIndication func(data []byte, options ...aper.DecodeOption) (ULInterferenceOverloadIndicationComplete, aper.DecodeReport, error) = s21.UnmarshalAPERULInterferenceOverloadIndication
+var UnmarshalAPERULInterferenceOverloadIndication func(data []byte, options ...aper.DecodeOption) (ULInterferenceOverloadIndicationComplete, aper.DecodeReport, error) = s20.UnmarshalAPERULInterferenceOverloadIndication
 
 // UnmarshalAPERWLANMeasConfigNameList decodes a complete named list.
-var UnmarshalAPERWLANMeasConfigNameList func(data []byte, options ...aper.DecodeOption) (WLANMeasConfigNameListComplete, aper.DecodeReport, error) = s21.UnmarshalAPERWLANMeasConfigNameList
+var UnmarshalAPERWLANMeasConfigNameList func(data []byte, options ...aper.DecodeOption) (WLANMeasConfigNameListComplete, aper.DecodeReport, error) = s20.UnmarshalAPERWLANMeasConfigNameList
 
-type UnsuccessfulBinding[T any] = s21.UnsuccessfulBinding[T]
+type UnsuccessfulBinding[T any] = s20.UnsuccessfulBinding[T]
 
 // UnsuccessfulOutcome represents the ASN.1 type UnsuccessfulOutcome (SEQUENCE).
 type UnsuccessfulOutcome = s14.UnsuccessfulOutcome
@@ -23768,117 +23767,117 @@ type V2XServicesAuthorizedExtIEsValue = s04.V2XServicesAuthorizedExtIEsValue
 // V2XServicesAuthorizedValueCodec is the concrete ValueCodec[V2XServicesAuthorized].
 type V2XServicesAuthorizedValueCodec = s06.V2XServicesAuthorizedValueCodec
 
-var ValidateAccessAndMobilityIndication func(v *AccessAndMobilityIndication, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateAccessAndMobilityIndication
-var ValidateCPCCancel func(v *CPCCancel, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateCPCCancel
+var ValidateAccessAndMobilityIndication func(v *AccessAndMobilityIndication, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateAccessAndMobilityIndication
+var ValidateCPCCancel func(v *CPCCancel, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateCPCCancel
 var ValidateCellActivationFailure func(v *CellActivationFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateCellActivationFailure
-var ValidateCellActivationRequest func(v *CellActivationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateCellActivationRequest
-var ValidateCellActivationResponse func(v *CellActivationResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateCellActivationResponse
-var ValidateCellTrafficTrace func(v *CellTrafficTrace, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateCellTrafficTrace
-var ValidateConditionalHandoverCancel func(v *ConditionalHandoverCancel, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateConditionalHandoverCancel
-var ValidateDataForwardingAddressIndication func(v *DataForwardingAddressIndication, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateDataForwardingAddressIndication
-var ValidateDeactivateTrace func(v *DeactivateTrace, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateDeactivateTrace
-var ValidateENBConfigurationUpdate func(v *ENBConfigurationUpdate, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENBConfigurationUpdate
-var ValidateENBConfigurationUpdateAcknowledge func(v *ENBConfigurationUpdateAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENBConfigurationUpdateAcknowledge
+var ValidateCellActivationRequest func(v *CellActivationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateCellActivationRequest
+var ValidateCellActivationResponse func(v *CellActivationResponse, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateCellActivationResponse
+var ValidateCellTrafficTrace func(v *CellTrafficTrace, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateCellTrafficTrace
+var ValidateConditionalHandoverCancel func(v *ConditionalHandoverCancel, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateConditionalHandoverCancel
+var ValidateDataForwardingAddressIndication func(v *DataForwardingAddressIndication, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateDataForwardingAddressIndication
+var ValidateDeactivateTrace func(v *DeactivateTrace, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateDeactivateTrace
+var ValidateENBConfigurationUpdate func(v *ENBConfigurationUpdate, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENBConfigurationUpdate
+var ValidateENBConfigurationUpdateAcknowledge func(v *ENBConfigurationUpdateAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENBConfigurationUpdateAcknowledge
 var ValidateENBConfigurationUpdateFailure func(v *ENBConfigurationUpdateFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateENBConfigurationUpdateFailure
 var ValidateENDCCellActivationFailure func(v *ENDCCellActivationFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateENDCCellActivationFailure
-var ValidateENDCCellActivationRequest func(v *ENDCCellActivationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCCellActivationRequest
-var ValidateENDCCellActivationResponse func(v *ENDCCellActivationResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCCellActivationResponse
-var ValidateENDCConfigurationTransfer func(v *ENDCConfigurationTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCConfigurationTransfer
-var ValidateENDCConfigurationUpdate func(v *ENDCConfigurationUpdate, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCConfigurationUpdate
-var ValidateENDCConfigurationUpdateAcknowledge func(v *ENDCConfigurationUpdateAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCConfigurationUpdateAcknowledge
+var ValidateENDCCellActivationRequest func(v *ENDCCellActivationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCCellActivationRequest
+var ValidateENDCCellActivationResponse func(v *ENDCCellActivationResponse, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCCellActivationResponse
+var ValidateENDCConfigurationTransfer func(v *ENDCConfigurationTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCConfigurationTransfer
+var ValidateENDCConfigurationUpdate func(v *ENDCConfigurationUpdate, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCConfigurationUpdate
+var ValidateENDCConfigurationUpdateAcknowledge func(v *ENDCConfigurationUpdateAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCConfigurationUpdateAcknowledge
 var ValidateENDCConfigurationUpdateFailure func(v *ENDCConfigurationUpdateFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateENDCConfigurationUpdateFailure
-var ValidateENDCPartialResetConfirm func(v *ENDCPartialResetConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCPartialResetConfirm
-var ValidateENDCPartialResetRequired func(v *ENDCPartialResetRequired, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCPartialResetRequired
+var ValidateENDCPartialResetConfirm func(v *ENDCPartialResetConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCPartialResetConfirm
+var ValidateENDCPartialResetRequired func(v *ENDCPartialResetRequired, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCPartialResetRequired
 var ValidateENDCResourceStatusFailure func(v *ENDCResourceStatusFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateENDCResourceStatusFailure
-var ValidateENDCResourceStatusRequest func(v *ENDCResourceStatusRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCResourceStatusRequest
-var ValidateENDCResourceStatusResponse func(v *ENDCResourceStatusResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCResourceStatusResponse
-var ValidateENDCResourceStatusUpdate func(v *ENDCResourceStatusUpdate, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCResourceStatusUpdate
+var ValidateENDCResourceStatusRequest func(v *ENDCResourceStatusRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCResourceStatusRequest
+var ValidateENDCResourceStatusResponse func(v *ENDCResourceStatusResponse, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCResourceStatusResponse
+var ValidateENDCResourceStatusUpdate func(v *ENDCResourceStatusUpdate, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCResourceStatusUpdate
 var ValidateENDCX2RemovalFailure func(v *ENDCX2RemovalFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateENDCX2RemovalFailure
-var ValidateENDCX2RemovalRequest func(v *ENDCX2RemovalRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCX2RemovalRequest
-var ValidateENDCX2RemovalResponse func(v *ENDCX2RemovalResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCX2RemovalResponse
+var ValidateENDCX2RemovalRequest func(v *ENDCX2RemovalRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCX2RemovalRequest
+var ValidateENDCX2RemovalResponse func(v *ENDCX2RemovalResponse, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCX2RemovalResponse
 var ValidateENDCX2SetupFailure func(v *ENDCX2SetupFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateENDCX2SetupFailure
-var ValidateENDCX2SetupRequest func(v *ENDCX2SetupRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCX2SetupRequest
-var ValidateENDCX2SetupResponse func(v *ENDCX2SetupResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateENDCX2SetupResponse
-var ValidateEUTRANRCellResourceCoordinationRequest func(v *EUTRANRCellResourceCoordinationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateEUTRANRCellResourceCoordinationRequest
-var ValidateEUTRANRCellResourceCoordinationResponse func(v *EUTRANRCellResourceCoordinationResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateEUTRANRCellResourceCoordinationResponse
-var ValidateEarlyStatusTransfer func(v *EarlyStatusTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateEarlyStatusTransfer
-var ValidateErrorIndication func(v *ErrorIndication, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateErrorIndication
-var ValidateF1CTrafficTransfer func(v *F1CTrafficTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateF1CTrafficTransfer
-var ValidateGNBStatusIndication func(v *GNBStatusIndication, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateGNBStatusIndication
-var ValidateHandoverCancel func(v *HandoverCancel, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateHandoverCancel
+var ValidateENDCX2SetupRequest func(v *ENDCX2SetupRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCX2SetupRequest
+var ValidateENDCX2SetupResponse func(v *ENDCX2SetupResponse, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateENDCX2SetupResponse
+var ValidateEUTRANRCellResourceCoordinationRequest func(v *EUTRANRCellResourceCoordinationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateEUTRANRCellResourceCoordinationRequest
+var ValidateEUTRANRCellResourceCoordinationResponse func(v *EUTRANRCellResourceCoordinationResponse, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateEUTRANRCellResourceCoordinationResponse
+var ValidateEarlyStatusTransfer func(v *EarlyStatusTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateEarlyStatusTransfer
+var ValidateErrorIndication func(v *ErrorIndication, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateErrorIndication
+var ValidateF1CTrafficTransfer func(v *F1CTrafficTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateF1CTrafficTransfer
+var ValidateGNBStatusIndication func(v *GNBStatusIndication, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateGNBStatusIndication
+var ValidateHandoverCancel func(v *HandoverCancel, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateHandoverCancel
 var ValidateHandoverPreparationFailure func(v *HandoverPreparationFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateHandoverPreparationFailure
-var ValidateHandoverReport func(v *HandoverReport, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateHandoverReport
-var ValidateHandoverRequest func(v *HandoverRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateHandoverRequest
-var ValidateHandoverRequestAcknowledge func(v *HandoverRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateHandoverRequestAcknowledge
-var ValidateHandoverSuccess func(v *HandoverSuccess, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateHandoverSuccess
-var ValidateLoadInformation func(v *LoadInformation, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateLoadInformation
-var ValidateMessage func(v *X2APPDU, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateMessage
-var ValidateMobilityChangeAcknowledge func(v *MobilityChangeAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateMobilityChangeAcknowledge
+var ValidateHandoverReport func(v *HandoverReport, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateHandoverReport
+var ValidateHandoverRequest func(v *HandoverRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateHandoverRequest
+var ValidateHandoverRequestAcknowledge func(v *HandoverRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateHandoverRequestAcknowledge
+var ValidateHandoverSuccess func(v *HandoverSuccess, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateHandoverSuccess
+var ValidateLoadInformation func(v *LoadInformation, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateLoadInformation
+var ValidateMessage func(v *X2APPDU, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateMessage
+var ValidateMobilityChangeAcknowledge func(v *MobilityChangeAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateMobilityChangeAcknowledge
 var ValidateMobilityChangeFailure func(v *MobilityChangeFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateMobilityChangeFailure
-var ValidateMobilityChangeRequest func(v *MobilityChangeRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateMobilityChangeRequest
-var ValidatePrivateMessage func(v *PrivateMessage, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidatePrivateMessage
-var ValidateRLFIndication func(v *RLFIndication, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateRLFIndication
-var ValidateRRCTransfer func(v *RRCTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateRRCTransfer
-var ValidateRachIndication func(v *RachIndication, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateRachIndication
-var ValidateResetRequest func(v *ResetRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateResetRequest
-var ValidateResetResponse func(v *ResetResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateResetResponse
+var ValidateMobilityChangeRequest func(v *MobilityChangeRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateMobilityChangeRequest
+var ValidatePrivateMessage func(v *PrivateMessage, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidatePrivateMessage
+var ValidateRLFIndication func(v *RLFIndication, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateRLFIndication
+var ValidateRRCTransfer func(v *RRCTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateRRCTransfer
+var ValidateRachIndication func(v *RachIndication, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateRachIndication
+var ValidateResetRequest func(v *ResetRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateResetRequest
+var ValidateResetResponse func(v *ResetResponse, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateResetResponse
 var ValidateResourceStatusFailure func(v *ResourceStatusFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateResourceStatusFailure
-var ValidateResourceStatusRequest func(v *ResourceStatusRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateResourceStatusRequest
-var ValidateResourceStatusResponse func(v *ResourceStatusResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateResourceStatusResponse
-var ValidateResourceStatusUpdate func(v *ResourceStatusUpdate, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateResourceStatusUpdate
+var ValidateResourceStatusRequest func(v *ResourceStatusRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateResourceStatusRequest
+var ValidateResourceStatusResponse func(v *ResourceStatusResponse, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateResourceStatusResponse
+var ValidateResourceStatusUpdate func(v *ResourceStatusUpdate, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateResourceStatusUpdate
 var ValidateRetrieveUEContextFailure func(v *RetrieveUEContextFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateRetrieveUEContextFailure
-var ValidateRetrieveUEContextRequest func(v *RetrieveUEContextRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateRetrieveUEContextRequest
-var ValidateRetrieveUEContextResponse func(v *RetrieveUEContextResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateRetrieveUEContextResponse
-var ValidateSCGFailureInformationReport func(v *SCGFailureInformationReport, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSCGFailureInformationReport
-var ValidateSCGFailureTransfer func(v *SCGFailureTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSCGFailureTransfer
-var ValidateSNStatusTransfer func(v *SNStatusTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSNStatusTransfer
-var ValidateSeNBAdditionRequest func(v *SeNBAdditionRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBAdditionRequest
-var ValidateSeNBAdditionRequestAcknowledge func(v *SeNBAdditionRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBAdditionRequestAcknowledge
+var ValidateRetrieveUEContextRequest func(v *RetrieveUEContextRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateRetrieveUEContextRequest
+var ValidateRetrieveUEContextResponse func(v *RetrieveUEContextResponse, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateRetrieveUEContextResponse
+var ValidateSCGFailureInformationReport func(v *SCGFailureInformationReport, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSCGFailureInformationReport
+var ValidateSCGFailureTransfer func(v *SCGFailureTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSCGFailureTransfer
+var ValidateSNStatusTransfer func(v *SNStatusTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSNStatusTransfer
+var ValidateSeNBAdditionRequest func(v *SeNBAdditionRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBAdditionRequest
+var ValidateSeNBAdditionRequestAcknowledge func(v *SeNBAdditionRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBAdditionRequestAcknowledge
 var ValidateSeNBAdditionRequestReject func(v *SeNBAdditionRequestReject, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateSeNBAdditionRequestReject
-var ValidateSeNBCounterCheckRequest func(v *SeNBCounterCheckRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBCounterCheckRequest
-var ValidateSeNBModificationConfirm func(v *SeNBModificationConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBModificationConfirm
+var ValidateSeNBCounterCheckRequest func(v *SeNBCounterCheckRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBCounterCheckRequest
+var ValidateSeNBModificationConfirm func(v *SeNBModificationConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBModificationConfirm
 var ValidateSeNBModificationRefuse func(v *SeNBModificationRefuse, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateSeNBModificationRefuse
-var ValidateSeNBModificationRequest func(v *SeNBModificationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBModificationRequest
-var ValidateSeNBModificationRequestAcknowledge func(v *SeNBModificationRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBModificationRequestAcknowledge
+var ValidateSeNBModificationRequest func(v *SeNBModificationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBModificationRequest
+var ValidateSeNBModificationRequestAcknowledge func(v *SeNBModificationRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBModificationRequestAcknowledge
 var ValidateSeNBModificationRequestReject func(v *SeNBModificationRequestReject, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateSeNBModificationRequestReject
-var ValidateSeNBModificationRequired func(v *SeNBModificationRequired, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBModificationRequired
-var ValidateSeNBReconfigurationComplete func(v *SeNBReconfigurationComplete, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBReconfigurationComplete
-var ValidateSeNBReleaseConfirm func(v *SeNBReleaseConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBReleaseConfirm
-var ValidateSeNBReleaseRequest func(v *SeNBReleaseRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBReleaseRequest
-var ValidateSeNBReleaseRequired func(v *SeNBReleaseRequired, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSeNBReleaseRequired
-var ValidateSecondaryRATDataUsageReport func(v *SecondaryRATDataUsageReport, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSecondaryRATDataUsageReport
-var ValidateSgNBActivityNotification func(v *SgNBActivityNotification, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSgNBActivityNotification
-var ValidateSgNBAdditionRequest func(v *SgNBAdditionRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSgNBAdditionRequest
-var ValidateSgNBAdditionRequestAcknowledge func(v *SgNBAdditionRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSgNBAdditionRequestAcknowledge
+var ValidateSeNBModificationRequired func(v *SeNBModificationRequired, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBModificationRequired
+var ValidateSeNBReconfigurationComplete func(v *SeNBReconfigurationComplete, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBReconfigurationComplete
+var ValidateSeNBReleaseConfirm func(v *SeNBReleaseConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBReleaseConfirm
+var ValidateSeNBReleaseRequest func(v *SeNBReleaseRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBReleaseRequest
+var ValidateSeNBReleaseRequired func(v *SeNBReleaseRequired, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSeNBReleaseRequired
+var ValidateSecondaryRATDataUsageReport func(v *SecondaryRATDataUsageReport, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSecondaryRATDataUsageReport
+var ValidateSgNBActivityNotification func(v *SgNBActivityNotification, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBActivityNotification
+var ValidateSgNBAdditionRequest func(v *SgNBAdditionRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBAdditionRequest
+var ValidateSgNBAdditionRequestAcknowledge func(v *SgNBAdditionRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBAdditionRequestAcknowledge
 var ValidateSgNBAdditionRequestReject func(v *SgNBAdditionRequestReject, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateSgNBAdditionRequestReject
-var ValidateSgNBChangeConfirm func(v *SgNBChangeConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSgNBChangeConfirm
+var ValidateSgNBChangeConfirm func(v *SgNBChangeConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBChangeConfirm
 var ValidateSgNBChangeRefuse func(v *SgNBChangeRefuse, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateSgNBChangeRefuse
-var ValidateSgNBChangeRequired func(v *SgNBChangeRequired, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSgNBChangeRequired
-var ValidateSgNBCounterCheckRequest func(v *SgNBCounterCheckRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSgNBCounterCheckRequest
-var ValidateSgNBModificationConfirm func(v *SgNBModificationConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSgNBModificationConfirm
+var ValidateSgNBChangeRequired func(v *SgNBChangeRequired, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBChangeRequired
+var ValidateSgNBCounterCheckRequest func(v *SgNBCounterCheckRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBCounterCheckRequest
+var ValidateSgNBModificationConfirm func(v *SgNBModificationConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBModificationConfirm
 var ValidateSgNBModificationRefuse func(v *SgNBModificationRefuse, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateSgNBModificationRefuse
-var ValidateSgNBModificationRequest func(v *SgNBModificationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSgNBModificationRequest
-var ValidateSgNBModificationRequestAcknowledge func(v *SgNBModificationRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateSgNBModificationRequestAcknowledge
+var ValidateSgNBModificationRequest func(v *SgNBModificationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBModificationRequest
+var ValidateSgNBModificationRequestAcknowledge func(v *SgNBModificationRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBModificationRequestAcknowledge
 var ValidateSgNBModificationRequestReject func(v *SgNBModificationRequestReject, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateSgNBModificationRequestReject
-var ValidateSgNBModificationRequired func(v *SgNBModificationRequired, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateSgNBModificationRequired
-var ValidateSgNBReconfigurationComplete func(v *SgNBReconfigurationComplete, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateSgNBReconfigurationComplete
-var ValidateSgNBReleaseConfirm func(v *SgNBReleaseConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateSgNBReleaseConfirm
-var ValidateSgNBReleaseRequest func(v *SgNBReleaseRequest, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateSgNBReleaseRequest
-var ValidateSgNBReleaseRequestAcknowledge func(v *SgNBReleaseRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateSgNBReleaseRequestAcknowledge
+var ValidateSgNBModificationRequired func(v *SgNBModificationRequired, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBModificationRequired
+var ValidateSgNBReconfigurationComplete func(v *SgNBReconfigurationComplete, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBReconfigurationComplete
+var ValidateSgNBReleaseConfirm func(v *SgNBReleaseConfirm, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBReleaseConfirm
+var ValidateSgNBReleaseRequest func(v *SgNBReleaseRequest, options ...aper.ValidationOption) (ValidationReport, error) = s19.ValidateSgNBReleaseRequest
+var ValidateSgNBReleaseRequestAcknowledge func(v *SgNBReleaseRequestAcknowledge, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSgNBReleaseRequestAcknowledge
 var ValidateSgNBReleaseRequestReject func(v *SgNBReleaseRequestReject, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateSgNBReleaseRequestReject
-var ValidateSgNBReleaseRequired func(v *SgNBReleaseRequired, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateSgNBReleaseRequired
-var ValidateTraceStart func(v *TraceStart, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateTraceStart
-var ValidateUEContextRelease func(v *UEContextRelease, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateUEContextRelease
-var ValidateUERadioCapabilityIDMappingRequest func(v *UERadioCapabilityIDMappingRequest, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateUERadioCapabilityIDMappingRequest
-var ValidateUERadioCapabilityIDMappingResponse func(v *UERadioCapabilityIDMappingResponse, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateUERadioCapabilityIDMappingResponse
-var ValidateX2APMessageTransfer func(v *X2APMessageTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateX2APMessageTransfer
-var ValidateX2Release func(v *X2Release, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateX2Release
+var ValidateSgNBReleaseRequired func(v *SgNBReleaseRequired, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateSgNBReleaseRequired
+var ValidateTraceStart func(v *TraceStart, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateTraceStart
+var ValidateUEContextRelease func(v *UEContextRelease, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateUEContextRelease
+var ValidateUERadioCapabilityIDMappingRequest func(v *UERadioCapabilityIDMappingRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateUERadioCapabilityIDMappingRequest
+var ValidateUERadioCapabilityIDMappingResponse func(v *UERadioCapabilityIDMappingResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateUERadioCapabilityIDMappingResponse
+var ValidateX2APMessageTransfer func(v *X2APMessageTransfer, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateX2APMessageTransfer
+var ValidateX2Release func(v *X2Release, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateX2Release
 var ValidateX2RemovalFailure func(v *X2RemovalFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateX2RemovalFailure
-var ValidateX2RemovalRequest func(v *X2RemovalRequest, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateX2RemovalRequest
-var ValidateX2RemovalResponse func(v *X2RemovalResponse, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateX2RemovalResponse
+var ValidateX2RemovalRequest func(v *X2RemovalRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateX2RemovalRequest
+var ValidateX2RemovalResponse func(v *X2RemovalResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateX2RemovalResponse
 var ValidateX2SetupFailure func(v *X2SetupFailure, options ...aper.ValidationOption) (ValidationReport, error) = s14.ValidateX2SetupFailure
-var ValidateX2SetupRequest func(v *X2SetupRequest, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateX2SetupRequest
-var ValidateX2SetupResponse func(v *X2SetupResponse, options ...aper.ValidationOption) (ValidationReport, error) = s21.ValidateX2SetupResponse
+var ValidateX2SetupRequest func(v *X2SetupRequest, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateX2SetupRequest
+var ValidateX2SetupResponse func(v *X2SetupResponse, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidateX2SetupResponse
 
 type ValidationCode = s00.ValidationCode
 type ValidationIssue = s12.ValidationIssue
@@ -23890,7 +23889,7 @@ const ValidationSeverityInformational = s00.ValidationSeverityInformational
 const ValidationSeverityUnrecognized = s00.ValidationSeverityUnrecognized
 
 // ValueCodec binds one source value type to its complete APER encoding.
-type ValueCodec[T any] = s21.ValueCodec[T]
+type ValueCodec[T any] = s20.ValueCodec[T]
 
 const ValueIDMismatch = s00.ValueIDMismatch
 
@@ -23925,11 +23924,11 @@ type WLANMeasConfigNameList = s13.WLANMeasConfigNameList
 type WLANMeasConfigNameListAPERValue = s13.WLANMeasConfigNameListAPERValue
 
 // WLANMeasConfigNameListCodec binds the complete source value type.
-var WLANMeasConfigNameListCodec func() WLANMeasConfigNameListValueCodec = s21.WLANMeasConfigNameListCodec
+var WLANMeasConfigNameListCodec func() WLANMeasConfigNameListValueCodec = s20.WLANMeasConfigNameListCodec
 
 // WLANMeasConfigNameListComplete carries a complete WLANMeasConfigNameList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
-type WLANMeasConfigNameListComplete = s21.WLANMeasConfigNameListComplete
+type WLANMeasConfigNameListComplete = s20.WLANMeasConfigNameListComplete
 
 // WLANMeasConfigNameListValueCodec is the concrete ValueCodec[WLANMeasConfigNameList].
 type WLANMeasConfigNameListValueCodec = s13.WLANMeasConfigNameListValueCodec
@@ -24081,15 +24080,15 @@ type X2APMessageAPERValue = s13.X2APMessageAPERValue
 var X2APMessageCodec func() X2APMessageValueCodec = s13.X2APMessageCodec
 
 // X2APMessageTransfer represents the ASN.1 type X2APMessageTransfer (SEQUENCE).
-type X2APMessageTransfer = s20.X2APMessageTransfer
+type X2APMessageTransfer = s19.X2APMessageTransfer
 
 // X2APMessageTransferAPERValue is the concrete APERValue[X2APMessageTransfer].
-type X2APMessageTransferAPERValue = s20.X2APMessageTransferAPERValue
+type X2APMessageTransferAPERValue = s19.X2APMessageTransferAPERValue
 
 // X2APMessageTransferCodec binds the complete APER value type.
-var X2APMessageTransferCodec func() X2APMessageTransferValueCodec = s21.X2APMessageTransferCodec
+var X2APMessageTransferCodec func() X2APMessageTransferValueCodec = s20.X2APMessageTransferCodec
 
-type X2APMessageTransferDescriptor = s21.X2APMessageTransferDescriptor
+type X2APMessageTransferDescriptor = s20.X2APMessageTransferDescriptor
 
 // X2APMessageTransferIEContainer is ProtocolIE-Container {{X2APMessageTransfer-IEs}} of TS 36.423 §9.3.8: a list of X2APMessageTransferIEField values.
 type X2APMessageTransferIEContainer = s13.X2APMessageTransferIEContainer
@@ -24102,15 +24101,15 @@ type X2APMessageTransferIEValue = s13.X2APMessageTransferIEValue
 var X2APMessageTransferIEs func() X2APMessageTransferIETable = s13.X2APMessageTransferIEs
 
 // X2APMessageTransferInitiatingBinding is the concrete InitiatingBinding[X2APMessageTransfer].
-type X2APMessageTransferInitiatingBinding = s20.X2APMessageTransferInitiatingBinding
+type X2APMessageTransferInitiatingBinding = s19.X2APMessageTransferInitiatingBinding
 
-var X2APMessageTransferProcedure func() X2APMessageTransferDescriptor = s21.X2APMessageTransferProcedure
+var X2APMessageTransferProcedure func() X2APMessageTransferDescriptor = s20.X2APMessageTransferProcedure
 
 // X2APMessageTransferRNLHeaderIEBinding binds RNLHeader to ProtocolIE-Field {{X2APMessageTransfer-IEs}} of TS 36.423 §9.3.8.
 type X2APMessageTransferRNLHeaderIEBinding = s13.X2APMessageTransferRNLHeaderIEBinding
 
 // X2APMessageTransferValueCodec is the concrete ValueCodec[X2APMessageTransfer].
-type X2APMessageTransferValueCodec = s20.X2APMessageTransferValueCodec
+type X2APMessageTransferValueCodec = s19.X2APMessageTransferValueCodec
 
 // X2APMessageTransferX2APMessageIEBinding binds X2APMessage to ProtocolIE-Field {{X2APMessageTransfer-IEs}} of TS 36.423 §9.3.8.
 type X2APMessageTransferX2APMessageIEBinding = s13.X2APMessageTransferX2APMessageIEBinding
@@ -24119,10 +24118,10 @@ type X2APMessageTransferX2APMessageIEBinding = s13.X2APMessageTransferX2APMessag
 type X2APMessageValueCodec = s13.X2APMessageValueCodec
 
 // X2APPDU represents the ASN.1 CHOICE type X2AP-PDU.
-type X2APPDU = s20.X2APPDU
+type X2APPDU = s19.X2APPDU
 
 // X2APPDUAPERValue is the concrete APERValue[X2APPDU].
-type X2APPDUAPERValue = s20.X2APPDUAPERValue
+type X2APPDUAPERValue = s19.X2APPDUAPERValue
 
 // X2APPDU choice constants.
 const X2APPDUChoiceInitiatingMessage = s00.X2APPDUChoiceInitiatingMessage
@@ -24134,10 +24133,10 @@ const X2APPDUChoiceSuccessfulOutcome = s00.X2APPDUChoiceSuccessfulOutcome
 const X2APPDUChoiceUnsuccessfulOutcome = s00.X2APPDUChoiceUnsuccessfulOutcome
 
 // X2APPDUCodec binds the complete source value type.
-var X2APPDUCodec func() X2APPDUValueCodec = s20.X2APPDUCodec
+var X2APPDUCodec func() X2APPDUValueCodec = s19.X2APPDUCodec
 
 // X2APPDUValueCodec is the concrete ValueCodec[X2APPDU].
-type X2APPDUValueCodec = s20.X2APPDUValueCodec
+type X2APPDUValueCodec = s19.X2APPDUValueCodec
 
 // X2BenefitValue represents the ASN.1 type X2BenefitValue (INTEGER).
 type X2BenefitValue = s13.X2BenefitValue
@@ -24152,15 +24151,15 @@ var X2BenefitValueCodec func() X2BenefitValueValueCodec = s13.X2BenefitValueCode
 type X2BenefitValueValueCodec = s13.X2BenefitValueValueCodec
 
 // X2Release represents the ASN.1 type X2Release (SEQUENCE).
-type X2Release = s20.X2Release
+type X2Release = s19.X2Release
 
 // X2ReleaseAPERValue is the concrete APERValue[X2Release].
-type X2ReleaseAPERValue = s20.X2ReleaseAPERValue
+type X2ReleaseAPERValue = s19.X2ReleaseAPERValue
 
 // X2ReleaseCodec binds the complete APER value type.
-var X2ReleaseCodec func() X2ReleaseValueCodec = s21.X2ReleaseCodec
+var X2ReleaseCodec func() X2ReleaseValueCodec = s20.X2ReleaseCodec
 
-type X2ReleaseDescriptor = s21.X2ReleaseDescriptor
+type X2ReleaseDescriptor = s20.X2ReleaseDescriptor
 
 // X2ReleaseGlobalENBIDIEBinding binds GlobalENBID to ProtocolIE-Field {{X2Release-IEs}} of TS 36.423 §9.3.8.
 type X2ReleaseGlobalENBIDIEBinding = s07.X2ReleaseGlobalENBIDIEBinding
@@ -24176,13 +24175,13 @@ type X2ReleaseIEValue = s07.X2ReleaseIEValue
 var X2ReleaseIEs func() X2ReleaseIETable = s07.X2ReleaseIEs
 
 // X2ReleaseInitiatingBinding is the concrete InitiatingBinding[X2Release].
-type X2ReleaseInitiatingBinding = s20.X2ReleaseInitiatingBinding
+type X2ReleaseInitiatingBinding = s19.X2ReleaseInitiatingBinding
 
-var X2ReleaseProcedure func() X2ReleaseDescriptor = s21.X2ReleaseProcedure
+var X2ReleaseProcedure func() X2ReleaseDescriptor = s20.X2ReleaseProcedure
 
 // X2ReleaseValueCodec is the concrete ValueCodec[X2Release].
-type X2ReleaseValueCodec = s20.X2ReleaseValueCodec
-type X2RemovalDescriptor = s21.X2RemovalDescriptor
+type X2ReleaseValueCodec = s19.X2ReleaseValueCodec
+type X2RemovalDescriptor = s20.X2RemovalDescriptor
 
 // X2RemovalFailure represents the ASN.1 type X2RemovalFailure (SEQUENCE).
 type X2RemovalFailure = s14.X2RemovalFailure
@@ -24194,7 +24193,7 @@ type X2RemovalFailureAPERValue = s14.X2RemovalFailureAPERValue
 type X2RemovalFailureCauseIEBinding = s07.X2RemovalFailureCauseIEBinding
 
 // X2RemovalFailureCodec binds the complete APER value type.
-var X2RemovalFailureCodec func() X2RemovalFailureValueCodec = s21.X2RemovalFailureCodec
+var X2RemovalFailureCodec func() X2RemovalFailureValueCodec = s20.X2RemovalFailureCodec
 
 // X2RemovalFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{X2RemovalFailure-IEs}} of TS 36.423 §9.3.8.
 type X2RemovalFailureCriticalityDiagnosticsIEBinding = s07.X2RemovalFailureCriticalityDiagnosticsIEBinding
@@ -24215,16 +24214,16 @@ type X2RemovalFailureUnsuccessfulBinding = s14.X2RemovalFailureUnsuccessfulBindi
 // X2RemovalFailureValueCodec is the concrete ValueCodec[X2RemovalFailure].
 type X2RemovalFailureValueCodec = s14.X2RemovalFailureValueCodec
 
-var X2RemovalProcedure func() X2RemovalDescriptor = s21.X2RemovalProcedure
+var X2RemovalProcedure func() X2RemovalDescriptor = s20.X2RemovalProcedure
 
 // X2RemovalRequest represents the ASN.1 type X2RemovalRequest (SEQUENCE).
-type X2RemovalRequest = s20.X2RemovalRequest
+type X2RemovalRequest = s19.X2RemovalRequest
 
 // X2RemovalRequestAPERValue is the concrete APERValue[X2RemovalRequest].
-type X2RemovalRequestAPERValue = s20.X2RemovalRequestAPERValue
+type X2RemovalRequestAPERValue = s19.X2RemovalRequestAPERValue
 
 // X2RemovalRequestCodec binds the complete APER value type.
-var X2RemovalRequestCodec func() X2RemovalRequestValueCodec = s21.X2RemovalRequestCodec
+var X2RemovalRequestCodec func() X2RemovalRequestValueCodec = s20.X2RemovalRequestCodec
 
 // X2RemovalRequestGlobalENBIDIEBinding binds GlobalENBID to ProtocolIE-Field {{X2RemovalRequest-IEs}} of TS 36.423 §9.3.8.
 type X2RemovalRequestGlobalENBIDIEBinding = s13.X2RemovalRequestGlobalENBIDIEBinding
@@ -24240,22 +24239,22 @@ type X2RemovalRequestIEValue = s13.X2RemovalRequestIEValue
 var X2RemovalRequestIEs func() X2RemovalRequestIETable = s13.X2RemovalRequestIEs
 
 // X2RemovalRequestInitiatingBinding is the concrete InitiatingBinding[X2RemovalRequest].
-type X2RemovalRequestInitiatingBinding = s20.X2RemovalRequestInitiatingBinding
+type X2RemovalRequestInitiatingBinding = s19.X2RemovalRequestInitiatingBinding
 
 // X2RemovalRequestValueCodec is the concrete ValueCodec[X2RemovalRequest].
-type X2RemovalRequestValueCodec = s20.X2RemovalRequestValueCodec
+type X2RemovalRequestValueCodec = s19.X2RemovalRequestValueCodec
 
 // X2RemovalRequestX2BenefitValueIEBinding binds X2BenefitValue to ProtocolIE-Field {{X2RemovalRequest-IEs}} of TS 36.423 §9.3.8.
 type X2RemovalRequestX2BenefitValueIEBinding = s13.X2RemovalRequestX2BenefitValueIEBinding
 
 // X2RemovalResponse represents the ASN.1 type X2RemovalResponse (SEQUENCE).
-type X2RemovalResponse = s19.X2RemovalResponse
+type X2RemovalResponse = s18.X2RemovalResponse
 
 // X2RemovalResponseAPERValue is the concrete APERValue[X2RemovalResponse].
-type X2RemovalResponseAPERValue = s19.X2RemovalResponseAPERValue
+type X2RemovalResponseAPERValue = s18.X2RemovalResponseAPERValue
 
 // X2RemovalResponseCodec binds the complete APER value type.
-var X2RemovalResponseCodec func() X2RemovalResponseValueCodec = s21.X2RemovalResponseCodec
+var X2RemovalResponseCodec func() X2RemovalResponseValueCodec = s20.X2RemovalResponseCodec
 
 // X2RemovalResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{X2RemovalResponse-IEs}} of TS 36.423 §9.3.8.
 type X2RemovalResponseCriticalityDiagnosticsIEBinding = s07.X2RemovalResponseCriticalityDiagnosticsIEBinding
@@ -24274,11 +24273,11 @@ type X2RemovalResponseIEValue = s07.X2RemovalResponseIEValue
 var X2RemovalResponseIEs func() X2RemovalResponseIETable = s07.X2RemovalResponseIEs
 
 // X2RemovalResponseSuccessfulBinding is the concrete SuccessfulBinding[X2RemovalResponse].
-type X2RemovalResponseSuccessfulBinding = s19.X2RemovalResponseSuccessfulBinding
+type X2RemovalResponseSuccessfulBinding = s18.X2RemovalResponseSuccessfulBinding
 
 // X2RemovalResponseValueCodec is the concrete ValueCodec[X2RemovalResponse].
-type X2RemovalResponseValueCodec = s19.X2RemovalResponseValueCodec
-type X2SetupDescriptor = s21.X2SetupDescriptor
+type X2RemovalResponseValueCodec = s18.X2RemovalResponseValueCodec
+type X2SetupDescriptor = s20.X2SetupDescriptor
 
 // X2SetupFailure represents the ASN.1 type X2SetupFailure (SEQUENCE).
 type X2SetupFailure = s14.X2SetupFailure
@@ -24290,7 +24289,7 @@ type X2SetupFailureAPERValue = s14.X2SetupFailureAPERValue
 type X2SetupFailureCauseIEBinding = s07.X2SetupFailureCauseIEBinding
 
 // X2SetupFailureCodec binds the complete APER value type.
-var X2SetupFailureCodec func() X2SetupFailureValueCodec = s21.X2SetupFailureCodec
+var X2SetupFailureCodec func() X2SetupFailureValueCodec = s20.X2SetupFailureCodec
 
 // X2SetupFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{X2SetupFailure-IEs}} of TS 36.423 §9.3.8.
 type X2SetupFailureCriticalityDiagnosticsIEBinding = s07.X2SetupFailureCriticalityDiagnosticsIEBinding
@@ -24314,16 +24313,16 @@ type X2SetupFailureUnsuccessfulBinding = s14.X2SetupFailureUnsuccessfulBinding
 // X2SetupFailureValueCodec is the concrete ValueCodec[X2SetupFailure].
 type X2SetupFailureValueCodec = s14.X2SetupFailureValueCodec
 
-var X2SetupProcedure func() X2SetupDescriptor = s21.X2SetupProcedure
+var X2SetupProcedure func() X2SetupDescriptor = s20.X2SetupProcedure
 
 // X2SetupRequest represents the ASN.1 type X2SetupRequest (SEQUENCE).
-type X2SetupRequest = s20.X2SetupRequest
+type X2SetupRequest = s19.X2SetupRequest
 
 // X2SetupRequestAPERValue is the concrete APERValue[X2SetupRequest].
-type X2SetupRequestAPERValue = s20.X2SetupRequestAPERValue
+type X2SetupRequestAPERValue = s19.X2SetupRequestAPERValue
 
 // X2SetupRequestCodec binds the complete APER value type.
-var X2SetupRequestCodec func() X2SetupRequestValueCodec = s21.X2SetupRequestCodec
+var X2SetupRequestCodec func() X2SetupRequestValueCodec = s20.X2SetupRequestCodec
 
 // X2SetupRequestGUGroupIDListIEBinding binds GUGroupIDList to ProtocolIE-Field {{X2SetupRequest-IEs}} of TS 36.423 §9.3.8.
 type X2SetupRequestGUGroupIDListIEBinding = s17.X2SetupRequestGUGroupIDListIEBinding
@@ -24342,7 +24341,7 @@ type X2SetupRequestIEValue = s17.X2SetupRequestIEValue
 var X2SetupRequestIEs func() X2SetupRequestIETable = s17.X2SetupRequestIEs
 
 // X2SetupRequestInitiatingBinding is the concrete InitiatingBinding[X2SetupRequest].
-type X2SetupRequestInitiatingBinding = s20.X2SetupRequestInitiatingBinding
+type X2SetupRequestInitiatingBinding = s19.X2SetupRequestInitiatingBinding
 
 // X2SetupRequestLHNIDIEBinding binds LHNID to ProtocolIE-Field {{X2SetupRequest-IEs}} of TS 36.423 §9.3.8.
 type X2SetupRequestLHNIDIEBinding = s17.X2SetupRequestLHNIDIEBinding
@@ -24351,16 +24350,16 @@ type X2SetupRequestLHNIDIEBinding = s17.X2SetupRequestLHNIDIEBinding
 type X2SetupRequestServedCellsIEBinding = s17.X2SetupRequestServedCellsIEBinding
 
 // X2SetupRequestValueCodec is the concrete ValueCodec[X2SetupRequest].
-type X2SetupRequestValueCodec = s20.X2SetupRequestValueCodec
+type X2SetupRequestValueCodec = s19.X2SetupRequestValueCodec
 
 // X2SetupResponse represents the ASN.1 type X2SetupResponse (SEQUENCE).
-type X2SetupResponse = s19.X2SetupResponse
+type X2SetupResponse = s18.X2SetupResponse
 
 // X2SetupResponseAPERValue is the concrete APERValue[X2SetupResponse].
-type X2SetupResponseAPERValue = s19.X2SetupResponseAPERValue
+type X2SetupResponseAPERValue = s18.X2SetupResponseAPERValue
 
 // X2SetupResponseCodec binds the complete APER value type.
-var X2SetupResponseCodec func() X2SetupResponseValueCodec = s21.X2SetupResponseCodec
+var X2SetupResponseCodec func() X2SetupResponseValueCodec = s20.X2SetupResponseCodec
 
 // X2SetupResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{X2SetupResponse-IEs}} of TS 36.423 §9.3.8.
 type X2SetupResponseCriticalityDiagnosticsIEBinding = s17.X2SetupResponseCriticalityDiagnosticsIEBinding
@@ -24388,7 +24387,7 @@ type X2SetupResponseLHNIDIEBinding = s17.X2SetupResponseLHNIDIEBinding
 type X2SetupResponseServedCellsIEBinding = s17.X2SetupResponseServedCellsIEBinding
 
 // X2SetupResponseSuccessfulBinding is the concrete SuccessfulBinding[X2SetupResponse].
-type X2SetupResponseSuccessfulBinding = s19.X2SetupResponseSuccessfulBinding
+type X2SetupResponseSuccessfulBinding = s18.X2SetupResponseSuccessfulBinding
 
 // X2SetupResponseValueCodec is the concrete ValueCodec[X2SetupResponse].
-type X2SetupResponseValueCodec = s19.X2SetupResponseValueCodec
+type X2SetupResponseValueCodec = s18.X2SetupResponseValueCodec

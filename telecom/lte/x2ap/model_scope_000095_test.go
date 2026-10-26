@@ -3,26 +3,26 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
+	errors "errors"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func TestKnownChoiceAddsNoUnknownObservation(t *testing.T) {
-	known, err := s00.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18})
+func TestDescriptorBuildFailuresHaveOwnedIdentity(t *testing.T) {
+	body, err := s19.NewErrorIndication(nil)
 	if err != nil {
 		t.Fatal(err)
 	}
-	wire, err := known.MarshalAPER()
-	if err != nil {
-		t.Fatal(err)
-	}
-	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		var value s00.ENBID
-		report, err := value.UnmarshalAPER(wire, options...)
-		if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 {
-			t.Fatalf("known addition report=%+v err=%v", report, err)
+	for _, run := range []func() error{
+		func() error { _, err := (s19.ErrorIndicationInitiatingBinding{}).Build(body); return err },
+		func() error { _, err := (ErrorIndicationSuccessfulBinding{}).Build(body); return err },
+		func() error { _, err := (ErrorIndicationUnsuccessfulBinding{}).Build(body); return err },
+	} {
+		var located *aper.DecodeError
+		err := run()
+		if !errors.Is(err, aper.ErrInvalidValue) || !errors.As(err, &located) || located.Location.Path == "" || located.Location.HasWireLocation {
+			t.Fatalf("build error=%v location=%+v", err, located)
 		}
 	}
 }

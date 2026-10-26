@@ -7,8 +7,8 @@ import (
 	errors "errors"
 	fmt "fmt"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s00"
-	s18 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s18"
-	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s21"
+	s36 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s36"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
 	unsafe "unsafe"
@@ -50,18 +50,18 @@ func TestExtensionBitmapReservesAllReplayArrays(t *testing.T) {
 			if _, err := aper.DecodeOctetStringAligned(bb, 0, 0, false); err != nil {
 				t.Fatal(err)
 			}
-			additions := aper.BeginExtensionAdditions(bb)
+			var additions aper.ExtensionAdditions
 			if _, _, err := additions.DecodeBitmapAligned(bb); err != nil {
 				t.Fatal(err)
 			}
 			before := state.Usage().AllocatedBytes
-			var decoded s18.EUTRANcellLoadReportingResponse
+			var decoded s21.EUTRANcellLoadReportingResponse
 			data, state = aper.StartDecode(wire)
-			if err := s18.BridgeEUTRANcellLoadReportingResponseMethodUnmarshalAPERWithOptions(&decoded, data, state); err != nil {
+			if err := s21.BridgeEUTRANcellLoadReportingResponseMethodUnmarshalAPERWithOptions(&decoded, data, state); err != nil {
 				t.Fatal(err)
 			}
 			capture := aper.SemanticCaptureFor(state)
-			s18.BridgeCaptureS1APEUTRANcellLoadReportingResponse(&decoded, &capture)
+			s21.BridgeCaptureS1APEUTRANcellLoadReportingResponse(&decoded, &capture)
 			if _, err := aper.FinishDecode(state, nil); err != nil {
 				t.Fatal(err)
 			}
@@ -75,7 +75,7 @@ func TestExtensionBitmapReservesAllReplayArrays(t *testing.T) {
 			ceiling := allocated - 1
 			for _, limit := range []uint64{ceiling - 1, ceiling, ceiling + 1, ceiling + 2} {
 				for _, reused := range []bool{false, true} {
-					var value s18.EUTRANcellLoadReportingResponse
+					var value s21.EUTRANcellLoadReportingResponse
 					if reused {
 						if _, err := value.UnmarshalAPER(wire); err != nil {
 							t.Fatal(err)
@@ -111,18 +111,18 @@ func TestExtensionBitmapReservesAllReplayArrays(t *testing.T) {
 // an unknown fragmented IE's received contents exact under raised limits.
 func TestEditedMessageKeepsLargeFragmentedUnknownIE(t *testing.T) {
 	payload := bytes.Repeat([]byte{0xa5}, 9<<20)
-	unknown := errorIndicationIEFieldFreshMust(s28.ErrorIndicationIEs().NewOpaque(65535, s00.CriticalityIgnore, payload))
-	known := errorIndicationIEFieldFreshMust(s28.ErrorIndicationIEs().MMEUES1APID().New(1))
-	body := s28.ErrorIndication{ProtocolIEs: s28.ErrorIndicationIEContainer{known, unknown}}
+	unknown := errorIndicationIEFieldFreshMust(s36.ErrorIndicationIEs().NewOpaque(65535, s00.CriticalityIgnore, payload))
+	known := errorIndicationIEFieldFreshMust(s36.ErrorIndicationIEs().MMEUES1APID().New(1))
+	body := s36.ErrorIndication{ProtocolIEs: s36.ErrorIndicationIEContainer{known, unknown}}
 	// These are operational ceilings, not new source constraints.
 	limits := aper.Limits{MaxWork: 1 << 30, MaxAllocatedBytes: 512 << 20, MaxInputBytes: 32 << 20, MaxOutputBytes: 32 << 20, MaxOpenTypeBytes: 32 << 20}
 	encoded := sliceByteFreshMust(body.MarshalAPER(aper.WithEncodeLimits(limits)))
-	var value s28.ErrorIndication
+	var value s36.ErrorIndication
 	report, err := value.UnmarshalAPER(encoded, aper.WithLimits(limits))
 	if err != nil || len(report.Observations) != 1 {
 		t.Fatalf("decode: %v observations=%d", err, len(report.Observations))
 	}
-	value.ProtocolIEs[0] = errorIndicationIEFieldFreshMust(s28.ErrorIndicationIEs().MMEUES1APID().New(2))
+	value.ProtocolIEs[0] = errorIndicationIEFieldFreshMust(s36.ErrorIndicationIEs().MMEUES1APID().New(2))
 	changed, err := value.MarshalAPER(aper.WithEncodeLimits(limits))
 	if err != nil {
 		t.Fatal(err)
@@ -130,7 +130,7 @@ func TestEditedMessageKeepsLargeFragmentedUnknownIE(t *testing.T) {
 	if bytes.Equal(changed, encoded) {
 		t.Fatal("known edit did not change encoding")
 	}
-	var check s28.ErrorIndication
+	var check s36.ErrorIndication
 	if _, err := check.UnmarshalAPER(changed, aper.WithLimits(limits)); err != nil {
 		t.Fatal(err)
 	}
@@ -151,17 +151,17 @@ func TestFragmentedMessageAllocationBoundaries(t *testing.T) {
 	for _, size := range []int{65540, 131080, 262160} {
 		t.Run(fmt.Sprint(size), func(t *testing.T) {
 			payload := bytes.Repeat([]byte{0xa5}, size)
-			unknown := errorIndicationIEFieldFreshMust(s28.ErrorIndicationIEs().NewOpaque(65535, s00.CriticalityIgnore, payload))
-			known := errorIndicationIEFieldFreshMust(s28.ErrorIndicationIEs().MMEUES1APID().New(1))
-			body := s28.ErrorIndication{ProtocolIEs: s28.ErrorIndicationIEContainer{known, unknown}}
+			unknown := errorIndicationIEFieldFreshMust(s36.ErrorIndicationIEs().NewOpaque(65535, s00.CriticalityIgnore, payload))
+			known := errorIndicationIEFieldFreshMust(s36.ErrorIndicationIEs().MMEUES1APID().New(1))
+			body := s36.ErrorIndication{ProtocolIEs: s36.ErrorIndicationIEContainer{known, unknown}}
 			wire := sliceByteFreshMust(body.MarshalAPER())
 			data, state := aper.StartDecode(wire)
-			var decoded s28.ErrorIndication
-			if err := s28.BridgeErrorIndicationMethodUnmarshalAPERWithOptions(&decoded, data, state); err != nil {
+			var decoded s36.ErrorIndication
+			if err := s36.BridgeErrorIndicationMethodUnmarshalAPERWithOptions(&decoded, data, state); err != nil {
 				t.Fatal(err)
 			}
 			capture := aper.SemanticCaptureFor(state)
-			s28.BridgeCaptureS1APErrorIndication(&decoded, &capture)
+			s36.BridgeCaptureS1APErrorIndication(&decoded, &capture)
 			if _, err := aper.FinishDecode(state, nil); err != nil {
 				t.Fatal(err)
 			}
@@ -169,7 +169,7 @@ func TestFragmentedMessageAllocationBoundaries(t *testing.T) {
 			for _, limit := range []uint64{usage.AllocatedBytes - 1, usage.AllocatedBytes, usage.AllocatedBytes + 1} {
 				for _, reused := range []bool{false, true} {
 					for _, receiver := range []bool{false, true} {
-						var value s28.ErrorIndication
+						var value s36.ErrorIndication
 						if reused {
 							if _, err := value.UnmarshalAPER(wire); err != nil {
 								t.Fatal(err)

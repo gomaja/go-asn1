@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func resetRequestIEFieldfreshMust(value s07.ResetRequestIEField, err error) s07.ResetRequestIEField {
+func handoverCancelIEFieldfreshMust(value s14.HandoverCancelIEField, err error) s14.HandoverCancelIEField {
 	if err != nil {
 		panic(err)
 	}

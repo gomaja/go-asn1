@@ -6,8 +6,10 @@ import (
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-type censusComplete interface {
-	UnmarshalAPER([]byte, ...aper.DecodeOption) (aper.DecodeReport, error)
-	MarshalAPER(...aper.EncodeOption) ([]byte, error)
-	ReceivedForm() aper.ReceivedForm
+func replayBoundWrap(raw []byte, id int64) []byte {
+	bb := aper.NewBitBuffer()
+	replayBoundNeed(aper.EncodeIntegerAligned(bb, id, replayBoundInt(0), replayBoundInt(65535), false))
+	replayBoundNeed(aper.EncodeEnumeratedAligned(bb, 1, 3, false))
+	replayBoundNeed(aper.EncodeOpenTypeAligned(bb, raw))
+	return bb.CompleteBytes()
 }

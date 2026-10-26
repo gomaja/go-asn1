@@ -27,7 +27,7 @@ func TestReplayExtensionSpanArrayBudget(t *testing.T) {
 	if err := bb.SetDecodeOptionsAligned(state); err != nil {
 		t.Fatal(err)
 	}
-	additions := aper.BeginExtensionAdditions(bb)
+	var additions aper.ExtensionAdditions
 	if preamble, err := bb.ReadBits(7); err != nil || preamble != 0x40 {
 		t.Fatalf("preamble=%x err=%v", preamble, err)
 	}

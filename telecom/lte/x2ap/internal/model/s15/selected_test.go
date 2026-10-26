@@ -8,11 +8,9 @@ import (
 	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s08 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s08"
-	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
-	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	reflect "reflect"
 	strings "strings"
@@ -265,6 +263,139 @@ func TestSelectedENBEUTRANRCellResourceCoordinationReqIEValue(t *testing.T) {
 	}
 	t.Logf("union ENBEUTRANRCellResourceCoordinationReqIEValue: 3 synthetic rows")
 }
+func TestSelectedEUTRANRCellResourceCoordinationRequestIEValue(t *testing.T) {
+	var absent *EUTRANRCellResourceCoordinationRequestIEValue
+	selectedAssert(t, absent)
+	v := EUTRANRCellResourceCoordinationRequestIEValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := EUTRANRCellResourceCoordinationRequestIEValue{}
+		v.id = s00.ProtocolIEID(285)
+		selectedAssert(t, &v)
+		v.rowInitiatingNodeTypeEutranrCellResourceCoordination = new(InitiatingNodeTypeEutranrCellResourceCoordination)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := EUTRANRCellResourceCoordinationRequestIEValue{}
+		v.id = s00.ProtocolIEID(335)
+		selectedAssert(t, &v)
+		v.rowInterfaceInstanceIndication = new(s00.InterfaceInstanceIndication)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union EUTRANRCellResourceCoordinationRequestIEValue: 2 synthetic rows")
+}
+func TestSelectedEUTRANRCellResourceCoordinationResponseIEValue(t *testing.T) {
+	var absent *EUTRANRCellResourceCoordinationResponseIEValue
+	selectedAssert(t, absent)
+	v := EUTRANRCellResourceCoordinationResponseIEValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := EUTRANRCellResourceCoordinationResponseIEValue{}
+		v.id = s00.ProtocolIEID(286)
+		selectedAssert(t, &v)
+		v.rowRespondingNodeTypeEutranrCellResourceCoordination = new(RespondingNodeTypeEutranrCellResourceCoordination)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := EUTRANRCellResourceCoordinationResponseIEValue{}
+		v.id = s00.ProtocolIEID(335)
+		selectedAssert(t, &v)
+		v.rowInterfaceInstanceIndication = new(s00.InterfaceInstanceIndication)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union EUTRANRCellResourceCoordinationResponseIEValue: 2 synthetic rows")
+}
+func TestSelectedEnGNBEUTRANRCellResourceCoordinationReqAckIEValue(t *testing.T) {
+	var absent *EnGNBEUTRANRCellResourceCoordinationReqAckIEValue
+	selectedAssert(t, absent)
+	v := EnGNBEUTRANRCellResourceCoordinationReqAckIEValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := EnGNBEUTRANRCellResourceCoordinationReqAckIEValue{}
+		v.id = s00.ProtocolIEID(287)
+		selectedAssert(t, &v)
+		v.rowDataTrafficResourceIndication = new(s12.DataTrafficResourceIndication)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := EnGNBEUTRANRCellResourceCoordinationReqAckIEValue{}
+		v.id = s00.ProtocolIEID(288)
+		selectedAssert(t, &v)
+		v.rowSpectrumSharingGroupID = new(s08.SpectrumSharingGroupID)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := EnGNBEUTRANRCellResourceCoordinationReqAckIEValue{}
+		v.id = s00.ProtocolIEID(293)
+		selectedAssert(t, &v)
+		v.rowListofNRCellsinNRCoordinationResp = new(s08.ListofNRCellsinNRCoordinationResp)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union EnGNBEUTRANRCellResourceCoordinationReqAckIEValue: 3 synthetic rows")
+}
 func TestSelectedEnGNBEUTRANRCellResourceCoordinationReqIEValue(t *testing.T) {
 	var absent *EnGNBEUTRANRCellResourceCoordinationReqIEValue
 	selectedAssert(t, absent)
@@ -407,137 +538,6 @@ func TestSelectedSNStatusTransferIEValue(t *testing.T) {
 	}
 	t.Logf("union SNStatusTransferIEValue: 6 synthetic rows")
 }
-func TestSelectedSeNBAdditionRequestAcknowledgeIEValue(t *testing.T) {
-	var absent *SeNBAdditionRequestAcknowledgeIEValue
-	selectedAssert(t, absent)
-	v := SeNBAdditionRequestAcknowledgeIEValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(111)
-		selectedAssert(t, &v)
-		v.rowMeNBUEX2APID = new(s11.UEX2APID)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(112)
-		selectedAssert(t, &v)
-		v.rowSeNBUEX2APID = new(s11.UEX2APID)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(120)
-		selectedAssert(t, &v)
-		v.rowERABsAdmittedToBeAddedList = new(s11.ERABsAdmittedToBeAddedList)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(3)
-		selectedAssert(t, &v)
-		v.rowERABsNotAdmittedList = new(s08.ERABList)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(122)
-		selectedAssert(t, &v)
-		v.rowSeNBtoMeNBContainer = new(s08.SeNBtoMeNBContainer)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(17)
-		selectedAssert(t, &v)
-		v.rowCriticalityDiagnostics = new(s06.CriticalityDiagnostics)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(165)
-		selectedAssert(t, &v)
-		v.rowGWTransportLayerAddress = new(s09.TransportLayerAddress)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(168)
-		selectedAssert(t, &v)
-		v.rowSIPTOLGWTransportLayerAddress = new(s09.TransportLayerAddress)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(157)
-		selectedAssert(t, &v)
-		v.rowMeNBUEX2APIDExtension = new(s11.UEX2APIDExtension)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(158)
-		selectedAssert(t, &v)
-		v.rowSeNBUEX2APIDExtension = new(s11.UEX2APIDExtension)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SeNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(163)
-		selectedAssert(t, &v)
-		v.rowTunnelInformationForBBF = new(s10.TunnelInformation)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	t.Logf("union SeNBAdditionRequestAcknowledgeIEValue: 11 synthetic rows")
-}
 func TestSelectedSeNBAdditionRequestIEValue(t *testing.T) {
 	var absent *SeNBAdditionRequestIEValue
 	selectedAssert(t, absent)
@@ -571,7 +571,7 @@ func TestSelectedSeNBAdditionRequestIEValue(t *testing.T) {
 		v := SeNBAdditionRequestIEValue{}
 		v.id = s00.ProtocolIEID(113)
 		selectedAssert(t, &v)
-		v.rowUESecurityCapabilities = new(s06.UESecurityCapabilities)
+		v.rowUESecurityCapabilities = new(s05.UESecurityCapabilities)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
@@ -1154,177 +1154,6 @@ func TestSelectedSeNBReleaseRequestIEValue(t *testing.T) {
 	}
 	t.Logf("union SeNBReleaseRequestIEValue: 8 synthetic rows")
 }
-func TestSelectedSgNBAdditionRequestAcknowledgeIEValue(t *testing.T) {
-	var absent *SgNBAdditionRequestAcknowledgeIEValue
-	selectedAssert(t, absent)
-	v := SgNBAdditionRequestAcknowledgeIEValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(111)
-		selectedAssert(t, &v)
-		v.rowMeNBUEX2APID = new(s11.UEX2APID)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(207)
-		selectedAssert(t, &v)
-		v.rowSgNBUEX2APID = new(s08.SgNBUEX2APID)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(210)
-		selectedAssert(t, &v)
-		v.rowERABsAdmittedToBeAddedSgNBAddReqAckList = new(s11.ERABsAdmittedToBeAddedSgNBAddReqAckList)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(3)
-		selectedAssert(t, &v)
-		v.rowERABsNotAdmittedList = new(s08.ERABList)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(211)
-		selectedAssert(t, &v)
-		v.rowSgNBtoMeNBContainer = new(s08.SgNBtoMeNBContainer)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(17)
-		selectedAssert(t, &v)
-		v.rowCriticalityDiagnostics = new(s06.CriticalityDiagnostics)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(157)
-		selectedAssert(t, &v)
-		v.rowMeNBUEX2APIDExtension = new(s11.UEX2APIDExtension)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(212)
-		selectedAssert(t, &v)
-		v.rowAdmittedSplitSRBs = new(s00.SplitSRBs)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(258)
-		selectedAssert(t, &v)
-		v.rowSgNBResourceCoordinationInformation = new(s08.SgNBResourceCoordinationInformation)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(272)
-		selectedAssert(t, &v)
-		v.rowRRCConfigIndication = new(s00.RRCConfigInd)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(331)
-		selectedAssert(t, &v)
-		v.rowLocationInformationSgNB = new(s05.LocationInformationSgNB)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(344)
-		selectedAssert(t, &v)
-		v.rowAvailableFastMCGRecoveryViaSRB3 = new(s00.AvailableFastMCGRecoveryViaSRB3)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(410)
-		selectedAssert(t, &v)
-		v.rowDirectForwardingPathAvailability = new(s00.DirectForwardingPathAvailability)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(422)
-		selectedAssert(t, &v)
-		v.rowSCGActivationStatus = new(s00.SCGActivationStatus)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := SgNBAdditionRequestAcknowledgeIEValue{}
-		v.id = s00.ProtocolIEID(425)
-		selectedAssert(t, &v)
-		v.rowCPAinformationREQACK = new(s06.CPAinformationREQACK)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	t.Logf("union SgNBAdditionRequestAcknowledgeIEValue: 15 synthetic rows")
-}
 func TestSelectedSgNBChangeConfirmIEValue(t *testing.T) {
 	var absent *SgNBChangeConfirmIEValue
 	selectedAssert(t, absent)
@@ -1368,7 +1197,7 @@ func TestSelectedSgNBChangeConfirmIEValue(t *testing.T) {
 		v := SgNBChangeConfirmIEValue{}
 		v.id = s00.ProtocolIEID(229)
 		selectedAssert(t, &v)
-		v.rowERABsToBeReleasedSgNBChaConfList = new(s14.ERABsToBeReleasedSgNBChaConfList)
+		v.rowERABsToBeReleasedSgNBChaConfList = new(s13.ERABsToBeReleasedSgNBChaConfList)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque

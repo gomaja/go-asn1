@@ -6,7 +6,10 @@ import (
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// ReceivedForm returns the retained wire representation, if present.
-func (v ErrorIndicationIEFieldAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+// WithoutReplay returns a copy that encodes without received replay state.
+func (v ERABsToBeSetupItemIEFieldAPERValue) WithoutReplay() ERABsToBeSetupItemIEFieldAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
 }

@@ -7,11 +7,9 @@ import (
 	testing "testing"
 )
 
-func FuzzAPERERABsToBeSetupItemProtocolExtensions(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("2500093c03e00a000001deadbeef0000016b400100"))
-	f.Add(asn1VectorHexForFuzz("2500093c03e00a000001deadbeef0000fffc4004deadbeef"))
-	f.Add(asn1VectorHexForFuzz("2500093c03e00a000001deadbeef0000016b4001ff"))
+func FuzzAPERGlobalGNBID(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("0001020300"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		_, _, _ = s11.ERABsToBeSetupItemCodec().DecodeAPER(input)
+		_, _, _ = s11.GlobalGNBIDCodec().DecodeAPER(input)
 	})
 }

@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/ported_guards_test.go; SHA-256 fb8a705ce2ca7399979f18c4431680894ed01351f256b9774f66bbf8a93ad69d.
+// Runtime source: runtime/aper/ported_guards_test.go; SHA-256 03d51f85f579a190f1f7c1b8e2f9d0d15fd9800fa84756fc43e722c85340144c.
 package aper
 
 import (
@@ -198,17 +198,7 @@ func TestPortedPaddingGuards(t *testing.T) {
 	if e := bb.AlignToOctetRead(); !errors.Is(e, ErrInvalidValue) {
 		t.Fatal(e)
 	}
-	for _, position := range []int{-1, 2} {
-		bb := NewBitBufferFromBytes([]byte{0})
-		bb.bitPos = 1
-		a := ExtensionAdditions{start: position}
-		if _, e := a.RecoveryEncoder(bb); !errors.Is(e, ErrInvalidValue) {
-			t.Fatal(e)
-		}
-		if _, e := a.RecordRecovery(bb, NewBitBuffer(), FinalPadding{}); !errors.Is(e, ErrInvalidValue) {
-			t.Fatal(e)
-		}
-	}
+
 }
 
 func TestPortedOIDErrorParity(t *testing.T) {
@@ -283,11 +273,6 @@ func TestPortedGuardDiagnostics(t *testing.T) {
 	if _, e := (&BitBuffer{bitPos: -1}).CompleteBytesWithPadding(CompletePadding{bits: 1, count: 1}); !errors.Is(e, ErrInvalidValue) {
 		t.Fatal(e)
 	}
-	bb = NewBitBufferFromBytes([]byte{0})
-	bb.bitPos = 1
-	if _, e := (&ExtensionAdditions{start: -1}).RecordRecovery(bb, NewBitBuffer(), FinalPadding{}); e == nil || e.Error() != "per: value out of range: invalid recovery start -1 at bit 1" {
-		t.Fatal(e)
-	}
 	if e := validateMinimalUnsigned(nil); !errors.Is(e, ErrInvalidValue) {
 		t.Fatal(e)
 	}
@@ -313,52 +298,6 @@ func TestPortedGuardDiagnostics(t *testing.T) {
 	}
 	if e := EncodeLengthFragments(NewBitBuffer(), -1, true, func(int64, int64) error { return nil }); e == nil || e.Error() != "per: value out of range: negative fragmented length -1" {
 		t.Fatal(e)
-	}
-}
-
-func TestPortedNestedCutEligibility(t *testing.T) {
-	full := encodeHolder(t, fullHolder(), true)
-	parent := NewBitBufferFromBytes(full[:len(full)-1])
-	if err := parent.setDecodeSettingsAligned(decodeSettings{TruncatedExtensionTolerance: &ToleranceLog{}}); err != nil {
-		t.Fatal(err)
-	}
-	child := NewNestedDecodeBuffer(parent.data, parent)
-	if _, err := decodeHolder(child, 2, true); !errors.Is(err, ErrTruncated) {
-		t.Fatalf("bounded child cut: %v", err)
-	}
-}
-
-func TestPortedRecoveryReplayEligibility(t *testing.T) {
-	cut := &truncatedExtension{input: []byte{0}, bits: 1, expected: []byte{0x80}, expectedBits: 1, recovered: true}
-	for _, tc := range []struct {
-		value uint64
-		width int
-		want  bool
-	}{{1, 1, true}, {0, 1, false}, {1, 2, false}} {
-		bb := NewBitBuffer()
-		if err := bb.WriteBits(tc.value, tc.width); err != nil {
-			t.Fatal(err)
-		}
-		if got := cut.follows(bb); got != tc.want {
-			t.Fatalf("replay %d/%d = %v", tc.value, tc.width, got)
-		}
-	}
-	bb := NewBitBuffer()
-	if err := bb.WriteBit(1); err != nil {
-		t.Fatal(err)
-	}
-	kept := FinalPadding{bits: &finalBits{truncated: cut}}
-	AppendExtensionRecovery(bb, kept, -1)
-	if bb.BitsWritten() != 1 || bb.Bytes()[0] != 0x80 {
-		t.Fatal("invalid span replayed")
-	}
-	AppendExtensionRecovery(bb, kept, 0)
-	if bb.BitsWritten() != 1 || bb.Bytes()[0] != 0 {
-		t.Fatal("eligible replay was rejected")
-	}
-	cut.expectedBits = -1
-	if cut.follows(bb) {
-		t.Fatal("negative expected span accepted")
 	}
 }
 

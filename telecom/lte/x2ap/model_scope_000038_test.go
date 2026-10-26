@@ -3,14 +3,37 @@
 package x2ap
 
 import (
-	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
+	bytes "bytes"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func FuzzAPERDispatchProtocolIeValueHandoverRequestIEsID15(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("000021f35412345670000005"))
-	f.Add(asn1VectorHexForFuzz("800006f730010840b10000050006f730010220c10000020006f730010840b10000010006f730010220c10000120006f730010840b10000070006f730010220c100000d0006f730010840b100001a0006f730010220c10000030006f730010840b1000062"))
+func FuzzAPERX2APPDUProtocolValueNonzeroTerminalPadding(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("0000007b000006000a00020001000540020000000b00080021f35412345670001700070021f354000101000e004100010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000000f400c000021f35412345670000005"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		_, _, _ = s18.HandoverRequestIEs().UEHistoryInformation().Codec().DecodeAPER(input)
+		var decoded s19.X2APPDU
+		report, err := decoded.UnmarshalAPER(input, aper.WithNonzeroTerminalPadding())
+		asn1VectorCheckPaddingReport(t, report, input, false)
+		if err != nil {
+			return
+		}
+		replay, err := decoded.MarshalAPER()
+		if err != nil {
+			t.Fatalf("accepted input cannot replay: %v", err)
+		}
+		if !bytes.Equal(replay, input) {
+			t.Fatalf("replay = %x, want %x", replay, input)
+		}
+		fresh, err := decoded.MarshalAPER(aper.WithoutReplay())
+		if err != nil {
+			t.Fatalf("fresh encode: %v", err)
+		}
+		var again s19.X2APPDU
+		freshReport, err := again.UnmarshalAPER(fresh)
+		asn1VectorCheckPaddingReport(t, freshReport, fresh, true)
+		if err != nil {
+			t.Fatalf("fresh decode: %v", err)
+		}
 	})
 }

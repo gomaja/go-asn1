@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func errorIndicationfreshMust(value s20.ErrorIndication, err error) s20.ErrorIndication {
+func uEContextReleasefreshMust(value s19.UEContextRelease, err error) s19.UEContextRelease {
 	if err != nil {
 		panic(err)
 	}

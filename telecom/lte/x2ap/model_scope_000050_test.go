@@ -3,13 +3,30 @@
 package x2ap
 
 import (
-	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func FuzzAPERERABsAdmittedItemProtocolExtensions(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("12800000016e0000"))
+func FuzzAPERDispatchProtocolIeRecursiveFieldERABsToBeSetupItemIEsID65532(f *testing.F) {
+	{
+		field, err := s10.ERABsToBeSetupItemIEs().NewOpaque(65532, s00.CriticalityIgnore, asn1VectorHexForFuzz("deadbeef"))
+		if err != nil {
+			f.Fatal(err)
+		}
+		bb := aper.NewBitBuffer()
+		if err := s10.X2apInternalERABsToBeSetupItemIEFieldMarshalAPERTo(&field, bb); err != nil {
+			f.Fatal(err)
+		}
+		f.Add(bb.CompleteBytes())
+	}
 	f.Fuzz(func(t *testing.T, input []byte) {
-		_, _, _ = s09.ERABsAdmittedItemCodec().DecodeAPER(input)
+		var field s10.ERABsToBeSetupItemIEField
+		bb := aper.NewBitBufferFromBytes(input)
+		if err := s10.X2apInternalERABsToBeSetupItemIEFieldUnmarshalAPERFrom(&field, bb); err != nil {
+			return
+		}
+		_, _ = aper.CaptureFinalBits(bb, "ProtocolIEField[ERABsToBeSetupItemIEValue]")
 	})
 }

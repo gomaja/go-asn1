@@ -6,7 +6,7 @@ import (
 	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func eNDCCellActivationRequestIEFieldfreshMust(value s18.ENDCCellActivationRequestIEField, err error) s18.ENDCCellActivationRequestIEField {
+func eNDCConfigurationUpdateAcknowledgefreshMust(value s18.ENDCConfigurationUpdateAcknowledge, err error) s18.ENDCConfigurationUpdateAcknowledge {
 	if err != nil {
 		panic(err)
 	}

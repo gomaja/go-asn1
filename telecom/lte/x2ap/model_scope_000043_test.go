@@ -3,14 +3,37 @@
 package x2ap
 
 import (
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	bytes "bytes"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func FuzzAPERDispatchProtocolIeRecursiveFieldERABsToBeSetupItemIEsID4(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("4500060701f00afd0055037806f5"))
-	f.Add(asn1VectorHexForFuzz("00"))
+func FuzzAPERX2APPDUNonzeroTerminalPadding(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("002e0002bbcc"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		_, _, _ = s11.ERABsToBeSetupItemIEs().ERABsToBeSetupItem().Codec().DecodeAPER(input)
+		var decoded s19.X2APPDU
+		report, err := decoded.UnmarshalAPER(input, aper.WithNonzeroTerminalPadding())
+		asn1VectorCheckPaddingReport(t, report, input, false)
+		if err != nil {
+			return
+		}
+		replay, err := decoded.MarshalAPER()
+		if err != nil {
+			t.Fatalf("accepted input cannot replay: %v", err)
+		}
+		if !bytes.Equal(replay, input) {
+			t.Fatalf("replay = %x, want %x", replay, input)
+		}
+		fresh, err := decoded.MarshalAPER(aper.WithoutReplay())
+		if err != nil {
+			t.Fatalf("fresh encode: %v", err)
+		}
+		var again s19.X2APPDU
+		freshReport, err := again.UnmarshalAPER(fresh)
+		asn1VectorCheckPaddingReport(t, freshReport, fresh, true)
+		if err != nil {
+			t.Fatalf("fresh decode: %v", err)
+		}
 	})
 }

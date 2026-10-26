@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func privateIEIDapiMust(v s00.PrivateIEID, err error) s00.PrivateIEID {
+func initiatingMessageapiMust(v s19.InitiatingMessage, err error) s19.InitiatingMessage {
 	if err != nil {
 		panic(err)
 	}

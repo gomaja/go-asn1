@@ -3,12 +3,15 @@
 package x2ap
 
 import (
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func uRIAddressAPERValueapiMust(v s12.URIAddressAPERValue, err error) s12.URIAddressAPERValue {
-	if err != nil {
-		panic(err)
+func (c Int64ValueCodec) encodeUnplanned(value int64,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
 	}
-	return v
+	return out, aper.OperationError(err, c.path)
 }

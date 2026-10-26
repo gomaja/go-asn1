@@ -1,12 +1,13 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/terminal_padding.go; SHA-256 f1365b46cf490790c0f6002e1fd753e37ca7cb7a5a122e680b27bac44a22365b.
+// Runtime source: runtime/aper/terminal_padding.go; SHA-256 b9840f8b644a8538d7b195ffac88d19b7d955311fddec1d88085aaf12fadf6f8.
 package aper
 
 import (
 	"math"
 	"strconv"
 	"strings"
+	"unsafe"
 )
 
 // X.691 (02/2021) §11.1.4 requires zero completion bits, including the octet
@@ -16,7 +17,8 @@ func (bb *BitBuffer) startPaddingTrace() error {
 	if bb.trace != nil {
 		return nil
 	}
-	if err := ChargeValue(bb, decodeTrace{}); err != nil {
+	// Preserve the operation-budget charge of the original trace layout.
+	if err := bb.ChargeAllocation(uint64(10*unsafe.Sizeof(uintptr(0))), 1); err != nil {
 		return err
 	}
 	bb.trace = &decodeTrace{terminalPadding: true}
@@ -24,9 +26,6 @@ func (bb *BitBuffer) startPaddingTrace() error {
 }
 
 func (bb *BitBuffer) enterPaddingSegment(segment pathSegment) int {
-	if !bb.trace.terminalPadding {
-		return bb.trace.enter(segment)
-	}
 	mark := len(bb.trace.path)
 	next, err := AppendValues(bb, bb.trace.path, segment)
 	if err != nil {

@@ -5,6 +5,7 @@ package x2ap
 import (
 	bytes "bytes"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
 	testing "testing"
@@ -19,7 +20,7 @@ func TestContractNrNeighbourInformationInlineExtensionOwner(t *testing.T) {
 	}
 	var value s16.NRNeighbourInformationElem
 	value.IEExtensions = append(value.IEExtensions, field)
-	if got := s14.X2apInternalNRNeighbourInformationExtIEsValueRule(value.IEExtensions[0].ExtensionValue).Assignment.Assignment; got != "NRNeighbour-Information-ExtIEs" {
+	if got := s13.X2apInternalNRNeighbourInformationExtIEsValueRule(value.IEExtensions[0].ExtensionValue).Assignment.Assignment; got != "NRNeighbour-Information-ExtIEs" {
 		t.Fatalf("table = %s", got)
 	}
 	opaque, ok := value.IEExtensions[0].ExtensionValue.Opaque()

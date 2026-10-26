@@ -293,10 +293,10 @@ func TestSelectedERABsToBeAddedSgNBAddReqItemIEValue(t *testing.T) {
 	}
 	t.Logf("union ERABsToBeAddedSgNBAddReqItemIEValue: 1 synthetic rows")
 }
-func TestSelectedERABsToBeModifiedSgNBModReqdItemIEValue(t *testing.T) {
-	var absent *ERABsToBeModifiedSgNBModReqdItemIEValue
+func TestSelectedERABsToBeAddedSgNBModReqItemIEValue(t *testing.T) {
+	var absent *ERABsToBeAddedSgNBModReqItemIEValue
 	selectedAssert(t, absent)
-	v := ERABsToBeModifiedSgNBModReqdItemIEValue{}
+	v := ERABsToBeAddedSgNBModReqItemIEValue{}
 	selectedAssert(t, &v)
 	opaqueBudget, err := aper.BuildBudget()
 	if err != nil {
@@ -313,16 +313,47 @@ func TestSelectedERABsToBeModifiedSgNBModReqdItemIEValue(t *testing.T) {
 	}
 	selectedAssert(t, &v)
 	{
-		v := ERABsToBeModifiedSgNBModReqdItemIEValue{}
-		v.id = s00.ProtocolIEID(228)
+		v := ERABsToBeAddedSgNBModReqItemIEValue{}
+		v.id = s00.ProtocolIEID(216)
 		selectedAssert(t, &v)
-		v.rowERABsToBeModifiedSgNBModReqdItem = new(ERABsToBeModifiedSgNBModReqdItem)
+		v.rowERABsToBeAddedSgNBModReqItem = new(ERABsToBeAddedSgNBModReqItem)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
-	t.Logf("union ERABsToBeModifiedSgNBModReqdItemIEValue: 1 synthetic rows")
+	t.Logf("union ERABsToBeAddedSgNBModReqItemIEValue: 1 synthetic rows")
+}
+func TestSelectedERABsToBeModifiedSgNBModReqItemIEValue(t *testing.T) {
+	var absent *ERABsToBeModifiedSgNBModReqItemIEValue
+	selectedAssert(t, absent)
+	v := ERABsToBeModifiedSgNBModReqItemIEValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := ERABsToBeModifiedSgNBModReqItemIEValue{}
+		v.id = s00.ProtocolIEID(217)
+		selectedAssert(t, &v)
+		v.rowERABsToBeModifiedSgNBModReqItem = new(ERABsToBeModifiedSgNBModReqItem)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union ERABsToBeModifiedSgNBModReqItemIEValue: 1 synthetic rows")
 }
 func TestSelectedERABsToBeReleasedModReqItemIEValue(t *testing.T) {
 	var absent *ERABsToBeReleasedModReqItemIEValue
@@ -509,6 +540,37 @@ func TestSelectedERABsToBeReleasedSgNBRelReqItemIEValue(t *testing.T) {
 		selectedAssert(t, &v)
 	}
 	t.Logf("union ERABsToBeReleasedSgNBRelReqItemIEValue: 1 synthetic rows")
+}
+func TestSelectedERABsToBeSetupItemIEValue(t *testing.T) {
+	var absent *ERABsToBeSetupItemIEValue
+	selectedAssert(t, absent)
+	v := ERABsToBeSetupItemIEValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := ERABsToBeSetupItemIEValue{}
+		v.id = s00.ProtocolIEID(4)
+		selectedAssert(t, &v)
+		v.rowERABsToBeSetupItem = new(ERABsToBeSetupItem)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union ERABsToBeSetupItemIEValue: 1 synthetic rows")
 }
 func TestSelectedERABsToBeSetupRetrieveItemExtIEsValue(t *testing.T) {
 	var absent *ERABsToBeSetupRetrieveItemExtIEsValue

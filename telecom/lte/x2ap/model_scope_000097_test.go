@@ -4,33 +4,17 @@ package x2ap
 
 import (
 	errors "errors"
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
-	strings "strings"
 	testing "testing"
 )
 
-func TestKnownChoicePaddingFailureHasOneOriginalLocation(t *testing.T) {
-	known, err := s00.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18})
-	if err != nil {
-		t.Fatal(err)
-	}
-	wire, err := known.MarshalAPER()
-	if err != nil {
-		t.Fatal(err)
-	}
-	wire[len(wire)-1] |= 1
+func TestMalformedPrimitiveReportIsLocated(t *testing.T) {
 	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		var value s00.ENBID
-		report, err := value.UnmarshalAPER(wire, options...)
+		_, report, err := s06.TimeToWaitCodec().DecodeAPER([]byte{15}, options...)
 		var located *aper.DecodeError
-		if !errors.Is(err, aper.ErrSyntax) || !errors.As(err, &located) || len(report.Deviations) != 1 || len(report.Observations) != 0 || !located.Location.HasWireLocation || len(located.Location.Spans) != 1 || located.Rule.Clause != "§11.1.4" || !strings.Contains(string(located.Location.Path), "ShortMacroENBID") {
-			t.Fatalf("known choice report=%+v err=%v location=%+v", report, err, located)
-		}
-		span := located.Location.Spans[0]
-		if span.End != uint64(len(wire))*8 || span.Start != span.End-6 {
-			t.Fatalf("known choice span=%+v", span)
+		if !errors.Is(err, aper.ErrSyntax) || !errors.As(err, &located) || located.Location.Path != "TimeToWait" || located.Rule.Clause != "§11.1.4" || len(report.Deviations) != 1 || report.Deviations[0].Location.Path != located.Location.Path || report.Deviations[0].Rule != located.Rule {
+			t.Fatalf("primitive report=%+v err=%v location=%+v", report, err, located)
 		}
 	}
 }

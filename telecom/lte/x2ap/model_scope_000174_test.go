@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
+	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
 )
 
-func sensorNameConfigExtIEFieldapiMust(v s04.SensorNameConfigExtIEField, err error) s04.SensorNameConfigExtIEField {
+func enGNBEUTRANRCellResourceCoordinationReqAckIEFieldapiMust(v s15.EnGNBEUTRANRCellResourceCoordinationReqAckIEField, err error) s15.EnGNBEUTRANRCellResourceCoordinationReqAckIEField {
 	if err != nil {
 		panic(err)
 	}

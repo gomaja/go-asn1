@@ -3,11 +3,13 @@
 package x2ap
 
 import (
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func (c ERABsAdmittedItemExtIEsExtFieldValueCodec) encodeUnplanned(value s06.ERABsAdmittedItemExtIEsExtField, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+func (c ERABsToBeSetupItemIEFieldValueCodec) encodeChanged(value s10.ERABsToBeSetupItemIEField, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
 		err = failure

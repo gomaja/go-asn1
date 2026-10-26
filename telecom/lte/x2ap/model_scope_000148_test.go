@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func privateMessageIEsValuePrivateIEFieldapiMust(v s00.PrivateMessageIEsValuePrivateIEField, err error) s00.PrivateMessageIEsValuePrivateIEField {
+func successfulOutcomeapiMust(v s18.SuccessfulOutcome, err error) s18.SuccessfulOutcome {
 	if err != nil {
 		panic(err)
 	}

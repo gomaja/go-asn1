@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 )
 
-func initiatingMessageapiMust(v s20.InitiatingMessage, err error) s20.InitiatingMessage {
+func causeapiMust(v s00.Cause, err error) s00.Cause {
 	if err != nil {
 		panic(err)
 	}

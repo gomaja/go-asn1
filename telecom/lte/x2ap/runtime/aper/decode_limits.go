@@ -1,12 +1,11 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits.go; SHA-256 884ab8501047a75268d3e28d2bcc159c5b5640c80b5df03d64a9890c8ef4d751.
+// Runtime source: runtime/aper/decode_limits.go; SHA-256 ec587f0b3337cb5f18d4e2ca2b6d1f5351a57e87ec75b6eb68146985279580a0.
 package aper
 
 import "fmt"
 
-// decodeLimits is private instrumentation for the retained recovery/refusal
-// harness. Complete source codecs always use Limits and DefaultLimits.
+// decodeLimits is private instrumentation for low-level reader limits. Complete source codecs always use Limits and DefaultLimits.
 type decodeLimits struct {
 	MaxDepth         int // nested generated values, including the root
 	MaxElements      int // sum of all SEQUENCE OF and SET OF element counts
@@ -14,7 +13,7 @@ type decodeLimits struct {
 	MaxWork          int // total bits examined, including nested rereads
 }
 
-// defaultLegacyLimits preserves the private recovery harness accounting.
+// defaultLegacyLimits preserves low-level reader accounting.
 func defaultLegacyLimits() decodeLimits {
 	return decodeLimits{MaxDepth: 128, MaxElements: 100000, MaxOpenTypeDepth: 128, MaxWork: 64 << 20}
 }

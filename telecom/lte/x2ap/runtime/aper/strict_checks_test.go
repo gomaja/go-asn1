@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/strict_checks_test.go; SHA-256 bc24576fcb02578f0bb40cef61b0d35bdb28da3001531f4b551d4bd9e86420a5.
+// Runtime source: runtime/aper/strict_checks_test.go; SHA-256 f1aa2adb770ce9692e38def03208c0a75ab09820fd28e444ddb1cd31ae4e4a46.
 package aper
 
 import (
@@ -34,12 +34,12 @@ func TestStrictMalformedFieldsHaveRulesAndLocations(t *testing.T) {
 		{"integer unused code", "§11.5.7.1", []byte{0xc0}, func(bb *BitBuffer) error { _, err := DecodeConstrainedWholeNumberAligned(bb, 0, 2); return err }},
 		{"enum unused code", "§11.5.7.1", []byte{0xc0}, func(bb *BitBuffer) error { _, err := DecodeEnumeratedAligned(bb, 3, false); return err }},
 		{"sequence empty extension bitmap", "§19.1", []byte{0}, func(bb *BitBuffer) error {
-			additions := BeginExtensionAdditions(bb)
+			var additions ExtensionAdditions
 			_, _, err := additions.DecodeBitmapAligned(bb)
 			return err
 		}},
 		{"sequence truncated bitmap", "§19.7", []byte{0x7e}, func(bb *BitBuffer) error {
-			additions := BeginExtensionAdditions(bb)
+			var additions ExtensionAdditions
 			_, _, err := additions.DecodeBitmapAligned(bb)
 			return err
 		}},

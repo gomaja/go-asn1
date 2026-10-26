@@ -632,6 +632,22 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValuecompa
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuecaptureX2APProtocolIESingleContainer(v *ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuecaptureX2APProtocolIEField(v, s)
+	s.End(f, nil, false)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuecompareX2APProtocolIESingleContainer(v *ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuecompareX2APProtocolIEField(v, s)
+	s.End(f, aper.Snapshot{}, false)
+}
 func X2apInternalX2APMessageTransferIEValuecaptureX2APProtocolIEContainer(v *X2APMessageTransferIEContainer, s *aper.SemanticCapture) {
 	f := s.Begin()
 	if s.Failed() {
@@ -803,6 +819,298 @@ func X2apInternalWLANMeasurementConfigurationValueCodecEncodeChanged(c WLANMeasu
 		err = failure
 	}
 	return out, aper.OperationError(err, c.path)
+}
+
+// NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding binds CSIRSTransmissionIndication to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
+type NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding struct {
+	info   s06.FieldInfo
+	codec  s00.CSIRSTransmissionIndicationValueCodec
+	inject func(s00.CSIRSTransmissionIndication) NRNeighbourInformationExtIEsValue
+	get    func(*NRNeighbourInformationExtIEsValue) (*s00.CSIRSTransmissionIndication, bool)
+}
+
+// Info returns the source metadata for this binding.
+func (b NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding) Info() s06.FieldInfo {
+	return b.info
+}
+
+// Codec returns the complete APER codec for the bound source value.
+func (b NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding) Codec() s00.CSIRSTransmissionIndicationValueCodec {
+	return b.codec
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (b NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding) New(value s00.CSIRSTransmissionIndication) (NRNeighbourInformationExtIEsExtField, error) {
+	if b.inject == nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("unbound extension binding"), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := (*s00.X2apInternalCSIRSTransmissionIndicationValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("extension %d: %w", b.info.ID, err), "Value.New")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(err, "Value.New")
+	}
+	return NRNeighbourInformationExtIEsExtField{Id: b.info.ID, Criticality: b.info.Criticality, ExtensionValue: b.inject(value)}, aper.OperationError(nil, "Value.New")
+}
+
+// Get returns the selected value when the field matches this binding.
+func (b NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding) Get(field *NRNeighbourInformationExtIEsExtField) (*s00.CSIRSTransmissionIndication, bool) {
+	if field == nil || field.Id != b.info.ID || b.get == nil {
+		return nil, false
+	}
+	return b.get(&field.ExtensionValue)
+}
+
+// NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding binds SSBPositionsInBurst to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
+type NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding struct {
+	info   s06.FieldInfo
+	codec  s05.SSBPositionsInBurstValueCodec
+	inject func(s05.SSBPositionsInBurst) NRNeighbourInformationExtIEsValue
+	get    func(*NRNeighbourInformationExtIEsValue) (*s05.SSBPositionsInBurst, bool)
+}
+
+// Info returns the source metadata for this binding.
+func (b NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding) Info() s06.FieldInfo {
+	return b.info
+}
+
+// Codec returns the complete APER codec for the bound source value.
+func (b NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding) Codec() s05.SSBPositionsInBurstValueCodec {
+	return b.codec
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (b NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding) New(value s05.SSBPositionsInBurst) (NRNeighbourInformationExtIEsExtField, error) {
+	if b.inject == nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("unbound extension binding"), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := (*s05.X2apInternalSSBPositionsInBurstValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("extension %d: %w", b.info.ID, err), "Value.New")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(err, "Value.New")
+	}
+	return NRNeighbourInformationExtIEsExtField{Id: b.info.ID, Criticality: b.info.Criticality, ExtensionValue: b.inject(value)}, aper.OperationError(nil, "Value.New")
+}
+
+// Get returns the selected value when the field matches this binding.
+func (b NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding) Get(field *NRNeighbourInformationExtIEsExtField) (*s05.SSBPositionsInBurst, bool) {
+	if field == nil || field.Id != b.info.ID || b.get == nil {
+		return nil, false
+	}
+	return b.get(&field.ExtensionValue)
+}
+
+// NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding binds NRCellPRACHConfig to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
+type NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding struct {
+	info   s06.FieldInfo
+	codec  s00.NRCellPRACHConfigValueCodec
+	inject func(s00.NRCellPRACHConfig) NRNeighbourInformationExtIEsValue
+	get    func(*NRNeighbourInformationExtIEsValue) (*s00.NRCellPRACHConfig, bool)
+}
+
+// Info returns the source metadata for this binding.
+func (b NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding) Info() s06.FieldInfo { return b.info }
+
+// Codec returns the complete APER codec for the bound source value.
+func (b NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding) Codec() s00.NRCellPRACHConfigValueCodec {
+	return b.codec
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (b NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding) New(value s00.NRCellPRACHConfig) (NRNeighbourInformationExtIEsExtField, error) {
+	if b.inject == nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("unbound extension binding"), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := (*s00.X2apInternalNRCellPRACHConfigValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("extension %d: %w", b.info.ID, err), "Value.New")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(err, "Value.New")
+	}
+	return NRNeighbourInformationExtIEsExtField{Id: b.info.ID, Criticality: b.info.Criticality, ExtensionValue: b.inject(value)}, aper.OperationError(nil, "Value.New")
+}
+
+// Get returns the selected value when the field matches this binding.
+func (b NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding) Get(field *NRNeighbourInformationExtIEsExtField) (*s00.NRCellPRACHConfig, bool) {
+	if field == nil || field.Id != b.info.ID || b.get == nil {
+		return nil, false
+	}
+	return b.get(&field.ExtensionValue)
+}
+
+// NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding binds AdditionalMeasurementTimingConfigurationList to ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8.
+type NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding struct {
+	info   s06.FieldInfo
+	codec  s06.AdditionalMeasurementTimingConfigurationListValueCodec
+	inject func(s06.AdditionalMeasurementTimingConfigurationList) NRNeighbourInformationExtIEsValue
+	get    func(*NRNeighbourInformationExtIEsValue) (*s06.AdditionalMeasurementTimingConfigurationList, bool)
+}
+
+// Info returns the source metadata for this binding.
+func (b NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding) Info() s06.FieldInfo {
+	return b.info
+}
+
+// Codec returns the complete APER codec for the bound source value.
+func (b NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding) Codec() s06.AdditionalMeasurementTimingConfigurationListValueCodec {
+	return b.codec
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (b NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding) New(value s06.AdditionalMeasurementTimingConfigurationList) (NRNeighbourInformationExtIEsExtField, error) {
+	if b.inject == nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("unbound extension binding"), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := (*s06.X2apInternalAdditionalMeasurementTimingConfigurationListValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("extension %d: %w", b.info.ID, err), "Value.New")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return NRNeighbourInformationExtIEsExtField{}, aper.OperationError(err, "Value.New")
+	}
+	return NRNeighbourInformationExtIEsExtField{Id: b.info.ID, Criticality: b.info.Criticality, ExtensionValue: b.inject(value)}, aper.OperationError(nil, "Value.New")
+}
+
+// Get returns the selected value when the field matches this binding.
+func (b NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding) Get(field *NRNeighbourInformationExtIEsExtField) (*s06.AdditionalMeasurementTimingConfigurationList, bool) {
+	if field == nil || field.Id != b.info.ID || b.get == nil {
+		return nil, false
+	}
+	return b.get(&field.ExtensionValue)
+}
+
+// NRNeighbourInformationExtIEsExtField is ProtocolExtensionField {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
+type NRNeighbourInformationExtIEsExtField struct {
+	Id             s00.ProtocolIEID
+	Criticality    s00.Criticality
+	ExtensionValue NRNeighbourInformationExtIEsValue
+	replay         aper.Snapshot
+	stream         aper.WireSpan
+	withoutReplay  bool
+}
+
+// WithoutReplay returns a copy that encodes without received replay state.
+func (v NRNeighbourInformationExtIEsExtField) WithoutReplay() NRNeighbourInformationExtIEsExtField {
+	v.withoutReplay = true
+	v.stream = aper.WireSpan{}
+	return v
+}
+
+// ReceivedForm returns the retained wire representation, if present.
+func (v *NRNeighbourInformationExtIEsExtField) ReceivedForm() aper.ReceivedForm {
+	if v == nil || v.withoutReplay {
+		return aper.ReceivedForm{}
+	}
+	location := v.stream.ContentLocation()
+	location.Path = "ProtocolExtensionField"
+	return aper.NewReceivedSpanForm(v.stream.Present(), v.stream, location, nil)
+}
+
+// MarshalAPERTo encodes the field into the enclosing APER buffer.
+func X2apInternalNRNeighbourInformationExtIEsExtFieldMarshalAPERTo(v *NRNeighbourInformationExtIEsExtField, bb *aper.BitBuffer, fresh ...bool) error {
+	if v != nil && v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.RestoreReplayPlan(previous)
+	}
+	if v !=
+		nil && bb.
+		ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err !=
+			nil {
+			return err
+		}
+	}
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolExtensionField")
+	}
+	// TS 36.423 V19.1.0 §9.3.8 binds the table-selected value to @id.
+	if !X2apInternalNRNeighbourInformationExtIEsValueMatchesID(v.ExtensionValue, v.Id, bb.Budget()) {
+		return runtime.WrapDecodePath(fmt.Errorf("%w: field id %d does not match its value selector", aper.ErrInvalidValue, v.Id), "ProtocolExtensionField.Id")
+	}
+	data, err := X2apInternalNRNeighbourInformationExtIEsValueEncodeFresh(v.ExtensionValue, len(fresh) != 0 && fresh[0],
+
+		bb.Budget())
+	if err != nil {
+		return err
+	}
+	if err := bb.ChargeWork(uint64(len(data))); err != nil {
+		return err
+	}
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), s00.X2apInternalInt64Ptr(0), s00.X2apInternalInt64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
+	}
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
+		return fmt.Errorf("encoding extensionValue: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERFrom decodes the field from the enclosing APER buffer.
+func X2apInternalNRNeighbourInformationExtIEsExtFieldUnmarshalAPERFrom(v *NRNeighbourInformationExtIEsExtField, bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolExtensionField")
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = NRNeighbourInformationExtIEsExtField{}
+	id, err := aper.DecodeIntegerAligned(bb, s00.X2apInternalInt64Ptr(0), s00.X2apInternalInt64Ptr(65535), false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Id")
+	}
+	v.Id = s00.ProtocolIEID(id)
+	criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Criticality")
+	}
+	v.Criticality = s00.Criticality(criticality)
+	var zero NRNeighbourInformationExtIEsValue
+	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, X2apInternalNRNeighbourInformationExtIEsValueReason(zero, v.Id), X2apInternalNRNeighbourInformationExtIEsValueRule(zero))
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ExtensionValue")
+	}
+	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
+	value, err := X2apInternalNRNeighbourInformationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ExtensionValue")
+	}
+	v.ExtensionValue = value
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
 }
 
 // CellActivationResponseActivatedCellListIEBinding binds ActivatedCellList to ProtocolIE-Field {{CellActivationResponse-IEs}} of TS 36.423 §9.3.8.
@@ -1046,6 +1354,256 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtFieldUn
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	v.ExtensionValue = value
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding binds ERABsToBeReleasedSgNBChaConfItem to ProtocolIE-Field {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8.
+type ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding struct {
+	info   s06.FieldInfo
+	codec  ERABsToBeReleasedSgNBChaConfItemValueCodec
+	inject func(ERABsToBeReleasedSgNBChaConfItem) ERABsToBeReleasedSgNBChaConfItemIEValue
+	get    func(*ERABsToBeReleasedSgNBChaConfItemIEValue) (*ERABsToBeReleasedSgNBChaConfItem, bool)
+}
+
+// Info returns the source metadata for this binding.
+func (b ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding) Info() s06.FieldInfo {
+	return b.info
+}
+
+// Codec returns the complete APER codec for the bound source value.
+func (b ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding) Codec() ERABsToBeReleasedSgNBChaConfItemValueCodec {
+	return b.codec
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (b ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding) New(value ERABsToBeReleasedSgNBChaConfItem) (ERABsToBeReleasedSgNBChaConfItemIEField, error) {
+	if b.inject == nil {
+		return ERABsToBeReleasedSgNBChaConfItemIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemIEField{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := b.codec.encode(value, false, budget); err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemIEField{}, aper.OperationError(fmt.Errorf("IE %d: %w", b.info.ID, err), "Value.New")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemIEField{}, aper.OperationError(err, "Value.New")
+	}
+	return ERABsToBeReleasedSgNBChaConfItemIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
+}
+
+// Get returns the selected value when the field matches this binding.
+func (b ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding) Get(field *ERABsToBeReleasedSgNBChaConfItemIEField) (*ERABsToBeReleasedSgNBChaConfItem, bool) {
+	if field == nil || field.Id != b.info.ID || b.get == nil {
+		return nil, false
+	}
+	return b.get(&field.Value)
+}
+
+// ERABsToBeReleasedSgNBChaConfItemValueCodec is the concrete ValueCodec[ERABsToBeReleasedSgNBChaConfItem].
+type ERABsToBeReleasedSgNBChaConfItemValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(ERABsToBeReleasedSgNBChaConfItem, aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItem, aper.Snapshot)
+	compare func(ERABsToBeReleasedSgNBChaConfItem, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
+	path    aper.Path
+	decode  func([]byte, aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItem, error)
+	encode  func(ERABsToBeReleasedSgNBChaConfItem, bool, *aper.DecodeBudget) ([]byte, error)
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (c ERABsToBeReleasedSgNBChaConfItemValueCodec) New(value ERABsToBeReleasedSgNBChaConfItem) (ERABsToBeReleasedSgNBChaConfItemAPERValue, error) {
+	if c.encode == nil {
+		return ERABsToBeReleasedSgNBChaConfItemAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return ERABsToBeReleasedSgNBChaConfItemAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes one complete APER value and retains its received representation.
+func (c ERABsToBeReleasedSgNBChaConfItemValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABsToBeReleasedSgNBChaConfItemAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil {
+		return ERABsToBeReleasedSgNBChaConfItemAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	value, err := c.decode(data, settings)
+	if err == nil {
+		if c.capture == nil {
+			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
+		} else {
+			value, replay := c.capture(value, settings)
+			report, err := aper.FinishDecode(settings, nil)
+			if err != nil {
+				return ERABsToBeReleasedSgNBChaConfItemAPERValue{}, report, aper.OperationError(err, c.path)
+			}
+			return ERABsToBeReleasedSgNBChaConfItemAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		}
+	}
+	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
+	return ERABsToBeReleasedSgNBChaConfItemAPERValue{}, report, aper.OperationError(err, c.path)
+}
+
+// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
+func (c ERABsToBeReleasedSgNBChaConfItemValueCodec) EncodeAPER(value ERABsToBeReleasedSgNBChaConfItemAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	if !fresh && value.context == c.context && value.replay.Present() {
+		plan := c.compare(value.Value, value.replay, budget)
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := value.received.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, c.path)
+		}
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemValueCodecEncodeChanged(c, value.Value, fresh, plan)
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemValueCodecEncodeUnplanned(c, value.Value, fresh, budget)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemValueCodecEncodeUnplanned(c ERABsToBeReleasedSgNBChaConfItemValueCodec, value ERABsToBeReleasedSgNBChaConfItem, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemValueCodecEncodeChanged(c ERABsToBeReleasedSgNBChaConfItemValueCodec, value ERABsToBeReleasedSgNBChaConfItem, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ERABsToBeReleasedSgNBChaConfItemIEField is ProtocolIE-Field {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8: an information element field.
+type ERABsToBeReleasedSgNBChaConfItemIEField struct {
+	Id            s00.ProtocolIEID
+	Criticality   s00.Criticality
+	Value         ERABsToBeReleasedSgNBChaConfItemIEValue
+	replay        aper.Snapshot
+	stream        aper.WireSpan
+	withoutReplay bool
+}
+
+// WithoutReplay returns a copy that encodes without received replay state.
+func (v ERABsToBeReleasedSgNBChaConfItemIEField) WithoutReplay() ERABsToBeReleasedSgNBChaConfItemIEField {
+	v.withoutReplay = true
+	v.stream = aper.WireSpan{}
+	return v
+}
+
+// ReceivedForm returns the retained wire representation, if present.
+func (v *ERABsToBeReleasedSgNBChaConfItemIEField) ReceivedForm() aper.ReceivedForm {
+	if v == nil || v.withoutReplay {
+		return aper.ReceivedForm{}
+	}
+	location := v.stream.ContentLocation()
+	location.Path = "ProtocolIEField"
+	return aper.NewReceivedSpanForm(v.stream.Present(), v.stream, location, nil)
+}
+
+// MarshalAPERTo encodes the field into the enclosing APER buffer.
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEFieldMarshalAPERTo(v *ERABsToBeReleasedSgNBChaConfItemIEField, bb *aper.BitBuffer, fresh ...bool) error {
+	if v != nil && v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.RestoreReplayPlan(previous)
+	}
+	if v !=
+		nil && bb.
+		ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err !=
+			nil {
+			return err
+		}
+	}
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolIEField")
+	}
+	// TS 36.423 V19.1.0 §9.3.8 binds the table-selected value to @id.
+	if !X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueMatchesID(v.Value, v.Id, bb.Budget()) {
+		return runtime.WrapDecodePath(fmt.Errorf("%w: field id %d does not match its value selector", aper.ErrInvalidValue, v.Id), "ProtocolIEField.Id")
+	}
+	data, err := X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueEncodeFresh(v.Value, len(fresh) != 0 && fresh[0],
+
+		bb.Budget())
+	if err != nil {
+		return err
+	}
+	if err := bb.ChargeWork(uint64(len(data))); err != nil {
+		return err
+	}
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), s00.X2apInternalInt64Ptr(0), s00.X2apInternalInt64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
+	}
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERFrom decodes the field from the enclosing APER buffer.
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEFieldUnmarshalAPERFrom(v *ERABsToBeReleasedSgNBChaConfItemIEField, bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolIEField")
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = ERABsToBeReleasedSgNBChaConfItemIEField{}
+	id, err := aper.DecodeIntegerAligned(bb, s00.X2apInternalInt64Ptr(0), s00.X2apInternalInt64Ptr(65535), false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Id")
+	}
+	v.Id = s00.ProtocolIEID(id)
+	criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Criticality")
+	}
+	v.Criticality = s00.Criticality(criticality)
+	var zero ERABsToBeReleasedSgNBChaConfItemIEValue
+	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueReason(zero, v.Id), X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueRule(zero))
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Value")
+	}
+	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
+	value, err := X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Value")
+	}
+	v.Value = value
 	v.stream = bb.CaptureWireSpan(replayStart)
 
 	return nil
@@ -1302,6 +1860,94 @@ func X2apInternalUEContextReferenceAtWTValueCodecEncodeUnplanned(c UEContextRefe
 	return out, aper.OperationError(err, c.path)
 }
 func X2apInternalUEContextReferenceAtWTValueCodecEncodeChanged(c UEContextReferenceAtWTValueCodec, value UEContextReferenceAtWT, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ERABsToBeReleasedSgNBChaConfListValueCodec is the concrete ValueCodec[ERABsToBeReleasedSgNBChaConfList].
+type ERABsToBeReleasedSgNBChaConfListValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(ERABsToBeReleasedSgNBChaConfList, aper.DecodeState) (ERABsToBeReleasedSgNBChaConfList, aper.Snapshot)
+	compare func(ERABsToBeReleasedSgNBChaConfList, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
+	path    aper.Path
+	decode  func([]byte, aper.DecodeState) (ERABsToBeReleasedSgNBChaConfList, error)
+	encode  func(ERABsToBeReleasedSgNBChaConfList, bool, *aper.DecodeBudget) ([]byte, error)
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (c ERABsToBeReleasedSgNBChaConfListValueCodec) New(value ERABsToBeReleasedSgNBChaConfList) (ERABsToBeReleasedSgNBChaConfListAPERValue, error) {
+	if c.encode == nil {
+		return ERABsToBeReleasedSgNBChaConfListAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABsToBeReleasedSgNBChaConfListAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABsToBeReleasedSgNBChaConfListAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return ERABsToBeReleasedSgNBChaConfListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes one complete APER value and retains its received representation.
+func (c ERABsToBeReleasedSgNBChaConfListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABsToBeReleasedSgNBChaConfListAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil {
+		return ERABsToBeReleasedSgNBChaConfListAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	value, err := c.decode(data, settings)
+	if err == nil {
+		if c.capture == nil {
+			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
+		} else {
+			value, replay := c.capture(value, settings)
+			report, err := aper.FinishDecode(settings, nil)
+			if err != nil {
+				return ERABsToBeReleasedSgNBChaConfListAPERValue{}, report, aper.OperationError(err, c.path)
+			}
+			return ERABsToBeReleasedSgNBChaConfListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		}
+	}
+	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
+	return ERABsToBeReleasedSgNBChaConfListAPERValue{}, report, aper.OperationError(err, c.path)
+}
+
+// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
+func (c ERABsToBeReleasedSgNBChaConfListValueCodec) EncodeAPER(value ERABsToBeReleasedSgNBChaConfListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	if !fresh && value.context == c.context && value.replay.Present() {
+		plan := c.compare(value.Value, value.replay, budget)
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := value.received.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, c.path)
+		}
+		return X2apInternalERABsToBeReleasedSgNBChaConfListValueCodecEncodeChanged(c, value.Value, fresh, plan)
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfListValueCodecEncodeUnplanned(c, value.Value, fresh, budget)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfListValueCodecEncodeUnplanned(c ERABsToBeReleasedSgNBChaConfListValueCodec, value ERABsToBeReleasedSgNBChaConfList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfListValueCodecEncodeChanged(c ERABsToBeReleasedSgNBChaConfListValueCodec, value ERABsToBeReleasedSgNBChaConfList, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
 	budget := plan.EncodingBudget()
 	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
@@ -1638,6 +2284,182 @@ func X2apInternalX2BenefitValueValueCodecEncodeUnplanned(c X2BenefitValueValueCo
 	return out, aper.OperationError(err, c.path)
 }
 func X2apInternalX2BenefitValueValueCodecEncodeChanged(c X2BenefitValueValueCodec, value X2BenefitValue, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec is the concrete ValueCodec[ERABsToBeReleasedSgNBChaConfItemResourceConfiguration].
+type ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, aper.Snapshot)
+	compare func(ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
+	path    aper.Path
+	decode  func([]byte, aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error)
+	encode  func(ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, bool, *aper.DecodeBudget) ([]byte, error)
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (c ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec) New(value ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) (ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue, error) {
+	if c.encode == nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes one complete APER value and retains its received representation.
+func (c ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	value, err := c.decode(data, settings)
+	if err == nil {
+		if c.capture == nil {
+			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
+		} else {
+			value, replay := c.capture(value, settings)
+			report, err := aper.FinishDecode(settings, nil)
+			if err != nil {
+				return ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue{}, report, aper.OperationError(err, c.path)
+			}
+			return ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		}
+	}
+	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
+	return ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue{}, report, aper.OperationError(err, c.path)
+}
+
+// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
+func (c ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec) EncodeAPER(value ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	if !fresh && value.context == c.context && value.replay.Present() {
+		plan := c.compare(value.Value, value.replay, budget)
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := value.received.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, c.path)
+		}
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodecEncodeChanged(c, value.Value, fresh, plan)
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodecEncodeUnplanned(c, value.Value, fresh, budget)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodecEncodeUnplanned(c ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec, value ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodecEncodeChanged(c ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec, value ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec is the concrete ValueCodec[ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent].
+type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, aper.Snapshot)
+	compare func(ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
+	path    aper.Path
+	decode  func([]byte, aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, error)
+	encode  func(ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, bool, *aper.DecodeBudget) ([]byte, error)
+}
+
+// New validates the source value and constructs a value without received replay state.
+func (c ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec) New(value ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) (ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue, error) {
+	if c.encode == nil {
+		return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes one complete APER value and retains its received representation.
+func (c ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil {
+		return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	value, err := c.decode(data, settings)
+	if err == nil {
+		if c.capture == nil {
+			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
+		} else {
+			value, replay := c.capture(value, settings)
+			report, err := aper.FinishDecode(settings, nil)
+			if err != nil {
+				return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue{}, report, aper.OperationError(err, c.path)
+			}
+			return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		}
+	}
+	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
+	return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue{}, report, aper.OperationError(err, c.path)
+}
+
+// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
+func (c ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec) EncodeAPER(value ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	if !fresh && value.context == c.context && value.replay.Present() {
+		plan := c.compare(value.Value, value.replay, budget)
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := value.received.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, c.path)
+		}
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodecEncodeChanged(c, value.Value, fresh, plan)
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodecEncodeUnplanned(c, value.Value, fresh, budget)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodecEncodeUnplanned(c ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec, value ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodecEncodeChanged(c ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec, value ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
 	budget := plan.EncodingBudget()
 	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
@@ -3399,7 +4221,7 @@ func X2apInternalX2RemovalFailureIEValuevalidateX2APIEContainer(fields s07.X2Rem
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalSeNBAdditionRequestRejectIEValuevalidateX2APIEContainer(fields s12.SeNBAdditionRequestRejectIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalSeNBAdditionRequestRejectIEValuevalidateX2APIEContainer(fields s11.SeNBAdditionRequestRejectIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -3424,12 +4246,12 @@ func X2apInternalSeNBAdditionRequestRejectIEValuevalidateX2APIEContainer(fields 
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s12.X2apInternalSeNBAdditionRequestRejectIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s12.X2apInternalSeNBAdditionRequestRejectIEValueRule(field.Value)
+		if !s11.X2apInternalSeNBAdditionRequestRejectIEValueMatchesID(field.Value, field.Id, budget) {
+			rule := s11.X2apInternalSeNBAdditionRequestRejectIEValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s12.X2apInternalSeNBAdditionRequestRejectIEValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s11.X2apInternalSeNBAdditionRequestRejectIEValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -3707,7 +4529,7 @@ func X2apInternalSeNBModificationRequestRejectIEValuevalidateX2APIEContainer(fie
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalSeNBModificationConfirmIEValuevalidateX2APIEContainer(fields s12.SeNBModificationConfirmIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalSeNBModificationConfirmIEValuevalidateX2APIEContainer(fields s11.SeNBModificationConfirmIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -3732,12 +4554,12 @@ func X2apInternalSeNBModificationConfirmIEValuevalidateX2APIEContainer(fields s1
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s12.X2apInternalSeNBModificationConfirmIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s12.X2apInternalSeNBModificationConfirmIEValueRule(field.Value)
+		if !s11.X2apInternalSeNBModificationConfirmIEValueMatchesID(field.Value, field.Id, budget) {
+			rule := s11.X2apInternalSeNBModificationConfirmIEValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s12.X2apInternalSeNBModificationConfirmIEValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s11.X2apInternalSeNBModificationConfirmIEValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -3784,7 +4606,7 @@ func X2apInternalSeNBModificationConfirmIEValuevalidateX2APIEContainer(fields s1
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalSeNBModificationRefuseIEValuevalidateX2APIEContainer(fields s12.SeNBModificationRefuseIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalSeNBModificationRefuseIEValuevalidateX2APIEContainer(fields s11.SeNBModificationRefuseIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -3809,12 +4631,12 @@ func X2apInternalSeNBModificationRefuseIEValuevalidateX2APIEContainer(fields s12
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s12.X2apInternalSeNBModificationRefuseIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s12.X2apInternalSeNBModificationRefuseIEValueRule(field.Value)
+		if !s11.X2apInternalSeNBModificationRefuseIEValueMatchesID(field.Value, field.Id, budget) {
+			rule := s11.X2apInternalSeNBModificationRefuseIEValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s12.X2apInternalSeNBModificationRefuseIEValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s11.X2apInternalSeNBModificationRefuseIEValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -4631,83 +5453,6 @@ func X2apInternalRRCTransferIEValuevalidateX2APIEContainer(fields s11.RRCTransfe
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalENDCX2SetupFailureIEValuevalidateX2APIEContainer(fields s06.ENDCX2SetupFailureIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s06.X2apInternalENDCX2SetupFailureIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s06.X2apInternalENDCX2SetupFailureIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s06.X2apInternalENDCX2SetupFailureIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
 func X2apInternalENDCCellActivationResponseIEValuevalidateX2APIEContainer(fields ENDCCellActivationResponseIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
@@ -4739,160 +5484,6 @@ func X2apInternalENDCCellActivationResponseIEValuevalidateX2APIEContainer(fields
 		}
 		rank, allowed := byID[field.Id]
 		table := s00.X2apInternalConstructT7TableIDF6source(X2apInternalENDCCellActivationResponseIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalENDCX2RemovalRequestIEValuevalidateX2APIEContainer(fields s07.ENDCX2RemovalRequestIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s07.X2apInternalENDCX2RemovalRequestIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s07.X2apInternalENDCX2RemovalRequestIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s07.X2apInternalENDCX2RemovalRequestIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalENDCX2RemovalResponseIEValuevalidateX2APIEContainer(fields s07.ENDCX2RemovalResponseIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s07.X2apInternalENDCX2RemovalResponseIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s07.X2apInternalENDCX2RemovalResponseIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s07.X2apInternalENDCX2RemovalResponseIEValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -5551,508 +6142,6 @@ func X2apInternalSCGFailureTransferIEValuevalidateX2APIEContainer(fields s11.SCG
 	}
 	return report
 }
-func X2apInternalERABActivityNotifyItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABActivityNotifyItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABActivityNotifyItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABActivityNotifyItemExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABActivityNotifyItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABItemExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABLevelQoSParametersExtIEsValuevalidateX2APExtensionContainer(fields s06.ERABLevelQoSParametersExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s06.ERABLevelQoSParametersExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s06.ERABLevelQoSParametersExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABLevelQoSParametersExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABItemIEValuevalidateX2APIEContainer(fields s06.ERABItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s06.X2apInternalERABItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s06.X2apInternalERABItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s06.X2apInternalERABItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABUsageReportItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABUsageReportItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABUsageReportItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABUsageReportItemExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABUsageReportItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABUsageReportItemIEValuevalidateX2APIEContainer(fields s06.ERABUsageReportItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s06.X2apInternalERABUsageReportItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s06.X2apInternalERABUsageReportItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s06.X2apInternalERABUsageReportItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsAdmittedItemExtIEsValuevalidateX2APExtensionContainer(fields s06.ERABsAdmittedItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s06.ERABsAdmittedItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s06.ERABsAdmittedItemExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedItemIEValuevalidateX2APIEContainer(fields s09.ERABsAdmittedItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsAdmittedItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsAdmittedItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsAdmittedItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsAdmittedToBeAddedItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields s09.ERABsAdmittedToBeAddedItemSCGBearerExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s09.ERABsAdmittedToBeAddedItemSCGBearerExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s09.ERABsAdmittedToBeAddedItemSCGBearerExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeAddedItemSCGBearerExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeAddedItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields s09.ERABsAdmittedToBeAddedItemSplitBearerExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s09.ERABsAdmittedToBeAddedItemSplitBearerExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s09.ERABsAdmittedToBeAddedItemSplitBearerExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeAddedItemSplitBearerExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedItemIEValuevalidateX2APIEContainer(fields s10.ERABsAdmittedToBeAddedItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s10.X2apInternalERABsAdmittedToBeAddedItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s10.X2apInternalERABsAdmittedToBeAddedItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s10.X2apInternalERABsAdmittedToBeAddedItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields s09.ERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s09.ERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s09.ERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields s09.ERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s09.ERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s09.ERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedModAckItemIEValuevalidateX2APIEContainer(fields s10.ERABsAdmittedToBeAddedModAckItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s10.X2apInternalERABsAdmittedToBeAddedModAckItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s10.X2apInternalERABsAdmittedToBeAddedModAckItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s10.X2apInternalERABsAdmittedToBeAddedModAckItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
 func X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsToBeAddedSgNBAddReqAckItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
 	if err := aper.ChargeSlice[s02.ERABsToBeAddedSgNBAddReqAckItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
@@ -6065,328 +6154,6 @@ func X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsValuevalidateX2APExtension
 		asIE[i].Value = fields[i].ExtensionValue
 	}
 	return X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields s06.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s06.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s06.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields s09.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s09.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s09.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIEValuevalidateX2APIEContainer(fields s10.ERABsAdmittedToBeAddedSgNBAddReqAckItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s10.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s10.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s10.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsAdmittedToBeAddedSgNBModAckItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsAdmittedToBeAddedSgNBModAckItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsAdmittedToBeAddedSgNBModAckItemExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields s06.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s06.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s06.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields s09.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s09.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s09.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIEValuevalidateX2APIEContainer(fields s10.ERABsAdmittedToBeAddedSgNBModAckItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s10.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s10.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s10.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeModifiedModAckItemIEValuevalidateX2APIEContainer(fields s09.ERABsAdmittedToBeModifiedModAckItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsAdmittedToBeModifiedModAckItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsAdmittedToBeModifiedModAckItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsAdmittedToBeModifiedModAckItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
 }
 func X2apInternalERABsToBeAddedSgNBModAckItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsToBeAddedSgNBModAckItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
@@ -6401,521 +6168,6 @@ func X2apInternalERABsToBeAddedSgNBModAckItemExtIEsValuevalidateX2APExtensionCon
 	}
 	return X2apInternalERABsToBeAddedSgNBModAckItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
 }
-func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields s09.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s09.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s09.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields s06.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s06.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s06.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIEValuevalidateX2APIEContainer(fields s10.ERABsAdmittedToBeModifiedSgNBModAckItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s10.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s10.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s10.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsAdmittedToBeModifiedSgNBModConfItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsAdmittedToBeModifiedSgNBModConfItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsAdmittedToBeModifiedSgNBModConfItemExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields s06.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s06.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s06.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemIEValuevalidateX2APIEContainer(fields s09.ERABsAdmittedToBeModifiedSgNBModConfItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeReleasedModAckItemIEValuevalidateX2APIEContainer(fields s07.ERABsAdmittedToBeReleasedModAckItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s07.X2apInternalERABsAdmittedToBeReleasedModAckItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s07.X2apInternalERABsAdmittedToBeReleasedModAckItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s07.X2apInternalERABsAdmittedToBeReleasedModAckItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIEValuevalidateX2APIEContainer(fields s07.ERABsAdmittedToBeReleasedSgNBModAckItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s07.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s07.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s07.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValuevalidateX2APIEContainer(fields s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s07.X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s07.X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s07.X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
 func X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsToBeReleasedSgNBModAckItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
 	if err := aper.ChargeSlice[s02.ERABsToBeReleasedSgNBModAckItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
@@ -6928,199 +6180,6 @@ func X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsValuevalidateX2APExtension
 		asIE[i].Value = fields[i].ExtensionValue
 	}
 	return X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-func X2apInternalERABsDataForwardingAddressItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsDataForwardingAddressItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsDataForwardingAddressItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsDataForwardingAddressItemExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsDataForwardingAddressItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsDataForwardingAddressItemIEValuevalidateX2APIEContainer(fields s09.ERABsDataForwardingAddressItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsDataForwardingAddressItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsDataForwardingAddressItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsDataForwardingAddressItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsSubjectToCounterCheckItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsSubjectToCounterCheckItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsSubjectToCounterCheckItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsSubjectToCounterCheckItemExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsSubjectToCounterCheckItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsSubjectToCounterCheckItemIEValuevalidateX2APIEContainer(fields s07.ERABsSubjectToCounterCheckItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s07.X2apInternalERABsSubjectToCounterCheckItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s07.X2apInternalERABsSubjectToCounterCheckItemIEValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s07.X2apInternalERABsSubjectToCounterCheckItemIEValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-func X2apInternalERABsSubjectToDLDiscardingItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsSubjectToDLDiscardingItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s02.ERABsSubjectToDLDiscardingItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
-	}
-	asIE := make(s02.ERABsSubjectToDLDiscardingItemExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return X2apInternalERABsSubjectToDLDiscardingItemExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
 }
 func X2apInternalERABsSubjectToEarlyStatusTransferItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsSubjectToEarlyStatusTransferItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
@@ -7680,7 +6739,7 @@ func X2apInternalERABsToBeAddedSgNBModReqItemSgNBPDCPpresentExtIEsValuevalidateX
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalERABsToBeAddedSgNBModReqItemIEValuevalidateX2APIEContainer(fields s11.ERABsToBeAddedSgNBModReqItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalERABsToBeAddedSgNBModReqItemIEValuevalidateX2APIEContainer(fields s10.ERABsToBeAddedSgNBModReqItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -7705,12 +6764,12 @@ func X2apInternalERABsToBeAddedSgNBModReqItemIEValuevalidateX2APIEContainer(fiel
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s11.X2apInternalERABsToBeAddedSgNBModReqItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s11.X2apInternalERABsToBeAddedSgNBModReqItemIEValueRule(field.Value)
+		if !s10.X2apInternalERABsToBeAddedSgNBModReqItemIEValueMatchesID(field.Value, field.Id, budget) {
+			rule := s10.X2apInternalERABsToBeAddedSgNBModReqItemIEValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s11.X2apInternalERABsToBeAddedSgNBModReqItemIEValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s10.X2apInternalERABsToBeAddedSgNBModReqItemIEValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -7899,7 +6958,7 @@ func X2apInternalERABsToBeModifiedSgNBModReqItemSgNBPDCPpresentExtIEsValuevalida
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalERABsToBeModifiedSgNBModReqItemIEValuevalidateX2APIEContainer(fields s11.ERABsToBeModifiedSgNBModReqItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalERABsToBeModifiedSgNBModReqItemIEValuevalidateX2APIEContainer(fields s10.ERABsToBeModifiedSgNBModReqItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -7924,12 +6983,12 @@ func X2apInternalERABsToBeModifiedSgNBModReqItemIEValuevalidateX2APIEContainer(f
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s11.X2apInternalERABsToBeModifiedSgNBModReqItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s11.X2apInternalERABsToBeModifiedSgNBModReqItemIEValueRule(field.Value)
+		if !s10.X2apInternalERABsToBeModifiedSgNBModReqItemIEValueMatchesID(field.Value, field.Id, budget) {
+			rule := s10.X2apInternalERABsToBeModifiedSgNBModReqItemIEValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s11.X2apInternalERABsToBeModifiedSgNBModReqItemIEValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s10.X2apInternalERABsToBeModifiedSgNBModReqItemIEValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -8015,7 +7074,7 @@ func X2apInternalERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentExtIEsValuevalid
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalERABsToBeModifiedSgNBModReqdItemIEValuevalidateX2APIEContainer(fields s10.ERABsToBeModifiedSgNBModReqdItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalERABsToBeModifiedSgNBModReqdItemIEValuevalidateX2APIEContainer(fields s09.ERABsToBeModifiedSgNBModReqdItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -8040,12 +7099,12 @@ func X2apInternalERABsToBeModifiedSgNBModReqdItemIEValuevalidateX2APIEContainer(
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s10.X2apInternalERABsToBeModifiedSgNBModReqdItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s10.X2apInternalERABsToBeModifiedSgNBModReqdItemIEValueRule(field.Value)
+		if !s09.X2apInternalERABsToBeModifiedSgNBModReqdItemIEValueMatchesID(field.Value, field.Id, budget) {
+			rule := s09.X2apInternalERABsToBeModifiedSgNBModReqdItemIEValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s10.X2apInternalERABsToBeModifiedSgNBModReqdItemIEValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsToBeModifiedSgNBModReqdItemIEValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -8513,6 +7572,100 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsValueva
 	}
 	return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
 }
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEField](bb, uint64(len(fields))); err != nil {
+		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
+	}
+	asIE := make(ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEContainer, len(fields))
+	for i := range fields {
+		asIE[i].Id = fields[i].Id
+		asIE[i].Criticality = fields[i].Criticality
+		asIE[i].Value = fields[i].ExtensionValue
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
+}
+
+// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
+// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
+// not determine the order of known rows.
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuevalidateX2APIEContainer(fields ERABsToBeReleasedSgNBChaConfItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+
+) s12.ValidationReport {
+	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
+	bb := aper.NewBudgetBuffer(budget)
+	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
+		*s12.X2apInternalValidationReportFieldErr(&report) = err
+		return report
+	}
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
+	for i, row := range rows {
+		byID[row.ID] = i
+	}
+	lastRank := -1
+	for i, field := range fields {
+		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
+			return report
+		}
+		if err := bb.ChargeWork(1); err != nil {
+			*s12.X2apInternalValidationReportFieldErr(&report) = err
+			return report
+		}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
+		if !X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueMatchesID(field.Value, field.Id, budget) {
+			rule := X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueRule(field.Value)
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+		}
+		rank, allowed := byID[field.Id]
+		table := s00.X2apInternalConstructT7TableIDF6source(X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueRule(field.Value).Assignment)
+		var sourceRules []aper.SourceRule
+		if allowed {
+			table = rows[rank].Table
+			sourceRules = append(sourceRules, rows[rank].Rule)
+		}
+		aper.IncrementCount(counts, field.Id)
+		if counts[field.Id] > 1 {
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
+		}
+		if !allowed {
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
+			}
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
+			continue
+		}
+		row := rows[rank]
+		if field.Criticality != row.Criticality {
+			expected, received := row.Criticality, field.Criticality
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
+		}
+		if rank < lastRank {
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
+		} else {
+			lastRank = rank
+		}
+	}
+	for _, row := range rows {
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
+		}
+		if row.Presence == s00.PresenceConditional {
+			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
+				return report
+			}
+			report.Complete = false
+		}
+	}
+	return report
+}
+
+// ERABsToBeReleasedSgNBChaConfItemIEContainer is ProtocolIE-Container {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8: a list of ERABsToBeReleasedSgNBChaConfItemIEField values.
+type ERABsToBeReleasedSgNBChaConfItemIEContainer []ERABsToBeReleasedSgNBChaConfItemIEField
+
 func X2apInternalERABsToBeReleasedSgNBModReqItemExtIEsValuevalidateX2APExtensionContainer(fields s02.ERABsToBeReleasedSgNBModReqItemExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
 	if err := aper.ChargeSlice[s02.ERABsToBeReleasedSgNBModReqItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
@@ -9058,7 +8211,7 @@ func X2apInternalERABsToBeSetupItemExtIEsValuevalidateX2APExtensionContainer(fie
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalERABsToBeSetupItemIEValuevalidateX2APIEContainer(fields s11.ERABsToBeSetupItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalERABsToBeSetupItemIEValuevalidateX2APIEContainer(fields s10.ERABsToBeSetupItemIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -9083,12 +8236,12 @@ func X2apInternalERABsToBeSetupItemIEValuevalidateX2APIEContainer(fields s11.ERA
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s11.X2apInternalERABsToBeSetupItemIEValueMatchesID(field.Value, field.Id, budget) {
-			rule := s11.X2apInternalERABsToBeSetupItemIEValueRule(field.Value)
+		if !s10.X2apInternalERABsToBeSetupItemIEValueMatchesID(field.Value, field.Id, budget) {
+			rule := s10.X2apInternalERABsToBeSetupItemIEValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s11.X2apInternalERABsToBeSetupItemIEValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s10.X2apInternalERABsToBeSetupItemIEValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -9273,12 +8426,12 @@ func X2apInternalExpectedUEBehaviourExtIEsValuevalidateX2APExtensionContainer(fi
 	}
 	return X2apInternalExpectedUEBehaviourExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
 }
-func X2apInternalExtendedULInterferenceOverloadInfoExtIEsValuevalidateX2APExtensionContainer(fields s03.ExtendedULInterferenceOverloadInfoExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
+func X2apInternalExtendedULInterferenceOverloadInfoExtIEsValuevalidateX2APExtensionContainer(fields s02.ExtendedULInterferenceOverloadInfoExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s03.ExtendedULInterferenceOverloadInfoExtIEsIEField](bb, uint64(len(fields))); err != nil {
+	if err := aper.ChargeSlice[s02.ExtendedULInterferenceOverloadInfoExtIEsIEField](bb, uint64(len(fields))); err != nil {
 		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
 	}
-	asIE := make(s03.ExtendedULInterferenceOverloadInfoExtIEsIEContainer, len(fields))
+	asIE := make(s02.ExtendedULInterferenceOverloadInfoExtIEsIEContainer, len(fields))
 	for i := range fields {
 		asIE[i].Id = fields[i].Id
 		asIE[i].Criticality = fields[i].Criticality
@@ -10205,12 +9358,12 @@ func X2apInternalNRV2XServicesAuthorizedExtIEsValuevalidateX2APExtensionContaine
 	}
 	return X2apInternalNRV2XServicesAuthorizedExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
 }
-func X2apInternalNeighbourInformationExtIEsValuevalidateX2APExtensionContainer(fields s09.NeighbourInformationExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
+func X2apInternalNeighbourInformationExtIEsValuevalidateX2APExtensionContainer(fields s08.NeighbourInformationExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s09.NeighbourInformationExtIEsIEField](bb, uint64(len(fields))); err != nil {
+	if err := aper.ChargeSlice[s08.NeighbourInformationExtIEsIEField](bb, uint64(len(fields))); err != nil {
 		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
 	}
-	asIE := make(s09.NeighbourInformationExtIEsIEContainer, len(fields))
+	asIE := make(s08.NeighbourInformationExtIEsIEContainer, len(fields))
 	for i := range fields {
 		asIE[i].Id = fields[i].Id
 		asIE[i].Criticality = fields[i].Criticality
@@ -10929,12 +10082,12 @@ func X2apInternalSecondaryRATUsageReportItemIEValuevalidateX2APIEContainer(field
 	}
 	return report
 }
-func X2apInternalSecurityIndicationExtIEsValuevalidateX2APExtensionContainer(fields s04.SecurityIndicationExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
+func X2apInternalSecurityIndicationExtIEsValuevalidateX2APExtensionContainer(fields s03.SecurityIndicationExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s04.SecurityIndicationExtIEsIEField](bb, uint64(len(fields))); err != nil {
+	if err := aper.ChargeSlice[s03.SecurityIndicationExtIEsIEField](bb, uint64(len(fields))); err != nil {
 		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
 	}
-	asIE := make(s04.SecurityIndicationExtIEsIEContainer, len(fields))
+	asIE := make(s03.SecurityIndicationExtIEsIEContainer, len(fields))
 	for i := range fields {
 		asIE[i].Id = fields[i].Id
 		asIE[i].Criticality = fields[i].Criticality
@@ -11487,12 +10640,12 @@ func X2apInternalUEContextInformationSeNBModReqExtIEsValuevalidateX2APExtensionC
 	}
 	return X2apInternalUEContextInformationSeNBModReqExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
 }
-func X2apInternalUEContextInformationSgNBModReqExtIEsValuevalidateX2APExtensionContainer(fields s09.UEContextInformationSgNBModReqExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
+func X2apInternalUEContextInformationSgNBModReqExtIEsValuevalidateX2APExtensionContainer(fields s08.UEContextInformationSgNBModReqExtIEsExtContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget) s12.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s09.UEContextInformationSgNBModReqExtIEsIEField](bb, uint64(len(fields))); err != nil {
+	if err := aper.ChargeSlice[s08.UEContextInformationSgNBModReqExtIEsIEField](bb, uint64(len(fields))); err != nil {
 		return s12.X2apInternalConstructT16ValidationReportF3errF6budget(err, budget)
 	}
-	asIE := make(s09.UEContextInformationSgNBModReqExtIEsIEContainer, len(fields))
+	asIE := make(s08.UEContextInformationSgNBModReqExtIEsIEContainer, len(fields))
 	for i := range fields {
 		asIE[i].Id = fields[i].Id
 		asIE[i].Criticality = fields[i].Criticality
@@ -11696,6 +10849,12 @@ func X2apInternalWidebandCQIExtIEsValuevalidateX2APExtensionContainer(fields s04
 	return X2apInternalWidebandCQIExtIEsValuevalidateX2APIEContainer(asIE, rows, path, budget)
 }
 
+// NRNeighbourInformationExtIEsExtContainer is ProtocolExtensionContainer {{NRNeighbour-Information-ExtIEs}} of TS 36.423 §9.3.8: a list of NRNeighbourInformationExtIEsExtField values.
+type NRNeighbourInformationExtIEsExtContainer []NRNeighbourInformationExtIEsExtField
+
+// ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{E-RABs-ToBeReleased-SgNBChaConf-ItemIEs}} of TS 36.423 §9.3.8: one information element field.
+type ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer = ERABsToBeReleasedSgNBChaConfItemIEField
+
 // ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtContainer is ProtocolExtensionContainer {{E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs}} of TS 36.423 §9.3.8: a list of ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtField values.
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtContainer []ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtField
 
@@ -11832,6 +10991,56 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValuecompa
 	*s = X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValueCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, v.replay, v.withoutReplay)
 }
+
+// eRABsToBeReleasedSgNBChaConfItemIEValueprotocolOpenValue is the concrete protocolOpenValue[ERABsToBeReleasedSgNBChaConfItemIEValue].
+type X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueprotocolOpenValue interface {
+	captureSemantics(aper.SemanticCapture) ERABsToBeReleasedSgNBChaConfItemIEValue
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (ERABsToBeReleasedSgNBChaConfItemIEValue, error)
+	encode() ([]byte, error)
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
+}
+
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuecaptureX2APProtocolIEField(v *ERABsToBeReleasedSgNBChaConfItemIEField, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s00.X2apInternalCaptureX2APProtocolIEID(&v.Id, s)
+	s00.X2apInternalCaptureX2APCriticality(&v.Criticality, s)
+	v.Value = X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueCaptureSemantics(v.Value, *s)
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuecompareX2APProtocolIEField(v *ERABsToBeReleasedSgNBChaConfItemIEField, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s00.X2apInternalCompareX2APProtocolIEID(&v.Id, s)
+	s00.X2apInternalCompareX2APCriticality(&v.Criticality, s)
+	*s = X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueCompareSemantics(v.Value, *s)
+	s.End(f, v.replay, v.withoutReplay)
+}
+
+// nRNeighbourInformationExtIEsValueprotocolOpenValue is the concrete protocolOpenValue[NRNeighbourInformationExtIEsValue].
+type X2apInternalNRNeighbourInformationExtIEsValueprotocolOpenValue interface {
+	captureSemantics(aper.SemanticCapture) NRNeighbourInformationExtIEsValue
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (NRNeighbourInformationExtIEsValue, error)
+	encode() ([]byte, error)
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
+}
+
 func X2apInternalX2APMessageTransferIEValuecaptureX2APProtocolIEField(v *X2APMessageTransferIEField, s *aper.SemanticCapture) {
 	f := s.Begin()
 	if s.Failed() {
@@ -11903,6 +11112,28 @@ func (v WLANMeasurementConfigurationAPERValue) WithoutReplay() WLANMeasurementCo
 	return v
 }
 
+// ERABsToBeReleasedSgNBChaConfItemAPERValue is the concrete APERValue[ERABsToBeReleasedSgNBChaConfItem].
+type ERABsToBeReleasedSgNBChaConfItemAPERValue struct {
+	context       s00.X2apInternalCodecContext
+	Value         ERABsToBeReleasedSgNBChaConfItem
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire representation, if present.
+func (v ERABsToBeReleasedSgNBChaConfItemAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that encodes without received replay state.
+func (v ERABsToBeReleasedSgNBChaConfItemAPERValue) WithoutReplay() ERABsToBeReleasedSgNBChaConfItemAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
 // UEContextReferenceAtWTAPERValue is the concrete APERValue[UEContextReferenceAtWT].
 type UEContextReferenceAtWTAPERValue struct {
 	context       s00.X2apInternalCodecContext
@@ -11919,6 +11150,28 @@ func (v UEContextReferenceAtWTAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that encodes without received replay state.
 func (v UEContextReferenceAtWTAPERValue) WithoutReplay() UEContextReferenceAtWTAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ERABsToBeReleasedSgNBChaConfListAPERValue is the concrete APERValue[ERABsToBeReleasedSgNBChaConfList].
+type ERABsToBeReleasedSgNBChaConfListAPERValue struct {
+	context       s00.X2apInternalCodecContext
+	Value         ERABsToBeReleasedSgNBChaConfList
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire representation, if present.
+func (v ERABsToBeReleasedSgNBChaConfListAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that encodes without received replay state.
+func (v ERABsToBeReleasedSgNBChaConfListAPERValue) WithoutReplay() ERABsToBeReleasedSgNBChaConfListAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -11963,6 +11216,50 @@ func (v X2BenefitValueAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that encodes without received replay state.
 func (v X2BenefitValueAPERValue) WithoutReplay() X2BenefitValueAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue is the concrete APERValue[ERABsToBeReleasedSgNBChaConfItemResourceConfiguration].
+type ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue struct {
+	context       s00.X2apInternalCodecContext
+	Value         ERABsToBeReleasedSgNBChaConfItemResourceConfiguration
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire representation, if present.
+func (v ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that encodes without received replay state.
+func (v ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue) WithoutReplay() ERABsToBeReleasedSgNBChaConfItemResourceConfigurationAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue is the concrete APERValue[ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent].
+type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue struct {
+	context       s00.X2apInternalCodecContext
+	Value         ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire representation, if present.
+func (v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that encodes without received replay state.
+func (v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue) WithoutReplay() ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -12082,699 +11379,6 @@ func (v WTUEXwAPIDAPERValue) WithoutReplay() WTUEXwAPIDAPERValue {
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalERABActivityNotifyItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABActivityNotifyItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABActivityNotifyItemExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABActivityNotifyItemExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABActivityNotifyItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABItemExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABItemExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABLevelQoSParametersExtIEsValuevalidateX2APIEContainer(fields s06.ERABLevelQoSParametersExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s06.X2apInternalERABLevelQoSParametersExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s06.X2apInternalERABLevelQoSParametersExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s06.X2apInternalERABLevelQoSParametersExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABUsageReportItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABUsageReportItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABUsageReportItemExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABUsageReportItemExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABUsageReportItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedItemExtIEsValuevalidateX2APIEContainer(fields s06.ERABsAdmittedItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s06.X2apInternalERABsAdmittedItemExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s06.X2apInternalERABsAdmittedItemExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s06.X2apInternalERABsAdmittedItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedItemSCGBearerExtIEsValuevalidateX2APIEContainer(fields s09.ERABsAdmittedToBeAddedItemSCGBearerExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsAdmittedToBeAddedItemSCGBearerExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsAdmittedToBeAddedItemSCGBearerExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsAdmittedToBeAddedItemSCGBearerExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedItemSplitBearerExtIEsValuevalidateX2APIEContainer(fields s09.ERABsAdmittedToBeAddedItemSplitBearerExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsAdmittedToBeAddedItemSplitBearerExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsAdmittedToBeAddedItemSplitBearerExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsAdmittedToBeAddedItemSplitBearerExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsValuevalidateX2APIEContainer(fields s09.ERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsValuevalidateX2APIEContainer(fields s09.ERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
 func X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABsToBeAddedSgNBAddReqAckItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
@@ -12806,545 +11410,6 @@ func X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsValuevalidateX2APIEContain
 		}
 		rank, allowed := byID[field.Id]
 		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(fields s06.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s06.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s06.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s06.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(fields s09.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABsAdmittedToBeAddedSgNBModAckItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(fields s06.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s06.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s06.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s06.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(fields s09.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsValuevalidateX2APIEContainer(fields s02.ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsValuevalidateX2APIEContainer(fields s02.ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -13468,776 +11533,6 @@ func X2apInternalERABsToBeAddedSgNBModAckItemExtIEsValuevalidateX2APIEContainer(
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(fields s09.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(fields s06.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s06.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s06.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s06.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABsAdmittedToBeModifiedSgNBModConfItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(fields s06.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s06.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s06.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s06.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(fields s02.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValuevalidateX2APIEContainer(fields s02.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuevalidateX2APIEContainer(fields s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APIEContainer(fields s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(fields s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
 func X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABsToBeReleasedSgNBModAckItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
@@ -14269,237 +11564,6 @@ func X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsValuevalidateX2APIEContain
 		}
 		rank, allowed := byID[field.Id]
 		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsDataForwardingAddressItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABsDataForwardingAddressItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsDataForwardingAddressItemExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsDataForwardingAddressItemExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsDataForwardingAddressItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsSubjectToCounterCheckItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABsSubjectToCounterCheckItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsSubjectToCounterCheckItemExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsSubjectToCounterCheckItemExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsSubjectToCounterCheckItemExtIEsValueRule(field.Value).Assignment)
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
-// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
-// not determine the order of known rows.
-func X2apInternalERABsSubjectToDLDiscardingItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABsSubjectToDLDiscardingItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s12.ValidationReport {
-	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s12.X2apInternalValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s12.X2apInternalValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s02.X2apInternalERABsSubjectToDLDiscardingItemExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s02.X2apInternalERABsSubjectToDLDiscardingItemExtIEsValueRule(field.Value)
-			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalERABsSubjectToDLDiscardingItemExtIEsValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -16977,6 +14041,83 @@ type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEContainer []ERABsToB
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValuevalidateX2APIEContainer(fields ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+
+) s12.ValidationReport {
+	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
+	bb := aper.NewBudgetBuffer(budget)
+	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
+		*s12.X2apInternalValidationReportFieldErr(&report) = err
+		return report
+	}
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
+	for i, row := range rows {
+		byID[row.ID] = i
+	}
+	lastRank := -1
+	for i, field := range fields {
+		if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
+			return report
+		}
+		if err := bb.ChargeWork(1); err != nil {
+			*s12.X2apInternalValidationReportFieldErr(&report) = err
+			return report
+		}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
+		if !X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValueMatchesID(field.Value, field.Id, budget) {
+			rule := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValueRule(field.Value)
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+		}
+		rank, allowed := byID[field.Id]
+		table := s00.X2apInternalConstructT7TableIDF6source(X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValueRule(field.Value).Assignment)
+		var sourceRules []aper.SourceRule
+		if allowed {
+			table = rows[rank].Table
+			sourceRules = append(sourceRules, rows[rank].Rule)
+		}
+		aper.IncrementCount(counts, field.Id)
+		if counts[field.Id] > 1 {
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
+		}
+		if !allowed {
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s05.X2apInternalKnownX2APIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
+			}
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.NotAllowed), RelatedRules: s00.X2apInternalX2apHandlingRules(s00.NotAllowed)})
+			continue
+		}
+		row := rows[rank]
+		if field.Criticality != row.Criticality {
+			expected, received := row.Criticality, field.Criticality
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s00.X2apInternalX2apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongCriticality), row.Rule}})
+		}
+		if rank < lastRank {
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.WrongOrder), row.Rule}})
+		} else {
+			lastRank = rank
+		}
+	}
+	for _, row := range rows {
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s00.X2apInternalX2apAdoptedRule(s00.MissingMandatory), row.Rule}})
+		}
+		if row.Presence == s00.PresenceConditional {
+			s12.X2apInternalValidationReportAddDeferred(&report, s06.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s12.X2apInternalValidationReportFieldErr(&report) != nil {
+				return report
+			}
+			report.Complete = false
+		}
+	}
+	return report
+}
+
+// TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
+// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
+// not determine the order of known rows.
 func X2apInternalERABsToBeReleasedSgNBModReqItemExtIEsValuevalidateX2APIEContainer(fields s02.ERABsToBeReleasedSgNBModReqItemExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
@@ -18286,7 +15427,7 @@ func X2apInternalExpectedUEBehaviourExtIEsValuevalidateX2APIEContainer(fields s0
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalExtendedULInterferenceOverloadInfoExtIEsValuevalidateX2APIEContainer(fields s03.ExtendedULInterferenceOverloadInfoExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalExtendedULInterferenceOverloadInfoExtIEsValuevalidateX2APIEContainer(fields s02.ExtendedULInterferenceOverloadInfoExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -18311,12 +15452,12 @@ func X2apInternalExtendedULInterferenceOverloadInfoExtIEsValuevalidateX2APIECont
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s03.X2apInternalExtendedULInterferenceOverloadInfoExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s03.X2apInternalExtendedULInterferenceOverloadInfoExtIEsValueRule(field.Value)
+		if !s02.X2apInternalExtendedULInterferenceOverloadInfoExtIEsValueMatchesID(field.Value, field.Id, budget) {
+			rule := s02.X2apInternalExtendedULInterferenceOverloadInfoExtIEsValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s03.X2apInternalExtendedULInterferenceOverloadInfoExtIEsValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s02.X2apInternalExtendedULInterferenceOverloadInfoExtIEsValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -21440,6 +18581,127 @@ func X2apInternalNRFreqInfoExtIEsValuevalidateX2APIEContainer(fields s07.NRFreqI
 	return report
 }
 
+// NRNeighbourInformationExtIEsIEField uses the ProtocolIE-Field shape for object set NRNeighbour-Information-ExtIEs of TS 36.423.
+type NRNeighbourInformationExtIEsIEField struct {
+	Id            s00.ProtocolIEID
+	Criticality   s00.Criticality
+	Value         NRNeighbourInformationExtIEsValue
+	replay        aper.Snapshot
+	stream        aper.WireSpan
+	withoutReplay bool
+}
+
+// WithoutReplay returns a copy that encodes without received replay state.
+func (v NRNeighbourInformationExtIEsIEField) WithoutReplay() NRNeighbourInformationExtIEsIEField {
+	v.withoutReplay = true
+	v.stream = aper.WireSpan{}
+	return v
+}
+
+// ReceivedForm returns the retained wire representation, if present.
+func (v *NRNeighbourInformationExtIEsIEField) ReceivedForm() aper.ReceivedForm {
+	if v == nil || v.withoutReplay {
+		return aper.ReceivedForm{}
+	}
+	location := v.stream.ContentLocation()
+	location.Path = "ProtocolIEField"
+	return aper.NewReceivedSpanForm(v.stream.Present(), v.stream, location, nil)
+}
+
+// MarshalAPERTo encodes the field into the enclosing APER buffer.
+func X2apInternalNRNeighbourInformationExtIEsIEFieldMarshalAPERTo(v *NRNeighbourInformationExtIEsIEField, bb *aper.BitBuffer, fresh ...bool) error {
+	if v != nil && v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.RestoreReplayPlan(previous)
+	}
+	if v !=
+		nil && bb.
+		ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err !=
+			nil {
+			return err
+		}
+	}
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolIEField")
+	}
+	// TS 36.423 V19.1.0 §9.3.8 binds the table-selected value to @id.
+	if !X2apInternalNRNeighbourInformationExtIEsValueMatchesID(v.Value, v.Id, bb.Budget()) {
+		return runtime.WrapDecodePath(fmt.Errorf("%w: field id %d does not match its value selector", aper.ErrInvalidValue, v.Id), "ProtocolIEField.Id")
+	}
+	data, err := X2apInternalNRNeighbourInformationExtIEsValueEncodeFresh(v.Value, len(fresh) != 0 && fresh[0],
+
+		bb.Budget())
+	if err != nil {
+		return err
+	}
+	if err := bb.ChargeWork(uint64(len(data))); err != nil {
+		return err
+	}
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), s00.X2apInternalInt64Ptr(0), s00.X2apInternalInt64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
+	}
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERFrom decodes the field from the enclosing APER buffer.
+func X2apInternalNRNeighbourInformationExtIEsIEFieldUnmarshalAPERFrom(v *NRNeighbourInformationExtIEsIEField, bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolIEField")
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = NRNeighbourInformationExtIEsIEField{}
+	id, err := aper.DecodeIntegerAligned(bb, s00.X2apInternalInt64Ptr(0), s00.X2apInternalInt64Ptr(65535), false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Id")
+	}
+	v.Id = s00.ProtocolIEID(id)
+	criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Criticality")
+	}
+	v.Criticality = s00.Criticality(criticality)
+	var zero NRNeighbourInformationExtIEsValue
+	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, X2apInternalNRNeighbourInformationExtIEsValueReason(zero, v.Id), X2apInternalNRNeighbourInformationExtIEsValueRule(zero))
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Value")
+	}
+	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
+	value, err := X2apInternalNRNeighbourInformationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Value")
+	}
+	v.Value = value
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// NRNeighbourInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set NRNeighbour-Information-ExtIEs of TS 36.423: a list of NRNeighbourInformationExtIEsIEField values.
+type NRNeighbourInformationExtIEsIEContainer []NRNeighbourInformationExtIEsIEField
+
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
@@ -21982,7 +19244,7 @@ func X2apInternalNRV2XServicesAuthorizedExtIEsValuevalidateX2APIEContainer(field
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalNeighbourInformationExtIEsValuevalidateX2APIEContainer(fields s09.NeighbourInformationExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalNeighbourInformationExtIEsValuevalidateX2APIEContainer(fields s08.NeighbourInformationExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -22007,12 +19269,12 @@ func X2apInternalNeighbourInformationExtIEsValuevalidateX2APIEContainer(fields s
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalNeighbourInformationExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalNeighbourInformationExtIEsValueRule(field.Value)
+		if !s08.X2apInternalNeighbourInformationExtIEsValueMatchesID(field.Value, field.Id, budget) {
+			rule := s08.X2apInternalNeighbourInformationExtIEsValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalNeighbourInformationExtIEsValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s08.X2apInternalNeighbourInformationExtIEsValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -24446,7 +21708,7 @@ func X2apInternalSecondaryRATUsageReportItemExtIEsValuevalidateX2APIEContainer(f
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalSecurityIndicationExtIEsValuevalidateX2APIEContainer(fields s04.SecurityIndicationExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalSecurityIndicationExtIEsValuevalidateX2APIEContainer(fields s03.SecurityIndicationExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -24471,12 +21733,12 @@ func X2apInternalSecurityIndicationExtIEsValuevalidateX2APIEContainer(fields s04
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s04.X2apInternalSecurityIndicationExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s04.X2apInternalSecurityIndicationExtIEsValueRule(field.Value)
+		if !s03.X2apInternalSecurityIndicationExtIEsValueMatchesID(field.Value, field.Id, budget) {
+			rule := s03.X2apInternalSecurityIndicationExtIEsValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s04.X2apInternalSecurityIndicationExtIEsValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s03.X2apInternalSecurityIndicationExtIEsValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -27295,7 +24557,7 @@ func X2apInternalUEContextInformationSeNBModReqExtIEsValuevalidateX2APIEContaine
 // TS 36.423 V19.1.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func X2apInternalUEContextInformationSgNBModReqExtIEsValuevalidateX2APIEContainer(fields s09.UEContextInformationSgNBModReqExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
+func X2apInternalUEContextInformationSgNBModReqExtIEsValuevalidateX2APIEContainer(fields s08.UEContextInformationSgNBModReqExtIEsIEContainer, rows []s06.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s12.ValidationReport {
 	report := s12.X2apInternalConstructT16ValidationReportF8CompleteF6budget(true, budget)
@@ -27320,12 +24582,12 @@ func X2apInternalUEContextInformationSgNBModReqExtIEsValuevalidateX2APIEContaine
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.423 V19.1.0 §9.3.8 binds the selected value to @id.
-		if !s09.X2apInternalUEContextInformationSgNBModReqExtIEsValueMatchesID(field.Value, field.Id, budget) {
-			rule := s09.X2apInternalUEContextInformationSgNBModReqExtIEsValueRule(field.Value)
+		if !s08.X2apInternalUEContextInformationSgNBModReqExtIEsValueMatchesID(field.Value, field.Id, budget) {
+			rule := s08.X2apInternalUEContextInformationSgNBModReqExtIEsValueRule(field.Value)
 			s12.X2apInternalValidationReportAddIssue(&report, s12.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: s00.X2apInternalConstructT7TableIDF6source(rule.Assignment), IEID: field.Id, HasIEID: true, Rule: s00.X2apInternalX2apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		table := s00.X2apInternalConstructT7TableIDF6source(s09.X2apInternalUEContextInformationSgNBModReqExtIEsValueRule(field.Value).Assignment)
+		table := s00.X2apInternalConstructT7TableIDF6source(s08.X2apInternalUEContextInformationSgNBModReqExtIEsValueRule(field.Value).Assignment)
 		var sourceRules []aper.SourceRule
 		if allowed {
 			table = rows[rank].Table
@@ -28583,6 +25845,26 @@ func X2apInternalCompareX2APAdditionalListofForwardingGTPTunnelEndpointComplete(
 	s11.X2apInternalCompareX2APAdditionalListofForwardingGTPTunnelEndpoint(&v.Value, s)
 	s.End(f, v.replay, v.withoutReplay)
 }
+func X2apInternalCaptureX2APAdditionalMeasurementTimingConfigurationListComplete(v *AdditionalMeasurementTimingConfigurationListComplete, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s06.X2apInternalCaptureX2APAdditionalMeasurementTimingConfigurationList(&v.Value, s)
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func X2apInternalCompareX2APAdditionalMeasurementTimingConfigurationListComplete(v *AdditionalMeasurementTimingConfigurationListComplete, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s06.X2apInternalCompareX2APAdditionalMeasurementTimingConfigurationList(&v.Value, s)
+	s.End(f, v.replay, v.withoutReplay)
+}
 func X2apInternalCaptureX2APCellActivationResponseIEValue(v *CellActivationResponseIEValue, s *aper.SemanticCapture) {
 	f := s.Begin()
 	if s.Failed() {
@@ -28783,6 +26065,232 @@ func X2apInternalENDCCellActivationResponseIEValueCompareSemantics(v ENDCCellAct
 	X2apInternalCompareX2APENDCCellActivationResponseIEValue(&v, &s)
 	return s
 }
+func X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItem(v *ERABsToBeReleasedSgNBChaConfItem, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s00.X2apInternalCaptureX2APERABID(&v.ERABID, s)
+	s04.X2apInternalCaptureX2APENDCResourceConfiguration(&v.EnDCResourceConfiguration, s)
+	X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemResourceConfiguration(&v.ResourceConfiguration, s)
+	s.Bool(v.IEExtensions == nil)
+	s05.X2apInternalERABsToBeReleasedSgNBChaConfItemExtIEsValuecaptureX2APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire)
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItem(v *ERABsToBeReleasedSgNBChaConfItem, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s00.X2apInternalCompareX2APERABID(&v.ERABID, s)
+	s04.X2apInternalCompareX2APENDCResourceConfiguration(&v.EnDCResourceConfiguration, s)
+	X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemResourceConfiguration(&v.ResourceConfiguration, s)
+	s.Bool(v.IEExtensions == nil)
+	s05.X2apInternalERABsToBeReleasedSgNBChaConfItemExtIEsValuecompareX2APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire)
+	s.End(f, v.replay, v.withoutReplay)
+}
+func X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemIEValue(v *ERABsToBeReleasedSgNBChaConfItemIEValue, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	if !v.isOpaque {
+		s.Open(v.received)
+	}
+	s00.X2apInternalCaptureX2APProtocolIEID(&v.id, s)
+	if v.isOpaque {
+		s.Opaque(v.opaque)
+	}
+	s.Bool(v.isOpaque)
+	if !(v.isOpaque) {
+		switch v.id {
+		case s00.ProtocolIEID(230):
+			{
+				f := s.Begin()
+				s.Bool(v.rowERABsToBeReleasedSgNBChaConfItem == nil)
+				if v.rowERABsToBeReleasedSgNBChaConfItem != nil {
+					X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItem(v.rowERABsToBeReleasedSgNBChaConfItem, s)
+				}
+				s.End(f, nil, false)
+			}
+		}
+	}
+	s.End(f, &v.replay, false)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueCaptureSemantics(v ERABsToBeReleasedSgNBChaConfItemIEValue, s aper.SemanticCapture) ERABsToBeReleasedSgNBChaConfItemIEValue {
+	X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemIEValue(&v, &s)
+	return v
+}
+func X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemIEValue(v *ERABsToBeReleasedSgNBChaConfItemIEValue, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	if !v.isOpaque {
+		s.Open(v.received)
+	}
+	s00.X2apInternalCompareX2APProtocolIEID(&v.id, s)
+	if v.isOpaque {
+		s.Opaque(v.opaque)
+	}
+	s.Bool(v.isOpaque)
+	if !(v.isOpaque) {
+		switch v.id {
+		case s00.ProtocolIEID(230):
+			{
+				f := s.Begin()
+				s.Bool(v.rowERABsToBeReleasedSgNBChaConfItem == nil)
+				if v.rowERABsToBeReleasedSgNBChaConfItem != nil {
+					X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItem(v.rowERABsToBeReleasedSgNBChaConfItem, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		}
+	}
+	s.End(f, v.replay, false)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueCompareSemantics(v ERABsToBeReleasedSgNBChaConfItemIEValue, s aper.SemanticComparison) aper.SemanticComparison {
+	X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemIEValue(&v, &s)
+	return s
+}
+func X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemResourceConfiguration(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s.Int(int64(v.Choice))
+	{
+		f := s.Begin()
+		s.Bool(v.UnknownExtension == nil)
+		if v.UnknownExtension != nil {
+			s.ChoiceExtension(v.UnknownExtension)
+		}
+		s.End(f, nil, false)
+	}
+	switch v.Choice {
+	case s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPpresent:
+		{
+			f := s.Begin()
+			s.Bool(v.SgNBPDCPpresent == nil)
+			if v.SgNBPDCPpresent != nil {
+				X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(v.SgNBPDCPpresent, s)
+			}
+			s.End(f, nil, false)
+		}
+	case s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		{
+			f := s.Begin()
+			s.Bool(v.SgNBPDCPnotpresent == nil)
+			if v.SgNBPDCPnotpresent != nil {
+				s05.X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent(v.SgNBPDCPnotpresent, s)
+			}
+			s.End(f, nil, false)
+		}
+	}
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemResourceConfiguration(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	s.Int(int64(v.Choice))
+	{
+		f := s.Begin()
+		s.Bool(v.UnknownExtension == nil)
+		if v.UnknownExtension != nil {
+			s.ChoiceExtension(v.UnknownExtension)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	switch v.Choice {
+	case s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPpresent:
+		{
+			f := s.Begin()
+			s.Bool(v.SgNBPDCPpresent == nil)
+			if v.SgNBPDCPpresent != nil {
+				X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(v.SgNBPDCPpresent, s)
+			}
+			s.End(f, aper.Snapshot{}, false)
+		}
+	case s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		{
+			f := s.Begin()
+			s.Bool(v.SgNBPDCPnotpresent == nil)
+			if v.SgNBPDCPnotpresent != nil {
+				s05.X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent(v.SgNBPDCPnotpresent, s)
+			}
+			s.End(f, aper.Snapshot{}, false)
+		}
+	}
+	s.End(f, v.replay, v.withoutReplay)
+}
+func X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	{
+		f := s.Begin()
+		s.Bool(v.ULGTPtunnelEndpoint == nil)
+		if v.ULGTPtunnelEndpoint != nil {
+			s09.X2apInternalCaptureX2APGTPtunnelEndpoint(v.ULGTPtunnelEndpoint, s)
+		}
+		s.End(f, nil, false)
+	}
+	{
+		f := s.Begin()
+		s.Bool(v.DLGTPtunnelEndpoint == nil)
+		if v.DLGTPtunnelEndpoint != nil {
+			s09.X2apInternalCaptureX2APGTPtunnelEndpoint(v.DLGTPtunnelEndpoint, s)
+		}
+		s.End(f, nil, false)
+	}
+	s.Bool(v.IEExtensions == nil)
+	X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValuecaptureX2APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire)
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	{
+		f := s.Begin()
+		s.Bool(v.ULGTPtunnelEndpoint == nil)
+		if v.ULGTPtunnelEndpoint != nil {
+			s09.X2apInternalCompareX2APGTPtunnelEndpoint(v.ULGTPtunnelEndpoint, s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	{
+		f := s.Begin()
+		s.Bool(v.DLGTPtunnelEndpoint == nil)
+		if v.DLGTPtunnelEndpoint != nil {
+			s09.X2apInternalCompareX2APGTPtunnelEndpoint(v.DLGTPtunnelEndpoint, s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.Bool(v.IEExtensions == nil)
+	X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValuecompareX2APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire)
+	s.End(f, v.replay, v.withoutReplay)
+}
 func X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue, s *aper.SemanticCapture) {
 	f := s.Begin()
 	if s.Failed() {
@@ -28847,6 +26355,166 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValueCompa
 	X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue(&v, &s)
 	return s
 }
+func X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfList(v *ERABsToBeReleasedSgNBChaConfList, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	{
+		f := s.Begin()
+		s.Uint(uint64(len((*v))))
+		s.Elements(uint64(len((*v))))
+		for i := range *v {
+			if s.Failed() {
+				break
+			}
+			X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuecaptureX2APProtocolIESingleContainer(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+	s.End(f, nil, false)
+}
+func X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfList(v *ERABsToBeReleasedSgNBChaConfList, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	s.EnterValue()
+	defer s.LeaveValue()
+	{
+		f := s.Begin()
+		s.Uint(uint64(len((*v))))
+		s.Elements(uint64(len((*v))))
+		for i := range *v {
+			if s.Failed() {
+				break
+			}
+			X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuecompareX2APProtocolIESingleContainer(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.End(f, aper.Snapshot{}, false)
+}
+func X2apInternalCaptureX2APNRNeighbourInformationExtIEsValue(v *NRNeighbourInformationExtIEsValue, s *aper.SemanticCapture) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	if !v.isOpaque {
+		s.Open(v.received)
+	}
+	s00.X2apInternalCaptureX2APProtocolIEID(&v.id, s)
+	if v.isOpaque {
+		s.Opaque(v.opaque)
+	}
+	s.Bool(v.isOpaque)
+	if !(v.isOpaque) {
+		switch v.id {
+		case s00.ProtocolIEID(380):
+			{
+				f := s.Begin()
+				s.Bool(v.rowCSIRSTransmissionIndication == nil)
+				if v.rowCSIRSTransmissionIndication != nil {
+					s00.X2apInternalCaptureX2APCSIRSTransmissionIndication(v.rowCSIRSTransmissionIndication, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(389):
+			{
+				f := s.Begin()
+				s.Bool(v.rowSSBPositionsInBurst == nil)
+				if v.rowSSBPositionsInBurst != nil {
+					s05.X2apInternalCaptureX2APSSBPositionsInBurst(v.rowSSBPositionsInBurst, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(390):
+			{
+				f := s.Begin()
+				s.Bool(v.rowNRCellPRACHConfig == nil)
+				if v.rowNRCellPRACHConfig != nil {
+					s00.X2apInternalCaptureX2APNRCellPRACHConfig(v.rowNRCellPRACHConfig, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(433):
+			{
+				f := s.Begin()
+				s.Bool(v.rowAdditionalMeasurementTimingConfigurationList == nil)
+				if v.rowAdditionalMeasurementTimingConfigurationList != nil {
+					s06.X2apInternalCaptureX2APAdditionalMeasurementTimingConfigurationList(v.rowAdditionalMeasurementTimingConfigurationList, s)
+				}
+				s.End(f, nil, false)
+			}
+		}
+	}
+	s.End(f, &v.replay, false)
+}
+func X2apInternalNRNeighbourInformationExtIEsValueCaptureSemantics(v NRNeighbourInformationExtIEsValue, s aper.SemanticCapture) NRNeighbourInformationExtIEsValue {
+	X2apInternalCaptureX2APNRNeighbourInformationExtIEsValue(&v, &s)
+	return v
+}
+func X2apInternalCompareX2APNRNeighbourInformationExtIEsValue(v *NRNeighbourInformationExtIEsValue, s *aper.SemanticComparison) {
+	f := s.Begin()
+	if s.Failed() {
+		return
+	}
+	if !v.isOpaque {
+		s.Open(v.received)
+	}
+	s00.X2apInternalCompareX2APProtocolIEID(&v.id, s)
+	if v.isOpaque {
+		s.Opaque(v.opaque)
+	}
+	s.Bool(v.isOpaque)
+	if !(v.isOpaque) {
+		switch v.id {
+		case s00.ProtocolIEID(380):
+			{
+				f := s.Begin()
+				s.Bool(v.rowCSIRSTransmissionIndication == nil)
+				if v.rowCSIRSTransmissionIndication != nil {
+					s00.X2apInternalCompareX2APCSIRSTransmissionIndication(v.rowCSIRSTransmissionIndication, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(389):
+			{
+				f := s.Begin()
+				s.Bool(v.rowSSBPositionsInBurst == nil)
+				if v.rowSSBPositionsInBurst != nil {
+					s05.X2apInternalCompareX2APSSBPositionsInBurst(v.rowSSBPositionsInBurst, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(390):
+			{
+				f := s.Begin()
+				s.Bool(v.rowNRCellPRACHConfig == nil)
+				if v.rowNRCellPRACHConfig != nil {
+					s00.X2apInternalCompareX2APNRCellPRACHConfig(v.rowNRCellPRACHConfig, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(433):
+			{
+				f := s.Begin()
+				s.Bool(v.rowAdditionalMeasurementTimingConfigurationList == nil)
+				if v.rowAdditionalMeasurementTimingConfigurationList != nil {
+					s06.X2apInternalCompareX2APAdditionalMeasurementTimingConfigurationList(v.rowAdditionalMeasurementTimingConfigurationList, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		}
+	}
+	s.End(f, v.replay, false)
+}
+func X2apInternalNRNeighbourInformationExtIEsValueCompareSemantics(v NRNeighbourInformationExtIEsValue, s aper.SemanticComparison) aper.SemanticComparison {
+	X2apInternalCompareX2APNRNeighbourInformationExtIEsValue(&v, &s)
+	return s
+}
 func X2apInternalCaptureX2APUEContextReferenceAtWT(v *UEContextReferenceAtWT, s *aper.SemanticCapture) {
 	f := s.Begin()
 	if s.Failed() {
@@ -28857,7 +26525,7 @@ func X2apInternalCaptureX2APUEContextReferenceAtWT(v *UEContextReferenceAtWT, s 
 	X2apInternalCaptureX2APWTID(&v.WTID, s)
 	X2apInternalCaptureX2APWTUEXwAPID(&v.WTUEXwAPID, s)
 	s.Bool(v.IEExtensions == nil)
-	s06.X2apInternalUEContextReferenceAtWTItemExtIEsValuecaptureX2APProtocolExtensionContainer(&v.IEExtensions, s)
+	s05.X2apInternalUEContextReferenceAtWTItemExtIEsValuecaptureX2APProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, &v.replay, v.withoutReplay)
 }
@@ -28871,7 +26539,7 @@ func X2apInternalCompareX2APUEContextReferenceAtWT(v *UEContextReferenceAtWT, s 
 	X2apInternalCompareX2APWTID(&v.WTID, s)
 	X2apInternalCompareX2APWTUEXwAPID(&v.WTUEXwAPID, s)
 	s.Bool(v.IEExtensions == nil)
-	s06.X2apInternalUEContextReferenceAtWTItemExtIEsValuecompareX2APProtocolExtensionContainer(&v.IEExtensions, s)
+	s05.X2apInternalUEContextReferenceAtWTItemExtIEsValuecompareX2APProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, v.replay, v.withoutReplay)
 }
@@ -29318,6 +26986,1136 @@ func X2apInternalCompareX2APX2RemovalRequestIEValue(v *X2RemovalRequestIEValue, 
 func X2apInternalX2RemovalRequestIEValueCompareSemantics(v X2RemovalRequestIEValue, s aper.SemanticComparison) aper.SemanticComparison {
 	X2apInternalCompareX2APX2RemovalRequestIEValue(&v, &s)
 	return s
+}
+
+type NRNeighbourInformationExtIEsValue struct {
+	id                                              s00.ProtocolIEID
+	received                                        aper.WireSpan
+	replay                                          aper.Snapshot
+	opaque                                          aper.OpaqueOpenType
+	isOpaque                                        bool
+	rowCSIRSTransmissionIndication                  *s00.CSIRSTransmissionIndication
+	rowSSBPositionsInBurst                          *s05.SSBPositionsInBurst
+	rowNRCellPRACHConfig                            *s00.NRCellPRACHConfig
+	rowAdditionalMeasurementTimingConfigurationList *s06.AdditionalMeasurementTimingConfigurationList
+}
+
+func X2apInternalNRNeighbourInformationExtIEsValueMatchesID(v NRNeighbourInformationExtIEsValue, id s00.ProtocolIEID, _ *aper.DecodeBudget) bool {
+	if v.id != id {
+		return false
+	}
+	if v.isOpaque {
+		return true
+	}
+	switch id {
+	case s00.ProtocolIEID(380):
+		return v.rowCSIRSTransmissionIndication != nil
+	case s00.ProtocolIEID(389):
+		return v.rowSSBPositionsInBurst != nil
+	case s00.ProtocolIEID(390):
+		return v.rowNRCellPRACHConfig != nil
+	case s00.ProtocolIEID(433):
+		return v.rowAdditionalMeasurementTimingConfigurationList != nil
+	default:
+		return false
+	}
+}
+
+// Opaque returns the retained opaque open value of NRNeighbourInformationExtIEsValue and reports whether the opaque alternative is selected.
+func (v *NRNeighbourInformationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
+	if v == nil || !v.isOpaque {
+		return aper.OpaqueOpenType{}, false
+	}
+	return v.opaque, true
+}
+func X2apInternalNRNeighbourInformationExtIEsValueRule(internalReceiver NRNeighbourInformationExtIEsValue) aper.SourceRule {
+	return aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.5", Assignment: aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "NRNeighbour-Information-ExtIEs"}}
+}
+func X2apInternalNRNeighbourInformationExtIEsValueReason(internalReceiver NRNeighbourInformationExtIEsValue, id s00.ProtocolIEID) aper.OpaqueReason {
+	switch id {
+	case s00.ProtocolIEID(380):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(389):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(390):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(433):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(0):
+		return aper.NotInTable
+	case s00.ProtocolIEID(1):
+		return aper.NotInTable
+	case s00.ProtocolIEID(2):
+		return aper.NotInTable
+	case s00.ProtocolIEID(3):
+		return aper.NotInTable
+	case s00.ProtocolIEID(4):
+		return aper.NotInTable
+	case s00.ProtocolIEID(5):
+		return aper.NotInTable
+	case s00.ProtocolIEID(6):
+		return aper.NotInTable
+	case s00.ProtocolIEID(7):
+		return aper.NotInTable
+	case s00.ProtocolIEID(9):
+		return aper.NotInTable
+	case s00.ProtocolIEID(10):
+		return aper.NotInTable
+	case s00.ProtocolIEID(11):
+		return aper.NotInTable
+	case s00.ProtocolIEID(12):
+		return aper.NotInTable
+	case s00.ProtocolIEID(13):
+		return aper.NotInTable
+	case s00.ProtocolIEID(14):
+		return aper.NotInTable
+	case s00.ProtocolIEID(15):
+		return aper.NotInTable
+	case s00.ProtocolIEID(17):
+		return aper.NotInTable
+	case s00.ProtocolIEID(18):
+		return aper.NotInTable
+	case s00.ProtocolIEID(19):
+		return aper.NotInTable
+	case s00.ProtocolIEID(20):
+		return aper.NotInTable
+	case s00.ProtocolIEID(21):
+		return aper.NotInTable
+	case s00.ProtocolIEID(22):
+		return aper.NotInTable
+	case s00.ProtocolIEID(23):
+		return aper.NotInTable
+	case s00.ProtocolIEID(24):
+		return aper.NotInTable
+	case s00.ProtocolIEID(25):
+		return aper.NotInTable
+	case s00.ProtocolIEID(26):
+		return aper.NotInTable
+	case s00.ProtocolIEID(27):
+		return aper.NotInTable
+	case s00.ProtocolIEID(28):
+		return aper.NotInTable
+	case s00.ProtocolIEID(29):
+		return aper.NotInTable
+	case s00.ProtocolIEID(30):
+		return aper.NotInTable
+	case s00.ProtocolIEID(31):
+		return aper.NotInTable
+	case s00.ProtocolIEID(32):
+		return aper.NotInTable
+	case s00.ProtocolIEID(33):
+		return aper.NotInTable
+	case s00.ProtocolIEID(34):
+		return aper.NotInTable
+	case s00.ProtocolIEID(35):
+		return aper.NotInTable
+	case s00.ProtocolIEID(36):
+		return aper.NotInTable
+	case s00.ProtocolIEID(38):
+		return aper.NotInTable
+	case s00.ProtocolIEID(39):
+		return aper.NotInTable
+	case s00.ProtocolIEID(40):
+		return aper.NotInTable
+	case s00.ProtocolIEID(41):
+		return aper.NotInTable
+	case s00.ProtocolIEID(42):
+		return aper.NotInTable
+	case s00.ProtocolIEID(43):
+		return aper.NotInTable
+	case s00.ProtocolIEID(44):
+		return aper.NotInTable
+	case s00.ProtocolIEID(45):
+		return aper.NotInTable
+	case s00.ProtocolIEID(46):
+		return aper.NotInTable
+	case s00.ProtocolIEID(47):
+		return aper.NotInTable
+	case s00.ProtocolIEID(48):
+		return aper.NotInTable
+	case s00.ProtocolIEID(49):
+		return aper.NotInTable
+	case s00.ProtocolIEID(50):
+		return aper.NotInTable
+	case s00.ProtocolIEID(51):
+		return aper.NotInTable
+	case s00.ProtocolIEID(52):
+		return aper.NotInTable
+	case s00.ProtocolIEID(53):
+		return aper.NotInTable
+	case s00.ProtocolIEID(54):
+		return aper.NotInTable
+	case s00.ProtocolIEID(55):
+		return aper.NotInTable
+	case s00.ProtocolIEID(56):
+		return aper.NotInTable
+	case s00.ProtocolIEID(57):
+		return aper.NotInTable
+	case s00.ProtocolIEID(58):
+		return aper.NotInTable
+	case s00.ProtocolIEID(59):
+		return aper.NotInTable
+	case s00.ProtocolIEID(60):
+		return aper.NotInTable
+	case s00.ProtocolIEID(61):
+		return aper.NotInTable
+	case s00.ProtocolIEID(62):
+		return aper.NotInTable
+	case s00.ProtocolIEID(63):
+		return aper.NotInTable
+	case s00.ProtocolIEID(64):
+		return aper.NotInTable
+	case s00.ProtocolIEID(65):
+		return aper.NotInTable
+	case s00.ProtocolIEID(66):
+		return aper.NotInTable
+	case s00.ProtocolIEID(67):
+		return aper.NotInTable
+	case s00.ProtocolIEID(68):
+		return aper.NotInTable
+	case s00.ProtocolIEID(69):
+		return aper.NotInTable
+	case s00.ProtocolIEID(70):
+		return aper.NotInTable
+	case s00.ProtocolIEID(71):
+		return aper.NotInTable
+	case s00.ProtocolIEID(72):
+		return aper.NotInTable
+	case s00.ProtocolIEID(74):
+		return aper.NotInTable
+	case s00.ProtocolIEID(75):
+		return aper.NotInTable
+	case s00.ProtocolIEID(76):
+		return aper.NotInTable
+	case s00.ProtocolIEID(77):
+		return aper.NotInTable
+	case s00.ProtocolIEID(78):
+		return aper.NotInTable
+	case s00.ProtocolIEID(79):
+		return aper.NotInTable
+	case s00.ProtocolIEID(80):
+		return aper.NotInTable
+	case s00.ProtocolIEID(81):
+		return aper.NotInTable
+	case s00.ProtocolIEID(82):
+		return aper.NotInTable
+	case s00.ProtocolIEID(83):
+		return aper.NotInTable
+	case s00.ProtocolIEID(84):
+		return aper.NotInTable
+	case s00.ProtocolIEID(85):
+		return aper.NotInTable
+	case s00.ProtocolIEID(86):
+		return aper.NotInTable
+	case s00.ProtocolIEID(87):
+		return aper.NotInTable
+	case s00.ProtocolIEID(88):
+		return aper.NotInTable
+	case s00.ProtocolIEID(89):
+		return aper.NotInTable
+	case s00.ProtocolIEID(90):
+		return aper.NotInTable
+	case s00.ProtocolIEID(91):
+		return aper.NotInTable
+	case s00.ProtocolIEID(92):
+		return aper.NotInTable
+	case s00.ProtocolIEID(93):
+		return aper.NotInTable
+	case s00.ProtocolIEID(94):
+		return aper.NotInTable
+	case s00.ProtocolIEID(95):
+		return aper.NotInTable
+	case s00.ProtocolIEID(96):
+		return aper.NotInTable
+	case s00.ProtocolIEID(97):
+		return aper.NotInTable
+	case s00.ProtocolIEID(98):
+		return aper.NotInTable
+	case s00.ProtocolIEID(99):
+		return aper.NotInTable
+	case s00.ProtocolIEID(100):
+		return aper.NotInTable
+	case s00.ProtocolIEID(101):
+		return aper.NotInTable
+	case s00.ProtocolIEID(102):
+		return aper.NotInTable
+	case s00.ProtocolIEID(103):
+		return aper.NotInTable
+	case s00.ProtocolIEID(104):
+		return aper.NotInTable
+	case s00.ProtocolIEID(105):
+		return aper.NotInTable
+	case s00.ProtocolIEID(106):
+		return aper.NotInTable
+	case s00.ProtocolIEID(107):
+		return aper.NotInTable
+	case s00.ProtocolIEID(108):
+		return aper.NotInTable
+	case s00.ProtocolIEID(109):
+		return aper.NotInTable
+	case s00.ProtocolIEID(110):
+		return aper.NotInTable
+	case s00.ProtocolIEID(111):
+		return aper.NotInTable
+	case s00.ProtocolIEID(112):
+		return aper.NotInTable
+	case s00.ProtocolIEID(113):
+		return aper.NotInTable
+	case s00.ProtocolIEID(114):
+		return aper.NotInTable
+	case s00.ProtocolIEID(115):
+		return aper.NotInTable
+	case s00.ProtocolIEID(116):
+		return aper.NotInTable
+	case s00.ProtocolIEID(117):
+		return aper.NotInTable
+	case s00.ProtocolIEID(118):
+		return aper.NotInTable
+	case s00.ProtocolIEID(119):
+		return aper.NotInTable
+	case s00.ProtocolIEID(120):
+		return aper.NotInTable
+	case s00.ProtocolIEID(121):
+		return aper.NotInTable
+	case s00.ProtocolIEID(122):
+		return aper.NotInTable
+	case s00.ProtocolIEID(123):
+		return aper.NotInTable
+	case s00.ProtocolIEID(124):
+		return aper.NotInTable
+	case s00.ProtocolIEID(125):
+		return aper.NotInTable
+	case s00.ProtocolIEID(126):
+		return aper.NotInTable
+	case s00.ProtocolIEID(127):
+		return aper.NotInTable
+	case s00.ProtocolIEID(128):
+		return aper.NotInTable
+	case s00.ProtocolIEID(129):
+		return aper.NotInTable
+	case s00.ProtocolIEID(130):
+		return aper.NotInTable
+	case s00.ProtocolIEID(131):
+		return aper.NotInTable
+	case s00.ProtocolIEID(132):
+		return aper.NotInTable
+	case s00.ProtocolIEID(133):
+		return aper.NotInTable
+	case s00.ProtocolIEID(134):
+		return aper.NotInTable
+	case s00.ProtocolIEID(135):
+		return aper.NotInTable
+	case s00.ProtocolIEID(136):
+		return aper.NotInTable
+	case s00.ProtocolIEID(137):
+		return aper.NotInTable
+	case s00.ProtocolIEID(138):
+		return aper.NotInTable
+	case s00.ProtocolIEID(139):
+		return aper.NotInTable
+	case s00.ProtocolIEID(140):
+		return aper.NotInTable
+	case s00.ProtocolIEID(141):
+		return aper.NotInTable
+	case s00.ProtocolIEID(142):
+		return aper.NotInTable
+	case s00.ProtocolIEID(143):
+		return aper.NotInTable
+	case s00.ProtocolIEID(145):
+		return aper.NotInTable
+	case s00.ProtocolIEID(146):
+		return aper.NotInTable
+	case s00.ProtocolIEID(147):
+		return aper.NotInTable
+	case s00.ProtocolIEID(148):
+		return aper.NotInTable
+	case s00.ProtocolIEID(149):
+		return aper.NotInTable
+	case s00.ProtocolIEID(150):
+		return aper.NotInTable
+	case s00.ProtocolIEID(151):
+		return aper.NotInTable
+	case s00.ProtocolIEID(152):
+		return aper.NotInTable
+	case s00.ProtocolIEID(153):
+		return aper.NotInTable
+	case s00.ProtocolIEID(154):
+		return aper.NotInTable
+	case s00.ProtocolIEID(155):
+		return aper.NotInTable
+	case s00.ProtocolIEID(156):
+		return aper.NotInTable
+	case s00.ProtocolIEID(157):
+		return aper.NotInTable
+	case s00.ProtocolIEID(158):
+		return aper.NotInTable
+	case s00.ProtocolIEID(159):
+		return aper.NotInTable
+	case s00.ProtocolIEID(160):
+		return aper.NotInTable
+	case s00.ProtocolIEID(161):
+		return aper.NotInTable
+	case s00.ProtocolIEID(162):
+		return aper.NotInTable
+	case s00.ProtocolIEID(163):
+		return aper.NotInTable
+	case s00.ProtocolIEID(164):
+		return aper.NotInTable
+	case s00.ProtocolIEID(165):
+		return aper.NotInTable
+	case s00.ProtocolIEID(166):
+		return aper.NotInTable
+	case s00.ProtocolIEID(167):
+		return aper.NotInTable
+	case s00.ProtocolIEID(168):
+		return aper.NotInTable
+	case s00.ProtocolIEID(169):
+		return aper.NotInTable
+	case s00.ProtocolIEID(170):
+		return aper.NotInTable
+	case s00.ProtocolIEID(171):
+		return aper.NotInTable
+	case s00.ProtocolIEID(172):
+		return aper.NotInTable
+	case s00.ProtocolIEID(173):
+		return aper.NotInTable
+	case s00.ProtocolIEID(174):
+		return aper.NotInTable
+	case s00.ProtocolIEID(175):
+		return aper.NotInTable
+	case s00.ProtocolIEID(176):
+		return aper.NotInTable
+	case s00.ProtocolIEID(177):
+		return aper.NotInTable
+	case s00.ProtocolIEID(178):
+		return aper.NotInTable
+	case s00.ProtocolIEID(179):
+		return aper.NotInTable
+	case s00.ProtocolIEID(180):
+		return aper.NotInTable
+	case s00.ProtocolIEID(181):
+		return aper.NotInTable
+	case s00.ProtocolIEID(182):
+		return aper.NotInTable
+	case s00.ProtocolIEID(183):
+		return aper.NotInTable
+	case s00.ProtocolIEID(184):
+		return aper.NotInTable
+	case s00.ProtocolIEID(185):
+		return aper.NotInTable
+	case s00.ProtocolIEID(193):
+		return aper.NotInTable
+	case s00.ProtocolIEID(194):
+		return aper.NotInTable
+	case s00.ProtocolIEID(195):
+		return aper.NotInTable
+	case s00.ProtocolIEID(196):
+		return aper.NotInTable
+	case s00.ProtocolIEID(197):
+		return aper.NotInTable
+	case s00.ProtocolIEID(198):
+		return aper.NotInTable
+	case s00.ProtocolIEID(199):
+		return aper.NotInTable
+	case s00.ProtocolIEID(200):
+		return aper.NotInTable
+	case s00.ProtocolIEID(201):
+		return aper.NotInTable
+	case s00.ProtocolIEID(202):
+		return aper.NotInTable
+	case s00.ProtocolIEID(203):
+		return aper.NotInTable
+	case s00.ProtocolIEID(204):
+		return aper.NotInTable
+	case s00.ProtocolIEID(205):
+		return aper.NotInTable
+	case s00.ProtocolIEID(206):
+		return aper.NotInTable
+	case s00.ProtocolIEID(207):
+		return aper.NotInTable
+	case s00.ProtocolIEID(208):
+		return aper.NotInTable
+	case s00.ProtocolIEID(209):
+		return aper.NotInTable
+	case s00.ProtocolIEID(210):
+		return aper.NotInTable
+	case s00.ProtocolIEID(211):
+		return aper.NotInTable
+	case s00.ProtocolIEID(212):
+		return aper.NotInTable
+	case s00.ProtocolIEID(213):
+		return aper.NotInTable
+	case s00.ProtocolIEID(214):
+		return aper.NotInTable
+	case s00.ProtocolIEID(215):
+		return aper.NotInTable
+	case s00.ProtocolIEID(216):
+		return aper.NotInTable
+	case s00.ProtocolIEID(217):
+		return aper.NotInTable
+	case s00.ProtocolIEID(218):
+		return aper.NotInTable
+	case s00.ProtocolIEID(219):
+		return aper.NotInTable
+	case s00.ProtocolIEID(220):
+		return aper.NotInTable
+	case s00.ProtocolIEID(221):
+		return aper.NotInTable
+	case s00.ProtocolIEID(222):
+		return aper.NotInTable
+	case s00.ProtocolIEID(223):
+		return aper.NotInTable
+	case s00.ProtocolIEID(224):
+		return aper.NotInTable
+	case s00.ProtocolIEID(225):
+		return aper.NotInTable
+	case s00.ProtocolIEID(226):
+		return aper.NotInTable
+	case s00.ProtocolIEID(227):
+		return aper.NotInTable
+	case s00.ProtocolIEID(228):
+		return aper.NotInTable
+	case s00.ProtocolIEID(229):
+		return aper.NotInTable
+	case s00.ProtocolIEID(230):
+		return aper.NotInTable
+	case s00.ProtocolIEID(231):
+		return aper.NotInTable
+	case s00.ProtocolIEID(232):
+		return aper.NotInTable
+	case s00.ProtocolIEID(233):
+		return aper.NotInTable
+	case s00.ProtocolIEID(234):
+		return aper.NotInTable
+	case s00.ProtocolIEID(235):
+		return aper.NotInTable
+	case s00.ProtocolIEID(236):
+		return aper.NotInTable
+	case s00.ProtocolIEID(239):
+		return aper.NotInTable
+	case s00.ProtocolIEID(240):
+		return aper.NotInTable
+	case s00.ProtocolIEID(241):
+		return aper.NotInTable
+	case s00.ProtocolIEID(242):
+		return aper.NotInTable
+	case s00.ProtocolIEID(243):
+		return aper.NotInTable
+	case s00.ProtocolIEID(244):
+		return aper.NotInTable
+	case s00.ProtocolIEID(245):
+		return aper.NotInTable
+	case s00.ProtocolIEID(246):
+		return aper.NotInTable
+	case s00.ProtocolIEID(247):
+		return aper.NotInTable
+	case s00.ProtocolIEID(248):
+		return aper.NotInTable
+	case s00.ProtocolIEID(249):
+		return aper.NotInTable
+	case s00.ProtocolIEID(250):
+		return aper.NotInTable
+	case s00.ProtocolIEID(251):
+		return aper.NotInTable
+	case s00.ProtocolIEID(252):
+		return aper.NotInTable
+	case s00.ProtocolIEID(253):
+		return aper.NotInTable
+	case s00.ProtocolIEID(254):
+		return aper.NotInTable
+	case s00.ProtocolIEID(256):
+		return aper.NotInTable
+	case s00.ProtocolIEID(257):
+		return aper.NotInTable
+	case s00.ProtocolIEID(258):
+		return aper.NotInTable
+	case s00.ProtocolIEID(259):
+		return aper.NotInTable
+	case s00.ProtocolIEID(260):
+		return aper.NotInTable
+	case s00.ProtocolIEID(261):
+		return aper.NotInTable
+	case s00.ProtocolIEID(262):
+		return aper.NotInTable
+	case s00.ProtocolIEID(263):
+		return aper.NotInTable
+	case s00.ProtocolIEID(264):
+		return aper.NotInTable
+	case s00.ProtocolIEID(265):
+		return aper.NotInTable
+	case s00.ProtocolIEID(266):
+		return aper.NotInTable
+	case s00.ProtocolIEID(267):
+		return aper.NotInTable
+	case s00.ProtocolIEID(268):
+		return aper.NotInTable
+	case s00.ProtocolIEID(269):
+		return aper.NotInTable
+	case s00.ProtocolIEID(270):
+		return aper.NotInTable
+	case s00.ProtocolIEID(271):
+		return aper.NotInTable
+	case s00.ProtocolIEID(272):
+		return aper.NotInTable
+	case s00.ProtocolIEID(273):
+		return aper.NotInTable
+	case s00.ProtocolIEID(274):
+		return aper.NotInTable
+	case s00.ProtocolIEID(275):
+		return aper.NotInTable
+	case s00.ProtocolIEID(276):
+		return aper.NotInTable
+	case s00.ProtocolIEID(277):
+		return aper.NotInTable
+	case s00.ProtocolIEID(278):
+		return aper.NotInTable
+	case s00.ProtocolIEID(279):
+		return aper.NotInTable
+	case s00.ProtocolIEID(280):
+		return aper.NotInTable
+	case s00.ProtocolIEID(281):
+		return aper.NotInTable
+	case s00.ProtocolIEID(282):
+		return aper.NotInTable
+	case s00.ProtocolIEID(283):
+		return aper.NotInTable
+	case s00.ProtocolIEID(284):
+		return aper.NotInTable
+	case s00.ProtocolIEID(285):
+		return aper.NotInTable
+	case s00.ProtocolIEID(286):
+		return aper.NotInTable
+	case s00.ProtocolIEID(287):
+		return aper.NotInTable
+	case s00.ProtocolIEID(288):
+		return aper.NotInTable
+	case s00.ProtocolIEID(289):
+		return aper.NotInTable
+	case s00.ProtocolIEID(290):
+		return aper.NotInTable
+	case s00.ProtocolIEID(291):
+		return aper.NotInTable
+	case s00.ProtocolIEID(292):
+		return aper.NotInTable
+	case s00.ProtocolIEID(293):
+		return aper.NotInTable
+	case s00.ProtocolIEID(294):
+		return aper.NotInTable
+	case s00.ProtocolIEID(295):
+		return aper.NotInTable
+	case s00.ProtocolIEID(296):
+		return aper.NotInTable
+	case s00.ProtocolIEID(297):
+		return aper.NotInTable
+	case s00.ProtocolIEID(298):
+		return aper.NotInTable
+	case s00.ProtocolIEID(299):
+		return aper.NotInTable
+	case s00.ProtocolIEID(300):
+		return aper.NotInTable
+	case s00.ProtocolIEID(301):
+		return aper.NotInTable
+	case s00.ProtocolIEID(302):
+		return aper.NotInTable
+	case s00.ProtocolIEID(303):
+		return aper.NotInTable
+	case s00.ProtocolIEID(304):
+		return aper.NotInTable
+	case s00.ProtocolIEID(305):
+		return aper.NotInTable
+	case s00.ProtocolIEID(306):
+		return aper.NotInTable
+	case s00.ProtocolIEID(307):
+		return aper.NotInTable
+	case s00.ProtocolIEID(308):
+		return aper.NotInTable
+	case s00.ProtocolIEID(309):
+		return aper.NotInTable
+	case s00.ProtocolIEID(310):
+		return aper.NotInTable
+	case s00.ProtocolIEID(311):
+		return aper.NotInTable
+	case s00.ProtocolIEID(312):
+		return aper.NotInTable
+	case s00.ProtocolIEID(313):
+		return aper.NotInTable
+	case s00.ProtocolIEID(314):
+		return aper.NotInTable
+	case s00.ProtocolIEID(315):
+		return aper.NotInTable
+	case s00.ProtocolIEID(316):
+		return aper.NotInTable
+	case s00.ProtocolIEID(317):
+		return aper.NotInTable
+	case s00.ProtocolIEID(318):
+		return aper.NotInTable
+	case s00.ProtocolIEID(319):
+		return aper.NotInTable
+	case s00.ProtocolIEID(320):
+		return aper.NotInTable
+	case s00.ProtocolIEID(321):
+		return aper.NotInTable
+	case s00.ProtocolIEID(322):
+		return aper.NotInTable
+	case s00.ProtocolIEID(323):
+		return aper.NotInTable
+	case s00.ProtocolIEID(324):
+		return aper.NotInTable
+	case s00.ProtocolIEID(325):
+		return aper.NotInTable
+	case s00.ProtocolIEID(326):
+		return aper.NotInTable
+	case s00.ProtocolIEID(327):
+		return aper.NotInTable
+	case s00.ProtocolIEID(328):
+		return aper.NotInTable
+	case s00.ProtocolIEID(329):
+		return aper.NotInTable
+	case s00.ProtocolIEID(330):
+		return aper.NotInTable
+	case s00.ProtocolIEID(331):
+		return aper.NotInTable
+	case s00.ProtocolIEID(332):
+		return aper.NotInTable
+	case s00.ProtocolIEID(333):
+		return aper.NotInTable
+	case s00.ProtocolIEID(334):
+		return aper.NotInTable
+	case s00.ProtocolIEID(335):
+		return aper.NotInTable
+	case s00.ProtocolIEID(336):
+		return aper.NotInTable
+	case s00.ProtocolIEID(337):
+		return aper.NotInTable
+	case s00.ProtocolIEID(338):
+		return aper.NotInTable
+	case s00.ProtocolIEID(339):
+		return aper.NotInTable
+	case s00.ProtocolIEID(340):
+		return aper.NotInTable
+	case s00.ProtocolIEID(341):
+		return aper.NotInTable
+	case s00.ProtocolIEID(342):
+		return aper.NotInTable
+	case s00.ProtocolIEID(343):
+		return aper.NotInTable
+	case s00.ProtocolIEID(344):
+		return aper.NotInTable
+	case s00.ProtocolIEID(345):
+		return aper.NotInTable
+	case s00.ProtocolIEID(346):
+		return aper.NotInTable
+	case s00.ProtocolIEID(347):
+		return aper.NotInTable
+	case s00.ProtocolIEID(348):
+		return aper.NotInTable
+	case s00.ProtocolIEID(350):
+		return aper.NotInTable
+	case s00.ProtocolIEID(351):
+		return aper.NotInTable
+	case s00.ProtocolIEID(352):
+		return aper.NotInTable
+	case s00.ProtocolIEID(353):
+		return aper.NotInTable
+	case s00.ProtocolIEID(354):
+		return aper.NotInTable
+	case s00.ProtocolIEID(355):
+		return aper.NotInTable
+	case s00.ProtocolIEID(356):
+		return aper.NotInTable
+	case s00.ProtocolIEID(357):
+		return aper.NotInTable
+	case s00.ProtocolIEID(358):
+		return aper.NotInTable
+	case s00.ProtocolIEID(359):
+		return aper.NotInTable
+	case s00.ProtocolIEID(360):
+		return aper.NotInTable
+	case s00.ProtocolIEID(361):
+		return aper.NotInTable
+	case s00.ProtocolIEID(362):
+		return aper.NotInTable
+	case s00.ProtocolIEID(363):
+		return aper.NotInTable
+	case s00.ProtocolIEID(364):
+		return aper.NotInTable
+	case s00.ProtocolIEID(365):
+		return aper.NotInTable
+	case s00.ProtocolIEID(366):
+		return aper.NotInTable
+	case s00.ProtocolIEID(367):
+		return aper.NotInTable
+	case s00.ProtocolIEID(368):
+		return aper.NotInTable
+	case s00.ProtocolIEID(369):
+		return aper.NotInTable
+	case s00.ProtocolIEID(370):
+		return aper.NotInTable
+	case s00.ProtocolIEID(371):
+		return aper.NotInTable
+	case s00.ProtocolIEID(372):
+		return aper.NotInTable
+	case s00.ProtocolIEID(373):
+		return aper.NotInTable
+	case s00.ProtocolIEID(374):
+		return aper.NotInTable
+	case s00.ProtocolIEID(375):
+		return aper.NotInTable
+	case s00.ProtocolIEID(376):
+		return aper.NotInTable
+	case s00.ProtocolIEID(377):
+		return aper.NotInTable
+	case s00.ProtocolIEID(378):
+		return aper.NotInTable
+	case s00.ProtocolIEID(379):
+		return aper.NotInTable
+	case s00.ProtocolIEID(381):
+		return aper.NotInTable
+	case s00.ProtocolIEID(382):
+		return aper.NotInTable
+	case s00.ProtocolIEID(383):
+		return aper.NotInTable
+	case s00.ProtocolIEID(384):
+		return aper.NotInTable
+	case s00.ProtocolIEID(385):
+		return aper.NotInTable
+	case s00.ProtocolIEID(386):
+		return aper.NotInTable
+	case s00.ProtocolIEID(387):
+		return aper.NotInTable
+	case s00.ProtocolIEID(388):
+		return aper.NotInTable
+	case s00.ProtocolIEID(391):
+		return aper.NotInTable
+	case s00.ProtocolIEID(392):
+		return aper.NotInTable
+	case s00.ProtocolIEID(393):
+		return aper.NotInTable
+	case s00.ProtocolIEID(394):
+		return aper.NotInTable
+	case s00.ProtocolIEID(395):
+		return aper.NotInTable
+	case s00.ProtocolIEID(396):
+		return aper.NotInTable
+	case s00.ProtocolIEID(397):
+		return aper.NotInTable
+	case s00.ProtocolIEID(399):
+		return aper.NotInTable
+	case s00.ProtocolIEID(400):
+		return aper.NotInTable
+	case s00.ProtocolIEID(401):
+		return aper.NotInTable
+	case s00.ProtocolIEID(402):
+		return aper.NotInTable
+	case s00.ProtocolIEID(403):
+		return aper.NotInTable
+	case s00.ProtocolIEID(404):
+		return aper.NotInTable
+	case s00.ProtocolIEID(405):
+		return aper.NotInTable
+	case s00.ProtocolIEID(406):
+		return aper.NotInTable
+	case s00.ProtocolIEID(407):
+		return aper.NotInTable
+	case s00.ProtocolIEID(408):
+		return aper.NotInTable
+	case s00.ProtocolIEID(409):
+		return aper.NotInTable
+	case s00.ProtocolIEID(410):
+		return aper.NotInTable
+	case s00.ProtocolIEID(411):
+		return aper.NotInTable
+	case s00.ProtocolIEID(412):
+		return aper.NotInTable
+	case s00.ProtocolIEID(413):
+		return aper.NotInTable
+	case s00.ProtocolIEID(414):
+		return aper.NotInTable
+	case s00.ProtocolIEID(415):
+		return aper.NotInTable
+	case s00.ProtocolIEID(416):
+		return aper.NotInTable
+	case s00.ProtocolIEID(417):
+		return aper.NotInTable
+	case s00.ProtocolIEID(418):
+		return aper.NotInTable
+	case s00.ProtocolIEID(419):
+		return aper.NotInTable
+	case s00.ProtocolIEID(420):
+		return aper.NotInTable
+	case s00.ProtocolIEID(421):
+		return aper.NotInTable
+	case s00.ProtocolIEID(422):
+		return aper.NotInTable
+	case s00.ProtocolIEID(423):
+		return aper.NotInTable
+	case s00.ProtocolIEID(424):
+		return aper.NotInTable
+	case s00.ProtocolIEID(425):
+		return aper.NotInTable
+	case s00.ProtocolIEID(426):
+		return aper.NotInTable
+	case s00.ProtocolIEID(427):
+		return aper.NotInTable
+	case s00.ProtocolIEID(428):
+		return aper.NotInTable
+	case s00.ProtocolIEID(429):
+		return aper.NotInTable
+	case s00.ProtocolIEID(430):
+		return aper.NotInTable
+	case s00.ProtocolIEID(431):
+		return aper.NotInTable
+	case s00.ProtocolIEID(432):
+		return aper.NotInTable
+	case s00.ProtocolIEID(434):
+		return aper.NotInTable
+	case s00.ProtocolIEID(435):
+		return aper.NotInTable
+	case s00.ProtocolIEID(436):
+		return aper.NotInTable
+	case s00.ProtocolIEID(437):
+		return aper.NotInTable
+	case s00.ProtocolIEID(438):
+		return aper.NotInTable
+	case s00.ProtocolIEID(439):
+		return aper.NotInTable
+	case s00.ProtocolIEID(440):
+		return aper.NotInTable
+	case s00.ProtocolIEID(441):
+		return aper.NotInTable
+	case s00.ProtocolIEID(442):
+		return aper.NotInTable
+	case s00.ProtocolIEID(443):
+		return aper.NotInTable
+	case s00.ProtocolIEID(444):
+		return aper.NotInTable
+	case s00.ProtocolIEID(445):
+		return aper.NotInTable
+	case s00.ProtocolIEID(446):
+		return aper.NotInTable
+	case s00.ProtocolIEID(447):
+		return aper.NotInTable
+	case s00.ProtocolIEID(448):
+		return aper.NotInTable
+	case s00.ProtocolIEID(449):
+		return aper.NotInTable
+	case s00.ProtocolIEID(450):
+		return aper.NotInTable
+	case s00.ProtocolIEID(451):
+		return aper.NotInTable
+	case s00.ProtocolIEID(452):
+		return aper.NotInTable
+	case s00.ProtocolIEID(453):
+		return aper.NotInTable
+	default:
+		return aper.UnknownSelector
+	}
+}
+
+// AsCSIRSTransmissionIndication returns the selected CSIRSTransmissionIndication value of NRNeighbourInformationExtIEsValue and reports whether that alternative is active.
+func (v *NRNeighbourInformationExtIEsValue) AsCSIRSTransmissionIndication() (*s00.CSIRSTransmissionIndication, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(380) || v.rowCSIRSTransmissionIndication == nil {
+		return nil, false
+	}
+	return v.rowCSIRSTransmissionIndication, true
+}
+
+// AsSSBPositionsInBurst returns the selected SSBPositionsInBurst value of NRNeighbourInformationExtIEsValue and reports whether that alternative is active.
+func (v *NRNeighbourInformationExtIEsValue) AsSSBPositionsInBurst() (*s05.SSBPositionsInBurst, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(389) || v.rowSSBPositionsInBurst == nil {
+		return nil, false
+	}
+	return v.rowSSBPositionsInBurst, true
+}
+
+// AsNRCellPRACHConfig returns the selected NRCellPRACHConfig value of NRNeighbourInformationExtIEsValue and reports whether that alternative is active.
+func (v *NRNeighbourInformationExtIEsValue) AsNRCellPRACHConfig() (*s00.NRCellPRACHConfig, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(390) || v.rowNRCellPRACHConfig == nil {
+		return nil, false
+	}
+	return v.rowNRCellPRACHConfig, true
+}
+
+// AsAdditionalMeasurementTimingConfigurationList returns the selected AdditionalMeasurementTimingConfigurationList value of NRNeighbourInformationExtIEsValue and reports whether that alternative is active.
+func (v *NRNeighbourInformationExtIEsValue) AsAdditionalMeasurementTimingConfigurationList() (*s06.AdditionalMeasurementTimingConfigurationList, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(433) || v.rowAdditionalMeasurementTimingConfigurationList == nil {
+		return nil, false
+	}
+	return v.rowAdditionalMeasurementTimingConfigurationList, true
+}
+func X2apInternalNRNeighbourInformationExtIEsValueDecode(v NRNeighbourInformationExtIEsValue, id s00.ProtocolIEID, raw aper.OpaqueOpenType) (NRNeighbourInformationExtIEsValue, error) {
+	out := NRNeighbourInformationExtIEsValue{id: id}
+	switch id {
+	case s00.ProtocolIEID(380):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		bb := scope
+		decoded, err := aper.DecodeEnumeratedAligned(bb, 2, true, aper.EnumerationSource{KnownExtensions: 0, Path: "CSIRSTransmissionIndication"})
+		value := s00.CSIRSTransmissionIndication(decoded)
+		if err != nil {
+			return out, fmt.Errorf("CSIRSTransmissionIndication: %w", err)
+		}
+		if _, err := aper.CompleteOpenTypeValue(bb, value); err != nil {
+			return out, err
+		}
+		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
+			return out, err
+		}
+		out.rowCSIRSTransmissionIndication = &value
+		raw.RetainContents(&out.received)
+	case s00.ProtocolIEID(389):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		var value s05.SSBPositionsInBurst
+		child := scope
+		if err := s05.X2apInternalSSBPositionsInBurstUnmarshalAPERFrom(&value, child); err != nil {
+			return out, fmt.Errorf("SSBPositionsInBurst: %w", err)
+		}
+		padding, err := aper.CaptureFinalBits(child, "SSBPositionsInBurst")
+		if err != nil {
+			return out, err
+		}
+		*s05.X2apInternalSSBPositionsInBurstFieldPerPadding(&value) = padding.Padding()
+		*s05.X2apInternalSSBPositionsInBurstFieldReceived(&value) = true
+		raw.RetainContents(s05.X2apInternalSSBPositionsInBurstFieldReceivedBytes(&value))
+		*s05.X2apInternalSSBPositionsInBurstFieldReceivedLocation(&value) = raw.CaptureContentLocation()
+		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
+			return out, err
+		}
+		out.rowSSBPositionsInBurst = &value
+		raw.RetainContents(&out.received)
+	case s00.ProtocolIEID(390):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		bb := scope
+		data, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
+		value := s00.NRCellPRACHConfig(data)
+		if err != nil {
+			return out, fmt.Errorf("NRCellPRACHConfig: %w", err)
+		}
+		if _, err := aper.CompleteOpenTypeValue(bb, value); err != nil {
+			return out, err
+		}
+		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
+			return out, err
+		}
+		out.rowNRCellPRACHConfig = &value
+		raw.RetainContents(&out.received)
+	case s00.ProtocolIEID(433):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		child := scope
+		list, err := X2apInternalUnmarshalAPERAdditionalMeasurementTimingConfigurationListFrom(child)
+		if err != nil {
+			return out, fmt.Errorf("AdditionalMeasurementTimingConfigurationList: %w", err)
+		}
+		padding, err := aper.CaptureOpenTypePadding(child)
+		if err != nil {
+			return out, err
+		}
+		_ = padding
+		value := list
+		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
+			return out, err
+		}
+		out.rowAdditionalMeasurementTimingConfigurationList = &value
+		raw.RetainContents(&out.received)
+	default:
+		if err := raw.Observe(aper.UnknownIE); err != nil {
+			return out, err
+		}
+		out.opaque = raw.Detached()
+		out.isOpaque = true
+	}
+	return out, nil
+}
+func X2apInternalNRNeighbourInformationExtIEsValueEncode(v NRNeighbourInformationExtIEsValue) ([]byte, error) {
+	budget, err := aper.EncodeBudget()
+	if err != nil {
+		return nil, err
+	}
+	return X2apInternalNRNeighbourInformationExtIEsValueEncodeFresh(v, false, budget)
+}
+func X2apInternalNRNeighbourInformationExtIEsValueEncodeFresh(v NRNeighbourInformationExtIEsValue, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+	_ = budget
+	if v.isOpaque {
+		return v.opaque.EncodeBytes(budget)
+	}
+	switch v.id {
+	case s00.ProtocolIEID(380):
+		if v.rowCSIRSTransmissionIndication == nil {
+			return nil, fmt.Errorf("NRNeighbour-Information-ExtIEs.id-CSI-RSTransmissionIndication: missing value")
+		}
+		if !fresh {
+			if plan := aper.NewBudgetBuffer(budget).ReplayPlan(); plan != nil && plan.Unchanged(v.replay) {
+				return v.received.EncodeBytes(budget)
+			}
+		}
+		encodeBB := aper.NewBudgetBuffer(budget)
+		if err := aper.EncodeEnumeratedAligned(encodeBB, int64(*v.rowCSIRSTransmissionIndication), 2, true); err != nil {
+			return nil, err
+		}
+		candidate := encodeBB.CompleteBytes()
+		return candidate, nil
+	case s00.ProtocolIEID(389):
+		if v.rowSSBPositionsInBurst == nil {
+			return nil, fmt.Errorf("NRNeighbour-Information-ExtIEs.id-SSB-PositionsInBurst: missing value")
+		}
+		if !fresh {
+			if plan := aper.NewBudgetBuffer(budget).ReplayPlan(); plan != nil && plan.Unchanged(v.replay) {
+				return v.received.EncodeBytes(budget)
+			}
+		}
+		candidate, err := s05.X2apInternalSSBPositionsInBurstMarshalAPERBudget(v.rowSSBPositionsInBurst, budget, fresh)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	case s00.ProtocolIEID(390):
+		if v.rowNRCellPRACHConfig == nil {
+			return nil, fmt.Errorf("NRNeighbour-Information-ExtIEs.id-NRCellPRACHConfig: missing value")
+		}
+		if !fresh {
+			if plan := aper.NewBudgetBuffer(budget).ReplayPlan(); plan != nil && plan.Unchanged(v.replay) {
+				return v.received.EncodeBytes(budget)
+			}
+		}
+		encodeBB := aper.NewBudgetBuffer(budget)
+		if err := aper.EncodeOctetStringAligned(encodeBB, []byte((*v.rowNRCellPRACHConfig)), 0, 0, false); err != nil {
+			return nil, err
+		}
+		candidate := encodeBB.CompleteBytes()
+		return candidate, nil
+	case s00.ProtocolIEID(433):
+		if v.rowAdditionalMeasurementTimingConfigurationList == nil {
+			return nil, fmt.Errorf("NRNeighbour-Information-ExtIEs.id-Additional-Measurement-Timing-Configuration-List: missing value")
+		}
+		if !fresh {
+			if plan := aper.NewBudgetBuffer(budget).ReplayPlan(); plan != nil && plan.Unchanged(v.replay) {
+				return v.received.EncodeBytes(budget)
+			}
+		}
+		complete := AdditionalMeasurementTimingConfigurationListComplete{Value: *v.rowAdditionalMeasurementTimingConfigurationList}
+		candidate, err := X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERBudget(&complete, budget, fresh)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	default:
+		return nil, fmt.Errorf("NRNeighbourInformationExtIEsValue: id %d has no value", v.id)
+	}
 }
 
 type CellActivationResponseIEValue struct {
@@ -31344,6 +30142,996 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValueEncod
 		return candidate, nil
 	default:
 		return nil, fmt.Errorf("ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue: id %d has no value", v.id)
+	}
+}
+
+type ERABsToBeReleasedSgNBChaConfItemIEValue struct {
+	id                                  s00.ProtocolIEID
+	received                            aper.WireSpan
+	replay                              aper.Snapshot
+	opaque                              aper.OpaqueOpenType
+	isOpaque                            bool
+	rowERABsToBeReleasedSgNBChaConfItem *ERABsToBeReleasedSgNBChaConfItem
+}
+
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueMatchesID(v ERABsToBeReleasedSgNBChaConfItemIEValue, id s00.ProtocolIEID, _ *aper.DecodeBudget) bool {
+	if v.id != id {
+		return false
+	}
+	if v.isOpaque {
+		return true
+	}
+	switch id {
+	case s00.ProtocolIEID(230):
+		return v.rowERABsToBeReleasedSgNBChaConfItem != nil
+	default:
+		return false
+	}
+}
+
+// Opaque returns the retained opaque open value of ERABsToBeReleasedSgNBChaConfItemIEValue and reports whether the opaque alternative is selected.
+func (v *ERABsToBeReleasedSgNBChaConfItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
+	if v == nil || !v.isOpaque {
+		return aper.OpaqueOpenType{}, false
+	}
+	return v.opaque, true
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueRule(internalReceiver ERABsToBeReleasedSgNBChaConfItemIEValue) aper.SourceRule {
+	return aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBChaConf-ItemIEs"}}
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueReason(internalReceiver ERABsToBeReleasedSgNBChaConfItemIEValue, id s00.ProtocolIEID) aper.OpaqueReason {
+	switch id {
+	case s00.ProtocolIEID(230):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(0):
+		return aper.NotInTable
+	case s00.ProtocolIEID(1):
+		return aper.NotInTable
+	case s00.ProtocolIEID(2):
+		return aper.NotInTable
+	case s00.ProtocolIEID(3):
+		return aper.NotInTable
+	case s00.ProtocolIEID(4):
+		return aper.NotInTable
+	case s00.ProtocolIEID(5):
+		return aper.NotInTable
+	case s00.ProtocolIEID(6):
+		return aper.NotInTable
+	case s00.ProtocolIEID(7):
+		return aper.NotInTable
+	case s00.ProtocolIEID(9):
+		return aper.NotInTable
+	case s00.ProtocolIEID(10):
+		return aper.NotInTable
+	case s00.ProtocolIEID(11):
+		return aper.NotInTable
+	case s00.ProtocolIEID(12):
+		return aper.NotInTable
+	case s00.ProtocolIEID(13):
+		return aper.NotInTable
+	case s00.ProtocolIEID(14):
+		return aper.NotInTable
+	case s00.ProtocolIEID(15):
+		return aper.NotInTable
+	case s00.ProtocolIEID(17):
+		return aper.NotInTable
+	case s00.ProtocolIEID(18):
+		return aper.NotInTable
+	case s00.ProtocolIEID(19):
+		return aper.NotInTable
+	case s00.ProtocolIEID(20):
+		return aper.NotInTable
+	case s00.ProtocolIEID(21):
+		return aper.NotInTable
+	case s00.ProtocolIEID(22):
+		return aper.NotInTable
+	case s00.ProtocolIEID(23):
+		return aper.NotInTable
+	case s00.ProtocolIEID(24):
+		return aper.NotInTable
+	case s00.ProtocolIEID(25):
+		return aper.NotInTable
+	case s00.ProtocolIEID(26):
+		return aper.NotInTable
+	case s00.ProtocolIEID(27):
+		return aper.NotInTable
+	case s00.ProtocolIEID(28):
+		return aper.NotInTable
+	case s00.ProtocolIEID(29):
+		return aper.NotInTable
+	case s00.ProtocolIEID(30):
+		return aper.NotInTable
+	case s00.ProtocolIEID(31):
+		return aper.NotInTable
+	case s00.ProtocolIEID(32):
+		return aper.NotInTable
+	case s00.ProtocolIEID(33):
+		return aper.NotInTable
+	case s00.ProtocolIEID(34):
+		return aper.NotInTable
+	case s00.ProtocolIEID(35):
+		return aper.NotInTable
+	case s00.ProtocolIEID(36):
+		return aper.NotInTable
+	case s00.ProtocolIEID(38):
+		return aper.NotInTable
+	case s00.ProtocolIEID(39):
+		return aper.NotInTable
+	case s00.ProtocolIEID(40):
+		return aper.NotInTable
+	case s00.ProtocolIEID(41):
+		return aper.NotInTable
+	case s00.ProtocolIEID(42):
+		return aper.NotInTable
+	case s00.ProtocolIEID(43):
+		return aper.NotInTable
+	case s00.ProtocolIEID(44):
+		return aper.NotInTable
+	case s00.ProtocolIEID(45):
+		return aper.NotInTable
+	case s00.ProtocolIEID(46):
+		return aper.NotInTable
+	case s00.ProtocolIEID(47):
+		return aper.NotInTable
+	case s00.ProtocolIEID(48):
+		return aper.NotInTable
+	case s00.ProtocolIEID(49):
+		return aper.NotInTable
+	case s00.ProtocolIEID(50):
+		return aper.NotInTable
+	case s00.ProtocolIEID(51):
+		return aper.NotInTable
+	case s00.ProtocolIEID(52):
+		return aper.NotInTable
+	case s00.ProtocolIEID(53):
+		return aper.NotInTable
+	case s00.ProtocolIEID(54):
+		return aper.NotInTable
+	case s00.ProtocolIEID(55):
+		return aper.NotInTable
+	case s00.ProtocolIEID(56):
+		return aper.NotInTable
+	case s00.ProtocolIEID(57):
+		return aper.NotInTable
+	case s00.ProtocolIEID(58):
+		return aper.NotInTable
+	case s00.ProtocolIEID(59):
+		return aper.NotInTable
+	case s00.ProtocolIEID(60):
+		return aper.NotInTable
+	case s00.ProtocolIEID(61):
+		return aper.NotInTable
+	case s00.ProtocolIEID(62):
+		return aper.NotInTable
+	case s00.ProtocolIEID(63):
+		return aper.NotInTable
+	case s00.ProtocolIEID(64):
+		return aper.NotInTable
+	case s00.ProtocolIEID(65):
+		return aper.NotInTable
+	case s00.ProtocolIEID(66):
+		return aper.NotInTable
+	case s00.ProtocolIEID(67):
+		return aper.NotInTable
+	case s00.ProtocolIEID(68):
+		return aper.NotInTable
+	case s00.ProtocolIEID(69):
+		return aper.NotInTable
+	case s00.ProtocolIEID(70):
+		return aper.NotInTable
+	case s00.ProtocolIEID(71):
+		return aper.NotInTable
+	case s00.ProtocolIEID(72):
+		return aper.NotInTable
+	case s00.ProtocolIEID(74):
+		return aper.NotInTable
+	case s00.ProtocolIEID(75):
+		return aper.NotInTable
+	case s00.ProtocolIEID(76):
+		return aper.NotInTable
+	case s00.ProtocolIEID(77):
+		return aper.NotInTable
+	case s00.ProtocolIEID(78):
+		return aper.NotInTable
+	case s00.ProtocolIEID(79):
+		return aper.NotInTable
+	case s00.ProtocolIEID(80):
+		return aper.NotInTable
+	case s00.ProtocolIEID(81):
+		return aper.NotInTable
+	case s00.ProtocolIEID(82):
+		return aper.NotInTable
+	case s00.ProtocolIEID(83):
+		return aper.NotInTable
+	case s00.ProtocolIEID(84):
+		return aper.NotInTable
+	case s00.ProtocolIEID(85):
+		return aper.NotInTable
+	case s00.ProtocolIEID(86):
+		return aper.NotInTable
+	case s00.ProtocolIEID(87):
+		return aper.NotInTable
+	case s00.ProtocolIEID(88):
+		return aper.NotInTable
+	case s00.ProtocolIEID(89):
+		return aper.NotInTable
+	case s00.ProtocolIEID(90):
+		return aper.NotInTable
+	case s00.ProtocolIEID(91):
+		return aper.NotInTable
+	case s00.ProtocolIEID(92):
+		return aper.NotInTable
+	case s00.ProtocolIEID(93):
+		return aper.NotInTable
+	case s00.ProtocolIEID(94):
+		return aper.NotInTable
+	case s00.ProtocolIEID(95):
+		return aper.NotInTable
+	case s00.ProtocolIEID(96):
+		return aper.NotInTable
+	case s00.ProtocolIEID(97):
+		return aper.NotInTable
+	case s00.ProtocolIEID(98):
+		return aper.NotInTable
+	case s00.ProtocolIEID(99):
+		return aper.NotInTable
+	case s00.ProtocolIEID(100):
+		return aper.NotInTable
+	case s00.ProtocolIEID(101):
+		return aper.NotInTable
+	case s00.ProtocolIEID(102):
+		return aper.NotInTable
+	case s00.ProtocolIEID(103):
+		return aper.NotInTable
+	case s00.ProtocolIEID(104):
+		return aper.NotInTable
+	case s00.ProtocolIEID(105):
+		return aper.NotInTable
+	case s00.ProtocolIEID(106):
+		return aper.NotInTable
+	case s00.ProtocolIEID(107):
+		return aper.NotInTable
+	case s00.ProtocolIEID(108):
+		return aper.NotInTable
+	case s00.ProtocolIEID(109):
+		return aper.NotInTable
+	case s00.ProtocolIEID(110):
+		return aper.NotInTable
+	case s00.ProtocolIEID(111):
+		return aper.NotInTable
+	case s00.ProtocolIEID(112):
+		return aper.NotInTable
+	case s00.ProtocolIEID(113):
+		return aper.NotInTable
+	case s00.ProtocolIEID(114):
+		return aper.NotInTable
+	case s00.ProtocolIEID(115):
+		return aper.NotInTable
+	case s00.ProtocolIEID(116):
+		return aper.NotInTable
+	case s00.ProtocolIEID(117):
+		return aper.NotInTable
+	case s00.ProtocolIEID(118):
+		return aper.NotInTable
+	case s00.ProtocolIEID(119):
+		return aper.NotInTable
+	case s00.ProtocolIEID(120):
+		return aper.NotInTable
+	case s00.ProtocolIEID(121):
+		return aper.NotInTable
+	case s00.ProtocolIEID(122):
+		return aper.NotInTable
+	case s00.ProtocolIEID(123):
+		return aper.NotInTable
+	case s00.ProtocolIEID(124):
+		return aper.NotInTable
+	case s00.ProtocolIEID(125):
+		return aper.NotInTable
+	case s00.ProtocolIEID(126):
+		return aper.NotInTable
+	case s00.ProtocolIEID(127):
+		return aper.NotInTable
+	case s00.ProtocolIEID(128):
+		return aper.NotInTable
+	case s00.ProtocolIEID(129):
+		return aper.NotInTable
+	case s00.ProtocolIEID(130):
+		return aper.NotInTable
+	case s00.ProtocolIEID(131):
+		return aper.NotInTable
+	case s00.ProtocolIEID(132):
+		return aper.NotInTable
+	case s00.ProtocolIEID(133):
+		return aper.NotInTable
+	case s00.ProtocolIEID(134):
+		return aper.NotInTable
+	case s00.ProtocolIEID(135):
+		return aper.NotInTable
+	case s00.ProtocolIEID(136):
+		return aper.NotInTable
+	case s00.ProtocolIEID(137):
+		return aper.NotInTable
+	case s00.ProtocolIEID(138):
+		return aper.NotInTable
+	case s00.ProtocolIEID(139):
+		return aper.NotInTable
+	case s00.ProtocolIEID(140):
+		return aper.NotInTable
+	case s00.ProtocolIEID(141):
+		return aper.NotInTable
+	case s00.ProtocolIEID(142):
+		return aper.NotInTable
+	case s00.ProtocolIEID(143):
+		return aper.NotInTable
+	case s00.ProtocolIEID(145):
+		return aper.NotInTable
+	case s00.ProtocolIEID(146):
+		return aper.NotInTable
+	case s00.ProtocolIEID(147):
+		return aper.NotInTable
+	case s00.ProtocolIEID(148):
+		return aper.NotInTable
+	case s00.ProtocolIEID(149):
+		return aper.NotInTable
+	case s00.ProtocolIEID(150):
+		return aper.NotInTable
+	case s00.ProtocolIEID(151):
+		return aper.NotInTable
+	case s00.ProtocolIEID(152):
+		return aper.NotInTable
+	case s00.ProtocolIEID(153):
+		return aper.NotInTable
+	case s00.ProtocolIEID(154):
+		return aper.NotInTable
+	case s00.ProtocolIEID(155):
+		return aper.NotInTable
+	case s00.ProtocolIEID(156):
+		return aper.NotInTable
+	case s00.ProtocolIEID(157):
+		return aper.NotInTable
+	case s00.ProtocolIEID(158):
+		return aper.NotInTable
+	case s00.ProtocolIEID(159):
+		return aper.NotInTable
+	case s00.ProtocolIEID(160):
+		return aper.NotInTable
+	case s00.ProtocolIEID(161):
+		return aper.NotInTable
+	case s00.ProtocolIEID(162):
+		return aper.NotInTable
+	case s00.ProtocolIEID(163):
+		return aper.NotInTable
+	case s00.ProtocolIEID(164):
+		return aper.NotInTable
+	case s00.ProtocolIEID(165):
+		return aper.NotInTable
+	case s00.ProtocolIEID(166):
+		return aper.NotInTable
+	case s00.ProtocolIEID(167):
+		return aper.NotInTable
+	case s00.ProtocolIEID(168):
+		return aper.NotInTable
+	case s00.ProtocolIEID(169):
+		return aper.NotInTable
+	case s00.ProtocolIEID(170):
+		return aper.NotInTable
+	case s00.ProtocolIEID(171):
+		return aper.NotInTable
+	case s00.ProtocolIEID(172):
+		return aper.NotInTable
+	case s00.ProtocolIEID(173):
+		return aper.NotInTable
+	case s00.ProtocolIEID(174):
+		return aper.NotInTable
+	case s00.ProtocolIEID(175):
+		return aper.NotInTable
+	case s00.ProtocolIEID(176):
+		return aper.NotInTable
+	case s00.ProtocolIEID(177):
+		return aper.NotInTable
+	case s00.ProtocolIEID(178):
+		return aper.NotInTable
+	case s00.ProtocolIEID(179):
+		return aper.NotInTable
+	case s00.ProtocolIEID(180):
+		return aper.NotInTable
+	case s00.ProtocolIEID(181):
+		return aper.NotInTable
+	case s00.ProtocolIEID(182):
+		return aper.NotInTable
+	case s00.ProtocolIEID(183):
+		return aper.NotInTable
+	case s00.ProtocolIEID(184):
+		return aper.NotInTable
+	case s00.ProtocolIEID(185):
+		return aper.NotInTable
+	case s00.ProtocolIEID(193):
+		return aper.NotInTable
+	case s00.ProtocolIEID(194):
+		return aper.NotInTable
+	case s00.ProtocolIEID(195):
+		return aper.NotInTable
+	case s00.ProtocolIEID(196):
+		return aper.NotInTable
+	case s00.ProtocolIEID(197):
+		return aper.NotInTable
+	case s00.ProtocolIEID(198):
+		return aper.NotInTable
+	case s00.ProtocolIEID(199):
+		return aper.NotInTable
+	case s00.ProtocolIEID(200):
+		return aper.NotInTable
+	case s00.ProtocolIEID(201):
+		return aper.NotInTable
+	case s00.ProtocolIEID(202):
+		return aper.NotInTable
+	case s00.ProtocolIEID(203):
+		return aper.NotInTable
+	case s00.ProtocolIEID(204):
+		return aper.NotInTable
+	case s00.ProtocolIEID(205):
+		return aper.NotInTable
+	case s00.ProtocolIEID(206):
+		return aper.NotInTable
+	case s00.ProtocolIEID(207):
+		return aper.NotInTable
+	case s00.ProtocolIEID(208):
+		return aper.NotInTable
+	case s00.ProtocolIEID(209):
+		return aper.NotInTable
+	case s00.ProtocolIEID(210):
+		return aper.NotInTable
+	case s00.ProtocolIEID(211):
+		return aper.NotInTable
+	case s00.ProtocolIEID(212):
+		return aper.NotInTable
+	case s00.ProtocolIEID(213):
+		return aper.NotInTable
+	case s00.ProtocolIEID(214):
+		return aper.NotInTable
+	case s00.ProtocolIEID(215):
+		return aper.NotInTable
+	case s00.ProtocolIEID(216):
+		return aper.NotInTable
+	case s00.ProtocolIEID(217):
+		return aper.NotInTable
+	case s00.ProtocolIEID(218):
+		return aper.NotInTable
+	case s00.ProtocolIEID(219):
+		return aper.NotInTable
+	case s00.ProtocolIEID(220):
+		return aper.NotInTable
+	case s00.ProtocolIEID(221):
+		return aper.NotInTable
+	case s00.ProtocolIEID(222):
+		return aper.NotInTable
+	case s00.ProtocolIEID(223):
+		return aper.NotInTable
+	case s00.ProtocolIEID(224):
+		return aper.NotInTable
+	case s00.ProtocolIEID(225):
+		return aper.NotInTable
+	case s00.ProtocolIEID(226):
+		return aper.NotInTable
+	case s00.ProtocolIEID(227):
+		return aper.NotInTable
+	case s00.ProtocolIEID(228):
+		return aper.NotInTable
+	case s00.ProtocolIEID(229):
+		return aper.NotInTable
+	case s00.ProtocolIEID(231):
+		return aper.NotInTable
+	case s00.ProtocolIEID(232):
+		return aper.NotInTable
+	case s00.ProtocolIEID(233):
+		return aper.NotInTable
+	case s00.ProtocolIEID(234):
+		return aper.NotInTable
+	case s00.ProtocolIEID(235):
+		return aper.NotInTable
+	case s00.ProtocolIEID(236):
+		return aper.NotInTable
+	case s00.ProtocolIEID(239):
+		return aper.NotInTable
+	case s00.ProtocolIEID(240):
+		return aper.NotInTable
+	case s00.ProtocolIEID(241):
+		return aper.NotInTable
+	case s00.ProtocolIEID(242):
+		return aper.NotInTable
+	case s00.ProtocolIEID(243):
+		return aper.NotInTable
+	case s00.ProtocolIEID(244):
+		return aper.NotInTable
+	case s00.ProtocolIEID(245):
+		return aper.NotInTable
+	case s00.ProtocolIEID(246):
+		return aper.NotInTable
+	case s00.ProtocolIEID(247):
+		return aper.NotInTable
+	case s00.ProtocolIEID(248):
+		return aper.NotInTable
+	case s00.ProtocolIEID(249):
+		return aper.NotInTable
+	case s00.ProtocolIEID(250):
+		return aper.NotInTable
+	case s00.ProtocolIEID(251):
+		return aper.NotInTable
+	case s00.ProtocolIEID(252):
+		return aper.NotInTable
+	case s00.ProtocolIEID(253):
+		return aper.NotInTable
+	case s00.ProtocolIEID(254):
+		return aper.NotInTable
+	case s00.ProtocolIEID(256):
+		return aper.NotInTable
+	case s00.ProtocolIEID(257):
+		return aper.NotInTable
+	case s00.ProtocolIEID(258):
+		return aper.NotInTable
+	case s00.ProtocolIEID(259):
+		return aper.NotInTable
+	case s00.ProtocolIEID(260):
+		return aper.NotInTable
+	case s00.ProtocolIEID(261):
+		return aper.NotInTable
+	case s00.ProtocolIEID(262):
+		return aper.NotInTable
+	case s00.ProtocolIEID(263):
+		return aper.NotInTable
+	case s00.ProtocolIEID(264):
+		return aper.NotInTable
+	case s00.ProtocolIEID(265):
+		return aper.NotInTable
+	case s00.ProtocolIEID(266):
+		return aper.NotInTable
+	case s00.ProtocolIEID(267):
+		return aper.NotInTable
+	case s00.ProtocolIEID(268):
+		return aper.NotInTable
+	case s00.ProtocolIEID(269):
+		return aper.NotInTable
+	case s00.ProtocolIEID(270):
+		return aper.NotInTable
+	case s00.ProtocolIEID(271):
+		return aper.NotInTable
+	case s00.ProtocolIEID(272):
+		return aper.NotInTable
+	case s00.ProtocolIEID(273):
+		return aper.NotInTable
+	case s00.ProtocolIEID(274):
+		return aper.NotInTable
+	case s00.ProtocolIEID(275):
+		return aper.NotInTable
+	case s00.ProtocolIEID(276):
+		return aper.NotInTable
+	case s00.ProtocolIEID(277):
+		return aper.NotInTable
+	case s00.ProtocolIEID(278):
+		return aper.NotInTable
+	case s00.ProtocolIEID(279):
+		return aper.NotInTable
+	case s00.ProtocolIEID(280):
+		return aper.NotInTable
+	case s00.ProtocolIEID(281):
+		return aper.NotInTable
+	case s00.ProtocolIEID(282):
+		return aper.NotInTable
+	case s00.ProtocolIEID(283):
+		return aper.NotInTable
+	case s00.ProtocolIEID(284):
+		return aper.NotInTable
+	case s00.ProtocolIEID(285):
+		return aper.NotInTable
+	case s00.ProtocolIEID(286):
+		return aper.NotInTable
+	case s00.ProtocolIEID(287):
+		return aper.NotInTable
+	case s00.ProtocolIEID(288):
+		return aper.NotInTable
+	case s00.ProtocolIEID(289):
+		return aper.NotInTable
+	case s00.ProtocolIEID(290):
+		return aper.NotInTable
+	case s00.ProtocolIEID(291):
+		return aper.NotInTable
+	case s00.ProtocolIEID(292):
+		return aper.NotInTable
+	case s00.ProtocolIEID(293):
+		return aper.NotInTable
+	case s00.ProtocolIEID(294):
+		return aper.NotInTable
+	case s00.ProtocolIEID(295):
+		return aper.NotInTable
+	case s00.ProtocolIEID(296):
+		return aper.NotInTable
+	case s00.ProtocolIEID(297):
+		return aper.NotInTable
+	case s00.ProtocolIEID(298):
+		return aper.NotInTable
+	case s00.ProtocolIEID(299):
+		return aper.NotInTable
+	case s00.ProtocolIEID(300):
+		return aper.NotInTable
+	case s00.ProtocolIEID(301):
+		return aper.NotInTable
+	case s00.ProtocolIEID(302):
+		return aper.NotInTable
+	case s00.ProtocolIEID(303):
+		return aper.NotInTable
+	case s00.ProtocolIEID(304):
+		return aper.NotInTable
+	case s00.ProtocolIEID(305):
+		return aper.NotInTable
+	case s00.ProtocolIEID(306):
+		return aper.NotInTable
+	case s00.ProtocolIEID(307):
+		return aper.NotInTable
+	case s00.ProtocolIEID(308):
+		return aper.NotInTable
+	case s00.ProtocolIEID(309):
+		return aper.NotInTable
+	case s00.ProtocolIEID(310):
+		return aper.NotInTable
+	case s00.ProtocolIEID(311):
+		return aper.NotInTable
+	case s00.ProtocolIEID(312):
+		return aper.NotInTable
+	case s00.ProtocolIEID(313):
+		return aper.NotInTable
+	case s00.ProtocolIEID(314):
+		return aper.NotInTable
+	case s00.ProtocolIEID(315):
+		return aper.NotInTable
+	case s00.ProtocolIEID(316):
+		return aper.NotInTable
+	case s00.ProtocolIEID(317):
+		return aper.NotInTable
+	case s00.ProtocolIEID(318):
+		return aper.NotInTable
+	case s00.ProtocolIEID(319):
+		return aper.NotInTable
+	case s00.ProtocolIEID(320):
+		return aper.NotInTable
+	case s00.ProtocolIEID(321):
+		return aper.NotInTable
+	case s00.ProtocolIEID(322):
+		return aper.NotInTable
+	case s00.ProtocolIEID(323):
+		return aper.NotInTable
+	case s00.ProtocolIEID(324):
+		return aper.NotInTable
+	case s00.ProtocolIEID(325):
+		return aper.NotInTable
+	case s00.ProtocolIEID(326):
+		return aper.NotInTable
+	case s00.ProtocolIEID(327):
+		return aper.NotInTable
+	case s00.ProtocolIEID(328):
+		return aper.NotInTable
+	case s00.ProtocolIEID(329):
+		return aper.NotInTable
+	case s00.ProtocolIEID(330):
+		return aper.NotInTable
+	case s00.ProtocolIEID(331):
+		return aper.NotInTable
+	case s00.ProtocolIEID(332):
+		return aper.NotInTable
+	case s00.ProtocolIEID(333):
+		return aper.NotInTable
+	case s00.ProtocolIEID(334):
+		return aper.NotInTable
+	case s00.ProtocolIEID(335):
+		return aper.NotInTable
+	case s00.ProtocolIEID(336):
+		return aper.NotInTable
+	case s00.ProtocolIEID(337):
+		return aper.NotInTable
+	case s00.ProtocolIEID(338):
+		return aper.NotInTable
+	case s00.ProtocolIEID(339):
+		return aper.NotInTable
+	case s00.ProtocolIEID(340):
+		return aper.NotInTable
+	case s00.ProtocolIEID(341):
+		return aper.NotInTable
+	case s00.ProtocolIEID(342):
+		return aper.NotInTable
+	case s00.ProtocolIEID(343):
+		return aper.NotInTable
+	case s00.ProtocolIEID(344):
+		return aper.NotInTable
+	case s00.ProtocolIEID(345):
+		return aper.NotInTable
+	case s00.ProtocolIEID(346):
+		return aper.NotInTable
+	case s00.ProtocolIEID(347):
+		return aper.NotInTable
+	case s00.ProtocolIEID(348):
+		return aper.NotInTable
+	case s00.ProtocolIEID(350):
+		return aper.NotInTable
+	case s00.ProtocolIEID(351):
+		return aper.NotInTable
+	case s00.ProtocolIEID(352):
+		return aper.NotInTable
+	case s00.ProtocolIEID(353):
+		return aper.NotInTable
+	case s00.ProtocolIEID(354):
+		return aper.NotInTable
+	case s00.ProtocolIEID(355):
+		return aper.NotInTable
+	case s00.ProtocolIEID(356):
+		return aper.NotInTable
+	case s00.ProtocolIEID(357):
+		return aper.NotInTable
+	case s00.ProtocolIEID(358):
+		return aper.NotInTable
+	case s00.ProtocolIEID(359):
+		return aper.NotInTable
+	case s00.ProtocolIEID(360):
+		return aper.NotInTable
+	case s00.ProtocolIEID(361):
+		return aper.NotInTable
+	case s00.ProtocolIEID(362):
+		return aper.NotInTable
+	case s00.ProtocolIEID(363):
+		return aper.NotInTable
+	case s00.ProtocolIEID(364):
+		return aper.NotInTable
+	case s00.ProtocolIEID(365):
+		return aper.NotInTable
+	case s00.ProtocolIEID(366):
+		return aper.NotInTable
+	case s00.ProtocolIEID(367):
+		return aper.NotInTable
+	case s00.ProtocolIEID(368):
+		return aper.NotInTable
+	case s00.ProtocolIEID(369):
+		return aper.NotInTable
+	case s00.ProtocolIEID(370):
+		return aper.NotInTable
+	case s00.ProtocolIEID(371):
+		return aper.NotInTable
+	case s00.ProtocolIEID(372):
+		return aper.NotInTable
+	case s00.ProtocolIEID(373):
+		return aper.NotInTable
+	case s00.ProtocolIEID(374):
+		return aper.NotInTable
+	case s00.ProtocolIEID(375):
+		return aper.NotInTable
+	case s00.ProtocolIEID(376):
+		return aper.NotInTable
+	case s00.ProtocolIEID(377):
+		return aper.NotInTable
+	case s00.ProtocolIEID(378):
+		return aper.NotInTable
+	case s00.ProtocolIEID(379):
+		return aper.NotInTable
+	case s00.ProtocolIEID(380):
+		return aper.NotInTable
+	case s00.ProtocolIEID(381):
+		return aper.NotInTable
+	case s00.ProtocolIEID(382):
+		return aper.NotInTable
+	case s00.ProtocolIEID(383):
+		return aper.NotInTable
+	case s00.ProtocolIEID(384):
+		return aper.NotInTable
+	case s00.ProtocolIEID(385):
+		return aper.NotInTable
+	case s00.ProtocolIEID(386):
+		return aper.NotInTable
+	case s00.ProtocolIEID(387):
+		return aper.NotInTable
+	case s00.ProtocolIEID(388):
+		return aper.NotInTable
+	case s00.ProtocolIEID(389):
+		return aper.NotInTable
+	case s00.ProtocolIEID(390):
+		return aper.NotInTable
+	case s00.ProtocolIEID(391):
+		return aper.NotInTable
+	case s00.ProtocolIEID(392):
+		return aper.NotInTable
+	case s00.ProtocolIEID(393):
+		return aper.NotInTable
+	case s00.ProtocolIEID(394):
+		return aper.NotInTable
+	case s00.ProtocolIEID(395):
+		return aper.NotInTable
+	case s00.ProtocolIEID(396):
+		return aper.NotInTable
+	case s00.ProtocolIEID(397):
+		return aper.NotInTable
+	case s00.ProtocolIEID(399):
+		return aper.NotInTable
+	case s00.ProtocolIEID(400):
+		return aper.NotInTable
+	case s00.ProtocolIEID(401):
+		return aper.NotInTable
+	case s00.ProtocolIEID(402):
+		return aper.NotInTable
+	case s00.ProtocolIEID(403):
+		return aper.NotInTable
+	case s00.ProtocolIEID(404):
+		return aper.NotInTable
+	case s00.ProtocolIEID(405):
+		return aper.NotInTable
+	case s00.ProtocolIEID(406):
+		return aper.NotInTable
+	case s00.ProtocolIEID(407):
+		return aper.NotInTable
+	case s00.ProtocolIEID(408):
+		return aper.NotInTable
+	case s00.ProtocolIEID(409):
+		return aper.NotInTable
+	case s00.ProtocolIEID(410):
+		return aper.NotInTable
+	case s00.ProtocolIEID(411):
+		return aper.NotInTable
+	case s00.ProtocolIEID(412):
+		return aper.NotInTable
+	case s00.ProtocolIEID(413):
+		return aper.NotInTable
+	case s00.ProtocolIEID(414):
+		return aper.NotInTable
+	case s00.ProtocolIEID(415):
+		return aper.NotInTable
+	case s00.ProtocolIEID(416):
+		return aper.NotInTable
+	case s00.ProtocolIEID(417):
+		return aper.NotInTable
+	case s00.ProtocolIEID(418):
+		return aper.NotInTable
+	case s00.ProtocolIEID(419):
+		return aper.NotInTable
+	case s00.ProtocolIEID(420):
+		return aper.NotInTable
+	case s00.ProtocolIEID(421):
+		return aper.NotInTable
+	case s00.ProtocolIEID(422):
+		return aper.NotInTable
+	case s00.ProtocolIEID(423):
+		return aper.NotInTable
+	case s00.ProtocolIEID(424):
+		return aper.NotInTable
+	case s00.ProtocolIEID(425):
+		return aper.NotInTable
+	case s00.ProtocolIEID(426):
+		return aper.NotInTable
+	case s00.ProtocolIEID(427):
+		return aper.NotInTable
+	case s00.ProtocolIEID(428):
+		return aper.NotInTable
+	case s00.ProtocolIEID(429):
+		return aper.NotInTable
+	case s00.ProtocolIEID(430):
+		return aper.NotInTable
+	case s00.ProtocolIEID(431):
+		return aper.NotInTable
+	case s00.ProtocolIEID(432):
+		return aper.NotInTable
+	case s00.ProtocolIEID(433):
+		return aper.NotInTable
+	case s00.ProtocolIEID(434):
+		return aper.NotInTable
+	case s00.ProtocolIEID(435):
+		return aper.NotInTable
+	case s00.ProtocolIEID(436):
+		return aper.NotInTable
+	case s00.ProtocolIEID(437):
+		return aper.NotInTable
+	case s00.ProtocolIEID(438):
+		return aper.NotInTable
+	case s00.ProtocolIEID(439):
+		return aper.NotInTable
+	case s00.ProtocolIEID(440):
+		return aper.NotInTable
+	case s00.ProtocolIEID(441):
+		return aper.NotInTable
+	case s00.ProtocolIEID(442):
+		return aper.NotInTable
+	case s00.ProtocolIEID(443):
+		return aper.NotInTable
+	case s00.ProtocolIEID(444):
+		return aper.NotInTable
+	case s00.ProtocolIEID(445):
+		return aper.NotInTable
+	case s00.ProtocolIEID(446):
+		return aper.NotInTable
+	case s00.ProtocolIEID(447):
+		return aper.NotInTable
+	case s00.ProtocolIEID(448):
+		return aper.NotInTable
+	case s00.ProtocolIEID(449):
+		return aper.NotInTable
+	case s00.ProtocolIEID(450):
+		return aper.NotInTable
+	case s00.ProtocolIEID(451):
+		return aper.NotInTable
+	case s00.ProtocolIEID(452):
+		return aper.NotInTable
+	case s00.ProtocolIEID(453):
+		return aper.NotInTable
+	default:
+		return aper.UnknownSelector
+	}
+}
+
+// AsERABsToBeReleasedSgNBChaConfItem returns the selected ERABsToBeReleasedSgNBChaConfItem value of ERABsToBeReleasedSgNBChaConfItemIEValue and reports whether that alternative is active.
+func (v *ERABsToBeReleasedSgNBChaConfItemIEValue) AsERABsToBeReleasedSgNBChaConfItem() (*ERABsToBeReleasedSgNBChaConfItem, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(230) || v.rowERABsToBeReleasedSgNBChaConfItem == nil {
+		return nil, false
+	}
+	return v.rowERABsToBeReleasedSgNBChaConfItem, true
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueDecode(v ERABsToBeReleasedSgNBChaConfItemIEValue, id s00.ProtocolIEID, raw aper.OpaqueOpenType) (ERABsToBeReleasedSgNBChaConfItemIEValue, error) {
+	out := ERABsToBeReleasedSgNBChaConfItemIEValue{id: id}
+	switch id {
+	case s00.ProtocolIEID(230):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		var value ERABsToBeReleasedSgNBChaConfItem
+		child := scope
+		if err := X2apInternalERABsToBeReleasedSgNBChaConfItemUnmarshalAPERFrom(&value, child); err != nil {
+			return out, fmt.Errorf("ERABsToBeReleasedSgNBChaConfItem: %w", err)
+		}
+		padding, err := aper.CaptureFinalBits(child, "ERABsToBeReleasedSgNBChaConfItem")
+		if err != nil {
+			return out, err
+		}
+		value.perPadding = padding
+		value.received = true
+		raw.RetainContents(&value.receivedBytes)
+		value.receivedLocation = raw.CaptureContentLocation()
+		if err := aper.ChargeValue(raw.BudgetBuffer(), value); err != nil {
+			return out, err
+		}
+		out.rowERABsToBeReleasedSgNBChaConfItem = &value
+		raw.RetainContents(&out.received)
+	default:
+		if err := raw.Observe(aper.UnknownIE); err != nil {
+			return out, err
+		}
+		out.opaque = raw.Detached()
+		out.isOpaque = true
+	}
+	return out, nil
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueEncode(v ERABsToBeReleasedSgNBChaConfItemIEValue) ([]byte, error) {
+	budget, err := aper.EncodeBudget()
+	if err != nil {
+		return nil, err
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueEncodeFresh(v, false, budget)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIEValueEncodeFresh(v ERABsToBeReleasedSgNBChaConfItemIEValue, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+	_ = budget
+	if v.isOpaque {
+		return v.opaque.EncodeBytes(budget)
+	}
+	switch v.id {
+	case s00.ProtocolIEID(230):
+		if v.rowERABsToBeReleasedSgNBChaConfItem == nil {
+			return nil, fmt.Errorf("E-RABs-ToBeReleased-SgNBChaConf-ItemIEs.id-E-RABs-ToBeReleased-SgNBChaConf-Item: missing value")
+		}
+		if !fresh {
+			if plan := aper.NewBudgetBuffer(budget).ReplayPlan(); plan != nil && plan.Unchanged(v.replay) {
+				return v.received.EncodeBytes(budget)
+			}
+		}
+		candidate, err := X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERBudget(v.rowERABsToBeReleasedSgNBChaConfItem, budget, fresh)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	default:
+		return nil, fmt.Errorf("ERABsToBeReleasedSgNBChaConfItemIEValue: id %d has no value", v.id)
 	}
 }
 
@@ -34812,6 +34600,83 @@ func (t ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIETable) NewOpaque(id 
 	}
 }
 
+type ERABsToBeReleasedSgNBChaConfItemIETable struct{}
+
+func ERABsToBeReleasedSgNBChaConfItemIEs() ERABsToBeReleasedSgNBChaConfItemIETable {
+	return ERABsToBeReleasedSgNBChaConfItemIETable{}
+}
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBChaConfItemIETable.
+func (ERABsToBeReleasedSgNBChaConfItemIETable) ID() s00.TableID {
+	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBChaConf-ItemIEs"})
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemIETableInfoERABsToBeReleasedSgNBChaConfItem(internalReceiver ERABsToBeReleasedSgNBChaConfItemIETable) s06.FieldInfo {
+	return s06.FieldInfo{Table: ERABsToBeReleasedSgNBChaConfItemIEs().ID(), ID: s00.ProtocolIEID(230), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedSgNBChaConfItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBChaConf-ItemIEs", Row: "id-E-RABs-ToBeReleased-SgNBChaConf-Item"}}}
+}
+
+// ERABsToBeReleasedSgNBChaConfItem returns the typed binding for the ERABsToBeReleasedSgNBChaConfItem row of ERABsToBeReleasedSgNBChaConfItemIETable.
+func (t ERABsToBeReleasedSgNBChaConfItemIETable) ERABsToBeReleasedSgNBChaConfItem() ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding {
+	return ERABsToBeReleasedSgNBChaConfItemERABsToBeReleasedSgNBChaConfItemIEBinding{info: X2apInternalERABsToBeReleasedSgNBChaConfItemIETableInfoERABsToBeReleasedSgNBChaConfItem(t), codec: ERABsToBeReleasedSgNBChaConfItemValueCodec{path: "ERABsToBeReleasedSgNBChaConfItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItem, error) {
+		valueScope := aper.DecodeBuffer(options)
+		if err := valueScope.EnterOpenType(); err != nil {
+			var zero ERABsToBeReleasedSgNBChaConfItem
+			return zero, err
+		}
+		defer valueScope.LeaveOpenType()
+		var value ERABsToBeReleasedSgNBChaConfItem
+		if err := X2apInternalERABsToBeReleasedSgNBChaConfItemUnmarshalAPERWithOptions(&value, data, options); err != nil {
+			return ERABsToBeReleasedSgNBChaConfItem{}, err
+		}
+		value.received = true
+		value.receivedAbsolute = true
+		value.receivedBytes = aper.OriginalWire(data)
+		return value, nil
+	}, encode: func(value ERABsToBeReleasedSgNBChaConfItem, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERBudget((&value), budget, fresh)
+	}, capture: func(v ERABsToBeReleasedSgNBChaConfItem, options aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItem, aper.Snapshot,
+	) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItem(&v, &s)
+		var root aper.Snapshot
+
+		s.End(f, &root, false)
+		return v, root
+	}, compare: func(v ERABsToBeReleasedSgNBChaConfItem, root aper.Snapshot, budget aper.DecodeBudget) aper.ReplayPlan {
+		s := aper.NewSemanticComparison(root, budget)
+		f := s.Begin()
+		X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItem(&v, &s)
+		s.End(f, root, false)
+		return s.Plan()
+	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ERABsToBeReleasedSgNBChaConfItem"),
+	}, inject: func(value ERABsToBeReleasedSgNBChaConfItem) ERABsToBeReleasedSgNBChaConfItemIEValue {
+		return ERABsToBeReleasedSgNBChaConfItemIEValue{id: s00.ProtocolIEID(230), rowERABsToBeReleasedSgNBChaConfItem: &value}
+	}, get: func(value *ERABsToBeReleasedSgNBChaConfItemIEValue) (*ERABsToBeReleasedSgNBChaConfItem, bool) {
+		return value.AsERABsToBeReleasedSgNBChaConfItem()
+	}}
+}
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBChaConfItemIETable.
+func (t ERABsToBeReleasedSgNBChaConfItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeReleasedSgNBChaConfItemIEField, error) {
+	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
+		return ERABsToBeReleasedSgNBChaConfItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
+	}
+	switch id {
+	case s00.ProtocolIEID(230):
+		return ERABsToBeReleasedSgNBChaConfItemIEField{}, aper.OperationError(fmt.Errorf("known IE id-E-RABs-ToBeReleased-SgNBChaConf-Item requires its typed binding"), "Opaque")
+	default:
+		budget, err := aper.BuildBudget()
+		if err != nil {
+			return ERABsToBeReleasedSgNBChaConfItemIEField{}, aper.OperationError(err, "Opaque")
+		}
+		opaque, err := aper.BuildOpaqueOpenType(data, budget)
+		if err != nil {
+			return ERABsToBeReleasedSgNBChaConfItemIEField{}, aper.OperationError(err, "Opaque")
+		}
+		return ERABsToBeReleasedSgNBChaConfItemIEField{Id: id, Criticality: criticality, Value: ERABsToBeReleasedSgNBChaConfItemIEValue{id: id, opaque: opaque, isOpaque: true}}, aper.OperationError(nil, "Opaque")
+	}
+}
+
 type ENDCCellActivationResponseIETable struct{}
 
 func ENDCCellActivationResponseIEs() ENDCCellActivationResponseIETable {
@@ -35320,6 +35185,75 @@ func AdditionalListofForwardingGTPTunnelEndpointCodec() s11.AdditionalListofForw
 	return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEs().AdditionalListofForwardingGTPTunnelEndpoint().Codec()
 }
 
+// ERABsToBeReleasedSgNBChaConfItemCodec binds the complete APER value type.
+func ERABsToBeReleasedSgNBChaConfItemCodec() ERABsToBeReleasedSgNBChaConfItemValueCodec {
+	return ERABsToBeReleasedSgNBChaConfItemIEs().ERABsToBeReleasedSgNBChaConfItem().Codec()
+}
+
+// ERABsToBeReleasedSgNBChaConfItemResourceConfigurationCodec binds the complete source value type.
+func ERABsToBeReleasedSgNBChaConfItemResourceConfigurationCodec() ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec {
+	return ERABsToBeReleasedSgNBChaConfItemResourceConfigurationValueCodec{path: "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration", decode: func(data []byte, options aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error) {
+		var value ERABsToBeReleasedSgNBChaConfItemResourceConfiguration
+		if err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnmarshalAPERWithOptions(&value, data, options); err != nil {
+			return ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}, err
+		}
+		value.received = true
+		value.receivedAbsolute = true
+		value.receivedBytes = aper.OriginalWire(data)
+		return value, nil
+	}, encode: func(value ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERBudget((&value), budget, fresh)
+	}, capture: func(v ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, options aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, aper.Snapshot) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemResourceConfiguration(&v, &s)
+		var root aper.Snapshot
+		s.End(f, &root, false)
+		return v, root
+	}, compare: func(v ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, root aper.Snapshot, budget aper.DecodeBudget,
+	) aper.ReplayPlan {
+		s := aper.NewSemanticComparison(root, budget)
+		f := s.Begin()
+		X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemResourceConfiguration(&v, &s)
+		s.End(f, root, false)
+		return s.
+			Plan()
+	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ERABsToBeReleasedSgNBChaConfItemResourceConfiguration"),
+	}
+}
+
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentCodec binds the complete source value type.
+func ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentCodec() ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec {
+	return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentValueCodec{path: "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent", decode: func(data []byte, options aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, error) {
+		var value ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent
+		if err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentUnmarshalAPERWithOptions(&value, data, options); err != nil {
+			return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent{}, err
+		}
+		value.received = true
+		value.receivedAbsolute = true
+		value.receivedBytes = aper.OriginalWire(data)
+		return value, nil
+	}, encode: func(value ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERBudget((&value), budget, fresh)
+	}, capture: func(v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, options aper.DecodeState) (ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, aper.Snapshot) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(&v, &s)
+		var root aper.Snapshot
+
+		s.End(f, &root, false)
+		return v, root
+	}, compare: func(v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, root aper.Snapshot, budget aper.DecodeBudget) aper.ReplayPlan {
+		s := aper.NewSemanticComparison(root, budget)
+		f := s.
+			Begin()
+		X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(&v, &s)
+		s.End(f, root, false)
+		return s.Plan()
+	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent"),
+	}
+}
+
 // RNLHeaderCodec binds the complete APER value type.
 func RNLHeaderCodec() s05.RNLHeaderValueCodec { return X2APMessageTransferIEs().RNLHeader().Codec() }
 
@@ -35659,7 +35593,7 @@ func X2apInternalWalkValidationABSStatus(v *s06.ABSStatus, report *s12.Validatio
 		return
 	}
 }
-func X2apInternalWalkValidationASSecurityInformation(v *s01.ASSecurityInformation, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationASSecurityInformation(v *s00.ASSecurityInformation, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -36106,7 +36040,7 @@ func X2apInternalWalkValidationBPLMNIDInfoEUTRA(v *s09.BPLMNIDInfoEUTRA, report 
 		X2apInternalWalkValidationBPLMNIDInfoEUTRAItem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func X2apInternalWalkValidationBPLMNIDInfoEUTRAItem(v *s09.BPLMNIDInfoEUTRAItem, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationBPLMNIDInfoEUTRAItem(v *s08.BPLMNIDInfoEUTRAItem, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -39204,7 +39138,7 @@ func X2apInternalWalkValidationERABActivityNotifyItem(v *s04.ERABActivityNotifyI
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABActivityNotifyItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABActivityNotifyItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39259,7 +39193,7 @@ func X2apInternalWalkValidationERABItem(v *s04.ERABItem, report *s12.ValidationR
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39303,7 +39237,7 @@ func X2apInternalWalkValidationERABLevelQoSParameters(v *s08.ERABLevelQoSParamet
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s06.ERABLevelQoSParametersExtIEs().DownlinkPacketLossRate().Info(), s06.ERABLevelQoSParametersExtIEs().UplinkPacketLossRate().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABLevelQoSParametersExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABLevelQoSParametersExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39335,7 +39269,7 @@ func X2apInternalWalkValidationERABList(v *s08.ERABList, report *s12.ValidationR
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s06.ERABItemIEs().ERABItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABItemIEValuevalidateX2APIEContainer(s06.ERABItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABItemIEValuevalidateX2APIEContainer(s06.ERABItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s06.ERABItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39378,7 +39312,7 @@ func X2apInternalWalkValidationERABUsageReportItem(v *s04.ERABUsageReportItem, r
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABUsageReportItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABUsageReportItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39410,7 +39344,7 @@ func X2apInternalWalkValidationERABUsageReportList(v *s08.ERABUsageReportList, r
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s06.ERABUsageReportItemIEs().ERABUsageReportItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABUsageReportItemIEValuevalidateX2APIEContainer(s06.ERABUsageReportItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABUsageReportItemIEValuevalidateX2APIEContainer(s06.ERABUsageReportItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s06.ERABUsageReportItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39456,7 +39390,7 @@ func X2apInternalWalkValidationERABsAdmittedItem(v *s09.ERABsAdmittedItem, repor
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s06.ERABsAdmittedItemExtIEs().DAPSResponseInfo().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39492,7 +39426,7 @@ func X2apInternalWalkValidationERABsAdmittedList(v *s11.ERABsAdmittedList, repor
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s09.ERABsAdmittedItemIEs().ERABsAdmittedItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedItemIEValuevalidateX2APIEContainer(s09.ERABsAdmittedItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedItemIEValuevalidateX2APIEContainer(s09.ERABsAdmittedItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s09.ERABsAdmittedItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39559,7 +39493,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedItemSCGBearer(v *s10.ERABsA
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s09.ERABsAdmittedToBeAddedItemSCGBearerExtIEs().SourceDLForwardingIPAddress().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39597,7 +39531,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedItemSplitBearer(v *s10.ERAB
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s09.ERABsAdmittedToBeAddedItemSplitBearerExtIEs().SourceDLForwardingIPAddress().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39629,7 +39563,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedList(v *s11.ERABsAdmittedTo
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s10.ERABsAdmittedToBeAddedItemIEs().ERABsAdmittedToBeAddedItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedItemIEValuevalidateX2APIEContainer(s10.ERABsAdmittedToBeAddedItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedItemIEValuevalidateX2APIEContainer(s10.ERABsAdmittedToBeAddedItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s10.ERABsAdmittedToBeAddedItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39696,7 +39630,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedModAckItemSCGBearer(v *s10.
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s09.ERABsAdmittedToBeAddedModAckItemSCGBearerExtIEs().SourceDLForwardingIPAddress().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedModAckItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39734,7 +39668,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedModAckItemSplitBearer(v *s1
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s09.ERABsAdmittedToBeAddedModAckItemSplitBearerExtIEs().SourceDLForwardingIPAddress().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedModAckItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39766,7 +39700,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedModAckList(v *s11.ERABsAdmi
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s10.ERABsAdmittedToBeAddedModAckItemIEs().ERABsAdmittedToBeAddedModAckItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedModAckItemIEValuevalidateX2APIEContainer(s10.ERABsAdmittedToBeAddedModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedModAckItemIEValuevalidateX2APIEContainer(s10.ERABsAdmittedToBeAddedModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s10.ERABsAdmittedToBeAddedModAckItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39866,7 +39800,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPno
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s06.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs().LCID().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39934,7 +39868,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpr
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s09.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEs().ULpDCPSnLength().Info(), s09.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEs().DLPDCPSnLength().Info(), s09.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEs().SourceDLForwardingIPAddress().Info(), s09.ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEs().SecurityResult().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -39970,7 +39904,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedSgNBAddReqAckList(v *s11.ER
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s10.ERABsAdmittedToBeAddedSgNBAddReqAckItemIEs().ERABsAdmittedToBeAddedSgNBAddReqAckItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIEValuevalidateX2APIEContainer(s10.ERABsAdmittedToBeAddedSgNBAddReqAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIEValuevalidateX2APIEContainer(s10.ERABsAdmittedToBeAddedSgNBAddReqAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s10.ERABsAdmittedToBeAddedSgNBAddReqAckItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40012,7 +39946,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedSgNBModAckItem(v *s10.ERABs
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40070,7 +40004,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpr
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s06.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEs().LCID().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40138,7 +40072,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPprese
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s09.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEs().ULpDCPSnLength().Info(), s09.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEs().DLPDCPSnLength().Info(), s09.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEs().SecurityResult().Info(), s09.ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEs().SourceDLForwardingIPAddress().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40174,7 +40108,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeAddedSgNBModAckList(v *s11.ERABs
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s10.ERABsAdmittedToBeAddedSgNBModAckItemIEs().ERABsAdmittedToBeAddedSgNBModAckItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIEValuevalidateX2APIEContainer(s10.ERABsAdmittedToBeAddedSgNBModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIEValuevalidateX2APIEContainer(s10.ERABsAdmittedToBeAddedSgNBModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s10.ERABsAdmittedToBeAddedSgNBModAckItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40231,7 +40165,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedModAckItemSCGBearer(v *s
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40271,7 +40205,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedModAckItemSplitBearer(v 
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40303,7 +40237,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedModAckList(v *s11.ERABsA
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s09.ERABsAdmittedToBeModifiedModAckItemIEs().ERABsAdmittedToBeModifiedModAckItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeModifiedModAckItemIEValuevalidateX2APIEContainer(s09.ERABsAdmittedToBeModifiedModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeModifiedModAckItemIEValuevalidateX2APIEContainer(s09.ERABsAdmittedToBeModifiedModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s09.ERABsAdmittedToBeModifiedModAckItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40399,7 +40333,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPno
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s09.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEs().SecondarysgNBDLGTPTEIDatPDCP().Info(), s09.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEs().RLCStatus().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40462,7 +40396,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpr
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s06.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEs().ULpDCPSnLength().Info(), s06.ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEs().DLPDCPSnLength().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40494,7 +40428,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedSgNBModAckList(v *s11.ER
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s10.ERABsAdmittedToBeModifiedSgNBModAckItemIEs().ERABsAdmittedToBeModifiedSgNBModAckItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIEValuevalidateX2APIEContainer(s10.ERABsAdmittedToBeModifiedSgNBModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIEValuevalidateX2APIEContainer(s10.ERABsAdmittedToBeModifiedSgNBModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s10.ERABsAdmittedToBeModifiedSgNBModAckItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40536,7 +40470,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedSgNBModConfItem(v *s09.E
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40590,7 +40524,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPn
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{s06.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEs().ULpDCPSnLength().Info(), s06.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEs().DLPDCPSnLength().Info()}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40621,7 +40555,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPp
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40653,7 +40587,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedSgNBModConfList(v *s11.E
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s09.ERABsAdmittedToBeModifiedSgNBModConfItemIEs().ERABsAdmittedToBeModifiedSgNBModConfItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemIEValuevalidateX2APIEContainer(s09.ERABsAdmittedToBeModifiedSgNBModConfItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemIEValuevalidateX2APIEContainer(s09.ERABsAdmittedToBeModifiedSgNBModConfItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s09.ERABsAdmittedToBeModifiedSgNBModConfItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40668,7 +40602,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeModifiedSgNBModConfList(v *s11.E
 		}
 	}
 }
-func X2apInternalWalkValidationERABsAdmittedToBeReleasedModAckItemSCGBearer(v *s05.ERABsAdmittedToBeReleasedModAckItemSCGBearer, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsAdmittedToBeReleasedModAckItemSCGBearer(v *s04.ERABsAdmittedToBeReleasedModAckItemSCGBearer, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -40687,7 +40621,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeReleasedModAckItemSCGBearer(v *s
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40702,7 +40636,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeReleasedModAckItemSCGBearer(v *s
 		return
 	}
 }
-func X2apInternalWalkValidationERABsAdmittedToBeReleasedModAckItemSplitBearer(v *s05.ERABsAdmittedToBeReleasedModAckItemSplitBearer, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsAdmittedToBeReleasedModAckItemSplitBearer(v *s04.ERABsAdmittedToBeReleasedModAckItemSplitBearer, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -40721,7 +40655,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeReleasedModAckItemSplitBearer(v 
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40752,9 +40686,9 @@ func X2apInternalWalkValidationERABsAdmittedToBeReleasedModAckList(v *s08.ERABsA
 		}
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s06.FieldInfo{s07.ERABsAdmittedToBeReleasedModAckItemIEs().ERABsAdmittedToBeReleasedModAckItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeReleasedModAckItemIEValuevalidateX2APIEContainer(s07.ERABsAdmittedToBeReleasedModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
-		fields := s07.ERABsAdmittedToBeReleasedModAckItemIEContainer{field}
+		rows := []s06.FieldInfo{s06.ERABsAdmittedToBeReleasedModAckItemIEs().ERABsAdmittedToBeReleasedModAckItem().Info()}
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeReleasedModAckItemIEValuevalidateX2APIEContainer(s06.ERABsAdmittedToBeReleasedModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		fields := s06.ERABsAdmittedToBeReleasedModAckItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
 				return
@@ -40784,7 +40718,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPno
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40815,7 +40749,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpr
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40846,9 +40780,9 @@ func X2apInternalWalkValidationERABsAdmittedToBeReleasedSgNBModAckList(v *s08.ER
 		}
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s06.FieldInfo{s07.ERABsAdmittedToBeReleasedSgNBModAckItemIEs().ERABsAdmittedToBeReleasedSgNBModAckItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIEValuevalidateX2APIEContainer(s07.ERABsAdmittedToBeReleasedSgNBModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
-		fields := s07.ERABsAdmittedToBeReleasedSgNBModAckItemIEContainer{field}
+		rows := []s06.FieldInfo{s06.ERABsAdmittedToBeReleasedSgNBModAckItemIEs().ERABsAdmittedToBeReleasedSgNBModAckItem().Info()}
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIEValuevalidateX2APIEContainer(s06.ERABsAdmittedToBeReleasedSgNBModAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		fields := s06.ERABsAdmittedToBeReleasedSgNBModAckItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
 				return
@@ -40884,7 +40818,7 @@ func X2apInternalWalkValidationERABsAdmittedToBeReleasedSgNBRelReqAckItem(v *s05
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -40915,9 +40849,9 @@ func X2apInternalWalkValidationERABsAdmittedToBeReleasedSgNBRelReqAckList(v *s08
 		}
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s06.FieldInfo{s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEs().ERABsAdmittedToBeReleasedSgNBRelReqAckItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValuevalidateX2APIEContainer(s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
-		fields := s07.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEContainer{field}
+		rows := []s06.FieldInfo{s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEs().ERABsAdmittedToBeReleasedSgNBRelReqAckItem().Info()}
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValuevalidateX2APIEContainer(s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		fields := s06.ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
 				return
@@ -41030,7 +40964,7 @@ func X2apInternalWalkValidationERABsDataForwardingAddressItem(v *s09.ERABsDataFo
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsDataForwardingAddressItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsDataForwardingAddressItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -41062,7 +40996,7 @@ func X2apInternalWalkValidationERABsDataForwardingAddressList(v *s11.ERABsDataFo
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s09.ERABsDataForwardingAddressItemIEs().ERABsDataForwardingAddressItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsDataForwardingAddressItemIEValuevalidateX2APIEContainer(s09.ERABsDataForwardingAddressItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsDataForwardingAddressItemIEValuevalidateX2APIEContainer(s09.ERABsDataForwardingAddressItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 		fields := s09.ERABsDataForwardingAddressItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -41102,7 +41036,7 @@ func X2apInternalWalkValidationERABsSubjectToCounterCheckItem(v *s05.ERABsSubjec
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsSubjectToCounterCheckItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsSubjectToCounterCheckItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -41134,8 +41068,8 @@ func X2apInternalWalkValidationERABsSubjectToCounterCheckList(v *s08.ERABsSubjec
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s06.FieldInfo{s07.ERABsSubjectToCounterCheckItemIEs().ERABsSubjectToCounterCheckItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsSubjectToCounterCheckItemIEValuevalidateX2APIEContainer(s07.ERABsSubjectToCounterCheckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
-		fields := s07.ERABsSubjectToCounterCheckItemIEContainer{field}
+		X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsSubjectToCounterCheckItemIEValuevalidateX2APIEContainer(s06.ERABsSubjectToCounterCheckItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		fields := s06.ERABsSubjectToCounterCheckItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
 				return
@@ -41184,7 +41118,7 @@ func X2apInternalWalkValidationERABsSubjectToDLDiscardingItem(v *s05.ERABsSubjec
 			nestedPath := path + ".IEExtension"
 			if !skipRoot {
 				rows := []s06.FieldInfo{}
-				X2apInternalMergeNestedValidation(report, X2apInternalERABsSubjectToDLDiscardingItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+				X2apInternalMergeNestedValidation(report, s12.X2apInternalERABsSubjectToDLDiscardingItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
@@ -42116,9 +42050,9 @@ func X2apInternalWalkValidationERABsToBeAddedSgNBModReqList(v *s11.ERABsToBeAdde
 		}
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s06.FieldInfo{s11.ERABsToBeAddedSgNBModReqItemIEs().ERABsToBeAddedSgNBModReqItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeAddedSgNBModReqItemIEValuevalidateX2APIEContainer(s11.ERABsToBeAddedSgNBModReqItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
-		fields := s11.ERABsToBeAddedSgNBModReqItemIEContainer{field}
+		rows := []s06.FieldInfo{s10.ERABsToBeAddedSgNBModReqItemIEs().ERABsToBeAddedSgNBModReqItem().Info()}
+		X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeAddedSgNBModReqItemIEValuevalidateX2APIEContainer(s10.ERABsToBeAddedSgNBModReqItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		fields := s10.ERABsToBeAddedSgNBModReqItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
 				return
@@ -42273,7 +42207,7 @@ func X2apInternalWalkValidationERABsToBeModifiedModReqItemSplitBearer(v *s09.ERA
 		return
 	}
 }
-func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqItem(v *s11.ERABsToBeModifiedSgNBModReqItem, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqItem(v *s10.ERABsToBeModifiedSgNBModReqItem, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -42315,7 +42249,7 @@ func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqItem(v *s11.ERABsToBeM
 		return
 	}
 }
-func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqItemResourceConfiguration(v *s11.ERABsToBeModifiedSgNBModReqItemResourceConfiguration, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqItemResourceConfiguration(v *s10.ERABsToBeModifiedSgNBModReqItemResourceConfiguration, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -42332,7 +42266,7 @@ func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqItemResourceConfigurat
 		X2apInternalWalkValidationERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent(v.SgNBPDCPnotpresent, report, path+".sgNBPDCPnotpresent", false)
 	}
 }
-func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent(v *s11.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent(v *s10.ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -42460,9 +42394,9 @@ func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqList(v *s11.ERABsToBeM
 		}
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s06.FieldInfo{s11.ERABsToBeModifiedSgNBModReqItemIEs().ERABsToBeModifiedSgNBModReqItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeModifiedSgNBModReqItemIEValuevalidateX2APIEContainer(s11.ERABsToBeModifiedSgNBModReqItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
-		fields := s11.ERABsToBeModifiedSgNBModReqItemIEContainer{field}
+		rows := []s06.FieldInfo{s10.ERABsToBeModifiedSgNBModReqItemIEs().ERABsToBeModifiedSgNBModReqItem().Info()}
+		X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeModifiedSgNBModReqItemIEValuevalidateX2APIEContainer(s10.ERABsToBeModifiedSgNBModReqItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		fields := s10.ERABsToBeModifiedSgNBModReqItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
 				return
@@ -42476,7 +42410,7 @@ func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqList(v *s11.ERABsToBeM
 		}
 	}
 }
-func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItem(v *s10.ERABsToBeModifiedSgNBModReqdItem, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItem(v *s09.ERABsToBeModifiedSgNBModReqdItem, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -42518,7 +42452,7 @@ func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItem(v *s10.ERABsToBe
 		return
 	}
 }
-func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItemResourceConfiguration(v *s10.ERABsToBeModifiedSgNBModReqdItemResourceConfiguration, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItemResourceConfiguration(v *s09.ERABsToBeModifiedSgNBModReqdItemResourceConfiguration, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -42535,7 +42469,7 @@ func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItemResourceConfigura
 		X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent(v.SgNBPDCPnotpresent, report, path+".sgNBPDCPnotpresent", false)
 	}
 }
-func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent(v *s10.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent(v *s09.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -42582,7 +42516,7 @@ func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresen
 		return
 	}
 }
-func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent(v *s10.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent(v *s09.ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -42653,9 +42587,9 @@ func X2apInternalWalkValidationERABsToBeModifiedSgNBModReqdList(v *s11.ERABsToBe
 		}
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s06.FieldInfo{s10.ERABsToBeModifiedSgNBModReqdItemIEs().ERABsToBeModifiedSgNBModReqdItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeModifiedSgNBModReqdItemIEValuevalidateX2APIEContainer(s10.ERABsToBeModifiedSgNBModReqdItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
-		fields := s10.ERABsToBeModifiedSgNBModReqdItemIEContainer{field}
+		rows := []s06.FieldInfo{s09.ERABsToBeModifiedSgNBModReqdItemIEs().ERABsToBeModifiedSgNBModReqdItem().Info()}
+		X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeModifiedSgNBModReqdItemIEValuevalidateX2APIEContainer(s09.ERABsToBeModifiedSgNBModReqdItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		fields := s09.ERABsToBeModifiedSgNBModReqdItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
 				return
@@ -42782,7 +42716,7 @@ func X2apInternalWalkValidationERABsToBeReleasedModReqItem(v *s10.ERABsToBeRelea
 		X2apInternalWalkValidationERABsToBeReleasedModReqItemSplitBearer(v.SplitBearer, report, path+".split-Bearer", false)
 	}
 }
-func X2apInternalWalkValidationERABsToBeReleasedModReqItemSCGBearer(v *s10.ERABsToBeReleasedModReqItemSCGBearer, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsToBeReleasedModReqItemSCGBearer(v *s09.ERABsToBeReleasedModReqItemSCGBearer, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -42828,7 +42762,7 @@ func X2apInternalWalkValidationERABsToBeReleasedModReqItemSCGBearer(v *s10.ERABs
 		return
 	}
 }
-func X2apInternalWalkValidationERABsToBeReleasedModReqItemSplitBearer(v *s10.ERABsToBeReleasedModReqItemSplitBearer, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsToBeReleasedModReqItemSplitBearer(v *s09.ERABsToBeReleasedModReqItemSplitBearer, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -43144,6 +43078,65 @@ func X2apInternalWalkValidationERABsToBeReleasedRelReqItemSplitBearer(v *s10.ERA
 		return
 	}
 }
+func X2apInternalWalkValidationERABsToBeReleasedSgNBChaConfItem(v *ERABsToBeReleasedSgNBChaConfItem, report *s12.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+	bb := aper.NewBudgetBuffer(*s12.X2apInternalValidationReportFieldBudget(report))
+	if err := bb.EnterDecodeValue(); err != nil {
+		*s12.X2apInternalValidationReportFieldErr(report) = err
+		return
+	}
+	defer bb.LeaveDecodeValue()
+	if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+	X2apInternalWalkValidationENDCResourceConfiguration(&v.EnDCResourceConfiguration, report, path+".en-DC-ResourceConfiguration", false)
+	if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+	X2apInternalWalkValidationERABsToBeReleasedSgNBChaConfItemResourceConfiguration(&v.ResourceConfiguration, report, path+".resource-configuration", false)
+	if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+	if v.IEExtensions != nil {
+		{
+			fields := v.IEExtensions
+			nestedPath := path + ".IEExtensions"
+			if !skipRoot {
+				rows := []s06.FieldInfo{}
+				X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeReleasedSgNBChaConfItemExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+			}
+			for i := range fields {
+				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+					return
+				}
+				switch fields[i].Id {
+				}
+			}
+		}
+	}
+	if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+}
+func X2apInternalWalkValidationERABsToBeReleasedSgNBChaConfItemResourceConfiguration(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, report *s12.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+	bb := aper.NewBudgetBuffer(*s12.X2apInternalValidationReportFieldBudget(report))
+	if err := bb.EnterDecodeValue(); err != nil {
+		*s12.X2apInternalValidationReportFieldErr(report) = err
+		return
+	}
+	defer bb.LeaveDecodeValue()
+	if v.Choice == s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPpresent && v.SgNBPDCPpresent != nil {
+		X2apInternalWalkValidationERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(v.SgNBPDCPpresent, report, path+".sgNBPDCPpresent", false)
+	}
+	if v.Choice == s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpresent && v.SgNBPDCPnotpresent != nil {
+		X2apInternalWalkValidationERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent(v.SgNBPDCPnotpresent, report, path+".sgNBPDCPnotpresent", false)
+	}
+}
 func X2apInternalWalkValidationERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent(v *s05.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
@@ -43173,6 +43166,85 @@ func X2apInternalWalkValidationERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresen
 	}
 	if *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
+	}
+}
+func X2apInternalWalkValidationERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, report *s12.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+	bb := aper.NewBudgetBuffer(*s12.X2apInternalValidationReportFieldBudget(report))
+	if err := bb.EnterDecodeValue(); err != nil {
+		*s12.X2apInternalValidationReportFieldErr(report) = err
+		return
+	}
+	defer bb.LeaveDecodeValue()
+	if v.ULGTPtunnelEndpoint != nil {
+		X2apInternalWalkValidationGTPtunnelEndpoint(v.ULGTPtunnelEndpoint, report, path+".uL-GTPtunnelEndpoint", false)
+	}
+	if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+	if v.DLGTPtunnelEndpoint != nil {
+		X2apInternalWalkValidationGTPtunnelEndpoint(v.DLGTPtunnelEndpoint, report, path+".dL-GTPtunnelEndpoint", false)
+	}
+	if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+	if v.IEExtensions != nil {
+		{
+			fields := v.IEExtensions
+			nestedPath := path + ".IEExtensions"
+			if !skipRoot {
+				rows := []s06.FieldInfo{ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEs().AdditionalListofForwardingGTPTunnelEndpoint().Info()}
+				X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+			}
+			for i := range fields {
+				if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+					return
+				}
+				switch fields[i].Id {
+				case s00.ProtocolIEID(441):
+					if value, ok := fields[i].ExtensionValue.AsAdditionalListofForwardingGTPTunnelEndpoint(); ok {
+						X2apInternalWalkValidationAdditionalListofForwardingGTPTunnelEndpoint(value, report, fmt.Sprintf("%s[%d]{id=441}", nestedPath, i), false)
+					}
+				}
+			}
+		}
+	}
+	if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+}
+func X2apInternalWalkValidationERABsToBeReleasedSgNBChaConfList(v *ERABsToBeReleasedSgNBChaConfList, report *s12.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
+		return
+	}
+	bb := aper.NewBudgetBuffer(*s12.X2apInternalValidationReportFieldBudget(report))
+	if err := bb.EnterDecodeValue(); err != nil {
+		*s12.X2apInternalValidationReportFieldErr(report) = err
+		return
+	}
+	defer bb.LeaveDecodeValue()
+	for i := range *v {
+		if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+			return
+		}
+		field := (*v)[i]
+		nestedPath := fmt.Sprintf("%s[%d]", path, i)
+		rows := []s06.FieldInfo{ERABsToBeReleasedSgNBChaConfItemIEs().ERABsToBeReleasedSgNBChaConfItem().Info()}
+		X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeReleasedSgNBChaConfItemIEValuevalidateX2APIEContainer(ERABsToBeReleasedSgNBChaConfItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		fields := ERABsToBeReleasedSgNBChaConfItemIEContainer{field}
+		for i := range fields {
+			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
+				return
+			}
+			switch fields[i].Id {
+			case s00.ProtocolIEID(230):
+				if value, ok := fields[i].Value.AsERABsToBeReleasedSgNBChaConfItem(); ok {
+					X2apInternalWalkValidationERABsToBeReleasedSgNBChaConfItem(value, report, fmt.Sprintf("%s[%d]{id=230}", nestedPath, i), false)
+				}
+			}
+		}
 	}
 }
 func X2apInternalWalkValidationERABsToBeReleasedSgNBModReqItem(v *s10.ERABsToBeReleasedSgNBModReqItem, report *s12.ValidationReport, path string, skipRoot bool) {
@@ -43809,7 +43881,7 @@ func X2apInternalWalkValidationERABsToBeReleasedSgNBRelReqdList(v *s08.ERABsToBe
 		}
 	}
 }
-func X2apInternalWalkValidationERABsToBeSetupItem(v *s11.ERABsToBeSetupItem, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationERABsToBeSetupItem(v *s10.ERABsToBeSetupItem, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -43878,9 +43950,9 @@ func X2apInternalWalkValidationERABsToBeSetupList(v *s11.ERABsToBeSetupList, rep
 		}
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
-		rows := []s06.FieldInfo{s11.ERABsToBeSetupItemIEs().ERABsToBeSetupItem().Info()}
-		X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeSetupItemIEValuevalidateX2APIEContainer(s11.ERABsToBeSetupItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
-		fields := s11.ERABsToBeSetupItemIEContainer{field}
+		rows := []s06.FieldInfo{s10.ERABsToBeSetupItemIEs().ERABsToBeSetupItem().Info()}
+		X2apInternalMergeNestedValidation(report, X2apInternalERABsToBeSetupItemIEValuevalidateX2APIEContainer(s10.ERABsToBeSetupItemIEContainer{field}, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
+		fields := s10.ERABsToBeSetupItemIEContainer{field}
 		for i := range fields {
 			if *s12.X2apInternalValidationReportFieldErr(report) != nil {
 				return
@@ -44190,7 +44262,7 @@ func X2apInternalWalkValidationExtendedULInterferenceOverloadInfo(v *s12.Extende
 		return
 	}
 }
-func X2apInternalWalkValidationFDDInfo(v *s08.FDDInfo, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationFDDInfo(v *s07.FDDInfo, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -44489,7 +44561,7 @@ func X2apInternalWalkValidationFreqBandNrItemSupportedSULBandList(v *s08.FreqBan
 		X2apInternalWalkValidationSupportedSULFreqBandItem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func X2apInternalWalkValidationGBRQosInformation(v *s08.GBRQosInformation, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationGBRQosInformation(v *s07.GBRQosInformation, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -45103,7 +45175,7 @@ func X2apInternalWalkValidationLocationInformationSgNB(v *s05.LocationInformatio
 		return
 	}
 }
-func X2apInternalWalkValidationLocationReportingInformation(v *s08.LocationReportingInformation, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationLocationReportingInformation(v *s07.LocationReportingInformation, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -45246,7 +45318,7 @@ func X2apInternalWalkValidationM3Configuration(v *s05.M3Configuration, report *s
 		return
 	}
 }
-func X2apInternalWalkValidationM4Configuration(v *s08.M4Configuration, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationM4Configuration(v *s07.M4Configuration, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -45283,7 +45355,7 @@ func X2apInternalWalkValidationM4Configuration(v *s08.M4Configuration, report *s
 		return
 	}
 }
-func X2apInternalWalkValidationM5Configuration(v *s08.M5Configuration, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationM5Configuration(v *s07.M5Configuration, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -46557,7 +46629,7 @@ func X2apInternalWalkValidationNeighbourInformationElem(v *s09.NeighbourInformat
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []s06.FieldInfo{s09.NeighbourInformationExtIEs().NeighbourTAC().Info(), s09.NeighbourInformationExtIEs().EARFCNExtension().Info()}
+				rows := []s06.FieldInfo{s08.NeighbourInformationExtIEs().NeighbourTAC().Info(), s08.NeighbourInformationExtIEs().EARFCNExtension().Info()}
 				X2apInternalMergeNestedValidation(report, X2apInternalNeighbourInformationExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
@@ -48938,7 +49010,7 @@ func X2apInternalWalkValidationSubscriptionBasedUEDifferentiationInfo(v *s05.Sub
 		return
 	}
 }
-func X2apInternalWalkValidationSupportedSULFreqBandItem(v *s06.SupportedSULFreqBandItem, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationSupportedSULFreqBandItem(v *s05.SupportedSULFreqBandItem, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -49112,7 +49184,7 @@ func X2apInternalWalkValidationTAIBasedQMC(v *s09.TAIBasedQMC, report *s12.Valid
 		return
 	}
 }
-func X2apInternalWalkValidationTAIItem(v *s09.TAIItem, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationTAIItem(v *s08.TAIItem, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -49527,7 +49599,7 @@ func X2apInternalWalkValidationTNLAToUpdateList(v *s11.TNLAToUpdateList, report 
 		X2apInternalWalkValidationTNLAToUpdateItem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func X2apInternalWalkValidationTNLCapacityIndicator(v *s06.TNLCapacityIndicator, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationTNLCapacityIndicator(v *s05.TNLCapacityIndicator, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -49968,7 +50040,7 @@ func X2apInternalWalkValidationUEContextInformationSgNBModReq(v *s11.UEContextIn
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []s06.FieldInfo{s09.UEContextInformationSgNBModReqExtIEs().SubscriberProfileIDforRFP().Info(), s09.UEContextInformationSgNBModReqExtIEs().AdditionalRRMPriorityIndex().Info(), s09.UEContextInformationSgNBModReqExtIEs().LowerLayerPresenceStatusChange().Info()}
+				rows := []s06.FieldInfo{s08.UEContextInformationSgNBModReqExtIEs().SubscriberProfileIDforRFP().Info(), s08.UEContextInformationSgNBModReqExtIEs().AdditionalRRMPriorityIndex().Info(), s08.UEContextInformationSgNBModReqExtIEs().LowerLayerPresenceStatusChange().Info()}
 				X2apInternalMergeNestedValidation(report, X2apInternalUEContextInformationSgNBModReqExtIEsValuevalidateX2APExtensionContainer(fields, rows, nestedPath, *s12.X2apInternalValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
@@ -50101,7 +50173,7 @@ func X2apInternalWalkValidationUEContextReferenceAtWT(v *UEContextReferenceAtWT,
 		return
 	}
 }
-func X2apInternalWalkValidationUESecurityCapabilities(v *s06.UESecurityCapabilities, report *s12.ValidationReport, path string, skipRoot bool) {
+func X2apInternalWalkValidationUESecurityCapabilities(v *s05.UESecurityCapabilities, report *s12.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s12.X2apInternalValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -50745,6 +50817,119 @@ type WTUEXwAPID = []byte
 
 // X2BenefitValue represents the ASN.1 type X2BenefitValue (INTEGER).
 type X2BenefitValue = *big.Int
+type X2apInternalAsn1cAPERAdditionalMeasurementTimingConfigurationListListValue struct {
+	Value s06.AdditionalMeasurementTimingConfigurationList
+}
+
+// AdditionalMeasurementTimingConfigurationListComplete carries a complete AdditionalMeasurementTimingConfigurationList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.4 require new encodings to pad with zero bits.
+type AdditionalMeasurementTimingConfigurationListComplete struct {
+	replay           aper.Snapshot
+	stream           aper.WireSpan
+	received         bool
+	withoutReplay    bool
+	receivedAbsolute bool
+	receivedBytes    aper.WireSpan
+	receivedLocation aper.Location
+	Value            s06.AdditionalMeasurementTimingConfigurationList
+	perPadding       aper.CompletePadding `json:"-"`
+}
+
+func X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERLegacy(v *AdditionalMeasurementTimingConfigurationListComplete) ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := X2apInternalMarshalAPERAdditionalMeasurementTimingConfigurationListTo(v.Value, bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithPadding(v.perPadding)
+}
+
+// UnmarshalAPER decodes AdditionalMeasurementTimingConfigurationList from APER format.
+func X2apInternalAdditionalMeasurementTimingConfigurationListCompleteUnmarshalAPERLegacy(v *AdditionalMeasurementTimingConfigurationListComplete, data []byte) error {
+	return X2apInternalAdditionalMeasurementTimingConfigurationListCompleteUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
+}
+func X2apInternalAdditionalMeasurementTimingConfigurationListCompleteUnmarshalAPERWithOptions(v *AdditionalMeasurementTimingConfigurationListComplete, data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "AdditionalMeasurementTimingConfigurationList")
+	}
+	bb.EnterComponent("AdditionalMeasurementTimingConfigurationList")
+	value, err := X2apInternalUnmarshalAPERAdditionalMeasurementTimingConfigurationListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "AdditionalMeasurementTimingConfigurationList")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "AdditionalMeasurementTimingConfigurationList")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "AdditionalMeasurementTimingConfigurationList")
+	}
+	v.Value, v.perPadding = value, padding.Padding()
+	return nil
+}
+
+// MarshalAPERAdditionalMeasurementTimingConfigurationListTo appends a AdditionalMeasurementTimingConfigurationList list to bb.
+func X2apInternalMarshalAPERAdditionalMeasurementTimingConfigurationListTo(list s06.AdditionalMeasurementTimingConfigurationList, bb *aper.BitBuffer, fresh ...bool) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	v := X2apInternalAsn1cAPERAdditionalMeasurementTimingConfigurationListListValue{Value: list}
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := s06.X2apInternalAdditionalMeasurementTimingConfigurationItemMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERAdditionalMeasurementTimingConfigurationListFrom decodes a AdditionalMeasurementTimingConfigurationList list from bb.
+func X2apInternalUnmarshalAPERAdditionalMeasurementTimingConfigurationListFrom(bb *aper.BitBuffer) (s06.AdditionalMeasurementTimingConfigurationList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
+	var v X2apInternalAsn1cAPERAdditionalMeasurementTimingConfigurationListListValue
+	if err := X2apInternalUnmarshalAPERAdditionalMeasurementTimingConfigurationListInto(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+func X2apInternalUnmarshalAPERAdditionalMeasurementTimingConfigurationListInto(v *X2apInternalAsn1cAPERAdditionalMeasurementTimingConfigurationListListValue, bb *aper.BitBuffer) error {
+	v.Value = make(s06.AdditionalMeasurementTimingConfigurationList, 0)
+	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem s06.AdditionalMeasurementTimingConfigurationItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
+			if err := s06.X2apInternalAdditionalMeasurementTimingConfigurationItemUnmarshalAPERFrom(&elem, bb); err != nil {
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
+			}
+			bb.LeaveComponent(elementMark)
+			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
+				return err
+			} else {
+				v.Value = next
+			}
+		}
+		return nil
+	})
+	if errCollection_value != nil {
+		return errCollection_value
+	}
+	return nil
+}
+
 type X2apInternalAsn1cAPERAdditionalListofForwardingGTPTunnelEndpointListValue struct {
 	Value s11.AdditionalListofForwardingGTPTunnelEndpoint
 }
@@ -50775,11 +50960,6 @@ func X2apInternalAdditionalListofForwardingGTPTunnelEndpointCompleteMarshalAPERL
 func X2apInternalAdditionalListofForwardingGTPTunnelEndpointCompleteUnmarshalAPERLegacy(v *AdditionalListofForwardingGTPTunnelEndpointComplete, data []byte) error {
 	return X2apInternalAdditionalListofForwardingGTPTunnelEndpointCompleteUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes AdditionalListofForwardingGTPTunnelEndpoint with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func X2apInternalAdditionalListofForwardingGTPTunnelEndpointCompleteUnmarshalAPERWithOptions(v *AdditionalListofForwardingGTPTunnelEndpointComplete, data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -50796,6 +50976,11 @@ func X2apInternalAdditionalListofForwardingGTPTunnelEndpointCompleteUnmarshalAPE
 	}
 	v.Value, v.perPadding = value, padding.Padding()
 	return nil
+}
+
+// MarshalAPERAdditionalListofForwardingGTPTunnelEndpoint encodes a AdditionalListofForwardingGTPTunnelEndpoint list to APER.
+func X2apInternalMarshalAPERAdditionalListofForwardingGTPTunnelEndpoint(list AdditionalListofForwardingGTPTunnelEndpointComplete) ([]byte, error) {
+	return X2apInternalAdditionalListofForwardingGTPTunnelEndpointCompleteMarshalAPERLegacy(&list)
 }
 
 // MarshalAPERAdditionalListofForwardingGTPTunnelEndpointTo appends a AdditionalListofForwardingGTPTunnelEndpoint list to bb.
@@ -50823,6 +51008,15 @@ func X2apInternalMarshalAPERAdditionalListofForwardingGTPTunnelEndpointTo(list s
 	return nil
 }
 
+// UnmarshalAPERAdditionalListofForwardingGTPTunnelEndpoint decodes a AdditionalListofForwardingGTPTunnelEndpoint list from APER.
+func X2apInternalUnmarshalAPERAdditionalListofForwardingGTPTunnelEndpoint(data []byte) (AdditionalListofForwardingGTPTunnelEndpointComplete, error) {
+	var value AdditionalListofForwardingGTPTunnelEndpointComplete
+	if err := X2apInternalAdditionalListofForwardingGTPTunnelEndpointCompleteUnmarshalAPERLegacy(&value, data); err != nil {
+		return value, err
+	}
+	return value, nil
+}
+
 // UnmarshalAPERAdditionalListofForwardingGTPTunnelEndpointFrom decodes a AdditionalListofForwardingGTPTunnelEndpoint list from bb.
 func X2apInternalUnmarshalAPERAdditionalListofForwardingGTPTunnelEndpointFrom(bb *aper.BitBuffer) (s11.AdditionalListofForwardingGTPTunnelEndpoint, error) {
 	if err := bb.EnterDecodeValue(); err != nil {
@@ -50838,7 +51032,7 @@ func X2apInternalUnmarshalAPERAdditionalListofForwardingGTPTunnelEndpointFrom(bb
 func X2apInternalUnmarshalAPERAdditionalListofForwardingGTPTunnelEndpointInto(v *X2apInternalAsn1cAPERAdditionalListofForwardingGTPTunnelEndpointListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s11.AdditionalListofForwardingGTPTunnelEndpoint, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50897,7 +51091,6 @@ func X2apInternalWLANMeasurementConfigurationMarshalAPERTo(v *WLANMeasurementCon
 	}
 	defer bb.LeaveDecodeValue()
 
-	recoveryStart := bb.BitsWritten()
 	hasExtensions := false
 	for _, present := range v.extPresent {
 		hasExtensions = hasExtensions || present
@@ -50969,14 +51162,14 @@ func X2apInternalWLANMeasurementConfigurationMarshalAPERTo(v *WLANMeasurementCon
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -50986,7 +51179,7 @@ func X2apInternalWLANMeasurementConfigurationMarshalAPERTo(v *WLANMeasurementCon
 				return err
 			}
 		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -51002,8 +51195,6 @@ func X2apInternalWLANMeasurementConfigurationMarshalAPERTo(v *WLANMeasurementCon
 			}
 		}
 	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
@@ -51011,11 +51202,6 @@ func X2apInternalWLANMeasurementConfigurationMarshalAPERTo(v *WLANMeasurementCon
 func X2apInternalWLANMeasurementConfigurationUnmarshalAPERLegacy(v *WLANMeasurementConfiguration, data []byte) error {
 	return X2apInternalWLANMeasurementConfigurationUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes WLANMeasurementConfiguration with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func X2apInternalWLANMeasurementConfigurationUnmarshalAPERWithOptions(v *WLANMeasurementConfiguration, data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -51029,7 +51215,7 @@ func X2apInternalWLANMeasurementConfigurationUnmarshalAPERWithOptions(v *WLANMea
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementConfiguration")
 	}
-	v.perPadding = padding.WithRecords(v.perPadding)
+	v.perPadding = padding
 	return nil
 }
 func X2apInternalWLANMeasurementConfigurationUnmarshalAPERFrom(v *WLANMeasurementConfiguration, bb *aper.BitBuffer) error {
@@ -51040,7 +51226,7 @@ func X2apInternalWLANMeasurementConfigurationUnmarshalAPERFrom(v *WLANMeasuremen
 	}
 	defer bb.LeaveDecodeValue()
 	*v = WLANMeasurementConfiguration{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
+	var extAdditions aper.ExtensionAdditions
 	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -51071,7 +51257,7 @@ func X2apInternalWLANMeasurementConfigurationUnmarshalAPERFrom(v *WLANMeasuremen
 		toleranceMark_wlanmeasconfignamelist := bb.EnterComponent("WlanMeasConfigNameList")
 		tmp_wlanmeasconfignamelist := make(WLANMeasConfigNameList, 0)
 		_, errCollection_wlanmeasconfignamelist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_wlanmeasconfignamelist, fragmentLength_wlanmeasconfignamelist int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1177
+			// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1176
 			if fragmentOffset_wlanmeasconfignamelist < 0 || fragmentLength_wlanmeasconfignamelist < 0 || fragmentLength_wlanmeasconfignamelist > int64(^uint(0)>>1) || fragmentOffset_wlanmeasconfignamelist > int64(^uint(0)>>1)-fragmentLength_wlanmeasconfignamelist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51120,7 +51306,7 @@ func X2apInternalWLANMeasurementConfigurationUnmarshalAPERFrom(v *WLANMeasuremen
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.WLANMeasurementConfigurationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51151,7 +51337,7 @@ func X2apInternalWLANMeasurementConfigurationUnmarshalAPERFrom(v *WLANMeasuremen
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -51168,12 +51354,12 @@ func X2apInternalWLANMeasurementConfigurationUnmarshalAPERFrom(v *WLANMeasuremen
 		}
 		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
+			if extPresent[i] {
 				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.5"})
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -51188,15 +51374,6 @@ func X2apInternalWLANMeasurementConfigurationUnmarshalAPERFrom(v *WLANMeasuremen
 				v.extOrigin[i] = opaque.CaptureOrigin()
 			}
 		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-			v.extWire = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 
@@ -51290,11 +51467,6 @@ func X2apInternalWTIDMarshalAPERTo(v *WTID, bb *aper.BitBuffer, fresh ...bool) e
 func X2apInternalWTIDUnmarshalAPERLegacy(v *WTID, data []byte) error {
 	return X2apInternalWTIDUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes WTID with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func X2apInternalWTIDUnmarshalAPERWithOptions(v *WTID, data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -51396,6 +51568,29 @@ func (v AdditionalListofForwardingGTPTunnelEndpointComplete) WithoutReplay() Add
 	v.receivedBytes = aper.WireSpan{}
 	v.receivedLocation = aper.Location{}
 	var zero AdditionalListofForwardingGTPTunnelEndpointComplete
+	v.perPadding = zero.perPadding
+	return v
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *AdditionalMeasurementTimingConfigurationListComplete) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s00.X2apInternalReceivedFormAt(v.received, v.receivedBytes, "AdditionalMeasurementTimingConfigurationListComplete", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "AdditionalMeasurementTimingConfigurationListComplete", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v AdditionalMeasurementTimingConfigurationListComplete) WithoutReplay() AdditionalMeasurementTimingConfigurationListComplete {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero AdditionalMeasurementTimingConfigurationListComplete
 	v.perPadding = zero.perPadding
 	return v
 }
@@ -51566,6 +51761,98 @@ func X2apInternalAdditionalListofForwardingGTPTunnelEndpointCompleteMarshalAPERP
 		value = &copyValue
 	}
 	if err := X2apInternalMarshalAPERAdditionalListofForwardingGTPTunnelEndpointTo(value.Value, bb, fresh); err != nil {
+		return nil, err
+	}
+	out, err := bb.CompleteBytesWithPadding(value.perPadding)
+	if err != nil {
+		return nil, err
+	}
+	if err := bb.CheckOutput(uint64(len(out))); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MarshalAPER encodes a complete value using one per-call semantic plan.
+func (v *AdditionalMeasurementTimingConfigurationListComplete) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "AdditionalMeasurementTimingConfigurationListComplete")
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "AdditionalMeasurementTimingConfigurationListComplete")
+	}
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		X2apInternalCompareX2APAdditionalMeasurementTimingConfigurationListComplete(v, &s)
+		plan := s.Plan()
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, "AdditionalMeasurementTimingConfigurationListComplete")
+		}
+		if plan.Unchanged(v.replay) && v.received {
+			out, err := v.receivedBytes.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, "AdditionalMeasurementTimingConfigurationListComplete")
+		}
+		return X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERWithPlan(v, fresh, plan)
+	}
+	return X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERUnplanned(v, fresh, budget)
+}
+func X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERWithPlan(v *AdditionalMeasurementTimingConfigurationListComplete, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	bb := aper.NewBudgetBuffer(&budget)
+	bb.SetReplayPlan(&plan)
+	out, err := X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERPlanned(v, &budget, fresh)
+	if failure := bb.CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "AdditionalMeasurementTimingConfigurationListComplete")
+}
+func X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERUnplanned(v *AdditionalMeasurementTimingConfigurationListComplete, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERPlanned(v, &budget, fresh)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "AdditionalMeasurementTimingConfigurationListComplete")
+}
+func X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERBudget(v *AdditionalMeasurementTimingConfigurationListComplete, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		X2apInternalCompareX2APAdditionalMeasurementTimingConfigurationListComplete(v, &s)
+		decisions := s.Plan()
+		if err := decisions.CommitBudget(budget); err != nil {
+			return nil, err
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return v.receivedBytes.EncodeBytes(budget)
+		}
+		return X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERChanged(v, budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return v.receivedBytes.EncodeBytes(budget)
+	}
+	return X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERChanged(v *AdditionalMeasurementTimingConfigurationListComplete, budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	previous := bb.ReplayPlan()
+	bb.SetReplayPlan(&plan)
+	defer bb.SetReplayPlan(previous)
+	return X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalAdditionalMeasurementTimingConfigurationListCompleteMarshalAPERPlanned(v *AdditionalMeasurementTimingConfigurationListComplete, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	value := v
+	if fresh {
+		copyValue := v.WithoutReplay()
+		value = &copyValue
+	}
+	if err := X2apInternalMarshalAPERAdditionalMeasurementTimingConfigurationListTo(value.Value, bb, fresh); err != nil {
 		return nil, err
 	}
 	out, err := bb.CompleteBytesWithPadding(value.perPadding)
@@ -51787,6 +52074,30 @@ func (v *AdditionalListofForwardingGTPTunnelEndpointComplete) UnmarshalAPER(data
 }
 
 // UnmarshalAPER decodes atomically into one immutable wire owner.
+func (v *AdditionalMeasurementTimingConfigurationListComplete) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "AdditionalMeasurementTimingConfigurationListComplete")
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	var decoded AdditionalMeasurementTimingConfigurationListComplete
+	err := X2apInternalAdditionalMeasurementTimingConfigurationListCompleteUnmarshalAPERWithOptions(&decoded, data, settings)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
+		X2apInternalCaptureX2APAdditionalMeasurementTimingConfigurationListComplete(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(settings, err)
+	if err != nil {
+		*v = AdditionalMeasurementTimingConfigurationListComplete{}
+		return report, aper.OperationError(err, "AdditionalMeasurementTimingConfigurationListComplete")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "AdditionalMeasurementTimingConfigurationListComplete")
+}
+
+// UnmarshalAPER decodes atomically into one immutable wire owner.
 func (v *WLANMeasurementConfiguration) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
 		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "WLANMeasurementConfiguration")
@@ -51877,9 +52188,21 @@ func NewWTIDUnknownExtension(index uint64, contents []byte, options ...aper.Buil
 	return value, aper.OperationError(nil, "WTIDUnknownExtension")
 }
 
+// MarshalAPERAdditionalMeasurementTimingConfigurationList encodes a complete named list.
+func MarshalAPERAdditionalMeasurementTimingConfigurationList(v AdditionalMeasurementTimingConfigurationListComplete, options ...aper.EncodeOption) ([]byte, error) {
+	return v.MarshalAPER(options...)
+}
+
 // MarshalAPERAdditionalListofForwardingGTPTunnelEndpoint encodes a complete named list.
 func MarshalAPERAdditionalListofForwardingGTPTunnelEndpoint(v AdditionalListofForwardingGTPTunnelEndpointComplete, options ...aper.EncodeOption) ([]byte, error) {
 	return v.MarshalAPER(options...)
+}
+
+// UnmarshalAPERAdditionalMeasurementTimingConfigurationList decodes a complete named list.
+func UnmarshalAPERAdditionalMeasurementTimingConfigurationList(data []byte, options ...aper.DecodeOption) (AdditionalMeasurementTimingConfigurationListComplete, aper.DecodeReport, error) {
+	var v AdditionalMeasurementTimingConfigurationListComplete
+	report, err := v.UnmarshalAPER(data, options...)
+	return v, report, err
 }
 
 // UnmarshalAPERAdditionalListofForwardingGTPTunnelEndpoint decodes a complete named list.
@@ -51913,6 +52236,85 @@ type UEContextReferenceAtWT struct {
 
 // X2APMessage represents the ASN.1 type X2AP-Message (OCTET_STRING).
 type X2APMessage = []byte
+type ERABsToBeReleasedSgNBChaConfList = []ERABsToBeReleasedSgNBChaConfItemIEValueProtocolIESingleContainer
+
+// ERABsToBeReleasedSgNBChaConfItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item (SEQUENCE).
+type ERABsToBeReleasedSgNBChaConfItem struct {
+	replay                    aper.Snapshot
+	stream                    aper.WireSpan
+	received                  bool
+	withoutReplay             bool
+	receivedAbsolute          bool
+	receivedBytes             aper.WireSpan
+	receivedLocation          aper.Location
+	ERABID                    s00.ERABID                                             `asn1:"tag:0,context,implicit"`
+	EnDCResourceConfiguration s04.ENDCResourceConfiguration                          `asn1:"tag:1,context,implicit"`
+	ResourceConfiguration     ERABsToBeReleasedSgNBChaConfItemResourceConfiguration  `asn1:"tag:2,context,explicit"`
+	IEExtensions              s02.ERABsToBeReleasedSgNBChaConfItemExtIEsExtContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitzero"`
+	iEExtensionsIndef         bool                                                   `asn1:"-" json:"-"`
+	extCount                  int64                                                  `asn1:"-" json:"-"`
+	extPresent                []bool                                                 `asn1:"-" json:"-"`
+	extData                   [][]byte                                               `asn1:"-" json:"-"`
+	perPadding                aper.FinalPadding                                      `asn1:"-" json:"-"`
+	perExtPadding             []aper.CompletePadding                                 `asn1:"-" json:"-"`
+	extOrigin                 []aper.OpaqueOrigin
+	extWire                   []aper.WireSpan
+}
+
+// ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresent (SEQUENCE).
+type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent struct {
+	replay              aper.Snapshot
+	stream              aper.WireSpan
+	received            bool
+	withoutReplay       bool
+	receivedAbsolute    bool
+	receivedBytes       aper.WireSpan
+	receivedLocation    aper.Location
+	ULGTPtunnelEndpoint *s09.GTPtunnelEndpoint                                            `asn1:"tag:0,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
+	DLGTPtunnelEndpoint *s09.GTPtunnelEndpoint                                            `asn1:"tag:1,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
+	IEExtensions        ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitzero"`
+	iEExtensionsIndef   bool                                                              `asn1:"-" json:"-"`
+	extCount            int64                                                             `asn1:"-" json:"-"`
+	extPresent          []bool                                                            `asn1:"-" json:"-"`
+	extData             [][]byte                                                          `asn1:"-" json:"-"`
+	perPadding          aper.FinalPadding                                                 `asn1:"-" json:"-"`
+	perExtPadding       []aper.CompletePadding                                            `asn1:"-" json:"-"`
+	extOrigin           []aper.OpaqueOrigin
+	extWire             []aper.WireSpan
+}
+
+// ERABsToBeReleasedSgNBChaConfItemResourceConfiguration represents the ASN.1 CHOICE type E-RABs-ToBeReleased-SgNBChaConf-Item-resource-configuration.
+type ERABsToBeReleasedSgNBChaConfItemResourceConfiguration struct {
+	replay             aper.Snapshot
+	stream             aper.WireSpan
+	received           bool
+	withoutReplay      bool
+	receivedAbsolute   bool
+	receivedBytes      aper.WireSpan
+	receivedLocation   aper.Location
+	Choice             int
+	perPadding         aper.CompletePadding                                    `json:"-"`
+	perOpenTypePadding aper.CompletePadding                                    `json:"-"`
+	UnknownExtension   *aper.ChoiceExtension                                   `json:"UnknownExtension,omitempty"`
+	SgNBPDCPpresent    *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent        `json:"SgNBPDCPpresent,omitempty"`
+	SgNBPDCPnotpresent *s05.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent `json:"SgNBPDCPnotpresent,omitempty"`
+}
+
+// NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent creates a ERABsToBeReleasedSgNBChaConfItemResourceConfiguration with the sgNBPDCPpresent alternative.
+func X2apInternalNewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresentLegacy(v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) ERABsToBeReleasedSgNBChaConfItemResourceConfiguration {
+	return ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{
+		Choice:          s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPpresent,
+		SgNBPDCPpresent: &v,
+	}
+}
+
+// NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent creates a ERABsToBeReleasedSgNBChaConfItemResourceConfiguration with the sgNBPDCPnotpresent alternative.
+func X2apInternalNewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresentLegacy(v s05.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent) ERABsToBeReleasedSgNBChaConfItemResourceConfiguration {
+	return ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{
+		Choice:             s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpresent,
+		SgNBPDCPnotpresent: &v,
+	}
+}
 
 // MarshalAPER encodes UEContextReferenceAtWT to APER format.
 func X2apInternalUEContextReferenceAtWTMarshalAPERLegacy(v *UEContextReferenceAtWT) ([]byte, error) {
@@ -51946,7 +52348,6 @@ func X2apInternalUEContextReferenceAtWTMarshalAPERTo(v *UEContextReferenceAtWT, 
 	}
 	defer bb.LeaveDecodeValue()
 
-	recoveryStart := bb.BitsWritten()
 	hasExtensions := false
 	for _, present := range v.extPresent {
 		hasExtensions = hasExtensions || present
@@ -51986,14 +52387,14 @@ func X2apInternalUEContextReferenceAtWTMarshalAPERTo(v *UEContextReferenceAtWT, 
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -52003,7 +52404,7 @@ func X2apInternalUEContextReferenceAtWTMarshalAPERTo(v *UEContextReferenceAtWT, 
 				return err
 			}
 		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -52019,8 +52420,6 @@ func X2apInternalUEContextReferenceAtWTMarshalAPERTo(v *UEContextReferenceAtWT, 
 			}
 		}
 	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
@@ -52028,11 +52427,6 @@ func X2apInternalUEContextReferenceAtWTMarshalAPERTo(v *UEContextReferenceAtWT, 
 func X2apInternalUEContextReferenceAtWTUnmarshalAPERLegacy(v *UEContextReferenceAtWT, data []byte) error {
 	return X2apInternalUEContextReferenceAtWTUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes UEContextReferenceAtWT with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func X2apInternalUEContextReferenceAtWTUnmarshalAPERWithOptions(v *UEContextReferenceAtWT, data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -52046,7 +52440,7 @@ func X2apInternalUEContextReferenceAtWTUnmarshalAPERWithOptions(v *UEContextRefe
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextReferenceAtWT")
 	}
-	v.perPadding = padding.WithRecords(v.perPadding)
+	v.perPadding = padding
 	return nil
 }
 func X2apInternalUEContextReferenceAtWTUnmarshalAPERFrom(v *UEContextReferenceAtWT, bb *aper.BitBuffer) error {
@@ -52057,7 +52451,7 @@ func X2apInternalUEContextReferenceAtWTUnmarshalAPERFrom(v *UEContextReferenceAt
 	}
 	defer bb.LeaveDecodeValue()
 	*v = UEContextReferenceAtWT{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
+	var extAdditions aper.ExtensionAdditions
 	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -52081,7 +52475,7 @@ func X2apInternalUEContextReferenceAtWTUnmarshalAPERFrom(v *UEContextReferenceAt
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.UEContextReferenceAtWTItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52112,7 +52506,7 @@ func X2apInternalUEContextReferenceAtWTUnmarshalAPERFrom(v *UEContextReferenceAt
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -52129,12 +52523,12 @@ func X2apInternalUEContextReferenceAtWTUnmarshalAPERFrom(v *UEContextReferenceAt
 		}
 		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
+			if extPresent[i] {
 				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4"})
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -52149,15 +52543,6 @@ func X2apInternalUEContextReferenceAtWTUnmarshalAPERFrom(v *UEContextReferenceAt
 				v.extOrigin[i] = opaque.CaptureOrigin()
 			}
 		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-			v.extWire = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 
@@ -52192,11 +52577,6 @@ func X2apInternalActivatedCellListCompleteMarshalAPERLegacy(v *ActivatedCellList
 func X2apInternalActivatedCellListCompleteUnmarshalAPERLegacy(v *ActivatedCellListComplete, data []byte) error {
 	return X2apInternalActivatedCellListCompleteUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ActivatedCellList with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func X2apInternalActivatedCellListCompleteUnmarshalAPERWithOptions(v *ActivatedCellListComplete, data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -52269,7 +52649,7 @@ func X2apInternalUnmarshalAPERActivatedCellListFrom(bb *aper.BitBuffer) (s06.Act
 func X2apInternalUnmarshalAPERActivatedCellListInto(v *X2apInternalAsn1cAPERActivatedCellListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s06.ActivatedCellList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52291,6 +52671,512 @@ func X2apInternalUnmarshalAPERActivatedCellListInto(v *X2apInternalAsn1cAPERActi
 	if errCollection_value != nil {
 		return errCollection_value
 	}
+	return nil
+}
+
+// MarshalAPER encodes ERABsToBeReleasedSgNBChaConfItem to APER format.
+func X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERLegacy(v *ERABsToBeReleasedSgNBChaConfItem) ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERTo(v, bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithFinalPadding(v.perPadding)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERTo(v *ERABsToBeReleasedSgNBChaConfItem, bb *aper.BitBuffer, fresh ...bool) error {
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.
+			RestoreReplayPlan(previous)
+	}
+	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err != nil {
+			return err
+		}
+	}
+
+	extensionCount := v.extCount
+	if len(fresh) != 0 && fresh[0] {
+		extensionCount, _ = s00.X2apInternalPreferredSequenceTail(v.extPresent, v.extData)
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	hasExtensions := false
+	for _, present := range v.extPresent {
+		hasExtensions = hasExtensions || present
+	}
+	for _, data := range v.extData {
+		hasExtensions = hasExtensions || data != nil
+	}
+	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := aper.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := aper.EncodeIntegerBigBoundsAligned(bb, v.ERABID, s00.X2apInternalAsn1IntegerBound1, s00.X2apInternalAsn1IntegerBound7, true); err != nil {
+		return fmt.Errorf("encoding e-RAB-ID: %w", err)
+	}
+	if err := s04.X2apInternalENDCResourceConfigurationMarshalAPERTo(&v.EnDCResourceConfiguration, bb, len(fresh) != 0 && fresh[0]); err != nil {
+		return fmt.Errorf("encoding en-DC-ResourceConfiguration: %w", err)
+	}
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERTo(&v.ResourceConfiguration, bb, len(fresh) != 0 && fresh[0]); err != nil {
+		return fmt.Errorf("encoding resource-configuration: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := aper.EncodeCollection(bb, int64(len(v.IEExtensions)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := s02.X2apInternalERABsToBeReleasedSgNBChaConfItemExtIEsExtFieldMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount := extensionCount
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
+		if extCount < 0 || extCount >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
+		}
+		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
+			return err
+		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil)
+			if err := aper.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil) {
+				var data []byte
+				if i < int64(len(v.extData)) {
+					data = v.extData[i]
+				}
+				if err := aper.EncodeExtensionContents(bb, data, v.extWire, i); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABsToBeReleasedSgNBChaConfItem from APER format.
+func X2apInternalERABsToBeReleasedSgNBChaConfItemUnmarshalAPERLegacy(v *ERABsToBeReleasedSgNBChaConfItem, data []byte) error {
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemUnmarshalAPERWithOptions(v *ERABsToBeReleasedSgNBChaConfItem, data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItem")
+	}
+	bb.EnterComponent("ERABsToBeReleasedSgNBChaConfItem")
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemUnmarshalAPERFrom(v, bb); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItem")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "ERABsToBeReleasedSgNBChaConfItem")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItem")
+	}
+	v.perPadding = padding
+	return nil
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemUnmarshalAPERFrom(v *ERABsToBeReleasedSgNBChaConfItem, bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = ERABsToBeReleasedSgNBChaConfItem{}
+	var extAdditions aper.ExtensionAdditions
+	hasExtensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	val_erabid, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.X2apInternalAsn1IntegerBound1, s00.X2apInternalAsn1IntegerBound7, true)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABID")
+	}
+	v.ERABID = val_erabid
+	toleranceMark_endcresourceconfiguration := bb.EnterComponent("EnDCResourceConfiguration")
+	if err := s04.X2apInternalENDCResourceConfigurationUnmarshalAPERFrom(&v.EnDCResourceConfiguration, bb); err != nil {
+		return runtime.WrapDecodePath(err, "EnDCResourceConfiguration")
+	}
+	bb.LeaveComponent(toleranceMark_endcresourceconfiguration)
+	toleranceMark_resourceconfiguration := bb.EnterComponent("ResourceConfiguration")
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnmarshalAPERFrom(&v.ResourceConfiguration, bb); err != nil {
+		return runtime.WrapDecodePath(err, "ResourceConfiguration")
+	}
+	bb.LeaveComponent(toleranceMark_resourceconfiguration)
+	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
+		tmp_ieextensions := make(s02.ERABsToBeReleasedSgNBChaConfItemExtIEsExtContainer, 0)
+		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem s02.ERABsToBeReleasedSgNBChaConfItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
+				if err := s02.X2apInternalERABsToBeReleasedSgNBChaConfItemExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
+				}
+				bb.LeaveComponent(elementMark)
+				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
+					return err
+				} else {
+					tmp_ieextensions = next
+				}
+			}
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
+		}
+		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
+	}
+	if hasExtensions {
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "ExtData_")
+		}
+		v.extCount = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
+			return err
+		}
+		v.extData = make([][]byte, len(extPresent))
+		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
+		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extWire = make([]aper.WireSpan, len(v.extData))
+		v.extPresent = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4"})
+				if err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
+				}
+				opaque = opaque.WithPath("Extensions")
+				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
+					return err
+				}
+				var retained aper.WireSpan
+				opaque.RetainContents(&retained)
+				v.extWire[i] = retained
+				v.extOrigin[i] = opaque.CaptureOrigin()
+			}
+		}
+	}
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// MarshalAPER encodes ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent to APER format.
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERLegacy(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERTo(v, bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithFinalPadding(v.perPadding)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERTo(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, bb *aper.BitBuffer, fresh ...bool) error {
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.
+			RestoreReplayPlan(previous)
+	}
+	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err != nil {
+			return err
+		}
+	}
+
+	extensionCount := v.extCount
+	if len(fresh) != 0 && fresh[0] {
+		extensionCount, _ = s00.X2apInternalPreferredSequenceTail(v.extPresent, v.extData)
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	hasExtensions := false
+	for _, present := range v.extPresent {
+		hasExtensions = hasExtensions || present
+	}
+	for _, data := range v.extData {
+		hasExtensions = hasExtensions || data != nil
+	}
+	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := aper.EncodeBoolean(bb, v.ULGTPtunnelEndpoint != nil); err != nil {
+		return err
+	}
+	if err := aper.EncodeBoolean(bb, v.DLGTPtunnelEndpoint != nil); err != nil {
+		return err
+	}
+	if err := aper.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if v.ULGTPtunnelEndpoint != nil {
+		if err := s09.X2apInternalGTPtunnelEndpointMarshalAPERTo(v.ULGTPtunnelEndpoint, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			return fmt.Errorf("encoding uL-GTPtunnelEndpoint: %w", err)
+		}
+	}
+	if v.DLGTPtunnelEndpoint != nil {
+		if err := s09.X2apInternalGTPtunnelEndpointMarshalAPERTo(v.DLGTPtunnelEndpoint, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			return fmt.Errorf("encoding dL-GTPtunnelEndpoint: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := aper.EncodeCollection(bb, int64(len(v.IEExtensions)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtFieldMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount := extensionCount
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
+		if extCount < 0 || extCount >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
+		}
+		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
+			return err
+		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil)
+			if err := aper.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(v.extData)) && v.extData[i] != nil) {
+				var data []byte
+				if i < int64(len(v.extData)) {
+					data = v.extData[i]
+				}
+				if err := aper.EncodeExtensionContents(bb, data, v.extWire, i); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent from APER format.
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentUnmarshalAPERLegacy(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, data []byte) error {
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentUnmarshalAPERWithOptions(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+	}
+	bb.EnterComponent("ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentUnmarshalAPERFrom(v, bb); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+	}
+	v.perPadding = padding
+	return nil
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentUnmarshalAPERFrom(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent{}
+	var extAdditions aper.ExtensionAdditions
+	hasExtensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ulgtptunnelendpoint, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_dlgtptunnelendpoint, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_ulgtptunnelendpoint {
+		toleranceMark_ulgtptunnelendpoint := bb.EnterComponent("ULGTPtunnelEndpoint")
+		var dec_ulgtptunnelendpoint s09.GTPtunnelEndpoint
+		if err := s09.X2apInternalGTPtunnelEndpointUnmarshalAPERFrom(&dec_ulgtptunnelendpoint, bb); err != nil {
+			return runtime.WrapDecodePath(err, "ULGTPtunnelEndpoint")
+		}
+		if err := aper.ChargeValue(bb, dec_ulgtptunnelendpoint); err != nil {
+			return err
+		}
+		v.ULGTPtunnelEndpoint = &dec_ulgtptunnelendpoint
+		bb.LeaveComponent(toleranceMark_ulgtptunnelendpoint)
+	}
+	if opt_dlgtptunnelendpoint {
+		toleranceMark_dlgtptunnelendpoint := bb.EnterComponent("DLGTPtunnelEndpoint")
+		var dec_dlgtptunnelendpoint s09.GTPtunnelEndpoint
+		if err := s09.X2apInternalGTPtunnelEndpointUnmarshalAPERFrom(&dec_dlgtptunnelendpoint, bb); err != nil {
+			return runtime.WrapDecodePath(err, "DLGTPtunnelEndpoint")
+		}
+		if err := aper.ChargeValue(bb, dec_dlgtptunnelendpoint); err != nil {
+			return err
+		}
+		v.DLGTPtunnelEndpoint = &dec_dlgtptunnelendpoint
+		bb.LeaveComponent(toleranceMark_dlgtptunnelendpoint)
+	}
+	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
+		tmp_ieextensions := make(ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtContainer, 0)
+		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
+				if err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsExtFieldUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
+				}
+				bb.LeaveComponent(elementMark)
+				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
+					return err
+				} else {
+					tmp_ieextensions = next
+				}
+			}
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
+		}
+		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
+	}
+	if hasExtensions {
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "ExtData_")
+		}
+		v.extCount = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
+			return err
+		}
+		v.extData = make([][]byte, len(extPresent))
+		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
+		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extWire = make([]aper.WireSpan, len(v.extData))
+		v.extPresent = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4"})
+				if err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
+				}
+				opaque = opaque.WithPath("Extensions")
+				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
+					return err
+				}
+				var retained aper.WireSpan
+				opaque.RetainContents(&retained)
+				v.extWire[i] = retained
+				v.extOrigin[i] = opaque.CaptureOrigin()
+			}
+		}
+	}
+	v.stream = bb.CaptureWireSpan(replayStart)
+
 	return nil
 }
 
@@ -52322,11 +53208,6 @@ func X2apInternalActivatedNRCellListCompleteMarshalAPERLegacy(v *ActivatedNRCell
 func X2apInternalActivatedNRCellListCompleteUnmarshalAPERLegacy(v *ActivatedNRCellListComplete, data []byte) error {
 	return X2apInternalActivatedNRCellListCompleteUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ActivatedNRCellList with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func X2apInternalActivatedNRCellListCompleteUnmarshalAPERWithOptions(v *ActivatedNRCellListComplete, data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -52399,7 +53280,7 @@ func X2apInternalUnmarshalAPERActivatedNRCellListFrom(bb *aper.BitBuffer) (s06.A
 func X2apInternalUnmarshalAPERActivatedNRCellListInto(v *X2apInternalAsn1cAPERActivatedNRCellListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s06.ActivatedNRCellList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52421,6 +53302,174 @@ func X2apInternalUnmarshalAPERActivatedNRCellListInto(v *X2apInternalAsn1cAPERAc
 	if errCollection_value != nil {
 		return errCollection_value
 	}
+	return nil
+}
+
+// MarshalAPER encodes ERABsToBeReleasedSgNBChaConfItemResourceConfiguration to APER format.
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERLegacy(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERTo(v, bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithPadding(v.perPadding)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERTo(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, bb *aper.BitBuffer, fresh ...bool) error {
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.
+			RestoreReplayPlan(previous)
+	}
+	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err != nil {
+			return err
+		}
+	}
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	if v.UnknownExtension != nil {
+		if v.Choice != 0 {
+			return fmt.Errorf("ERABsToBeReleasedSgNBChaConfItemResourceConfiguration: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index() < 0 {
+			return fmt.Errorf("ERABsToBeReleasedSgNBChaConfItemResourceConfiguration: extension index %d must be non-negative", v.UnknownExtension.Index())
+		}
+		if err := aper.EncodeBoolean(bb, true); err != nil {
+			return err
+		}
+		if err := aper.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index()); err != nil {
+			return err
+		}
+		return v.UnknownExtension.EncodeTo(bb)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeReleasedSgNBChaConfItemResourceConfiguration: choice %d must be positive", v.Choice)
+	}
+	isExtension := v.Choice > 2
+	if err := aper.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		return fmt.Errorf("ERABsToBeReleasedSgNBChaConfItemResourceConfiguration: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
+	if err := aper.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPpresent:
+		if v.SgNBPDCPpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPpresent is nil")
+		}
+		if err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERTo(v.SgNBPDCPpresent, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			return fmt.Errorf("encoding sgNBPDCPpresent: %w", err)
+		}
+	case s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		if v.SgNBPDCPnotpresent == nil {
+			return fmt.Errorf("choice alternative sgNBPDCPnotpresent is nil")
+		}
+		if err := s05.X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentMarshalAPERTo(v.SgNBPDCPnotpresent, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			return fmt.Errorf("encoding sgNBPDCPnotpresent: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown ERABsToBeReleasedSgNBChaConfItemResourceConfiguration choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ERABsToBeReleasedSgNBChaConfItemResourceConfiguration from APER format.
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnmarshalAPERLegacy(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, data []byte) error {
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnmarshalAPERWithOptions(v, data, aper.DecodeState{})
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnmarshalAPERWithOptions(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+	}
+	bb.EnterComponent("ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnmarshalAPERFrom(v, bb); err != nil {
+		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+	}
+	v.perPadding = padding.Padding()
+	return nil
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnmarshalAPERFrom(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}
+	isExtension, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := aper.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "UnknownExtension")
+		}
+		openExtension, err := aper.DecodeChoiceExtensionAligned(bb, extIdx)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "UnknownExtension")
+		}
+		if err := openExtension.ObserveUnknown(bb); err != nil {
+			return err
+		}
+		v.UnknownExtension = &openExtension
+		v.stream = bb.CaptureWireSpan(replayStart)
+
+		return nil
+	}
+	idx, err := aper.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:236
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPpresent:
+		toleranceMark_sgnbpdcppresent := bb.EnterComponent("SgNBPDCPpresent")
+		var dec_sgnbpdcppresent ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent
+		if err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentUnmarshalAPERFrom(&dec_sgnbpdcppresent, bb); err != nil {
+			return runtime.WrapDecodePath(err, "SgNBPDCPpresent")
+		}
+		if err := aper.ChargeValue(bb, dec_sgnbpdcppresent); err != nil {
+			return err
+		}
+		v.SgNBPDCPpresent = &dec_sgnbpdcppresent
+		bb.LeaveComponent(toleranceMark_sgnbpdcppresent)
+	case s00.ERABsToBeReleasedSgNBChaConfItemResourceConfigurationChoiceSgNBPDCPnotpresent:
+		toleranceMark_sgnbpdcpnotpresent := bb.EnterComponent("SgNBPDCPnotpresent")
+		var dec_sgnbpdcpnotpresent s05.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent
+		if err := s05.X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentUnmarshalAPERFrom(&dec_sgnbpdcpnotpresent, bb); err != nil {
+			return runtime.WrapDecodePath(err, "SgNBPDCPnotpresent")
+		}
+		if err := aper.ChargeValue(bb, dec_sgnbpdcpnotpresent); err != nil {
+			return err
+		}
+		v.SgNBPDCPnotpresent = &dec_sgnbpdcpnotpresent
+		bb.LeaveComponent(toleranceMark_sgnbpdcpnotpresent)
+	}
+	v.stream = bb.CaptureWireSpan(replayStart)
+
 	return nil
 }
 
@@ -52471,6 +53520,77 @@ func (v ActivatedNRCellListComplete) WithoutReplay() ActivatedNRCellListComplete
 }
 
 // ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *ERABsToBeReleasedSgNBChaConfItem) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s00.X2apInternalReceivedFormAt(v.received, v.receivedBytes, "ERABsToBeReleasedSgNBChaConfItem", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "ERABsToBeReleasedSgNBChaConfItem", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v ERABsToBeReleasedSgNBChaConfItem) WithoutReplay() ERABsToBeReleasedSgNBChaConfItem {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero ERABsToBeReleasedSgNBChaConfItem
+	v.perPadding = zero.perPadding
+	v.perExtPadding = nil
+	return v
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s00.X2apInternalReceivedFormAt(v.received, v.receivedBytes, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) WithoutReplay() ERABsToBeReleasedSgNBChaConfItemResourceConfiguration {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero ERABsToBeReleasedSgNBChaConfItemResourceConfiguration
+	v.perPadding = zero.perPadding
+	return v
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s00.X2apInternalReceivedFormAt(v.received, v.receivedBytes, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) WithoutReplay() ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent
+	v.perPadding = zero.perPadding
+	v.perExtPadding = nil
+	return v
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
 func (v *UEContextReferenceAtWT) ReceivedForm() aper.ReceivedForm {
 	if v == nil {
 		return aper.ReceivedForm{}
@@ -52492,6 +53612,84 @@ func (v UEContextReferenceAtWT) WithoutReplay() UEContextReferenceAtWT {
 	v.perPadding = zero.perPadding
 	v.perExtPadding = nil
 	return v
+}
+
+// Extensions returns owned unknown sequence additions.
+func (v *ERABsToBeReleasedSgNBChaConfItem) Extensions() []aper.SequenceExtension {
+	if v == nil {
+		return nil
+	}
+	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
+	return views
+}
+
+// SetExtension stores an owned unknown sequence addition.
+func (v *ERABsToBeReleasedSgNBChaConfItem) SetExtension(index uint64, contents []byte) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("ERABsToBeReleasedSgNBChaConfItem.Extensions[%d]", index))
+	}
+	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("ERABsToBeReleasedSgNBChaConfItem.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// RemoveExtension removes one unknown sequence addition.
+func (v *ERABsToBeReleasedSgNBChaConfItem) RemoveExtension(index uint64) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("ERABsToBeReleasedSgNBChaConfItem.Extensions[%d]", index))
+	}
+	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("ERABsToBeReleasedSgNBChaConfItem.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// Extensions returns owned unknown sequence additions.
+func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) Extensions() []aper.SequenceExtension {
+	if v == nil {
+		return nil
+	}
+	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
+	return views
+}
+
+// SetExtension stores an owned unknown sequence addition.
+func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) SetExtension(index uint64, contents []byte) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent.Extensions[%d]", index))
+	}
+	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// RemoveExtension removes one unknown sequence addition.
+func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) RemoveExtension(index uint64) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent.Extensions[%d]", index))
+	}
+	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
 }
 
 // Extensions returns owned unknown sequence additions.
@@ -52718,6 +53916,282 @@ func X2apInternalActivatedNRCellListCompleteMarshalAPERPlanned(v *ActivatedNRCel
 }
 
 // MarshalAPER encodes a complete value using one per-call semantic plan.
+func (v *ERABsToBeReleasedSgNBChaConfItem) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "ERABsToBeReleasedSgNBChaConfItem")
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItem")
+	}
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItem(v, &s)
+		plan := s.Plan()
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItem")
+		}
+		if plan.Unchanged(v.replay) && v.received {
+			out, err := v.receivedBytes.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItem")
+		}
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERWithPlan(v, fresh, plan)
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERUnplanned(v, fresh, budget)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERWithPlan(v *ERABsToBeReleasedSgNBChaConfItem, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	bb := aper.NewBudgetBuffer(&budget)
+	bb.SetReplayPlan(&plan)
+	out, err := X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERPlanned(v, &budget, fresh)
+	if failure := bb.CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItem")
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERUnplanned(v *ERABsToBeReleasedSgNBChaConfItem, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERPlanned(v, &budget, fresh)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItem")
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERBudget(v *ERABsToBeReleasedSgNBChaConfItem, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItem(v, &s)
+		decisions := s.Plan()
+		if err := decisions.CommitBudget(budget); err != nil {
+			return nil, err
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return v.receivedBytes.EncodeBytes(budget)
+		}
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERChanged(v, budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return v.receivedBytes.EncodeBytes(budget)
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERChanged(v *ERABsToBeReleasedSgNBChaConfItem, budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	previous := bb.ReplayPlan()
+	bb.SetReplayPlan(&plan)
+	defer bb.SetReplayPlan(previous)
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERPlanned(v *ERABsToBeReleasedSgNBChaConfItem, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	value := v
+	if fresh {
+		copyValue := v.WithoutReplay()
+		value = &copyValue
+	}
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemMarshalAPERTo(value, bb, fresh); err != nil {
+		return nil, err
+	}
+	out, err := bb.CompleteBytesWithFinalPadding(value.perPadding)
+	if err != nil {
+		return nil, err
+	}
+	if err := bb.CheckOutput(uint64(len(out))); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MarshalAPER encodes a complete value using one per-call semantic plan.
+func (v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+	}
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemResourceConfiguration(v, &s)
+		plan := s.Plan()
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+		}
+		if plan.Unchanged(v.replay) && v.received {
+			out, err := v.receivedBytes.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+		}
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERWithPlan(v, fresh, plan)
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERUnplanned(v, fresh, budget)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERWithPlan(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	bb := aper.NewBudgetBuffer(&budget)
+	bb.SetReplayPlan(&plan)
+	out, err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERPlanned(v, &budget, fresh)
+	if failure := bb.CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERUnplanned(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERPlanned(v, &budget, fresh)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERBudget(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemResourceConfiguration(v, &s)
+		decisions := s.Plan()
+		if err := decisions.CommitBudget(budget); err != nil {
+			return nil, err
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return v.receivedBytes.EncodeBytes(budget)
+		}
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERChanged(v, budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return v.receivedBytes.EncodeBytes(budget)
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERChanged(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	previous := bb.ReplayPlan()
+	bb.SetReplayPlan(&plan)
+	defer bb.SetReplayPlan(previous)
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERPlanned(v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	value := v
+	if fresh {
+		copyValue := v.WithoutReplay()
+		value = &copyValue
+	}
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERTo(value, bb, fresh); err != nil {
+		return nil, err
+	}
+	out, err := bb.CompleteBytesWithPadding(value.perPadding)
+	if err != nil {
+		return nil, err
+	}
+	if err := bb.CheckOutput(uint64(len(out))); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MarshalAPER encodes a complete value using one per-call semantic plan.
+func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+	}
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(v, &s)
+		plan := s.Plan()
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+		}
+		if plan.Unchanged(v.replay) && v.received {
+			out, err := v.receivedBytes.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+		}
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERWithPlan(v, fresh, plan)
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERUnplanned(v, fresh, budget)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERWithPlan(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	bb := aper.NewBudgetBuffer(&budget)
+	bb.SetReplayPlan(&plan)
+	out, err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERPlanned(v, &budget, fresh)
+	if failure := bb.CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERUnplanned(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERPlanned(v, &budget, fresh)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERBudget(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		X2apInternalCompareX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(v, &s)
+		decisions := s.Plan()
+		if err := decisions.CommitBudget(budget); err != nil {
+			return nil, err
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return v.receivedBytes.EncodeBytes(budget)
+		}
+		return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERChanged(v, budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return v.receivedBytes.EncodeBytes(budget)
+	}
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERChanged(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	previous := bb.ReplayPlan()
+	bb.SetReplayPlan(&plan)
+	defer bb.SetReplayPlan(previous)
+	return X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERPlanned(v, budget, fresh)
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERPlanned(v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	value := v
+	if fresh {
+		copyValue := v.WithoutReplay()
+		value = &copyValue
+	}
+	if err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentMarshalAPERTo(value, bb, fresh); err != nil {
+		return nil, err
+	}
+	out, err := bb.CompleteBytesWithFinalPadding(value.perPadding)
+	if err != nil {
+		return nil, err
+	}
+	if err := bb.CheckOutput(uint64(len(out))); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MarshalAPER encodes a complete value using one per-call semantic plan.
 func (v *UEContextReferenceAtWT) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
 	if v == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, "UEContextReferenceAtWT")
@@ -52858,6 +54332,78 @@ func (v *ActivatedNRCellListComplete) UnmarshalAPER(data []byte, options ...aper
 }
 
 // UnmarshalAPER decodes atomically into one immutable wire owner.
+func (v *ERABsToBeReleasedSgNBChaConfItem) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "ERABsToBeReleasedSgNBChaConfItem")
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	var decoded ERABsToBeReleasedSgNBChaConfItem
+	err := X2apInternalERABsToBeReleasedSgNBChaConfItemUnmarshalAPERWithOptions(&decoded, data, settings)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
+		X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItem(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(settings, err)
+	if err != nil {
+		*v = ERABsToBeReleasedSgNBChaConfItem{}
+		return report, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItem")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "ERABsToBeReleasedSgNBChaConfItem")
+}
+
+// UnmarshalAPER decodes atomically into one immutable wire owner.
+func (v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	var decoded ERABsToBeReleasedSgNBChaConfItemResourceConfiguration
+	err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnmarshalAPERWithOptions(&decoded, data, settings)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
+		X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemResourceConfiguration(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(settings, err)
+	if err != nil {
+		*v = ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}
+		return report, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "ERABsToBeReleasedSgNBChaConfItemResourceConfiguration")
+}
+
+// UnmarshalAPER decodes atomically into one immutable wire owner.
+func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+	}
+	data, settings := aper.OwnDecodeOptions(data, options...)
+	var decoded ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent
+	err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentUnmarshalAPERWithOptions(&decoded, data, settings)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
+		X2apInternalCaptureX2APERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(settings, err)
+	if err != nil {
+		*v = ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent{}
+		return report, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent")
+}
+
+// UnmarshalAPER decodes atomically into one immutable wire owner.
 func (v *UEContextReferenceAtWT) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
 		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "UEContextReferenceAtWT")
@@ -52879,6 +54425,49 @@ func (v *UEContextReferenceAtWT) UnmarshalAPER(data []byte, options ...aper.Deco
 	}
 	*v = decoded
 	return report, aper.OperationError(nil, "UEContextReferenceAtWT")
+}
+
+// NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent constructs a checked complete value.
+func NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent(v ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent, options ...aper.BuildOption) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error) {
+	budget, err := aper.BuildBudget(options...)
+	if err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent")
+	}
+	value := X2apInternalNewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresentLegacy(v)
+	if _, err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERBudget((&value), budget, false); err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent")
+	}
+	return value, aper.OperationError(nil, "ERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPpresent")
+}
+
+// NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent constructs a checked complete value.
+func NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent(v s05.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent, options ...aper.BuildOption) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error) {
+	budget, err := aper.BuildBudget(options...)
+	if err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent")
+	}
+	value := X2apInternalNewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresentLegacy(v)
+	if _, err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERBudget((&value), budget, false); err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent")
+	}
+	return value, aper.OperationError(nil, "ERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent")
+}
+
+// NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension builds a checked, owned unknown CHOICE alternative.
+func NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension(index uint64, contents []byte, options ...aper.BuildOption) (ERABsToBeReleasedSgNBChaConfItemResourceConfiguration, error) {
+	budget, err := aper.BuildBudget(options...)
+	if err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension")
+	}
+	extension, err := aper.BuildChoiceExtension(index, contents, budget)
+	if err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension")
+	}
+	value := ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{UnknownExtension: &extension}
+	if _, err := X2apInternalERABsToBeReleasedSgNBChaConfItemResourceConfigurationMarshalAPERBudget(&value, budget, false); err != nil {
+		return ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}, aper.OperationError(err, "ERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension")
+	}
+	return value, aper.OperationError(nil, "ERABsToBeReleasedSgNBChaConfItemResourceConfigurationUnknownExtension")
 }
 
 // MarshalAPERActivatedCellList encodes a complete named list.
@@ -52903,6 +54492,15 @@ func UnmarshalAPERActivatedNRCellList(data []byte, options ...aper.DecodeOption)
 	var v ActivatedNRCellListComplete
 	report, err := v.UnmarshalAPER(data, options...)
 	return v, report, err
+}
+func X2apInternalERABsToBeReleasedSgNBChaConfListValueCodecFieldEncode(v *ERABsToBeReleasedSgNBChaConfListValueCodec) *func(ERABsToBeReleasedSgNBChaConfList, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func X2apInternalNRNeighbourInformationExtIEsExtFieldFieldReplay(v *NRNeighbourInformationExtIEsExtField) *aper.Snapshot {
+	return &v.replay
+}
+func X2apInternalNRNeighbourInformationExtIEsExtFieldFieldWithoutReplay(v *NRNeighbourInformationExtIEsExtField) *bool {
+	return &v.withoutReplay
 }
 func X2apInternalUEContextReferenceAtWTFieldPerPadding(v *UEContextReferenceAtWT) *aper.FinalPadding {
 	return &v.perPadding
@@ -52952,8 +54550,38 @@ func X2apInternalConstructT32UEContextReferenceAtWTValueCodecF4pathF6decodeF6enc
 func X2apInternalConstructT32WLANMeasConfigNameListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context(v0 aper.Path, v1 func([]byte, aper.DecodeState) (WLANMeasConfigNameList, error), v2 func(WLANMeasConfigNameList, bool, *aper.DecodeBudget) ([]byte, error), v3 func(WLANMeasConfigNameList, aper.DecodeState) (WLANMeasConfigNameList, aper.Snapshot), v4 func(WLANMeasConfigNameList, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan, v5 s00.X2apInternalCodecContext) WLANMeasConfigNameListValueCodec {
 	return WLANMeasConfigNameListValueCodec{path: v0, decode: v1, encode: v2, capture: v3, compare: v4, context: v5}
 }
+func X2apInternalConstructT33NRNeighbourInformationExtIEsValueF2idF20rowNRCellPRACHConfig(v0 s00.ProtocolIEID, v1 *s00.NRCellPRACHConfig) NRNeighbourInformationExtIEsValue {
+	return NRNeighbourInformationExtIEsValue{id: v0, rowNRCellPRACHConfig: v1}
+}
+func X2apInternalConstructT33NRNeighbourInformationExtIEsValueF2idF22rowSSBPositionsInBurst(v0 s00.ProtocolIEID, v1 *s05.SSBPositionsInBurst) NRNeighbourInformationExtIEsValue {
+	return NRNeighbourInformationExtIEsValue{id: v0, rowSSBPositionsInBurst: v1}
+}
+func X2apInternalConstructT33NRNeighbourInformationExtIEsValueF2idF30rowCSIRSTransmissionIndication(v0 s00.ProtocolIEID, v1 *s00.CSIRSTransmissionIndication) NRNeighbourInformationExtIEsValue {
+	return NRNeighbourInformationExtIEsValue{id: v0, rowCSIRSTransmissionIndication: v1}
+}
+func X2apInternalConstructT33NRNeighbourInformationExtIEsValueF2idF47rowAdditionalMeasurementTimingConfigurationList(v0 s00.ProtocolIEID, v1 *s06.AdditionalMeasurementTimingConfigurationList) NRNeighbourInformationExtIEsValue {
+	return NRNeighbourInformationExtIEsValue{id: v0, rowAdditionalMeasurementTimingConfigurationList: v1}
+}
+func X2apInternalConstructT33NRNeighbourInformationExtIEsValueF2idF6opaqueF8isOpaque(v0 s00.ProtocolIEID, v1 aper.OpaqueOpenType, v2 bool) NRNeighbourInformationExtIEsValue {
+	return NRNeighbourInformationExtIEsValue{id: v0, opaque: v1, isOpaque: v2}
+}
 func X2apInternalConstructT38WLANMeasurementConfigurationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context(v0 aper.Path, v1 func([]byte, aper.DecodeState) (WLANMeasurementConfiguration, error), v2 func(WLANMeasurementConfiguration, bool, *aper.DecodeBudget) ([]byte, error), v3 func(WLANMeasurementConfiguration, aper.DecodeState) (WLANMeasurementConfiguration, aper.Snapshot), v4 func(WLANMeasurementConfiguration, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan, v5 s00.X2apInternalCodecContext) WLANMeasurementConfigurationValueCodec {
 	return WLANMeasurementConfigurationValueCodec{path: v0, decode: v1, encode: v2, capture: v3, compare: v4, context: v5}
+}
+func X2apInternalConstructT42ERABsToBeReleasedSgNBChaConfListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context(v0 aper.Path, v1 func([]byte, aper.DecodeState) (ERABsToBeReleasedSgNBChaConfList, error), v2 func(ERABsToBeReleasedSgNBChaConfList, bool, *aper.DecodeBudget) ([]byte, error), v3 func(ERABsToBeReleasedSgNBChaConfList, aper.DecodeState) (ERABsToBeReleasedSgNBChaConfList, aper.Snapshot), v4 func(ERABsToBeReleasedSgNBChaConfList, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan, v5 s00.X2apInternalCodecContext) ERABsToBeReleasedSgNBChaConfListValueCodec {
+	return ERABsToBeReleasedSgNBChaConfListValueCodec{path: v0, decode: v1, encode: v2, capture: v3, compare: v4, context: v5}
+}
+func X2apInternalConstructT55NRNeighbourInformationExtIEsNRCellPRACHConfigExtBindingF4infoF5codecF6injectF3get(v0 s06.FieldInfo, v1 s00.NRCellPRACHConfigValueCodec, v2 func(s00.NRCellPRACHConfig) NRNeighbourInformationExtIEsValue, v3 func(*NRNeighbourInformationExtIEsValue) (*s00.NRCellPRACHConfig, bool)) NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding {
+	return NRNeighbourInformationExtIEsNRCellPRACHConfigExtBinding{info: v0, codec: v1, inject: v2, get: v3}
+}
+func X2apInternalConstructT57NRNeighbourInformationExtIEsSSBPositionsInBurstExtBindingF4infoF5codecF6injectF3get(v0 s06.FieldInfo, v1 s05.SSBPositionsInBurstValueCodec, v2 func(s05.SSBPositionsInBurst) NRNeighbourInformationExtIEsValue, v3 func(*NRNeighbourInformationExtIEsValue) (*s05.SSBPositionsInBurst, bool)) NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding {
+	return NRNeighbourInformationExtIEsSSBPositionsInBurstExtBinding{info: v0, codec: v1, inject: v2, get: v3}
+}
+func X2apInternalConstructT65NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBindingF4infoF5codecF6injectF3get(v0 s06.FieldInfo, v1 s00.CSIRSTransmissionIndicationValueCodec, v2 func(s00.CSIRSTransmissionIndication) NRNeighbourInformationExtIEsValue, v3 func(*NRNeighbourInformationExtIEsValue) (*s00.CSIRSTransmissionIndication, bool)) NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding {
+	return NRNeighbourInformationExtIEsCSIRSTransmissionIndicationExtBinding{info: v0, codec: v1, inject: v2, get: v3}
+}
+func X2apInternalConstructT82NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBindingF4infoF5codecF6injectF3get(v0 s06.FieldInfo, v1 s06.AdditionalMeasurementTimingConfigurationListValueCodec, v2 func(s06.AdditionalMeasurementTimingConfigurationList) NRNeighbourInformationExtIEsValue, v3 func(*NRNeighbourInformationExtIEsValue) (*s06.AdditionalMeasurementTimingConfigurationList, bool)) NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding {
+	return NRNeighbourInformationExtIEsAdditionalMeasurementTimingConfigurationListExtBinding{info: v0, codec: v1, inject: v2, get: v3}
 }
 
 // Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
@@ -53001,6 +54629,20 @@ func (v *ENDCCellActivationResponseIEValue) Selected() (any, bool) {
 }
 
 // Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABsToBeReleasedSgNBChaConfItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(230):
+		if v.rowERABsToBeReleasedSgNBChaConfItem != nil {
+			return v.rowERABsToBeReleasedSgNBChaConfItem, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
 func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue) Selected() (any, bool) {
 	if v == nil || v.isOpaque {
 		return nil, false
@@ -53009,6 +54651,32 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEsValue) Selected() 
 	case s00.ProtocolIEID(441):
 		if v.rowAdditionalListofForwardingGTPTunnelEndpoint != nil {
 			return v.rowAdditionalListofForwardingGTPTunnelEndpoint, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *NRNeighbourInformationExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(380):
+		if v.rowCSIRSTransmissionIndication != nil {
+			return v.rowCSIRSTransmissionIndication, true
+		}
+	case s00.ProtocolIEID(389):
+		if v.rowSSBPositionsInBurst != nil {
+			return v.rowSSBPositionsInBurst, true
+		}
+	case s00.ProtocolIEID(390):
+		if v.rowNRCellPRACHConfig != nil {
+			return v.rowNRCellPRACHConfig, true
+		}
+	case s00.ProtocolIEID(433):
+		if v.rowAdditionalMeasurementTimingConfigurationList != nil {
+			return v.rowAdditionalMeasurementTimingConfigurationList, true
 		}
 	}
 	return nil, false

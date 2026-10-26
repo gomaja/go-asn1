@@ -9,6 +9,7 @@ import (
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s08 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s08"
 	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
+	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
@@ -303,37 +304,6 @@ func TestSelectedENDCResourceStatusUpdateIEValue(t *testing.T) {
 	}
 	t.Logf("union ENDCResourceStatusUpdateIEValue: 5 synthetic rows")
 }
-func TestSelectedERABsToBeReleasedSgNBChaConfItemIEValue(t *testing.T) {
-	var absent *ERABsToBeReleasedSgNBChaConfItemIEValue
-	selectedAssert(t, absent)
-	v := ERABsToBeReleasedSgNBChaConfItemIEValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	{
-		v := ERABsToBeReleasedSgNBChaConfItemIEValue{}
-		v.id = s00.ProtocolIEID(230)
-		selectedAssert(t, &v)
-		v.rowERABsToBeReleasedSgNBChaConfItem = new(ERABsToBeReleasedSgNBChaConfItem)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	t.Logf("union ERABsToBeReleasedSgNBChaConfItemIEValue: 1 synthetic rows")
-}
 func TestSelectedHandoverCancelIEValue(t *testing.T) {
 	var absent *HandoverCancelIEValue
 	selectedAssert(t, absent)
@@ -597,67 +567,6 @@ func TestSelectedLoadInformationIEValue(t *testing.T) {
 	}
 	t.Logf("union LoadInformationIEValue: 1 synthetic rows")
 }
-func TestSelectedNRNeighbourInformationExtIEsValue(t *testing.T) {
-	var absent *NRNeighbourInformationExtIEsValue
-	selectedAssert(t, absent)
-	v := NRNeighbourInformationExtIEsValue{}
-	selectedAssert(t, &v)
-	opaqueBudget, err := aper.BuildBudget()
-	if err != nil {
-		t.Fatal(err)
-	}
-	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
-	if err != nil {
-		t.Fatal(err)
-	}
-	v.isOpaque = true
-	v.opaque = opaque
-	if _, ok := v.Opaque(); !ok {
-		t.Fatal("opaque arm not selected")
-	}
-	selectedAssert(t, &v)
-	{
-		v := NRNeighbourInformationExtIEsValue{}
-		v.id = s00.ProtocolIEID(380)
-		selectedAssert(t, &v)
-		v.rowCSIRSTransmissionIndication = new(s00.CSIRSTransmissionIndication)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := NRNeighbourInformationExtIEsValue{}
-		v.id = s00.ProtocolIEID(389)
-		selectedAssert(t, &v)
-		v.rowSSBPositionsInBurst = new(s05.SSBPositionsInBurst)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := NRNeighbourInformationExtIEsValue{}
-		v.id = s00.ProtocolIEID(390)
-		selectedAssert(t, &v)
-		v.rowNRCellPRACHConfig = new(s00.NRCellPRACHConfig)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	{
-		v := NRNeighbourInformationExtIEsValue{}
-		v.id = s00.ProtocolIEID(433)
-		selectedAssert(t, &v)
-		v.rowAdditionalMeasurementTimingConfigurationList = new(s06.AdditionalMeasurementTimingConfigurationList)
-		selectedAssert(t, &v)
-		v.isOpaque = true
-		v.opaque = opaque
-		selectedAssert(t, &v)
-	}
-	t.Logf("union NRNeighbourInformationExtIEsValue: 4 synthetic rows")
-}
 func TestSelectedResourceStatusFailureIEValue(t *testing.T) {
 	var absent *ResourceStatusFailureIEValue
 	selectedAssert(t, absent)
@@ -840,6 +749,137 @@ func TestSelectedResourceStatusRequestIEValue(t *testing.T) {
 	}
 	t.Logf("union ResourceStatusRequestIEValue: 9 synthetic rows")
 }
+func TestSelectedSeNBAdditionRequestAcknowledgeIEValue(t *testing.T) {
+	var absent *SeNBAdditionRequestAcknowledgeIEValue
+	selectedAssert(t, absent)
+	v := SeNBAdditionRequestAcknowledgeIEValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(111)
+		selectedAssert(t, &v)
+		v.rowMeNBUEX2APID = new(s11.UEX2APID)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(112)
+		selectedAssert(t, &v)
+		v.rowSeNBUEX2APID = new(s11.UEX2APID)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(120)
+		selectedAssert(t, &v)
+		v.rowERABsAdmittedToBeAddedList = new(s11.ERABsAdmittedToBeAddedList)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(3)
+		selectedAssert(t, &v)
+		v.rowERABsNotAdmittedList = new(s08.ERABList)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(122)
+		selectedAssert(t, &v)
+		v.rowSeNBtoMeNBContainer = new(s08.SeNBtoMeNBContainer)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(17)
+		selectedAssert(t, &v)
+		v.rowCriticalityDiagnostics = new(s06.CriticalityDiagnostics)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(165)
+		selectedAssert(t, &v)
+		v.rowGWTransportLayerAddress = new(s09.TransportLayerAddress)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(168)
+		selectedAssert(t, &v)
+		v.rowSIPTOLGWTransportLayerAddress = new(s09.TransportLayerAddress)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(157)
+		selectedAssert(t, &v)
+		v.rowMeNBUEX2APIDExtension = new(s11.UEX2APIDExtension)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(158)
+		selectedAssert(t, &v)
+		v.rowSeNBUEX2APIDExtension = new(s11.UEX2APIDExtension)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SeNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(163)
+		selectedAssert(t, &v)
+		v.rowTunnelInformationForBBF = new(s10.TunnelInformation)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union SeNBAdditionRequestAcknowledgeIEValue: 11 synthetic rows")
+}
 func TestSelectedServedNRCellInformationExtIEsValue(t *testing.T) {
 	var absent *ServedNRCellInformationExtIEsValue
 	selectedAssert(t, absent)
@@ -1001,6 +1041,177 @@ func TestSelectedSgNBActivityNotificationIEValue(t *testing.T) {
 		selectedAssert(t, &v)
 	}
 	t.Logf("union SgNBActivityNotificationIEValue: 5 synthetic rows")
+}
+func TestSelectedSgNBAdditionRequestAcknowledgeIEValue(t *testing.T) {
+	var absent *SgNBAdditionRequestAcknowledgeIEValue
+	selectedAssert(t, absent)
+	v := SgNBAdditionRequestAcknowledgeIEValue{}
+	selectedAssert(t, &v)
+	opaqueBudget, err := aper.BuildBudget()
+	if err != nil {
+		t.Fatal(err)
+	}
+	opaque, err := aper.BuildOpaqueOpenType([]byte{0xaa}, opaqueBudget)
+	if err != nil {
+		t.Fatal(err)
+	}
+	v.isOpaque = true
+	v.opaque = opaque
+	if _, ok := v.Opaque(); !ok {
+		t.Fatal("opaque arm not selected")
+	}
+	selectedAssert(t, &v)
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(111)
+		selectedAssert(t, &v)
+		v.rowMeNBUEX2APID = new(s11.UEX2APID)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(207)
+		selectedAssert(t, &v)
+		v.rowSgNBUEX2APID = new(s08.SgNBUEX2APID)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(210)
+		selectedAssert(t, &v)
+		v.rowERABsAdmittedToBeAddedSgNBAddReqAckList = new(s11.ERABsAdmittedToBeAddedSgNBAddReqAckList)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(3)
+		selectedAssert(t, &v)
+		v.rowERABsNotAdmittedList = new(s08.ERABList)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(211)
+		selectedAssert(t, &v)
+		v.rowSgNBtoMeNBContainer = new(s08.SgNBtoMeNBContainer)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(17)
+		selectedAssert(t, &v)
+		v.rowCriticalityDiagnostics = new(s06.CriticalityDiagnostics)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(157)
+		selectedAssert(t, &v)
+		v.rowMeNBUEX2APIDExtension = new(s11.UEX2APIDExtension)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(212)
+		selectedAssert(t, &v)
+		v.rowAdmittedSplitSRBs = new(s00.SplitSRBs)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(258)
+		selectedAssert(t, &v)
+		v.rowSgNBResourceCoordinationInformation = new(s08.SgNBResourceCoordinationInformation)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(272)
+		selectedAssert(t, &v)
+		v.rowRRCConfigIndication = new(s00.RRCConfigInd)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(331)
+		selectedAssert(t, &v)
+		v.rowLocationInformationSgNB = new(s05.LocationInformationSgNB)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(344)
+		selectedAssert(t, &v)
+		v.rowAvailableFastMCGRecoveryViaSRB3 = new(s00.AvailableFastMCGRecoveryViaSRB3)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(410)
+		selectedAssert(t, &v)
+		v.rowDirectForwardingPathAvailability = new(s00.DirectForwardingPathAvailability)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(422)
+		selectedAssert(t, &v)
+		v.rowSCGActivationStatus = new(s00.SCGActivationStatus)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := SgNBAdditionRequestAcknowledgeIEValue{}
+		v.id = s00.ProtocolIEID(425)
+		selectedAssert(t, &v)
+		v.rowCPAinformationREQACK = new(s06.CPAinformationREQACK)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union SgNBAdditionRequestAcknowledgeIEValue: 15 synthetic rows")
 }
 func TestSelectedUnsuccessfulValue(t *testing.T) {
 	var absent *UnsuccessfulValue

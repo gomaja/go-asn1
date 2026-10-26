@@ -3,53 +3,71 @@
 package x2ap
 
 import (
-	bytes "bytes"
-	fmt "fmt"
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
+	ast "go/ast"
+	parser "go/parser"
+	token "go/token"
+	filepath "path/filepath"
+	strconv "strconv"
 	testing "testing"
 )
 
-func TestUnknownIEOpaqueChildReader(t *testing.T) {
-	for _, size := range []int{1, 65540} {
-		t.Run(fmt.Sprintf("size=%d", size), func(t *testing.T) {
-			payload := bytes.Repeat([]byte{0xab}, size)
-			cause := x2SetupFailureIEFieldapiMust(s07.X2SetupFailureIEs().Cause().New(causeapiMust(s00.NewCauseMisc(s00.CauseMiscUnspecified))))
-			opaque := x2SetupFailureIEFieldapiMust(s07.X2SetupFailureIEs().NewOpaque(65532, s00.CriticalityIgnore, payload))
-			body := x2SetupFailureapiMust(s14.NewX2SetupFailure(s07.X2SetupFailureIEContainer{cause, opaque}))
-			message := unsuccessfulOutcomeapiMust(s21.X2SetupProcedure().Unsuccessful().Build(body))
-			pdu := x2APPDUapiMust(s21.NewX2APPDUUnsuccessfulOutcome(message))
-			wire := listByteapiMust(pdu.MarshalAPER())
-			var decoded s20.X2APPDU
-			if _, err := decoded.UnmarshalAPER(wire); err != nil {
-				t.Fatal(err)
-			}
-			selected, ok := decoded.UnsuccessfulOutcome.Value.AsX2SetupFailure()
-			if !ok {
-				t.Fatal("wrong procedure")
-			}
-			raw, ok := selected.ProtocolIEs[1].Value.Opaque()
-			if !ok || !bytes.Equal(raw.Bytes(), payload) {
-				t.Fatal("unknown IE contents differ")
-			}
-			first, second := raw.ChildDecodeBuffer(), raw.ChildDecodeBuffer()
-			got, err := first.ReadBytes(size)
-			if err != nil || !bytes.Equal(got, payload) {
-				t.Fatalf("Opaque child reader: %v", err)
-			}
-			if second.BitPos() != 0 {
-				t.Fatal("opaque child cursors are shared")
-			}
-			got, err = second.ReadBytes(size)
-			if err != nil || !bytes.Equal(got, payload) {
-				t.Fatalf("second Opaque child reader: %v", err)
-			}
-			if got := listByteapiMust(decoded.MarshalAPER()); !bytes.Equal(got, wire) {
-				t.Fatal("reading opaque content changed replay")
-			}
-		})
+// All source integer bounds are package initialization values. Repeated
+// codecs must not parse them again or make one parsed copy per call site.
+func TestConstantBoundsParsedOnlyAtInitialization(t *testing.T) {
+	paths, err := filepath.Glob("*.go")
+	if err != nil {
+		t.Fatal(err)
 	}
+	shards, err := filepath.Glob("internal/model/*/*.go")
+	if err != nil {
+		t.Fatal(err)
+	}
+	paths = append(paths, shards...)
+	counts := map[string]int{}
+	local := 0
+	for _, path := range paths {
+		file, err := parser.ParseFile(token.NewFileSet(), path, nil, 0)
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, decl := range file.Decls {
+			_, inFunction := decl.(*ast.FuncDecl)
+			ast.Inspect(decl, func(node ast.Node) bool {
+				call, ok := node.(*ast.CallExpr)
+				if !ok {
+					return true
+				}
+				sel, ok := call.Fun.(*ast.SelectorExpr)
+				if !ok || sel.Sel.Name != "MustParseBigIntDecimal" {
+					return true
+				}
+				if inFunction {
+					local++
+					return false
+				}
+				literal, ok := call.Args[0].(*ast.BasicLit)
+				if !ok {
+					t.Fatal("nonliteral bound")
+				}
+				value, err := strconv.Unquote(literal.Value)
+				if err != nil {
+					t.Fatal(err)
+				}
+				counts[value]++
+				return false
+			})
+		}
+	}
+	if local != 0 {
+		t.Fatalf("integer bounds still parsed in %d codec call sites", local)
+	}
+	if len(counts) == 0 {
+		t.Fatal("no parsed source bounds found")
+	}
+	for value, count := range counts {
+		if count != 1 {
+			t.Errorf("bound %s parsed %d times", value, count)
+		}
+	}
+	t.Logf("%d distinct bounds parsed once at initialization", len(counts))
 }

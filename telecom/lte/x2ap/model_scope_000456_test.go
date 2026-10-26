@@ -3,17 +3,22 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	fmt "fmt"
+	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// ERABsAdmittedItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ERABsAdmittedItemExtIEsExtField].
-type ERABsAdmittedItemExtIEsExtFieldValueCodec struct {
-	context s00.X2apInternalCodecContext
-	capture func(s06.ERABsAdmittedItemExtIEsExtField, aper.DecodeState) (s06.ERABsAdmittedItemExtIEsExtField, aper.Snapshot)
-	compare func(s06.ERABsAdmittedItemExtIEsExtField, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
-	path    aper.Path
-	decode  func([]byte, aper.DecodeState) (s06.ERABsAdmittedItemExtIEsExtField, error)
-	encode  func(s06.ERABsAdmittedItemExtIEsExtField, bool, *aper.DecodeBudget) ([]byte, error)
+// New validates the source value and constructs a value without received replay state.
+func (c ERABsToBeSetupItemIEFieldValueCodec) New(value s10.ERABsToBeSetupItemIEField) (ERABsToBeSetupItemIEFieldAPERValue, error) {
+	if c.encode == nil {
+		return ERABsToBeSetupItemIEFieldAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABsToBeSetupItemIEFieldAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABsToBeSetupItemIEFieldAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return ERABsToBeSetupItemIEFieldAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }

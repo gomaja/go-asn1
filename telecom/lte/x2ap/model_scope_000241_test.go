@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func x2ReleaseIEFieldfreshMust(value s07.X2ReleaseIEField, err error) s07.X2ReleaseIEField {
+func cellActivationRequestfreshMust(value s19.CellActivationRequest, err error) s19.CellActivationRequest {
 	if err != nil {
 		panic(err)
 	}

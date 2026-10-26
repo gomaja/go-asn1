@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func x2SetupRequestfreshMust(value s20.X2SetupRequest, err error) s20.X2SetupRequest {
+func errorIndicationfreshMust(value s19.ErrorIndication, err error) s19.ErrorIndication {
 	if err != nil {
 		panic(err)
 	}

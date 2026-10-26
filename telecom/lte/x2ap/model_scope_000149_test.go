@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func errorIndicationapiMust(v s20.ErrorIndication, err error) s20.ErrorIndication {
+func unsuccessfulOutcomeapiMust(v s14.UnsuccessfulOutcome, err error) s14.UnsuccessfulOutcome {
 	if err != nil {
 		panic(err)
 	}

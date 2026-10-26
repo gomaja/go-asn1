@@ -3,17 +3,26 @@
 package x2ap
 
 import (
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func (c Int64ValueCodec) encodeChanged(value int64,
+// Int64ValueCodec is the concrete ValueCodec[int64].
+type Int64ValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(int64, aper.DecodeState,
 
-	fresh bool, plan aper.ReplayPlan) ([]byte, error) {
-	budget := plan.EncodingBudget()
-	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
+	) (int64, aper.Snapshot,
+
+	)
+	compare func(int64, aper.Snapshot, aper.DecodeBudget,
+
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (int64,
+
+		error)
+	encode func(int64,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
 }

@@ -43,10 +43,10 @@ func selectedAssert(t *testing.T, v selectedUnion) {
 		t.Fatalf("%T Selected allocations=%v", v, n)
 	}
 }
-func TestSelectedSuccessfulValue(t *testing.T) {
-	var absent *SuccessfulValue
+func TestSelectedInitiatingValue(t *testing.T) {
+	var absent *InitiatingValue
 	selectedAssert(t, absent)
-	v := SuccessfulValue{}
+	v := InitiatingValue{}
 	selectedAssert(t, &v)
 	opaqueBudget, err := aper.BuildBudget()
 	if err != nil {
@@ -63,274 +63,624 @@ func TestSelectedSuccessfulValue(t *testing.T) {
 	}
 	selectedAssert(t, &v)
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(0)
 		selectedAssert(t, &v)
-		v.bodyHandoverRequestAcknowledge = new(HandoverRequestAcknowledge)
+		v.bodyHandoverRequest = new(HandoverRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(1)
+		selectedAssert(t, &v)
+		v.bodyHandoverCancel = new(HandoverCancel)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(2)
+		selectedAssert(t, &v)
+		v.bodyLoadInformation = new(LoadInformation)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(3)
+		selectedAssert(t, &v)
+		v.bodyErrorIndication = new(ErrorIndication)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(4)
+		selectedAssert(t, &v)
+		v.bodySNStatusTransfer = new(SNStatusTransfer)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(5)
+		selectedAssert(t, &v)
+		v.bodyUEContextRelease = new(UEContextRelease)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(6)
 		selectedAssert(t, &v)
-		v.bodyX2SetupResponse = new(X2SetupResponse)
+		v.bodyX2SetupRequest = new(X2SetupRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(7)
 		selectedAssert(t, &v)
-		v.bodyResetResponse = new(ResetResponse)
+		v.bodyResetRequest = new(ResetRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(8)
 		selectedAssert(t, &v)
-		v.bodyENBConfigurationUpdateAcknowledge = new(ENBConfigurationUpdateAcknowledge)
+		v.bodyENBConfigurationUpdate = new(ENBConfigurationUpdate)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(9)
 		selectedAssert(t, &v)
-		v.bodyResourceStatusResponse = new(ResourceStatusResponse)
+		v.bodyResourceStatusRequest = new(ResourceStatusRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(10)
+		selectedAssert(t, &v)
+		v.bodyResourceStatusUpdate = new(ResourceStatusUpdate)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(11)
+		selectedAssert(t, &v)
+		v.bodyPrivateMessage = new(PrivateMessage)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(12)
 		selectedAssert(t, &v)
-		v.bodyMobilityChangeAcknowledge = new(MobilityChangeAcknowledge)
+		v.bodyMobilityChangeRequest = new(MobilityChangeRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(13)
+		selectedAssert(t, &v)
+		v.bodyRLFIndication = new(RLFIndication)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(14)
+		selectedAssert(t, &v)
+		v.bodyHandoverReport = new(HandoverReport)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(15)
 		selectedAssert(t, &v)
-		v.bodyCellActivationResponse = new(CellActivationResponse)
+		v.bodyCellActivationRequest = new(CellActivationRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(16)
+		selectedAssert(t, &v)
+		v.bodyX2Release = new(X2Release)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(17)
+		selectedAssert(t, &v)
+		v.bodyX2APMessageTransfer = new(X2APMessageTransfer)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(18)
 		selectedAssert(t, &v)
-		v.bodyX2RemovalResponse = new(X2RemovalResponse)
+		v.bodyX2RemovalRequest = new(X2RemovalRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(19)
 		selectedAssert(t, &v)
-		v.bodySeNBAdditionRequestAcknowledge = new(SeNBAdditionRequestAcknowledge)
+		v.bodySeNBAdditionRequest = new(SeNBAdditionRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(20)
+		selectedAssert(t, &v)
+		v.bodySeNBReconfigurationComplete = new(SeNBReconfigurationComplete)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(21)
 		selectedAssert(t, &v)
-		v.bodySeNBModificationRequestAcknowledge = new(SeNBModificationRequestAcknowledge)
+		v.bodySeNBModificationRequest = new(SeNBModificationRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(22)
 		selectedAssert(t, &v)
-		v.bodySeNBModificationConfirm = new(SeNBModificationConfirm)
+		v.bodySeNBModificationRequired = new(SeNBModificationRequired)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(23)
+		selectedAssert(t, &v)
+		v.bodySeNBReleaseRequest = new(SeNBReleaseRequest)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(24)
 		selectedAssert(t, &v)
-		v.bodySeNBReleaseConfirm = new(SeNBReleaseConfirm)
+		v.bodySeNBReleaseRequired = new(SeNBReleaseRequired)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(25)
+		selectedAssert(t, &v)
+		v.bodySeNBCounterCheckRequest = new(SeNBCounterCheckRequest)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(26)
 		selectedAssert(t, &v)
-		v.bodyRetrieveUEContextResponse = new(RetrieveUEContextResponse)
+		v.bodyRetrieveUEContextRequest = new(RetrieveUEContextRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(27)
 		selectedAssert(t, &v)
-		v.bodySgNBAdditionRequestAcknowledge = new(SgNBAdditionRequestAcknowledge)
+		v.bodySgNBAdditionRequest = new(SgNBAdditionRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(28)
+		selectedAssert(t, &v)
+		v.bodySgNBReconfigurationComplete = new(SgNBReconfigurationComplete)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(29)
 		selectedAssert(t, &v)
-		v.bodySgNBModificationRequestAcknowledge = new(SgNBModificationRequestAcknowledge)
+		v.bodySgNBModificationRequest = new(SgNBModificationRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(30)
 		selectedAssert(t, &v)
-		v.bodySgNBModificationConfirm = new(SgNBModificationConfirm)
+		v.bodySgNBModificationRequired = new(SgNBModificationRequired)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(31)
 		selectedAssert(t, &v)
-		v.bodySgNBReleaseRequestAcknowledge = new(SgNBReleaseRequestAcknowledge)
+		v.bodySgNBReleaseRequest = new(SgNBReleaseRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(32)
 		selectedAssert(t, &v)
-		v.bodySgNBReleaseConfirm = new(SgNBReleaseConfirm)
+		v.bodySgNBReleaseRequired = new(SgNBReleaseRequired)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(33)
+		selectedAssert(t, &v)
+		v.bodySgNBCounterCheckRequest = new(SgNBCounterCheckRequest)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(34)
 		selectedAssert(t, &v)
-		v.bodySgNBChangeConfirm = new(SgNBChangeConfirm)
+		v.bodySgNBChangeRequired = new(SgNBChangeRequired)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(35)
+		selectedAssert(t, &v)
+		v.bodyRRCTransfer = new(RRCTransfer)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(36)
 		selectedAssert(t, &v)
-		v.bodyENDCX2SetupResponse = new(ENDCX2SetupResponse)
+		v.bodyENDCX2SetupRequest = new(ENDCX2SetupRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(37)
 		selectedAssert(t, &v)
-		v.bodyENDCConfigurationUpdateAcknowledge = new(ENDCConfigurationUpdateAcknowledge)
+		v.bodyENDCConfigurationUpdate = new(ENDCConfigurationUpdate)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(38)
+		selectedAssert(t, &v)
+		v.bodySecondaryRATDataUsageReport = new(SecondaryRATDataUsageReport)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(39)
 		selectedAssert(t, &v)
-		v.bodyENDCCellActivationResponse = new(ENDCCellActivationResponse)
+		v.bodyENDCCellActivationRequest = new(ENDCCellActivationRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(40)
 		selectedAssert(t, &v)
-		v.bodyENDCPartialResetConfirm = new(ENDCPartialResetConfirm)
+		v.bodyENDCPartialResetRequired = new(ENDCPartialResetRequired)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(41)
 		selectedAssert(t, &v)
-		v.bodyEUTRANRCellResourceCoordinationResponse = new(EUTRANRCellResourceCoordinationResponse)
+		v.bodyEUTRANRCellResourceCoordinationRequest = new(EUTRANRCellResourceCoordinationRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(42)
+		selectedAssert(t, &v)
+		v.bodySgNBActivityNotification = new(SgNBActivityNotification)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(43)
 		selectedAssert(t, &v)
-		v.bodyENDCX2RemovalResponse = new(ENDCX2RemovalResponse)
+		v.bodyENDCX2RemovalRequest = new(ENDCX2RemovalRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(44)
+		selectedAssert(t, &v)
+		v.bodyDataForwardingAddressIndication = new(DataForwardingAddressIndication)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(45)
+		selectedAssert(t, &v)
+		v.bodyGNBStatusIndication = new(GNBStatusIndication)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(46)
+		selectedAssert(t, &v)
+		v.bodyDeactivateTrace = new(DeactivateTrace)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(47)
+		selectedAssert(t, &v)
+		v.bodyTraceStart = new(TraceStart)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(48)
+		selectedAssert(t, &v)
+		v.bodyENDCConfigurationTransfer = new(ENDCConfigurationTransfer)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(49)
+		selectedAssert(t, &v)
+		v.bodyHandoverSuccess = new(HandoverSuccess)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(50)
+		selectedAssert(t, &v)
+		v.bodyConditionalHandoverCancel = new(ConditionalHandoverCancel)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(51)
+		selectedAssert(t, &v)
+		v.bodyEarlyStatusTransfer = new(EarlyStatusTransfer)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(52)
+		selectedAssert(t, &v)
+		v.bodyCellTrafficTrace = new(CellTrafficTrace)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(53)
+		selectedAssert(t, &v)
+		v.bodyENDCResourceStatusUpdate = new(ENDCResourceStatusUpdate)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
 		v.code = s00.ProcedureCode(54)
 		selectedAssert(t, &v)
-		v.bodyENDCResourceStatusResponse = new(ENDCResourceStatusResponse)
+		v.bodyENDCResourceStatusRequest = new(ENDCResourceStatusRequest)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
 	{
-		v := SuccessfulValue{}
-		v.code = s00.ProcedureCode(56)
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(55)
 		selectedAssert(t, &v)
-		v.bodyUERadioCapabilityIDMappingResponse = new(UERadioCapabilityIDMappingResponse)
+		v.bodyF1CTrafficTransfer = new(F1CTrafficTransfer)
 		selectedAssert(t, &v)
 		v.isOpaque = true
 		v.opaque = opaque
 		selectedAssert(t, &v)
 	}
-	t.Logf("union SuccessfulValue: 27 synthetic rows")
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(56)
+		selectedAssert(t, &v)
+		v.bodyUERadioCapabilityIDMappingRequest = new(UERadioCapabilityIDMappingRequest)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(57)
+		selectedAssert(t, &v)
+		v.bodyAccessAndMobilityIndication = new(AccessAndMobilityIndication)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(59)
+		selectedAssert(t, &v)
+		v.bodyCPCCancel = new(CPCCancel)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(60)
+		selectedAssert(t, &v)
+		v.bodyRachIndication = new(RachIndication)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(61)
+		selectedAssert(t, &v)
+		v.bodySCGFailureInformationReport = new(SCGFailureInformationReport)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	{
+		v := InitiatingValue{}
+		v.code = s00.ProcedureCode(62)
+		selectedAssert(t, &v)
+		v.bodySCGFailureTransfer = new(SCGFailureTransfer)
+		selectedAssert(t, &v)
+		v.isOpaque = true
+		v.opaque = opaque
+		selectedAssert(t, &v)
+	}
+	t.Logf("union InitiatingValue: 62 synthetic rows")
 }

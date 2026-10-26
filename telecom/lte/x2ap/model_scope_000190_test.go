@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func handoverPreparationFailurefreshMust(value s14.HandoverPreparationFailure, err error) s14.HandoverPreparationFailure {
+func x2APPDUfreshMust(value s19.X2APPDU, err error) s19.X2APPDU {
 	if err != nil {
 		panic(err)
 	}

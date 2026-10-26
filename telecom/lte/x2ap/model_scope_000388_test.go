@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func uERadioCapabilityIDMappingRequestIEFieldfreshMust(value s11.UERadioCapabilityIDMappingRequestIEField, err error) s11.UERadioCapabilityIDMappingRequestIEField {
+func eNDCResourceStatusUpdatefreshMust(value s19.ENDCResourceStatusUpdate, err error) s19.ENDCResourceStatusUpdate {
 	if err != nil {
 		panic(err)
 	}

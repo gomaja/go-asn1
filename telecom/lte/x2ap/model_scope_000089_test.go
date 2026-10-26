@@ -3,20 +3,32 @@
 package x2ap
 
 import (
-	errors "errors"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	bytes "bytes"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
-	strings "strings"
 	testing "testing"
 )
 
-func TestPDUUnusedRootChoiceIndex(t *testing.T) {
+// X.691 (02/2021) §14.3: an unrecognized extension index is legal.
+func TestUnknownEnumerationObservation(t *testing.T) {
 	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		var value s20.X2APPDU
-		report, err := value.UnmarshalAPER([]byte{0x60}, options...)
-		var located *aper.DecodeError
-		if !errors.Is(err, aper.ErrSyntax) || !errors.As(err, &located) || located.Rule.Clause != "§11.5.7.1" || !strings.Contains(string(located.Location.Path), "X2APPDU") || len(report.Deviations) != 1 {
-			t.Fatalf("unused choice: report=%+v err=%v location=%+v", report, err, located)
+		value, report, err := s06.TimeToWaitCodec().DecodeAPER([]byte{0x80}, options...)
+		if err != nil || value.Value != s00.TimeToWait(6) || len(report.Observations) != 1 || len(report.Deviations) != 0 {
+			t.Fatalf("unknown enum value=%v report=%+v err=%v", value.Value, report, err)
+		}
+		observation := report.Observations[0]
+		if observation.Kind != aper.UnknownExtension || observation.Rule.Clause != "§14.3" || !observation.Location.HasWireLocation || observation.Location.Path == "" {
+			t.Fatalf("observation=%+v", observation)
+		}
+		replay, err := s06.TimeToWaitCodec().EncodeAPER(value)
+		if err != nil || !bytes.Equal(replay, []byte{0x80}) {
+			t.Fatalf("replay=%x err=%v", replay, err)
+		}
+		// CauseRadioNetwork has the known NR addition.
+		_, report, err = s00.CauseRadioNetworkCodec().DecodeAPER([]byte{0x80}, options...)
+		if err != nil || len(report.Observations) != 0 {
+			t.Fatalf("known enum report=%+v err=%v", report, err)
 		}
 	}
 }

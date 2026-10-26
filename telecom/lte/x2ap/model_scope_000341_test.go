@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func eNDCCellActivationResponseIEFieldfreshMust(value s13.ENDCCellActivationResponseIEField, err error) s13.ENDCCellActivationResponseIEField {
+func eNDCConfigurationUpdateFailurefreshMust(value s14.ENDCConfigurationUpdateFailure, err error) s14.ENDCConfigurationUpdateFailure {
 	if err != nil {
 		panic(err)
 	}

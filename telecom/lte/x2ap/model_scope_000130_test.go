@@ -3,38 +3,38 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	bytes "bytes"
 	s02 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s02"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-func TestGenericFieldReceivedFormKeepsSourcePath(t *testing.T) {
-	field := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
-	initial := s20.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
-	var received s20.ErrorIndication
-	if _, err := received.UnmarshalAPER(listByteapiMust(initial.MarshalAPER())); err != nil {
+func TestSemanticEqualityIgnoresMandatorySliceStorage(t *testing.T) {
+	c := s13.X2APMessageCodec()
+	wire := listByteapiMust(c.EncodeAPER(x2APMessageAPERValueapiMust(c.New([]byte{}))))
+	v, _, err := c.DecodeAPER(wire)
+	if err != nil {
 		t.Fatal(err)
 	}
-	if got := received.ProtocolIEs[0].ReceivedForm().Location().Path; got != "ProtocolIEField" {
-		t.Errorf("IE path=%q", got)
+	encoder := *s13.X2apInternalX2APMessageValueCodecFieldEncode(&c)
+	*s13.X2apInternalX2APMessageValueCodecFieldEncode(&c) = func(s13.X2APMessage, bool, *aper.DecodeBudget) ([]byte, error) {
+		t.Fatal("mandatory nil/empty mismatch")
+		return nil, nil
 	}
-	diagnostics := s06.CriticalityDiagnostics{IEExtensions: s02.CriticalityDiagnosticsExtIEsExtContainer{criticalityDiagnosticsExtIEsExtFieldapiMust(s06.CriticalityDiagnosticsExtIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))}}
-	var next s06.CriticalityDiagnostics
-	if _, err := next.UnmarshalAPER(listByteapiMust(diagnostics.MarshalAPER())); err != nil {
+	v.Value = nil
+	if !bytes.Equal(listByteapiMust(c.EncodeAPER(v)), wire) {
+		t.Fatal("mandatory slice storage changed replay")
+	}
+	*s13.X2apInternalX2APMessageValueCodecFieldEncode(&c) = encoder
+	var decoded s06.CriticalityDiagnostics
+	wire = listByteapiMust(decoded.MarshalAPER())
+	if _, err := decoded.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}
-	if got := next.IEExtensions[0].ReceivedForm().Location().Path; got != "ProtocolExtensionField" {
-		t.Errorf("extension path=%q", got)
-	}
-	private := privateMessageapiMust(s20.NewPrivateMessage(s00.PrivateMessageIEsValuePrivateIEContainer{privateMessageIEsValuePrivateIEFieldapiMust(s00.PrivateMessageIEs().NewOpaque(privateIEIDapiMust(s00.NewPrivateIEIDLocal(1)), s00.CriticalityIgnore, []byte{0}))}))
-	var message s20.PrivateMessage
-	if _, err := message.UnmarshalAPER(listByteapiMust(private.MarshalAPER())); err != nil {
-		t.Fatal(err)
-	}
-	if got := message.PrivateIEs[0].ReceivedForm().Location().Path; got != "PrivateIEField" {
-		t.Errorf("private path=%q", got)
+	decoded.IEExtensions = s02.CriticalityDiagnosticsExtIEsExtContainer{}
+	if _, err := decoded.MarshalAPER(); err == nil {
+		t.Fatal("optional present empty container replayed as absent")
 	}
 }

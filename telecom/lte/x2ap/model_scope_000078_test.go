@@ -3,81 +3,42 @@
 package x2ap
 
 import (
-	bytes "bytes"
 	errors "errors"
+	fmt "fmt"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s02 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s02"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
-	strings "strings"
+	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 	testing "testing"
 )
 
-// TS 36.423 V19.1.0 §10 adopts TS 36.413 V19.2.0 §§10.1–10.3:
-// unknown identifiers are preserved; a known malformed value is a fatal error.
-func TestReceiverModeReportsAndAtomicReuse(t *testing.T) {
-	unknown, err := s11.ErrorIndicationIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0xa5})
-	if err != nil {
-		t.Fatal(err)
-	}
-	known, err := s11.ErrorIndicationIEs().CriticalityDiagnostics().New(s06.CriticalityDiagnostics{})
-	if err != nil {
-		t.Fatal(err)
-	}
-	body, err := s20.NewErrorIndication(s11.ErrorIndicationIEContainer{unknown, known})
-	if err != nil {
-		t.Fatal(err)
-	}
-	message, err := s20.ErrorIndicationProcedure().Initiating().Build(body)
-	if err != nil {
-		t.Fatal(err)
-	}
-	value, err := s21.NewX2APPDUInitiatingMessage(message)
-	if err != nil {
-		t.Fatal(err)
-	}
-	wire, err := value.MarshalAPER()
-	if err != nil {
-		t.Fatal(err)
-	}
-	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		var reused s20.X2APPDU
-		for range 2 {
-			report, err := reused.UnmarshalAPER(wire, options...)
-			if err != nil || len(report.Deviations) != 0 || len(report.Observations) != 1 {
-				t.Fatalf("report=%+v err=%v", report, err)
+// TS 36.423 V19.1.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
+// which also covers repeated IEs whose IDs are
+// not in the selected object set. Unknown IEs still do not set known-row order.
+func TestPortValidationUnknownDuplicates(t *testing.T) {
+	table := s07.X2SetupFailureIEs()
+	cause := x2SetupFailureIEFieldapiMust(table.Cause().New(causeapiMust(s00.NewCauseMisc(s00.CauseMiscUnspecified))))
+	for _, id := range []s00.ProtocolIEID{65532, 0} {
+		t.Run(fmt.Sprintf("id-%d", id), func(t *testing.T) {
+			unknown := x2SetupFailureIEFieldapiMust(table.NewOpaque(id, s00.CriticalityIgnore, []byte{0}))
+			body := s14.X2SetupFailure{ProtocolIEs: s07.X2SetupFailureIEContainer{cause, unknown, unknown}}
+			report, err := s14.ValidateX2SetupFailure(&body)
+			if err != nil {
+				t.Fatal(err)
 			}
-			observation := report.Observations[0]
-			if observation.Kind != aper.UnknownIE || observation.Location.Path == "" || !observation.Location.HasWireLocation || len(observation.Location.Spans) == 0 || observation.Rule.Document != "3GPP TS 36.423" {
-				t.Fatalf("observation=%+v", observation)
+			portRequireRepeated(t, report, id, "[2]")
+			var build *s12.BuildError
+			if _, err := s14.NewX2SetupFailure(body.ProtocolIEs); !errors.As(err, &build) {
+				t.Errorf("builder accepted duplicate id %d: %v", id, err)
 			}
-			replay, err := reused.MarshalAPER()
-			if err != nil || !bytes.Equal(replay, wire) {
-				t.Fatalf("replay=%x err=%v", replay, err)
-			}
-			malformed := bytes.Clone(wire)
-			malformed[len(malformed)-1] |= 1
-			report, err = reused.UnmarshalAPER(malformed, options...)
-			var located *aper.DecodeError
-			if !errors.Is(err, aper.ErrSyntax) || !errors.As(err, &located) || len(report.Observations) != 1 || len(report.Deviations) != 1 {
-				t.Fatalf("failed report=%+v err=%v", report, err)
-			}
-			if report.Deviations[0].Rule != located.Rule || report.Deviations[0].Location.Path != located.Location.Path || !strings.Contains(string(located.Location.Path), "ProtocolIEs[1].Value") {
-				t.Fatalf("duplicate or wrong occurrence: %+v / %+v", report, located)
-			}
-			if reused.Choice != 0 || reused.ReceivedForm().Present() {
-				t.Fatalf("failed value retained: %+v", reused)
-			}
-		}
-		codecValue, report, err := s20.X2APPDUCodec().DecodeAPER(wire, options...)
-		if err != nil || len(report.Observations) != 1 {
-			t.Fatalf("codec report=%+v err=%v", report, err)
-		}
-		replay, err := s20.X2APPDUCodec().EncodeAPER(codecValue)
-		if err != nil || !bytes.Equal(wire, replay) {
-			t.Fatalf("codec replay=%x err=%v", replay, err)
-		}
+		})
 	}
+	extension := criticalityDiagnosticsExtIEsExtFieldapiMust(s06.CriticalityDiagnosticsExtIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
+	value := s06.CriticalityDiagnostics{IEExtensions: s02.CriticalityDiagnosticsExtIEsExtContainer{extension, extension}}
+	report := s12.ValidationReport{Complete: true}
+	s13.X2apInternalWalkValidationCriticalityDiagnostics(&value, &report, "CriticalityDiagnostics", false)
+	portRequireRepeated(t, report, 65532, "[1]")
 }

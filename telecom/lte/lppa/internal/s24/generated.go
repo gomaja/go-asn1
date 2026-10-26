@@ -23,16 +23,16 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-func NewECIDMeasurementInitiationRequest(fields s21.ECIDMeasurementInitiationRequestIEContainer, options ...aper.BuildOption) (s21.ECIDMeasurementInitiationRequest, error) {
+func NewECIDMeasurementInitiationRequest(fields s20.ECIDMeasurementInitiationRequestIEContainer, options ...aper.BuildOption) (s21.ECIDMeasurementInitiationRequest, error) {
 	budget, err := aper.BuildBudget(options...)
 	if err != nil {
 		return s21.ECIDMeasurementInitiationRequest{}, aper.OperationError(err, "ECIDMeasurementInitiationRequest")
 	}
 	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s21.ECIDMeasurementInitiationRequestIEField](bb, uint64(len(fields))); err != nil {
+	if err := aper.ChargeSlice[s20.ECIDMeasurementInitiationRequestIEField](bb, uint64(len(fields))); err != nil {
 		return s21.ECIDMeasurementInitiationRequest{}, aper.OperationError(err, "ECIDMeasurementInitiationRequest")
 	}
-	v := s21.ECIDMeasurementInitiationRequest{ProtocolIEs: make(s21.ECIDMeasurementInitiationRequestIEContainer, len(fields))}
+	v := s21.ECIDMeasurementInitiationRequest{ProtocolIEs: make(s20.ECIDMeasurementInitiationRequestIEContainer, len(fields))}
 	copy(v.ProtocolIEs, fields)
 	report, err := BridgeValidateECIDMeasurementInitiationRequestBudget(&v, budget)
 	if err != nil {
@@ -2406,23 +2406,6 @@ func BridgeWalkValidationOTDOAInformationResponse(v *s18.OTDOAInformationRespons
 		return
 	}
 }
-func BridgeWalkValidationSRSConfigurationForAllCells(v *s09.SRSConfigurationForAllCells, report *s09.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
-		return
-	}
-	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
-	if err := bb.EnterDecodeValue(); err != nil {
-		*s09.BridgeValidationReportFieldErr(report) = err
-		return
-	}
-	defer bb.LeaveDecodeValue()
-	for i := range *v {
-		if *s09.BridgeValidationReportFieldErr(report) != nil {
-			return
-		}
-		s23.BridgeWalkValidationSRSConfigurationForOneCell(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
-	}
-}
 func BridgeWalkValidationSubframeallocation(v *s09.Subframeallocation, report *s09.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
@@ -2571,7 +2554,7 @@ func BridgeWalkValidationULConfiguration(v *s10.ULConfiguration, report *s09.Val
 	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	BridgeWalkValidationSRSConfigurationForAllCells(&v.SrsConfiguration, report, path+".srsConfiguration", false)
+	s23.BridgeWalkValidationSRSConfigurationForAllCells(&v.SrsConfiguration, report, path+".srsConfiguration", false)
 	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -2767,7 +2750,7 @@ func BridgeWalkValidationWLANMeasurementQuantities(v *s20.WLANMeasurementQuantit
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s00.FieldInfo{s20.WLANMeasurementQuantitiesItemIEs().WLANMeasurementQuantitiesItem().Info()}
-		s11.BridgeMergeNestedValidation(report, s22.BridgeWLANMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(s20.WLANMeasurementQuantitiesItemIEContainer{field}, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
+		s11.BridgeMergeNestedValidation(report, s21.BridgeWLANMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(s20.WLANMeasurementQuantitiesItemIEContainer{field}, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 		fields := s20.WLANMeasurementQuantitiesItemIEContainer{field}
 		for i := range fields {
 			if *s09.BridgeValidationReportFieldErr(report) != nil {
@@ -2801,7 +2784,7 @@ func BridgeWalkValidationWLANMeasurementQuantitiesItem(v *s20.WLANMeasurementQua
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s00.FieldInfo{}
-				s11.BridgeMergeNestedValidation(report, s22.BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
+				s11.BridgeMergeNestedValidation(report, s21.BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s09.BridgeValidationReportFieldErr(report) != nil {

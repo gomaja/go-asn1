@@ -4,21 +4,21 @@ package x2ap
 
 import (
 	bytes "bytes"
-	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
+	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-// eRABUsageReportItemsemanticEditRestore is the concrete semanticEditRestore[ERABUsageReportItem].
-func eRABUsageReportItemsemanticEditRestore(t *testing.T, c s04.ERABUsageReportItemValueCodec, initial s04.ERABUsageReportItem, edit, restore func(*s04.ERABUsageReportItem)) {
+// x2APMessagesemanticEditRestore is the concrete semanticEditRestore[X2APMessage].
+func x2APMessagesemanticEditRestore(t *testing.T, c s13.X2APMessageValueCodec, initial s13.X2APMessage, edit, restore func(*s13.X2APMessage)) {
 	t.Helper()
-	encoder := *s04.X2apInternalERABUsageReportItemValueCodecFieldEncode(&c)
+	encoder := *s13.X2apInternalX2APMessageValueCodecFieldEncode(&c)
 	calls := 0
-	*s04.X2apInternalERABUsageReportItemValueCodecFieldEncode(&c) = func(v s04.ERABUsageReportItem, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+	*s13.X2apInternalX2APMessageValueCodecFieldEncode(&c) = func(v s13.X2APMessage, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		calls++
 		return encoder(v, fresh, budget)
 	}
-	wire := listByteapiMust(c.EncodeAPER(eRABUsageReportItemAPERValueapiMust(c.New(initial))))
+	wire := listByteapiMust(c.EncodeAPER(x2APMessageAPERValueapiMust(c.New(initial))))
 	original := bytes.Clone(wire)
 	calls = 0
 	v, _, err := c.DecodeAPER(wire)

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 )
 
-func uEContextReleaseIEFieldfreshMust(value s12.UEContextReleaseIEField, err error) s12.UEContextReleaseIEField {
+func handoverPreparationFailureIEFieldfreshMust(value s11.HandoverPreparationFailureIEField, err error) s11.HandoverPreparationFailureIEField {
 	if err != nil {
 		panic(err)
 	}

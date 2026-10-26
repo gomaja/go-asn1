@@ -2,4 +2,7 @@
 
 package x2ap
 
-func replayBoundInt(v int64) *int64 { return &v }
+type replayBoundOps struct {
+	decode func() error
+	encode func() ([]byte, error)
+}

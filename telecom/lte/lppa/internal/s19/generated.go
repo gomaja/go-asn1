@@ -18,6 +18,7 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s12"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s13"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s14"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s18"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
@@ -504,6 +505,29 @@ func BridgeResultNRItemExtIEsValueCompareLPPaProtocolExtensionField(v *ResultNRI
 	s.End(f, v.replay, v.withoutReplay)
 }
 
+// InterRATMeasuredResultsValueAPERValue is the concrete APERValue[InterRATMeasuredResultsValue].
+type InterRATMeasuredResultsValueAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   InterRATMeasuredResultsValue
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v InterRATMeasuredResultsValueAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
+func (v InterRATMeasuredResultsValueAPERValue) WithoutReplay() InterRATMeasuredResultsValueAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
 // ResultNRAPERValue is the concrete APERValue[ResultNR].
 type ResultNRAPERValue struct {
 	context s00.BridgeCodecContext
@@ -667,6 +691,23 @@ func (v *ResultNRItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 
 // ResultNRItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultNR-Item-ExtIEs of TS 36.455: a list of ResultNRItemExtIEsIEField values.
 type ResultNRItemExtIEsIEContainer []ResultNRItemExtIEsIEField
+
+// InterRATMeasuredResultsValue represents the ASN.1 CHOICE type InterRATMeasuredResultsValue.
+type InterRATMeasuredResultsValue struct {
+	knownOpenBytes     uint64
+	replay             aper.Snapshot
+	stream             aper.WireSpan
+	withoutReplay      bool
+	received           bool
+	receivedBytes      aper.WireSpan
+	Choice             int
+	perPadding         aper.CompletePadding  `json:"-"`
+	perOpenTypePadding aper.CompletePadding  `json:"-"`
+	UnknownExtension   *aper.ChoiceExtension `json:"UnknownExtension,omitempty"`
+	ResultGERAN        s12.ResultGERAN       `json:"ResultGERAN,omitzero"`
+	ResultUTRAN        s14.ResultUTRAN       `json:"ResultUTRAN,omitzero"`
+	ResultNR           ResultNR              `json:"ResultNR,omitzero"`
+}
 type ResultNR = []ResultNRItem
 
 // ResultNRItem represents the ASN.1 type ResultNR-Item (SEQUENCE).
@@ -689,6 +730,331 @@ type ResultNRItem struct {
 	perExtPadding     []aper.CompletePadding         `asn1:"-" json:"-"`
 	extOrigin         []aper.OpaqueOrigin
 	extWire           []aper.WireSpan
+}
+
+// MarshalAPER encodes InterRATMeasuredResultsValue to APER format.
+func (v *InterRATMeasuredResultsValue) marshalAPERLegacy() ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := v.marshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithPadding(v.perPadding)
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.
+			RestoreReplayPlan(
+				previous)
+	}
+	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.replay.
+			ReplayTo(v.stream, bb); ok ||
+			err != nil {
+			return err
+		}
+	}
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	if v.UnknownExtension != nil {
+		if v.Choice != 0 {
+			return fmt.Errorf("%s known choice %d and unknown extension are both selected", "InterRATMeasuredResultsValue:", v.Choice)
+		}
+		if v.UnknownExtension.Index() < 0 {
+			return fmt.Errorf("%s extension index %d must be non-negative", "InterRATMeasuredResultsValue:", v.UnknownExtension.Index())
+		}
+		if v.UnknownExtension.Index() < 1 {
+			return fmt.Errorf("%s extension index %d is known to this schema", "InterRATMeasuredResultsValue:", v.UnknownExtension.Index())
+		}
+		if err := aper.EncodeBoolean(bb, true); err != nil {
+			return err
+		}
+		if err := aper.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index()); err != nil {
+			return err
+		}
+		return v.UnknownExtension.EncodeTo(bb)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("%s choice %d must be positive", "InterRATMeasuredResultsValue:", v.Choice)
+	}
+	isExtension := v.Choice > 2
+	if err := aper.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		// arithmetic pattern APER_CHOICE_EXT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:117
+		if v.Choice <= 2 {
+			return fmt.Errorf("extension choice index outside root")
+		}
+		if err := aper.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-2-1)); err != nil {
+			return err
+		}
+		inner := aper.NewBudgetBuffer(bb.Budget())
+		switch v.Choice {
+		case s00.InterRATMeasuredResultsValueChoiceResultNR:
+			if err := aper.EncodeCollection(inner, int64(len(v.ResultNR)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_resultnr, fragmentLength_resultnr int64) error {
+				// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+				if fragmentOffset_resultnr < 0 || fragmentOffset_resultnr > int64(len(v.ResultNR)) || fragmentLength_resultnr < 0 || fragmentLength_resultnr > int64(len(v.ResultNR[fragmentOffset_resultnr:])) {
+					return fmt.Errorf("collection fragment outside value")
+				}
+				for _, elem := range v.ResultNR[fragmentOffset_resultnr : fragmentOffset_resultnr+fragmentLength_resultnr] {
+					if err := elem.marshalAPERTo(inner, len(fresh) != 0 && fresh[0]); err != nil {
+						return fmt.Errorf("encoding resultNR element: %w", err)
+					}
+				}
+				return nil
+			}); err != nil {
+				return fmt.Errorf("encoding resultNR: %w", err)
+			}
+		default:
+			return fmt.Errorf("unknown InterRATMeasuredResultsValue extension choice %d", v.Choice)
+		}
+		openBytes, err := inner.CompleteBytesWithPadding(v.perOpenTypePadding)
+		if err != nil {
+			return err
+		}
+		if err := aper.EncodeOpenTypeAligned(bb, openBytes); err != nil {
+			return err
+		}
+		return nil
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
+	if err := aper.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case s00.InterRATMeasuredResultsValueChoiceResultGERAN:
+		if err := aper.EncodeCollection(bb, int64(len(v.ResultGERAN)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_resultgeran, fragmentLength_resultgeran int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_resultgeran < 0 || fragmentOffset_resultgeran > int64(len(v.ResultGERAN)) || fragmentLength_resultgeran < 0 || fragmentLength_resultgeran > int64(len(v.ResultGERAN[fragmentOffset_resultgeran:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
+			for _, elem := range v.ResultGERAN[fragmentOffset_resultgeran : fragmentOffset_resultgeran+fragmentLength_resultgeran] {
+				if err := s12.BridgeResultGERANItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding resultGERAN element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding resultGERAN: %w", err)
+		}
+	case s00.InterRATMeasuredResultsValueChoiceResultUTRAN:
+		if err := aper.EncodeCollection(bb, int64(len(v.ResultUTRAN)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_resultutran, fragmentLength_resultutran int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_resultutran < 0 || fragmentOffset_resultutran > int64(len(v.ResultUTRAN)) || fragmentLength_resultutran < 0 || fragmentLength_resultutran > int64(len(v.ResultUTRAN[fragmentOffset_resultutran:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
+			for _, elem := range v.ResultUTRAN[fragmentOffset_resultutran : fragmentOffset_resultutran+fragmentLength_resultutran] {
+				if err := s14.BridgeResultUTRANItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding resultUTRAN element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding resultUTRAN: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown InterRATMeasuredResultsValue choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes InterRATMeasuredResultsValue from APER format.
+func (v *InterRATMeasuredResultsValue) unmarshalAPERLegacy(data []byte) error {
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
+}
+func (v *InterRATMeasuredResultsValue) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATMeasuredResultsValue")
+	}
+	bb.EnterComponent("InterRATMeasuredResultsValue")
+	if err := v.unmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATMeasuredResultsValue")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "InterRATMeasuredResultsValue")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "InterRATMeasuredResultsValue")
+	}
+	v.perPadding = padding.Padding()
+	return nil
+}
+func (v *InterRATMeasuredResultsValue) unmarshalAPERFrom(bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+	replayUsage := bb.Usage()
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = InterRATMeasuredResultsValue{}
+	isExtension, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := aper.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "UnknownExtension")
+		}
+		openExtension, err := aper.DecodeChoiceExtensionAligned(bb, extIdx, 1)
+		if extIdx < 1 {
+			v.knownOpenBytes = max(v.knownOpenBytes, openExtension.ContentLength())
+		}
+		if err != nil {
+			return runtime.WrapDecodePath(err, "UnknownExtension")
+		}
+		if extIdx >= 1 {
+			v.UnknownExtension = &openExtension
+			v.stream = bb.CaptureWireSpan(replayStart)
+			v.
+				stream.RecordUsage(replayUsage,
+
+				bb)
+
+			return nil
+		}
+		inner := openExtension.ChildDecodeBuffer(bb)
+		if err := inner.EnterOpenType(); err != nil {
+			return err
+		}
+		defer inner.LeaveOpenType()
+		// arithmetic pattern APER_CHOICE_EXT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:206
+		if extIdx < 0 || extIdx >= int64(^uint(0)>>1)-int64(2) {
+			return fmt.Errorf("extension choice index exceeds host int")
+		}
+		v.Choice = int(extIdx) + 2 + 1
+		extensionPath := "UnknownExtension"
+		switch v.Choice {
+		case s00.InterRATMeasuredResultsValueChoiceResultNR:
+			extensionPath = "ResultNR"
+			toleranceMark_resultnr := inner.EnterComponent("ResultNR")
+			tmp_resultnr := make(ResultNR, 0)
+			_, errCollection_resultnr := aper.DecodeCollection(inner, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_resultnr, fragmentLength_resultnr int64) error {
+				// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
+				if fragmentOffset_resultnr < 0 || fragmentLength_resultnr < 0 || fragmentLength_resultnr > int64(^uint(0)>>1) || fragmentOffset_resultnr > int64(^uint(0)>>1)-fragmentLength_resultnr {
+					return fmt.Errorf("collection fragment count out of range")
+				}
+				for i := int64(0); i < fragmentLength_resultnr; i++ {
+					var elem ResultNRItem
+					elementMark := inner.EnterIndex(fragmentOffset_resultnr + i)
+					if err := elem.unmarshalAPERFrom(inner); err != nil {
+						return runtime.WrapDecodePath(err, fmt.Sprintf("ResultNR[%d]", fragmentOffset_resultnr+i))
+					}
+					inner.LeaveComponent(elementMark)
+					if next, err := aper.AppendValues(inner, tmp_resultnr, elem); err != nil {
+						return err
+					} else {
+						tmp_resultnr = next
+					}
+				}
+				return nil
+			})
+			if errCollection_resultnr != nil {
+				return runtime.WrapDecodePath(errCollection_resultnr, "ResultNR")
+			}
+			v.ResultNR = tmp_resultnr
+			inner.LeaveComponent(toleranceMark_resultnr)
+		}
+		paddingMark := inner.EnterComponent(extensionPath)
+		padding, err := aper.CaptureOpenTypePadding(inner)
+		inner.LeaveComponent(paddingMark)
+		if err != nil {
+			return runtime.WrapDecodePath(err, extensionPath)
+		}
+		v.perOpenTypePadding = padding
+		v.stream = bb.CaptureWireSpan(replayStart)
+		v.
+			stream.RecordUsage(replayUsage,
+
+			bb)
+
+		return nil
+	}
+	idx, err := aper.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:236
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case s00.InterRATMeasuredResultsValueChoiceResultGERAN:
+		toleranceMark_resultgeran := bb.EnterComponent("ResultGERAN")
+		tmp_resultgeran := make(s12.ResultGERAN, 0)
+		_, errCollection_resultgeran := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_resultgeran, fragmentLength_resultgeran int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
+			if fragmentOffset_resultgeran < 0 || fragmentLength_resultgeran < 0 || fragmentLength_resultgeran > int64(^uint(0)>>1) || fragmentOffset_resultgeran > int64(^uint(0)>>1)-fragmentLength_resultgeran {
+				return fmt.Errorf("collection fragment count out of range")
+			}
+			for i := int64(0); i < fragmentLength_resultgeran; i++ {
+				var elem s12.ResultGERANItem
+				elementMark := bb.EnterIndex(fragmentOffset_resultgeran + i)
+				if err := s12.BridgeResultGERANItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ResultGERAN[%d]", fragmentOffset_resultgeran+i))
+				}
+				bb.LeaveComponent(elementMark)
+				if next, err := aper.AppendValues(bb, tmp_resultgeran, elem); err != nil {
+					return err
+				} else {
+					tmp_resultgeran = next
+				}
+			}
+			return nil
+		})
+		if errCollection_resultgeran != nil {
+			return runtime.WrapDecodePath(errCollection_resultgeran, "ResultGERAN")
+		}
+		v.ResultGERAN = tmp_resultgeran
+		bb.LeaveComponent(toleranceMark_resultgeran)
+	case s00.InterRATMeasuredResultsValueChoiceResultUTRAN:
+		toleranceMark_resultutran := bb.EnterComponent("ResultUTRAN")
+		tmp_resultutran := make(s14.ResultUTRAN, 0)
+		_, errCollection_resultutran := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_resultutran, fragmentLength_resultutran int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
+			if fragmentOffset_resultutran < 0 || fragmentLength_resultutran < 0 || fragmentLength_resultutran > int64(^uint(0)>>1) || fragmentOffset_resultutran > int64(^uint(0)>>1)-fragmentLength_resultutran {
+				return fmt.Errorf("collection fragment count out of range")
+			}
+			for i := int64(0); i < fragmentLength_resultutran; i++ {
+				var elem s14.ResultUTRANItem
+				elementMark := bb.EnterIndex(fragmentOffset_resultutran + i)
+				if err := s14.BridgeResultUTRANItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ResultUTRAN[%d]", fragmentOffset_resultutran+i))
+				}
+				bb.LeaveComponent(elementMark)
+				if next, err := aper.AppendValues(bb, tmp_resultutran, elem); err != nil {
+					return err
+				} else {
+					tmp_resultutran = next
+				}
+			}
+			return nil
+		})
+		if errCollection_resultutran != nil {
+			return runtime.WrapDecodePath(errCollection_resultutran, "ResultUTRAN")
+		}
+		v.ResultUTRAN = tmp_resultutran
+		bb.LeaveComponent(toleranceMark_resultutran)
+	}
+	v.stream = bb.CaptureWireSpan(replayStart)
+	v.
+		stream.RecordUsage(replayUsage,
+
+		bb)
+
+	return nil
 }
 
 // PosSIBsComplete carries a complete PosSIBs encoding, including observed terminal bits.
@@ -715,11 +1081,6 @@ func (v *PosSIBsComplete) marshalAPERLegacy() ([]byte, error) {
 func (v *PosSIBsComplete) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes PosSIBs with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *PosSIBsComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -765,7 +1126,7 @@ func BridgeUnmarshalAPERPosSIBsFrom(bb *aper.BitBuffer) (s10.PosSIBs, error) {
 func BridgeUnmarshalAPERPosSIBsInto(v *s10.BridgeAsn1cAPERPosSIBsListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s10.PosSIBs, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -814,11 +1175,6 @@ func (v *PosSIBSegmentsComplete) marshalAPERLegacy() ([]byte, error) {
 func (v *PosSIBSegmentsComplete) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes PosSIBSegments with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *PosSIBSegmentsComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -866,7 +1222,7 @@ func BridgeUnmarshalAPERPosSIBSegmentsFrom(bb *aper.BitBuffer) (s08.PosSIBSegmen
 func BridgeUnmarshalAPERPosSIBSegmentsInto(v *s09.BridgeAsn1cAPERPosSIBSegmentsListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s08.PosSIBSegments, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -915,11 +1271,6 @@ func (v *ResultRSRPComplete) marshalAPERLegacy() ([]byte, error) {
 func (v *ResultRSRPComplete) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ResultRSRP with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *ResultRSRPComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -967,7 +1318,7 @@ func BridgeUnmarshalAPERResultRSRPFrom(bb *aper.BitBuffer) (s12.ResultRSRP, erro
 func BridgeUnmarshalAPERResultRSRPInto(v *s12.BridgeAsn1cAPERResultRSRPListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s12.ResultRSRP, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 9, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1016,11 +1367,6 @@ func (v *ResultRSRQComplete) marshalAPERLegacy() ([]byte, error) {
 func (v *ResultRSRQComplete) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ResultRSRQ with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *ResultRSRQComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -1068,7 +1414,7 @@ func BridgeUnmarshalAPERResultRSRQFrom(bb *aper.BitBuffer) (s13.ResultRSRQ, erro
 func BridgeUnmarshalAPERResultRSRQInto(v *s13.BridgeAsn1cAPERResultRSRQListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s13.ResultRSRQ, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 9, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1117,11 +1463,6 @@ func (v *ResultGERANComplete) marshalAPERLegacy() ([]byte, error) {
 func (v *ResultGERANComplete) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ResultGERAN with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *ResultGERANComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -1169,7 +1510,7 @@ func BridgeUnmarshalAPERResultGERANFrom(bb *aper.BitBuffer) (s12.ResultGERAN, er
 func BridgeUnmarshalAPERResultGERANInto(v *s12.BridgeAsn1cAPERResultGERANListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s12.ResultGERAN, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1218,11 +1559,6 @@ func (v *ResultUTRANComplete) marshalAPERLegacy() ([]byte, error) {
 func (v *ResultUTRANComplete) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ResultUTRAN with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *ResultUTRANComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -1270,7 +1606,7 @@ func BridgeUnmarshalAPERResultUTRANFrom(bb *aper.BitBuffer) (s14.ResultUTRAN, er
 func BridgeUnmarshalAPERResultUTRANInto(v *s14.BridgeAsn1cAPERResultUTRANListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s14.ResultUTRAN, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1339,7 +1675,6 @@ func (v *ResultNRItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 	}
 	defer bb.LeaveDecodeValue()
 
-	recoveryStart := bb.BitsWritten()
 	hasExtensions := false
 	for _, present := range v.extPresent {
 		hasExtensions = hasExtensions || present
@@ -1395,14 +1730,14 @@ func (v *ResultNRItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:443
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:447
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1412,7 +1747,7 @@ func (v *ResultNRItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 				return err
 			}
 		}
-		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:454
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1428,8 +1763,6 @@ func (v *ResultNRItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 			}
 		}
 	}
-	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
@@ -1437,11 +1770,6 @@ func (v *ResultNRItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 func (v *ResultNRItem) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ResultNRItem with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *ResultNRItem) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -1455,7 +1783,7 @@ func (v *ResultNRItem) unmarshalAPERWithOptions(data []byte, options aper.Decode
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultNRItem")
 	}
-	v.perPadding = padding.WithRecords(v.perPadding)
+	v.perPadding = padding
 	return nil
 }
 func (v *ResultNRItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
@@ -1467,7 +1795,7 @@ func (v *ResultNRItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ResultNRItem{}
-	extAdditions := aper.BeginExtensionAdditions(bb)
+	var extAdditions aper.ExtensionAdditions
 	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1521,7 +1849,7 @@ func (v *ResultNRItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(ResultNRItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1552,7 +1880,7 @@ func (v *ResultNRItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
-		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:629
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1569,12 +1897,12 @@ func (v *ResultNRItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
-		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:632
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] && extAdditions.Received(bb, i) {
+			if extPresent[i] {
 				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.5"})
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -1589,14 +1917,6 @@ func (v *ResultNRItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 				v.extOrigin[i] = opaque.Origin()
 			}
 		}
-		if extAdditions.Emptied() {
-			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
-			v.extOrigin = nil
-		}
-	}
-
-	{
-		v.perPadding = extAdditions.Record(v.perPadding)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 	v.
@@ -1631,11 +1951,6 @@ func (v *ResultsPerSSBIndexListComplete) marshalAPERLegacy() ([]byte, error) {
 func (v *ResultsPerSSBIndexListComplete) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes ResultsPerSSBIndexList with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *ResultsPerSSBIndexListComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -1674,7 +1989,7 @@ func BridgeUnmarshalAPERResultsPerSSBIndexListFrom(bb *aper.BitBuffer) (s14.Resu
 func BridgeUnmarshalAPERResultsPerSSBIndexListInto(v *s14.BridgeAsn1cAPERResultsPerSSBIndexListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(s14.ResultsPerSSBIndexList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1115
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1723,18 +2038,13 @@ func (v *PRSFrequencyHoppingConfigurationBandPositionsComplete) marshalAPERLegac
 func (v *PRSFrequencyHoppingConfigurationBandPositionsComplete) unmarshalAPERLegacy(data []byte) error {
 	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
-
-// UnmarshalAPERWithOptions decodes PRSFrequencyHoppingConfigurationBandPositions with explicit receiver options:
-// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
-// MaxZeroWidthCharacters (see
-// aper.BitBuffer.SetDecodeOptionsAligned).
 func (v *PRSFrequencyHoppingConfigurationBandPositionsComplete) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
 	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PRSFrequencyHoppingConfigurationBandPositions")
 	}
 	bb.EnterComponent("PRSFrequencyHoppingConfigurationBandPositions")
-	value, err := BridgeUnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsFrom(bb)
+	value, err := s18.BridgeUnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PRSFrequencyHoppingConfigurationBandPositions")
 	}
@@ -1760,42 +2070,22 @@ func BridgeUnmarshalAPERPRSFrequencyHoppingConfigurationBandPositions(data []byt
 	return value, nil
 }
 
-// UnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsFrom decodes a PRSFrequencyHoppingConfigurationBandPositions list from bb.
-func BridgeUnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsFrom(bb *aper.BitBuffer) (s00.PRSFrequencyHoppingConfigurationBandPositions, error) {
-	if err := bb.EnterDecodeValue(); err != nil {
-		return nil, err
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *InterRATMeasuredResultsValue) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
 	}
-	defer bb.LeaveDecodeValue()
-	var v s00.BridgeAsn1cAPERPRSFrequencyHoppingConfigurationBandPositionsListValue
-	if err := BridgeUnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsInto(&v, bb); err != nil {
-		return nil, err
-	}
-	return v.Value, nil
+	return s05.BridgeReceivedFormAt(v.received, v.receivedBytes, "InterRATMeasuredResultsValue", v.receivedBytes.ContentLocation(), v.perPadding)
 }
-func BridgeUnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsInto(v *s00.BridgeAsn1cAPERPRSFrequencyHoppingConfigurationBandPositionsListValue, bb *aper.BitBuffer) error {
-	v.Value = make(s00.PRSFrequencyHoppingConfigurationBandPositions, 0)
-	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1144
-		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
-			return fmt.Errorf("collection fragment count out of range")
-		}
-		for i := int64(0); i < fragmentLength_value; i++ {
-			val, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.BridgeAsn1IntegerBound1, s00.BridgeAsn1IntegerBound7, true)
-			if err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
-			}
-			if next, err := aper.AppendValues(bb, v.Value, val); err != nil {
-				return err
-			} else {
-				v.Value = next
-			}
-		}
-		return nil
-	})
-	if errCollection_value != nil {
-		return errCollection_value
-	}
-	return nil
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v InterRATMeasuredResultsValue) WithoutReplay() InterRATMeasuredResultsValue {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedBytes = aper.WireSpan{}
+	var zero InterRATMeasuredResultsValue
+	v.perPadding = zero.perPadding
+	return v
 }
 
 // ReceivedForm returns an owned view of the complete value's original bytes.
@@ -1998,6 +2288,98 @@ func (v *ResultNRItem) RemoveExtension(index uint64) error {
 	}
 	v.perExtPadding = nil
 	return nil
+}
+
+// MarshalAPER encodes the complete value, replaying unchanged received bytes unless fresh encoding is requested.
+func (v *InterRATMeasuredResultsValue) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "InterRATMeasuredResultsValue")
+	}
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, "InterRATMeasuredResultsValue")
+	}
+	if !fresh && v.replay.Present() {
+
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(&budget))
+		BridgeCompareLPPaInterRATMeasuredResultsValue(v, &s)
+		if err := s.ChargeComparison(&budget); err != nil {
+			return nil, aper.OperationError(err, "InterRATMeasuredResultsValue")
+		}
+		if s.Unchanged(v.replay) && v.received {
+			if err := v.replay.ApplyReplay(&budget); err != nil {
+				return nil, aper.OperationError(err, "InterRATMeasuredResultsValue")
+			}
+			out, err := v.receivedBytes.ReplayBytes(&budget)
+			return out, aper.OperationError(err, "InterRATMeasuredResultsValue")
+		}
+		out, err := v.marshalAPERChangedValue(budget, fresh, s.Plan())
+		return out, aper.OperationError(err, "InterRATMeasuredResultsValue")
+	}
+	out, err := v.marshalAPERFreshValue(budget, fresh)
+	return out, aper.OperationError(err, "InterRATMeasuredResultsValue")
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChanged(&budget, fresh, plan)
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERFreshValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
+	return v.marshalAPERBudget(&budget, fresh)
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	bb := aper.NewBudgetBuffer(budget)
+	if !fresh && v.replay.Present() && bb.ReplayPlan() == nil {
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(budget))
+		BridgeCompareLPPaInterRATMeasuredResultsValue(v, &s)
+		if err := s.ChargeComparison(budget); err != nil {
+			return nil, err
+		}
+		if s.Unchanged(v.replay) && v.received {
+			if err := v.replay.ApplyReplay(budget); err != nil {
+				return nil, err
+			}
+			return v.receivedBytes.ReplayBytes(budget)
+		}
+		return v.marshalAPERChanged(budget, fresh, s.Plan())
+	}
+	if !fresh && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && v.received {
+		if err := v.replay.ApplyReplay(budget); err != nil {
+			return nil, err
+		}
+		return v.receivedBytes.ReplayBytes(budget)
+	}
+	return v.marshalAPERPlanned(budget, fresh)
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
+	budget.SetReplayPlan(&plan)
+	defer budget.SetReplayPlan(previous)
+	return v.marshalAPERPlanned(budget, fresh)
+}
+func (v *InterRATMeasuredResultsValue) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
+	value := v
+	if fresh {
+		previous := bb.SuspendReplayPlan()
+		defer bb.RestoreReplayPlan(previous)
+		copyValue := v.WithoutReplay()
+		value = &copyValue
+	}
+	if err := value.marshalAPERTo(bb, fresh); err != nil {
+		return nil, err
+	}
+	out, err := bb.CompleteBytesWithPadding(value.perPadding)
+	if err != nil {
+		return nil, err
+	}
+	if err := bb.CheckOutput(uint64(len(out))); err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 // MarshalAPER encodes the complete value, replaying unchanged received bytes unless fresh encoding is requested.
@@ -2829,6 +3211,29 @@ func (v *ResultsPerSSBIndexListComplete) marshalAPERPlanned(budget *aper.DecodeB
 }
 
 // UnmarshalAPER decodes one complete value and returns a per-call report.
+func (v *InterRATMeasuredResultsValue) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "InterRATMeasuredResultsValue")
+	}
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
+	var decoded InterRATMeasuredResultsValue
+	err := decoded.unmarshalAPERWithOptions(data, settings)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
+		BridgeCaptureLPPaInterRATMeasuredResultsValue(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(settings, err)
+	if err != nil {
+		*v = InterRATMeasuredResultsValue{}
+		return report, aper.OperationError(err, "InterRATMeasuredResultsValue")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "InterRATMeasuredResultsValue")
+}
+
+// UnmarshalAPER decodes one complete value and returns a per-call report.
 func (v *PRSFrequencyHoppingConfigurationBandPositionsComplete) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
 		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "PRSFrequencyHoppingConfigurationBandPositionsComplete")
@@ -3129,6 +3534,59 @@ func UnmarshalAPERPRSFrequencyHoppingConfigurationBandPositions(data []byte, opt
 	var v PRSFrequencyHoppingConfigurationBandPositionsComplete
 	report, err := v.UnmarshalAPER(data, options...)
 	return v, report, err
+}
+func BridgeCaptureLPPaInterRATMeasuredResultsValue(v *InterRATMeasuredResultsValue, s *aper.SemanticCapture) {
+	if s.Failed() {
+		return
+	}
+	f := s.Begin()
+	s.Value()
+	s.OpenBytes(v.knownOpenBytes)
+	s.Stream(v.stream)
+	s.Int(int64(v.Choice))
+	{
+		f := s.Begin()
+		s.Bool(v.UnknownExtension == nil)
+		if v.UnknownExtension != nil {
+			s.ChoiceExtension(v.UnknownExtension)
+		}
+		s.End(f, nil, false)
+	}
+	switch v.Choice {
+	case s00.InterRATMeasuredResultsValueChoiceResultGERAN:
+		s12.BridgeCaptureLPPaResultGERAN(&v.ResultGERAN, s)
+	case s00.InterRATMeasuredResultsValueChoiceResultUTRAN:
+		s14.BridgeCaptureLPPaResultUTRAN(&v.ResultUTRAN, s)
+	case s00.InterRATMeasuredResultsValueChoiceResultNR:
+		BridgeCaptureLPPaResultNR(&v.ResultNR, s)
+	}
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func BridgeCompareLPPaInterRATMeasuredResultsValue(v *InterRATMeasuredResultsValue, s *aper.SemanticComparison) {
+	if s.Failed() {
+		return
+	}
+	f := s.Begin()
+	s.Value()
+
+	s.Int(int64(v.Choice))
+	{
+		f := s.Begin()
+		s.Bool(v.UnknownExtension == nil)
+		if v.UnknownExtension != nil {
+			s.ChoiceExtension(v.UnknownExtension)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	switch v.Choice {
+	case s00.InterRATMeasuredResultsValueChoiceResultGERAN:
+		s12.BridgeCompareLPPaResultGERAN(&v.ResultGERAN, s)
+	case s00.InterRATMeasuredResultsValueChoiceResultUTRAN:
+		s14.BridgeCompareLPPaResultUTRAN(&v.ResultUTRAN, s)
+	case s00.InterRATMeasuredResultsValueChoiceResultNR:
+		BridgeCompareLPPaResultNR(&v.ResultNR, s)
+	}
+	s.End(f, v.replay, v.withoutReplay)
 }
 func BridgeCaptureLPPaPRSFrequencyHoppingConfigurationBandPositionsComplete(v *PRSFrequencyHoppingConfigurationBandPositionsComplete, s *aper.SemanticCapture) {
 	if s.Failed() {
@@ -4256,6 +4714,72 @@ func (v *ResultNRItemExtIEsValue) Selected() (any, bool) {
 	return nil, false
 }
 
+func BridgeInterRATMeasuredResultsValueAPERValueFieldContext(v *InterRATMeasuredResultsValueAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeInterRATMeasuredResultsValueAPERValueFieldReceived(v *InterRATMeasuredResultsValueAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeInterRATMeasuredResultsValueAPERValueFieldReplay(v *InterRATMeasuredResultsValueAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeInterRATMeasuredResultsValueAPERValueFieldWithoutReplay(v *InterRATMeasuredResultsValueAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeInterRATMeasuredResultsValueFieldKnownOpenBytes(v *InterRATMeasuredResultsValue) *uint64 {
+	return &v.knownOpenBytes
+}
+func BridgeInterRATMeasuredResultsValueFieldPerOpenTypePadding(v *InterRATMeasuredResultsValue) *aper.CompletePadding {
+	return &v.perOpenTypePadding
+}
+func BridgeInterRATMeasuredResultsValueFieldPerPadding(v *InterRATMeasuredResultsValue) *aper.CompletePadding {
+	return &v.perPadding
+}
+func BridgeInterRATMeasuredResultsValueFieldReceived(v *InterRATMeasuredResultsValue) *bool {
+	return &v.received
+}
+func BridgeInterRATMeasuredResultsValueFieldReceivedBytes(v *InterRATMeasuredResultsValue) *aper.WireSpan {
+	return &v.receivedBytes
+}
+func BridgeInterRATMeasuredResultsValueFieldReplay(v *InterRATMeasuredResultsValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeInterRATMeasuredResultsValueFieldStream(v *InterRATMeasuredResultsValue) *aper.WireSpan {
+	return &v.stream
+}
+func BridgeInterRATMeasuredResultsValueFieldWithoutReplay(v *InterRATMeasuredResultsValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERBudget(v *InterRATMeasuredResultsValue, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERBudget(a0, a1)
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERChanged(v *InterRATMeasuredResultsValue, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChanged(a0, a1, a2)
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERChangedValue(v *InterRATMeasuredResultsValue, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChangedValue(a0, a1, a2)
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERFreshValue(v *InterRATMeasuredResultsValue, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERFreshValue(a0, a1)
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERLegacy(v *InterRATMeasuredResultsValue) ([]byte, error) {
+	return v.marshalAPERLegacy()
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERPlanned(v *InterRATMeasuredResultsValue, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERPlanned(a0, a1)
+}
+func BridgeInterRATMeasuredResultsValueMethodMarshalAPERTo(v *InterRATMeasuredResultsValue, a0 *aper.BitBuffer, a1 ...bool) error {
+	return v.marshalAPERTo(a0, a1...)
+}
+func BridgeInterRATMeasuredResultsValueMethodUnmarshalAPERFrom(v *InterRATMeasuredResultsValue, a0 *aper.BitBuffer) error {
+	return v.unmarshalAPERFrom(a0)
+}
+func BridgeInterRATMeasuredResultsValueMethodUnmarshalAPERLegacy(v *InterRATMeasuredResultsValue, a0 []byte) error {
+	return v.unmarshalAPERLegacy(a0)
+}
+func BridgeInterRATMeasuredResultsValueMethodUnmarshalAPERWithOptions(v *InterRATMeasuredResultsValue, a0 []byte, a1 aper.DecodeState) error {
+	return v.unmarshalAPERWithOptions(a0, a1)
+}
 func BridgePRSFrequencyHoppingConfigurationBandPositionsCompleteFieldPerPadding(v *PRSFrequencyHoppingConfigurationBandPositionsComplete) *aper.CompletePadding {
 	return &v.perPadding
 }

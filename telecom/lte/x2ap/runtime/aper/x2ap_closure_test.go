@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/x2ap_closure_test.go; SHA-256 682a1c4ab7d57101739fa559d75f3b6efdd51bd097de56e79512bf9c853c8cbd.
+// Runtime source: runtime/aper/x2ap_closure_test.go; SHA-256 3aa16fe4985881a08003b3f77412737343fd8f32c57dc73ffbf5b4bdf20e4bba.
 package aper
 
 import (
@@ -90,60 +90,5 @@ func TestX2APUpperOnlyIntegerBound(t *testing.T) {
 	}
 	if err := EncodeIntegerAligned(NewBitBuffer(), 11, nil, nil, false); err != nil {
 		t.Fatalf("unbounded: %v", err)
-	}
-}
-
-func TestX2APRecoveryListPaths(t *testing.T) {
-	strict := NewBitBufferFromBytes([]byte{0})
-	if strict.EnterIndex(3) != 0 || strict.RecoveryComponent("ResultNR") != -1 || strict.RecoveryIndex(2) != -1 {
-		t.Fatal("strict path marks changed")
-	}
-	strict.LeaveComponent(-1)
-	var log ToleranceLog
-	parent := NewBitBufferFromBytes([]byte{0})
-	if err := parent.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &log}); err != nil {
-		t.Fatal(err)
-	}
-	component := parent.EnterComponent("Results")
-	index := parent.EnterIndex(3)
-	recoveryComponent := parent.RecoveryComponent("ResultNR")
-	recoveryIndex := parent.RecoveryIndex(2)
-	a := ExtensionAdditions{present: []bool{true}}
-	decoded, _, err := decodeKnownAddition(&a, parent, 0, []byte{0x80}, func(child *BitBuffer) error {
-		if _, err := child.ReadBits(3); err != nil {
-			return err
-		}
-		return fmt.Errorf("leaf: %w", ErrTruncated)
-	})
-	if err != nil || decoded || !a.Recovered() {
-		t.Fatalf("recover=%v: %v", decoded, err)
-	}
-	for _, mark := range []int{recoveryIndex, recoveryComponent, index, component} {
-		parent.LeaveComponent(mark)
-	}
-	if _, err := CaptureFinalBits(parent, "Top"); err != nil {
-		t.Fatal(err)
-	}
-	records := log.Snapshot()
-	if len(records) != 1 || records[0].Path != "Top.Results[3].ResultNR[2].ExtData_[0]" || records[0].Kind.String() != "incomplete extension" || !errors.Is(records[0].Err, ErrTruncated) || !strings.HasPrefix(records[0].Err.Error(), records[0].Path+": leaf: ") {
-		t.Fatalf("records=%+v", records)
-	}
-	if len(parent.trace.path) != 0 {
-		t.Fatalf("path leaked: %+v", parent.trace.path)
-	}
-	// Cut-only options must not activate paths reserved for bounded recovery.
-	if err := parent.setDecodeSettingsAligned(decodeSettings{TruncatedExtensionTolerance: &log}); err != nil {
-		t.Fatal(err)
-	}
-	if parent.RecoveryComponent("ResultNR") != -1 || parent.RecoveryIndex(2) != -1 || len(parent.trace.path) != 0 {
-		t.Fatal("cut-only option enabled recovery paths")
-	}
-}
-
-func TestX2APToleranceDiagnosticKinds(t *testing.T) {
-	for kind, want := range map[ToleranceKind]string{ToleratedTrailingBits: "trailing bits", ToleratedContainedBits: "contained bits", ToleratedTruncatedExtension: "truncated extension", ToleratedIncompleteExtension: "incomplete extension", 255: "ToleranceKind(255)"} {
-		if got := kind.String(); got != want {
-			t.Fatalf("kind %d=%q, want %q", kind, got, want)
-		}
 	}
 }

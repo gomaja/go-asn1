@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s03 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s03"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func globalRANNODEIDExtIEFieldapiMust(v s03.GlobalRANNODEIDExtIEField, err error) s03.GlobalRANNODEIDExtIEField {
+func errorIndicationapiMust(v s19.ErrorIndication, err error) s19.ErrorIndication {
 	if err != nil {
 		panic(err)
 	}

@@ -3,37 +3,32 @@
 package x2ap
 
 import (
-	bytes "bytes"
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 	testing "testing"
 )
 
-func TestReceivedAncestorHonorsNestedFreshBitmap(t *testing.T) {
-	diagnostics := s06.CriticalityDiagnostics{}
-	if err := diagnostics.SetExtension(0, []byte{0x80}); err != nil {
-		t.Fatal(err)
+func TestEditedLeafAllocationGrowthIsLinear(t *testing.T) {
+	c := s14.CriticalityDiagnosticsIEListCodec()
+	measure := func(n int) float64 {
+		wire := replayListWire(t, n)
+		return testing.AllocsPerRun(10, func() {
+			v, _, err := c.DecodeAPER(wire)
+			if err != nil {
+				panic(err)
+			}
+			v.Value[n/2].IEID = 9
+			if _, err := c.EncodeAPER(v); err != nil {
+				panic(err)
+			}
+		})
 	}
-	*s06.X2apInternalCriticalityDiagnosticsFieldExtCount(&diagnostics) = 3
-	*s06.X2apInternalCriticalityDiagnosticsFieldExtPresent(&diagnostics) = append(*s06.X2apInternalCriticalityDiagnosticsFieldExtPresent(&diagnostics), false, false, false)
-	*s06.X2apInternalCriticalityDiagnosticsFieldExtData(&diagnostics) = append(*s06.X2apInternalCriticalityDiagnosticsFieldExtData(&diagnostics), nil, nil, nil)
-	field := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().CriticalityDiagnostics().New(diagnostics))
-	body := s20.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
-	original := s20.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s20.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: s20.X2apInternalConstructT15InitiatingValueF4codeF19bodyErrorIndication(s00.IdErrorIndication, &body)}}
-	wire := listByteapiMust(original.MarshalAPER())
-	var received s20.X2APPDU
-	if _, err := received.UnmarshalAPER(wire); err != nil {
-		t.Fatal(err)
-	}
-	decoded, _ := received.InitiatingMessage.Value.AsErrorIndication()
-	value, _ := decoded.ProtocolIEs[0].Value.AsCriticalityDiagnostics()
-	*value = value.WithoutReplay()
-	got := listByteapiMust(received.MarshalAPER())
-	want := listByteapiMust(received.MarshalAPER(aper.WithoutReplay()))
-	if !bytes.Equal(got, want) || bytes.Equal(got, wire) {
-		t.Fatal("received parent replayed nested fresh copy")
+	previous := measure(8)
+	for _, n := range []int{16, 32, 64, 128} {
+		next := measure(n)
+		t.Logf("items=%d allocations=%v previous=%v", n, next, previous)
+		if next > 2.25*previous {
+			t.Fatalf("edited leaf growth is superlinear: %v -> %v", previous, next)
+		}
+		previous = next
 	}
 }

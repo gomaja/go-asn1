@@ -6913,8 +6913,7 @@
     "internal/model/s17/model.go": "// Package s17 implements the x2ap root package.\n",
     "internal/model/s18/model.go": "// Package s18 implements the x2ap root package.\n",
     "internal/model/s19/model.go": "// Package s19 implements the x2ap root package.\n",
-    "internal/model/s20/model.go": "// Package s20 implements the x2ap root package.\n",
-    "internal/model/s21/model.go": "// Package s21 implements the x2ap root package.\n"
+    "internal/model/s20/model.go": "// Package s20 implements the x2ap root package.\n"
   },
   "methods": {
     "ABSInformation.MarshalAPER": "// MarshalAPER encodes a complete value using one per-call semantic plan.\n",

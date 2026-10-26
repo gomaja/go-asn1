@@ -3,13 +3,13 @@
 package x2ap
 
 import (
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	testing "testing"
 )
 
-func FuzzAPERDispatchProtocolExtensionValueERABsAdmittedItemExtIEsID366(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("00"))
+func FuzzAPERAccessAndMobilityIndicationProtocolIes(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("000001019e4009000006040000000000"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		_, _, _ = s06.ERABsAdmittedItemExtIEs().DAPSResponseInfo().Codec().DecodeAPER(input)
+		_, _, _ = s19.AccessAndMobilityIndicationCodec().DecodeAPER(input)
 	})
 }

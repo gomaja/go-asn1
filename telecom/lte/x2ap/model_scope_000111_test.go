@@ -3,28 +3,48 @@
 package x2ap
 
 import (
-	bytes "bytes"
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
-	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
-	testing "testing"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
+	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func TestReplayHonorsCompleteCodecContext(t *testing.T) {
-	message := s13.X2APMessageCodec()
-	wire := listByteapiMust(message.EncodeAPER(x2APMessageAPERValueapiMust(message.New([]byte{1, 2, 3}))))
-	decoded, _, err := message.DecodeAPER(wire)
-	if err != nil {
-		t.Fatal(err)
+func replayBoundMakeOps(r replayBoundInput, raw []byte) (replayBoundOps, []byte) {
+	switch r.Set {
+	case "HandoverRequest-IEs":
+		if r.Selector == 15 {
+			return uEHistoryInformationreplayBoundCodecOps(s18.HandoverRequestIEs().UEHistoryInformation().Codec(), raw), raw
+		}
+		return uEX2APIDreplayBoundCodecOps(s18.HandoverRequestIEs().OldENBUEX2APID().Codec(), raw), raw
+	case "E-RABs-ToBeSetup-ItemIEs":
+		wire := replayBoundWrap(raw, r.Selector)
+		return eRABsToBeSetupItemIEFieldreplayBoundCodecOps(eRABsToBeSetupItemIEValuereplayBoundFieldCodec(), wire), wire
+	case "E-RABs-Admitted-Item-ExtIEs":
+		if r.Selector == 366 {
+			return dAPSResponseInforeplayBoundCodecOps(s06.ERABsAdmittedItemExtIEs().DAPSResponseInfo().Codec(), raw), raw
+		}
+		wire := replayBoundWrap(raw, r.Selector)
+		return eRABsAdmittedItemExtIEsExtFieldreplayBoundCodecOps(eRABsAdmittedItemExtIEsValuereplayBoundExtensionFieldCodec(), wire), wire
 	}
-	// Concrete holders are source-specific. Exercise the same mismatch by
-	// retaining the received holder while selecting the PLMN encoder/context.
-	plmn := message
-	*s13.X2apInternalX2APMessageValueCodecFieldContext(&plmn) = s00.X2apInternalPLMNIdentityValueCodecFieldContextRead(s16.PLMNIdentityCodec())
-	*s13.X2apInternalX2APMessageValueCodecFieldEncode(&plmn) = s00.X2apInternalPLMNIdentityValueCodecFieldEncodeRead(s16.PLMNIdentityCodec())
-	got := listByteapiMust(plmn.EncodeAPER(decoded))
-	want := listByteapiMust(plmn.EncodeAPER(x2APMessageAPERValueapiMust(plmn.New([]byte{1, 2, 3}))))
-	if !bytes.Equal(got, want) || bytes.Equal(got, wire) {
-		t.Fatal("replayed framing from a different source constraint")
+	switch r.Type {
+	case "X2APPDU":
+		var v s19.X2APPDU
+		_, _ = v.UnmarshalAPER(raw)
+		return replayBoundOps{decode: func() error { var v s19.X2APPDU; _, err := v.UnmarshalAPER(raw); return err }, encode: func() ([]byte, error) { return v.MarshalAPER() }}, raw
+	case "ProtocolIEField":
+		return errorIndicationIEFieldreplayBoundCodecOps(errorIndicationIEValuereplayBoundFieldCodec(), raw), raw
+	case "GlobalGNBID":
+		return globalGNBIDreplayBoundCodecOps(s11.GlobalGNBIDCodec(), raw), raw
+	case "ERABsToBeSetupItem":
+		return eRABsToBeSetupItemreplayBoundCodecOps(s10.ERABsToBeSetupItemCodec(), raw), raw
+	case "ERABsAdmittedItem":
+		return eRABsAdmittedItemreplayBoundCodecOps(s09.ERABsAdmittedItemCodec(), raw), raw
+	case "AccessAndMobilityIndication":
+		return accessAndMobilityIndicationreplayBoundCodecOps(s19.AccessAndMobilityIndicationCodec(), raw), raw
+	case "SuccessfulOutcome":
+		return successfulOutcomereplayBoundCodecOps(s18.SuccessfulOutcomeCodec(), raw), raw
 	}
+	panic(r.Type)
 }

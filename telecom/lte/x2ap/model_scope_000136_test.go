@@ -3,25 +3,68 @@
 package x2ap
 
 import (
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
-	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
+	bytes "bytes"
+	errors "errors"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
-// X.691 (02/2021) §30.5.3 assigns VisibleString codes 32 through 126;
-// §30.5.4(a) retains those codes in the aligned octet.
-func TestURIVisibleAlphabetIsStrict(t *testing.T) {
-	for _, code := range []byte{0, 31, 127, 128, 255} {
-		if _, _, err := s16.URIAddressCodec().DecodeAPER([]byte{1, code}); err == nil {
-			t.Fatalf("VisibleString accepted code %d", code)
+// X.691 (02/2021) §11.1.4 applies to every complete open value (§11.2.1),
+// including a known IE nested below a known procedure.
+func TestStrictKnownIEPaddingAndReset(t *testing.T) {
+	field, err := s11.ErrorIndicationIEs().CriticalityDiagnostics().New(s06.CriticalityDiagnostics{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body, err := s19.NewErrorIndication(s11.ErrorIndicationIEContainer{field})
+	if err != nil {
+		t.Fatal(err)
+	}
+	message, err := s19.ErrorIndicationProcedure().Initiating().Build(body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	pdu, err := s20.NewX2APPDUInitiatingMessage(message)
+	if err != nil {
+		t.Fatal(err)
+	}
+	wire, err := pdu.MarshalAPER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	malformed := bytes.Clone(wire)
+	malformed[len(malformed)-1] |= 1
+	var reused s19.X2APPDU
+	if _, err := reused.UnmarshalAPER(wire); err != nil {
+		t.Fatal(err)
+	}
+	for _, receiver := range []*s19.X2APPDU{new(s19.X2APPDU), &reused} {
+		_, err := receiver.UnmarshalAPER(malformed)
+		var located *aper.DecodeError
+		if !errors.Is(err, aper.ErrSyntax) || !errors.As(err, &located) || located.Location.Path == "" || located.Rule.Clause != "§11.1.4" || !located.Location.HasWireLocation || len(located.Location.Spans) != 1 {
+			t.Fatalf("nested padding error: %v, %+v", err, located)
 		}
-		if _, err := s16.URIAddressCodec().New(s12.URIAddress(string([]byte{code}))); err == nil {
-			t.Fatalf("VisibleString encoded code %d", code)
+		span := located.Location.Spans[0]
+		if span.Start < uint64(len(wire)-1)*8 || span.End != uint64(len(wire))*8 {
+			t.Fatalf("nested location points into scratch data: %+v", located)
+		}
+		if receiver.Choice != 0 || receiver.InitiatingMessage != nil || receiver.ReceivedForm().Present() {
+			t.Fatalf("failed decode retained receiver: %+v", receiver)
 		}
 	}
-	for _, code := range []byte{32, 126} {
-		if _, _, err := s16.URIAddressCodec().DecodeAPER([]byte{1, code}); err != nil {
-			t.Fatal(err)
-		}
+	var decoded s19.X2APPDU
+	if _, err := decoded.UnmarshalAPER(append(bytes.Clone(wire), 0)); !errors.Is(err, aper.ErrSyntax) {
+		t.Fatalf("appended top-level octet accepted: %v", err)
+	}
+	if _, err := decoded.UnmarshalAPER(wire); err != nil {
+		t.Fatal(err)
+	}
+	replay, err := decoded.MarshalAPER()
+	if err != nil || !bytes.Equal(replay, wire) {
+		t.Fatalf("legal replay: %x %v", replay, err)
 	}
 }

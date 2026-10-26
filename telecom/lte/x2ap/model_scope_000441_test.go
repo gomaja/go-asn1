@@ -3,29 +3,51 @@
 package x2ap
 
 import (
+	bytes "bytes"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	testing "testing"
 )
 
-// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
-func (c Int64ValueCodec) EncodeAPER(value Int64APERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.ErrInvalidValue
+// uRIAddresssemanticEditRestore is the concrete semanticEditRestore[URIAddress].
+func uRIAddresssemanticEditRestore(t *testing.T, c s12.URIAddressValueCodec, initial s12.URIAddress, edit, restore func(*s12.URIAddress)) {
+	t.Helper()
+	encoder := *s12.X2apInternalURIAddressValueCodecFieldEncode(&c)
+	calls := 0
+	*s12.X2apInternalURIAddressValueCodecFieldEncode(&c) = func(v s12.URIAddress, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		calls++
+		return encoder(v, fresh, budget)
 	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	budget, err := aper.EncodeBudgetValue(options...)
+	wire := listByteapiMust(c.EncodeAPER(uRIAddressAPERValueapiMust(c.New(initial))))
+	original := bytes.Clone(wire)
+	calls = 0
+	v, _, err := c.DecodeAPER(wire)
 	if err != nil {
-		return nil, aper.OperationError(err, c.path)
+		t.Fatal(err)
 	}
-	if !fresh && value.context == c.context && value.replay.Present() {
-		plan := c.compare(value.Value, value.replay, budget)
-		if err := plan.Error(); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := value.received.EncodePlanBytes(plan)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, plan)
+	if calls != 0 {
+		t.Fatal("decode called value encoder")
 	}
-	return c.encodeUnplanned(value.Value, fresh, budget)
+	for i := range wire {
+		wire[i] ^= 0xff
+	}
+	got := listByteapiMust(c.EncodeAPER(v))
+	if !bytes.Equal(got, original) || calls != 0 {
+		t.Fatal("unchanged encode called encoder or borrowed input")
+	}
+	got[0] ^= 0xff
+	if !bytes.Equal(listByteapiMust(c.EncodeAPER(v)), original) {
+		t.Fatal("encode exposed received storage")
+	}
+	edit(&v.Value)
+	got = listByteapiMust(c.EncodeAPER(v))
+	want := listByteapiMust(c.EncodeAPER(v, aper.WithoutReplay()))
+	if bytes.Equal(got, original) || !bytes.Equal(got, want) {
+		t.Fatal("edit did not reach encoder")
+	}
+	before := calls
+	restore(&v.Value)
+	if !bytes.Equal(listByteapiMust(c.EncodeAPER(v)), original) || calls != before {
+		t.Fatal("restored encode called value encoder")
+	}
 }

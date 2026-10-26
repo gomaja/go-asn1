@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/bitbuffer.go; SHA-256 67dd820694052ab3176102c18a52a6f5fc18d9576be0c0f095e339cb2437ed0b.
+// Runtime source: runtime/aper/bitbuffer.go; SHA-256 202c592697785af5a839395e482ef9c3b3003e634dca7bb9409d7a3c2b3303ba.
 package aper
 
 import (
@@ -10,20 +10,15 @@ import (
 
 // BitBuffer provides bit-level read/write operations for PER encoding.
 type BitBuffer struct {
-	data          []byte
-	bitPos        int  // current read position (read) or total bits written (write)
-	bitLen        int  // total bits available (read mode only)
-	sourceReader  bool // cursor belongs to received input, never an internal writer
-	invalidLength bool // input octets cannot be represented as an int bit length
-	// outermost is set on the buffer of a top-level decode under
-	// TruncatedExtensionTolerance: only the end of its input can cut an
-	// extension addition short. A nested buffer, bounded by an open type or
-	// contained string that arrived in full, never has it.
-	outermost      bool
+	data           []byte
+	bitPos         int  // current read position (read) or total bits written (write)
+	bitLen         int  // total bits available (read mode only)
+	sourceReader   bool // cursor belongs to received input, never an internal writer
+	invalidLength  bool // input octets cannot be represented as an int bit length
 	nested         bool // positions are relative to a bounded open value
 	zeroWidthLimit uint32
 	budget         *DecodeBudget // shared by every buffer in this decode
-	trace          *decodeTrace  // non-nil only for a decode with tolerance or deferral
+	trace          *decodeTrace  // non-nil only for terminal-padding observations
 }
 
 // decodeSettings configures receiver behaviour for PER decoding: tolerance for
@@ -42,47 +37,6 @@ type decodeSettings struct {
 	// Usage, when non-nil, receives live per-decode resource metrics. It must
 	// not be shared between concurrent decodes.
 	Usage *DecodeUsage
-	// TrailingBitsTolerance is retained as an option carrier. APER entry
-	// points reject a non-nil log instead of accepting trailing data.
-	TrailingBitsTolerance *ToleranceLog
-	// TruncatedExtensionTolerance, when non-nil, accepts an extension
-	// addition or extension addition group of a SEQUENCE or SET whose open
-	// type, length determinant or contents, the end of the input cuts short
-	// after the extension bitmap was read in full, and records it in the log
-	// as ToleratedTruncatedExtension (go-asn1#114). X.691 (02/2021) 19.9 and
-	// 11.2.1 make it an error, and the default stays strict; the option is
-	// for receivers of PDUs cut in transmission, such as trace analysers.
-	//
-	// The root and every addition decoded before the cut are kept. The cut
-	// addition and every later one are absent: no value is built from
-	// missing bits. Only the end of the input given to the decode counts. A
-	// cut in the root or in the extension bitmap, in an open type or
-	// contained value that arrived with its full length, or in a CHOICE
-	// extension alternative, which cannot be absent, is still an error. The
-	// contents of a deferred OCTET STRING are decoded later as an input of
-	// their own; they arrived with their full length, so leave the option
-	// off for them.
-	//
-	// A decoded value that is re-encoded unchanged reproduces the received,
-	// cut octets. An edited value is encoded as a new one: the cut additions
-	// are omitted and their bitmap bits cleared, and the extension bit is
-	// cleared too when no addition remains, so the result is a conformant
-	// encoding (X.691 (02/2021) 19.1, 19.7 and 19.8).
-	TruncatedExtensionTolerance *ToleranceLog
-	// ExtensionRecoveryTolerance accepts only nested truncation of a known
-	// SEQUENCE or SET addition whose bounded open type arrived in full.
-	// X.691 (02/2021) 11.2.1–11.2.2 and 19.9 require a complete value; the
-	// default rejects this error. A recovered addition commits no typed
-	// fields; later additions still decode. Records are published only on
-	// overall success, as ToleratedIncompleteExtension. Unchanged values
-	// replay exactly; edits omit failed additions and encode typed fields.
-	// This is independent of TruncatedExtensionTolerance (go-asn1#114).
-	// Re-reads after a rolled-back candidate and provenance scans are limited
-	// to four times this decode's input bit length. First-pass reads are free
-	// against that extra-work ceiling. Limits.MaxWork counts all examined bits.
-	// Exhaustion fails with ErrResourceLimit and publishes no records. This
-	// is an operational limit, independent of the X.691 wire rules.
-	ExtensionRecoveryTolerance *ToleranceLog
 	// ContainedDecoding is retained to reject policies other than Eager at
 	// APER entry points. S1AP has no formal contained values.
 	ContainedDecoding ContainedDecoding
@@ -104,9 +58,7 @@ func (bb *BitBuffer) zeroWidthCharacterLimit() int64 {
 	return DefaultMaxZeroWidthCharacters
 }
 
-// setDecodeSettings starts a top-level decode with validated options. bb reads
-// the outermost input, whose end alone can cut an extension addition short
-// under TruncatedExtensionTolerance.
+// setDecodeSettings starts a top-level decode with validated options.
 func (bb *BitBuffer) setDecodeSettings(options decodeSettings) error {
 	if options.operation != nil {
 		bb.budget = options.operation
@@ -146,32 +98,16 @@ func (bb *BitBuffer) setDecodeSettings(options decodeSettings) error {
 	bb.zeroWidthLimit = options.MaxZeroWidthCharacters
 	bb.budget.publish()
 	bb.trace = nil
-	bb.outermost = options.TruncatedExtensionTolerance != nil
-	if options.TruncatedExtensionTolerance != nil || options.ExtensionRecoveryTolerance != nil {
-		bb.trace = &decodeTrace{truncated: options.TruncatedExtensionTolerance, recovery: options.ExtensionRecoveryTolerance}
-		if options.ExtensionRecoveryTolerance != nil && !bb.invalidLength && bb.bitLen >= 0 {
-			limit := uint64(bb.bitLen)
-			if limit > math.MaxUint64/recoveryWorkInputMultiple {
-				limit = math.MaxUint64
-			} else {
-				limit *= recoveryWorkInputMultiple
-			}
-			bb.trace.work = &recoveryWork{limit: limit}
-		}
-	}
 	return nil
 }
 
 // setDecodeSettingsAligned starts a top-level APER decode with options.
 // Generated APER decoders decode contained values eagerly and accept only the
-// final padding of X.691 (02/2021) 11.1.4, so TrailingBitsTolerance and a
-// ContainedDecoding other than Eager are rejected rather than ignored.
+// final padding of X.691 (02/2021) §11.1.4. ContainedDecoding policies
+// other than Eager are rejected rather than ignored.
 func (bb *BitBuffer) setDecodeSettingsAligned(options decodeSettings) error {
 	if options.invalidReceiverPolicy {
 		return &DecodeError{Kind: InvalidOptions, Err: ErrInvalidOptions}
-	}
-	if options.TrailingBitsTolerance != nil {
-		return fmt.Errorf("%w: TrailingBitsTolerance is not supported by APER decoders", ErrInvalidValue)
 	}
 	if options.ContainedDecoding != Eager {
 		return fmt.Errorf("%w: ContainedDecoding %v is not supported by APER decoders", ErrInvalidValue, options.ContainedDecoding)
@@ -304,7 +240,7 @@ func (bb *BitBuffer) WriteBits(val uint64, n int) error {
 
 // ReadBit reads a single bit.
 func (bb *BitBuffer) ReadBit() (uint8, error) {
-	if err := bb.checkRecoveryBits(0); err != nil {
+	if err := bb.checkReadBits(0); err != nil {
 		return 0, err
 	}
 	if bb.invalidLength {
@@ -316,7 +252,7 @@ func (bb *BitBuffer) ReadBit() (uint8, error) {
 	if bb.bitPos >= bb.bitLen {
 		return 0, ErrTruncated
 	}
-	if err := bb.examineRecoveryBits(1); err != nil {
+	if err := bb.examineReadBits(1); err != nil {
 		return 0, err
 	}
 	byteIdx := bb.bitPos / 8
@@ -331,7 +267,7 @@ func (bb *BitBuffer) ReadBit() (uint8, error) {
 
 // ReadBits reads n bits and returns them right-aligned in a uint64.
 func (bb *BitBuffer) ReadBits(n int) (uint64, error) {
-	if err := bb.checkRecoveryBits(0); err != nil {
+	if err := bb.checkReadBits(0); err != nil {
 		return 0, err
 	}
 	if bb.invalidLength {
@@ -349,7 +285,7 @@ func (bb *BitBuffer) ReadBits(n int) (uint64, error) {
 	// Charge a whole read once. A truncated read examines only the available
 	// prefix, preserving the bit position of the single-bit reader.
 	available := min(n, max(0, bb.BitsRemaining()))
-	if err := bb.examineRecoveryBits(uint64(available)); err != nil {
+	if err := bb.examineReadBits(uint64(available)); err != nil {
 		return 0, err
 	}
 	var val uint64
@@ -406,7 +342,7 @@ func (bb *BitBuffer) WriteBytes(data []byte) error {
 
 // ReadBytes reads n bytes (8*n bits).
 func (bb *BitBuffer) ReadBytes(n int) ([]byte, error) {
-	if err := bb.checkRecoveryBits(0); err != nil {
+	if err := bb.checkReadBits(0); err != nil {
 		return nil, err
 	}
 	if bb.invalidLength {
@@ -421,7 +357,7 @@ func (bb *BitBuffer) ReadBytes(n int) ([]byte, error) {
 	if n > bb.BitsRemaining()/8 {
 		return nil, fmt.Errorf("%w: requested %d bytes with %d bits remaining", ErrTruncated, n, bb.BitsRemaining())
 	}
-	if err := bb.examineRecoveryBits(uint64(n) * 8); err != nil {
+	if err := bb.examineReadBits(uint64(n) * 8); err != nil {
 		return nil, err
 	}
 	if err := bb.ChargeAllocation(uint64(n), 1); err != nil {
@@ -672,7 +608,7 @@ func (bb *BitBuffer) AlignToOctetRead() error {
 
 // ReadBitsToBytes reads bitLen bits and returns them packed into bytes (MSB first).
 func (bb *BitBuffer) ReadBitsToBytes(bitLen int) ([]byte, error) {
-	if err := bb.checkRecoveryBits(0); err != nil {
+	if err := bb.checkReadBits(0); err != nil {
 		return nil, err
 	}
 	if bb.invalidLength {
@@ -688,7 +624,7 @@ func (bb *BitBuffer) ReadBitsToBytes(bitLen int) ([]byte, error) {
 		return nil, fmt.Errorf("%w: requested %d bits with %d bits remaining", ErrTruncated, bitLen, bb.BitsRemaining())
 	}
 	// Reserve the entire read before allocating its copy, and charge once.
-	if err := bb.examineRecoveryBits(uint64(bitLen)); err != nil {
+	if err := bb.examineReadBits(uint64(bitLen)); err != nil {
 		return nil, err
 	}
 	numBytes, err := octetsForBitLength(bitLen)
@@ -726,8 +662,7 @@ func octetsForBitLength(bitLen int) (int, error) {
 	return octets, nil
 }
 
-func (bb *BitBuffer) InheritdecodeSettings(parent *BitBuffer) {
+func (bb *BitBuffer) InheritDecodeOptions(parent *BitBuffer) {
 	bb.trace = parent.trace
-	bb.outermost = false
 	bb.budget = parent.decodeBudget()
 }

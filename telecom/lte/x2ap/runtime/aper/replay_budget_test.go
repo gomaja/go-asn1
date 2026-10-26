@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/replay_budget_test.go; SHA-256 902921a47a5bcd33ed36a1aa60913f57aee4e6447ed54a8216c5d9cb33f54309.
+// Runtime source: runtime/aper/replay_budget_test.go; SHA-256 52106b3711568639a0edfb567fec716dd215b03395651d2fdfd89c59c32fbd2e.
 package aper
 
 import (
@@ -150,27 +150,6 @@ func TestCompleteReceivedSpanFormKeepsPadding(t *testing.T) {
 	f := NewCompleteReceivedSpanForm(true, OriginalWire([]byte{0x80}), "Value", true, CompletePadding{bits: 0, count: 7})
 	if !f.Present() || len(f.OriginalBytes()) != 1 || len(f.Padding()) != 1 || f.Padding()[0].Span != (BitSpan{Start: 1, End: 8}) {
 		t.Fatal("complete received span lost padding")
-	}
-}
-func TestKnownOpenAdditionCompletionUsesSpanInput(t *testing.T) {
-	wire, state := OwnDecodeOptions([]byte{1, 0})
-	parent := NewCompleteDecodeBuffer(wire, state)
-	if err := parent.SetDecodeOptionsAligned(state); err != nil {
-		t.Fatal(err)
-	}
-	raw, err := DecodeOpaqueOpenTypeAligned(parent, UnknownSelector, SourceRule{})
-	if err != nil {
-		t.Fatal(err)
-	}
-	child := raw.ChildDecodeBuffer()
-	addition := BeginExtensionAdditions(parent)
-	checkpoint := child.CheckpointKnownAddition()
-	if _, err := child.ReadBit(); err != nil {
-		t.Fatal(err)
-	}
-	complete, _, err := addition.CompleteKnownOpenAddition(child, 0, raw, checkpoint, nil)
-	if err != nil || !complete {
-		t.Fatalf("known addition completion=%t %v", complete, err)
 	}
 }
 
