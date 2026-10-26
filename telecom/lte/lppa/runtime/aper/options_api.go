@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/options_api.go; SHA-256 6c3164c5aee35e630d5475287d75b499cea2cccfd37ee3aece785e567b31aa51.
+// Runtime source: runtime/aper/options_api.go; SHA-256 0efc002e319b629288019712503d93e0b59c98dd4439fda401674c6739b5984e.
 package aper
 
 import "errors"
@@ -66,8 +66,29 @@ type Deviation struct {
 type ObservationKind uint8
 
 const (
+	// UnknownProcedure marks an unrecognized procedure value. Location.Path is
+	// InitiatingMessage.Value, SuccessfulOutcome.Value or UnsuccessfulOutcome.Value;
+	// it does not identify a concrete message. When Location.HasWireLocation is true,
+	// Location.Spans locates the received open-type framing in the complete input,
+	// including any alignment padding and its length determinants.
 	UnknownProcedure ObservationKind = iota + 1
+	// UnknownIE marks an opaque protocol IE, private IE or extension field.
+	// Location.Path is ProtocolIEField.Value, PrivateIEField.Value or
+	// ProtocolExtensionField.ExtensionValue. These local container labels omit
+	// the enclosing message and element indices, including for nested fields.
+	// When Location.HasWireLocation is true, Location.Spans locates the received open-type
+	// framing in the complete input, including any alignment padding and its length determinants.
 	UnknownIE
+	// UnknownExtension marks an unknown CHOICE alternative, SEQUENCE addition or
+	// ENUMERATED addition. Location.Path is UnknownExtension for a CHOICE or
+	// Extensions[i] for a SEQUENCE bitmap index i. ENUMERATED additions use a local
+	// type or member label: for example Broadcast, CauseRadioNetwork for the standalone
+	// CauseRadioNetwork codec, or RadioNetwork within Cause. These labels omit
+	// the enclosing message and ancestor element indices.
+	// When Location.HasWireLocation is true, Location.Spans locates the received
+	// open-type framing for CHOICE and SEQUENCE additions, including any alignment
+	// padding and length determinants, or the encoded ENUMERATED value for an
+	// enumeration addition.
 	UnknownExtension
 	// NonzeroTerminalPadding marks nonzero completion bits after a nonempty value.
 	NonzeroTerminalPadding
@@ -76,6 +97,10 @@ const (
 )
 
 // Observation records an opaque boundary or an explicitly tolerated padding departure.
+// Unknown-value paths are local labels rather than paths from the PDU root;
+// distinct nested values can share a label. Check Location.HasWireLocation and
+// use Location.Spans, whose half-open bit offsets refer to the original complete
+// input, to distinguish received occurrences and locate their encoded bits.
 type Observation struct {
 	Location Location
 	Rule     SourceRule
