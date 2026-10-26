@@ -1793,3 +1793,113 @@ func TestConstructorValidityAndCallbacks(t *testing.T) {
 		}
 	}
 }
+
+// A profile refusal must not expose the value or the received form it rejected.
+// TS 29.002 V19.1.0 §17.1.1 supplies the short-length requirement.
+func checkRefusedPublicCodec[T any](t *testing.T, codec mapvalues.ValueCodec[T], canonical []byte) {
+	t.Helper()
+	refused := append([]byte{canonical[0], 0x81, canonical[1]}, canonical[2:]...)
+	for _, mode := range [][]ber.DecodeOption{nil, {ber.ForceGeneratedBERLightForTesting()}, {ber.ForceGeneratedBERProofForTesting()}} {
+		for _, capture := range []bool{true, false} {
+			options := append([]ber.DecodeOption{}, mode...)
+			if !capture {
+				options = append(options, ber.WithoutReplayCapture())
+			}
+			value, err := codec.DecodeBER(refused, options...)
+			var zero T
+			if !errors.Is(err, ber.ErrInvalidValue) || !reflect.DeepEqual(value, zero) {
+				t.Fatalf("refused decode retained a value: %v", err)
+			}
+			if encoded, err := codec.EncodeBER(value); err == nil && bytes.Equal(encoded, refused) {
+				t.Fatal("strict encoding replayed a refused form")
+			}
+			var incoming ber.ViolationLog
+			value, err = codec.DecodeBER(refused, append(options, ber.WithTolerance(&incoming))...)
+			if err != nil || len(incoming.Snapshot()) != 1 {
+				t.Fatalf("tolerant decode: %v records=%+v", err, incoming.Snapshot())
+			}
+			if capture {
+				if _, err := codec.EncodeBER(value); !errors.Is(err, ber.ErrInvalidValue) {
+					t.Fatalf("strict replay accepted a retained violation: %v", err)
+				}
+				var outgoing ber.ViolationLog
+				encoded, err := codec.EncodeBER(value, ber.WithTolerance(&outgoing))
+				if err != nil || !bytes.Equal(encoded, refused) || len(outgoing.Snapshot()) != 1 {
+					t.Fatalf("tolerant replay: %v", err)
+				}
+			}
+			encoded, err := codec.EncodeBER(value, ber.WithoutBERReplay())
+			if err != nil || !bytes.Equal(encoded, canonical) {
+				t.Fatalf("fresh encoding changed: %v", err)
+			}
+		}
+	}
+}
+
+func TestRefusedPublicCodecReturnsZero(t *testing.T) {
+	t.Run("octet string", func(t *testing.T) {
+		checkRefusedPublicCodec(t, mapvalues.DiameterIdentityCodec(), []byte{4, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'})
+	})
+	t.Run("integer", func(t *testing.T) {
+		checkRefusedPublicCodec(t, mapvalues.AgeOfLocationInformationCodec(), []byte{2, 1, 1})
+	})
+	t.Run("enumerated", func(t *testing.T) { checkRefusedPublicCodec(t, mapvalues.ExtProtocolIdCodec(), []byte{10, 1, 1}) })
+	t.Run("bits", func(t *testing.T) { checkRefusedPublicCodec(t, mapvalues.UESBIIuACodec(), []byte{3, 2, 7, 128}) })
+	t.Run("named bits", func(t *testing.T) {
+		checkRefusedPublicCodec(t, mapvalues.ServiceIndicatorCodec(), []byte{3, 2, 6, 128})
+	})
+	t.Run("standalone codec", func(t *testing.T) {
+		checkRefusedPublicCodec(t, mapbindings.ISDNAddressStringCodec(), []byte{4, 1, 0x91})
+	})
+	t.Run("collection", func(t *testing.T) {
+		checkRefusedPublicCodec(t, mapbindings.HLRListCodec(), []byte{48, 5, 4, 3, 1, 2, 3})
+	})
+	t.Run("aggregate", func(t *testing.T) { checkRefusedPublicCodec(t, mapbindings.ExtensionContainerCodec(), []byte{48, 0}) })
+	argument, valid := mapbindings.GetPasswordOperation().Argument()
+	if !valid {
+		t.Fatal("missing argument codec")
+	}
+	t.Run("descriptor argument", func(t *testing.T) { checkRefusedPublicCodec(t, argument, []byte{10, 1, 0}) })
+	result, valid := mapbindings.GetPasswordOperation().Result()
+	if !valid {
+		t.Fatal("missing result codec")
+	}
+	t.Run("descriptor result", func(t *testing.T) { checkRefusedPublicCodec(t, result, []byte{18, 4, '1', '2', '3', '4'}) })
+	parameter, valid := mapbindings.SsErrorStatusErrorDescriptor().Parameter()
+	if !valid {
+		t.Fatal("missing parameter codec")
+	}
+	t.Run("descriptor parameter", func(t *testing.T) { checkRefusedPublicCodec(t, parameter, []byte{4, 1, 1}) })
+}
+
+func TestRefusedStandaloneDecodeReturnsNil(t *testing.T) {
+	for _, options := range [][]ber.DecodeOption{nil, {ber.ForceGeneratedBERLightForTesting()}, {ber.ForceGeneratedBERProofForTesting()}} {
+		if value, err := mapvalues.UnmarshalBERISDNAddressString([]byte{4, 129, 1, 0x91}, options...); !errors.Is(err, ber.ErrInvalidValue) || value != nil {
+			t.Fatalf("standalone returned a value: %v", err)
+		}
+		if value, err := mapvalues.UnmarshalBERHLRList([]byte{48, 129, 5, 4, 3, 1, 2, 3}, options...); !errors.Is(err, ber.ErrInvalidValue) || value != nil {
+			t.Fatalf("collection returned a value: %v", err)
+		}
+		operation := mapbindings.ActivateSSOperation()
+		value, err := operation.DecodeError(mapvalues.SsErrorStatus, []byte{4, 129, 1, 1}, true, options...)
+		if !errors.Is(err, ber.ErrInvalidValue) || !reflect.DeepEqual(value, mapvalues.ActivateSSErrors{}) {
+			t.Fatalf("formal error decode retained a value: %v", err)
+		}
+	}
+}
+
+func TestValueCodecRefusedCallbackReturnsZero(t *testing.T) {
+	source := mapvalues.DiameterIdentityCodec()
+	value, err := source.DecodeBER([]byte{4, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'})
+	if err != nil {
+		t.Fatal(err)
+	}
+	codec := mapvalues.NewValueCodec(func([]byte, ...ber.DecodeOption) (mapvalues.BERValue[mapvalues.DiameterIdentity], error) {
+		return value, ber.ErrExtraData
+	}, source.EncodeBER, source.EncodeDER)
+	got, err := codec.DecodeBER(nil)
+	var zero mapvalues.BERValue[mapvalues.DiameterIdentity]
+	if err != ber.ErrExtraData || !reflect.DeepEqual(got, zero) {
+		t.Fatalf("caller decoder retained its value or received form: %v", err)
+	}
+}

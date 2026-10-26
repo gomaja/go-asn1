@@ -5579,7 +5579,12 @@ func UnmarshalBERLCSNameString(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value LCSNameString }{}
 	decode := func() error {
 		content := data
@@ -6045,7 +6050,12 @@ func UnmarshalBERLCSRequestorIDString(data []byte, opts ...ber.DecodeOption) (re
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value LCSRequestorIDString }{}
 	decode := func() error {
 		content := data
@@ -7145,7 +7155,12 @@ func UnmarshalBERLCSLCSCodewordString(data []byte, opts ...ber.DecodeOption) (re
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value LCSLCSCodewordString }{}
 	decode := func() error {
 		content := data
@@ -8096,7 +8111,12 @@ func UnmarshalBERLCSAreaList(data []byte, opts ...ber.DecodeOption) (returnValue
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding LCSAreaList", qualifyBERError(err, "", "decoding", false))
@@ -9270,7 +9290,12 @@ func UnmarshalBERLCSPLMNList(data []byte, opts ...ber.DecodeOption) (returnValue
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding LCSPLMNList", qualifyBERError(err, "", "decoding", false))

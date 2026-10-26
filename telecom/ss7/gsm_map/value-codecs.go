@@ -34,14 +34,21 @@ func (c ValueCodec[T]) valid() bool { return c.decode != nil && c.encode != nil 
 // produce errors matching ber.ErrExtraData and ber.ErrInvalidValue, respectively;
 // exhausted limits match ber.ErrResourceLimit. MAP source roots apply TS 29.002
 // V19.1.0 §17.1.1; other roots use X.690 (02/2021) §8.
-// Decoder errors are returned unchanged. An invalid codec, including the zero
-// value, returns the zero T and ber.ErrInvalidCodec without calling a decoder.
+// Decoder errors are returned unchanged. Every error returns the zero T,
+// without retaining a partial value or received form.
+// An invalid codec, including the zero value, returns the zero T and
+// ber.ErrInvalidCodec without calling a decoder.
 func (c ValueCodec[T]) DecodeBER(data []byte, opts ...ber.DecodeOption) (T, error) {
 	if !c.valid() {
 		var zero T
 		return zero, ber.ErrInvalidCodec
 	}
-	return c.decode(data, opts...)
+	value, err := c.decode(data, opts...)
+	if err != nil {
+		var zero T
+		return zero, err
+	}
+	return value, nil
 }
 
 // EncodeBER delegates value to the bound BER encoder with opts.
@@ -221,7 +228,12 @@ func primitiveValueCodec[T any](source, name string, rules []primitiveRule[T], d
 		}
 		data, opts = prepared, preparedOpts
 		opts = ber.LocateDecodedElement(data, source, opts)
-		defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+		defer func() {
+			returnErr = ber.LocateDecodeError(returnErr, opts)
+			if returnErr != nil {
+				result = BERValue[T]{}
+			}
+		}()
 		value, n, err := decode(data, opts...)
 		if err != nil {
 			return result, err

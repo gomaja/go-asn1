@@ -2288,7 +2288,12 @@ func UnmarshalBERGeneralProblem(data []byte, opts ...ber.DecodeOption) (returnVa
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value GeneralProblem }{}
 	decode := func() error {
 		content := data
@@ -2380,7 +2385,12 @@ func UnmarshalBERInvokeProblem(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value InvokeProblem }{}
 	decode := func() error {
 		content := data
@@ -2472,7 +2482,12 @@ func UnmarshalBERReturnResultProblem(data []byte, opts ...ber.DecodeOption) (ret
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value ReturnResultProblem }{}
 	decode := func() error {
 		content := data
@@ -2564,7 +2579,12 @@ func UnmarshalBERReturnErrorProblem(data []byte, opts ...ber.DecodeOption) (retu
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value ReturnErrorProblem }{}
 	decode := func() error {
 		content := data
@@ -2656,7 +2676,12 @@ func UnmarshalBERRejectProblem(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value RejectProblem }{}
 	decode := func() error {
 		content := data

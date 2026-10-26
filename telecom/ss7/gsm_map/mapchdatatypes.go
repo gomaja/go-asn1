@@ -3045,7 +3045,12 @@ func UnmarshalBERSuppressionOfAnnouncement(data []byte, opts ...ber.DecodeOption
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value SuppressionOfAnnouncement }{}
 	decode := func() error {
 		content := data

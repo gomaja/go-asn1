@@ -304,7 +304,12 @@ func UnmarshalBERSSCode(data []byte, opts ...ber.DecodeOption) (returnValue *BER
 	}
 	data, opts = preparedData, preparedOptions
 
-	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	defer func() {
+		returnErr = ber.LocateDecodeError(returnErr, opts)
+		if returnErr != nil {
+			returnValue = nil
+		}
+	}()
 	v := &struct{ Value SSCode }{}
 	decode := func() error {
 		content := data
