@@ -149,6 +149,7 @@ const (
 	ReasonInvalidOriginatingReference Reason = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v Reason) String() string {
 	switch v {
 	case ReasonNoReasonGiven:
@@ -232,6 +233,7 @@ const (
 	ResourceUnavailableReasonLongTermResourceLimitation  ResourceUnavailableReason = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ResourceUnavailableReason) String() string {
 	switch v {
 	case ResourceUnavailableReasonShortTermResourceLimitation:
@@ -256,6 +258,7 @@ const (
 	ProcedureCancellationReasonRemoteOperationsFailure    ProcedureCancellationReason = 6
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ProcedureCancellationReason) String() string {
 	switch v {
 	case ProcedureCancellationReasonHandoverCancellation:
@@ -297,6 +300,7 @@ const (
 	MAPProviderAbortReasonInvalidPDU       MAPProviderAbortReason = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MAPProviderAbortReason) String() string {
 	switch v {
 	case MAPProviderAbortReasonAbnormalDialogue:

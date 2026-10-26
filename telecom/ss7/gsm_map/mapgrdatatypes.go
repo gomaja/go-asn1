@@ -81,6 +81,7 @@ const (
 	TalkerPriorityEmergency  TalkerPriority = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v TalkerPriority) String() string {
 	switch v {
 	case TalkerPriorityNormal:
@@ -192,6 +193,7 @@ const (
 	GRRequestedInfoImsiAndAdditionalInfoAndAdditionalSubscription GRRequestedInfo = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v GRRequestedInfo) String() string {
 	switch v {
 	case GRRequestedInfoAnchorMSCAddressAndASCICallReference:

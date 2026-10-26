@@ -17,7 +17,10 @@ type errorBinding[P, I, C any] struct {
 	parameter mapvalues.ValueCodec[P]
 }
 
+// Code returns the bound local error code, or zero for a zero binding.
 func (d errorBinding[P, I, C]) Code() C { return d.code }
+
+// Info returns a detached metadata snapshot, or zero metadata for a zero binding.
 func (d errorBinding[P, I, C]) Info() I {
 	if d.info == nil {
 		var zero I
@@ -25,6 +28,8 @@ func (d errorBinding[P, I, C]) Info() I {
 	}
 	return d.info()
 }
+
+// Parameter returns the parameter codec and whether it is valid; an absent parameter has no valid codec.
 func (d errorBinding[P, I, C]) Parameter() (mapvalues.ValueCodec[P], bool) {
 	return d.parameter, d.parameter.Valid()
 }
@@ -589,19 +594,31 @@ type Operation[A, R, E any] struct {
 	encode   func(E, ...ber.EncodeOption) (mapvalues.EncodedError, error)
 }
 
+// Code returns the bound local operation code, or zero for a zero descriptor.
 func (d Operation[A, R, E]) Code() mapvalues.MAPOperationCode { return d.code }
+
+// Info returns a detached metadata snapshot, or zero metadata for a zero descriptor.
 func (d Operation[A, R, E]) Info() mapvalues.OperationInfo {
 	if d.info == nil {
 		return mapvalues.OperationInfo{}
 	}
 	return d.info()
 }
+
+// Argument returns the argument codec and whether it is valid; an absent argument has no valid codec.
 func (d Operation[A, R, E]) Argument() (mapvalues.ValueCodec[A], bool) {
 	return d.argument, d.argument.Valid()
 }
+
+// Result returns the result codec and whether it is valid; an absent result has no valid codec.
 func (d Operation[A, R, E]) Result() (mapvalues.ValueCodec[R], bool) {
 	return d.result, d.result.Valid()
 }
+
+// DecodeError decodes a member of the formal ERRORS set, forwarding opts to its parameter codec.
+// A present parameter uses strict BER unless ber.WithTolerance is supplied and retains received forms for replay.
+// Bytes for absent parameters, forbidden present parameters and unknown codes return errors wrapping ber.ErrInvalidBinding;
+// parameter codec errors propagate. A zero descriptor returns the zero E and ber.ErrInvalidBinding.
 func (d Operation[A, R, E]) DecodeError(code mapvalues.MAPErrorCode, data []byte, present bool, opts ...ber.DecodeOption) (E, error) {
 	if d.decode == nil {
 		var zero E
@@ -609,6 +626,12 @@ func (d Operation[A, R, E]) DecodeError(code mapvalues.MAPErrorCode, data []byte
 	}
 	return d.decode(int64(code), data, present, opts...)
 }
+
+// EncodeError encodes the one selected formal error arm, forwarding opts to its parameter codec.
+// Parameter encoding is strict by default; ber.WithTolerance permits representable violations,
+// and retained forms replay unless ber.WithoutBERReplay is supplied. Invalid selections return
+// errors wrapping ber.ErrInvalidBinding; codec errors propagate. A zero descriptor returns
+// a zero encoding and ber.ErrInvalidBinding.
 func (d Operation[A, R, E]) EncodeError(v E, opts ...ber.EncodeOption) (mapvalues.EncodedError, error) {
 	if d.encode == nil {
 		return mapvalues.EncodedError{}, ber.ErrInvalidBinding
@@ -6213,19 +6236,31 @@ type SSOperation[A, R, E any] struct {
 	encode   func(E, ...ber.EncodeOption) (mapvalues.SSErrorEncoding, error)
 }
 
+// Code returns the bound local operation code, or zero for a zero descriptor.
 func (d SSOperation[A, R, E]) Code() mapvalues.SSOperationCode { return d.code }
+
+// Info returns a detached metadata snapshot, or zero metadata for a zero descriptor.
 func (d SSOperation[A, R, E]) Info() mapvalues.SSOperationInfo {
 	if d.info == nil {
 		return mapvalues.SSOperationInfo{}
 	}
 	return d.info()
 }
+
+// Argument returns the argument codec and whether it is valid; an absent argument has no valid codec.
 func (d SSOperation[A, R, E]) Argument() (mapvalues.ValueCodec[A], bool) {
 	return d.argument, d.argument.Valid()
 }
+
+// Result returns the result codec and whether it is valid; an absent result has no valid codec.
 func (d SSOperation[A, R, E]) Result() (mapvalues.ValueCodec[R], bool) {
 	return d.result, d.result.Valid()
 }
+
+// DecodeError decodes a member of the formal ERRORS set, forwarding opts to its parameter codec.
+// A present parameter uses strict BER unless ber.WithTolerance is supplied and retains received forms for replay.
+// Bytes for absent parameters, forbidden present parameters and unknown codes return errors wrapping ber.ErrInvalidBinding;
+// parameter codec errors propagate. A zero descriptor returns the zero E and ber.ErrInvalidBinding.
 func (d SSOperation[A, R, E]) DecodeError(code int64, data []byte, present bool, opts ...ber.DecodeOption) (E, error) {
 	if d.decode == nil {
 		var zero E
@@ -6233,12 +6268,20 @@ func (d SSOperation[A, R, E]) DecodeError(code int64, data []byte, present bool,
 	}
 	return d.decode(int64(code), data, present, opts...)
 }
+
+// EncodeError encodes the one selected formal error arm, forwarding opts to its parameter codec.
+// Parameter encoding is strict by default; ber.WithTolerance permits representable violations,
+// and retained forms replay unless ber.WithoutBERReplay is supplied. Invalid selections return
+// errors wrapping ber.ErrInvalidBinding; codec errors propagate. A zero descriptor returns
+// a zero encoding and ber.ErrInvalidBinding.
 func (d SSOperation[A, R, E]) EncodeError(v E, opts ...ber.EncodeOption) (mapvalues.SSErrorEncoding, error) {
 	if d.encode == nil {
 		return mapvalues.SSErrorEncoding{}, ber.ErrInvalidBinding
 	}
 	return d.encode(v, opts...)
 }
+
+// Errors returns a detached snapshot of the formal error members, or nil for a zero descriptor.
 func (d SSOperation[A, R, E]) Errors() []mapvalues.SSErrorMemberInfo { return d.Info().Errors }
 func infoSSAccessRegisterCCEntryOperation() mapvalues.SSOperationInfo {
 	info, _ := mapvalues.LookupSSOperation(mapvalues.SSAccessRegisterCCEntry)

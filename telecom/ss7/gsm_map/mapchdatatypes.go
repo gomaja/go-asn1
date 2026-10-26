@@ -94,6 +94,7 @@ const (
 	InterrogationTypeForwarding InterrogationType = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v InterrogationType) String() string {
 	switch v {
 	case InterrogationTypeBasicCall:
@@ -120,6 +121,7 @@ const (
 	ForwardingReasonNoReply      ForwardingReason = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ForwardingReason) String() string {
 	switch v {
 	case ForwardingReasonNotReachable:
@@ -197,6 +199,7 @@ const (
 	UnavailabilityCauseCugReject                   UnavailabilityCause = 6
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v UnavailabilityCause) String() string {
 	switch v {
 	case UnavailabilityCauseBearerServiceNotProvisioned:
@@ -479,6 +482,7 @@ const (
 	ReportingStateStartMonitoring ReportingState = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ReportingState) String() string {
 	switch v {
 	case ReportingStateStopMonitoring:
@@ -511,6 +515,7 @@ const (
 	CCBSSubscriberStatusCcbsNotReachable CCBSSubscriberStatus = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CCBSSubscriberStatus) String() string {
 	switch v {
 	case CCBSSubscriberStatusCcbsNotIdle:
@@ -571,6 +576,7 @@ const (
 	MonitoringModeBSide MonitoringMode = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MonitoringMode) String() string {
 	switch v {
 	case MonitoringModeASide:
@@ -591,6 +597,7 @@ const (
 	CallOutcomeBusy    CallOutcome = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CallOutcome) String() string {
 	switch v {
 	case CallOutcomeSuccess:
@@ -656,6 +663,7 @@ const (
 	RUFOutcomeUdubFromBusyMS       RUFOutcome = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v RUFOutcome) String() string {
 	switch v {
 	case RUFOutcomeAccepted:
@@ -732,6 +740,7 @@ const (
 	CallTerminationIndicatorTerminateAllCallActivities    CallTerminationIndicator = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CallTerminationIndicator) String() string {
 	switch v {
 	case CallTerminationIndicatorTerminateCallActivityReferred:

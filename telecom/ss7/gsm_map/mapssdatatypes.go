@@ -225,6 +225,7 @@ const (
 	CliRestrictionOptionTemporaryDefaultAllowed    CliRestrictionOption = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CliRestrictionOption) String() string {
 	switch v {
 	case CliRestrictionOptionPermanent:
@@ -246,6 +247,7 @@ const (
 	OverrideCategoryOverrideDisabled OverrideCategory = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v OverrideCategory) String() string {
 	switch v {
 	case OverrideCategoryOverrideEnabled:
@@ -406,6 +408,7 @@ const (
 	GuidanceInfoEnterNewPWAgain GuidanceInfo = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v GuidanceInfo) String() string {
 	switch v {
 	case GuidanceInfoEnterPW:
@@ -468,6 +471,7 @@ const (
 	CCBSRequestStateDeleted   CCBSRequestState = 6
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CCBSRequestState) String() string {
 	switch v {
 	case CCBSRequestStateRequest:

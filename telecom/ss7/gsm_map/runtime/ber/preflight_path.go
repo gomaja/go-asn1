@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_path.go; SHA-256 700848c300a2b21c681493feba3edb7b427e56cc17ebc411fd680fab4b984f04.
+// Runtime source: runtime/ber/preflight_path.go; SHA-256 8007072249e083a798b7863a428d37e3c8784b5fcfb41ebb125dd796e3f4baa7.
 package ber
 
 import (
@@ -32,8 +32,13 @@ type preflightPathError struct {
 	cause error
 }
 
-func (e *preflightPathError) Error() string       { return fmt.Sprintf("decoding %s: %v", e.path, e.cause) }
-func (e *preflightPathError) Unwrap() error       { return e.cause }
+// Error formats the preflight component path and underlying diagnostic.
+func (e *preflightPathError) Error() string { return fmt.Sprintf("decoding %s: %v", e.path, e.cause) }
+
+// Unwrap returns the underlying preflight error.
+func (e *preflightPathError) Unwrap() error { return e.cause }
+
+// ASN1BERPath returns the component path assigned during preflight.
 func (e *preflightPathError) ASN1BERPath() string { return e.path }
 
 // DiagnosePreflight adds a generated schema path to a whole-element failure.

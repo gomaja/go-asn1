@@ -388,6 +388,7 @@ const (
 	ProtocolIdEts3001021 ProtocolId = 4
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ProtocolId) String() string {
 	switch v {
 	case ProtocolIdGsm0408:
@@ -423,6 +424,7 @@ const (
 	ExtProtocolIdEts300356 ExtProtocolId = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v ExtProtocolId) String() string {
 	switch v {
 	case ExtProtocolIdEts300356:
@@ -456,6 +458,7 @@ const (
 	AccessNetworkProtocolIdTs3G25413 AccessNetworkProtocolId = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v AccessNetworkProtocolId) String() string {
 	switch v {
 	case AccessNetworkProtocolIdTs3G48006:
@@ -589,6 +592,7 @@ const (
 	NetworkResourceRss            NetworkResource = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v NetworkResource) String() string {
 	switch v {
 	case NetworkResourcePlmn:
@@ -626,6 +630,7 @@ const (
 	AdditionalNetworkResourceMme    AdditionalNetworkResource = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v AdditionalNetworkResource) String() string {
 	switch v {
 	case AdditionalNetworkResourceSgsn:
@@ -717,6 +722,7 @@ const (
 	LCSClientInternalIDTargetMSsubscribedService LCSClientInternalID = 4
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v LCSClientInternalID) String() string {
 	switch v {
 	case LCSClientInternalIDBroadcastService:

@@ -25,7 +25,10 @@ type errorBinding[P, I, C any] struct {
 	parameter ValueCodec[P]
 }
 
+// Code returns the bound local error code, or zero for a zero binding.
 func (d errorBinding[P, I, C]) Code() C { return d.code }
+
+// Info returns a detached metadata snapshot, or zero metadata for a zero binding.
 func (d errorBinding[P, I, C]) Info() I {
 	if d.info == nil {
 		var zero I
@@ -33,6 +36,8 @@ func (d errorBinding[P, I, C]) Info() I {
 	}
 	return d.info()
 }
+
+// Parameter returns the parameter codec and whether it is valid; an absent parameter has no valid codec.
 func (d errorBinding[P, I, C]) Parameter() (ValueCodec[P], bool) {
 	return d.parameter, d.parameter.valid()
 }
@@ -533,9 +538,13 @@ func HistoricalMAPErrorsUssdBusyErrorDescriptor() HistoricalMAPErrorDescriptor[N
 func infoHistoricalMAPErrorsUssdBusyError() HistoricalMAPErrorInfo {
 	return HistoricalMAPErrorInfo{Name: "ussd-Busy", Code: HistoricalMAPErrorsUssdBusy, Parameter: nil, ParameterOptional: nil, Source: sourceInfo0("ussd-Busy", "17.6.6")}
 }
+
+// HistoricalMAPErrors returns detached metadata snapshots of the source error catalogue.
 func HistoricalMAPErrors() []HistoricalMAPErrorInfo {
 	return []HistoricalMAPErrorInfo{infoHistoricalMAPErrorsAbsentSubscriberError(), infoHistoricalMAPErrorsAbsentSubscriberSMError(), infoHistoricalMAPErrorsAtiNotAllowedError(), infoHistoricalMAPErrorsAtmNotAllowedError(), infoHistoricalMAPErrorsAtsiNotAllowedError(), infoHistoricalMAPErrorsBearerServiceNotProvisionedError(), infoHistoricalMAPErrorsBusySubscriberError(), infoHistoricalMAPErrorsCallBarredError(), infoHistoricalMAPErrorsCugRejectError(), infoHistoricalMAPErrorsDataMissingError(), infoHistoricalMAPErrorsFacilityNotSupportedError(), infoHistoricalMAPErrorsForwardingFailedError(), infoHistoricalMAPErrorsForwardingViolationError(), infoHistoricalMAPErrorsIllegalEquipmentError(), infoHistoricalMAPErrorsIllegalSSOperationError(), infoHistoricalMAPErrorsIllegalSubscriberError(), infoHistoricalMAPErrorsIncompatibleTerminalError(), infoHistoricalMAPErrorsInformationNotAvailableError(), infoHistoricalMAPErrorsLongTermDenialError(), infoHistoricalMAPErrorsMessageWaitingListFullError(), infoHistoricalMAPErrorsMmEventNotSupportedError(), infoHistoricalMAPErrorsNegativePWCheckError(), infoHistoricalMAPErrorsNoGroupCallNumberAvailableError(), infoHistoricalMAPErrorsNoHandoverNumberAvailableError(), infoHistoricalMAPErrorsNoRoamingNumberAvailableError(), infoHistoricalMAPErrorsNoSubscriberReplyError(), infoHistoricalMAPErrorsNumberChangedError(), infoHistoricalMAPErrorsNumberOfPWAttemptsViolationError(), infoHistoricalMAPErrorsOngoingGroupCallError(), infoHistoricalMAPErrorsOrNotAllowedError(), infoHistoricalMAPErrorsPositionMethodFailureError(), infoHistoricalMAPErrorsPwRegistrationFailureError(), infoHistoricalMAPErrorsResourceLimitationError(), infoHistoricalMAPErrorsRoamingNotAllowedError(), infoHistoricalMAPErrorsShortTermDenialError(), infoHistoricalMAPErrorsSmDeliveryFailureError(), infoHistoricalMAPErrorsSsErrorStatusError(), infoHistoricalMAPErrorsSsIncompatibilityError(), infoHistoricalMAPErrorsSsNotAvailableError(), infoHistoricalMAPErrorsSsSubscriptionViolationError(), infoHistoricalMAPErrorsSubscriberBusyForMTSMSError(), infoHistoricalMAPErrorsSubsequentHandoverFailureError(), infoHistoricalMAPErrorsSystemFailureError(), infoHistoricalMAPErrorsTargetCellOutsideGroupCallAreaError(), infoHistoricalMAPErrorsTeleserviceNotProvisionedError(), infoHistoricalMAPErrorsTracingBufferFullError(), infoHistoricalMAPErrorsUnauthorizedLCSClientError(), infoHistoricalMAPErrorsUnauthorizedRequestingNetworkError(), infoHistoricalMAPErrorsUnexpectedDataValueError(), infoHistoricalMAPErrorsUnidentifiedSubscriberError(), infoHistoricalMAPErrorsUnknownAlphabetError(), infoHistoricalMAPErrorsUnknownEquipmentError(), infoHistoricalMAPErrorsUnknownMSCError(), infoHistoricalMAPErrorsUnknownOrUnreachableLCSClientError(), infoHistoricalMAPErrorsUnknownSubscriberError(), infoHistoricalMAPErrorsUssdBusyError()}
 }
+
+// LookupHistoricalMAPError returns detached metadata for code, or zero metadata and false if absent.
 func LookupHistoricalMAPError(code HistoricalMAPErrorCode) (HistoricalMAPErrorInfo, bool) {
 	switch code {
 	case HistoricalMAPErrorsAbsentSubscriber:

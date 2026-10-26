@@ -392,6 +392,7 @@ const (
 	CommonDataTypesProtocolIdEts3001021 CommonDataTypesProtocolId = 4
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CommonDataTypesProtocolId) String() string {
 	switch v {
 	case CommonDataTypesProtocolIdGsm0408:
@@ -427,6 +428,7 @@ const (
 	CommonDataTypesExtProtocolIdEts300356 CommonDataTypesExtProtocolId = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CommonDataTypesExtProtocolId) String() string {
 	switch v {
 	case CommonDataTypesExtProtocolIdEts300356:
@@ -460,6 +462,7 @@ const (
 	CommonDataTypesAccessNetworkProtocolIdTs3G25413 CommonDataTypesAccessNetworkProtocolId = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CommonDataTypesAccessNetworkProtocolId) String() string {
 	switch v {
 	case CommonDataTypesAccessNetworkProtocolIdTs3G48006:
@@ -593,6 +596,7 @@ const (
 	CommonDataTypesNetworkResourceRss            CommonDataTypesNetworkResource = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CommonDataTypesNetworkResource) String() string {
 	switch v {
 	case CommonDataTypesNetworkResourcePlmn:
@@ -630,6 +634,7 @@ const (
 	CommonDataTypesAdditionalNetworkResourceMme    CommonDataTypesAdditionalNetworkResource = 7
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CommonDataTypesAdditionalNetworkResource) String() string {
 	switch v {
 	case CommonDataTypesAdditionalNetworkResourceSgsn:
@@ -721,6 +726,7 @@ const (
 	CommonDataTypesLCSClientInternalIDTargetMSsubscribedService CommonDataTypesLCSClientInternalID = 4
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v CommonDataTypesLCSClientInternalID) String() string {
 	switch v {
 	case CommonDataTypesLCSClientInternalIDBroadcastService:

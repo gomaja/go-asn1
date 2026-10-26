@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 838c11a0e69c872b4975f75066afaace7ee31c3090a7bd5dd5b028a632b01259.
+// Runtime source: runtime/ber/constraints.go; SHA-256 2a49323431d6f8a60e632d1afe6d1ad7e554996b9caa5e7f935a756693436675.
 package ber
 
 import (
@@ -54,8 +54,10 @@ type Violation struct {
 // protocol-rule violation. A caller can inspect it with errors.As.
 type ValidationError struct{ Violation }
 
+// Unwrap returns ErrInvalidValue for error-chain matching.
 func (e *ValidationError) Unwrap() error { return ErrInvalidValue }
 
+// Error describes the constraint violation using its path and observed length or value.
 func (e *ValidationError) Error() string {
 	if e.ObservedLength != nil {
 		return fmt.Sprintf("%s length %d violates %s", e.Path, *e.ObservedLength, e.Constraint)

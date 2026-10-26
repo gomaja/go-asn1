@@ -22,6 +22,7 @@ type berPathError struct {
 	cause   error
 }
 
+// Error formats the codec phase, ASN.1 path and underlying cause.
 func (e *berPathError) Error() string {
 	cause := e.cause
 	for cause != nil {
@@ -39,7 +40,11 @@ func (e *berPathError) Error() string {
 	}
 	return cause.Error()
 }
+
+// Unwrap returns the underlying codec error.
 func (e *berPathError) Unwrap() error { return e.cause }
+
+// ASN1BERPath returns the nested component and collection-element path.
 func (e *berPathError) ASN1BERPath() string {
 	var parts []string
 	for current := error(e); current != nil; {

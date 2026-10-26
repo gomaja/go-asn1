@@ -258,6 +258,7 @@ const (
 	MSISTSupportIndicatorIstCommandSupported MSISTSupportIndicator = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSISTSupportIndicator) String() string {
 	switch v {
 	case MSISTSupportIndicatorBasicISTSupported:
@@ -378,6 +379,7 @@ const (
 	MSTypeOfUpdateMmeChange  MSTypeOfUpdate = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSTypeOfUpdate) String() string {
 	switch v {
 	case MSTypeOfUpdateSgsnChange:
@@ -398,6 +400,7 @@ const (
 	MSCancellationTypeInitialAttachProcedure MSCancellationType = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSCancellationType) String() string {
 	switch v {
 	case MSCancellationTypeUpdateProcedure:
@@ -683,6 +686,7 @@ const (
 	MSAccessTypeGprsDetach             MSAccessType = 10
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSAccessType) String() string {
 	switch v {
 	case MSAccessTypeCall:
@@ -731,6 +735,7 @@ const (
 	MSFailureCauseWrongNetworkSignature MSFailureCause = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSFailureCause) String() string {
 	switch v {
 	case MSFailureCauseWrongUserResponse:
@@ -791,6 +796,7 @@ const (
 	MSSMSRegisterRequestNoPreference                MSSMSRegisterRequest = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSSMSRegisterRequest) String() string {
 	switch v {
 	case MSSMSRegisterRequestSmsRegistrationRequired:
@@ -816,6 +822,7 @@ const (
 	MSUsedRATTypeNbIot          MSUsedRATType = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSUsedRATType) String() string {
 	switch v {
 	case MSUsedRATTypeUtran:
@@ -1021,6 +1028,7 @@ const (
 	MSUESRVCCCapabilityUeSrvccSupported    MSUESRVCCCapability = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSUESRVCCCapability) String() string {
 	switch v {
 	case MSUESRVCCCapabilityUeSrvccNotSupported:
@@ -1123,6 +1131,7 @@ const (
 	MSKeyStatusNew MSKeyStatus = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSKeyStatus) String() string {
 	switch v {
 	case MSKeyStatusOld:
@@ -1573,6 +1582,7 @@ const (
 	MSRequestingNodeTypeMmeSgsn       MSRequestingNodeType = 17
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSRequestingNodeType) String() string {
 	switch v {
 	case MSRequestingNodeTypeVlr:
@@ -1659,6 +1669,7 @@ const (
 	MSEquipmentStatusTrackingListed   MSEquipmentStatus = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSEquipmentStatus) String() string {
 	switch v {
 	case MSEquipmentStatusPermittedListed:
@@ -1940,6 +1951,7 @@ const (
 	MSPDNConnectionContinuityDisconnectPDNConnectionWithoutReactivationRequest MSPDNConnectionContinuity = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSPDNConnectionContinuity) String() string {
 	switch v {
 	case MSPDNConnectionContinuityMaintainPDNConnection:
@@ -1961,6 +1973,7 @@ const (
 	MSNIDDMechanismSCEFBasedDataDelivery MSNIDDMechanism = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSNIDDMechanism) String() string {
 	switch v {
 	case MSNIDDMechanismSGiBasedDataDelivery:
@@ -2072,6 +2085,7 @@ const (
 	MSPDNGWAllocationTypeDynamic MSPDNGWAllocationType = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSPDNGWAllocationType) String() string {
 	switch v {
 	case MSPDNGWAllocationTypeStatic:
@@ -2104,6 +2118,7 @@ const (
 	MSWLANOffloadabilityIndicationAllowed    MSWLANOffloadabilityIndication = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSWLANOffloadabilityIndication) String() string {
 	switch v {
 	case MSWLANOffloadabilityIndicationNotAllowed:
@@ -2205,6 +2220,7 @@ const (
 	MSNetworkAccessModeOnlyPacket       MSNetworkAccessMode = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSNetworkAccessMode) String() string {
 	switch v {
 	case MSNetworkAccessModePacketAndCircuit:
@@ -2267,6 +2283,7 @@ const (
 	MSSIPTOPermissionSiptoAboveRanNotAllowed MSSIPTOPermission = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSSIPTOPermission) String() string {
 	switch v {
 	case MSSIPTOPermissionSiptoAboveRanAllowed:
@@ -2286,6 +2303,7 @@ const (
 	MSSIPTOLocalNetworkPermissionSiptoAtLocalNetworkNotAllowed MSSIPTOLocalNetworkPermission = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSSIPTOLocalNetworkPermission) String() string {
 	switch v {
 	case MSSIPTOLocalNetworkPermissionSiptoAtLocalNetworkAllowed:
@@ -2306,6 +2324,7 @@ const (
 	MSLIPAPermissionLipaConditional MSLIPAPermission = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSLIPAPermission) String() string {
 	switch v {
 	case MSLIPAPermissionLipaProhibited:
@@ -2399,6 +2418,7 @@ const (
 	MSDefaultGPRSHandlingReleaseTransaction  MSDefaultGPRSHandling = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSDefaultGPRSHandling) String() string {
 	switch v {
 	case MSDefaultGPRSHandlingContinueTransaction:
@@ -2421,6 +2441,7 @@ const (
 	MSGPRSTriggerDetectionPointPdpContextChangeOfPosition             MSGPRSTriggerDetectionPoint = 14
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSGPRSTriggerDetectionPoint) String() string {
 	switch v {
 	case MSGPRSTriggerDetectionPointAttach:
@@ -2476,6 +2497,7 @@ const (
 	MSLSAOnlyAccessIndicatorAccessOutsideLSAsRestricted MSLSAOnlyAccessIndicator = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSLSAOnlyAccessIndicator) String() string {
 	switch v {
 	case MSLSAOnlyAccessIndicatorAccessOutsideLSAsAllowed:
@@ -2562,6 +2584,7 @@ const (
 	MSSubscriberStatusOperatorDeterminedBarring MSSubscriberStatus = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSSubscriberStatus) String() string {
 	switch v {
 	case MSSubscriberStatusServiceGranted:
@@ -2871,6 +2894,7 @@ const (
 	MSIntraCUGOptionsCugOGCallBarred   MSIntraCUGOptions = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSIntraCUGOptions) String() string {
 	switch v {
 	case MSIntraCUGOptionsNoCUGRestrictions:
@@ -2997,6 +3021,7 @@ const (
 	MSGMLCRestrictionHomeCountry MSGMLCRestriction = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSGMLCRestriction) String() string {
 	switch v {
 	case MSGMLCRestrictionGmlcList:
@@ -3018,6 +3043,7 @@ const (
 	MSNotificationToMSUserLocationNotAllowed                            MSNotificationToMSUser = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSNotificationToMSUser) String() string {
 	switch v {
 	case MSNotificationToMSUserNotifyLocationAllowed:
@@ -3114,6 +3140,7 @@ const (
 	MSRegionalSubscriptionResponseRegionalSubscNotSupported MSRegionalSubscriptionResponse = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSRegionalSubscriptionResponse) String() string {
 	switch v {
 	case MSRegionalSubscriptionResponseNetworkNodeAreaRestricted:
@@ -3386,6 +3413,7 @@ const (
 	MSMTSMSTPDUTypeSmsSTATUSREPORT MSMTSMSTPDUType = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSMTSMSTPDUType) String() string {
 	switch v {
 	case MSMTSMSTPDUTypeSmsDELIVER:
@@ -3518,6 +3546,7 @@ const (
 	MSOBcsmTriggerDetectionPointRouteSelectFailure MSOBcsmTriggerDetectionPoint = 4
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSOBcsmTriggerDetectionPoint) String() string {
 	switch v {
 	case MSOBcsmTriggerDetectionPointCollectedInfo:
@@ -3615,6 +3644,7 @@ const (
 	MSCallTypeCriteriaNotForwarded MSCallTypeCriteria = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSCallTypeCriteria) String() string {
 	switch v {
 	case MSCallTypeCriteriaForwarded:
@@ -3634,6 +3664,7 @@ const (
 	MSMatchTypeEnabling   MSMatchType = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSMatchType) String() string {
 	switch v {
 	case MSMatchTypeInhibiting:
@@ -3668,6 +3699,7 @@ const (
 	MSDefaultCallHandlingReleaseCall  MSDefaultCallHandling = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSDefaultCallHandling) String() string {
 	switch v {
 	case MSDefaultCallHandlingContinueCall:
@@ -3807,6 +3839,7 @@ const (
 	MSSMSTriggerDetectionPointSmsDeliveryRequest MSSMSTriggerDetectionPoint = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSSMSTriggerDetectionPoint) String() string {
 	switch v {
 	case MSSMSTriggerDetectionPointSmsCollectedInfo:
@@ -3826,6 +3859,7 @@ const (
 	MSDefaultSMSHandlingReleaseTransaction  MSDefaultSMSHandling = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSDefaultSMSHandling) String() string {
 	switch v {
 	case MSDefaultSMSHandlingContinueTransaction:
@@ -3926,6 +3960,7 @@ const (
 	MSTBcsmTriggerDetectionPointTNoAnswer             MSTBcsmTriggerDetectionPoint = 14
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSTBcsmTriggerDetectionPoint) String() string {
 	switch v {
 	case MSTBcsmTriggerDetectionPointTermAttemptAuthorized:
@@ -4219,6 +4254,7 @@ const (
 	MSIMSVoiceOverPSSessionsIndUnknown                            MSIMSVoiceOverPSSessionsInd = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSIMSVoiceOverPSSessionsInd) String() string {
 	switch v {
 	case MSIMSVoiceOverPSSessionsIndImsVoiceOverPSSessionsNotSupported:
@@ -4244,6 +4280,7 @@ const (
 	MSDaylightSavingTimePlusTwoHoursAdjustment MSDaylightSavingTime = 2
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSDaylightSavingTime) String() string {
 	switch v {
 	case MSDaylightSavingTimeNoAdjustment:
@@ -4286,6 +4323,7 @@ const (
 	MSNumberPortabilityStatusForeignNumberPortedIn               MSNumberPortabilityStatus = 5
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSNumberPortabilityStatus) String() string {
 	switch v {
 	case MSNumberPortabilityStatusNotKnownToBePorted:
@@ -4350,6 +4388,7 @@ const (
 	MSDomainTypePsDomain MSDomainType = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSDomainType) String() string {
 	switch v {
 	case MSDomainTypeCsDomain:
@@ -4676,6 +4715,7 @@ const (
 	MSNotReachableReasonNotRegistered  MSNotReachableReason = 3
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSNotReachableReason) String() string {
 	switch v {
 	case MSNotReachableReasonMsPurged:
@@ -4900,6 +4940,7 @@ const (
 	MSRequestedCAMELSubscriptionInfoDCsi     MSRequestedCAMELSubscriptionInfo = 8
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSRequestedCAMELSubscriptionInfo) String() string {
 	switch v {
 	case MSRequestedCAMELSubscriptionInfoOCSI:
@@ -4936,6 +4977,7 @@ const (
 	MSAdditionalRequestedCAMELSubscriptionInfoVtIMCSI  MSAdditionalRequestedCAMELSubscriptionInfo = 4
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSAdditionalRequestedCAMELSubscriptionInfo) String() string {
 	switch v {
 	case MSAdditionalRequestedCAMELSubscriptionInfoMtSmsCSI:
@@ -5266,6 +5308,7 @@ const (
 	MSModificationInstructionActivate   MSModificationInstruction = 1
 )
 
+// String returns the ASN.1 named label, or "unknown" for an unlisted value.
 func (v MSModificationInstruction) String() string {
 	switch v {
 	case MSModificationInstructionDeactivate:
