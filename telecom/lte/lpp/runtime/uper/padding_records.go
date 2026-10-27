@@ -1,6 +1,6 @@
 // Code generated from LPP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/padding_records.go; SHA-256 6f4522cb42593fb2271b21127b0dc27d9fc90d80ae1f78432319b698d34e2e70.
+// Runtime source: runtime/uper/padding_records.go; SHA-256 c38cc3370abe751acabdd7153c9f7f95927a1b85afcd8c06694dacfcff64d314.
 package uper
 
 // PaddingKind identifies the complete encoding whose terminal padding was
@@ -46,7 +46,7 @@ type InputBitSpan struct {
 }
 
 // paddingRun maps part of a child buffer to the original input. Mappings are
-// collected only when PaddingObservations is supplied; detached inputs have
+// collected only when InputSpans or PaddingObservations is set; detached inputs have
 // no mapping, and a record then leaves InputSpans empty.
 type paddingRun struct{ local, input, length int }
 
@@ -59,10 +59,11 @@ type paddingTrace struct {
 	sources map[*byte]*paddingSource
 }
 
-func (bb *BitBuffer) startPaddingObservations(log *ToleranceLog) {
-	if log == nil {
+func (bb *BitBuffer) startPaddingObservations(log *ToleranceLog, inputSpans bool) {
+	if log == nil && !inputSpans {
 		return
 	}
+	bb.outermost = true
 	observations := &paddingTrace{log: log, sources: make(map[*byte]*paddingSource)}
 
 	bb.trace.padding = observations
@@ -143,6 +144,9 @@ func (bb *BitBuffer) observePadding(kind PaddingKind, offset int, value uint8, w
 	if bb.paddingObservations() == nil || width < 1 || width > 7 || value == 0 {
 		return
 	}
+	if bb.trace.padding.log == nil {
+		return
+	}
 	record := Tolerance{Path: bb.trace.relativePath(), Kind: ToleratedNonzeroPadding, Offset: offset,
 		Bits: TrailingBits{Bytes: []byte{value << uint(8-width)}, BitLength: width}, PaddingKind: kind}
 	runs := bb.paddingRuns(offset, width)
@@ -165,7 +169,7 @@ func (bb *BitBuffer) observePadding(kind PaddingKind, offset int, value uint8, w
 // padding or empty-encoding records.
 // Generated decoders use it where no older tolerance needs path tracking.
 func (bb *BitBuffer) PaddingComponent(name string) int {
-	if bb.trace == nil || bb.trace.padding == nil && bb.trace.empty == nil {
+	if bb.trace == nil || (bb.trace.padding == nil || bb.trace.padding.log == nil) && bb.trace.empty == nil {
 		return -1
 	}
 	return bb.trace.enter(pathSegment{name: name})
@@ -173,7 +177,7 @@ func (bb *BitBuffer) PaddingComponent(name string) int {
 
 // PaddingIndex tracks a collection element only for those completion records.
 func (bb *BitBuffer) PaddingIndex(index int64) int {
-	if bb.trace == nil || bb.trace.padding == nil && bb.trace.empty == nil {
+	if bb.trace == nil || (bb.trace.padding == nil || bb.trace.padding.log == nil) && bb.trace.empty == nil {
 		return -1
 	}
 	return bb.trace.enter(pathSegment{index: index})
@@ -200,4 +204,30 @@ func CaptureChoicePadding(bb *BitBuffer, alternative string) (CompletePadding, e
 	padding, err := captureTrailingPaddingKind(bb, "open type", ChoiceExtensionPadding)
 	bb.LeaveComponent(mark)
 	return padding, err
+}
+
+// inputSpans projects an entire received interval; partial mappings stay unknown.
+// Enclosing fragment determinants are excluded by paddingRuns (X.691
+// (02/2021) §§11.2.2 and 11.9.3.8).
+func (bb *BitBuffer) inputSpans(start, end int) []InputBitSpan {
+	if bb.paddingObservations() == nil || start < 0 || end < start || end > bb.bitLen {
+		return nil
+	}
+	length := end - start
+	runs := bb.paddingRuns(start, length)
+	covered := 0
+	for _, run := range runs {
+		if run.local != covered {
+			return nil
+		}
+		covered += run.length // Disjoint intersections cover at most length.
+	}
+	if covered != length {
+		return nil
+	}
+	var spans []InputBitSpan
+	for _, run := range runs {
+		spans = append(spans, InputBitSpan{Offset: run.input, BitLength: run.length})
+	}
+	return spans
 }

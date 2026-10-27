@@ -1,6 +1,6 @@
 // Code generated from LPP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/tolerance.go; SHA-256 ec636b27d31ef7f8797f3f20eeb0a6f40d9f703029844fd918ca925d4f699a6b.
+// Runtime source: runtime/uper/tolerance.go; SHA-256 7e93a4f354079a0828062ffa88b75f369ce229a8708763e61255d8fe2cab0ebd.
 package uper
 
 import (
@@ -63,8 +63,14 @@ func (kind ToleranceKind) String() string {
 type Tolerance struct {
 	// PaddingKind identifies the complete encoding for ToleratedNonzeroPadding.
 	PaddingKind PaddingKind `json:",omitempty"`
-	// InputSpans locates padding in the original input. Empty means unknown;
-	// Offset still gives the exact position within the decoded child buffer.
+	// InputSpans locates ToleratedNonzeroPadding bits or the entire received
+	// open type of ToleratedIncompleteExtension in the original input,
+	// including that addition's length determinants and contents. Separate
+	// spans omit enclosing fragment determinants (X.691 (02/2021) §§11.2.2,
+	// 11.9.3.8). DecodeOptions.InputSpans or PaddingObservations enables the
+	// mapping; otherwise spans are empty. They also stay empty for detached
+	// buffers whose backing slices were not returned by a mapped input read:
+	// copies, independent contents or unregistered subslices. Offset stays local.
 	InputSpans []InputBitSpan `json:",omitempty"`
 	// Path is the generated field path in the form used by
 	// runtime.DecodePathError, starting with the top-level type name.
@@ -82,7 +88,8 @@ type Tolerance struct {
 	// bit of the incomplete addition's open type, its length determinant, in
 	// the complete encoding that contains the extended SEQUENCE or SET value:
 	// the top-level input, or the contents of the innermost open type, OCTET
-	// STRING or BIT STRING enclosing that value.
+	// STRING or BIT STRING enclosing that value. DecodeOptions.InputSpans
+	// or PaddingObservations supplies original-input positions in InputSpans.
 	Offset int
 	// Bits holds the accepted bits, MSB first. For ToleratedTruncatedExtension
 	// they are the received part of the cut open type, from Offset to the end
