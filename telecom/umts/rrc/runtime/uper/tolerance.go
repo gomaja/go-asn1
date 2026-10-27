@@ -1,6 +1,6 @@
 // Code generated from UMTS RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/tolerance.go; SHA-256 cea31222eb54fd31fc47485a107503f7f46eed8514831d900f758553097ac11c.
+// Runtime source: runtime/uper/tolerance.go; SHA-256 48dfc0eafcbdfe2559ba6096f29bfe0137f268501ffe88c7ebd716b337163876.
 package uper
 
 import (
@@ -84,7 +84,11 @@ type Tolerance struct {
 	// ToleratedContainedBits, and the top-level input for
 	// ToleratedTruncatedExtension, where it is the first bit of the cut
 	// addition's open type: its length determinant, or in the ALIGNED variant
-	// the padding before it.
+	// the padding before it. For ToleratedIncompleteExtension it is the first
+	// bit of the incomplete addition's open type, its length determinant, in
+	// the complete encoding that contains the extended SEQUENCE or SET value:
+	// the top-level input, or the contents of the innermost open type, OCTET
+	// STRING or BIT STRING enclosing that value.
 	Offset int
 	// Bits holds the accepted bits, MSB first. For ToleratedTruncatedExtension
 	// they are the received part of the cut open type, from Offset to the end

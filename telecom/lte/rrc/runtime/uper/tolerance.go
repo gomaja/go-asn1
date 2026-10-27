@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/tolerance.go; SHA-256 e96f5060458a0dccd91a67dd3eba0d1ce286cac9439758bf92076d896742b760.
+// Runtime source: runtime/uper/tolerance.go; SHA-256 154aec1b9092769bbd3d2e77b9216e1bc7f56aab5b656cf674bd3b12be6fff12.
 package uper
 
 import (
@@ -94,7 +94,11 @@ type Tolerance struct {
 	// ToleratedContainedBits, and the top-level input for
 	// ToleratedTruncatedExtension, where it is the first bit of the cut
 	// addition's open type: its length determinant, or in the ALIGNED variant
-	// the padding before it.
+	// the padding before it. For ToleratedIncompleteExtension it is the first
+	// bit of the incomplete addition's open type, its length determinant, in
+	// the complete encoding that contains the extended SEQUENCE or SET value:
+	// the top-level input, or the contents of the innermost open type, OCTET
+	// STRING or BIT STRING enclosing that value.
 	Offset int
 	// Bits holds the accepted bits, MSB first. For ToleratedTruncatedExtension
 	// they are the received part of the cut open type, from Offset to the end
