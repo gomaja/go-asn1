@@ -1,6 +1,6 @@
 // Code generated from UMTS RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer.go; SHA-256 1bbbfe20ce0a8904c02e59df6f3578cad934205ab6adde5d2f3139aeee71bb79.
+// Runtime source: runtime/uper/bitbuffer.go; SHA-256 31acbd8c0f834b0f9c3529d2e10dff56db388f2ee5d7db7b7b5ea83040d230da.
 package uper
 
 import (
@@ -125,7 +125,7 @@ func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) error {
 		*bb.decodeBudget() = DecodeBudget{limits: DefaultDecodeLimits(), err: err}
 		return err
 	}
-	*bb.decodeBudget() = DecodeBudget{limits: limits, report: options.Usage}
+	*bb.decodeBudget() = DecodeBudget{limits: limits, report: options.Usage, workInputBits: -1}
 	bb.budget.publish()
 	bb.contained, bb.trace = options.ContainedDecoding, nil
 	bb.zeroWidthLimit, bb.outermost = options.MaxZeroWidthCharacters, options.TruncatedExtensionTolerance != nil || options.PaddingObservations != nil
@@ -133,13 +133,7 @@ func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) error {
 		bb.trace = &decodeTrace{containedBits: options.ContainedBitsTolerance, empty: options.EmptyEncodingTolerance, trailing: options.TrailingBitsTolerance, deferrals: options.Deferrals, truncated: options.TruncatedExtensionTolerance, recovery: options.ExtensionRecoveryTolerance}
 		bb.startPaddingObservations(options.PaddingObservations)
 		if options.ExtensionRecoveryTolerance != nil && !bb.invalidLength && bb.bitLen >= 0 {
-			limit := uint64(bb.bitLen)
-			if limit > math.MaxUint64/recoveryWorkInputMultiple {
-				limit = math.MaxUint64
-			} else {
-				limit *= recoveryWorkInputMultiple
-			}
-			bb.trace.work = &recoveryWork{limit: limit}
+			bb.budget.workInputBits = bb.bitLen
 		}
 	}
 	return nil

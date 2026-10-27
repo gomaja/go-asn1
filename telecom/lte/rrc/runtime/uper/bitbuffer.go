@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer.go; SHA-256 cdf99a821c6b6499ee23f54c95b363db5d0ed6bd2fd6abc148c407562814264f.
+// Runtime source: runtime/uper/bitbuffer.go; SHA-256 ff405e9ff3ef8e96b6a7725fa1fe35415aa9eaf73a5c0826e4ee6ff276a72b52.
 package uper
 
 import (
@@ -133,7 +133,7 @@ func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) error {
 		*bb.decodeBudget() = DecodeBudget{limits: DefaultDecodeLimits(), err: err}
 		return err
 	}
-	*bb.decodeBudget() = DecodeBudget{limits: limits, report: options.Usage}
+	*bb.decodeBudget() = DecodeBudget{limits: limits, report: options.Usage, workInputBits: -1}
 	bb.budget.publish()
 	bb.contained, bb.trace = options.ContainedDecoding, nil
 	bb.zeroWidthLimit, bb.outermost = options.MaxZeroWidthCharacters, options.TruncatedExtensionTolerance != nil || options.InlineBitmapRecoveryTolerance != nil || options.PaddingObservations != nil
@@ -141,13 +141,7 @@ func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) error {
 		bb.trace = &decodeTrace{inline: options.InlineBitmapRecoveryTolerance, empty: options.EmptyEncodingTolerance, trailing: options.TrailingBitsTolerance, deferrals: options.Deferrals, truncated: options.TruncatedExtensionTolerance, recovery: options.ExtensionRecoveryTolerance}
 		bb.startPaddingObservations(options.PaddingObservations)
 		if options.ExtensionRecoveryTolerance != nil && !bb.invalidLength && bb.bitLen >= 0 {
-			limit := uint64(bb.bitLen)
-			if limit > math.MaxUint64/recoveryWorkInputMultiple {
-				limit = math.MaxUint64
-			} else {
-				limit *= recoveryWorkInputMultiple
-			}
-			bb.trace.work = &recoveryWork{limit: limit}
+			bb.budget.workInputBits = bb.bitLen
 		}
 	}
 	return nil

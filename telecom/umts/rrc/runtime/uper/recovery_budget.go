@@ -1,9 +1,12 @@
 // Code generated from UMTS RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/recovery_budget.go; SHA-256 8be83bd1de3945714c2909541808dc93f55b3b31665abcbe81e99dfe190c7df4.
+// Runtime source: runtime/uper/recovery_budget.go; SHA-256 04196ad9940085177e02f7672057648849121fb9730c0062d19fe2c5ebe601c6.
 package uper
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 // This operational limit applies only with ExtensionRecoveryTolerance. Four
 // input lengths permit local provenance and replay scans while bounding
@@ -18,6 +21,26 @@ type recoveryWork struct {
 	active      bool
 	err         error
 	rolledBack  map[*byte]int // one entry per abandoned nonempty candidate
+}
+
+// startRecoveryWork activates the extra-work ceiling documented by
+// DecodeOptions.ExtensionRecoveryTolerance. The shared pointer is also the
+// read-path gate: before any rollback or scan, the charge can only be zero.
+func startRecoveryWork(bb *BitBuffer) *recoveryWork {
+	trace := bb.trace
+	if trace == nil || trace.recovery == nil || bb.decodeBudget().workInputBits < 0 {
+		return nil
+	}
+	if trace.work == nil {
+		limit := uint64(bb.budget.workInputBits)
+		if limit > math.MaxUint64/recoveryWorkInputMultiple {
+			limit = math.MaxUint64
+		} else {
+			limit *= recoveryWorkInputMultiple
+		}
+		trace.work = &recoveryWork{limit: limit}
+	}
+	return trace.work
 }
 
 func (work *recoveryWork) recordRollback(data []byte, bitPos int) {
@@ -82,6 +105,7 @@ func (bb *BitBuffer) examineRecoveryBits(bits uint64) error {
 	budget := bb.decodeBudget()
 	budget.usage.Work += bits
 	budget.publish()
+	// A nil work pointer skips both charge calculations on first-pass reads.
 	if trace := bb.trace; trace != nil && trace.work != nil {
 		// checkRecoveryBits proves charge <= limit-used before this addition.
 		trace.work.used += bb.recoveryCharge(bits)

@@ -1,6 +1,6 @@
 // Code generated from UMTS RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/truncated.go; SHA-256 d88969c4ae65c93fabfa548a88d1c7e99f9c8ef5de443e1b674884e8975aa819.
+// Runtime source: runtime/uper/truncated.go; SHA-256 f5f1c9a2497ab3cc0c80b4ce1b9220ea69408e286229dcaf9e4c076cb5672102.
 package uper
 
 import (
@@ -429,8 +429,10 @@ func (a *ExtensionAdditions) CompleteKnownAddition(child *BitBuffer, index int64
 		trace.path = trace.path[:checkpoint.path]
 		trace.pending = trace.pending[:checkpoint.pending]
 		trace.deferred = trace.deferred[:checkpoint.deferred]
-		if trace.work != nil && trace.work.err == nil {
-			trace.work.recordRollback(data, child.bitPos)
+		if len(data) != 0 && child.bitPos > 0 {
+			if work := startRecoveryWork(child); work != nil && work.err == nil {
+				work.recordRollback(data, child.bitPos)
+			}
 		}
 	}
 	if trace == nil || trace.recovery == nil || index < 0 || index >= int64(len(a.present)) || !a.present[index] || child.invalidLength || !onlyTruncated(err) {
@@ -483,10 +485,10 @@ func (a *ExtensionAdditions) RecoveryEncoder(bb *BitBuffer) (*BitBuffer, error) 
 	}
 	reader := *bb
 	reader.bitPos = 0
-	if bb.trace != nil && bb.trace.work != nil {
-		active := bb.trace.work.active
-		bb.trace.work.active = true
-		defer func() { bb.trace.work.active = active }()
+	if work := startRecoveryWork(bb); work != nil {
+		active := work.active
+		work.active = true
+		defer func() { work.active = active }()
 	}
 	if err := copyBits(encoded, &reader, a.start); err != nil {
 		return nil, err
@@ -519,10 +521,10 @@ func (a *ExtensionAdditions) RecordRecovery(bb, expected *BitBuffer, final Final
 	reader := *bb
 	reader.bitPos = start
 	inputBits, expectedBits := bb.bitPos-start, expected.bitPos-phase
-	if bb.trace != nil && bb.trace.work != nil {
-		active := bb.trace.work.active
-		bb.trace.work.active = true
-		defer func() { bb.trace.work.active = active }()
+	if work := startRecoveryWork(bb); work != nil {
+		active := work.active
+		work.active = true
+		defer func() { work.active = active }()
 	}
 	input, err := reader.ReadBitsToBytes(inputBits)
 	if err != nil {
