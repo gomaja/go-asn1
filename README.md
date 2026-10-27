@@ -39,9 +39,14 @@ field uses the pre-exclusion 1 through 5 range (ITU-T X.680 (02/2021)
 intersections at its pycrate frontend and extensible disjoint `SIZE` unions
 at PER preflight; neither form is silently widened.
 
+Here, `aper.` and `uper.` refer to each protocol's own runtime package,
+for example `telecom/lte/s1ap/runtime/aper` and
+`telecom/lte/rrc/runtime/uper`.
+
 Extension-addition bitmaps of 16,384 bits or more require the fragmented form
 in X.691 (02/2021) §11.9.3.8. Encode and decode return
-`per.ErrUnsupportedFragmentedNormallySmallLength` for that form.
+`aper.ErrUnsupportedFragmentedNormallySmallLength` or
+`uper.ErrUnsupportedFragmentedNormallySmallLength` for that form.
 
 A fresh extension-bearing SEQUENCE or SET emits all n extension-presence
 bits, where n is the number of additions in its source version (X.691
@@ -69,11 +74,14 @@ tagged REALs use the same budget. DER validation checks decimal REAL
 canonical spelling directly, without big-number conversion.
 
 PER decoding also has operational ceilings for nesting, collection elements,
-open-type nesting and total bits examined. Set individual fields of
-`per.DecodeOptions{Limits: per.DecodeLimits{MaxWork: 128 << 20}}` when a receiver needs a
-larger budget; `per.DecodeOptions.Usage` reports one decode's high-water
-marks. These limits reject excess work with `per.ErrResourceLimit` without
-changing the X.691 wire rules (ITU-T X.691 (02/2021) §§11.2.2, 11.9.3.8).
+open-type nesting and total bits examined. A UPER receiver that needs a
+larger budget sets individual fields of
+`uper.DecodeOptions{Limits: uper.DecodeLimits{MaxWork: 128 << 20}}`, and
+`uper.DecodeOptions.Usage` reports one decode's high-water marks. The LPPa,
+X2AP and S1AP typed APIs take `aper.WithLimits(aper.Limits{…})` instead, as
+their sections below describe. These limits reject excess work with
+`aper.ErrResourceLimit` or `uper.ErrResourceLimit` without changing the
+X.691 wire rules (ITU-T X.691 (02/2021) §§11.2.2, 11.9.3.8).
 
 ### APER character strings and bit strings
 
@@ -549,7 +557,8 @@ rejects it with `runtime.ErrTimeNotSet`.
   the type's years, has no such form: `MarshalDER`, the PER encoders,
   `ber.EncodeUTCTimeDER`, `ber.EncodeGeneralizedTimeDER` and `Canonical`
   return `runtime.ErrNoCanonicalTime`, wrapped in `ber.ErrInvalidValue` or
-  `per.ErrInvalidValue`. PER decoding accepts only the canonical form.
+  `aper.ErrInvalidValue` or `uper.ErrInvalidValue`. PER decoding accepts only
+  the canonical form.
 - **Instants.** `Time()` returns the instant, in UTC for `Z` and in a fixed
   zone for a differential. A local time of day fixes no instant: `Time()`
   returns `runtime.ErrLocalTime`, and `TimeIn(loc)` reads it as a wall-clock
@@ -587,9 +596,9 @@ identifiers and raw values from the package's own runtime:
 | `telecom/umts/rrc` | `telecom/umts/rrc/runtime` | `telecom/umts/rrc/runtime/uper` |
 
 The encoding-rules packages keep the names of the former shared `runtime/per`
-for the parts they provide, and the PER sections below use those names. For
-example, `per.ErrExtraData` becomes `ErrExtraData` from
-`telecom/lte/s1ap/runtime/aper` for S1AP, and `per.ErrTruncated` becomes
+for the parts they provide, and the PER sections below qualify them as `aper.`
+or `uper.`. For example, the former `per.ErrExtraData` is `ErrExtraData` from
+`telecom/lte/s1ap/runtime/aper` for S1AP, and the former `per.ErrTruncated` is
 `ErrTruncated` from `telecom/lte/rrc/runtime/uper` for LTE RRC. The shared
 `runtime/per` itself is removed, since no generated package imports it.
 
@@ -603,11 +612,11 @@ neither uses, such as the APER functions, have no counterpart there:
 - `runtime.BitString`, `runtime.UTCTime`, `runtime.ParseUTCTime`,
   `runtime.ErrNoCanonicalTime` and the other value types and errors come from
   the package's own `runtime`.
-- `per.DecodeOptions`, `per.DecodeLimits`, `per.ToleranceLog`,
-  `per.FinalPadding`, `per.ErrTruncated` and the other UPER names come from the
-  package's own `runtime/uper`; for UMTS RRC this includes
-  `per.ContainedDecoding`, `per.DeferOnError`, `per.DeferralLog` and
-  `per.Deferred`. LPP has no `CONTAINING` and so no contained-decoding
+- `uper.DecodeOptions`, `uper.DecodeLimits`, `uper.ToleranceLog`,
+  `uper.FinalPadding`, `uper.ErrTruncated` and the other UPER names come from
+  the package's own `runtime/uper`; for UMTS RRC this includes
+  `uper.ContainedDecoding`, `uper.DeferOnError`, `uper.DeferralLog` and
+  `uper.Deferred`. LPP has no `CONTAINING` and so no contained-decoding
   options.
 - Compare tolerance kinds by name. LPP's runtime carries only the kinds LPP
   can produce, so their numeric values differ from the shared runtime's: for
@@ -714,7 +723,8 @@ earlier decode-then-dispatch interface.
 - **Removed low-level entry points.** The following are removed:
   - the bit-buffer variants `MarshalAPERTo`, `UnmarshalAPERFrom`,
     `MarshalAPERXxxTo` and `UnmarshalAPERXxxFrom`;
-  - `UnmarshalAPERWithOptions` and its `per.DecodeOptions`;
+  - `UnmarshalAPERWithOptions` and its `DecodeOptions` from the removed
+    `runtime/per` package;
   - the container-level functions `MarshalAPERProtocolIEContainer` and
     `UnmarshalAPERProtocolIEContainer`, with their `List`, `Pair`,
     `ProtocolExtensionContainer` and `PrivateIEContainer` counterparts;
@@ -1016,8 +1026,8 @@ never to report an error for extraneous zero or non-zero bits at the end of a
 PDU, or of a `BIT STRING` or `OCTET STRING` constrained with `CONTAINING`; TS
 25.331 V19.0.1 §12.1.3 requires UMTS receivers to accept any bit string in the
 extension and padding parts of a PDU. The default stays strict X.691, so a
-receiver passes a `per.ToleranceLog` in
-`per.DecodeOptions{TrailingBitsTolerance}`. Tolerance then accepts any suffix
+receiver passes a `uper.ToleranceLog` in
+`uper.DecodeOptions{TrailingBitsTolerance}`. Tolerance then accepts any suffix
 of more than seven bits after the top-level value or after a value inside an
 `OCTET STRING (CONTAINING ...)`, and any zero or non-zero bits after a value
 inside a `BIT STRING (CONTAINING ...)`. For UMTS RRC, the contained cases
@@ -1064,10 +1074,10 @@ bits, so `MarshalUPER` reproduces the input octets:
 
 - A suffix after the top-level value, or after a value inside an
   `OCTET STRING (CONTAINING ...)`, is kept in that value's `PERPadding_`, a
-  `per.FinalPadding` (see `Trailing()`). That field is one pointer wide and
+  `uper.FinalPadding` (see `Trailing()`). That field is one pointer wide and
   does not allocate for ordinary 0–7 padding bits.
 - Bits after a value inside a `BIT STRING (CONTAINING ...)` are kept in the
-  host SEQUENCE's `<Field>PERPadding_`, also a `per.FinalPadding`.
+  host SEQUENCE's `<Field>PERPadding_`, also a `uper.FinalPadding`.
 
 The single zero octet of an empty top-level value, and the single zero bit of
 an empty contained value, are part of the complete encoding (X.691 (02/2021)
@@ -1125,7 +1135,7 @@ is encoded as an open type whose length determinant gives the length of its
 contents (ITU-T X.691 (02/2021) §§19.9, 11.2.2). A PDU cut in transmission
 can end inside the last of them, and X.691 makes the whole PDU an error. A
 receiver that needs what arrived, such as a trace analyser, passes a
-`per.ToleranceLog` in `per.DecodeOptions{TruncatedExtensionTolerance}`
+`uper.ToleranceLog` in `uper.DecodeOptions{TruncatedExtensionTolerance}`
 (go-asn1#114). The default stays strict.
 
 The tolerance applies only where the end of the input given to the decode
@@ -1147,7 +1157,7 @@ contents, after the extension bitmap was read in full:
   later from a deferred `BIT STRING (CONTAINING ...)`. The contents of a
   deferred `OCTET STRING` are decoded later as an input of their own, so
   leave the option off for them: they arrived with their full length.
-- One record is logged per cut, as `per.ToleratedTruncatedExtension`. Its
+- One record is logged per cut, as `uper.ToleratedTruncatedExtension`. Its
   path is the path of the strict decode error, ending in the addition's
   `ExtData_[k]`. `Offset` is the first bit of the cut open type and `Bits`
   holds the bits that arrived from there. `Missing` is the length the
@@ -1163,9 +1173,16 @@ remains (§§19.1, 19.7, 19.8), so a strict decode accepts it. No field needs
 resetting. An addition set anew by the edit is encoded as usual.
 
 ```go
-var cuts per.ToleranceLog
+import (
+    "log"
+
+    rrc "github.com/gomaja/go-asn1/telecom/lte/rrc"
+    "github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
+)
+
+var cuts uper.ToleranceLog
 var message rrc.ULDCCHMessage
-options := per.DecodeOptions{TruncatedExtensionTolerance: &cuts}
+options := uper.DecodeOptions{TruncatedExtensionTolerance: &cuts}
 // An RLF-Report-r9 whose v1250 group the end of the PDU cuts short.
 if err := message.UnmarshalUPERWithOptions(wire, options); err != nil {
     return err
@@ -1192,11 +1209,12 @@ of the input and the encoding the unchanged value gets, which is no longer.
 A known SEQUENCE or SET addition may arrive with its declared open-type
 length while its inner value is incomplete. Strict decoding rejects it, as
 X.691 (02/2021) §§11.2.2 and 19.9 require. An explicit
-`per.DecodeOptions{ExtensionRecoveryTolerance: &log}` accepts only a nested
+`uper.DecodeOptions{ExtensionRecoveryTolerance: &log}` accepts only a nested
 truncation in that bounded addition. It leaves the failed addition absent,
 keeps earlier typed fields, and continues with later additions. A successful
-decode logs one `per.ToleratedIncompleteExtension` record with the ASN.1 path,
-offset, declared length, consumed bits and strict error. `Offset` is the first
+decode logs one `uper.ToleratedIncompleteExtension` record with the ASN.1
+path, offset, declared length, consumed bits and strict error. `Offset` is the
+first
 bit of the addition's open type, its length determinant, in the complete
 encoding that contains the extended value: the top-level input, or the
 contents of the innermost open type, `OCTET STRING` or `BIT STRING` around it
@@ -1270,14 +1288,14 @@ UPER decoding decodes a value carried in a `BIT STRING (CONTAINING ...)` or
 V19.4.0 §8.1 and TS 38.331 V19.4.0 §8.1 recommend otherwise for RRC
 receivers: "errors in the decoding of the contained type should not cause the
 decoding of the entire RRC message PDU to fail", and the contained value is
-best decoded "as a separate step". `per.DecodeOptions.ContainedDecoding`
+best decoded "as a separate step". `uper.DecodeOptions.ContainedDecoding`
 selects the behaviour:
 
 | Mode | Contained value that decodes | Contained value that fails |
 |---|---|---|
-| `per.Eager` (default) | typed | fails the whole decode |
-| `per.DeferOnError` | typed | kept raw with its error; the rest decodes |
-| `per.DeferAll` | kept raw, not decoded | kept raw, not decoded |
+| `uper.Eager` (default) | typed | fails the whole decode |
+| `uper.DeferOnError` | typed | kept raw with its error; the rest decodes |
+| `uper.DeferAll` | kept raw, not decoded | kept raw, not decoded |
 
 The affected values are the 39 contained `OCTET STRING`s of `lte/rrc`, and
 the 57 contained `BIT STRING`s and 13 contained `OCTET STRING`s of
@@ -1293,16 +1311,24 @@ decoded and checked first, so a bad length determinant fails the decode in
 every mode, as does any other component. TS 25.331 V19.0.1 has no rule for
 contained values; the modes still apply to `umts/rrc`. They are independent
 of `TrailingBitsTolerance`, which RRC receivers need as well.
-Both deferring modes require a `per.DeferralLog` in `DecodeOptions.Deferrals`;
-a decode that defers without one fails. A successful decode appends one
+Both deferring modes require a `uper.DeferralLog` in
+`DecodeOptions.Deferrals`; a decode that defers without one fails. A
+successful decode appends one
 record per deferred value, in decode order and in the same commit as its
 tolerance records; a failed decode appends none:
 ```go
-var tolerated per.ToleranceLog
-var deferred per.DeferralLog
-options := per.DecodeOptions{
+import (
+    "log"
+
+    rrc "github.com/gomaja/go-asn1/telecom/lte/rrc"
+    "github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
+)
+
+var tolerated uper.ToleranceLog
+var deferred uper.DeferralLog
+options := uper.DecodeOptions{
     TrailingBitsTolerance: &tolerated,
-    ContainedDecoding:     per.DeferOnError,
+    ContainedDecoding:     uper.DeferOnError,
     Deferrals:             &deferred,
 }
 var message rrc.ULDCCHMessage
@@ -1338,6 +1364,8 @@ contents of an `OCTET STRING` are a complete encoding; those of a
 after the value go to the host's `<Field>PERPadding_`:
 
 ```go
+import rrc "github.com/gomaja/go-asn1/telecom/lte/rrc"
+
 // lte/rrc: an OCTET STRING (CONTAINING ...) OPTIONAL.
 if ies.LateNonCriticalExtension != nil {
     if d := ies.LateNonCriticalExtension.PERPadding_.Deferred(); d != nil {
@@ -1348,6 +1376,13 @@ if ies.LateNonCriticalExtension != nil {
         ies.LateNonCriticalExtension = &later
     }
 }
+```
+
+```go
+import (
+    umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
+    "github.com/gomaja/go-asn1/telecom/umts/rrc/runtime/uper"
+)
 
 // umts/rrc: a BIT STRING (CONTAINING ...) OPTIONAL.
 if ext.UeCapabilityContainer != nil {
@@ -1360,7 +1395,8 @@ if ext.UeCapabilityContainer != nil {
         if err := later.UnmarshalUPERFrom(bb); err != nil {
             return err
         }
-        padding, err := per.CaptureDeferredBits(bb, "UECapabilityContainerIEs")
+        padding, err := uper.CaptureDeferredBits(
+            bb, "UECapabilityContainerIEs")
         if err != nil {
             return err
         }
@@ -1374,13 +1410,13 @@ reproduces the input, padding included, and edits elsewhere leave it alone.
 
 The edit check looks at the shell's state, not at assignments: every typed
 field other than `PERPadding_` must still hold its zero value. A shell with a
-nonzero typed field fails the encode with `per.ErrEditedDeferred` instead of
+nonzero typed field fails the encode with `uper.ErrEditedDeferred` instead of
 dropping either the edit or the raw bits. A zero value assigned to a field
 (`shell.Level = 0`, a nil slice) leaves the shell indistinguishable from an
 unedited one, so its raw bits are encoded again. Any intended replacement,
 including one made of zero values, therefore takes an explicit step: assign a
 new value to the field, or reset the shell with
-`shell.PERPadding_ = per.FinalPadding{}`, which discards the raw bits so that
+`shell.PERPadding_ = uper.FinalPadding{}`, which discards the raw bits so that
 the shell's typed fields are encoded.
 
 Placement is checked by container kind and encode entry point, not by field
@@ -1390,7 +1426,7 @@ value copies included, so a copy placed in another
 `OCTET STRING (CONTAINING ...)` of the same type is encoded from them. A
 value deferred from a `BIT STRING` is written as its exact raw bits by a
 `BIT STRING (CONTAINING ...)` of the same type. Anywhere else the encode
-fails with `per.ErrMisplacedDeferred`: in a component, list element or
+fails with `uper.ErrMisplacedDeferred`: in a component, list element or
 alternative that is not a contained string (all of them encode through
 `MarshalUPERTo`), an `OCTET STRING` value in a `BIT STRING`, and a
 `BIT STRING` value in an `OCTET STRING` or passed to its own `MarshalUPER`.
@@ -1467,7 +1503,7 @@ whenever it is set. The record adds no field. Recording the first eight such
 components of a type allocates nothing, and a record that includes a later
 one allocates once; every LTE RRC and LPP type has at most three.
 
-The record shares that `per.FinalPadding` with the final bits of a complete
+The record shares that `uper.FinalPadding` with the final bits of a complete
 encoding, with the raw state of a deferred contained value, with the record
 of a cut extension addition and with the kept named-bit BIT STRINGs
 described below, and each is kept alongside the others. A deferred value was
@@ -1490,8 +1526,9 @@ the lower bound. In LPP, `otdoa-Mode` of `OTDOA-ProvideCapabilities`
 Where an extensible constraint's root can carry the value, the root length
 is used: a value whose 1 bits fit the root is padded to its lower bound
 rather than sent in extension form. A value whose 1 bits do not fit a
-constraint without extension fails with `per.ErrConstraintViolation`. A
-`BIT STRING` without a NamedBitList is sent with the length its value has.
+constraint without extension fails with `aper.ErrConstraintViolation` or
+`uper.ErrConstraintViolation`. A `BIT STRING` without a NamedBitList is sent
+with the length its value has.
 
 This applies to 76 components in 53 LPP types. UMTS RRC has 25 such
 components, all of a fixed size: a value of another length is now
@@ -1520,8 +1557,8 @@ the value fits in eight octets, which the record holds inline, and twice when
 it is longer, as the unconstrained LPP `lpp-message-segmentation-req-r14` and
 `lpp-message-segmentation-r14` values can be. Recording then allocates at
 most once more as the holder's record grows, and once for the holder's
-record. `per.FinalPadding.WithExplicitDefaults` is now
-`WithRecords`, as it merges both records.
+record. The former `FinalPadding.WithExplicitDefaults` is now
+`uper.FinalPadding.WithRecords`, as it merges both records.
 
 ## Available Protocols
 
