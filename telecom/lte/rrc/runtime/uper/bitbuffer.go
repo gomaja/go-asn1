@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer.go; SHA-256 ff405e9ff3ef8e96b6a7725fa1fe35415aa9eaf73a5c0826e4ee6ff276a72b52.
+// Runtime source: runtime/uper/bitbuffer.go; SHA-256 ae82a2909102184f7d1965101d28d032ea4f3d2d699c70083345b66b051e2108.
 package uper
 
 import (
@@ -64,6 +64,14 @@ type DecodeOptions struct {
 	// forbidden to senders by X.691 (02/2021) §§11.1.3.1 and 11.2.1.
 	// It changes no acceptance or replay rule; nil collects nothing.
 	PaddingObservations *ToleranceLog
+	// InputSpans maps received bits to the original input for
+	// ToleratedIncompleteExtension and ToleratedNonzeroPadding records.
+	// PaddingObservations also enables this mapping; padding records still
+	// require that log. Neither setting changes acceptance or replay.
+	// Mapping allocates source metadata and admitted-addition spans, even on
+	// complete decodes. Leave both disabled to avoid that cost. Detached buffers
+	// whose backing slices were not returned by a mapped read have no mapping.
+	InputSpans bool
 	// TruncatedExtensionTolerance, when non-nil, accepts an extension
 	// addition or extension addition group of a SEQUENCE or SET whose open
 	// type, length determinant or contents, the end of the input cuts short
@@ -137,9 +145,9 @@ func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) error {
 	bb.budget.publish()
 	bb.contained, bb.trace = options.ContainedDecoding, nil
 	bb.zeroWidthLimit, bb.outermost = options.MaxZeroWidthCharacters, options.TruncatedExtensionTolerance != nil || options.InlineBitmapRecoveryTolerance != nil || options.PaddingObservations != nil
-	if options.InlineBitmapRecoveryTolerance != nil || options.PaddingObservations != nil || options.EmptyEncodingTolerance != nil || options.TrailingBitsTolerance != nil || options.ContainedDecoding != Eager || options.TruncatedExtensionTolerance != nil || options.ExtensionRecoveryTolerance != nil {
+	if options.InputSpans || options.InlineBitmapRecoveryTolerance != nil || options.PaddingObservations != nil || options.EmptyEncodingTolerance != nil || options.TrailingBitsTolerance != nil || options.ContainedDecoding != Eager || options.TruncatedExtensionTolerance != nil || options.ExtensionRecoveryTolerance != nil {
 		bb.trace = &decodeTrace{inline: options.InlineBitmapRecoveryTolerance, empty: options.EmptyEncodingTolerance, trailing: options.TrailingBitsTolerance, deferrals: options.Deferrals, truncated: options.TruncatedExtensionTolerance, recovery: options.ExtensionRecoveryTolerance}
-		bb.startPaddingObservations(options.PaddingObservations)
+		bb.startPaddingObservations(options.PaddingObservations, options.InputSpans)
 		if options.ExtensionRecoveryTolerance != nil && !bb.invalidLength && bb.bitLen >= 0 {
 			bb.budget.workInputBits = bb.bitLen
 		}

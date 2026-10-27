@@ -1200,10 +1200,19 @@ offset, declared length, consumed bits and strict error. `Offset` is the first
 bit of the addition's open type, its length determinant, in the complete
 encoding that contains the extended value: the top-level input, or the
 contents of the innermost open type, `OCTET STRING` or `BIT STRING` around it
-(go-asn1#235). Unchanged values replay exactly; edits omit the failed
-addition. Recovery re-reads are bounded and `Limits.MaxWork` counts all
-examined bits. This option is independent of `TruncatedExtensionTolerance`
-(go-asn1#142).
+(go-asn1#235). Set `DecodeOptions.InputSpans` to also fill `InputSpans` with
+the addition's open type in the original input, from its length determinant
+through its last received content bit. `PaddingObservations` enables the same
+mapping and still requires its own log to collect padding records. Separate
+spans omit the length determinants of fragmented enclosing encodings (X.691
+(02/2021) §§11.2.2, 11.9.3.8). Spans stay empty without either setting, or for
+detached buffers with copied, independently supplied or unregistered subsliced
+backing bytes. Mapping allocates nested source metadata and projected addition
+spans, even on complete decodes; leaving both settings disabled avoids that
+cost. `Offset` retains its local meaning. Unchanged values replay exactly;
+edits omit the failed addition. Recovery re-reads are bounded and
+`Limits.MaxWork` counts all examined bits. This option is independent of
+`TruncatedExtensionTolerance` (go-asn1#142).
 
 ### Editing decoded PER values
 

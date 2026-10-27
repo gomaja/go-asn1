@@ -1,6 +1,6 @@
 // Code generated from UMTS RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/truncated.go; SHA-256 f5f1c9a2497ab3cc0c80b4ce1b9220ea69408e286229dcaf9e4c076cb5672102.
+// Runtime source: runtime/uper/truncated.go; SHA-256 176ee4ee7ef247c4f3980d689ceda29ec0ccbb177c27a1cdae5b63b4dede2536.
 package uper
 
 import (
@@ -16,8 +16,8 @@ import (
 // SEQUENCE or SET value (X.691 (02/2021) 19.7 to 19.9). A generated decoder
 // takes it with BeginExtensionAdditions before the value's extension bit,
 // reads the extension bitmap through it, and asks Received before it reads
-// the open type of each present addition. Without TruncatedExtensionTolerance
-// it only keeps bit positions and allocates nothing.
+// the open type of each present addition. Input mapping under
+// ExtensionRecoveryTolerance also retains each admitted open type's spans.
 //
 // Under TruncatedExtensionTolerance, an addition whose open type the end of
 // the outermost input cuts short is not read: Received reports it, and every
@@ -35,6 +35,9 @@ type ExtensionAdditions struct {
 	recovered                bool
 	// open is the position of the open type that Received last admitted.
 	open int
+	// input holds the projected position of the last admitted open type.
+	// It retains neither the enclosing reader nor its caller-owned budget.
+	input []InputBitSpan
 }
 
 // BeginExtensionAdditions starts the extension additions of a SEQUENCE or SET
@@ -444,6 +447,7 @@ func (a *ExtensionAdditions) CompleteKnownAddition(child *BitBuffer, index int64
 		Path: trace.relativePath(), Kind: ToleratedIncompleteExtension, Offset: a.open,
 		Bits:           TrailingBits{Bytes: append([]byte(nil), data...), BitLength: child.bitLen},
 		DeclaredLength: len(data), ConsumedBits: child.bitPos, Err: err,
+		InputSpans: append([]InputBitSpan(nil), a.input...), // Keep caller-owned addition state from escaping.
 	})
 	a.present[index], a.recovered = false, true
 	return false, CompletePadding{}, nil
@@ -554,15 +558,23 @@ func (f FinalPadding) Recovered() bool {
 }
 
 // RecoveryEnabled reports the explicit bounded-addition recovery policy.
+// Call it after reading the admitted open type to project requested input
+// spans for CompleteKnownAddition.
 func (a *ExtensionAdditions) RecoveryEnabled(bb *BitBuffer) bool {
-	return bb.trace != nil && bb.trace.recovery != nil
+	if bb.trace == nil || bb.trace.recovery == nil {
+		return false
+	}
+	// Project while the enclosing reader is available. Keeping its data or
+	// trace pointers here would make the caller-owned budget escape too.
+	a.input = bb.inputSpans(a.open, bb.bitPos)
+	return true
 }
 
 // RecoveryComponent enters a path under bounded-addition recovery or an
 // explicitly enabled completion-record policy. Disabled options return an
 // inert mark, preserving strict decode costs.
 func (bb *BitBuffer) RecoveryComponent(name string) int {
-	if bb.trace == nil || bb.trace.recovery == nil && bb.trace.padding == nil && bb.trace.empty == nil {
+	if bb.trace == nil || bb.trace.recovery == nil && (bb.trace.padding == nil || bb.trace.padding.log == nil) && bb.trace.empty == nil {
 		return -1
 	}
 	return bb.trace.enter(pathSegment{name: name})
@@ -571,7 +583,7 @@ func (bb *BitBuffer) RecoveryComponent(name string) int {
 // RecoveryIndex is the list-index counterpart of RecoveryComponent.
 // It leaves the path unchanged when these record policies are disabled.
 func (bb *BitBuffer) RecoveryIndex(index int64) int {
-	if bb.trace == nil || bb.trace.recovery == nil && bb.trace.padding == nil && bb.trace.empty == nil {
+	if bb.trace == nil || bb.trace.recovery == nil && (bb.trace.padding == nil || bb.trace.padding.log == nil) && bb.trace.empty == nil {
 		return -1
 	}
 	return bb.trace.enter(pathSegment{index: index})
