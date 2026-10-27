@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/der_set_order_test.go; SHA-256 e2db0853e2517036755529aa51be0a1b84430d517ebefae53df65bcc87e16b56.
+// Runtime source: runtime/ber/der_set_order_test.go; SHA-256 c28328bc6a8a8fc4ba803fba698eaee25aee9c8c3337f22160bebe545b50e7ce.
 package ber
 
 import (
@@ -108,8 +108,11 @@ func TestDERUniversalSetGrowth(t *testing.T) {
 	// earlier tags. The 64x input growth distinguishes a quadratic tag search.
 	for _, setOf := range []bool{false, true} {
 		t.Run(fmt.Sprint(setOf), func(t *testing.T) {
-			var small testing.BenchmarkResult
-			for _, count := range []int{64, 512, 4096} {
+			counts := []int{64, 512, 4096}
+			operations := make([]func(), len(counts))
+			allocated := make([]uint64, len(counts))
+			allocations := make([]uint64, len(counts))
+			for index, count := range counts {
 				var contents []byte
 				for i := 0; i < count; i++ {
 					number := 16384 + i
@@ -126,24 +129,25 @@ func TestDERUniversalSetGrowth(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
-				result := testing.Benchmark(func(b *testing.B) {
-					for b.Loop() {
-						if err := ValidateDEREncodedElement(wire); err != nil {
-							b.Fatal(err)
-						}
+				operations[index] = func() {
+					if err := ValidateDEREncodedElement(wire); err != nil {
+						t.Fatal(err)
 					}
-				})
-				t.Logf("components=%d ns/op=%d B/op=%d allocs/op=%d", count, result.NsPerOp(), result.AllocedBytesPerOp(), result.AllocsPerOp())
-				if count == 64 {
-					small = result
+				}
+				allocated[index], allocations[index] = allocationCost(t, 5, operations[index])
+			}
+			times := growthTimes(t, operations...)
+			for index, count := range counts {
+				t.Logf("components=%d ns/op=%d B/op=%d allocs/op=%d", count, times[index], allocated[index], allocations[index])
+				if index == 0 {
 					continue
 				}
 				scale := int64(count / 64)
-				if result.NsPerOp() > small.NsPerOp()*scale*4 {
-					t.Fatalf("superlinear validation: %d components: %v; 64: %v", count, result, small)
+				if times[index] > times[0]*scale*4 {
+					t.Fatalf("superlinear validation: %d components: %d ns; 64: %d ns", count, times[index], times[0])
 				}
-				if result.AllocedBytesPerOp() > small.AllocedBytesPerOp()*scale+1024 || result.AllocsPerOp() > small.AllocsPerOp()*scale+8 {
-					t.Fatalf("superlinear workspace: %d components: %v", count, result)
+				if allocated[index] > allocated[0]*uint64(scale)+1024 || allocations[index] > allocations[0]*uint64(scale)+8 {
+					t.Fatalf("superlinear workspace: %d components: %d bytes, %d allocations", count, allocated[index], allocations[index])
 				}
 			}
 		})
