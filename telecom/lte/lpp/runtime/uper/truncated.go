@@ -1,6 +1,6 @@
 // Code generated from LPP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/truncated.go; SHA-256 1e1db05cffec532a1d602e9ffaca681165fc1340a54686ac589b87b263c11dc8.
+// Runtime source: runtime/uper/truncated.go; SHA-256 68c892b7a54a1c13331f3db9d458dbdfd2e9656d7d6f6af7eafb244e268b855e.
 package uper
 
 import (
@@ -17,7 +17,7 @@ import (
 // takes it with BeginExtensionAdditions before the value's extension bit,
 // reads the extension bitmap through it, and asks Received before it reads
 // the open type of each present addition. Without TruncatedExtensionTolerance
-// it only keeps three bit positions and allocates nothing.
+// it only keeps bit positions and allocates nothing.
 //
 // Under TruncatedExtensionTolerance, an addition whose open type the end of
 // the outermost input cuts short is not read: Received reports it, and every
@@ -33,6 +33,8 @@ type ExtensionAdditions struct {
 	present                  []bool
 	cut                      *truncatedExtension
 	recovered                bool
+	// open is the position of the open type that Received last admitted.
+	open int
 }
 
 // BeginExtensionAdditions starts the extension additions of a SEQUENCE or SET
@@ -67,10 +69,13 @@ func (a *ExtensionAdditions) decodeBitmap(bb *BitBuffer, decode func(*BitBuffer)
 // input ends inside the open type's length determinant or contents: the
 // addition is then the cut one. A decode without the option, or of an open
 // type nested in another encoding, reads the open type and reports its error.
+// An admitted open type's position becomes the Offset of the record that
+// CompleteKnownAddition makes if the addition's known value is incomplete.
 func (a *ExtensionAdditions) Received(bb *BitBuffer, index int64) bool {
 	if a.cut != nil {
 		return false
 	}
+	a.open = bb.bitPos
 	if !bb.outermost || bb.trace == nil || bb.trace.truncated == nil {
 		return true
 	}
@@ -402,7 +407,8 @@ func (bb *BitBuffer) CheckpointKnownAddition() KnownAdditionCheckpoint {
 // X.691 (02/2021) §§19.9 and 11.2.1–11.2.2 delimit additions with complete
 // open types; only nested truncation is recoverable. Resource limits, padding,
 // constraints and unsupported constructs fail. Failed candidates roll back
-// pending records, never their resource usage.
+// pending records, never their resource usage. A recovered addition's
+// record locates its open type where Received admitted it.
 func (a *ExtensionAdditions) CompleteKnownAddition(child *BitBuffer, index int64, data []byte, checkpoint KnownAdditionCheckpoint, err error, group bool) (decoded bool, padding CompletePadding, result error) {
 	defer child.LeaveOpenType()
 	trace := child.trace
@@ -432,7 +438,7 @@ func (a *ExtensionAdditions) CompleteKnownAddition(child *BitBuffer, index int64
 	trace.enter(pathSegment{name: "ExtData_"})
 	trace.enter(pathSegment{index: index})
 	trace.pending = append(trace.pending, Tolerance{
-		Path: trace.relativePath(), Kind: ToleratedIncompleteExtension,
+		Path: trace.relativePath(), Kind: ToleratedIncompleteExtension, Offset: a.open,
 		Bits:           TrailingBits{Bytes: append([]byte(nil), data...), BitLength: child.bitLen},
 		DeclaredLength: len(data), ConsumedBits: child.bitPos, Err: err,
 	})

@@ -1,6 +1,6 @@
 // Code generated from LPP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/tolerance.go; SHA-256 c0622eeed0787b649c7512926876a3cfb53cc4b23e62d48e6cbaf78e8f17c193.
+// Runtime source: runtime/uper/tolerance.go; SHA-256 ec636b27d31ef7f8797f3f20eeb0a6f40d9f703029844fd918ca925d4f699a6b.
 package uper
 
 import (
@@ -78,7 +78,11 @@ type Tolerance struct {
 	// ToleratedContainedBits, and the top-level input for
 	// ToleratedTruncatedExtension, where it is the first bit of the cut
 	// addition's open type: its length determinant, or in the ALIGNED variant
-	// the padding before it.
+	// the padding before it. For ToleratedIncompleteExtension it is the first
+	// bit of the incomplete addition's open type, its length determinant, in
+	// the complete encoding that contains the extended SEQUENCE or SET value:
+	// the top-level input, or the contents of the innermost open type, OCTET
+	// STRING or BIT STRING enclosing that value.
 	Offset int
 	// Bits holds the accepted bits, MSB first. For ToleratedTruncatedExtension
 	// they are the received part of the cut open type, from Offset to the end

@@ -1196,10 +1196,14 @@ X.691 (02/2021) §§11.2.2 and 19.9 require. An explicit
 truncation in that bounded addition. It leaves the failed addition absent,
 keeps earlier typed fields, and continues with later additions. A successful
 decode logs one `per.ToleratedIncompleteExtension` record with the ASN.1 path,
-declared length, consumed bits and strict error. Unchanged values replay
-exactly; edits omit the failed addition. Recovery re-reads are bounded and
-`Limits.MaxWork` counts all examined bits. This option is independent of
-`TruncatedExtensionTolerance` (go-asn1#142).
+offset, declared length, consumed bits and strict error. `Offset` is the first
+bit of the addition's open type, its length determinant, in the complete
+encoding that contains the extended value: the top-level input, or the
+contents of the innermost open type, `OCTET STRING` or `BIT STRING` around it
+(go-asn1#235). Unchanged values replay exactly; edits omit the failed
+addition. Recovery re-reads are bounded and `Limits.MaxWork` counts all
+examined bits. This option is independent of `TruncatedExtensionTolerance`
+(go-asn1#142).
 
 ### Editing decoded PER values
 
