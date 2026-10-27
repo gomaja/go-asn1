@@ -1,6 +1,6 @@
 // Code generated from LPP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/truncated.go; SHA-256 68c892b7a54a1c13331f3db9d458dbdfd2e9656d7d6f6af7eafb244e268b855e.
+// Runtime source: runtime/uper/truncated.go; SHA-256 6073fda096ccb3ddab24ad01b46729fd22f47bbf0c43162468d408fda2ae8bf4.
 package uper
 
 import (
@@ -428,8 +428,10 @@ func (a *ExtensionAdditions) CompleteKnownAddition(child *BitBuffer, index int64
 	if trace != nil {
 		trace.path = trace.path[:checkpoint.path]
 		trace.pending = trace.pending[:checkpoint.pending]
-		if trace.work != nil && trace.work.err == nil {
-			trace.work.recordRollback(data, child.bitPos)
+		if len(data) != 0 && child.bitPos > 0 {
+			if work := startRecoveryWork(child); work != nil && work.err == nil {
+				work.recordRollback(data, child.bitPos)
+			}
 		}
 	}
 	if trace == nil || trace.recovery == nil || index < 0 || index >= int64(len(a.present)) || !a.present[index] || child.invalidLength || !onlyTruncated(err) {
@@ -482,10 +484,10 @@ func (a *ExtensionAdditions) RecoveryEncoder(bb *BitBuffer) (*BitBuffer, error) 
 	}
 	reader := *bb
 	reader.bitPos = 0
-	if bb.trace != nil && bb.trace.work != nil {
-		active := bb.trace.work.active
-		bb.trace.work.active = true
-		defer func() { bb.trace.work.active = active }()
+	if work := startRecoveryWork(bb); work != nil {
+		active := work.active
+		work.active = true
+		defer func() { work.active = active }()
 	}
 	if err := copyBits(encoded, &reader, a.start); err != nil {
 		return nil, err
@@ -518,10 +520,10 @@ func (a *ExtensionAdditions) RecordRecovery(bb, expected *BitBuffer, final Final
 	reader := *bb
 	reader.bitPos = start
 	inputBits, expectedBits := bb.bitPos-start, expected.bitPos-phase
-	if bb.trace != nil && bb.trace.work != nil {
-		active := bb.trace.work.active
-		bb.trace.work.active = true
-		defer func() { bb.trace.work.active = active }()
+	if work := startRecoveryWork(bb); work != nil {
+		active := work.active
+		work.active = true
+		defer func() { work.active = active }()
 	}
 	input, err := reader.ReadBitsToBytes(inputBits)
 	if err != nil {

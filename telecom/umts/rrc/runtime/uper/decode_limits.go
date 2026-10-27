@@ -1,6 +1,6 @@
 // Code generated from UMTS RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/decode_limits.go; SHA-256 9f56c32fd7b68b3e23a89fbb0998f065befb546f38b2f7c503191b49d505f144.
+// Runtime source: runtime/uper/decode_limits.go; SHA-256 261d427e6bfea02010863ddb0f6c5239fe9507ff581b788983a2a29567419b13.
 package uper
 
 import "fmt"
@@ -46,6 +46,11 @@ type DecodeBudget struct {
 	depth     int
 	openDepth int
 	err       error
+	// workInputBits snapshots the validated top-level length in SetDecodeOptions.
+	// A negative value disables recovery accounting. Inherited buffers share
+	// this budget, so a child's shorter length cannot shrink the recovery ceiling
+	// documented by DecodeOptions.ExtensionRecoveryTolerance.
+	workInputBits int
 }
 
 func effectiveDecodeLimits(raw DecodeLimits) (DecodeLimits, error) {

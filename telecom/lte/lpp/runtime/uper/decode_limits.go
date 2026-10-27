@@ -1,6 +1,6 @@
 // Code generated from LPP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/decode_limits.go; SHA-256 92f3188057943c8e32424b41d3d366a070df1958173a31dd2e0ac3d423c81646.
+// Runtime source: runtime/uper/decode_limits.go; SHA-256 9df0f140d022dd7b504a728fb7bb387186426b9e49a4d02a8d47d7428a369c43.
 package uper
 
 import "fmt"
@@ -46,6 +46,11 @@ type DecodeBudget struct {
 	depth     int
 	openDepth int
 	err       error
+	// workInputBits snapshots the validated top-level length in SetDecodeOptions.
+	// A negative value disables recovery accounting. Inherited buffers share
+	// this budget, so a child's shorter length cannot shrink the recovery ceiling
+	// documented by DecodeOptions.ExtensionRecoveryTolerance.
+	workInputBits int
 }
 
 func effectiveDecodeLimits(raw DecodeLimits) (DecodeLimits, error) {

@@ -1,6 +1,6 @@
 // Code generated from LPP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer.go; SHA-256 0972c531bff1d6fdb05b79fe2d57da407896a3ae693cdf6dccd37facae9defb5.
+// Runtime source: runtime/uper/bitbuffer.go; SHA-256 48497d22976d923cb1f1c735cc30f17e5459a4d67caee5820c03907c32dd9d2c.
 package uper
 
 import (
@@ -121,7 +121,7 @@ func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) error {
 		*bb.decodeBudget() = DecodeBudget{limits: DefaultDecodeLimits(), err: err}
 		return err
 	}
-	*bb.decodeBudget() = DecodeBudget{limits: limits, report: options.Usage}
+	*bb.decodeBudget() = DecodeBudget{limits: limits, report: options.Usage, workInputBits: -1}
 	bb.budget.publish()
 	bb.trace = nil
 	bb.zeroWidthLimit, bb.outermost = options.MaxZeroWidthCharacters, options.TruncatedExtensionTolerance != nil || options.PaddingObservations != nil
@@ -129,13 +129,7 @@ func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) error {
 		bb.trace = &decodeTrace{empty: options.EmptyEncodingTolerance, trailing: options.TrailingBitsTolerance, truncated: options.TruncatedExtensionTolerance, recovery: options.ExtensionRecoveryTolerance}
 		bb.startPaddingObservations(options.PaddingObservations)
 		if options.ExtensionRecoveryTolerance != nil && !bb.invalidLength && bb.bitLen >= 0 {
-			limit := uint64(bb.bitLen)
-			if limit > math.MaxUint64/recoveryWorkInputMultiple {
-				limit = math.MaxUint64
-			} else {
-				limit *= recoveryWorkInputMultiple
-			}
-			bb.trace.work = &recoveryWork{limit: limit}
+			bb.budget.workInputBits = bb.bitLen
 		}
 	}
 	return nil
