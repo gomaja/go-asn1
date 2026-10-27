@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_context_test.go; SHA-256 81a670527f147d5c79cc436d3f20120cae129e71b08530e2c40db5ec1b01afe4.
+// Runtime source: runtime/ber/replay_context_test.go; SHA-256 345da1ad845a6914745b2c691420af7fd68ac0f6253db815f8546a6f4243effb.
 package ber
 
 import (
@@ -696,7 +696,7 @@ func TestGeneratedReplayTagHintExcludesReconstructedInput(t *testing.T) {
 }
 
 func TestBERReplayUniqueAlternateChildrenScaleWithInput(t *testing.T) {
-	measure := func(count int) (float64, float64) {
+	measure := func(count int) (func(), float64) {
 		check := func() {
 			state := new(ReplayState)
 			parentNode := &ReplayNode{state: state}
@@ -722,15 +722,13 @@ func TestBERReplayUniqueAlternateChildrenScaleWithInput(t *testing.T) {
 			}
 		}
 		check()
-		benchmark := testing.Benchmark(func(b *testing.B) {
-			for b.Loop() {
-				check()
-			}
-		})
-		return float64(benchmark.NsPerOp()), float64(benchmark.AllocedBytesPerOp())
+		allocated, _ := allocationCost(t, 5, check)
+		return check, float64(allocated)
 	}
-	smallTime, smallBytes := measure(100)
-	largeTime, largeBytes := measure(2000)
+	smallCheck, smallBytes := measure(100)
+	largeCheck, largeBytes := measure(2000)
+	times := growthTimes(t, smallCheck, largeCheck)
+	smallTime, largeTime := float64(times[0]), float64(times[1])
 	t.Logf("unique alternate mapping: time %.1fx, allocated bytes %.1fx for 20x input", largeTime/smallTime, largeBytes/smallBytes)
 	if largeTime > smallTime*100 || largeBytes > smallBytes*100 {
 		t.Fatalf("unique alternate mapping grew from %.0f ns and %.0f B to %.0f ns and %.0f B", smallTime, smallBytes, largeTime, largeBytes)
@@ -742,7 +740,7 @@ func TestBERReplayUniqueImplicitChildrenScaleWithInput(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	measure := func(count int) float64 {
+	measure := func(count int) func() {
 		check := func() {
 			state := new(ReplayState)
 			parentNode := &ReplayNode{state: state}
@@ -768,14 +766,10 @@ func TestBERReplayUniqueImplicitChildrenScaleWithInput(t *testing.T) {
 			}
 		}
 		check()
-		benchmark := testing.Benchmark(func(b *testing.B) {
-			for b.Loop() {
-				check()
-			}
-		})
-		return float64(benchmark.NsPerOp())
+		return check
 	}
-	small, large := measure(100), measure(2000)
+	times := growthTimes(t, measure(100), measure(2000))
+	small, large := float64(times[0]), float64(times[1])
 	t.Logf("implicit child mapping: time %.1fx for 20x input", large/small)
 	if large > small*100 {
 		t.Fatalf("implicit child mapping grew from %.0f ns to %.0f ns", small, large)

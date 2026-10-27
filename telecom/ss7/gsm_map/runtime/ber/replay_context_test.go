@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_context_test.go; SHA-256 4370a8e6bcada51066d9328134c893490398356d720704428ddacfab516e4997.
+// Runtime source: runtime/ber/replay_context_test.go; SHA-256 5c05158125512e2840dc3add1d97f59bcf1dd5ea5deb960d7c90b538fd6a6dd4.
 package ber
 
 import (
@@ -513,7 +513,7 @@ func TestBERValueComparisonDistinguishesRealSpecialValues(t *testing.T) {
 
 func TestBERValueEqualityScalesWithInput(t *testing.T) {
 	type element struct{ Bytes []byte }
-	measure := func(count int) (float64, float64) {
+	measure := func(count int) (func(), float64) {
 		current := make([]element, count)
 		baseline := make([]element, count)
 		for index := range current {
@@ -527,15 +527,12 @@ func TestBERValueEqualityScalesWithInput(t *testing.T) {
 		}
 		check()
 		allocs := testing.AllocsPerRun(5, check)
-		benchmark := testing.Benchmark(func(b *testing.B) {
-			for b.Loop() {
-				check()
-			}
-		})
-		return allocs, float64(benchmark.NsPerOp())
+		return check, allocs
 	}
-	smallAllocs, smallTime := measure(100)
-	largeAllocs, largeTime := measure(2000)
+	smallCheck, smallAllocs := measure(100)
+	largeCheck, largeAllocs := measure(2000)
+	times := growthTimes(t, smallCheck, largeCheck)
+	smallTime, largeTime := float64(times[0]), float64(times[1])
 	if largeAllocs > smallAllocs*5+10 {
 		t.Fatalf("equality allocations grew from %.0f to %.0f", smallAllocs, largeAllocs)
 	}
@@ -871,7 +868,7 @@ func TestGeneratedReplayTagHintExcludesReconstructedInput(t *testing.T) {
 }
 
 func TestBERReplayUniqueAlternateChildrenScaleWithInput(t *testing.T) {
-	measure := func(count int) (float64, float64) {
+	measure := func(count int) (func(), float64) {
 		check := func() {
 			state := new(ReplayState)
 			parentNode := &ReplayNode{state: state}
@@ -897,15 +894,13 @@ func TestBERReplayUniqueAlternateChildrenScaleWithInput(t *testing.T) {
 			}
 		}
 		check()
-		benchmark := testing.Benchmark(func(b *testing.B) {
-			for b.Loop() {
-				check()
-			}
-		})
-		return float64(benchmark.NsPerOp()), float64(benchmark.AllocedBytesPerOp())
+		allocated, _ := allocationCost(t, 5, check)
+		return check, float64(allocated)
 	}
-	smallTime, smallBytes := measure(100)
-	largeTime, largeBytes := measure(2000)
+	smallCheck, smallBytes := measure(100)
+	largeCheck, largeBytes := measure(2000)
+	times := growthTimes(t, smallCheck, largeCheck)
+	smallTime, largeTime := float64(times[0]), float64(times[1])
 	t.Logf("unique alternate mapping: time %.1fx, allocated bytes %.1fx for 20x input", largeTime/smallTime, largeBytes/smallBytes)
 	if largeTime > smallTime*100 || largeBytes > smallBytes*100 {
 		t.Fatalf("unique alternate mapping grew from %.0f ns and %.0f B to %.0f ns and %.0f B", smallTime, smallBytes, largeTime, largeBytes)
@@ -913,7 +908,7 @@ func TestBERReplayUniqueAlternateChildrenScaleWithInput(t *testing.T) {
 }
 
 func TestBERReplayUniqueImplicitChildrenScaleWithInput(t *testing.T) {
-	measure := func(count int) float64 {
+	measure := func(count int) func() {
 		check := func() {
 			state := new(ReplayState)
 			parentNode := &ReplayNode{state: state}
@@ -939,14 +934,10 @@ func TestBERReplayUniqueImplicitChildrenScaleWithInput(t *testing.T) {
 			}
 		}
 		check()
-		benchmark := testing.Benchmark(func(b *testing.B) {
-			for b.Loop() {
-				check()
-			}
-		})
-		return float64(benchmark.NsPerOp())
+		return check
 	}
-	small, large := measure(100), measure(2000)
+	times := growthTimes(t, measure(100), measure(2000))
+	small, large := float64(times[0]), float64(times[1])
 	t.Logf("implicit child mapping: time %.1fx for 20x input", large/small)
 	if large > small*100 {
 		t.Fatalf("implicit child mapping grew from %.0f ns to %.0f ns", small, large)

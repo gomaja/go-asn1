@@ -722,7 +722,7 @@ func TestNamedBitSizeEncodeError(t *testing.T) {
 // X.690 (02/2021) §§8.9, 8.23.10: retained additions keep their wire
 // ordinals, and repeated tolerant failures must not repeatedly scan the prefix.
 func TestTolerantOpaqueOrdinalGrowth(t *testing.T) {
-	measure := func(k, e int, replay bool) time.Duration {
+	measure := func(k, e int, replay bool) func(bool) {
 		large := []byte{0x30, 0x80}
 		for range e {
 			large = append(large, 5, 0)
@@ -746,44 +746,48 @@ func TestTolerantOpaqueOrdinalGrowth(t *testing.T) {
 				t.Fatal(err)
 			}
 		}
-		best := time.Duration(1<<63 - 1)
-		// Each sample repeats the encode for at least 100ms, so a coarse clock
-		// (about 15.6ms on some Windows hosts) cannot round a fast case to zero.
-		for range 3 {
-			start := time.Now()
-			n := 0
-			for {
-				var log ber.ViolationLog
-				wire, err := value.MarshalBER(ber.WithTolerance(&log))
-				if err != nil {
-					t.Fatal(err)
-				}
-				if n == 0 {
-					rows := log.Snapshot()
-					if len(rows) != k || rows[k-1].Path != fmt.Sprintf("child[%d]", k+2) {
-						t.Fatalf("ordinals: %d %+v", len(rows), rows[len(rows)-1])
-					}
-					if replay && !bytes.Equal(wire, original) {
-						t.Fatal("replay changed bytes")
-					}
-				}
-				n++
-				if time.Since(start) >= 100*time.Millisecond {
-					break
-				}
+		return func(first bool) {
+			var log ber.ViolationLog
+			wire, err := value.MarshalBER(ber.WithTolerance(&log))
+			if err != nil {
+				t.Fatal(err)
 			}
-			if perOp := time.Since(start) / time.Duration(n); perOp < best {
-				best = perOp
+			if !first {
+				return
+			}
+			rows := log.Snapshot()
+			if len(rows) != k || rows[k-1].Path != fmt.Sprintf("child[%d]", k+2) {
+				t.Fatalf("ordinals: %d %+v", len(rows), rows[len(rows)-1])
+			}
+			if replay && !bytes.Equal(wire, original) {
+				t.Fatal("replay changed bytes")
 			}
 		}
-		return best
 	}
 	// About 16 times the content and failures: linear work grows about 16x, the
 	// old per-failure rescan about 250x. The 64x ceiling leaves room for timing
 	// noise on a loaded machine on both sides.
 	for _, replay := range []bool{false, true} {
-		small := measure(64, 1<<13, replay)
-		large := measure(1000, 1<<17, replay)
+		operations := []func(bool){measure(64, 1<<13, replay), measure(1000, 1<<17, replay)}
+		var minima [2]time.Duration
+		for sample := range 5 {
+			for i, operation := range operations {
+				start := time.Now()
+				n := 0
+				for {
+					operation(n == 0)
+					n++
+					if time.Since(start) >= 100*time.Millisecond {
+						break
+					}
+				}
+				perOp := time.Since(start) / time.Duration(n)
+				if sample == 0 || perOp < minima[i] {
+					minima[i] = perOp
+				}
+			}
+		}
+		small, large := minima[0], minima[1]
 		t.Logf("replay=%v small=%v large=%v ratio=%.2f", replay, small, large, float64(large)/float64(small))
 		if large > 64*small {
 			t.Errorf("sixteenfold content/failures grew more than 64x: %v -> %v", small, large)

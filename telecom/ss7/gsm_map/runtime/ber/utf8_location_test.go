@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8_location_test.go; SHA-256 4696e18eef28acd7378f617cfc1fadc8e9087d7cc3ba3949c52db1a47f3e32dc.
+// Runtime source: runtime/ber/utf8_location_test.go; SHA-256 ea00b5a6263a7e96dee8dbeaafd1091a32c54ef4021ddac7e56c4e5f109bf26a.
 package ber
 
 import (
@@ -18,7 +18,7 @@ import (
 func TestUTF8ReportLookupDoesNotRescanAncestorSpans(t *testing.T) {
 	const records = 128
 	depth := DefaultDecodeLimits().MaxDepth
-	measure := func(size int) int64 {
+	measure := func(size int) func() {
 		value := bytes.Repeat([]byte{'a'}, size/records)
 		value[0] = 0xff
 		var content []byte
@@ -51,17 +51,15 @@ func TestUTF8ReportLookupDoesNotRescanAncestorSpans(t *testing.T) {
 		origin := &decodeOrigin{root: wire}
 		location := &decodeLocation{origin: origin, input: wire, source: "MAP.Message"}
 		config.location = location
-		result := testing.Benchmark(func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				for level := 0; level < depth; level++ {
-					locateUTF8Reports(config, location, wire, "field", size-level, nil)
-				}
+		t.Cleanup(func() { finish(true) })
+		return func() {
+			for level := 0; level < depth; level++ {
+				locateUTF8Reports(config, location, wire, "field", size-level, nil)
 			}
-		})
-		finish(true)
-		return result.NsPerOp()
+		}
 	}
-	small, large := measure(64<<10), measure(1<<20)
+	times := growthTimes(t, measure(64<<10), measure(1<<20))
+	small, large := times[0], times[1]
 	t.Logf("sparse lookup at %d nested paths: 64 KiB %d ns/op, 1 MiB %d ns/op", depth, small, large)
 	if large > 4*small {
 		t.Fatalf("sparse report lookup scales with span bytes: 64 KiB %d ns/op, 1 MiB %d ns/op", small, large)
