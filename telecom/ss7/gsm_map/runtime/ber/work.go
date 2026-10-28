@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 1e70eeacb9ee752230bb8cf20158c9eec525b117394061e61668e90ecc330a20.
+// Runtime source: runtime/ber/work.go; SHA-256 db50a5a5916238562f650237e2d3ea8f30f0cb6ccc3d50637e0bb51a3b8adb00.
 package ber
 
 import (
@@ -220,7 +220,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		if pos < 0 || pos > parent.end {
 			return ErrInvalidLength
 		}
-		if len(stack) == 1 && elements > 0 {
+		if len(stack) == 1 && elements > 0 && !config.allowSiblingElements {
 			return ErrExtraData
 		}
 		if parent.indefinite && parent.end-pos >= 2 && data[pos] == 0 && data[pos+1] == 0 {

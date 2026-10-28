@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 22182980a58f5d0fd9b01e821f27464b5a3e60b8f39c880406fb7dc6e8040609.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 572d8d55eb1d6ec4d6a246282606ba8d69f71e786a069663c5859ca5d8340167.
 package ber
 
 import (
@@ -247,8 +247,11 @@ func (option tcapEncodedProfileOption) applyDecode(config *decodeConfig) error {
 }
 
 // The schema boundary is confined to TCAP-owned fields. An unknown IMPLICIT
-// payload never receives a guessed underlying type. Q.773 §§3, 4.1.1, 4.2.3.
-func tcapElementType(root, parent string, t tag.Tag, isRoot bool, syntax int) string {
+// payload never receives a guessed underlying type. X.680 (02/2021) §31.2.7
+// and X.690 (02/2021) §§8.3.1–8.3.2, 8.14 retain the base INTEGER contents
+// rules under IMPLICIT tags; TCAPMessages, Remote-Operations-Generic-ROS-PDUs,
+// and DialoguePDUs identify the assignments below.
+func tcapElementType(root, parent string, t tag.Tag, index int, isRoot bool, syntax int) string {
 	kind := ""
 	if isRoot {
 		kind = root
@@ -263,13 +266,21 @@ func tcapElementType(root, parent string, t tag.Tag, isRoot bool, syntax int) st
 					kind = "DialoguePortion"
 				case 12:
 					kind = "ComponentPortion"
+				case 10:
+					if parent == "Abort" && index == 1 {
+						kind = "Integer"
+					}
 				}
 			}
 		case "ComponentPortion":
 			kind = "Component"
 		case "Invoke":
-			if t.Class == tag.ClassContextSpecific && t.Number == 0 {
-				kind = "InvokeLinkedId"
+			if index == 1 && t.Class == tag.ClassContextSpecific && t.Number == 0 {
+				kind = "Integer"
+			}
+		case "Reject":
+			if index == 1 && t.Class == tag.ClassContextSpecific && t.Number <= 3 {
+				kind = "Integer"
 			}
 		case "ReturnResult":
 			if t.Class == tag.ClassUniversal && t.Number == 16 {
@@ -307,11 +318,19 @@ func tcapElementType(root, parent string, t tag.Tag, isRoot bool, syntax int) st
 					kind = "UserInformation"
 				}
 			}
+		case "ABRTApdu", "RLRQApdu", "RLREApdu":
+			if index == 0 && t.Class == tag.ClassContextSpecific && t.Number == 0 {
+				kind = "Integer"
+			}
 		}
 	}
 	switch kind {
 	case "OrigTransactionID", "DestTransactionID":
 		kind = "OctetString"
+	case "InvokeLinkedId":
+		if t.Class == tag.ClassContextSpecific && t.Number == 0 {
+			kind = "Integer"
+		}
 	case "Component", "ROS":
 		if t.Class == tag.ClassContextSpecific {
 			switch t.Number {
@@ -325,7 +344,14 @@ func tcapElementType(root, parent string, t tag.Tag, isRoot bool, syntax int) st
 				kind = "Reject"
 			}
 		}
+	case "RejectProblemChoice":
+		if t.Class == tag.ClassContextSpecific && t.Number <= 3 {
+			kind = "Integer"
+		}
 	case "AbortReason":
+		if t.Class == tag.ClassApplication && t.Number == 10 {
+			kind = "Integer"
+		}
 		if t.Class == tag.ClassApplication && t.Number == 11 {
 			kind = "DialoguePortion"
 		}

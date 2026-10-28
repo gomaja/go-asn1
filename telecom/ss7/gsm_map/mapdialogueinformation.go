@@ -729,7 +729,7 @@ func (destination *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		}
 		v.MapProviderAbort = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for MAPDialoguePDU CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for MAPDialoguePDU CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -948,7 +948,7 @@ func (destination *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return qualifyBERError(err, "destinationReference", "decoding", false)
 				}
 				if decodedTag_destinationreference.Class != tag.ClassContextSpecific || decodedTag_destinationreference.Number != 0 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_destinationreference), "destinationReference", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_destinationreference), "destinationReference", "decoding", false)
 				}
 				decVal_destinationreference, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_destinationreference.Constructed, rawVal_destinationreference, opts...)
 				if octetErr != nil {
@@ -981,7 +981,7 @@ func (destination *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return qualifyBERError(err, "originationReference", "decoding", false)
 				}
 				if decodedTag_originationreference.Class != tag.ClassContextSpecific || decodedTag_originationreference.Number != 1 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_originationreference), "originationReference", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_originationreference), "originationReference", "decoding", false)
 				}
 				decVal_originationreference, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_originationreference.Constructed, rawVal_originationreference, opts...)
 				if octetErr != nil {
@@ -1047,7 +1047,7 @@ func (destination *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MAPOpenInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MAPOpenInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1245,7 +1245,7 @@ func (destination *MAPAcceptInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MAPAcceptInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MAPAcceptInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1445,7 +1445,7 @@ func (destination *MAPCloseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MAPCloseInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MAPCloseInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1634,7 +1634,7 @@ func (destination *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	offset := 0
 	// Decode reason
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field reason")
+		return fmt.Errorf("%w: missing required field reason", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "reason", content[offset:])
@@ -1718,7 +1718,7 @@ func (destination *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 6) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MAPRefuseInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MAPRefuseInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1890,7 +1890,7 @@ func (destination *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 	offset := 0
 	// Decode map-UserAbortChoice
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field map-UserAbortChoice")
+		return fmt.Errorf("%w: missing required field map-UserAbortChoice", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "map-UserAbortChoice", content[offset:])
@@ -1957,7 +1957,7 @@ func (destination *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MAPUserAbortInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MAPUserAbortInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_4, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -2208,7 +2208,7 @@ func (destination *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.Dec
 			}
 		}
 	} else {
-		return fmt.Errorf("unknown tag %s for MAPUserAbortChoice CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for MAPUserAbortChoice CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -2364,7 +2364,7 @@ func (destination *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.D
 	offset := 0
 	// Decode map-ProviderAbortReason
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field map-ProviderAbortReason")
+		return fmt.Errorf("%w: missing required field map-ProviderAbortReason", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "map-ProviderAbortReason", content[offset:])
@@ -2427,7 +2427,7 @@ func (destination *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.D
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MAPProviderAbortInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MAPProviderAbortInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_6, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_

@@ -940,7 +940,7 @@ func (destination *CUGCheckInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	offset := 0
 	// Decode cug-Interlock
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field cug-Interlock")
+		return fmt.Errorf("%w: missing required field cug-Interlock", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "cug-Interlock", content[offset:])
@@ -1023,7 +1023,7 @@ func (destination *CUGCheckInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "CUGCheckInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "CUGCheckInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1417,7 +1417,7 @@ func (v *SendRoutingInfoArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SuppressMTSS.Bytes, namedBits_SuppressMTSS.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "suppressMTSS", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_SuppressMTSS.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1847,7 +1847,7 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SuppressMTSS.Bytes, namedBits_SuppressMTSS.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "suppressMTSS", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_SuppressMTSS.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1960,11 +1960,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 	offset := 0
 	// Decode msisdn
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field msisdn")
+		return fmt.Errorf("%w: missing required field msisdn", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for msisdn, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for msisdn, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -1974,7 +1974,7 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 			return qualifyBERError(err, "msisdn", "decoding", false)
 		}
 		if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 0 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn), "msisdn", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_msisdn), "msisdn", "decoding", false)
 		}
 		decVal_msisdn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msisdn.Constructed, rawVal_msisdn, opts...)
 		if octetErr != nil {
@@ -2007,8 +2007,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "cug-CheckInfo", "decoding", false)
 				}
-				if decodedTag_cugcheckinfo.Class != tag.ClassContextSpecific || decodedTag_cugcheckinfo.Number != 1 || decodedTag_cugcheckinfo.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cugcheckinfo), "cug-CheckInfo", "decoding", false)
+				if decodedTag_cugcheckinfo.Class != tag.ClassContextSpecific || decodedTag_cugcheckinfo.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_cugcheckinfo), "cug-CheckInfo", "decoding", false)
+				}
+				if decodedTag_cugcheckinfo.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_cugcheckinfo), "cug-CheckInfo", "decoding", false)
 				}
 				_ = rawVal_cugcheckinfo
 				if offset < 0 || offset >
@@ -2046,8 +2049,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "numberOfForwarding", "decoding", false)
 				}
-				if decodedTag_numberofforwarding.Class != tag.ClassContextSpecific || decodedTag_numberofforwarding.Number != 2 || decodedTag_numberofforwarding.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_numberofforwarding), "numberOfForwarding", "decoding", false)
+				if decodedTag_numberofforwarding.Class != tag.ClassContextSpecific || decodedTag_numberofforwarding.Number != 2 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_numberofforwarding), "numberOfForwarding", "decoding", false)
+				}
+				if decodedTag_numberofforwarding.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_numberofforwarding), "numberOfForwarding", "decoding", false)
 				}
 				decVal_numberofforwarding, intErr := ber.DecodeIntegerValue(rawVal_numberofforwarding)
 				if intErr != nil {
@@ -2072,11 +2078,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 	}
 	// Decode interrogationType
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field interrogationType")
+		return fmt.Errorf("%w: missing required field interrogationType", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 3 {
-			return fmt.Errorf("expected tag [%s %d] for interrogationType, got %s", "CONTEXT", 3, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for interrogationType, got %s", ber.ErrUnexpectedElement, "CONTEXT", 3, reqTag_)
 		}
 	}
 	{
@@ -2085,8 +2091,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 		if err != nil {
 			return qualifyBERError(err, "interrogationType", "decoding", false)
 		}
-		if decodedTag_interrogationtype.Class != tag.ClassContextSpecific || decodedTag_interrogationtype.Number != 3 || decodedTag_interrogationtype.Constructed != false {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_interrogationtype), "interrogationType", "decoding", false)
+		if decodedTag_interrogationtype.Class != tag.ClassContextSpecific || decodedTag_interrogationtype.Number != 3 {
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_interrogationtype), "interrogationType", "decoding", false)
+		}
+		if decodedTag_interrogationtype.Constructed != false {
+			return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_interrogationtype), "interrogationType", "decoding", false)
 		}
 		decVal_interrogationtype, intErr := ber.DecodeEnumeratedValue(rawVal_interrogationtype)
 		if intErr != nil {
@@ -2116,8 +2125,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "or-Interrogation", "decoding", false)
 				}
-				if decodedTag_orinterrogation.Class != tag.ClassContextSpecific || decodedTag_orinterrogation.Number != 4 || decodedTag_orinterrogation.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_orinterrogation), "or-Interrogation", "decoding", false)
+				if decodedTag_orinterrogation.Class != tag.ClassContextSpecific || decodedTag_orinterrogation.Number != 4 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_orinterrogation), "or-Interrogation", "decoding", false)
+				}
+				if decodedTag_orinterrogation.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_orinterrogation), "or-Interrogation", "decoding", false)
 				}
 				if len(rawVal_orinterrogation) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_orinterrogation)), "or-Interrogation", "decoding", false)
@@ -2143,8 +2155,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "or-Capability", "decoding", false)
 				}
-				if decodedTag_orcapability.Class != tag.ClassContextSpecific || decodedTag_orcapability.Number != 5 || decodedTag_orcapability.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_orcapability), "or-Capability", "decoding", false)
+				if decodedTag_orcapability.Class != tag.ClassContextSpecific || decodedTag_orcapability.Number != 5 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_orcapability), "or-Capability", "decoding", false)
+				}
+				if decodedTag_orcapability.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_orcapability), "or-Capability", "decoding", false)
 				}
 				decVal_orcapability, intErr := ber.DecodeIntegerValue(rawVal_orcapability)
 				if intErr != nil {
@@ -2169,11 +2184,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 	}
 	// Decode gmsc-OrGsmSCF-Address
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field gmsc-OrGsmSCF-Address")
+		return fmt.Errorf("%w: missing required field gmsc-OrGsmSCF-Address", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 6 {
-			return fmt.Errorf("expected tag [%s %d] for gmsc-OrGsmSCF-Address, got %s", "CONTEXT", 6, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for gmsc-OrGsmSCF-Address, got %s", ber.ErrUnexpectedElement, "CONTEXT", 6, reqTag_)
 		}
 	}
 	{
@@ -2183,7 +2198,7 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 			return qualifyBERError(err, "gmsc-OrGsmSCF-Address", "decoding", false)
 		}
 		if decodedTag_gmscorgsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gmscorgsmscfaddress.Number != 6 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gmscorgsmscfaddress), "gmsc-OrGsmSCF-Address", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_gmscorgsmscfaddress), "gmsc-OrGsmSCF-Address", "decoding", false)
 		}
 		decVal_gmscorgsmscfaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gmscorgsmscfaddress.Constructed, rawVal_gmscorgsmscfaddress, opts...)
 		if octetErr != nil {
@@ -2219,7 +2234,7 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 					return qualifyBERError(err, "callReferenceNumber", "decoding", false)
 				}
 				if decodedTag_callreferencenumber.Class != tag.ClassContextSpecific || decodedTag_callreferencenumber.Number != 7 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callreferencenumber), "callReferenceNumber", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_callreferencenumber), "callReferenceNumber", "decoding", false)
 				}
 				decVal_callreferencenumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_callreferencenumber.Constructed, rawVal_callreferencenumber, opts...)
 				if octetErr != nil {
@@ -2252,8 +2267,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "forwardingReason", "decoding", false)
 				}
-				if decodedTag_forwardingreason.Class != tag.ClassContextSpecific || decodedTag_forwardingreason.Number != 8 || decodedTag_forwardingreason.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardingreason), "forwardingReason", "decoding", false)
+				if decodedTag_forwardingreason.Class != tag.ClassContextSpecific || decodedTag_forwardingreason.Number != 8 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_forwardingreason), "forwardingReason", "decoding", false)
+				}
+				if decodedTag_forwardingreason.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_forwardingreason), "forwardingReason", "decoding", false)
 				}
 				decVal_forwardingreason, intErr := ber.DecodeEnumeratedValue(rawVal_forwardingreason)
 				if intErr != nil {
@@ -2286,15 +2304,21 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "basicServiceGroup", "decoding", false)
 				}
-				if decodedTag_basicservicegroup.Class != tag.ClassContextSpecific || decodedTag_basicservicegroup.Number != 9 || decodedTag_basicservicegroup.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservicegroup), "basicServiceGroup", "decoding", false)
+				if decodedTag_basicservicegroup.Class != tag.ClassContextSpecific || decodedTag_basicservicegroup.Number != 9 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_basicservicegroup), "basicServiceGroup", "decoding", false)
+				}
+				if decodedTag_basicservicegroup.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_basicservicegroup), "basicServiceGroup", "decoding", false)
+				}
+				if len(innerData_basicservicegroup) == 0 {
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicServiceGroup", "decoding", false)
 				}
 				_, innerUsed_basicservicegroup, _, innerErr_basicservicegroup := ber.DecodeTLV(innerData_basicservicegroup, opts...)
 				if innerErr_basicservicegroup != nil {
 					return qualifyBERError(innerErr_basicservicegroup, "basicServiceGroup", "decoding", false)
 				}
 				if innerUsed_basicservicegroup != len(innerData_basicservicegroup) {
-					return qualifyBERError(ber.ErrExtraData, "basicServiceGroup", "decoding", false)
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicServiceGroup", "decoding", false)
 				}
 				// Decode inner value from explicit tag wrapper
 				ber.MarkPreflightTarget(opts, "basicServiceGroup", innerData_basicservicegroup)
@@ -2323,8 +2347,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "networkSignalInfo", "decoding", false)
 				}
-				if decodedTag_networksignalinfo.Class != tag.ClassContextSpecific || decodedTag_networksignalinfo.Number != 10 || decodedTag_networksignalinfo.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_networksignalinfo), "networkSignalInfo", "decoding", false)
+				if decodedTag_networksignalinfo.Class != tag.ClassContextSpecific || decodedTag_networksignalinfo.Number != 10 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_networksignalinfo), "networkSignalInfo", "decoding", false)
+				}
+				if decodedTag_networksignalinfo.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_networksignalinfo), "networkSignalInfo", "decoding", false)
 				}
 				_ = rawVal_networksignalinfo
 				if offset < 0 || offset >
@@ -2362,8 +2389,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "camelInfo", "decoding", false)
 				}
-				if decodedTag_camelinfo.Class != tag.ClassContextSpecific || decodedTag_camelinfo.Number != 11 || decodedTag_camelinfo.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_camelinfo), "camelInfo", "decoding", false)
+				if decodedTag_camelinfo.Class != tag.ClassContextSpecific || decodedTag_camelinfo.Number != 11 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_camelinfo), "camelInfo", "decoding", false)
+				}
+				if decodedTag_camelinfo.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_camelinfo), "camelInfo", "decoding", false)
 				}
 				_ = rawVal_camelinfo
 				if offset < 0 || offset >
@@ -2399,8 +2429,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "suppressionOfAnnouncement", "decoding", false)
 				}
-				if decodedTag_suppressionofannouncement.Class != tag.ClassContextSpecific || decodedTag_suppressionofannouncement.Number != 12 || decodedTag_suppressionofannouncement.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_suppressionofannouncement), "suppressionOfAnnouncement", "decoding", false)
+				if decodedTag_suppressionofannouncement.Class != tag.ClassContextSpecific || decodedTag_suppressionofannouncement.Number != 12 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_suppressionofannouncement), "suppressionOfAnnouncement", "decoding", false)
+				}
+				if decodedTag_suppressionofannouncement.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_suppressionofannouncement), "suppressionOfAnnouncement", "decoding", false)
 				}
 				if len(rawVal_suppressionofannouncement) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_suppressionofannouncement)), "suppressionOfAnnouncement", "decoding", false)
@@ -2426,8 +2459,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 13 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 13 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -2466,7 +2502,7 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 					return qualifyBERError(err, "alertingPattern", "decoding", false)
 				}
 				if decodedTag_alertingpattern.Class != tag.ClassContextSpecific || decodedTag_alertingpattern.Number != 14 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_alertingpattern), "alertingPattern", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_alertingpattern), "alertingPattern", "decoding", false)
 				}
 				decVal_alertingpattern, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_alertingpattern.Constructed, rawVal_alertingpattern, opts...)
 				if octetErr != nil {
@@ -2499,8 +2535,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "ccbs-Call", "decoding", false)
 				}
-				if decodedTag_ccbscall.Class != tag.ClassContextSpecific || decodedTag_ccbscall.Number != 15 || decodedTag_ccbscall.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbscall), "ccbs-Call", "decoding", false)
+				if decodedTag_ccbscall.Class != tag.ClassContextSpecific || decodedTag_ccbscall.Number != 15 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbscall), "ccbs-Call", "decoding", false)
+				}
+				if decodedTag_ccbscall.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbscall), "ccbs-Call", "decoding", false)
 				}
 				if len(rawVal_ccbscall) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ccbscall)), "ccbs-Call", "decoding", false)
@@ -2525,8 +2564,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "supportedCCBS-Phase", "decoding", false)
 				}
-				if decodedTag_supportedccbsphase.Class != tag.ClassContextSpecific || decodedTag_supportedccbsphase.Number != 16 || decodedTag_supportedccbsphase.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedccbsphase), "supportedCCBS-Phase", "decoding", false)
+				if decodedTag_supportedccbsphase.Class != tag.ClassContextSpecific || decodedTag_supportedccbsphase.Number != 16 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_supportedccbsphase), "supportedCCBS-Phase", "decoding", false)
+				}
+				if decodedTag_supportedccbsphase.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_supportedccbsphase), "supportedCCBS-Phase", "decoding", false)
 				}
 				decVal_supportedccbsphase, intErr := ber.DecodeIntegerValue(rawVal_supportedccbsphase)
 				if intErr != nil {
@@ -2559,8 +2601,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "additionalSignalInfo", "decoding", false)
 				}
-				if decodedTag_additionalsignalinfo.Class != tag.ClassContextSpecific || decodedTag_additionalsignalinfo.Number != 17 || decodedTag_additionalsignalinfo.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalsignalinfo), "additionalSignalInfo", "decoding", false)
+				if decodedTag_additionalsignalinfo.Class != tag.ClassContextSpecific || decodedTag_additionalsignalinfo.Number != 17 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_additionalsignalinfo), "additionalSignalInfo", "decoding", false)
+				}
+				if decodedTag_additionalsignalinfo.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_additionalsignalinfo), "additionalSignalInfo", "decoding", false)
 				}
 				_ = rawVal_additionalsignalinfo
 				if offset < 0 || offset >
@@ -2598,8 +2643,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "istSupportIndicator", "decoding", false)
 				}
-				if decodedTag_istsupportindicator.Class != tag.ClassContextSpecific || decodedTag_istsupportindicator.Number != 18 || decodedTag_istsupportindicator.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_istsupportindicator), "istSupportIndicator", "decoding", false)
+				if decodedTag_istsupportindicator.Class != tag.ClassContextSpecific || decodedTag_istsupportindicator.Number != 18 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_istsupportindicator), "istSupportIndicator", "decoding", false)
+				}
+				if decodedTag_istsupportindicator.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_istsupportindicator), "istSupportIndicator", "decoding", false)
 				}
 				decVal_istsupportindicator, intErr := ber.DecodeEnumeratedValue(rawVal_istsupportindicator)
 				if intErr != nil {
@@ -2627,8 +2675,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "pre-pagingSupported", "decoding", false)
 				}
-				if decodedTag_prepagingsupported.Class != tag.ClassContextSpecific || decodedTag_prepagingsupported.Number != 19 || decodedTag_prepagingsupported.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_prepagingsupported), "pre-pagingSupported", "decoding", false)
+				if decodedTag_prepagingsupported.Class != tag.ClassContextSpecific || decodedTag_prepagingsupported.Number != 19 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_prepagingsupported), "pre-pagingSupported", "decoding", false)
+				}
+				if decodedTag_prepagingsupported.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_prepagingsupported), "pre-pagingSupported", "decoding", false)
 				}
 				if len(rawVal_prepagingsupported) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_prepagingsupported)), "pre-pagingSupported", "decoding", false)
@@ -2655,7 +2706,7 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 					return qualifyBERError(err, "callDiversionTreatmentIndicator", "decoding", false)
 				}
 				if decodedTag_calldiversiontreatmentindicator.Class != tag.ClassContextSpecific || decodedTag_calldiversiontreatmentindicator.Number != 20 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_calldiversiontreatmentindicator), "callDiversionTreatmentIndicator", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_calldiversiontreatmentindicator), "callDiversionTreatmentIndicator", "decoding", false)
 				}
 				decVal_calldiversiontreatmentindicator, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_calldiversiontreatmentindicator.Constructed, rawVal_calldiversiontreatmentindicator, opts...)
 				if octetErr != nil {
@@ -2688,8 +2739,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "longFTN-Supported", "decoding", false)
 				}
-				if decodedTag_longftnsupported.Class != tag.ClassContextSpecific || decodedTag_longftnsupported.Number != 21 || decodedTag_longftnsupported.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_longftnsupported), "longFTN-Supported", "decoding", false)
+				if decodedTag_longftnsupported.Class != tag.ClassContextSpecific || decodedTag_longftnsupported.Number != 21 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_longftnsupported), "longFTN-Supported", "decoding", false)
+				}
+				if decodedTag_longftnsupported.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_longftnsupported), "longFTN-Supported", "decoding", false)
 				}
 				if len(rawVal_longftnsupported) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_longftnsupported)), "longFTN-Supported", "decoding", false)
@@ -2715,8 +2769,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "suppress-VT-CSI", "decoding", false)
 				}
-				if decodedTag_suppressvtcsi.Class != tag.ClassContextSpecific || decodedTag_suppressvtcsi.Number != 22 || decodedTag_suppressvtcsi.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_suppressvtcsi), "suppress-VT-CSI", "decoding", false)
+				if decodedTag_suppressvtcsi.Class != tag.ClassContextSpecific || decodedTag_suppressvtcsi.Number != 22 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_suppressvtcsi), "suppress-VT-CSI", "decoding", false)
+				}
+				if decodedTag_suppressvtcsi.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_suppressvtcsi), "suppress-VT-CSI", "decoding", false)
 				}
 				if len(rawVal_suppressvtcsi) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_suppressvtcsi)), "suppress-VT-CSI", "decoding", false)
@@ -2741,8 +2798,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "suppressIncomingCallBarring", "decoding", false)
 				}
-				if decodedTag_suppressincomingcallbarring.Class != tag.ClassContextSpecific || decodedTag_suppressincomingcallbarring.Number != 23 || decodedTag_suppressincomingcallbarring.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_suppressincomingcallbarring), "suppressIncomingCallBarring", "decoding", false)
+				if decodedTag_suppressincomingcallbarring.Class != tag.ClassContextSpecific || decodedTag_suppressincomingcallbarring.Number != 23 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_suppressincomingcallbarring), "suppressIncomingCallBarring", "decoding", false)
+				}
+				if decodedTag_suppressincomingcallbarring.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_suppressincomingcallbarring), "suppressIncomingCallBarring", "decoding", false)
 				}
 				if len(rawVal_suppressincomingcallbarring) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_suppressincomingcallbarring)), "suppressIncomingCallBarring", "decoding", false)
@@ -2768,8 +2828,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "gsmSCF-InitiatedCall", "decoding", false)
 				}
-				if decodedTag_gsmscfinitiatedcall.Class != tag.ClassContextSpecific || decodedTag_gsmscfinitiatedcall.Number != 24 || decodedTag_gsmscfinitiatedcall.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfinitiatedcall), "gsmSCF-InitiatedCall", "decoding", false)
+				if decodedTag_gsmscfinitiatedcall.Class != tag.ClassContextSpecific || decodedTag_gsmscfinitiatedcall.Number != 24 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_gsmscfinitiatedcall), "gsmSCF-InitiatedCall", "decoding", false)
+				}
+				if decodedTag_gsmscfinitiatedcall.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_gsmscfinitiatedcall), "gsmSCF-InitiatedCall", "decoding", false)
 				}
 				if len(rawVal_gsmscfinitiatedcall) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_gsmscfinitiatedcall)), "gsmSCF-InitiatedCall", "decoding", false)
@@ -2795,15 +2858,21 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "basicServiceGroup2", "decoding", false)
 				}
-				if decodedTag_basicservicegroup2.Class != tag.ClassContextSpecific || decodedTag_basicservicegroup2.Number != 25 || decodedTag_basicservicegroup2.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservicegroup2), "basicServiceGroup2", "decoding", false)
+				if decodedTag_basicservicegroup2.Class != tag.ClassContextSpecific || decodedTag_basicservicegroup2.Number != 25 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_basicservicegroup2), "basicServiceGroup2", "decoding", false)
+				}
+				if decodedTag_basicservicegroup2.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_basicservicegroup2), "basicServiceGroup2", "decoding", false)
+				}
+				if len(innerData_basicservicegroup2) == 0 {
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicServiceGroup2", "decoding", false)
 				}
 				_, innerUsed_basicservicegroup2, _, innerErr_basicservicegroup2 := ber.DecodeTLV(innerData_basicservicegroup2, opts...)
 				if innerErr_basicservicegroup2 != nil {
 					return qualifyBERError(innerErr_basicservicegroup2, "basicServiceGroup2", "decoding", false)
 				}
 				if innerUsed_basicservicegroup2 != len(innerData_basicservicegroup2) {
-					return qualifyBERError(ber.ErrExtraData, "basicServiceGroup2", "decoding", false)
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicServiceGroup2", "decoding", false)
 				}
 				// Decode inner value from explicit tag wrapper
 				ber.MarkPreflightTarget(opts, "basicServiceGroup2", innerData_basicservicegroup2)
@@ -2832,8 +2901,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "networkSignalInfo2", "decoding", false)
 				}
-				if decodedTag_networksignalinfo2.Class != tag.ClassContextSpecific || decodedTag_networksignalinfo2.Number != 26 || decodedTag_networksignalinfo2.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_networksignalinfo2), "networkSignalInfo2", "decoding", false)
+				if decodedTag_networksignalinfo2.Class != tag.ClassContextSpecific || decodedTag_networksignalinfo2.Number != 26 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_networksignalinfo2), "networkSignalInfo2", "decoding", false)
+				}
+				if decodedTag_networksignalinfo2.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_networksignalinfo2), "networkSignalInfo2", "decoding", false)
 				}
 				_ = rawVal_networksignalinfo2
 				if offset < 0 || offset >
@@ -2872,7 +2944,7 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 					return qualifyBERError(err, "suppressMTSS", "decoding", false)
 				}
 				if decodedTag_suppressmtss.Class != tag.ClassContextSpecific || decodedTag_suppressmtss.Number != 27 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_suppressmtss), "suppressMTSS", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_suppressmtss), "suppressMTSS", "decoding", false)
 				}
 				bsBytes_suppressmtss, bsUnused_suppressmtss, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_suppressmtss.Constructed, rawVal_suppressmtss, opts...)
 				if bsErr != nil {
@@ -2910,8 +2982,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "mtRoamingRetrySupported", "decoding", false)
 				}
-				if decodedTag_mtroamingretrysupported.Class != tag.ClassContextSpecific || decodedTag_mtroamingretrysupported.Number != 28 || decodedTag_mtroamingretrysupported.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mtroamingretrysupported), "mtRoamingRetrySupported", "decoding", false)
+				if decodedTag_mtroamingretrysupported.Class != tag.ClassContextSpecific || decodedTag_mtroamingretrysupported.Number != 28 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_mtroamingretrysupported), "mtRoamingRetrySupported", "decoding", false)
+				}
+				if decodedTag_mtroamingretrysupported.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_mtroamingretrysupported), "mtRoamingRetrySupported", "decoding", false)
 				}
 				if len(rawVal_mtroamingretrysupported) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_mtroamingretrysupported)), "mtRoamingRetrySupported", "decoding", false)
@@ -2937,8 +3012,11 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "callPriority", "decoding", false)
 				}
-				if decodedTag_callpriority.Class != tag.ClassContextSpecific || decodedTag_callpriority.Number != 29 || decodedTag_callpriority.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callpriority), "callPriority", "decoding", false)
+				if decodedTag_callpriority.Class != tag.ClassContextSpecific || decodedTag_callpriority.Number != 29 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_callpriority), "callPriority", "decoding", false)
+				}
+				if decodedTag_callpriority.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_callpriority), "callPriority", "decoding", false)
 				}
 				decVal_callpriority, intErr := ber.DecodeIntegerValue(rawVal_callpriority)
 				if intErr != nil {
@@ -2972,7 +3050,7 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 29) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 28) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 27) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 26) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 24) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInfoArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInfoArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -3327,7 +3405,7 @@ func (v *SendRoutingInfoRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhasesInVMSC.Bytes, namedBits_SupportedCamelPhasesInVMSC.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCamelPhasesInVMSC", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_SupportedCamelPhasesInVMSC.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3355,7 +3433,7 @@ func (v *SendRoutingInfoRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIsInVMSC.Bytes, namedBits_OfferedCamel4CSIsInVMSC.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIsInVMSC", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_OfferedCamel4CSIsInVMSC.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3446,7 +3524,7 @@ func (v *SendRoutingInfoRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_AllowedServices.Bytes, namedBits_AllowedServices.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "allowedServices", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_AllowedServices.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3744,7 +3822,7 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhasesInVMSC.Bytes, namedBits_SupportedCamelPhasesInVMSC.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCamelPhasesInVMSC", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_SupportedCamelPhasesInVMSC.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3772,7 +3850,7 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIsInVMSC.Bytes, namedBits_OfferedCamel4CSIsInVMSC.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIsInVMSC", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_OfferedCamel4CSIsInVMSC.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3845,7 +3923,7 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_AllowedServices.Bytes, namedBits_AllowedServices.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "allowedServices", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_AllowedServices.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3964,8 +4042,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 	if err != nil {
 		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoRes", qualifyBERError(err, "", "decoding", false))
 	}
-	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 3 || !decodedTag.Constructed {
-		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoRes", qualifyBERError(fmt.Errorf("%w: expected tag [CONTEXT 3], got %s", ber.ErrInvalidTag, decodedTag), "", "decoding", false))
+	if decodedTag.Class != tag.ClassContextSpecific || decodedTag.Number != 3 {
+		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoRes", qualifyBERError(fmt.Errorf("%w: expected tag [CONTEXT 3], got %s", ber.ErrUnexpectedElement, decodedTag), "", "decoding", false))
+	}
+	if !decodedTag.Constructed {
+		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoRes", qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form", ber.ErrInvalidTag), "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInfoRes", Cause: ber.ErrExtraData}
@@ -3982,7 +4063,7 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 					return qualifyBERError(err, "imsi", "decoding", false)
 				}
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 9 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi), "imsi", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_imsi), "imsi", "decoding", false)
 				}
 				decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
 				if octetErr != nil {
@@ -4045,8 +4126,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "cug-CheckInfo", "decoding", false)
 				}
-				if decodedTag_cugcheckinfo.Class != tag.ClassContextSpecific || decodedTag_cugcheckinfo.Number != 3 || decodedTag_cugcheckinfo.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cugcheckinfo), "cug-CheckInfo", "decoding", false)
+				if decodedTag_cugcheckinfo.Class != tag.ClassContextSpecific || decodedTag_cugcheckinfo.Number != 3 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_cugcheckinfo), "cug-CheckInfo", "decoding", false)
+				}
+				if decodedTag_cugcheckinfo.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_cugcheckinfo), "cug-CheckInfo", "decoding", false)
 				}
 				_ = rawVal_cugcheckinfo
 				if offset < 0 || offset >
@@ -4084,8 +4168,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "cugSubscriptionFlag", "decoding", false)
 				}
-				if decodedTag_cugsubscriptionflag.Class != tag.ClassContextSpecific || decodedTag_cugsubscriptionflag.Number != 6 || decodedTag_cugsubscriptionflag.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cugsubscriptionflag), "cugSubscriptionFlag", "decoding", false)
+				if decodedTag_cugsubscriptionflag.Class != tag.ClassContextSpecific || decodedTag_cugsubscriptionflag.Number != 6 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_cugsubscriptionflag), "cugSubscriptionFlag", "decoding", false)
+				}
+				if decodedTag_cugsubscriptionflag.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_cugsubscriptionflag), "cugSubscriptionFlag", "decoding", false)
 				}
 				if len(rawVal_cugsubscriptionflag) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_cugsubscriptionflag)), "cugSubscriptionFlag", "decoding", false)
@@ -4111,8 +4198,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "subscriberInfo", "decoding", false)
 				}
-				if decodedTag_subscriberinfo.Class != tag.ClassContextSpecific || decodedTag_subscriberinfo.Number != 7 || decodedTag_subscriberinfo.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subscriberinfo), "subscriberInfo", "decoding", false)
+				if decodedTag_subscriberinfo.Class != tag.ClassContextSpecific || decodedTag_subscriberinfo.Number != 7 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_subscriberinfo), "subscriberInfo", "decoding", false)
+				}
+				if decodedTag_subscriberinfo.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_subscriberinfo), "subscriberInfo", "decoding", false)
 				}
 				_ = rawVal_subscriberinfo
 				if offset < 0 || offset >
@@ -4151,8 +4241,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "ss-List", "decoding", false)
 				}
-				if decodedTag_sslist.Class != tag.ClassContextSpecific || decodedTag_sslist.Number != 1 || decodedTag_sslist.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sslist), "ss-List", "decoding", false)
+				if decodedTag_sslist.Class != tag.ClassContextSpecific || decodedTag_sslist.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_sslist), "ss-List", "decoding", false)
+				}
+				if decodedTag_sslist.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_sslist), "ss-List", "decoding", false)
 				}
 				_ = rawVal_sslist
 				if offset < 0 || offset >
@@ -4204,15 +4297,21 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "basicService", "decoding", false)
 				}
-				if decodedTag_basicservice.Class != tag.ClassContextSpecific || decodedTag_basicservice.Number != 5 || decodedTag_basicservice.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservice), "basicService", "decoding", false)
+				if decodedTag_basicservice.Class != tag.ClassContextSpecific || decodedTag_basicservice.Number != 5 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_basicservice), "basicService", "decoding", false)
+				}
+				if decodedTag_basicservice.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_basicservice), "basicService", "decoding", false)
+				}
+				if len(innerData_basicservice) == 0 {
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicService", "decoding", false)
 				}
 				_, innerUsed_basicservice, _, innerErr_basicservice := ber.DecodeTLV(innerData_basicservice, opts...)
 				if innerErr_basicservice != nil {
 					return qualifyBERError(innerErr_basicservice, "basicService", "decoding", false)
 				}
 				if innerUsed_basicservice != len(innerData_basicservice) {
-					return qualifyBERError(ber.ErrExtraData, "basicService", "decoding", false)
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicService", "decoding", false)
 				}
 				// Decode inner value from explicit tag wrapper
 				ber.MarkPreflightTarget(opts, "basicService", innerData_basicservice)
@@ -4241,8 +4340,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "forwardingInterrogationRequired", "decoding", false)
 				}
-				if decodedTag_forwardinginterrogationrequired.Class != tag.ClassContextSpecific || decodedTag_forwardinginterrogationrequired.Number != 4 || decodedTag_forwardinginterrogationrequired.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardinginterrogationrequired), "forwardingInterrogationRequired", "decoding", false)
+				if decodedTag_forwardinginterrogationrequired.Class != tag.ClassContextSpecific || decodedTag_forwardinginterrogationrequired.Number != 4 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_forwardinginterrogationrequired), "forwardingInterrogationRequired", "decoding", false)
+				}
+				if decodedTag_forwardinginterrogationrequired.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_forwardinginterrogationrequired), "forwardingInterrogationRequired", "decoding", false)
 				}
 				if len(rawVal_forwardinginterrogationrequired) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_forwardinginterrogationrequired)), "forwardingInterrogationRequired", "decoding", false)
@@ -4269,7 +4371,7 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 					return qualifyBERError(err, "vmsc-Address", "decoding", false)
 				}
 				if decodedTag_vmscaddress.Class != tag.ClassContextSpecific || decodedTag_vmscaddress.Number != 2 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_vmscaddress), "vmsc-Address", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_vmscaddress), "vmsc-Address", "decoding", false)
 				}
 				decVal_vmscaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_vmscaddress.Constructed, rawVal_vmscaddress, opts...)
 				if octetErr != nil {
@@ -4306,8 +4408,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 0 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -4345,8 +4450,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "naea-PreferredCI", "decoding", false)
 				}
-				if decodedTag_naeapreferredci.Class != tag.ClassContextSpecific || decodedTag_naeapreferredci.Number != 10 || decodedTag_naeapreferredci.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_naeapreferredci), "naea-PreferredCI", "decoding", false)
+				if decodedTag_naeapreferredci.Class != tag.ClassContextSpecific || decodedTag_naeapreferredci.Number != 10 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_naeapreferredci), "naea-PreferredCI", "decoding", false)
+				}
+				if decodedTag_naeapreferredci.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_naeapreferredci), "naea-PreferredCI", "decoding", false)
 				}
 				_ = rawVal_naeapreferredci
 				if offset < 0 || offset >
@@ -4384,8 +4492,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "ccbs-Indicators", "decoding", false)
 				}
-				if decodedTag_ccbsindicators.Class != tag.ClassContextSpecific || decodedTag_ccbsindicators.Number != 11 || decodedTag_ccbsindicators.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbsindicators), "ccbs-Indicators", "decoding", false)
+				if decodedTag_ccbsindicators.Class != tag.ClassContextSpecific || decodedTag_ccbsindicators.Number != 11 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbsindicators), "ccbs-Indicators", "decoding", false)
+				}
+				if decodedTag_ccbsindicators.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbsindicators), "ccbs-Indicators", "decoding", false)
 				}
 				_ = rawVal_ccbsindicators
 				if offset < 0 || offset >
@@ -4424,7 +4535,7 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 					return qualifyBERError(err, "msisdn", "decoding", false)
 				}
 				if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 12 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn), "msisdn", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_msisdn), "msisdn", "decoding", false)
 				}
 				decVal_msisdn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msisdn.Constructed, rawVal_msisdn, opts...)
 				if octetErr != nil {
@@ -4461,8 +4572,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "numberPortabilityStatus", "decoding", false)
 				}
-				if decodedTag_numberportabilitystatus.Class != tag.ClassContextSpecific || decodedTag_numberportabilitystatus.Number != 13 || decodedTag_numberportabilitystatus.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_numberportabilitystatus), "numberPortabilityStatus", "decoding", false)
+				if decodedTag_numberportabilitystatus.Class != tag.ClassContextSpecific || decodedTag_numberportabilitystatus.Number != 13 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_numberportabilitystatus), "numberPortabilityStatus", "decoding", false)
+				}
+				if decodedTag_numberportabilitystatus.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_numberportabilitystatus), "numberPortabilityStatus", "decoding", false)
 				}
 				decVal_numberportabilitystatus, intErr := ber.DecodeEnumeratedValue(rawVal_numberportabilitystatus)
 				if intErr != nil {
@@ -4490,8 +4604,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "istAlertTimer", "decoding", false)
 				}
-				if decodedTag_istalerttimer.Class != tag.ClassContextSpecific || decodedTag_istalerttimer.Number != 14 || decodedTag_istalerttimer.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_istalerttimer), "istAlertTimer", "decoding", false)
+				if decodedTag_istalerttimer.Class != tag.ClassContextSpecific || decodedTag_istalerttimer.Number != 14 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_istalerttimer), "istAlertTimer", "decoding", false)
+				}
+				if decodedTag_istalerttimer.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_istalerttimer), "istAlertTimer", "decoding", false)
 				}
 				decVal_istalerttimer, intErr := ber.DecodeIntegerValue(rawVal_istalerttimer)
 				if intErr != nil {
@@ -4524,7 +4641,7 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 					return qualifyBERError(err, "supportedCamelPhasesInVMSC", "decoding", false)
 				}
 				if decodedTag_supportedcamelphasesinvmsc.Class != tag.ClassContextSpecific || decodedTag_supportedcamelphasesinvmsc.Number != 15 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedcamelphasesinvmsc), "supportedCamelPhasesInVMSC", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_supportedcamelphasesinvmsc), "supportedCamelPhasesInVMSC", "decoding", false)
 				}
 				bsBytes_supportedcamelphasesinvmsc, bsUnused_supportedcamelphasesinvmsc, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedcamelphasesinvmsc.Constructed, rawVal_supportedcamelphasesinvmsc, opts...)
 				if bsErr != nil {
@@ -4563,7 +4680,7 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 					return qualifyBERError(err, "offeredCamel4CSIsInVMSC", "decoding", false)
 				}
 				if decodedTag_offeredcamel4csisinvmsc.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csisinvmsc.Number != 16 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csisinvmsc), "offeredCamel4CSIsInVMSC", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_offeredcamel4csisinvmsc), "offeredCamel4CSIsInVMSC", "decoding", false)
 				}
 				bsBytes_offeredcamel4csisinvmsc, bsUnused_offeredcamel4csisinvmsc, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csisinvmsc.Constructed, rawVal_offeredcamel4csisinvmsc, opts...)
 				if bsErr != nil {
@@ -4601,15 +4718,21 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "routingInfo2", "decoding", false)
 				}
-				if decodedTag_routinginfo2.Class != tag.ClassContextSpecific || decodedTag_routinginfo2.Number != 17 || decodedTag_routinginfo2.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_routinginfo2), "routingInfo2", "decoding", false)
+				if decodedTag_routinginfo2.Class != tag.ClassContextSpecific || decodedTag_routinginfo2.Number != 17 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_routinginfo2), "routingInfo2", "decoding", false)
+				}
+				if decodedTag_routinginfo2.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_routinginfo2), "routingInfo2", "decoding", false)
+				}
+				if len(innerData_routinginfo2) == 0 {
+					return qualifyBERError(ber.ErrUnexpectedElement, "routingInfo2", "decoding", false)
 				}
 				_, innerUsed_routinginfo2, _, innerErr_routinginfo2 := ber.DecodeTLV(innerData_routinginfo2, opts...)
 				if innerErr_routinginfo2 != nil {
 					return qualifyBERError(innerErr_routinginfo2, "routingInfo2", "decoding", false)
 				}
 				if innerUsed_routinginfo2 != len(innerData_routinginfo2) {
-					return qualifyBERError(ber.ErrExtraData, "routingInfo2", "decoding", false)
+					return qualifyBERError(ber.ErrUnexpectedElement, "routingInfo2", "decoding", false)
 				}
 				// Decode inner value from explicit tag wrapper
 				ber.MarkPreflightTarget(opts, "routingInfo2", innerData_routinginfo2)
@@ -4639,8 +4762,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "ss-List2", "decoding", false)
 				}
-				if decodedTag_sslist2.Class != tag.ClassContextSpecific || decodedTag_sslist2.Number != 18 || decodedTag_sslist2.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sslist2), "ss-List2", "decoding", false)
+				if decodedTag_sslist2.Class != tag.ClassContextSpecific || decodedTag_sslist2.Number != 18 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_sslist2), "ss-List2", "decoding", false)
+				}
+				if decodedTag_sslist2.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_sslist2), "ss-List2", "decoding", false)
 				}
 				_ = rawVal_sslist2
 				if offset < 0 || offset >
@@ -4692,15 +4818,21 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "basicService2", "decoding", false)
 				}
-				if decodedTag_basicservice2.Class != tag.ClassContextSpecific || decodedTag_basicservice2.Number != 19 || decodedTag_basicservice2.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservice2), "basicService2", "decoding", false)
+				if decodedTag_basicservice2.Class != tag.ClassContextSpecific || decodedTag_basicservice2.Number != 19 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_basicservice2), "basicService2", "decoding", false)
+				}
+				if decodedTag_basicservice2.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_basicservice2), "basicService2", "decoding", false)
+				}
+				if len(innerData_basicservice2) == 0 {
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicService2", "decoding", false)
 				}
 				_, innerUsed_basicservice2, _, innerErr_basicservice2 := ber.DecodeTLV(innerData_basicservice2, opts...)
 				if innerErr_basicservice2 != nil {
 					return qualifyBERError(innerErr_basicservice2, "basicService2", "decoding", false)
 				}
 				if innerUsed_basicservice2 != len(innerData_basicservice2) {
-					return qualifyBERError(ber.ErrExtraData, "basicService2", "decoding", false)
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicService2", "decoding", false)
 				}
 				// Decode inner value from explicit tag wrapper
 				ber.MarkPreflightTarget(opts, "basicService2", innerData_basicservice2)
@@ -4729,7 +4861,7 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 					return qualifyBERError(err, "allowedServices", "decoding", false)
 				}
 				if decodedTag_allowedservices.Class != tag.ClassContextSpecific || decodedTag_allowedservices.Number != 20 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_allowedservices), "allowedServices", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_allowedservices), "allowedServices", "decoding", false)
 				}
 				bsBytes_allowedservices, bsUnused_allowedservices, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_allowedservices.Constructed, rawVal_allowedservices, opts...)
 				if bsErr != nil {
@@ -4767,8 +4899,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "unavailabilityCause", "decoding", false)
 				}
-				if decodedTag_unavailabilitycause.Class != tag.ClassContextSpecific || decodedTag_unavailabilitycause.Number != 21 || decodedTag_unavailabilitycause.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unavailabilitycause), "unavailabilityCause", "decoding", false)
+				if decodedTag_unavailabilitycause.Class != tag.ClassContextSpecific || decodedTag_unavailabilitycause.Number != 21 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_unavailabilitycause), "unavailabilityCause", "decoding", false)
+				}
+				if decodedTag_unavailabilitycause.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_unavailabilitycause), "unavailabilityCause", "decoding", false)
 				}
 				decVal_unavailabilitycause, intErr := ber.DecodeEnumeratedValue(rawVal_unavailabilitycause)
 				if intErr != nil {
@@ -4796,8 +4931,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "releaseResourcesSupported", "decoding", false)
 				}
-				if decodedTag_releaseresourcessupported.Class != tag.ClassContextSpecific || decodedTag_releaseresourcessupported.Number != 22 || decodedTag_releaseresourcessupported.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_releaseresourcessupported), "releaseResourcesSupported", "decoding", false)
+				if decodedTag_releaseresourcessupported.Class != tag.ClassContextSpecific || decodedTag_releaseresourcessupported.Number != 22 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_releaseresourcessupported), "releaseResourcesSupported", "decoding", false)
+				}
+				if decodedTag_releaseresourcessupported.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_releaseresourcessupported), "releaseResourcesSupported", "decoding", false)
 				}
 				if len(rawVal_releaseresourcessupported) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_releaseresourcessupported)), "releaseResourcesSupported", "decoding", false)
@@ -4823,8 +4961,11 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "gsm-BearerCapability", "decoding", false)
 				}
-				if decodedTag_gsmbearercapability.Class != tag.ClassContextSpecific || decodedTag_gsmbearercapability.Number != 23 || decodedTag_gsmbearercapability.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmbearercapability), "gsm-BearerCapability", "decoding", false)
+				if decodedTag_gsmbearercapability.Class != tag.ClassContextSpecific || decodedTag_gsmbearercapability.Number != 23 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_gsmbearercapability), "gsm-BearerCapability", "decoding", false)
+				}
+				if decodedTag_gsmbearercapability.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_gsmbearercapability), "gsm-BearerCapability", "decoding", false)
 				}
 				_ = rawVal_gsmbearercapability
 				if offset < 0 || offset >
@@ -4863,7 +5004,7 @@ func (destination *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.Dec
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInfoRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInfoRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5079,8 +5220,11 @@ func (destination *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if err != nil {
 					return qualifyBERError(err, "ccbs-Possible", "decoding", false)
 				}
-				if decodedTag_ccbspossible.Class != tag.ClassContextSpecific || decodedTag_ccbspossible.Number != 0 || decodedTag_ccbspossible.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbspossible), "ccbs-Possible", "decoding", false)
+				if decodedTag_ccbspossible.Class != tag.ClassContextSpecific || decodedTag_ccbspossible.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbspossible), "ccbs-Possible", "decoding", false)
+				}
+				if decodedTag_ccbspossible.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbspossible), "ccbs-Possible", "decoding", false)
 				}
 				if len(rawVal_ccbspossible) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ccbspossible)), "ccbs-Possible", "decoding", false)
@@ -5104,8 +5248,11 @@ func (destination *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if err != nil {
 					return qualifyBERError(err, "keepCCBS-CallIndicator", "decoding", false)
 				}
-				if decodedTag_keepccbscallindicator.Class != tag.ClassContextSpecific || decodedTag_keepccbscallindicator.Number != 1 || decodedTag_keepccbscallindicator.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_keepccbscallindicator), "keepCCBS-CallIndicator", "decoding", false)
+				if decodedTag_keepccbscallindicator.Class != tag.ClassContextSpecific || decodedTag_keepccbscallindicator.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_keepccbscallindicator), "keepCCBS-CallIndicator", "decoding", false)
+				}
+				if decodedTag_keepccbscallindicator.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_keepccbscallindicator), "keepCCBS-CallIndicator", "decoding", false)
 				}
 				if len(rawVal_keepccbscallindicator) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_keepccbscallindicator)), "keepCCBS-CallIndicator", "decoding", false)
@@ -5131,8 +5278,11 @@ func (destination *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 2 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 2 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -5171,7 +5321,7 @@ func (destination *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "CCBSIndicators", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "CCBSIndicators", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5368,7 +5518,7 @@ func (destination *RoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		v.ForwardingData = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for RoutingInfo CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for RoutingInfo CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -5686,7 +5836,7 @@ func (destination *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 					return qualifyBERError(err, "forwardedToNumber", "decoding", false)
 				}
 				if decodedTag_forwardedtonumber.Class != tag.ClassContextSpecific || decodedTag_forwardedtonumber.Number != 5 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardedtonumber), "forwardedToNumber", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_forwardedtonumber), "forwardedToNumber", "decoding", false)
 				}
 				decVal_forwardedtonumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardedtonumber.Constructed, rawVal_forwardedtonumber, opts...)
 				if octetErr != nil {
@@ -5724,7 +5874,7 @@ func (destination *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 					return qualifyBERError(err, "forwardedToSubaddress", "decoding", false)
 				}
 				if decodedTag_forwardedtosubaddress.Class != tag.ClassContextSpecific || decodedTag_forwardedtosubaddress.Number != 4 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardedtosubaddress), "forwardedToSubaddress", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_forwardedtosubaddress), "forwardedToSubaddress", "decoding", false)
 				}
 				decVal_forwardedtosubaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardedtosubaddress.Constructed, rawVal_forwardedtosubaddress, opts...)
 				if octetErr != nil {
@@ -5758,7 +5908,7 @@ func (destination *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 					return qualifyBERError(err, "forwardingOptions", "decoding", false)
 				}
 				if decodedTag_forwardingoptions.Class != tag.ClassContextSpecific || decodedTag_forwardingoptions.Number != 6 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardingoptions), "forwardingOptions", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_forwardingoptions), "forwardingOptions", "decoding", false)
 				}
 				decVal_forwardingoptions, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardingoptions.Constructed, rawVal_forwardingoptions, opts...)
 				if octetErr != nil {
@@ -5791,8 +5941,11 @@ func (destination *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 7 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 7 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -5831,7 +5984,7 @@ func (destination *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 					return qualifyBERError(err, "longForwardedToNumber", "decoding", false)
 				}
 				if decodedTag_longforwardedtonumber.Class != tag.ClassContextSpecific || decodedTag_longforwardedtonumber.Number != 8 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_longforwardedtonumber), "longForwardedToNumber", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_longforwardedtonumber), "longForwardedToNumber", "decoding", false)
 				}
 				decVal_longforwardedtonumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_longforwardedtonumber.Constructed, rawVal_longforwardedtonumber, opts...)
 				if octetErr != nil {
@@ -5870,7 +6023,7 @@ func (destination *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ForwardingData", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ForwardingData", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_5, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -6112,7 +6265,7 @@ func (v *ProvideRoamingNumberArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhasesInInterrogatingNode.Bytes, namedBits_SupportedCamelPhasesInInterrogatingNode.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCamelPhasesInInterrogatingNode", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_SupportedCamelPhasesInInterrogatingNode.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6189,7 +6342,7 @@ func (v *ProvideRoamingNumberArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIsInInterrogatingNode.Bytes, namedBits_OfferedCamel4CSIsInInterrogatingNode.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIsInInterrogatingNode", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_OfferedCamel4CSIsInInterrogatingNode.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6553,7 +6706,7 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhasesInInterrogatingNode.Bytes, namedBits_SupportedCamelPhasesInInterrogatingNode.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCamelPhasesInInterrogatingNode", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_SupportedCamelPhasesInInterrogatingNode.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6629,7 +6782,7 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIsInInterrogatingNode.Bytes, namedBits_OfferedCamel4CSIsInInterrogatingNode.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIsInInterrogatingNode", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_OfferedCamel4CSIsInInterrogatingNode.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6807,11 +6960,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 	offset := 0
 	// Decode imsi
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field imsi")
+		return fmt.Errorf("%w: missing required field imsi", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for imsi, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for imsi, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -6821,7 +6974,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 			return qualifyBERError(err, "imsi", "decoding", false)
 		}
 		if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi), "imsi", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_imsi), "imsi", "decoding", false)
 		}
 		decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
 		if octetErr != nil {
@@ -6841,11 +6994,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 	}
 	// Decode msc-Number
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field msc-Number")
+		return fmt.Errorf("%w: missing required field msc-Number", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 1 {
-			return fmt.Errorf("expected tag [%s %d] for msc-Number, got %s", "CONTEXT", 1, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for msc-Number, got %s", ber.ErrUnexpectedElement, "CONTEXT", 1, reqTag_)
 		}
 	}
 	{
@@ -6855,7 +7008,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 			return qualifyBERError(err, "msc-Number", "decoding", false)
 		}
 		if decodedTag_mscnumber.Class != tag.ClassContextSpecific || decodedTag_mscnumber.Number != 1 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mscnumber), "msc-Number", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_mscnumber), "msc-Number", "decoding", false)
 		}
 		decVal_mscnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_mscnumber.Constructed, rawVal_mscnumber, opts...)
 		if octetErr != nil {
@@ -6890,7 +7043,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 					return qualifyBERError(err, "msisdn", "decoding", false)
 				}
 				if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 2 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn), "msisdn", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_msisdn), "msisdn", "decoding", false)
 				}
 				decVal_msisdn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msisdn.Constructed, rawVal_msisdn, opts...)
 				if octetErr != nil {
@@ -6928,7 +7081,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 					return qualifyBERError(err, "lmsi", "decoding", false)
 				}
 				if decodedTag_lmsi.Class != tag.ClassContextSpecific || decodedTag_lmsi.Number != 4 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lmsi), "lmsi", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_lmsi), "lmsi", "decoding", false)
 				}
 				decVal_lmsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_lmsi.Constructed, rawVal_lmsi, opts...)
 				if octetErr != nil {
@@ -6960,8 +7113,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "gsm-BearerCapability", "decoding", false)
 				}
-				if decodedTag_gsmbearercapability.Class != tag.ClassContextSpecific || decodedTag_gsmbearercapability.Number != 5 || decodedTag_gsmbearercapability.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmbearercapability), "gsm-BearerCapability", "decoding", false)
+				if decodedTag_gsmbearercapability.Class != tag.ClassContextSpecific || decodedTag_gsmbearercapability.Number != 5 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_gsmbearercapability), "gsm-BearerCapability", "decoding", false)
+				}
+				if decodedTag_gsmbearercapability.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_gsmbearercapability), "gsm-BearerCapability", "decoding", false)
 				}
 				_ = rawVal_gsmbearercapability
 				if offset < 0 || offset >
@@ -6999,8 +7155,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "networkSignalInfo", "decoding", false)
 				}
-				if decodedTag_networksignalinfo.Class != tag.ClassContextSpecific || decodedTag_networksignalinfo.Number != 6 || decodedTag_networksignalinfo.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_networksignalinfo), "networkSignalInfo", "decoding", false)
+				if decodedTag_networksignalinfo.Class != tag.ClassContextSpecific || decodedTag_networksignalinfo.Number != 6 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_networksignalinfo), "networkSignalInfo", "decoding", false)
+				}
+				if decodedTag_networksignalinfo.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_networksignalinfo), "networkSignalInfo", "decoding", false)
 				}
 				_ = rawVal_networksignalinfo
 				if offset < 0 || offset >
@@ -7038,8 +7197,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "suppressionOfAnnouncement", "decoding", false)
 				}
-				if decodedTag_suppressionofannouncement.Class != tag.ClassContextSpecific || decodedTag_suppressionofannouncement.Number != 7 || decodedTag_suppressionofannouncement.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_suppressionofannouncement), "suppressionOfAnnouncement", "decoding", false)
+				if decodedTag_suppressionofannouncement.Class != tag.ClassContextSpecific || decodedTag_suppressionofannouncement.Number != 7 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_suppressionofannouncement), "suppressionOfAnnouncement", "decoding", false)
+				}
+				if decodedTag_suppressionofannouncement.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_suppressionofannouncement), "suppressionOfAnnouncement", "decoding", false)
 				}
 				if len(rawVal_suppressionofannouncement) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_suppressionofannouncement)), "suppressionOfAnnouncement", "decoding", false)
@@ -7066,7 +7228,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 					return qualifyBERError(err, "gmsc-Address", "decoding", false)
 				}
 				if decodedTag_gmscaddress.Class != tag.ClassContextSpecific || decodedTag_gmscaddress.Number != 8 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gmscaddress), "gmsc-Address", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_gmscaddress), "gmsc-Address", "decoding", false)
 				}
 				decVal_gmscaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gmscaddress.Constructed, rawVal_gmscaddress, opts...)
 				if octetErr != nil {
@@ -7104,7 +7266,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 					return qualifyBERError(err, "callReferenceNumber", "decoding", false)
 				}
 				if decodedTag_callreferencenumber.Class != tag.ClassContextSpecific || decodedTag_callreferencenumber.Number != 9 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callreferencenumber), "callReferenceNumber", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_callreferencenumber), "callReferenceNumber", "decoding", false)
 				}
 				decVal_callreferencenumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_callreferencenumber.Constructed, rawVal_callreferencenumber, opts...)
 				if octetErr != nil {
@@ -7137,8 +7299,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "or-Interrogation", "decoding", false)
 				}
-				if decodedTag_orinterrogation.Class != tag.ClassContextSpecific || decodedTag_orinterrogation.Number != 10 || decodedTag_orinterrogation.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_orinterrogation), "or-Interrogation", "decoding", false)
+				if decodedTag_orinterrogation.Class != tag.ClassContextSpecific || decodedTag_orinterrogation.Number != 10 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_orinterrogation), "or-Interrogation", "decoding", false)
+				}
+				if decodedTag_orinterrogation.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_orinterrogation), "or-Interrogation", "decoding", false)
 				}
 				if len(rawVal_orinterrogation) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_orinterrogation)), "or-Interrogation", "decoding", false)
@@ -7163,8 +7328,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 11 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 11 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -7203,7 +7371,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 					return qualifyBERError(err, "alertingPattern", "decoding", false)
 				}
 				if decodedTag_alertingpattern.Class != tag.ClassContextSpecific || decodedTag_alertingpattern.Number != 12 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_alertingpattern), "alertingPattern", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_alertingpattern), "alertingPattern", "decoding", false)
 				}
 				decVal_alertingpattern, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_alertingpattern.Constructed, rawVal_alertingpattern, opts...)
 				if octetErr != nil {
@@ -7235,8 +7403,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "ccbs-Call", "decoding", false)
 				}
-				if decodedTag_ccbscall.Class != tag.ClassContextSpecific || decodedTag_ccbscall.Number != 13 || decodedTag_ccbscall.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbscall), "ccbs-Call", "decoding", false)
+				if decodedTag_ccbscall.Class != tag.ClassContextSpecific || decodedTag_ccbscall.Number != 13 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbscall), "ccbs-Call", "decoding", false)
+				}
+				if decodedTag_ccbscall.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbscall), "ccbs-Call", "decoding", false)
 				}
 				if len(rawVal_ccbscall) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ccbscall)), "ccbs-Call", "decoding", false)
@@ -7262,7 +7433,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 					return qualifyBERError(err, "supportedCamelPhasesInInterrogatingNode", "decoding", false)
 				}
 				if decodedTag_supportedcamelphasesininterrogatingnode.Class != tag.ClassContextSpecific || decodedTag_supportedcamelphasesininterrogatingnode.Number != 15 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedcamelphasesininterrogatingnode), "supportedCamelPhasesInInterrogatingNode", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_supportedcamelphasesininterrogatingnode), "supportedCamelPhasesInInterrogatingNode", "decoding", false)
 				}
 				bsBytes_supportedcamelphasesininterrogatingnode, bsUnused_supportedcamelphasesininterrogatingnode, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedcamelphasesininterrogatingnode.Constructed, rawVal_supportedcamelphasesininterrogatingnode, opts...)
 				if bsErr != nil {
@@ -7300,8 +7471,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "additionalSignalInfo", "decoding", false)
 				}
-				if decodedTag_additionalsignalinfo.Class != tag.ClassContextSpecific || decodedTag_additionalsignalinfo.Number != 14 || decodedTag_additionalsignalinfo.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalsignalinfo), "additionalSignalInfo", "decoding", false)
+				if decodedTag_additionalsignalinfo.Class != tag.ClassContextSpecific || decodedTag_additionalsignalinfo.Number != 14 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_additionalsignalinfo), "additionalSignalInfo", "decoding", false)
+				}
+				if decodedTag_additionalsignalinfo.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_additionalsignalinfo), "additionalSignalInfo", "decoding", false)
 				}
 				_ = rawVal_additionalsignalinfo
 				if offset < 0 || offset >
@@ -7339,8 +7513,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "orNotSupportedInGMSC", "decoding", false)
 				}
-				if decodedTag_ornotsupportedingmsc.Class != tag.ClassContextSpecific || decodedTag_ornotsupportedingmsc.Number != 16 || decodedTag_ornotsupportedingmsc.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ornotsupportedingmsc), "orNotSupportedInGMSC", "decoding", false)
+				if decodedTag_ornotsupportedingmsc.Class != tag.ClassContextSpecific || decodedTag_ornotsupportedingmsc.Number != 16 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ornotsupportedingmsc), "orNotSupportedInGMSC", "decoding", false)
+				}
+				if decodedTag_ornotsupportedingmsc.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ornotsupportedingmsc), "orNotSupportedInGMSC", "decoding", false)
 				}
 				if len(rawVal_ornotsupportedingmsc) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ornotsupportedingmsc)), "orNotSupportedInGMSC", "decoding", false)
@@ -7366,8 +7543,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "pre-pagingSupported", "decoding", false)
 				}
-				if decodedTag_prepagingsupported.Class != tag.ClassContextSpecific || decodedTag_prepagingsupported.Number != 17 || decodedTag_prepagingsupported.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_prepagingsupported), "pre-pagingSupported", "decoding", false)
+				if decodedTag_prepagingsupported.Class != tag.ClassContextSpecific || decodedTag_prepagingsupported.Number != 17 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_prepagingsupported), "pre-pagingSupported", "decoding", false)
+				}
+				if decodedTag_prepagingsupported.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_prepagingsupported), "pre-pagingSupported", "decoding", false)
 				}
 				if len(rawVal_prepagingsupported) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_prepagingsupported)), "pre-pagingSupported", "decoding", false)
@@ -7393,8 +7573,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "longFTN-Supported", "decoding", false)
 				}
-				if decodedTag_longftnsupported.Class != tag.ClassContextSpecific || decodedTag_longftnsupported.Number != 18 || decodedTag_longftnsupported.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_longftnsupported), "longFTN-Supported", "decoding", false)
+				if decodedTag_longftnsupported.Class != tag.ClassContextSpecific || decodedTag_longftnsupported.Number != 18 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_longftnsupported), "longFTN-Supported", "decoding", false)
+				}
+				if decodedTag_longftnsupported.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_longftnsupported), "longFTN-Supported", "decoding", false)
 				}
 				if len(rawVal_longftnsupported) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_longftnsupported)), "longFTN-Supported", "decoding", false)
@@ -7419,8 +7602,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "suppress-VT-CSI", "decoding", false)
 				}
-				if decodedTag_suppressvtcsi.Class != tag.ClassContextSpecific || decodedTag_suppressvtcsi.Number != 19 || decodedTag_suppressvtcsi.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_suppressvtcsi), "suppress-VT-CSI", "decoding", false)
+				if decodedTag_suppressvtcsi.Class != tag.ClassContextSpecific || decodedTag_suppressvtcsi.Number != 19 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_suppressvtcsi), "suppress-VT-CSI", "decoding", false)
+				}
+				if decodedTag_suppressvtcsi.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_suppressvtcsi), "suppress-VT-CSI", "decoding", false)
 				}
 				if len(rawVal_suppressvtcsi) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_suppressvtcsi)), "suppress-VT-CSI", "decoding", false)
@@ -7446,7 +7632,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 					return qualifyBERError(err, "offeredCamel4CSIsInInterrogatingNode", "decoding", false)
 				}
 				if decodedTag_offeredcamel4csisininterrogatingnode.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csisininterrogatingnode.Number != 20 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csisininterrogatingnode), "offeredCamel4CSIsInInterrogatingNode", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_offeredcamel4csisininterrogatingnode), "offeredCamel4CSIsInInterrogatingNode", "decoding", false)
 				}
 				bsBytes_offeredcamel4csisininterrogatingnode, bsUnused_offeredcamel4csisininterrogatingnode, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csisininterrogatingnode.Constructed, rawVal_offeredcamel4csisininterrogatingnode, opts...)
 				if bsErr != nil {
@@ -7484,8 +7670,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "mtRoamingRetrySupported", "decoding", false)
 				}
-				if decodedTag_mtroamingretrysupported.Class != tag.ClassContextSpecific || decodedTag_mtroamingretrysupported.Number != 21 || decodedTag_mtroamingretrysupported.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mtroamingretrysupported), "mtRoamingRetrySupported", "decoding", false)
+				if decodedTag_mtroamingretrysupported.Class != tag.ClassContextSpecific || decodedTag_mtroamingretrysupported.Number != 21 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_mtroamingretrysupported), "mtRoamingRetrySupported", "decoding", false)
+				}
+				if decodedTag_mtroamingretrysupported.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_mtroamingretrysupported), "mtRoamingRetrySupported", "decoding", false)
 				}
 				if len(rawVal_mtroamingretrysupported) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_mtroamingretrysupported)), "mtRoamingRetrySupported", "decoding", false)
@@ -7512,8 +7701,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "pagingArea", "decoding", false)
 				}
-				if decodedTag_pagingarea.Class != tag.ClassContextSpecific || decodedTag_pagingarea.Number != 22 || decodedTag_pagingarea.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pagingarea), "pagingArea", "decoding", false)
+				if decodedTag_pagingarea.Class != tag.ClassContextSpecific || decodedTag_pagingarea.Number != 22 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_pagingarea), "pagingArea", "decoding", false)
+				}
+				if decodedTag_pagingarea.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_pagingarea), "pagingArea", "decoding", false)
 				}
 				_ = rawVal_pagingarea
 				if offset < 0 || offset >
@@ -7565,8 +7757,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "callPriority", "decoding", false)
 				}
-				if decodedTag_callpriority.Class != tag.ClassContextSpecific || decodedTag_callpriority.Number != 23 || decodedTag_callpriority.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callpriority), "callPriority", "decoding", false)
+				if decodedTag_callpriority.Class != tag.ClassContextSpecific || decodedTag_callpriority.Number != 23 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_callpriority), "callPriority", "decoding", false)
+				}
+				if decodedTag_callpriority.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_callpriority), "callPriority", "decoding", false)
 				}
 				decVal_callpriority, intErr := ber.DecodeIntegerValue(rawVal_callpriority)
 				if intErr != nil {
@@ -7598,8 +7793,11 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "mtrf-Indicator", "decoding", false)
 				}
-				if decodedTag_mtrfindicator.Class != tag.ClassContextSpecific || decodedTag_mtrfindicator.Number != 24 || decodedTag_mtrfindicator.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mtrfindicator), "mtrf-Indicator", "decoding", false)
+				if decodedTag_mtrfindicator.Class != tag.ClassContextSpecific || decodedTag_mtrfindicator.Number != 24 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_mtrfindicator), "mtrf-Indicator", "decoding", false)
+				}
+				if decodedTag_mtrfindicator.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_mtrfindicator), "mtrf-Indicator", "decoding", false)
 				}
 				if len(rawVal_mtrfindicator) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_mtrfindicator)), "mtrf-Indicator", "decoding", false)
@@ -7625,7 +7823,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 					return qualifyBERError(err, "oldMSC-Number", "decoding", false)
 				}
 				if decodedTag_oldmscnumber.Class != tag.ClassContextSpecific || decodedTag_oldmscnumber.Number != 25 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_oldmscnumber), "oldMSC-Number", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_oldmscnumber), "oldMSC-Number", "decoding", false)
 				}
 				decVal_oldmscnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_oldmscnumber.Constructed, rawVal_oldmscnumber, opts...)
 				if octetErr != nil {
@@ -7663,7 +7861,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 					return qualifyBERError(err, "lastUsedLtePLMN-Id", "decoding", false)
 				}
 				if decodedTag_lastusedlteplmnid.Class != tag.ClassContextSpecific || decodedTag_lastusedlteplmnid.Number != 26 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lastusedlteplmnid), "lastUsedLtePLMN-Id", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_lastusedlteplmnid), "lastUsedLtePLMN-Id", "decoding", false)
 				}
 				decVal_lastusedlteplmnid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_lastusedlteplmnid.Constructed, rawVal_lastusedlteplmnid, opts...)
 				if octetErr != nil {
@@ -7697,7 +7895,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 26) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 24) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ProvideRoamingNumberArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ProvideRoamingNumberArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_6, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -7931,7 +8129,7 @@ func (destination *ProvideRoamingNumberRes) UnmarshalBER(data []byte, opts ...be
 	offset := 0
 	// Decode roamingNumber
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field roamingNumber")
+		return fmt.Errorf("%w: missing required field roamingNumber", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "roamingNumber", content[offset:])
@@ -8050,7 +8248,7 @@ func (destination *ProvideRoamingNumberRes) UnmarshalBER(data []byte, opts ...be
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ProvideRoamingNumberRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ProvideRoamingNumberRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_7, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -8630,7 +8828,7 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 					return qualifyBERError(err, "callReferenceNumber", "decoding", false)
 				}
 				if decodedTag_callreferencenumber.Class != tag.ClassContextSpecific || decodedTag_callreferencenumber.Number != 0 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callreferencenumber), "callReferenceNumber", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_callreferencenumber), "callReferenceNumber", "decoding", false)
 				}
 				decVal_callreferencenumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_callreferencenumber.Constructed, rawVal_callreferencenumber, opts...)
 				if octetErr != nil {
@@ -8661,15 +8859,21 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "basicServiceGroup", "decoding", false)
 				}
-				if decodedTag_basicservicegroup.Class != tag.ClassContextSpecific || decodedTag_basicservicegroup.Number != 1 || decodedTag_basicservicegroup.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservicegroup), "basicServiceGroup", "decoding", false)
+				if decodedTag_basicservicegroup.Class != tag.ClassContextSpecific || decodedTag_basicservicegroup.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_basicservicegroup), "basicServiceGroup", "decoding", false)
+				}
+				if decodedTag_basicservicegroup.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_basicservicegroup), "basicServiceGroup", "decoding", false)
+				}
+				if len(innerData_basicservicegroup) == 0 {
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicServiceGroup", "decoding", false)
 				}
 				_, innerUsed_basicservicegroup, _, innerErr_basicservicegroup := ber.DecodeTLV(innerData_basicservicegroup, opts...)
 				if innerErr_basicservicegroup != nil {
 					return qualifyBERError(innerErr_basicservicegroup, "basicServiceGroup", "decoding", false)
 				}
 				if innerUsed_basicservicegroup != len(innerData_basicservicegroup) {
-					return qualifyBERError(ber.ErrExtraData, "basicServiceGroup", "decoding", false)
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicServiceGroup", "decoding", false)
 				}
 				// Decode inner value from explicit tag wrapper
 				ber.MarkPreflightTarget(opts, "basicServiceGroup", innerData_basicservicegroup)
@@ -8698,8 +8902,11 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "forwardingData", "decoding", false)
 				}
-				if decodedTag_forwardingdata.Class != tag.ClassContextSpecific || decodedTag_forwardingdata.Number != 2 || decodedTag_forwardingdata.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardingdata), "forwardingData", "decoding", false)
+				if decodedTag_forwardingdata.Class != tag.ClassContextSpecific || decodedTag_forwardingdata.Number != 2 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_forwardingdata), "forwardingData", "decoding", false)
+				}
+				if decodedTag_forwardingdata.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_forwardingdata), "forwardingData", "decoding", false)
 				}
 				_ = rawVal_forwardingdata
 				if offset < 0 || offset >
@@ -8736,7 +8943,7 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 					return qualifyBERError(err, "imsi", "decoding", false)
 				}
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 3 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi), "imsi", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_imsi), "imsi", "decoding", false)
 				}
 				decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
 				if octetErr != nil {
@@ -8768,8 +8975,11 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "cug-CheckInfo", "decoding", false)
 				}
-				if decodedTag_cugcheckinfo.Class != tag.ClassContextSpecific || decodedTag_cugcheckinfo.Number != 4 || decodedTag_cugcheckinfo.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cugcheckinfo), "cug-CheckInfo", "decoding", false)
+				if decodedTag_cugcheckinfo.Class != tag.ClassContextSpecific || decodedTag_cugcheckinfo.Number != 4 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_cugcheckinfo), "cug-CheckInfo", "decoding", false)
+				}
+				if decodedTag_cugcheckinfo.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_cugcheckinfo), "cug-CheckInfo", "decoding", false)
 				}
 				_ = rawVal_cugcheckinfo
 				if offset < 0 || offset >
@@ -8805,8 +9015,11 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "o-CSI", "decoding", false)
 				}
-				if decodedTag_ocsi.Class != tag.ClassContextSpecific || decodedTag_ocsi.Number != 5 || decodedTag_ocsi.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ocsi), "o-CSI", "decoding", false)
+				if decodedTag_ocsi.Class != tag.ClassContextSpecific || decodedTag_ocsi.Number != 5 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ocsi), "o-CSI", "decoding", false)
+				}
+				if decodedTag_ocsi.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ocsi), "o-CSI", "decoding", false)
 				}
 				_ = rawVal_ocsi
 				if offset < 0 || offset >
@@ -8842,8 +9055,11 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 7 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 7 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -8881,8 +9097,11 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "ccbs-Possible", "decoding", false)
 				}
-				if decodedTag_ccbspossible.Class != tag.ClassContextSpecific || decodedTag_ccbspossible.Number != 8 || decodedTag_ccbspossible.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbspossible), "ccbs-Possible", "decoding", false)
+				if decodedTag_ccbspossible.Class != tag.ClassContextSpecific || decodedTag_ccbspossible.Number != 8 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbspossible), "ccbs-Possible", "decoding", false)
+				}
+				if decodedTag_ccbspossible.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbspossible), "ccbs-Possible", "decoding", false)
 				}
 				if len(rawVal_ccbspossible) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ccbspossible)), "ccbs-Possible", "decoding", false)
@@ -8908,7 +9127,7 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 					return qualifyBERError(err, "msisdn", "decoding", false)
 				}
 				if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 9 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn), "msisdn", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_msisdn), "msisdn", "decoding", false)
 				}
 				decVal_msisdn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msisdn.Constructed, rawVal_msisdn, opts...)
 				if octetErr != nil {
@@ -8945,8 +9164,11 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "uu-Data", "decoding", false)
 				}
-				if decodedTag_uudata.Class != tag.ClassContextSpecific || decodedTag_uudata.Number != 10 || decodedTag_uudata.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uudata), "uu-Data", "decoding", false)
+				if decodedTag_uudata.Class != tag.ClassContextSpecific || decodedTag_uudata.Number != 10 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_uudata), "uu-Data", "decoding", false)
+				}
+				if decodedTag_uudata.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_uudata), "uu-Data", "decoding", false)
 				}
 				_ = rawVal_uudata
 				if offset < 0 || offset >
@@ -8982,8 +9204,11 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "allInformationSent", "decoding", false)
 				}
-				if decodedTag_allinformationsent.Class != tag.ClassContextSpecific || decodedTag_allinformationsent.Number != 11 || decodedTag_allinformationsent.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_allinformationsent), "allInformationSent", "decoding", false)
+				if decodedTag_allinformationsent.Class != tag.ClassContextSpecific || decodedTag_allinformationsent.Number != 11 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_allinformationsent), "allInformationSent", "decoding", false)
+				}
+				if decodedTag_allinformationsent.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_allinformationsent), "allInformationSent", "decoding", false)
 				}
 				if len(rawVal_allinformationsent) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_allinformationsent)), "allInformationSent", "decoding", false)
@@ -9009,8 +9234,11 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "d-csi", "decoding", false)
 				}
-				if decodedTag_dcsi.Class != tag.ClassContextSpecific || decodedTag_dcsi.Number != 12 || decodedTag_dcsi.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dcsi), "d-csi", "decoding", false)
+				if decodedTag_dcsi.Class != tag.ClassContextSpecific || decodedTag_dcsi.Number != 12 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_dcsi), "d-csi", "decoding", false)
+				}
+				if decodedTag_dcsi.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_dcsi), "d-csi", "decoding", false)
 				}
 				_ = rawVal_dcsi
 				if offset < 0 || offset >
@@ -9047,8 +9275,11 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "o-BcsmCamelTDPCriteriaList", "decoding", false)
 				}
-				if decodedTag_obcsmcameltdpcriterialist.Class != tag.ClassContextSpecific || decodedTag_obcsmcameltdpcriterialist.Number != 13 || decodedTag_obcsmcameltdpcriterialist.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_obcsmcameltdpcriterialist), "o-BcsmCamelTDPCriteriaList", "decoding", false)
+				if decodedTag_obcsmcameltdpcriterialist.Class != tag.ClassContextSpecific || decodedTag_obcsmcameltdpcriterialist.Number != 13 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_obcsmcameltdpcriterialist), "o-BcsmCamelTDPCriteriaList", "decoding", false)
+				}
+				if decodedTag_obcsmcameltdpcriterialist.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_obcsmcameltdpcriterialist), "o-BcsmCamelTDPCriteriaList", "decoding", false)
 				}
 				_ = rawVal_obcsmcameltdpcriterialist
 				if offset < 0 || offset >
@@ -9102,15 +9333,21 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "basicServiceGroup2", "decoding", false)
 				}
-				if decodedTag_basicservicegroup2.Class != tag.ClassContextSpecific || decodedTag_basicservicegroup2.Number != 14 || decodedTag_basicservicegroup2.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservicegroup2), "basicServiceGroup2", "decoding", false)
+				if decodedTag_basicservicegroup2.Class != tag.ClassContextSpecific || decodedTag_basicservicegroup2.Number != 14 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_basicservicegroup2), "basicServiceGroup2", "decoding", false)
+				}
+				if decodedTag_basicservicegroup2.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_basicservicegroup2), "basicServiceGroup2", "decoding", false)
+				}
+				if len(innerData_basicservicegroup2) == 0 {
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicServiceGroup2", "decoding", false)
 				}
 				_, innerUsed_basicservicegroup2, _, innerErr_basicservicegroup2 := ber.DecodeTLV(innerData_basicservicegroup2, opts...)
 				if innerErr_basicservicegroup2 != nil {
 					return qualifyBERError(innerErr_basicservicegroup2, "basicServiceGroup2", "decoding", false)
 				}
 				if innerUsed_basicservicegroup2 != len(innerData_basicservicegroup2) {
-					return qualifyBERError(ber.ErrExtraData, "basicServiceGroup2", "decoding", false)
+					return qualifyBERError(ber.ErrUnexpectedElement, "basicServiceGroup2", "decoding", false)
 				}
 				// Decode inner value from explicit tag wrapper
 				ber.MarkPreflightTarget(opts, "basicServiceGroup2", innerData_basicservicegroup2)
@@ -9139,8 +9376,11 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "mtRoamingRetry", "decoding", false)
 				}
-				if decodedTag_mtroamingretry.Class != tag.ClassContextSpecific || decodedTag_mtroamingretry.Number != 15 || decodedTag_mtroamingretry.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mtroamingretry), "mtRoamingRetry", "decoding", false)
+				if decodedTag_mtroamingretry.Class != tag.ClassContextSpecific || decodedTag_mtroamingretry.Number != 15 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_mtroamingretry), "mtRoamingRetry", "decoding", false)
+				}
+				if decodedTag_mtroamingretry.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_mtroamingretry), "mtRoamingRetry", "decoding", false)
 				}
 				if len(rawVal_mtroamingretry) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_mtroamingretry)), "mtRoamingRetry", "decoding", false)
@@ -9166,7 +9406,7 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ResumeCallHandlingArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ResumeCallHandlingArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_8, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -9432,7 +9672,7 @@ func (destination *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 					return qualifyBERError(err, "uuIndicator", "decoding", false)
 				}
 				if decodedTag_uuindicator.Class != tag.ClassContextSpecific || decodedTag_uuindicator.Number != 0 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uuindicator), "uuIndicator", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_uuindicator), "uuIndicator", "decoding", false)
 				}
 				decVal_uuindicator, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_uuindicator.Constructed, rawVal_uuindicator, opts...)
 				if octetErr != nil {
@@ -9464,7 +9704,7 @@ func (destination *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 					return qualifyBERError(err, "uui", "decoding", false)
 				}
 				if decodedTag_uui.Class != tag.ClassContextSpecific || decodedTag_uui.Number != 1 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uui), "uui", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_uui), "uui", "decoding", false)
 				}
 				decVal_uui, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_uui.Constructed, rawVal_uui, opts...)
 				if octetErr != nil {
@@ -9496,8 +9736,11 @@ func (destination *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if err != nil {
 					return qualifyBERError(err, "uusCFInteraction", "decoding", false)
 				}
-				if decodedTag_uuscfinteraction.Class != tag.ClassContextSpecific || decodedTag_uuscfinteraction.Number != 2 || decodedTag_uuscfinteraction.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uuscfinteraction), "uusCFInteraction", "decoding", false)
+				if decodedTag_uuscfinteraction.Class != tag.ClassContextSpecific || decodedTag_uuscfinteraction.Number != 2 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_uuscfinteraction), "uusCFInteraction", "decoding", false)
+				}
+				if decodedTag_uuscfinteraction.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_uuscfinteraction), "uusCFInteraction", "decoding", false)
 				}
 				if len(rawVal_uuscfinteraction) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_uuscfinteraction)), "uusCFInteraction", "decoding", false)
@@ -9523,8 +9766,11 @@ func (destination *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 3 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 3 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -9563,7 +9809,7 @@ func (destination *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "UUData", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "UUData", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_9, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -9762,7 +10008,7 @@ func (destination *ResumeCallHandlingRes) UnmarshalBER(data []byte, opts ...ber.
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ResumeCallHandlingRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ResumeCallHandlingRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_10, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -9807,7 +10053,7 @@ func (v *CamelInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhases.Bytes, namedBits_SupportedCamelPhases.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "supportedCamelPhases", "encoding", false)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 	if namedBits_SupportedCamelPhases.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -9841,7 +10087,7 @@ func (v *CamelInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIs.Bytes, namedBits_OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIs", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -9907,7 +10153,7 @@ func (v *CamelInfo) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhases.Bytes, namedBits_SupportedCamelPhases.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "supportedCamelPhases", "encoding", true)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 	if namedBits_SupportedCamelPhases.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -9940,7 +10186,7 @@ func (v *CamelInfo) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIs.Bytes, namedBits_OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIs", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
 		if namedBits_OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -10029,7 +10275,7 @@ func (destination *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	offset := 0
 	// Decode supportedCamelPhases
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field supportedCamelPhases")
+		return fmt.Errorf("%w: missing required field supportedCamelPhases", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "supportedCamelPhases", content[offset:])
@@ -10117,7 +10363,7 @@ func (destination *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 					return qualifyBERError(err, "offeredCamel4CSIs", "decoding", false)
 				}
 				if decodedTag_offeredcamel4csis.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csis.Number != 0 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csis), "offeredCamel4CSIs", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_offeredcamel4csis), "offeredCamel4CSIs", "decoding", false)
 				}
 				bsBytes_offeredcamel4csis, bsUnused_offeredcamel4csis, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csis.Constructed, rawVal_offeredcamel4csis, opts...)
 				if bsErr != nil {
@@ -10156,7 +10402,7 @@ func (destination *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "CamelInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "CamelInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_11, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -10578,11 +10824,11 @@ func (destination *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 	}
 	// Decode gmscCamelSubscriptionInfo
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field gmscCamelSubscriptionInfo")
+		return fmt.Errorf("%w: missing required field gmscCamelSubscriptionInfo", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for gmscCamelSubscriptionInfo, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for gmscCamelSubscriptionInfo, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -10591,8 +10837,11 @@ func (destination *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 		if err != nil {
 			return qualifyBERError(err, "gmscCamelSubscriptionInfo", "decoding", false)
 		}
-		if decodedTag_gmsccamelsubscriptioninfo.Class != tag.ClassContextSpecific || decodedTag_gmsccamelsubscriptioninfo.Number != 0 || decodedTag_gmsccamelsubscriptioninfo.Constructed != true {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gmsccamelsubscriptioninfo), "gmscCamelSubscriptionInfo", "decoding", false)
+		if decodedTag_gmsccamelsubscriptioninfo.Class != tag.ClassContextSpecific || decodedTag_gmsccamelsubscriptioninfo.Number != 0 {
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_gmsccamelsubscriptioninfo), "gmscCamelSubscriptionInfo", "decoding", false)
+		}
+		if decodedTag_gmsccamelsubscriptioninfo.Constructed != true {
+			return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_gmsccamelsubscriptioninfo), "gmscCamelSubscriptionInfo", "decoding", false)
 		}
 		_ = rawVal_gmsccamelsubscriptioninfo
 		if offset < 0 || offset >
@@ -10626,8 +10875,11 @@ func (destination *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -10666,7 +10918,7 @@ func (destination *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "CamelRoutingInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "CamelRoutingInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_12, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -11021,8 +11273,11 @@ func (destination *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...
 				if err != nil {
 					return qualifyBERError(err, "t-CSI", "decoding", false)
 				}
-				if decodedTag_tcsi.Class != tag.ClassContextSpecific || decodedTag_tcsi.Number != 0 || decodedTag_tcsi.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tcsi), "t-CSI", "decoding", false)
+				if decodedTag_tcsi.Class != tag.ClassContextSpecific || decodedTag_tcsi.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_tcsi), "t-CSI", "decoding", false)
+				}
+				if decodedTag_tcsi.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_tcsi), "t-CSI", "decoding", false)
 				}
 				_ = rawVal_tcsi
 				if offset > len(content) || n_tcsi < 0 || n_tcsi > len(content[offset:]) {
@@ -11056,8 +11311,11 @@ func (destination *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...
 				if err != nil {
 					return qualifyBERError(err, "o-CSI", "decoding", false)
 				}
-				if decodedTag_ocsi.Class != tag.ClassContextSpecific || decodedTag_ocsi.Number != 1 || decodedTag_ocsi.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ocsi), "o-CSI", "decoding", false)
+				if decodedTag_ocsi.Class != tag.ClassContextSpecific || decodedTag_ocsi.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ocsi), "o-CSI", "decoding", false)
+				}
+				if decodedTag_ocsi.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ocsi), "o-CSI", "decoding", false)
 				}
 				_ = rawVal_ocsi
 				if offset < 0 || offset >
@@ -11093,8 +11351,11 @@ func (destination *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 2 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 2 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -11133,8 +11394,11 @@ func (destination *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...
 				if err != nil {
 					return qualifyBERError(err, "o-BcsmCamelTDP-CriteriaList", "decoding", false)
 				}
-				if decodedTag_obcsmcameltdpcriterialist.Class != tag.ClassContextSpecific || decodedTag_obcsmcameltdpcriterialist.Number != 3 || decodedTag_obcsmcameltdpcriterialist.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_obcsmcameltdpcriterialist), "o-BcsmCamelTDP-CriteriaList", "decoding", false)
+				if decodedTag_obcsmcameltdpcriterialist.Class != tag.ClassContextSpecific || decodedTag_obcsmcameltdpcriterialist.Number != 3 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_obcsmcameltdpcriterialist), "o-BcsmCamelTDP-CriteriaList", "decoding", false)
+				}
+				if decodedTag_obcsmcameltdpcriterialist.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_obcsmcameltdpcriterialist), "o-BcsmCamelTDP-CriteriaList", "decoding", false)
 				}
 				_ = rawVal_obcsmcameltdpcriterialist
 				if offset < 0 || offset >
@@ -11189,8 +11453,11 @@ func (destination *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...
 				if err != nil {
 					return qualifyBERError(err, "t-BCSM-CAMEL-TDP-CriteriaList", "decoding", false)
 				}
-				if decodedTag_tbcsmcameltdpcriterialist.Class != tag.ClassContextSpecific || decodedTag_tbcsmcameltdpcriterialist.Number != 4 || decodedTag_tbcsmcameltdpcriterialist.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tbcsmcameltdpcriterialist), "t-BCSM-CAMEL-TDP-CriteriaList", "decoding", false)
+				if decodedTag_tbcsmcameltdpcriterialist.Class != tag.ClassContextSpecific || decodedTag_tbcsmcameltdpcriterialist.Number != 4 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_tbcsmcameltdpcriterialist), "t-BCSM-CAMEL-TDP-CriteriaList", "decoding", false)
+				}
+				if decodedTag_tbcsmcameltdpcriterialist.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_tbcsmcameltdpcriterialist), "t-BCSM-CAMEL-TDP-CriteriaList", "decoding", false)
 				}
 				_ = rawVal_tbcsmcameltdpcriterialist
 				if offset < 0 || offset >
@@ -11244,8 +11511,11 @@ func (destination *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...
 				if err != nil {
 					return qualifyBERError(err, "d-csi", "decoding", false)
 				}
-				if decodedTag_dcsi.Class != tag.ClassContextSpecific || decodedTag_dcsi.Number != 5 || decodedTag_dcsi.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dcsi), "d-csi", "decoding", false)
+				if decodedTag_dcsi.Class != tag.ClassContextSpecific || decodedTag_dcsi.Number != 5 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_dcsi), "d-csi", "decoding", false)
+				}
+				if decodedTag_dcsi.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_dcsi), "d-csi", "decoding", false)
 				}
 				_ = rawVal_dcsi
 				if offset < 0 || offset >
@@ -11282,7 +11552,7 @@ func (destination *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "GmscCamelSubscriptionInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "GmscCamelSubscriptionInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_13, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -11549,7 +11819,7 @@ func (destination *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.D
 					return qualifyBERError(err, "imsi", "decoding", false)
 				}
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi), "imsi", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_imsi), "imsi", "decoding", false)
 				}
 				decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
 				if octetErr != nil {
@@ -11581,7 +11851,7 @@ func (destination *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.D
 					return qualifyBERError(err, "lmsi", "decoding", false)
 				}
 				if decodedTag_lmsi.Class != tag.ClassContextSpecific || decodedTag_lmsi.Number != 1 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lmsi), "lmsi", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_lmsi), "lmsi", "decoding", false)
 				}
 				decVal_lmsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_lmsi.Constructed, rawVal_lmsi, opts...)
 				if octetErr != nil {
@@ -11613,8 +11883,11 @@ func (destination *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.D
 				if err != nil {
 					return qualifyBERError(err, "ccbs-Monitoring", "decoding", false)
 				}
-				if decodedTag_ccbsmonitoring.Class != tag.ClassContextSpecific || decodedTag_ccbsmonitoring.Number != 2 || decodedTag_ccbsmonitoring.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbsmonitoring), "ccbs-Monitoring", "decoding", false)
+				if decodedTag_ccbsmonitoring.Class != tag.ClassContextSpecific || decodedTag_ccbsmonitoring.Number != 2 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbsmonitoring), "ccbs-Monitoring", "decoding", false)
+				}
+				if decodedTag_ccbsmonitoring.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbsmonitoring), "ccbs-Monitoring", "decoding", false)
 				}
 				decVal_ccbsmonitoring, intErr := ber.DecodeEnumeratedValue(rawVal_ccbsmonitoring)
 				if intErr != nil {
@@ -11641,8 +11914,11 @@ func (destination *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.D
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 3 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 3 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -11681,7 +11957,7 @@ func (destination *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.D
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "SetReportingStateArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "SetReportingStateArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_14, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -11879,8 +12155,11 @@ func (destination *SetReportingStateRes) UnmarshalBER(data []byte, opts ...ber.D
 				if err != nil {
 					return qualifyBERError(err, "ccbs-SubscriberStatus", "decoding", false)
 				}
-				if decodedTag_ccbssubscriberstatus.Class != tag.ClassContextSpecific || decodedTag_ccbssubscriberstatus.Number != 0 || decodedTag_ccbssubscriberstatus.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbssubscriberstatus), "ccbs-SubscriberStatus", "decoding", false)
+				if decodedTag_ccbssubscriberstatus.Class != tag.ClassContextSpecific || decodedTag_ccbssubscriberstatus.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbssubscriberstatus), "ccbs-SubscriberStatus", "decoding", false)
+				}
+				if decodedTag_ccbssubscriberstatus.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbssubscriberstatus), "ccbs-SubscriberStatus", "decoding", false)
 				}
 				decVal_ccbssubscriberstatus, intErr := ber.DecodeEnumeratedValue(rawVal_ccbssubscriberstatus)
 				if intErr != nil {
@@ -11907,8 +12186,11 @@ func (destination *SetReportingStateRes) UnmarshalBER(data []byte, opts ...ber.D
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -11947,7 +12229,7 @@ func (destination *SetReportingStateRes) UnmarshalBER(data []byte, opts ...ber.D
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "SetReportingStateRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "SetReportingStateRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -12199,11 +12481,11 @@ func (destination *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	offset := 0
 	// Decode imsi
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field imsi")
+		return fmt.Errorf("%w: missing required field imsi", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for imsi, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for imsi, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -12213,7 +12495,7 @@ func (destination *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.Decode
 			return qualifyBERError(err, "imsi", "decoding", false)
 		}
 		if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi), "imsi", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_imsi), "imsi", "decoding", false)
 		}
 		decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
 		if octetErr != nil {
@@ -12241,8 +12523,11 @@ func (destination *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if err != nil {
 					return qualifyBERError(err, "eventReportData", "decoding", false)
 				}
-				if decodedTag_eventreportdata.Class != tag.ClassContextSpecific || decodedTag_eventreportdata.Number != 1 || decodedTag_eventreportdata.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eventreportdata), "eventReportData", "decoding", false)
+				if decodedTag_eventreportdata.Class != tag.ClassContextSpecific || decodedTag_eventreportdata.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_eventreportdata), "eventReportData", "decoding", false)
+				}
+				if decodedTag_eventreportdata.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_eventreportdata), "eventReportData", "decoding", false)
 				}
 				_ = rawVal_eventreportdata
 				if offset < 0 || offset >
@@ -12280,8 +12565,11 @@ func (destination *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if err != nil {
 					return qualifyBERError(err, "callReportdata", "decoding", false)
 				}
-				if decodedTag_callreportdata.Class != tag.ClassContextSpecific || decodedTag_callreportdata.Number != 2 || decodedTag_callreportdata.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callreportdata), "callReportdata", "decoding", false)
+				if decodedTag_callreportdata.Class != tag.ClassContextSpecific || decodedTag_callreportdata.Number != 2 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_callreportdata), "callReportdata", "decoding", false)
+				}
+				if decodedTag_callreportdata.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_callreportdata), "callReportdata", "decoding", false)
 				}
 				_ = rawVal_callreportdata
 				if offset < 0 || offset >
@@ -12319,8 +12607,11 @@ func (destination *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 3 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 3 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -12359,7 +12650,7 @@ func (destination *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.Decode
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "StatusReportArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "StatusReportArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -12557,8 +12848,11 @@ func (destination *EventReportData) UnmarshalBER(data []byte, opts ...ber.Decode
 				if err != nil {
 					return qualifyBERError(err, "ccbs-SubscriberStatus", "decoding", false)
 				}
-				if decodedTag_ccbssubscriberstatus.Class != tag.ClassContextSpecific || decodedTag_ccbssubscriberstatus.Number != 0 || decodedTag_ccbssubscriberstatus.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbssubscriberstatus), "ccbs-SubscriberStatus", "decoding", false)
+				if decodedTag_ccbssubscriberstatus.Class != tag.ClassContextSpecific || decodedTag_ccbssubscriberstatus.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbssubscriberstatus), "ccbs-SubscriberStatus", "decoding", false)
+				}
+				if decodedTag_ccbssubscriberstatus.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbssubscriberstatus), "ccbs-SubscriberStatus", "decoding", false)
 				}
 				decVal_ccbssubscriberstatus, intErr := ber.DecodeEnumeratedValue(rawVal_ccbssubscriberstatus)
 				if intErr != nil {
@@ -12585,8 +12879,11 @@ func (destination *EventReportData) UnmarshalBER(data []byte, opts ...ber.Decode
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -12625,7 +12922,7 @@ func (destination *EventReportData) UnmarshalBER(data []byte, opts ...ber.Decode
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "EventReportData", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "EventReportData", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -12841,8 +13138,11 @@ func (destination *CallReportData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if err != nil {
 					return qualifyBERError(err, "monitoringMode", "decoding", false)
 				}
-				if decodedTag_monitoringmode.Class != tag.ClassContextSpecific || decodedTag_monitoringmode.Number != 0 || decodedTag_monitoringmode.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_monitoringmode), "monitoringMode", "decoding", false)
+				if decodedTag_monitoringmode.Class != tag.ClassContextSpecific || decodedTag_monitoringmode.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_monitoringmode), "monitoringMode", "decoding", false)
+				}
+				if decodedTag_monitoringmode.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_monitoringmode), "monitoringMode", "decoding", false)
 				}
 				decVal_monitoringmode, intErr := ber.DecodeEnumeratedValue(rawVal_monitoringmode)
 				if intErr != nil {
@@ -12868,8 +13168,11 @@ func (destination *CallReportData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if err != nil {
 					return qualifyBERError(err, "callOutcome", "decoding", false)
 				}
-				if decodedTag_calloutcome.Class != tag.ClassContextSpecific || decodedTag_calloutcome.Number != 1 || decodedTag_calloutcome.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_calloutcome), "callOutcome", "decoding", false)
+				if decodedTag_calloutcome.Class != tag.ClassContextSpecific || decodedTag_calloutcome.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_calloutcome), "callOutcome", "decoding", false)
+				}
+				if decodedTag_calloutcome.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_calloutcome), "callOutcome", "decoding", false)
 				}
 				decVal_calloutcome, intErr := ber.DecodeEnumeratedValue(rawVal_calloutcome)
 				if intErr != nil {
@@ -12896,8 +13199,11 @@ func (destination *CallReportData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 2 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 2 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -12936,7 +13242,7 @@ func (destination *CallReportData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "CallReportData", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "CallReportData", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -13116,8 +13422,11 @@ func (destination *StatusReportRes) UnmarshalBER(data []byte, opts ...ber.Decode
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 0 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
@@ -13152,7 +13461,7 @@ func (destination *StatusReportRes) UnmarshalBER(data []byte, opts ...ber.Decode
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "StatusReportRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "StatusReportRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -13488,11 +13797,11 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	offset := 0
 	// Decode imsi
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field imsi")
+		return fmt.Errorf("%w: missing required field imsi", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for imsi, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for imsi, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -13502,7 +13811,7 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 			return qualifyBERError(err, "imsi", "decoding", false)
 		}
 		if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi), "imsi", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_imsi), "imsi", "decoding", false)
 		}
 		decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
 		if octetErr != nil {
@@ -13522,11 +13831,11 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	}
 	// Decode callInfo
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field callInfo")
+		return fmt.Errorf("%w: missing required field callInfo", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 1 {
-			return fmt.Errorf("expected tag [%s %d] for callInfo, got %s", "CONTEXT", 1, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for callInfo, got %s", ber.ErrUnexpectedElement, "CONTEXT", 1, reqTag_)
 		}
 	}
 	{
@@ -13535,8 +13844,11 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 		if err != nil {
 			return qualifyBERError(err, "callInfo", "decoding", false)
 		}
-		if decodedTag_callinfo.Class != tag.ClassContextSpecific || decodedTag_callinfo.Number != 1 || decodedTag_callinfo.Constructed != true {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callinfo), "callInfo", "decoding", false)
+		if decodedTag_callinfo.Class != tag.ClassContextSpecific || decodedTag_callinfo.Number != 1 {
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_callinfo), "callInfo", "decoding", false)
+		}
+		if decodedTag_callinfo.Constructed != true {
+			return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_callinfo), "callInfo", "decoding", false)
 		}
 		_ = rawVal_callinfo
 		if offset < 0 || offset >
@@ -13560,11 +13872,11 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	}
 	// Decode ccbs-Feature
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field ccbs-Feature")
+		return fmt.Errorf("%w: missing required field ccbs-Feature", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 2 {
-			return fmt.Errorf("expected tag [%s %d] for ccbs-Feature, got %s", "CONTEXT", 2, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for ccbs-Feature, got %s", ber.ErrUnexpectedElement, "CONTEXT", 2, reqTag_)
 		}
 	}
 	{
@@ -13573,8 +13885,11 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 		if err != nil {
 			return qualifyBERError(err, "ccbs-Feature", "decoding", false)
 		}
-		if decodedTag_ccbsfeature.Class != tag.ClassContextSpecific || decodedTag_ccbsfeature.Number != 2 || decodedTag_ccbsfeature.Constructed != true {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbsfeature), "ccbs-Feature", "decoding", false)
+		if decodedTag_ccbsfeature.Class != tag.ClassContextSpecific || decodedTag_ccbsfeature.Number != 2 {
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbsfeature), "ccbs-Feature", "decoding", false)
+		}
+		if decodedTag_ccbsfeature.Constructed != true {
+			return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbsfeature), "ccbs-Feature", "decoding", false)
 		}
 		_ = rawVal_ccbsfeature
 		if offset < 0 || offset >
@@ -13598,11 +13913,11 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	}
 	// Decode translatedB-Number
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field translatedB-Number")
+		return fmt.Errorf("%w: missing required field translatedB-Number", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 3 {
-			return fmt.Errorf("expected tag [%s %d] for translatedB-Number, got %s", "CONTEXT", 3, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for translatedB-Number, got %s", ber.ErrUnexpectedElement, "CONTEXT", 3, reqTag_)
 		}
 	}
 	{
@@ -13612,7 +13927,7 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 			return qualifyBERError(err, "translatedB-Number", "decoding", false)
 		}
 		if decodedTag_translatedbnumber.Class != tag.ClassContextSpecific || decodedTag_translatedbnumber.Number != 3 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_translatedbnumber), "translatedB-Number", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_translatedbnumber), "translatedB-Number", "decoding", false)
 		}
 		decVal_translatedbnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_translatedbnumber.Constructed, rawVal_translatedbnumber, opts...)
 		if octetErr != nil {
@@ -13647,8 +13962,11 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 				if err != nil {
 					return qualifyBERError(err, "replaceB-Number", "decoding", false)
 				}
-				if decodedTag_replacebnumber.Class != tag.ClassContextSpecific || decodedTag_replacebnumber.Number != 4 || decodedTag_replacebnumber.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_replacebnumber), "replaceB-Number", "decoding", false)
+				if decodedTag_replacebnumber.Class != tag.ClassContextSpecific || decodedTag_replacebnumber.Number != 4 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_replacebnumber), "replaceB-Number", "decoding", false)
+				}
+				if decodedTag_replacebnumber.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_replacebnumber), "replaceB-Number", "decoding", false)
 				}
 				if len(rawVal_replacebnumber) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_replacebnumber)), "replaceB-Number", "decoding", false)
@@ -13675,7 +13993,7 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 					return qualifyBERError(err, "alertingPattern", "decoding", false)
 				}
 				if decodedTag_alertingpattern.Class != tag.ClassContextSpecific || decodedTag_alertingpattern.Number != 5 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_alertingpattern), "alertingPattern", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_alertingpattern), "alertingPattern", "decoding", false)
 				}
 				decVal_alertingpattern, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_alertingpattern.Constructed, rawVal_alertingpattern, opts...)
 				if octetErr != nil {
@@ -13708,8 +14026,11 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 6 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 6 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -13748,7 +14069,7 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "RemoteUserFreeArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "RemoteUserFreeArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_20, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -13934,11 +14255,11 @@ func (destination *RemoteUserFreeRes) UnmarshalBER(data []byte, opts ...ber.Deco
 	offset := 0
 	// Decode ruf-Outcome
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field ruf-Outcome")
+		return fmt.Errorf("%w: missing required field ruf-Outcome", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for ruf-Outcome, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for ruf-Outcome, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -13947,8 +14268,11 @@ func (destination *RemoteUserFreeRes) UnmarshalBER(data []byte, opts ...ber.Deco
 		if err != nil {
 			return qualifyBERError(err, "ruf-Outcome", "decoding", false)
 		}
-		if decodedTag_rufoutcome.Class != tag.ClassContextSpecific || decodedTag_rufoutcome.Number != 0 || decodedTag_rufoutcome.Constructed != false {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rufoutcome), "ruf-Outcome", "decoding", false)
+		if decodedTag_rufoutcome.Class != tag.ClassContextSpecific || decodedTag_rufoutcome.Number != 0 {
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_rufoutcome), "ruf-Outcome", "decoding", false)
+		}
+		if decodedTag_rufoutcome.Constructed != false {
+			return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_rufoutcome), "ruf-Outcome", "decoding", false)
 		}
 		decVal_rufoutcome, intErr := ber.DecodeEnumeratedValue(rawVal_rufoutcome)
 		if intErr != nil {
@@ -13971,8 +14295,11 @@ func (destination *RemoteUserFreeRes) UnmarshalBER(data []byte, opts ...ber.Deco
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -14011,7 +14338,7 @@ func (destination *RemoteUserFreeRes) UnmarshalBER(data []byte, opts ...ber.Deco
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "RemoteUserFreeRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "RemoteUserFreeRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_21, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -14212,11 +14539,11 @@ func (destination *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	offset := 0
 	// Decode imsi
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field imsi")
+		return fmt.Errorf("%w: missing required field imsi", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for imsi, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for imsi, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -14226,7 +14553,7 @@ func (destination *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 			return qualifyBERError(err, "imsi", "decoding", false)
 		}
 		if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi), "imsi", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_imsi), "imsi", "decoding", false)
 		}
 		decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
 		if octetErr != nil {
@@ -14254,8 +14581,11 @@ func (destination *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -14294,7 +14624,7 @@ func (destination *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ISTAlertArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ISTAlertArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_22, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -14537,8 +14867,11 @@ func (destination *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if err != nil {
 					return qualifyBERError(err, "istAlertTimer", "decoding", false)
 				}
-				if decodedTag_istalerttimer.Class != tag.ClassContextSpecific || decodedTag_istalerttimer.Number != 0 || decodedTag_istalerttimer.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_istalerttimer), "istAlertTimer", "decoding", false)
+				if decodedTag_istalerttimer.Class != tag.ClassContextSpecific || decodedTag_istalerttimer.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_istalerttimer), "istAlertTimer", "decoding", false)
+				}
+				if decodedTag_istalerttimer.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_istalerttimer), "istAlertTimer", "decoding", false)
 				}
 				decVal_istalerttimer, intErr := ber.DecodeIntegerValue(rawVal_istalerttimer)
 				if intErr != nil {
@@ -14569,8 +14902,11 @@ func (destination *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if err != nil {
 					return qualifyBERError(err, "istInformationWithdraw", "decoding", false)
 				}
-				if decodedTag_istinformationwithdraw.Class != tag.ClassContextSpecific || decodedTag_istinformationwithdraw.Number != 1 || decodedTag_istinformationwithdraw.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_istinformationwithdraw), "istInformationWithdraw", "decoding", false)
+				if decodedTag_istinformationwithdraw.Class != tag.ClassContextSpecific || decodedTag_istinformationwithdraw.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_istinformationwithdraw), "istInformationWithdraw", "decoding", false)
+				}
+				if decodedTag_istinformationwithdraw.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_istinformationwithdraw), "istInformationWithdraw", "decoding", false)
 				}
 				if len(rawVal_istinformationwithdraw) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_istinformationwithdraw)), "istInformationWithdraw", "decoding", false)
@@ -14596,8 +14932,11 @@ func (destination *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if err != nil {
 					return qualifyBERError(err, "callTerminationIndicator", "decoding", false)
 				}
-				if decodedTag_callterminationindicator.Class != tag.ClassContextSpecific || decodedTag_callterminationindicator.Number != 2 || decodedTag_callterminationindicator.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callterminationindicator), "callTerminationIndicator", "decoding", false)
+				if decodedTag_callterminationindicator.Class != tag.ClassContextSpecific || decodedTag_callterminationindicator.Number != 2 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_callterminationindicator), "callTerminationIndicator", "decoding", false)
+				}
+				if decodedTag_callterminationindicator.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_callterminationindicator), "callTerminationIndicator", "decoding", false)
 				}
 				decVal_callterminationindicator, intErr := ber.DecodeEnumeratedValue(rawVal_callterminationindicator)
 				if intErr != nil {
@@ -14625,8 +14964,11 @@ func (destination *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 3 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 3 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -14665,7 +15007,7 @@ func (destination *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ISTAlertRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ISTAlertRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_23, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -14866,11 +15208,11 @@ func (destination *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	offset := 0
 	// Decode imsi
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field imsi")
+		return fmt.Errorf("%w: missing required field imsi", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for imsi, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for imsi, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -14880,7 +15222,7 @@ func (destination *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return qualifyBERError(err, "imsi", "decoding", false)
 		}
 		if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi), "imsi", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_imsi), "imsi", "decoding", false)
 		}
 		decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
 		if octetErr != nil {
@@ -14908,8 +15250,11 @@ func (destination *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -14948,7 +15293,7 @@ func (destination *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ISTCommandArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ISTCommandArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_24, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -15146,7 +15491,7 @@ func (destination *ISTCommandRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ISTCommandRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ISTCommandRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_25, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -15338,7 +15683,7 @@ func (destination *ReleaseResourcesArg) UnmarshalBER(data []byte, opts ...ber.De
 	offset := 0
 	// Decode msrn
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field msrn")
+		return fmt.Errorf("%w: missing required field msrn", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "msrn", content[offset:])
@@ -15406,7 +15751,7 @@ func (destination *ReleaseResourcesArg) UnmarshalBER(data []byte, opts ...ber.De
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ReleaseResourcesArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ReleaseResourcesArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_26, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -15605,7 +15950,7 @@ func (destination *ReleaseResourcesRes) UnmarshalBER(data []byte, opts ...ber.De
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ReleaseResourcesRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ReleaseResourcesRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_27, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_

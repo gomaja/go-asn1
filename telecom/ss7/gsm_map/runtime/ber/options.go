@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/options.go; SHA-256 07c51a889bf28d85dbde54bb50726c403dd4d53a1ec41fbf6b66cb8c6e9d9cd5.
+// Runtime source: runtime/ber/options.go; SHA-256 ae047279a345161aad617e58508d072d0956a68f5cf2e63352afc93ea05a576c.
 package ber
 
 import (
@@ -74,6 +74,7 @@ type decodeConfig struct {
 	checkReplayComparator bool
 	positionSearch        *positionSearch
 	collectPositionsOnly  bool
+	allowSiblingElements  bool // rejection scan shares one budget across sibling elements.
 	location              *decodeLocation
 	noReplayCapture       bool
 	limits                DecodeLimits

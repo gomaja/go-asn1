@@ -34,7 +34,9 @@ type DecodeError struct {
 }
 
 // Error formats the ASN.1 path and underlying decode cause.
-func (err *DecodeError) Error() string { return fmt.Sprintf("decoding %s: %v", err.Path, err.Cause) }
+func (err *DecodeError) Error() string {
+	return fmt.Sprintf("decoding %s: %v", err.Path, berErrorCause(err.Cause))
+}
 
 // Unwrap returns the underlying decode cause.
 func (err *DecodeError) Unwrap() error { return err.Cause }

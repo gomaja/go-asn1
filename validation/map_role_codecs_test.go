@@ -150,7 +150,9 @@ func checkRoleCodec[T, H any](t *testing.T, name, text, editedText string, want,
 		}
 		wrong := append([]byte(nil), wire...)
 		wrong[0] ^= 0x80 // UNIVERSAL to CONTEXT
-		if _, err := decode(wrong); !errors.Is(err, mapber.ErrInvalidTag) {
+		// X.680 (02/2021) §31.2 and X.690 (02/2021) §8.1.2:
+		// the identifier is well-formed but is not this type's tag.
+		if _, err := decode(wrong); !errors.Is(err, mapber.ErrUnexpectedElement) {
 			t.Fatalf("wrong tag: %v", err)
 		}
 	})

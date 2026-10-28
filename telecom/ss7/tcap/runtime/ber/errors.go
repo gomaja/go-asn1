@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/errors.go; SHA-256 42dd0bed9317378d46f1aa447ffbbfffacc066f6cb800dca19ca65c353018e78.
+// Runtime source: runtime/ber/errors.go; SHA-256 05d517412eb049ea262303f5b03a4b10252116a8d8775c51755343ab99b4f1f4.
 package ber
 
 import (
@@ -9,14 +9,19 @@ import (
 )
 
 var (
-	ErrTruncated        = errors.New("ber: unexpected end of data")
-	ErrInvalidTag       = errors.New("ber: invalid tag encoding")
-	ErrInvalidLength    = errors.New("ber: invalid length encoding")
-	ErrIndefiniteLength = errors.New("ber: indefinite length not allowed in DER")
-	ErrExtraData        = errors.New("ber: trailing data after value")
-	ErrInvalidValue     = errors.New("ber: invalid value encoding")
-	ErrUnsupported      = errors.New("ber: unsupported encoding")
-	ErrResourceLimit    = errors.New("ber: resource limit exceeded")
+	ErrTruncated  = errors.New("ber: unexpected end of data")
+	ErrInvalidTag = errors.New("ber: invalid tag encoding")
+	// ErrUnexpectedElement means a complete BER element is not admitted at this
+	// position, or a required element is absent. X.680 (02/2021) §§25.1,
+	// 25.11, 29.1–29.3 define component and CHOICE membership; X.690 (02/2021)
+	// §§8.1.2, 8.9, 8.18.1 encode their tags and constructed contents.
+	ErrUnexpectedElement = errors.New("ber: unexpected or missing element")
+	ErrInvalidLength     = errors.New("ber: invalid length encoding")
+	ErrIndefiniteLength  = errors.New("ber: indefinite length not allowed in DER")
+	ErrExtraData         = errors.New("ber: trailing data after value")
+	ErrInvalidValue      = errors.New("ber: invalid value encoding")
+	ErrUnsupported       = errors.New("ber: unsupported encoding")
+	ErrResourceLimit     = errors.New("ber: resource limit exceeded")
 )
 
 // DecodeError provides context about where a decode failure occurred.

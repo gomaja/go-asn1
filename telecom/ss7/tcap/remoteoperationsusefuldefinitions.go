@@ -672,7 +672,7 @@ func (destination *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		v.Reject = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for ROSSingleAS CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROSSingleAS CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -1182,7 +1182,7 @@ func (destination *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.Reject = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for ROSConsumerAS CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROSConsumerAS CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -1692,7 +1692,7 @@ func (destination *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.Reject = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for ROSSupplierAS CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROSSupplierAS CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }

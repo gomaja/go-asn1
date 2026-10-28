@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/external_generated_test.go; SHA-256 9f7bc186386970333b170b3449bb46d54f99d4704d3e2c4d922b6c15b64ac996.
+// Runtime source: runtime/ber/external_generated_test.go; SHA-256 bdc3854da88f06e38ea7e06796bd57a57a97a379defa571cb1929c11a6c76309.
 package ber
 
 import (
@@ -102,7 +102,7 @@ func TestGeneratedExternalEntryPoints(t *testing.T) {
 					t.Fatalf("primitive wrapper: %v", err)
 				}
 				owned, opts, _ = prepare(primitive)
-				if _, _, _, err := DecodeGeneratedExternalSequence(owned, opts); !errors.Is(err, ErrInvalidTag) {
+				if _, _, _, err := DecodeGeneratedExternalSequence(owned, opts); !errors.Is(err, ErrUnexpectedElement) {
 					t.Fatalf("primitive list: %v", err)
 				}
 			})

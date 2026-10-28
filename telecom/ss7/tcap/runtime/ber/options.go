@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/options.go; SHA-256 3fadc24928e9b65252a8eb42f7daae4ec39c737d656726154d3abbf8fde938f0.
+// Runtime source: runtime/ber/options.go; SHA-256 1d46d472b2c3f83090e3195ff1e284d6f5bfb56a70c0f57a84ad406c3820ca77.
 package ber
 
 import (
@@ -76,6 +76,8 @@ type decodeConfig struct {
 	profileSource         string
 	positionSearch        *positionSearch
 	collectPositionsOnly  bool
+	allowSiblingElements  bool // rejection scan shares one budget across sibling elements.
+	generatedPreflight    bool
 	location              *decodeLocation
 	noReplayCapture       bool
 	limits                DecodeLimits

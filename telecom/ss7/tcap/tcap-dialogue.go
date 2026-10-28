@@ -394,8 +394,11 @@ func (value *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if err != nil {
 		return err
 	}
-	if identifier.Class != tag.ClassApplication || identifier.Number != 11 || !identifier.Constructed {
-		return fmt.Errorf("%w: expected constructed dialogue portion [APPLICATION 11]", ber.ErrInvalidTag)
+	if identifier.Class != tag.ClassApplication || identifier.Number != 11 {
+		return fmt.Errorf("%w: expected constructed dialogue portion [APPLICATION 11]", ber.ErrUnexpectedElement)
+	}
+	if !identifier.Constructed {
+		return fmt.Errorf("%w: primitive dialogue portion [APPLICATION 11]", ber.ErrInvalidTag)
 	}
 	if externalErr != nil {
 		return externalErr

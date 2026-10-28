@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/errors.go; SHA-256 f7bc35a77c46613b5986f04dad3780be075d7fa1da1ec293d7d1ae4c717afc2d.
+// Runtime source: runtime/ber/errors.go; SHA-256 35ff97e2e2d2dff91c533c9c7cc6cb06b9c8d6f87c4a2918cc930570cc62c7ce.
 // Package ber provides BER/DER encoding and decoding primitives.
 package ber
 
@@ -10,16 +10,21 @@ import (
 )
 
 var (
-	ErrTruncated        = errors.New("ber: unexpected end of data")
-	ErrInvalidTag       = errors.New("ber: invalid tag encoding")
-	ErrInvalidLength    = errors.New("ber: invalid length encoding")
-	ErrIndefiniteLength = errors.New("ber: indefinite length not allowed in DER")
-	ErrExtraData        = errors.New("ber: trailing data after value")
-	ErrInvalidValue     = errors.New("ber: invalid value encoding")
-	ErrUnsupported      = errors.New("ber: unsupported encoding")
-	ErrResourceLimit    = errors.New("ber: resource limit exceeded")
-	ErrInvalidCodec     = errors.New("ber: invalid value codec")
-	ErrInvalidBinding   = errors.New("ber: invalid operation or error binding")
+	ErrTruncated  = errors.New("ber: unexpected end of data")
+	ErrInvalidTag = errors.New("ber: invalid tag encoding")
+	// ErrUnexpectedElement means a complete BER element is not admitted at this
+	// position, or a required element is absent. X.680 (02/2021) §§25.1,
+	// 25.11, 29.1–29.3 define component and CHOICE membership; X.690 (02/2021)
+	// §§8.1.2, 8.9, 8.18.1 encode their tags and constructed contents.
+	ErrUnexpectedElement = errors.New("ber: unexpected or missing element")
+	ErrInvalidLength     = errors.New("ber: invalid length encoding")
+	ErrIndefiniteLength  = errors.New("ber: indefinite length not allowed in DER")
+	ErrExtraData         = errors.New("ber: trailing data after value")
+	ErrInvalidValue      = errors.New("ber: invalid value encoding")
+	ErrUnsupported       = errors.New("ber: unsupported encoding")
+	ErrResourceLimit     = errors.New("ber: resource limit exceeded")
+	ErrInvalidCodec      = errors.New("ber: invalid value codec")
+	ErrInvalidBinding    = errors.New("ber: invalid operation or error binding")
 )
 
 // DecodeError provides context about where a decode failure occurred.

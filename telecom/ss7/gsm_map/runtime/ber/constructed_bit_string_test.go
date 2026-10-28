@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/constructed_bit_string_test.go; SHA-256 045b3115ccfb9bd5468110c070d00557876e6d009facf06815b403b123c71860.
+// Runtime source: runtime/ber/constructed_bit_string_test.go; SHA-256 05b51869fae4a1a229ed7ab1c8116b5228367aa660c56497825e300ea0e4191b.
 package ber
 
 import (
@@ -114,11 +114,11 @@ func TestDecodeImplicitBitStringValuePreservesConstructedForm(t *testing.T) {
 }
 
 func TestIntegerAndEnumeratedDecodersRejectEachOthersTags(t *testing.T) {
-	if _, _, err := DecodeInteger(EncodeEnumerated(1)); !errors.Is(err, ErrInvalidTag) {
-		t.Fatalf("DecodeInteger(ENUMERATED) error = %v, want ErrInvalidTag", err)
+	if _, _, err := DecodeInteger(EncodeEnumerated(1)); !errors.Is(err, ErrUnexpectedElement) {
+		t.Fatalf("DecodeInteger(ENUMERATED) error = %v, want ErrUnexpectedElement", err)
 	}
-	if _, _, err := DecodeEnumerated(EncodeInteger(1)); !errors.Is(err, ErrInvalidTag) {
-		t.Fatalf("DecodeEnumerated(INTEGER) error = %v, want ErrInvalidTag", err)
+	if _, _, err := DecodeEnumerated(EncodeInteger(1)); !errors.Is(err, ErrUnexpectedElement) {
+		t.Fatalf("DecodeEnumerated(INTEGER) error = %v, want ErrUnexpectedElement", err)
 	}
 	if got, err := DecodeEnumeratedValue([]byte{0x01}); err != nil || got != 1 {
 		t.Fatalf("DecodeEnumeratedValue() = %d, %v, want 1, nil", got, err)

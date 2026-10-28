@@ -33,7 +33,7 @@ func TestNotifySSArgComponentOrder(t *testing.T) {
 		{"3006810100810101", "810101"}, // [1] twice
 	} {
 		wire := mustHex(t, c.hex)
-		if err := new(gsm_map.NotifySSArg).UnmarshalBER(wire); !errors.Is(err, mapber.ErrInvalidTag) {
+		if err := new(gsm_map.NotifySSArg).UnmarshalBER(wire); !errors.Is(err, mapber.ErrUnexpectedElement) {
 			t.Fatalf("%s strict: %v", c.hex, err)
 		}
 		var log mapber.ViolationLog
@@ -277,7 +277,7 @@ func TestCurrentMAPFirstExtensionTail(t *testing.T) {
 	} {
 		t.Run(c.name, func(t *testing.T) {
 			wire := mustHex(t, c.invalid)
-			if err := c.fresh().UnmarshalBER(wire); !errors.Is(err, mapber.ErrInvalidTag) {
+			if err := c.fresh().UnmarshalBER(wire); !errors.Is(err, mapber.ErrUnexpectedElement) {
 				t.Fatalf("strict decode: %v", err)
 			}
 			want := mapber.Violation{Path: "ExtData_[0]", Constraint: "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", ObservedValue: c.observed}
