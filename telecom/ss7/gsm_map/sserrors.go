@@ -187,15 +187,21 @@ func (destination *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber
 				if err != nil {
 					return qualifyBERError(err, "newLmfRoutingId", "decoding", false)
 				}
-				if decodedTag_newlmfroutingid.Class != tag.ClassContextSpecific || decodedTag_newlmfroutingid.Number != 0 || decodedTag_newlmfroutingid.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newlmfroutingid), "newLmfRoutingId", "decoding", false)
+				if decodedTag_newlmfroutingid.Class != tag.ClassContextSpecific || decodedTag_newlmfroutingid.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_newlmfroutingid), "newLmfRoutingId", "decoding", false)
+				}
+				if decodedTag_newlmfroutingid.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_newlmfroutingid), "newLmfRoutingId", "decoding", false)
+				}
+				if len(innerData_newlmfroutingid) == 0 {
+					return qualifyBERError(ber.ErrUnexpectedElement, "newLmfRoutingId", "decoding", false)
 				}
 				_, innerUsed_newlmfroutingid, _, innerErr_newlmfroutingid := ber.DecodeTLV(innerData_newlmfroutingid, opts...)
 				if innerErr_newlmfroutingid != nil {
 					return qualifyBERError(innerErr_newlmfroutingid, "newLmfRoutingId", "decoding", false)
 				}
 				if innerUsed_newlmfroutingid != len(innerData_newlmfroutingid) {
-					return qualifyBERError(ber.ErrExtraData, "newLmfRoutingId", "decoding", false)
+					return qualifyBERError(ber.ErrUnexpectedElement, "newLmfRoutingId", "decoding", false)
 				}
 				// Decode inner value from explicit tag wrapper
 				ber.MarkPreflightTarget(opts, "newLmfRoutingId", innerData_newlmfroutingid)
@@ -224,7 +230,7 @@ func (destination *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "PruAssociationRejParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "PruAssociationRejParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "SS-Errors.PruAssociationRejParam", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_

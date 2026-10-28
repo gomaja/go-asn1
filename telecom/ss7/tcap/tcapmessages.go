@@ -926,7 +926,7 @@ func (destination *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		}
 		v.Abort = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for TCMessage CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for TCMessage CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -1224,11 +1224,11 @@ func (destination *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 	// Decode components
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field components")
+		return fmt.Errorf("%w: missing required field components", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassApplication || reqTag_.Number != 12 {
-			return fmt.Errorf("expected tag [%s %d] for components, got %s", "APPLICATION", 12, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for components, got %s", ber.ErrUnexpectedElement, "APPLICATION", 12, reqTag_)
 		}
 	}
 	{
@@ -1271,7 +1271,7 @@ func (destination *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "Unidirectional", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "Unidirectional", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -1583,11 +1583,11 @@ func (destination *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	offset := 0
 	// Decode otid
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field otid")
+		return fmt.Errorf("%w: missing required field otid", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassApplication || reqTag_.Number != 8 {
-			return fmt.Errorf("expected tag [%s %d] for otid, got %s", "APPLICATION", 8, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for otid, got %s", ber.ErrUnexpectedElement, "APPLICATION", 8, reqTag_)
 		}
 	}
 	{
@@ -1597,7 +1597,7 @@ func (destination *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 			return qualifyBERError(err, "otid", "decoding", false)
 		}
 		if decodedTag_otid.Class != tag.ClassApplication || decodedTag_otid.Number != 8 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_otid), "otid", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_otid), "otid", "decoding", false)
 		}
 		decVal_otid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_otid.Constructed, rawVal_otid, opts...)
 		if octetErr != nil {
@@ -1697,7 +1697,7 @@ func (destination *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "Begin", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "Begin", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -2005,11 +2005,11 @@ func (destination *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	offset := 0
 	// Decode dtid
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field dtid")
+		return fmt.Errorf("%w: missing required field dtid", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassApplication || reqTag_.Number != 9 {
-			return fmt.Errorf("expected tag [%s %d] for dtid, got %s", "APPLICATION", 9, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for dtid, got %s", ber.ErrUnexpectedElement, "APPLICATION", 9, reqTag_)
 		}
 	}
 	{
@@ -2019,7 +2019,7 @@ func (destination *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 			return qualifyBERError(err, "dtid", "decoding", false)
 		}
 		if decodedTag_dtid.Class != tag.ClassApplication || decodedTag_dtid.Number != 9 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid), "dtid", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_dtid), "dtid", "decoding", false)
 		}
 		decVal_dtid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_dtid.Constructed, rawVal_dtid, opts...)
 		if octetErr != nil {
@@ -2119,7 +2119,7 @@ func (destination *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "End", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "End", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -2476,11 +2476,11 @@ func (destination *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	offset := 0
 	// Decode otid
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field otid")
+		return fmt.Errorf("%w: missing required field otid", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassApplication || reqTag_.Number != 8 {
-			return fmt.Errorf("expected tag [%s %d] for otid, got %s", "APPLICATION", 8, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for otid, got %s", ber.ErrUnexpectedElement, "APPLICATION", 8, reqTag_)
 		}
 	}
 	{
@@ -2490,7 +2490,7 @@ func (destination *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 			return qualifyBERError(err, "otid", "decoding", false)
 		}
 		if decodedTag_otid.Class != tag.ClassApplication || decodedTag_otid.Number != 8 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_otid), "otid", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_otid), "otid", "decoding", false)
 		}
 		decVal_otid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_otid.Constructed, rawVal_otid, opts...)
 		if octetErr != nil {
@@ -2510,11 +2510,11 @@ func (destination *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 	// Decode dtid
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field dtid")
+		return fmt.Errorf("%w: missing required field dtid", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassApplication || reqTag_.Number != 9 {
-			return fmt.Errorf("expected tag [%s %d] for dtid, got %s", "APPLICATION", 9, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for dtid, got %s", ber.ErrUnexpectedElement, "APPLICATION", 9, reqTag_)
 		}
 	}
 	{
@@ -2524,7 +2524,7 @@ func (destination *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 			return qualifyBERError(err, "dtid", "decoding", false)
 		}
 		if decodedTag_dtid.Class != tag.ClassApplication || decodedTag_dtid.Number != 9 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid), "dtid", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_dtid), "dtid", "decoding", false)
 		}
 		decVal_dtid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_dtid.Constructed, rawVal_dtid, opts...)
 		if octetErr != nil {
@@ -2625,7 +2625,7 @@ func (destination *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "Continue", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "Continue", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -2862,11 +2862,11 @@ func (destination *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	offset := 0
 	// Decode dtid
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field dtid")
+		return fmt.Errorf("%w: missing required field dtid", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassApplication || reqTag_.Number != 9 {
-			return fmt.Errorf("expected tag [%s %d] for dtid, got %s", "APPLICATION", 9, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for dtid, got %s", ber.ErrUnexpectedElement, "APPLICATION", 9, reqTag_)
 		}
 	}
 	{
@@ -2876,7 +2876,7 @@ func (destination *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 			return qualifyBERError(err, "dtid", "decoding", false)
 		}
 		if decodedTag_dtid.Class != tag.ClassApplication || decodedTag_dtid.Number != 9 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid), "dtid", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_dtid), "dtid", "decoding", false)
 		}
 		decVal_dtid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_dtid.Constructed, rawVal_dtid, opts...)
 		if octetErr != nil {
@@ -2925,7 +2925,7 @@ func (destination *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "Abort", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "Abort", Cause: ber.ErrUnexpectedElement}
 	}
 	if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr !=
 		nil {
@@ -3094,8 +3094,11 @@ func tcapUnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (re
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding ComponentPortion", qualifyBERError(err, "", "decoding", false))
 	}
-	if decodedTag.Class != tag.ClassApplication || decodedTag.Number != 12 || !decodedTag.Constructed {
-		return nil, fmt.Errorf("%s: %w", "decoding ComponentPortion", qualifyBERError(fmt.Errorf("%w: expected tag [APPLICATION 12], got %s", ber.ErrInvalidTag, decodedTag), "", "decoding", false))
+	if decodedTag.Class != tag.ClassApplication || decodedTag.Number != 12 {
+		return nil, fmt.Errorf("%s: %w", "decoding ComponentPortion", qualifyBERError(fmt.Errorf("%w: expected tag [APPLICATION 12], got %s", ber.ErrUnexpectedElement, decodedTag), "", "decoding", false))
+	}
+	if !decodedTag.Constructed {
+		return nil, fmt.Errorf("%w: invalid primitive/constructed form", ber.ErrInvalidTag)
 	}
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "ComponentPortion", Cause: ber.ErrExtraData}
@@ -3698,7 +3701,7 @@ func (destination *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.Absent = &struct{}{}
 	} else {
-		return fmt.Errorf("unknown tag %s for TCInvokeIdSet CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for TCInvokeIdSet CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	if v.Choice == TCInvokeIdSetChoicePresent {
 		if v.Present == nil {
@@ -3958,7 +3961,7 @@ func (destination *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		v.UAbortCause = &decodedExternal
 	} else {
-		return fmt.Errorf("unknown tag %s for AbortReason CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for AbortReason CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/external.go; SHA-256 57d3c12a3ac8f97639a350bdb25317ed4e4d4b44d9187ec692561700aa87d377.
+// Runtime source: runtime/ber/external.go; SHA-256 d1688e31a3ca7f554aeaa18b74928d2a691f45c6a0a80eda8107eaec57128bf8.
 package ber
 
 import (
@@ -20,7 +20,10 @@ func decodeExternal(data []byte, options []DecodeOption, preflight bool) (runtim
 	if err != nil {
 		return runtime.External{}, 0, err
 	}
-	if t.Class != tag.ClassUniversal || t.Number != tag.TagExternal || !t.Constructed {
+	if t.Class != tag.ClassUniversal || t.Number != tag.TagExternal {
+		return runtime.External{}, 0, fmt.Errorf("%w: expected constructed EXTERNAL, got %s", unexpectedElementError(data[:total], options), t)
+	}
+	if !t.Constructed {
 		return runtime.External{}, 0, fmt.Errorf("%w: expected constructed EXTERNAL, got %s", ErrInvalidTag, t)
 	}
 	result, err := decodeExternalValue(value, data[:total], options, preflight)
@@ -101,7 +104,7 @@ func decodeExternalValue(value, element []byte, options []DecodeOption, prefligh
 		return result, fmt.Errorf("%w: EXTERNAL identification requires a direct or indirect reference", ErrInvalidValue)
 	}
 	if offset >= len(value) {
-		return result, fmt.Errorf("%w: EXTERNAL encoding choice is absent", ErrInvalidValue)
+		return result, fmt.Errorf("%w: EXTERNAL encoding choice is absent", ErrUnexpectedElement)
 	}
 	t, n, choice, err := DecodeTLV(value[offset:], options...)
 	if err != nil {
@@ -111,22 +114,39 @@ func decodeExternalValue(value, element []byte, options []DecodeOption, prefligh
 		return result, ErrInvalidLength
 	}
 	if offset+n != len(value) {
-		return result, ErrExtraData
+		// X.690 (02/2021) §§8.1.2, 8.18.1: only a complete extra
+		// component is an abstract-syntax mismatch. Parse any tail before
+		// classifying it so a malformed identifier or length keeps its BER
+		// diagnostic.
+		if err := validateExtraElements(value[offset:], options); err != nil {
+			return result, err
+		}
+		return result, ErrUnexpectedElement
 	}
 	if t.Class != tag.ClassContextSpecific {
-		return result, fmt.Errorf("%w: EXTERNAL encoding choice has tag %s", ErrInvalidTag, t)
+		return result, fmt.Errorf("%w: EXTERNAL encoding choice has tag %s", unexpectedElementError(value[offset:], options), t)
 	}
 	switch t.Number {
 	case 0:
 		if !t.Constructed {
 			return result, fmt.Errorf("%w: single-ASN1-type must be explicit", ErrInvalidTag)
 		}
+		// X.690 (02/2021) §§8.14.3, 8.18.1: a complete empty
+		// wrapper lacks its mandatory value; it is not truncated octets.
+		if len(choice) == 0 {
+			return result, ErrUnexpectedElement
+		}
 		innerTag, innerLen, _, err := DecodeTLV(choice, options...)
 		if err != nil {
 			return result, err
 		}
 		if innerLen != len(choice) {
-			return result, ErrExtraData
+			// X.690 (02/2021) §§8.1.2–8.1.3: malformed tail octets
+			// retain their encoding error before an extra value is classified.
+			if err := validateExtraElements(choice, options); err != nil {
+				return result, err
+			}
+			return result, ErrUnexpectedElement
 		}
 		if !preflight {
 			// X.690 (02/2021) §§8.9.2, 8.18.1, 8.18.9 require complete
@@ -189,7 +209,7 @@ func decodeExternalValue(value, element []byte, options []DecodeOption, prefligh
 		}
 		result.Arbitrary = runtime.BitString{Bytes: append([]byte(nil), bits...), BitLength: bitLength}
 	default:
-		return result, fmt.Errorf("%w: EXTERNAL encoding choice %d", ErrInvalidTag, t.Number)
+		return result, fmt.Errorf("%w: EXTERNAL encoding choice %d", unexpectedElementError(value[offset:], options), t.Number)
 	}
 	return result, nil
 }
@@ -248,10 +268,15 @@ func DecodeGeneratedExternal(data []byte, options []DecodeOption, tagging string
 			return result, prepared, context, err
 		}
 		input = value
+		// X.690 (02/2021) §§8.14.3, 8.18.1:
+		// the complete explicit wrapper still requires its one child.
+		if len(input) == 0 {
+			return runtime.External{}, prepared, context, ErrUnexpectedElement
+		}
 	}
 	result, n, err := decodeExternal(input, context, true)
 	if err == nil && n != len(input) {
-		err = ErrExtraData
+		err = ErrUnexpectedElement
 	}
 	return result, prepared, context, err
 }
@@ -271,7 +296,10 @@ func DecodeGeneratedExternalSequence(data []byte, options []DecodeOption) ([]run
 	if err != nil {
 		return nil, prepared, context, err
 	}
-	if t.Class != tag.ClassUniversal || t.Number != tag.TagSequence || !t.Constructed {
+	if t.Class != tag.ClassUniversal || t.Number != tag.TagSequence {
+		return nil, prepared, context, ErrUnexpectedElement
+	}
+	if !t.Constructed {
 		return nil, prepared, context, ErrInvalidTag
 	}
 	if total != len(prepared) {

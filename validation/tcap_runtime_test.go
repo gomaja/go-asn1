@@ -41,7 +41,7 @@ func TestExplicitWrapperRejectsTrailingAARQ(t *testing.T) {
 		if tolerant {
 			options = append(options, ber.WithTolerance(&log))
 		}
-		if err := value.UnmarshalBER(invalid, options...); !errors.Is(err, ber.ErrExtraData) {
+		if err := value.UnmarshalBER(invalid, options...); !errors.Is(err, ber.ErrUnexpectedElement) {
 			t.Fatalf("tolerant=%v: %v", tolerant, err)
 		}
 		if len(log.Snapshot()) != 0 {

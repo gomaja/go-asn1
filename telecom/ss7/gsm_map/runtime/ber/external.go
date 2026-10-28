@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/external.go; SHA-256 6eff2809c7b491f7a75849a83eecfeec1ad748b928ac340e65f245612904b631.
+// Runtime source: runtime/ber/external.go; SHA-256 b25fba69471956dd42152e934bf7176c710ab028f277a24517bb4a2f46b21232.
 package ber
 
 import (
@@ -18,7 +18,10 @@ func DecodeExternal(data []byte, options ...DecodeOption) (runtime.External, int
 	if err != nil {
 		return runtime.External{}, 0, err
 	}
-	if t.Class != tag.ClassUniversal || t.Number != tag.TagExternal || !t.Constructed {
+	if t.Class != tag.ClassUniversal || t.Number != tag.TagExternal {
+		return runtime.External{}, 0, fmt.Errorf("%w: expected constructed EXTERNAL, got %s", unexpectedElementError(data[:total], options), t)
+	}
+	if !t.Constructed {
 		return runtime.External{}, 0, fmt.Errorf("%w: expected constructed EXTERNAL, got %s", ErrInvalidTag, t)
 	}
 	result, err := decodeExternalValue(value, data[:total], options...)
@@ -102,7 +105,7 @@ func decodeExternalValue(value, element []byte, options ...DecodeOption) (runtim
 		return result, fmt.Errorf("%w: EXTERNAL identification requires a direct or indirect reference", ErrInvalidValue)
 	}
 	if offset >= len(value) {
-		return result, fmt.Errorf("%w: EXTERNAL encoding choice is absent", ErrInvalidValue)
+		return result, fmt.Errorf("%w: EXTERNAL encoding choice is absent", ErrUnexpectedElement)
 	}
 	MarkPreflightTarget(options, "encoding", value[offset:])
 	t, n, choice, err := DecodeTLV(value[offset:], options...)
@@ -113,22 +116,39 @@ func decodeExternalValue(value, element []byte, options ...DecodeOption) (runtim
 		return result, ErrInvalidLength
 	}
 	if offset+n != len(value) {
-		return result, ErrExtraData
+		// X.690 (02/2021) §§8.1.2, 8.18.1: only a complete extra
+		// component is an abstract-syntax mismatch. Parse any tail before
+		// classifying it so a malformed identifier or length keeps its BER
+		// diagnostic.
+		if err := validateExtraElements(value[offset:], options); err != nil {
+			return result, err
+		}
+		return result, ErrUnexpectedElement
 	}
 	if t.Class != tag.ClassContextSpecific {
-		return result, fmt.Errorf("%w: EXTERNAL encoding choice has tag %s", ErrInvalidTag, t)
+		return result, fmt.Errorf("%w: EXTERNAL encoding choice has tag %s", unexpectedElementError(value[offset:], options), t)
 	}
 	switch t.Number {
 	case 0:
 		if !t.Constructed {
 			return result, fmt.Errorf("%w: single-ASN1-type must be explicit", ErrInvalidTag)
 		}
+		// X.690 (02/2021) §§8.14.3, 8.18.1: a complete empty
+		// wrapper lacks its mandatory value; it is not truncated octets.
+		if len(choice) == 0 {
+			return result, ErrUnexpectedElement
+		}
 		innerTag, innerLen, _, err := DecodeTLV(choice, options...)
 		if err != nil {
 			return result, err
 		}
 		if innerLen != len(choice) {
-			return result, ErrExtraData
+			// X.690 (02/2021) §§8.1.2–8.1.3: malformed tail octets
+			// retain their encoding error before an extra value is classified.
+			if err := validateExtraElements(choice, options); err != nil {
+				return result, err
+			}
+			return result, ErrUnexpectedElement
 		}
 		// X.690 (02/2021) §§8.9.2, 8.18.1, 8.18.9 require complete
 		// encodings throughout the open value. The validator reuses an
@@ -180,7 +200,7 @@ func decodeExternalValue(value, element []byte, options ...DecodeOption) (runtim
 		}
 		result.Arbitrary = runtime.BitString{Bytes: append([]byte(nil), bits...), BitLength: bitLength}
 	default:
-		return result, fmt.Errorf("%w: EXTERNAL encoding choice %d", ErrInvalidTag, t.Number)
+		return result, fmt.Errorf("%w: EXTERNAL encoding choice %d", unexpectedElementError(value[offset:], options), t.Number)
 	}
 	return result, nil
 }

@@ -1078,7 +1078,7 @@ func (destination *ERRoamingNotAllowedParam) UnmarshalBER(data []byte, opts ...b
 	offset := 0
 	// Decode roamingNotAllowedCause
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field roamingNotAllowedCause")
+		return fmt.Errorf("%w: missing required field roamingNotAllowedCause", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "roamingNotAllowedCause", content[offset:])
@@ -1140,8 +1140,11 @@ func (destination *ERRoamingNotAllowedParam) UnmarshalBER(data []byte, opts ...b
 				if err != nil {
 					return qualifyBERError(err, "additionalRoamingNotAllowedCause", "decoding", false)
 				}
-				if decodedTag_additionalroamingnotallowedcause.Class != tag.ClassContextSpecific || decodedTag_additionalroamingnotallowedcause.Number != 0 || decodedTag_additionalroamingnotallowedcause.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalroamingnotallowedcause), "additionalRoamingNotAllowedCause", "decoding", false)
+				if decodedTag_additionalroamingnotallowedcause.Class != tag.ClassContextSpecific || decodedTag_additionalroamingnotallowedcause.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_additionalroamingnotallowedcause), "additionalRoamingNotAllowedCause", "decoding", false)
+				}
+				if decodedTag_additionalroamingnotallowedcause.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_additionalroamingnotallowedcause), "additionalRoamingNotAllowedCause", "decoding", false)
 				}
 				decVal_additionalroamingnotallowedcause, intErr := ber.DecodeEnumeratedValue(rawVal_additionalroamingnotallowedcause)
 				if intErr != nil {
@@ -1170,7 +1173,7 @@ func (destination *ERRoamingNotAllowedParam) UnmarshalBER(data []byte, opts ...b
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERRoamingNotAllowedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERRoamingNotAllowedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1358,7 +1361,7 @@ func (destination *ERCallBarredParam) UnmarshalBER(data []byte, opts ...ber.Deco
 		}
 		v.ExtensibleCallBarredParam = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for ERCallBarredParam CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ERCallBarredParam CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -1618,8 +1621,11 @@ func (destination *ERExtensibleCallBarredParam) UnmarshalBER(data []byte, opts .
 				if err != nil {
 					return qualifyBERError(err, "unauthorisedMessageOriginator", "decoding", false)
 				}
-				if decodedTag_unauthorisedmessageoriginator.Class != tag.ClassContextSpecific || decodedTag_unauthorisedmessageoriginator.Number != 1 || decodedTag_unauthorisedmessageoriginator.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unauthorisedmessageoriginator), "unauthorisedMessageOriginator", "decoding", false)
+				if decodedTag_unauthorisedmessageoriginator.Class != tag.ClassContextSpecific || decodedTag_unauthorisedmessageoriginator.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_unauthorisedmessageoriginator), "unauthorisedMessageOriginator", "decoding", false)
+				}
+				if decodedTag_unauthorisedmessageoriginator.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_unauthorisedmessageoriginator), "unauthorisedMessageOriginator", "decoding", false)
 				}
 				if len(rawVal_unauthorisedmessageoriginator) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_unauthorisedmessageoriginator)), "unauthorisedMessageOriginator", "decoding", false)
@@ -1645,8 +1651,11 @@ func (destination *ERExtensibleCallBarredParam) UnmarshalBER(data []byte, opts .
 				if err != nil {
 					return qualifyBERError(err, "anonymousCallRejection", "decoding", false)
 				}
-				if decodedTag_anonymouscallrejection.Class != tag.ClassContextSpecific || decodedTag_anonymouscallrejection.Number != 2 || decodedTag_anonymouscallrejection.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_anonymouscallrejection), "anonymousCallRejection", "decoding", false)
+				if decodedTag_anonymouscallrejection.Class != tag.ClassContextSpecific || decodedTag_anonymouscallrejection.Number != 2 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_anonymouscallrejection), "anonymousCallRejection", "decoding", false)
+				}
+				if decodedTag_anonymouscallrejection.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_anonymouscallrejection), "anonymousCallRejection", "decoding", false)
 				}
 				if len(rawVal_anonymouscallrejection) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_anonymouscallrejection)), "anonymousCallRejection", "decoding", false)
@@ -1673,7 +1682,7 @@ func (destination *ERExtensibleCallBarredParam) UnmarshalBER(data []byte, opts .
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERExtensibleCallBarredParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERExtensibleCallBarredParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1919,7 +1928,7 @@ func (destination *ERCUGRejectParam) UnmarshalBER(data []byte, opts ...ber.Decod
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERCUGRejectParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERCUGRejectParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -2158,7 +2167,7 @@ func (destination *ERSSIncompatibilityCause) UnmarshalBER(data []byte, opts ...b
 					return qualifyBERError(err, "ss-Code", "decoding", false)
 				}
 				if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 1 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode), "ss-Code", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_sscode), "ss-Code", "decoding", false)
 				}
 				decVal_sscode, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sscode.Constructed, rawVal_sscode, opts...)
 				if octetErr != nil {
@@ -2220,7 +2229,7 @@ func (destination *ERSSIncompatibilityCause) UnmarshalBER(data []byte, opts ...b
 					return qualifyBERError(err, "ss-Status", "decoding", false)
 				}
 				if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus), "ss-Status", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ssstatus), "ss-Status", "decoding", false)
 				}
 				decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
 				if octetErr != nil {
@@ -2253,7 +2262,7 @@ func (destination *ERSSIncompatibilityCause) UnmarshalBER(data []byte, opts ...b
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERSSIncompatibilityCause", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERSSIncompatibilityCause", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -2555,7 +2564,7 @@ func (destination *ERSMDeliveryFailureCause) UnmarshalBER(data []byte, opts ...b
 	offset := 0
 	// Decode sm-EnumeratedDeliveryFailureCause
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field sm-EnumeratedDeliveryFailureCause")
+		return fmt.Errorf("%w: missing required field sm-EnumeratedDeliveryFailureCause", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "sm-EnumeratedDeliveryFailureCause", content[offset:])
@@ -2644,7 +2653,7 @@ func (destination *ERSMDeliveryFailureCause) UnmarshalBER(data []byte, opts ...b
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERSMDeliveryFailureCause", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERSMDeliveryFailureCause", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_4, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -3019,8 +3028,11 @@ func (destination *ERAbsentSubscriberSMParam) UnmarshalBER(data []byte, opts ...
 				if err != nil {
 					return qualifyBERError(err, "additionalAbsentSubscriberDiagnosticSM", "decoding", false)
 				}
-				if decodedTag_additionalabsentsubscriberdiagnosticsm.Class != tag.ClassContextSpecific || decodedTag_additionalabsentsubscriberdiagnosticsm.Number != 0 || decodedTag_additionalabsentsubscriberdiagnosticsm.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalabsentsubscriberdiagnosticsm), "additionalAbsentSubscriberDiagnosticSM", "decoding", false)
+				if decodedTag_additionalabsentsubscriberdiagnosticsm.Class != tag.ClassContextSpecific || decodedTag_additionalabsentsubscriberdiagnosticsm.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_additionalabsentsubscriberdiagnosticsm), "additionalAbsentSubscriberDiagnosticSM", "decoding", false)
+				}
+				if decodedTag_additionalabsentsubscriberdiagnosticsm.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_additionalabsentsubscriberdiagnosticsm), "additionalAbsentSubscriberDiagnosticSM", "decoding", false)
 				}
 				decVal_additionalabsentsubscriberdiagnosticsm, intErr := ber.DecodeIntegerValue(rawVal_additionalabsentsubscriberdiagnosticsm)
 				if intErr != nil {
@@ -3054,7 +3066,7 @@ func (destination *ERAbsentSubscriberSMParam) UnmarshalBER(data []byte, opts ...
 					return qualifyBERError(err, "imsi", "decoding", false)
 				}
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 1 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi), "imsi", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_imsi), "imsi", "decoding", false)
 				}
 				decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
 				if octetErr != nil {
@@ -3087,7 +3099,7 @@ func (destination *ERAbsentSubscriberSMParam) UnmarshalBER(data []byte, opts ...
 					return qualifyBERError(err, "requestedRetransmissionTime", "decoding", false)
 				}
 				if decodedTag_requestedretransmissiontime.Class != tag.ClassContextSpecific || decodedTag_requestedretransmissiontime.Number != 2 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_requestedretransmissiontime), "requestedRetransmissionTime", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_requestedretransmissiontime), "requestedRetransmissionTime", "decoding", false)
 				}
 				decVal_requestedretransmissiontime, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_requestedretransmissiontime.Constructed, rawVal_requestedretransmissiontime, opts...)
 				if octetErr != nil {
@@ -3121,7 +3133,7 @@ func (destination *ERAbsentSubscriberSMParam) UnmarshalBER(data []byte, opts ...
 					return qualifyBERError(err, "userIdentifierAlert", "decoding", false)
 				}
 				if decodedTag_useridentifieralert.Class != tag.ClassContextSpecific || decodedTag_useridentifieralert.Number != 3 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_useridentifieralert), "userIdentifierAlert", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_useridentifieralert), "userIdentifierAlert", "decoding", false)
 				}
 				decVal_useridentifieralert, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_useridentifieralert.Constructed, rawVal_useridentifieralert, opts...)
 				if octetErr != nil {
@@ -3155,7 +3167,7 @@ func (destination *ERAbsentSubscriberSMParam) UnmarshalBER(data []byte, opts ...
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERAbsentSubscriberSMParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERAbsentSubscriberSMParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_5, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -3343,7 +3355,7 @@ func (destination *ERSystemFailureParam) UnmarshalBER(data []byte, opts ...ber.D
 		}
 		v.ExtensibleSystemFailureParam = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for ERSystemFailureParam CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ERSystemFailureParam CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3605,8 +3617,11 @@ func (destination *ERExtensibleSystemFailureParam) UnmarshalBER(data []byte, opt
 				if err != nil {
 					return qualifyBERError(err, "additionalNetworkResource", "decoding", false)
 				}
-				if decodedTag_additionalnetworkresource.Class != tag.ClassContextSpecific || decodedTag_additionalnetworkresource.Number != 0 || decodedTag_additionalnetworkresource.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalnetworkresource), "additionalNetworkResource", "decoding", false)
+				if decodedTag_additionalnetworkresource.Class != tag.ClassContextSpecific || decodedTag_additionalnetworkresource.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_additionalnetworkresource), "additionalNetworkResource", "decoding", false)
+				}
+				if decodedTag_additionalnetworkresource.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_additionalnetworkresource), "additionalNetworkResource", "decoding", false)
 				}
 				decVal_additionalnetworkresource, intErr := ber.DecodeEnumeratedValue(rawVal_additionalnetworkresource)
 				if intErr != nil {
@@ -3634,8 +3649,11 @@ func (destination *ERExtensibleSystemFailureParam) UnmarshalBER(data []byte, opt
 				if err != nil {
 					return qualifyBERError(err, "failureCauseParam", "decoding", false)
 				}
-				if decodedTag_failurecauseparam.Class != tag.ClassContextSpecific || decodedTag_failurecauseparam.Number != 1 || decodedTag_failurecauseparam.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_failurecauseparam), "failureCauseParam", "decoding", false)
+				if decodedTag_failurecauseparam.Class != tag.ClassContextSpecific || decodedTag_failurecauseparam.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_failurecauseparam), "failureCauseParam", "decoding", false)
+				}
+				if decodedTag_failurecauseparam.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_failurecauseparam), "failureCauseParam", "decoding", false)
 				}
 				decVal_failurecauseparam, intErr := ber.DecodeEnumeratedValue(rawVal_failurecauseparam)
 				if intErr != nil {
@@ -3663,7 +3681,7 @@ func (destination *ERExtensibleSystemFailureParam) UnmarshalBER(data []byte, opt
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERExtensibleSystemFailureParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERExtensibleSystemFailureParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_6, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -3862,7 +3880,7 @@ func (destination *ERDataMissingParam) UnmarshalBER(data []byte, opts ...ber.Dec
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERDataMissingParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERDataMissingParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_7, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -4078,8 +4096,11 @@ func (destination *ERUnexpectedDataParam) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "unexpectedSubscriber", "decoding", false)
 				}
-				if decodedTag_unexpectedsubscriber.Class != tag.ClassContextSpecific || decodedTag_unexpectedsubscriber.Number != 0 || decodedTag_unexpectedsubscriber.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unexpectedsubscriber), "unexpectedSubscriber", "decoding", false)
+				if decodedTag_unexpectedsubscriber.Class != tag.ClassContextSpecific || decodedTag_unexpectedsubscriber.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_unexpectedsubscriber), "unexpectedSubscriber", "decoding", false)
+				}
+				if decodedTag_unexpectedsubscriber.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_unexpectedsubscriber), "unexpectedSubscriber", "decoding", false)
 				}
 				if len(rawVal_unexpectedsubscriber) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_unexpectedsubscriber)), "unexpectedSubscriber", "decoding", false)
@@ -4106,7 +4127,7 @@ func (destination *ERUnexpectedDataParam) UnmarshalBER(data []byte, opts ...ber.
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERUnexpectedDataParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERUnexpectedDataParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_8, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -4340,8 +4361,11 @@ func (destination *ERFacilityNotSupParam) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "shapeOfLocationEstimateNotSupported", "decoding", false)
 				}
-				if decodedTag_shapeoflocationestimatenotsupported.Class != tag.ClassContextSpecific || decodedTag_shapeoflocationestimatenotsupported.Number != 0 || decodedTag_shapeoflocationestimatenotsupported.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_shapeoflocationestimatenotsupported), "shapeOfLocationEstimateNotSupported", "decoding", false)
+				if decodedTag_shapeoflocationestimatenotsupported.Class != tag.ClassContextSpecific || decodedTag_shapeoflocationestimatenotsupported.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_shapeoflocationestimatenotsupported), "shapeOfLocationEstimateNotSupported", "decoding", false)
+				}
+				if decodedTag_shapeoflocationestimatenotsupported.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_shapeoflocationestimatenotsupported), "shapeOfLocationEstimateNotSupported", "decoding", false)
 				}
 				if len(rawVal_shapeoflocationestimatenotsupported) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_shapeoflocationestimatenotsupported)), "shapeOfLocationEstimateNotSupported", "decoding", false)
@@ -4367,8 +4391,11 @@ func (destination *ERFacilityNotSupParam) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "neededLcsCapabilityNotSupportedInServingNode", "decoding", false)
 				}
-				if decodedTag_neededlcscapabilitynotsupportedinservingnode.Class != tag.ClassContextSpecific || decodedTag_neededlcscapabilitynotsupportedinservingnode.Number != 1 || decodedTag_neededlcscapabilitynotsupportedinservingnode.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_neededlcscapabilitynotsupportedinservingnode), "neededLcsCapabilityNotSupportedInServingNode", "decoding", false)
+				if decodedTag_neededlcscapabilitynotsupportedinservingnode.Class != tag.ClassContextSpecific || decodedTag_neededlcscapabilitynotsupportedinservingnode.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_neededlcscapabilitynotsupportedinservingnode), "neededLcsCapabilityNotSupportedInServingNode", "decoding", false)
+				}
+				if decodedTag_neededlcscapabilitynotsupportedinservingnode.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_neededlcscapabilitynotsupportedinservingnode), "neededLcsCapabilityNotSupportedInServingNode", "decoding", false)
 				}
 				if len(rawVal_neededlcscapabilitynotsupportedinservingnode) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_neededlcscapabilitynotsupportedinservingnode)), "neededLcsCapabilityNotSupportedInServingNode", "decoding", false)
@@ -4395,7 +4422,7 @@ func (destination *ERFacilityNotSupParam) UnmarshalBER(data []byte, opts ...ber.
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERFacilityNotSupParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERFacilityNotSupParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_9, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -4594,7 +4621,7 @@ func (destination *ERORNotAllowedParam) UnmarshalBER(data []byte, opts ...ber.De
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERORNotAllowedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERORNotAllowedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_10, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -4822,7 +4849,7 @@ func (destination *ERUnknownSubscriberParam) UnmarshalBER(data []byte, opts ...b
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 10) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERUnknownSubscriberParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERUnknownSubscriberParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_11, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5021,7 +5048,7 @@ func (destination *ERNumberChangedParam) UnmarshalBER(data []byte, opts ...ber.D
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERNumberChangedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERNumberChangedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_12, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5220,7 +5247,7 @@ func (destination *ERUnidentifiedSubParam) UnmarshalBER(data []byte, opts ...ber
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERUnidentifiedSubParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERUnidentifiedSubParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_13, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5419,7 +5446,7 @@ func (destination *ERIllegalSubscriberParam) UnmarshalBER(data []byte, opts ...b
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERIllegalSubscriberParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERIllegalSubscriberParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_14, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5618,7 +5645,7 @@ func (destination *ERIllegalEquipmentParam) UnmarshalBER(data []byte, opts ...be
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERIllegalEquipmentParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERIllegalEquipmentParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5817,7 +5844,7 @@ func (destination *ERBearerServNotProvParam) UnmarshalBER(data []byte, opts ...b
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERBearerServNotProvParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERBearerServNotProvParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -6016,7 +6043,7 @@ func (destination *ERTeleservNotProvParam) UnmarshalBER(data []byte, opts ...ber
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERTeleservNotProvParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERTeleservNotProvParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -6215,7 +6242,7 @@ func (destination *ERTracingBufferFullParam) UnmarshalBER(data []byte, opts ...b
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERTracingBufferFullParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERTracingBufferFullParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -6414,7 +6441,7 @@ func (destination *ERNoRoamingNbParam) UnmarshalBER(data []byte, opts ...ber.Dec
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERNoRoamingNbParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERNoRoamingNbParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -6630,8 +6657,11 @@ func (destination *ERAbsentSubscriberParam) UnmarshalBER(data []byte, opts ...be
 				if err != nil {
 					return qualifyBERError(err, "absentSubscriberReason", "decoding", false)
 				}
-				if decodedTag_absentsubscriberreason.Class != tag.ClassContextSpecific || decodedTag_absentsubscriberreason.Number != 0 || decodedTag_absentsubscriberreason.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_absentsubscriberreason), "absentSubscriberReason", "decoding", false)
+				if decodedTag_absentsubscriberreason.Class != tag.ClassContextSpecific || decodedTag_absentsubscriberreason.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_absentsubscriberreason), "absentSubscriberReason", "decoding", false)
+				}
+				if decodedTag_absentsubscriberreason.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_absentsubscriberreason), "absentSubscriberReason", "decoding", false)
 				}
 				decVal_absentsubscriberreason, intErr := ber.DecodeEnumeratedValue(rawVal_absentsubscriberreason)
 				if intErr != nil {
@@ -6660,7 +6690,7 @@ func (destination *ERAbsentSubscriberParam) UnmarshalBER(data []byte, opts ...be
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERAbsentSubscriberParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERAbsentSubscriberParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_20, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -6894,8 +6924,11 @@ func (destination *ERBusySubscriberParam) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "ccbs-Possible", "decoding", false)
 				}
-				if decodedTag_ccbspossible.Class != tag.ClassContextSpecific || decodedTag_ccbspossible.Number != 0 || decodedTag_ccbspossible.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbspossible), "ccbs-Possible", "decoding", false)
+				if decodedTag_ccbspossible.Class != tag.ClassContextSpecific || decodedTag_ccbspossible.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbspossible), "ccbs-Possible", "decoding", false)
+				}
+				if decodedTag_ccbspossible.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbspossible), "ccbs-Possible", "decoding", false)
 				}
 				if len(rawVal_ccbspossible) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ccbspossible)), "ccbs-Possible", "decoding", false)
@@ -6920,8 +6953,11 @@ func (destination *ERBusySubscriberParam) UnmarshalBER(data []byte, opts ...ber.
 				if err != nil {
 					return qualifyBERError(err, "ccbs-Busy", "decoding", false)
 				}
-				if decodedTag_ccbsbusy.Class != tag.ClassContextSpecific || decodedTag_ccbsbusy.Number != 1 || decodedTag_ccbsbusy.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbsbusy), "ccbs-Busy", "decoding", false)
+				if decodedTag_ccbsbusy.Class != tag.ClassContextSpecific || decodedTag_ccbsbusy.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ccbsbusy), "ccbs-Busy", "decoding", false)
+				}
+				if decodedTag_ccbsbusy.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_ccbsbusy), "ccbs-Busy", "decoding", false)
 				}
 				if len(rawVal_ccbsbusy) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ccbsbusy)), "ccbs-Busy", "decoding", false)
@@ -6947,7 +6983,7 @@ func (destination *ERBusySubscriberParam) UnmarshalBER(data []byte, opts ...ber.
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERBusySubscriberParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERBusySubscriberParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_21, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -7146,7 +7182,7 @@ func (destination *ERNoSubscriberReplyParam) UnmarshalBER(data []byte, opts ...b
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERNoSubscriberReplyParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERNoSubscriberReplyParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_22, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -7345,7 +7381,7 @@ func (destination *ERForwardingViolationParam) UnmarshalBER(data []byte, opts ..
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERForwardingViolationParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERForwardingViolationParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_23, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -7544,7 +7580,7 @@ func (destination *ERForwardingFailedParam) UnmarshalBER(data []byte, opts ...be
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERForwardingFailedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERForwardingFailedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_24, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -7743,7 +7779,7 @@ func (destination *ERATINotAllowedParam) UnmarshalBER(data []byte, opts ...ber.D
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERATINotAllowedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERATINotAllowedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_25, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -7942,7 +7978,7 @@ func (destination *ERATSINotAllowedParam) UnmarshalBER(data []byte, opts ...ber.
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERATSINotAllowedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERATSINotAllowedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_26, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -8141,7 +8177,7 @@ func (destination *ERATMNotAllowedParam) UnmarshalBER(data []byte, opts ...ber.D
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERATMNotAllowedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERATMNotAllowedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_27, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -8340,7 +8376,7 @@ func (destination *ERIllegalSSOperationParam) UnmarshalBER(data []byte, opts ...
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERIllegalSSOperationParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERIllegalSSOperationParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_28, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -8539,7 +8575,7 @@ func (destination *ERSSNotAvailableParam) UnmarshalBER(data []byte, opts ...ber.
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERSSNotAvailableParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERSSNotAvailableParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_29, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -8738,7 +8774,7 @@ func (destination *ERSSSubscriptionViolationParam) UnmarshalBER(data []byte, opt
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERSSSubscriptionViolationParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERSSSubscriptionViolationParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_30, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -8937,7 +8973,7 @@ func (destination *ERInformationNotAvailableParam) UnmarshalBER(data []byte, opt
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERInformationNotAvailableParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERInformationNotAvailableParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_31, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -9164,7 +9200,7 @@ func (destination *ERSubBusyForMTSMSParam) UnmarshalBER(data []byte, opts ...ber
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERSubBusyForMTSMSParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERSubBusyForMTSMSParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_32, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -9363,7 +9399,7 @@ func (destination *ERMessageWaitListFullParam) UnmarshalBER(data []byte, opts ..
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERMessageWaitListFullParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERMessageWaitListFullParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_33, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -9562,7 +9598,7 @@ func (destination *ERResourceLimitationParam) UnmarshalBER(data []byte, opts ...
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERResourceLimitationParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERResourceLimitationParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_34, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -9761,7 +9797,7 @@ func (destination *ERNoGroupCallNbParam) UnmarshalBER(data []byte, opts ...ber.D
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERNoGroupCallNbParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERNoGroupCallNbParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_35, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -9960,7 +9996,7 @@ func (destination *ERIncompatibleTerminalParam) UnmarshalBER(data []byte, opts .
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERIncompatibleTerminalParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERIncompatibleTerminalParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_36, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -10421,7 +10457,7 @@ func (destination *ERUnauthorizedRequestingNetworkParam) UnmarshalBER(data []byt
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERUnauthorizedRequestingNetworkParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERUnauthorizedRequestingNetworkParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_37, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -10619,8 +10655,11 @@ func (destination *ERUnauthorizedLCSClientParam) UnmarshalBER(data []byte, opts 
 				if err != nil {
 					return qualifyBERError(err, "unauthorizedLCSClient-Diagnostic", "decoding", false)
 				}
-				if decodedTag_unauthorizedlcsclientdiagnostic.Class != tag.ClassContextSpecific || decodedTag_unauthorizedlcsclientdiagnostic.Number != 0 || decodedTag_unauthorizedlcsclientdiagnostic.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unauthorizedlcsclientdiagnostic), "unauthorizedLCSClient-Diagnostic", "decoding", false)
+				if decodedTag_unauthorizedlcsclientdiagnostic.Class != tag.ClassContextSpecific || decodedTag_unauthorizedlcsclientdiagnostic.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_unauthorizedlcsclientdiagnostic), "unauthorizedLCSClient-Diagnostic", "decoding", false)
+				}
+				if decodedTag_unauthorizedlcsclientdiagnostic.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_unauthorizedlcsclientdiagnostic), "unauthorizedLCSClient-Diagnostic", "decoding", false)
 				}
 				decVal_unauthorizedlcsclientdiagnostic, intErr := ber.DecodeEnumeratedValue(rawVal_unauthorizedlcsclientdiagnostic)
 				if intErr != nil {
@@ -10647,8 +10686,11 @@ func (destination *ERUnauthorizedLCSClientParam) UnmarshalBER(data []byte, opts 
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -10685,7 +10727,7 @@ func (destination *ERUnauthorizedLCSClientParam) UnmarshalBER(data []byte, opts 
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERUnauthorizedLCSClientParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERUnauthorizedLCSClientParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_38, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -10883,8 +10925,11 @@ func (destination *ERPositionMethodFailureParam) UnmarshalBER(data []byte, opts 
 				if err != nil {
 					return qualifyBERError(err, "positionMethodFailure-Diagnostic", "decoding", false)
 				}
-				if decodedTag_positionmethodfailurediagnostic.Class != tag.ClassContextSpecific || decodedTag_positionmethodfailurediagnostic.Number != 0 || decodedTag_positionmethodfailurediagnostic.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_positionmethodfailurediagnostic), "positionMethodFailure-Diagnostic", "decoding", false)
+				if decodedTag_positionmethodfailurediagnostic.Class != tag.ClassContextSpecific || decodedTag_positionmethodfailurediagnostic.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_positionmethodfailurediagnostic), "positionMethodFailure-Diagnostic", "decoding", false)
+				}
+				if decodedTag_positionmethodfailurediagnostic.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_positionmethodfailurediagnostic), "positionMethodFailure-Diagnostic", "decoding", false)
 				}
 				decVal_positionmethodfailurediagnostic, intErr := ber.DecodeEnumeratedValue(rawVal_positionmethodfailurediagnostic)
 				if intErr != nil {
@@ -10911,8 +10956,11 @@ func (destination *ERPositionMethodFailureParam) UnmarshalBER(data []byte, opts 
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -10949,7 +10997,7 @@ func (destination *ERPositionMethodFailureParam) UnmarshalBER(data []byte, opts 
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERPositionMethodFailureParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERPositionMethodFailureParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_39, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -11148,7 +11196,7 @@ func (destination *ERUnknownOrUnreachableLCSClientParam) UnmarshalBER(data []byt
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERUnknownOrUnreachableLCSClientParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERUnknownOrUnreachableLCSClientParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_40, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -11347,7 +11395,7 @@ func (destination *ERMMEventNotSupportedParam) UnmarshalBER(data []byte, opts ..
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERMMEventNotSupportedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERMMEventNotSupportedParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_41, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -11546,7 +11594,7 @@ func (destination *ERTargetCellOutsideGCAParam) UnmarshalBER(data []byte, opts .
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ERTargetCellOutsideGCAParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ERTargetCellOutsideGCAParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_42, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -11745,7 +11793,7 @@ func (destination *EROngoingGroupCallParam) UnmarshalBER(data []byte, opts ...be
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "EROngoingGroupCallParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "EROngoingGroupCallParam", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s3ca73c_43, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_

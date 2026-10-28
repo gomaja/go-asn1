@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 8712602101ed24467efa564e18ab881d8854b26dfa9763b597301caa17876200.
+// Runtime source: runtime/ber/decoder.go; SHA-256 533776f4f98022ec81081cf687e36445d2ca3d8a74a591686ffc79f9338df104.
 package ber
 
 import (
@@ -16,6 +16,7 @@ import (
 )
 
 type berWorkBudget struct {
+	options         []DecodeOption // reused only if the root is rejected by its tag.
 	stringSource    *byte
 	elements, bytes int
 	limits          DecodeLimits
@@ -31,7 +32,7 @@ func newBERWorkBudget(options []DecodeOption) (berWorkBudget, error) {
 	if err != nil {
 		return berWorkBudget{}, err
 	}
-	return berWorkBudget{limits: config.limits, form: config.form}, nil
+	return berWorkBudget{limits: config.limits, form: config.form, options: options}, nil
 }
 
 func (budget *berWorkBudget) charge(size int) error {
@@ -747,7 +748,7 @@ func DecodeInteger(data []byte, options ...DecodeOption) (int64, int, error) {
 		return 0, 0, err
 	}
 	if t.Class != tag.ClassUniversal || t.Number != tag.TagInteger {
-		return 0, 0, fmt.Errorf("%w: expected INTEGER tag, got %s", ErrInvalidTag, t)
+		return 0, 0, fmt.Errorf("%w: expected INTEGER tag, got %s", unexpectedElementError(data[:total], options), t)
 	}
 	if t.Constructed {
 		return 0, 0, fmt.Errorf("%w: INTEGER must be primitive, got constructed", ErrInvalidTag)
@@ -791,7 +792,7 @@ func DecodeBigInt(data []byte, options ...DecodeOption) (*big.Int, int, error) {
 		return nil, 0, err
 	}
 	if t.Class != tag.ClassUniversal || t.Number != tag.TagInteger {
-		return nil, 0, fmt.Errorf("%w: expected INTEGER tag, got %s", ErrInvalidTag, t)
+		return nil, 0, fmt.Errorf("%w: expected INTEGER tag, got %s", unexpectedElementError(data[:total], options), t)
 	}
 	if t.Constructed {
 		return nil, 0, fmt.Errorf("%w: INTEGER must be primitive, got constructed", ErrInvalidTag)
@@ -824,7 +825,26 @@ func decodeStringSegments(data []byte, expectedTag, depth int, budget *berWorkBu
 		return 0, 0, err
 	}
 	if t.Class != tag.ClassUniversal || t.Number != expectedTag {
-		return 0, 0, fmt.Errorf("%w: expected universal string tag %d, got %s", ErrInvalidTag, expectedTag, t)
+		// X.690 (02/2021) §§8.6.4, 8.7.3 require every constructed
+		// string segment to carry the same universal tag. A wrong root tag
+		// instead selects an element outside the caller's abstract syntax.
+		var cause error
+		if depth != 0 {
+			cause = ErrInvalidTag
+		} else {
+			// X.690 (02/2021) §§8.1.2, 8.1.3, 8.1.5: only a
+			// complete root element can be rejected by its tag. Keep
+			// malformed framing, including a missing EOC, as a BER error.
+			// Reuse the resolved limits without tracking a rejected value.
+			_, total, _, err := decodeTLV(data, budget.limits, nil)
+			if err != nil {
+				return 0, 0, err
+			}
+			// The root has not charged any string work. Apply the caller's
+			// resolved options to the same recursive rejection check.
+			cause = unexpectedElementError(data[:total], budget.options)
+		}
+		return 0, 0, fmt.Errorf("%w: expected universal string tag %d, got %s", cause, expectedTag, t)
 	}
 	length, indefinite, lenLen, err := DecodeLength(data[tagLen:])
 	if err != nil {
@@ -941,7 +961,7 @@ func DecodeNull(data []byte, options ...DecodeOption) (int, error) {
 		return 0, err
 	}
 	if t.Class != tag.ClassUniversal || t.Number != tag.TagNull {
-		return 0, fmt.Errorf("%w: expected NULL tag, got %s", ErrInvalidTag, t)
+		return 0, fmt.Errorf("%w: expected NULL tag, got %s", unexpectedElementError(data[:total], options), t)
 	}
 	if t.Constructed {
 		return 0, fmt.Errorf("%w: X.690 (02/2021) §8.8.1 requires primitive NULL", ErrInvalidTag)
@@ -958,8 +978,11 @@ func DecodeObjectIdentifier(data []byte, options ...DecodeOption) (runtime.Objec
 	if err != nil {
 		return runtime.ObjectIdentifier{}, 0, err
 	}
-	if t.Class != tag.ClassUniversal || t.Number != tag.TagObjectID || t.Constructed {
-		return runtime.ObjectIdentifier{}, 0, fmt.Errorf("%w: expected primitive OBJECT IDENTIFIER, got %s", ErrInvalidTag, t)
+	if t.Class != tag.ClassUniversal || t.Number != tag.TagObjectID {
+		return runtime.ObjectIdentifier{}, 0, fmt.Errorf("%w: expected primitive OBJECT IDENTIFIER, got %s", unexpectedElementError(data[:total], options), t)
+	}
+	if t.Constructed {
+		return runtime.ObjectIdentifier{}, 0, fmt.Errorf("%w: OBJECT IDENTIFIER must be primitive", ErrInvalidTag)
 	}
 	oid, err := DecodeOIDValue(value)
 	if err != nil {
@@ -1455,8 +1478,11 @@ func DecodeSequenceContent(data []byte, options ...DecodeOption) ([]byte, int, e
 	if err != nil {
 		return nil, 0, err
 	}
-	if t.Class != tag.ClassUniversal || t.Number != tag.TagSequence || !t.Constructed {
-		return nil, 0, fmt.Errorf("%w: expected SEQUENCE, got %s", ErrInvalidTag, t)
+	if t.Class != tag.ClassUniversal || t.Number != tag.TagSequence {
+		return nil, 0, fmt.Errorf("%w: expected SEQUENCE, got %s", unexpectedElementError(data[:total], options), t)
+	}
+	if !t.Constructed {
+		return nil, 0, fmt.Errorf("%w: primitive SEQUENCE", ErrInvalidTag)
 	}
 	return value, total, nil
 }

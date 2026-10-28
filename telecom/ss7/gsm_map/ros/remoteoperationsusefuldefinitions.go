@@ -605,7 +605,7 @@ func (destination *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		v.Reject = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for ROSSingleAS CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROSSingleAS CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -930,7 +930,7 @@ func (destination *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.Reject = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for ROSConsumerAS CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROSConsumerAS CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -1255,7 +1255,7 @@ func (destination *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.Reject = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for ROSSupplierAS CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROSSupplierAS CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -1414,7 +1414,7 @@ func (destination *ROSSingleASInvokeLinkedId) UnmarshalBER(data []byte, opts ...
 		}
 		v.Absent = &struct{}{}
 	} else {
-		return fmt.Errorf("unknown tag %s for ROSSingleASInvokeLinkedId CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROSSingleASInvokeLinkedId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -1532,7 +1532,7 @@ func (destination *ROSSingleASReturnResultResult) UnmarshalBER(data []byte, opts
 	offset := 0
 	// Decode opcode
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field opcode")
+		return fmt.Errorf("%w: missing required field opcode", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
@@ -1556,7 +1556,7 @@ func (destination *ROSSingleASReturnResultResult) UnmarshalBER(data []byte, opts
 	}
 	// Decode result
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field result")
+		return fmt.Errorf("%w: missing required field result", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "result", content[offset:])
@@ -1579,7 +1579,7 @@ func (destination *ROSSingleASReturnResultResult) UnmarshalBER(data []byte, opts
 		offset += n_result
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ROSSingleASReturnResultResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "ROSSingleASReturnResultResult", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -1738,7 +1738,7 @@ func (destination *ROSConsumerASInvokeLinkedId) UnmarshalBER(data []byte, opts .
 		}
 		v.Absent = &struct{}{}
 	} else {
-		return fmt.Errorf("unknown tag %s for ROSConsumerASInvokeLinkedId CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROSConsumerASInvokeLinkedId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -1856,7 +1856,7 @@ func (destination *ROSConsumerASReturnResultResult) UnmarshalBER(data []byte, op
 	offset := 0
 	// Decode opcode
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field opcode")
+		return fmt.Errorf("%w: missing required field opcode", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
@@ -1880,7 +1880,7 @@ func (destination *ROSConsumerASReturnResultResult) UnmarshalBER(data []byte, op
 	}
 	// Decode result
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field result")
+		return fmt.Errorf("%w: missing required field result", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "result", content[offset:])
@@ -1903,7 +1903,7 @@ func (destination *ROSConsumerASReturnResultResult) UnmarshalBER(data []byte, op
 		offset += n_result
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ROSConsumerASReturnResultResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "ROSConsumerASReturnResultResult", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -2062,7 +2062,7 @@ func (destination *ROSSupplierASInvokeLinkedId) UnmarshalBER(data []byte, opts .
 		}
 		v.Absent = &struct{}{}
 	} else {
-		return fmt.Errorf("unknown tag %s for ROSSupplierASInvokeLinkedId CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROSSupplierASInvokeLinkedId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -2180,7 +2180,7 @@ func (destination *ROSSupplierASReturnResultResult) UnmarshalBER(data []byte, op
 	offset := 0
 	// Decode opcode
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field opcode")
+		return fmt.Errorf("%w: missing required field opcode", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
@@ -2204,7 +2204,7 @@ func (destination *ROSSupplierASReturnResultResult) UnmarshalBER(data []byte, op
 	}
 	// Decode result
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field result")
+		return fmt.Errorf("%w: missing required field result", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "result", content[offset:])
@@ -2227,7 +2227,7 @@ func (destination *ROSSupplierASReturnResultResult) UnmarshalBER(data []byte, op
 		offset += n_result
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ROSSupplierASReturnResultResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "ROSSupplierASReturnResultResult", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }

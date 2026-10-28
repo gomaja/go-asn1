@@ -258,7 +258,7 @@ func (destination *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 		tmp := decVal
 		v.Global = &tmp
 	} else {
-		return fmt.Errorf("unknown tag %s for Code CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for Code CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }

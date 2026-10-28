@@ -1325,7 +1325,7 @@ func (destination *ExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 	offset := 0
 	// Decode protocolId
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field protocolId")
+		return fmt.Errorf("%w: missing required field protocolId", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "protocolId", content[offset:])
@@ -1347,7 +1347,7 @@ func (destination *ExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 	}
 	// Decode signalInfo
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field signalInfo")
+		return fmt.Errorf("%w: missing required field signalInfo", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "signalInfo", content[offset:])
@@ -1411,7 +1411,7 @@ func (destination *ExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ExternalSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ExternalSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1597,7 +1597,7 @@ func (destination *ExtExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.
 	offset := 0
 	// Decode ext-ProtocolId
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field ext-ProtocolId")
+		return fmt.Errorf("%w: missing required field ext-ProtocolId", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "ext-ProtocolId", content[offset:])
@@ -1614,7 +1614,7 @@ func (destination *ExtExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.
 	}
 	// Decode signalInfo
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field signalInfo")
+		return fmt.Errorf("%w: missing required field signalInfo", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "signalInfo", content[offset:])
@@ -1678,7 +1678,7 @@ func (destination *ExtExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ExtExternalSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ExtExternalSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1864,7 +1864,7 @@ func (destination *AccessNetworkSignalInfo) UnmarshalBER(data []byte, opts ...be
 	offset := 0
 	// Decode accessNetworkProtocolId
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field accessNetworkProtocolId")
+		return fmt.Errorf("%w: missing required field accessNetworkProtocolId", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "accessNetworkProtocolId", content[offset:])
@@ -1881,7 +1881,7 @@ func (destination *AccessNetworkSignalInfo) UnmarshalBER(data []byte, opts ...be
 	}
 	// Decode signalInfo
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field signalInfo")
+		return fmt.Errorf("%w: missing required field signalInfo", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "signalInfo", content[offset:])
@@ -1945,7 +1945,7 @@ func (destination *AccessNetworkSignalInfo) UnmarshalBER(data []byte, opts ...be
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "AccessNetworkSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "AccessNetworkSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_4, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -2240,7 +2240,7 @@ func (destination *Identity) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		}
 		v.ImsiWithLMSI = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for Identity CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for Identity CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -2391,7 +2391,7 @@ func (destination *IMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	offset := 0
 	// Decode imsi
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field imsi")
+		return fmt.Errorf("%w: missing required field imsi", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "imsi", content[offset:])
@@ -2413,7 +2413,7 @@ func (destination *IMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}
 	// Decode lmsi
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field lmsi")
+		return fmt.Errorf("%w: missing required field lmsi", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "lmsi", content[offset:])
@@ -2745,7 +2745,7 @@ func (destination *SubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 			}
 		}
 	} else {
-		return fmt.Errorf("unknown tag %s for SubscriberId CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for SubscriberId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3308,11 +3308,11 @@ func (destination *NAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.Decode
 	offset := 0
 	// Decode naea-PreferredCIC
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field naea-PreferredCIC")
+		return fmt.Errorf("%w: missing required field naea-PreferredCIC", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for naea-PreferredCIC, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for naea-PreferredCIC, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -3322,7 +3322,7 @@ func (destination *NAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.Decode
 			return qualifyBERError(err, "naea-PreferredCIC", "decoding", false)
 		}
 		if decodedTag_naeapreferredcic.Class != tag.ClassContextSpecific || decodedTag_naeapreferredcic.Number != 0 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_naeapreferredcic), "naea-PreferredCIC", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_naeapreferredcic), "naea-PreferredCIC", "decoding", false)
 		}
 		decVal_naeapreferredcic, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_naeapreferredcic.Constructed, rawVal_naeapreferredcic, opts...)
 		if octetErr != nil {
@@ -3350,8 +3350,11 @@ func (destination *NAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.Decode
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -3390,7 +3393,7 @@ func (destination *NAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.Decode
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "NAEAPreferredCI", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "NAEAPreferredCI", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_8, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -3602,7 +3605,7 @@ func (destination *SubscriberIdentity) UnmarshalBER(data []byte, opts ...ber.Dec
 			}
 		}
 	} else {
-		return fmt.Errorf("unknown tag %s for SubscriberIdentity CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for SubscriberIdentity CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3808,7 +3811,7 @@ func (destination *LCSClientExternalID) UnmarshalBER(data []byte, opts ...ber.De
 					return qualifyBERError(err, "externalAddress", "decoding", false)
 				}
 				if decodedTag_externaladdress.Class != tag.ClassContextSpecific || decodedTag_externaladdress.Number != 0 {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_externaladdress), "externalAddress", "decoding", false)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_externaladdress), "externalAddress", "decoding", false)
 				}
 				decVal_externaladdress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_externaladdress.Constructed, rawVal_externaladdress, opts...)
 				if octetErr != nil {
@@ -3844,8 +3847,11 @@ func (destination *LCSClientExternalID) UnmarshalBER(data []byte, opts ...ber.De
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -3884,7 +3890,7 @@ func (destination *LCSClientExternalID) UnmarshalBER(data []byte, opts ...ber.De
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "LCSClientExternalID", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSClientExternalID", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_10, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -4055,11 +4061,11 @@ func (destination *NetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ..
 	offset := 0
 	// Decode diameter-Name
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field diameter-Name")
+		return fmt.Errorf("%w: missing required field diameter-Name", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for diameter-Name, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for diameter-Name, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -4069,7 +4075,7 @@ func (destination *NetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ..
 			return qualifyBERError(err, "diameter-Name", "decoding", false)
 		}
 		if decodedTag_diametername.Class != tag.ClassContextSpecific || decodedTag_diametername.Number != 0 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_diametername), "diameter-Name", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_diametername), "diameter-Name", "decoding", false)
 		}
 		decVal_diametername, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_diametername.Constructed, rawVal_diametername, opts...)
 		if octetErr != nil {
@@ -4089,11 +4095,11 @@ func (destination *NetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ..
 	}
 	// Decode diameter-Realm
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field diameter-Realm")
+		return fmt.Errorf("%w: missing required field diameter-Realm", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 1 {
-			return fmt.Errorf("expected tag [%s %d] for diameter-Realm, got %s", "CONTEXT", 1, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for diameter-Realm, got %s", ber.ErrUnexpectedElement, "CONTEXT", 1, reqTag_)
 		}
 	}
 	{
@@ -4103,7 +4109,7 @@ func (destination *NetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ..
 			return qualifyBERError(err, "diameter-Realm", "decoding", false)
 		}
 		if decodedTag_diameterrealm.Class != tag.ClassContextSpecific || decodedTag_diameterrealm.Number != 1 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_diameterrealm), "diameter-Realm", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_diameterrealm), "diameter-Realm", "decoding", false)
 		}
 		decVal_diameterrealm, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_diameterrealm.Constructed, rawVal_diameterrealm, opts...)
 		if octetErr != nil {
@@ -4123,7 +4129,7 @@ func (destination *NetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ..
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "NetworkNodeDiameterAddress", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "NetworkNodeDiameterAddress", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -4306,7 +4312,7 @@ func (destination *CellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte, o
 			}
 		}
 	} else {
-		return fmt.Errorf("unknown tag %s for CellGlobalIdOrServiceAreaIdOrLAI CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for CellGlobalIdOrServiceAreaIdOrLAI CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -4488,7 +4494,7 @@ func (destination *BasicServiceCode) UnmarshalBER(data []byte, opts ...ber.Decod
 			}
 		}
 	} else {
-		return fmt.Errorf("unknown tag %s for BasicServiceCode CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for BasicServiceCode CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -4671,7 +4677,7 @@ func (destination *ExtBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.De
 			}
 		}
 	} else {
-		return fmt.Errorf("unknown tag %s for ExtBasicServiceCode CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ExtBasicServiceCode CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -4841,7 +4847,7 @@ func (destination *EMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	offset := 0
 	// Decode maximumentitledPriority
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field maximumentitledPriority")
+		return fmt.Errorf("%w: missing required field maximumentitledPriority", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "maximumentitledPriority", content[offset:])
@@ -4863,7 +4869,7 @@ func (destination *EMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	}
 	// Decode defaultPriority
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field defaultPriority")
+		return fmt.Errorf("%w: missing required field defaultPriority", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "defaultPriority", content[offset:])
@@ -4927,7 +4933,7 @@ func (destination *EMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "EMLPPInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "EMLPPInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5206,11 +5212,11 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	offset := 0
 	// Decode ss-Code
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field ss-Code")
+		return fmt.Errorf("%w: missing required field ss-Code", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
-			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for ss-Code, got %s", ber.ErrUnexpectedElement, "CONTEXT", 0, reqTag_)
 		}
 	}
 	{
@@ -5220,7 +5226,7 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 			return qualifyBERError(err, "ss-Code", "decoding", false)
 		}
 		if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode), "ss-Code", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_sscode), "ss-Code", "decoding", false)
 		}
 		decVal_sscode, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sscode.Constructed, rawVal_sscode, opts...)
 		if octetErr != nil {
@@ -5240,11 +5246,11 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 	// Decode ss-Status
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field ss-Status")
+		return fmt.Errorf("%w: missing required field ss-Status", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 1 {
-			return fmt.Errorf("expected tag [%s %d] for ss-Status, got %s", "CONTEXT", 1, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for ss-Status, got %s", ber.ErrUnexpectedElement, "CONTEXT", 1, reqTag_)
 		}
 	}
 	{
@@ -5254,7 +5260,7 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 			return qualifyBERError(err, "ss-Status", "decoding", false)
 		}
 		if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 1 {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus), "ss-Status", "decoding", false)
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_ssstatus), "ss-Status", "decoding", false)
 		}
 		decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
 		if octetErr != nil {
@@ -5275,11 +5281,11 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 	// Decode nbrSB
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field nbrSB")
+		return fmt.Errorf("%w: missing required field nbrSB", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 2 {
-			return fmt.Errorf("expected tag [%s %d] for nbrSB, got %s", "CONTEXT", 2, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for nbrSB, got %s", ber.ErrUnexpectedElement, "CONTEXT", 2, reqTag_)
 		}
 	}
 	{
@@ -5288,8 +5294,11 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		if err != nil {
 			return qualifyBERError(err, "nbrSB", "decoding", false)
 		}
-		if decodedTag_nbrsb.Class != tag.ClassContextSpecific || decodedTag_nbrsb.Number != 2 || decodedTag_nbrsb.Constructed != false {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_nbrsb), "nbrSB", "decoding", false)
+		if decodedTag_nbrsb.Class != tag.ClassContextSpecific || decodedTag_nbrsb.Number != 2 {
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_nbrsb), "nbrSB", "decoding", false)
+		}
+		if decodedTag_nbrsb.Constructed != false {
+			return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_nbrsb), "nbrSB", "decoding", false)
 		}
 		decVal_nbrsb, intErr := ber.DecodeIntegerValue(rawVal_nbrsb)
 		if intErr != nil {
@@ -5310,11 +5319,11 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 	// Decode nbrUser
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field nbrUser")
+		return fmt.Errorf("%w: missing required field nbrUser", ber.ErrUnexpectedElement)
 	}
 	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
 		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 3 {
-			return fmt.Errorf("expected tag [%s %d] for nbrUser, got %s", "CONTEXT", 3, reqTag_)
+			return fmt.Errorf("%w: expected tag [%s %d] for nbrUser, got %s", ber.ErrUnexpectedElement, "CONTEXT", 3, reqTag_)
 		}
 	}
 	{
@@ -5323,8 +5332,11 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		if err != nil {
 			return qualifyBERError(err, "nbrUser", "decoding", false)
 		}
-		if decodedTag_nbruser.Class != tag.ClassContextSpecific || decodedTag_nbruser.Number != 3 || decodedTag_nbruser.Constructed != false {
-			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_nbruser), "nbrUser", "decoding", false)
+		if decodedTag_nbruser.Class != tag.ClassContextSpecific || decodedTag_nbruser.Number != 3 {
+			return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_nbruser), "nbrUser", "decoding", false)
+		}
+		if decodedTag_nbruser.Constructed != false {
+			return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_nbruser), "nbrUser", "decoding", false)
 		}
 		decVal_nbruser, intErr := ber.DecodeIntegerValue(rawVal_nbruser)
 		if intErr != nil {
@@ -5354,8 +5366,11 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if err != nil {
 					return qualifyBERError(err, "extensionContainer", "decoding", false)
 				}
-				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 4 || decodedTag_extensioncontainer.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 4 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
+				}
+				if decodedTag_extensioncontainer.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
 				_ = rawVal_extensioncontainer
 				if offset < 0 || offset >
@@ -5394,7 +5409,7 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MCSSInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MCSSInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_

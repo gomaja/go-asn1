@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 2d1f150ad7ab671899dab59cbbdf3f7ac7c283373f3e4bb0f2082e6b144b8db4.
+// Runtime source: runtime/ber/work.go; SHA-256 5fe257c5051335fb84ddd3beb1bea55ca5be665e7a8e6d99a75c9c85638820be.
 package ber
 
 import (
@@ -217,7 +217,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		if pos < 0 || pos > parent.end {
 			return ErrInvalidLength
 		}
-		if len(stack) == 1 && elements > 0 {
+		if len(stack) == 1 && elements > 0 && !config.allowSiblingElements {
 			return ErrExtraData
 		}
 		if parent.indefinite && parent.end-pos >= 2 && data[pos] == 0 && data[pos+1] == 0 {
@@ -302,7 +302,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			return fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
 		}
 		work += charge
-		kind := tcapElementType(config.profileType, parent.profileType, t, len(stack) == 1, parent.dialogueSyntax)
+		kind := tcapElementType(config.profileType, parent.profileType, t, parent.nextChild, len(stack) == 1, parent.dialogueSyntax)
 		if config.profile && !config.collectPositionsOnly && tcapProfileViolation(data, pos, tagLen, lenLen, indefinite, t, kind) {
 			// X.690 (02/2021) §§8.18.10–8.18.11, 8.7.3, 8.6.4:
 			// EXTERNAL string segment headers remain in its containing syntax.
@@ -413,10 +413,32 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		}
 		// X.690 (02/2021) §§8.6.2.2, 8.18.6: the bit-count octet
 		// remains BER syntax even when the EXTERNAL's syntax is unknown.
-		// Only schema-known IMPLICIT BIT STRINGs receive this check.
-		if config.profile && !t.Constructed && t.Class != tag.ClassUniversal && kind == "BitString" {
-			if err := validatePrimitiveBitStringContents(data[start:end]); err != nil {
-				return err
+		// X.690 (02/2021) §§8.3.1–8.3.2, 8.6.2.2: schema-known
+		// IMPLICIT INTEGER and BIT STRING contents retain their base type's
+		// BER rules. Foreign open-type contents have no inferred base type.
+		if config.profile && t.Class != tag.ClassUniversal {
+			switch kind {
+			case "BitString":
+				if t.Constructed {
+					break
+				}
+				if err := validatePrimitiveBitStringContents(data[start:end]); err != nil {
+					return err
+				}
+			case "Integer":
+				// Generated decoders already validate this value after preceding
+				// schema constraints. Keep their first error and Path stable;
+				// standalone profile validation must see hidden BER faults.
+				if !config.generatedPreflight && (config.form == nil || !config.form.generated) {
+					// X.690 (02/2021) §§8.3.1, 8.14.4: an
+					// IMPLICIT INTEGER must retain the primitive base form.
+					if t.Constructed {
+						return fmt.Errorf("%w: X.690 (02/2021) §8.3.1 requires primitive INTEGER", ErrInvalidTag)
+					}
+					if err := validateMinimalIntegerContents(data[start:end]); err != nil {
+						return err
+					}
+				}
 			}
 		}
 		if !t.Constructed && t.Class == tag.ClassUniversal {

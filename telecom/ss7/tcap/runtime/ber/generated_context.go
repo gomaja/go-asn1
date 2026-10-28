@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 42ed8ec0102bddff693c7557d6596c361158129123cc67ec069457ec42a72848.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 94718a09a5c67850c79231afa3adf24bc2d783f895099645f1d4bba7cb23aeef.
 package ber
 
 import (
@@ -231,6 +231,7 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 	preliminary := config
 	if preliminary.form != nil && preliminary.form.lightInput == nil && preliminary.form.owned == nil && preliminary.form.lightOwned == nil {
 		preliminary.form = nil
+		preliminary.generatedPreflight = true
 		if preliminary.tolerant {
 			preliminary.violations = new(ViolationLog)
 			preliminary.reportScope = new(reportScope)

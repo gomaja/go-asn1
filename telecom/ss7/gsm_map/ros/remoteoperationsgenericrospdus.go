@@ -1428,7 +1428,7 @@ func (destination *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 		v.Reject = &dec
 	} else {
-		return fmt.Errorf("unknown tag %s for ROS CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROS CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -1582,7 +1582,7 @@ func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	offset := 0
 	// Decode invokeId
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field invokeId")
+		return fmt.Errorf("%w: missing required field invokeId", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "invokeId", content[offset:])
@@ -1638,7 +1638,7 @@ func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	}
 	// Decode opcode
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field opcode")
+		return fmt.Errorf("%w: missing required field opcode", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
@@ -1689,7 +1689,7 @@ func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		offset += n_argument
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "Invoke", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "Invoke", Cause: ber.ErrUnexpectedElement}
 	}
 	if !((v.LinkedId == nil) || (v.LinkedId != nil)) {
 		return fmt.Errorf("decoded Invoke violates WITH COMPONENTS union")
@@ -1809,7 +1809,7 @@ func (destination *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	offset := 0
 	// Decode invokeId
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field invokeId")
+		return fmt.Errorf("%w: missing required field invokeId", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "invokeId", content[offset:])
@@ -1862,7 +1862,7 @@ func (destination *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ReturnResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "ReturnResult", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -1995,7 +1995,7 @@ func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	offset := 0
 	// Decode invokeId
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field invokeId")
+		return fmt.Errorf("%w: missing required field invokeId", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "invokeId", content[offset:])
@@ -2019,7 +2019,7 @@ func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 	// Decode errcode
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field errcode")
+		return fmt.Errorf("%w: missing required field errcode", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "errcode", content[offset:])
@@ -2066,7 +2066,7 @@ func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		offset += n_parameter
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ReturnError", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "ReturnError", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -2179,7 +2179,7 @@ func (destination *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	offset := 0
 	// Decode invokeId
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field invokeId")
+		return fmt.Errorf("%w: missing required field invokeId", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "invokeId", content[offset:])
@@ -2203,7 +2203,7 @@ func (destination *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	}
 	// Decode problem
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field problem")
+		return fmt.Errorf("%w: missing required field problem", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "problem", content[offset:])
@@ -2228,7 +2228,7 @@ func (destination *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		offset += n_problem
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "Reject", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "Reject", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -2852,7 +2852,7 @@ func (destination *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 			return qualifyBERError(nullErr, "absent", "decoding", false)
 		}
 	} else {
-		return fmt.Errorf("unknown tag %s for InvokeId CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for InvokeId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3029,7 +3029,7 @@ func (destination *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.BindError = &tmpRaw
 	} else {
-		return fmt.Errorf("unknown tag %s for Bind CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for Bind CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3206,7 +3206,7 @@ func (destination *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.UnbindError = &tmpRaw
 	} else {
-		return fmt.Errorf("unknown tag %s for Unbind CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for Unbind CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3365,7 +3365,7 @@ func (destination *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 		}
 		v.Absent = &struct{}{}
 	} else {
-		return fmt.Errorf("unknown tag %s for ROSInvokeLinkedId CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROSInvokeLinkedId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3483,7 +3483,7 @@ func (destination *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 	offset := 0
 	// Decode opcode
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field opcode")
+		return fmt.Errorf("%w: missing required field opcode", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
@@ -3507,7 +3507,7 @@ func (destination *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 	}
 	// Decode result
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field result")
+		return fmt.Errorf("%w: missing required field result", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "result", content[offset:])
@@ -3530,7 +3530,7 @@ func (destination *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 		offset += n_result
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ROSReturnResultResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "ROSReturnResultResult", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -3689,7 +3689,7 @@ func (destination *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		}
 		v.Absent = &struct{}{}
 	} else {
-		return fmt.Errorf("unknown tag %s for InvokeLinkedId CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for InvokeLinkedId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3807,7 +3807,7 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 	offset := 0
 	// Decode opcode
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field opcode")
+		return fmt.Errorf("%w: missing required field opcode", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
@@ -3831,7 +3831,7 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 	}
 	// Decode result
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field result")
+		return fmt.Errorf("%w: missing required field result", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "result", content[offset:])
@@ -3854,7 +3854,7 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 		offset += n_result
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ReturnResultResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "ReturnResultResult", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -4100,7 +4100,7 @@ func (destination *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...be
 		}
 		v.ReturnError = &named_returnerror
 	} else {
-		return fmt.Errorf("unknown tag %s for OperationsRejectProblem CHOICE", peekTag)
+		return fmt.Errorf("%w: unknown tag %s for OperationsRejectProblem CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }

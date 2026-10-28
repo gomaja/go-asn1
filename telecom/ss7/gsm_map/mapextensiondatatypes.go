@@ -291,8 +291,11 @@ func (destination *ExtensionContainer) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "privateExtensionList", "decoding", false)
 				}
-				if decodedTag_privateextensionlist.Class != tag.ClassContextSpecific || decodedTag_privateextensionlist.Number != 0 || decodedTag_privateextensionlist.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privateextensionlist), "privateExtensionList", "decoding", false)
+				if decodedTag_privateextensionlist.Class != tag.ClassContextSpecific || decodedTag_privateextensionlist.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_privateextensionlist), "privateExtensionList", "decoding", false)
+				}
+				if decodedTag_privateextensionlist.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_privateextensionlist), "privateExtensionList", "decoding", false)
 				}
 				_ = rawVal_privateextensionlist
 				if offset > len(content) || n_privateextensionlist < 0 || n_privateextensionlist > len(content[offset:]) {
@@ -341,8 +344,11 @@ func (destination *ExtensionContainer) UnmarshalBER(data []byte, opts ...ber.Dec
 				if err != nil {
 					return qualifyBERError(err, "pcs-Extensions", "decoding", false)
 				}
-				if decodedTag_pcsextensions.Class != tag.ClassContextSpecific || decodedTag_pcsextensions.Number != 1 || decodedTag_pcsextensions.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pcsextensions), "pcs-Extensions", "decoding", false)
+				if decodedTag_pcsextensions.Class != tag.ClassContextSpecific || decodedTag_pcsextensions.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_pcsextensions), "pcs-Extensions", "decoding", false)
+				}
+				if decodedTag_pcsextensions.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_pcsextensions), "pcs-Extensions", "decoding", false)
 				}
 				_ = rawVal_pcsextensions
 				if offset < 0 || offset >
@@ -379,7 +385,7 @@ func (destination *ExtensionContainer) UnmarshalBER(data []byte, opts ...ber.Dec
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ExtensionContainer", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ExtensionContainer", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6d1933_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -610,8 +616,11 @@ func (destination *SLRArgExtensionContainer) UnmarshalBER(data []byte, opts ...b
 				if err != nil {
 					return qualifyBERError(err, "privateExtensionList", "decoding", false)
 				}
-				if decodedTag_privateextensionlist.Class != tag.ClassContextSpecific || decodedTag_privateextensionlist.Number != 0 || decodedTag_privateextensionlist.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privateextensionlist), "privateExtensionList", "decoding", false)
+				if decodedTag_privateextensionlist.Class != tag.ClassContextSpecific || decodedTag_privateextensionlist.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_privateextensionlist), "privateExtensionList", "decoding", false)
+				}
+				if decodedTag_privateextensionlist.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_privateextensionlist), "privateExtensionList", "decoding", false)
 				}
 				_ = rawVal_privateextensionlist
 				if offset > len(content) || n_privateextensionlist < 0 || n_privateextensionlist > len(content[offset:]) {
@@ -660,8 +669,11 @@ func (destination *SLRArgExtensionContainer) UnmarshalBER(data []byte, opts ...b
 				if err != nil {
 					return qualifyBERError(err, "slr-Arg-PCS-Extensions", "decoding", false)
 				}
-				if decodedTag_slrargpcsextensions.Class != tag.ClassContextSpecific || decodedTag_slrargpcsextensions.Number != 1 || decodedTag_slrargpcsextensions.Constructed != true {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_slrargpcsextensions), "slr-Arg-PCS-Extensions", "decoding", false)
+				if decodedTag_slrargpcsextensions.Class != tag.ClassContextSpecific || decodedTag_slrargpcsextensions.Number != 1 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_slrargpcsextensions), "slr-Arg-PCS-Extensions", "decoding", false)
+				}
+				if decodedTag_slrargpcsextensions.Constructed != true {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_slrargpcsextensions), "slr-Arg-PCS-Extensions", "decoding", false)
 				}
 				_ = rawVal_slrargpcsextensions
 				if offset < 0 || offset >
@@ -700,7 +712,7 @@ func (destination *SLRArgExtensionContainer) UnmarshalBER(data []byte, opts ...b
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "SLRArgExtensionContainer", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "SLRArgExtensionContainer", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6d1933_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1000,7 +1012,7 @@ func (destination *PrivateExtension) UnmarshalBER(data []byte, opts ...ber.Decod
 	offset := 0
 	// Decode extId
 	if offset >= len(content) {
-		return fmt.Errorf("missing required field extId")
+		return fmt.Errorf("%w: missing required field extId", ber.ErrUnexpectedElement)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "extId", content[offset:])
@@ -1038,7 +1050,7 @@ func (destination *PrivateExtension) UnmarshalBER(data []byte, opts ...ber.Decod
 		offset += n_exttype
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "PrivateExtension", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: offset, TypeName: "PrivateExtension", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -1321,8 +1333,11 @@ func (destination *SLRArgPCSExtensions) UnmarshalBER(data []byte, opts ...ber.De
 				if err != nil {
 					return qualifyBERError(err, "na-ESRK-Request", "decoding", false)
 				}
-				if decodedTag_naesrkrequest.Class != tag.ClassContextSpecific || decodedTag_naesrkrequest.Number != 0 || decodedTag_naesrkrequest.Constructed != false {
-					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_naesrkrequest), "na-ESRK-Request", "decoding", false)
+				if decodedTag_naesrkrequest.Class != tag.ClassContextSpecific || decodedTag_naesrkrequest.Number != 0 {
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrUnexpectedElement, decodedTag_naesrkrequest), "na-ESRK-Request", "decoding", false)
+				}
+				if decodedTag_naesrkrequest.Constructed != false {
+					return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, decodedTag_naesrkrequest), "na-ESRK-Request", "decoding", false)
 				}
 				if len(rawVal_naesrkrequest) != 0 {
 					return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_naesrkrequest)), "na-ESRK-Request", "decoding", false)
@@ -1347,7 +1362,7 @@ func (destination *SLRArgPCSExtensions) UnmarshalBER(data []byte, opts ...ber.De
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "SLRArgPCSExtensions", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "SLRArgPCSExtensions", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6d1933_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_

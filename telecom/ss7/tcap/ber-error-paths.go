@@ -24,21 +24,29 @@ type berPathError struct {
 
 // Error formats the codec phase, component path and underlying cause; a root failure uses the cause text alone.
 func (e *berPathError) Error() string {
-	cause := e.cause
-	for cause != nil {
-		if _, hasPath := cause.(interface{ ASN1BERPath() string }); !hasPath {
-			break
-		}
-		next := errors.Unwrap(cause)
-		if next == nil {
-			break
-		}
-		cause = next
-	}
+	cause := berErrorCause(e.cause)
 	if path := e.ASN1BERPath(); path != "" {
 		return fmt.Sprintf("%s %s: %v", e.phase, path, cause)
 	}
 	return cause.Error()
+}
+
+// berErrorCause removes only path decorators and transparent element locations
+// from the formatted view. The original chain is retained for Unwrap/Is/As.
+func berErrorCause(cause error) error {
+	for cause != nil {
+		switch cause.(type) {
+		case interface{ ASN1BERPath() string }, *ber.ElementError:
+			next := errors.Unwrap(cause)
+			if next == nil {
+				return cause
+			}
+			cause = next
+		default:
+			return cause
+		}
+	}
+	return nil
 }
 
 // Unwrap returns the underlying codec cause.
