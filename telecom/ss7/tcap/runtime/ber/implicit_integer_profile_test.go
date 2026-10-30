@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/implicit_integer_profile_test.go; SHA-256 2d84f89f90e84b0a5e75b815fc8acb5d31f96b6e68931d7b3f74d3bbf091cdab.
+// Runtime source: runtime/ber/implicit_integer_profile_test.go; SHA-256 11dcc66c6738be9410fda8590bad91f941be9d4f9d8bb5805d53c76349ae3768.
 package ber
 
 import (
@@ -20,7 +20,7 @@ func TestProfileImplicitIntegerContents(t *testing.T) {
 		{"P-Abort cause", "TCMessage", "67054901014a00", ErrInvalidValue},
 		{"P-Abort sign octet", "TCMessage", "67074901014a020001", ErrInvalidValue},
 		{"Invoke linkedId", "TCMessage", "640f4901016c0aa108020101800002012d", ErrInvalidValue},
-		{"Reject problem", "Reject", "a4050201018000", ErrInvalidValue},
+		{"Reject problem", "Reject", "30050201018000", ErrInvalidValue},
 		{"ABRT source", "ABRTApdu", "64028000", ErrInvalidValue},
 		{"RLRQ reason", "RLRQApdu", "62028000", ErrInvalidValue},
 		{"RLRE reason", "RLREApdu", "63028000", ErrInvalidValue},

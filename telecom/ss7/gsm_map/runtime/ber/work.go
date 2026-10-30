@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 db50a5a5916238562f650237e2d3ea8f30f0cb6ccc3d50637e0bb51a3b8adb00.
+// Runtime source: runtime/ber/work.go; SHA-256 0f04831482113d3b2efe558772a6c14ecb2d23653218d8e4a2243f6319929244.
 package ber
 
 import (
@@ -422,7 +422,7 @@ func berSegmentTag(t tag.Tag) int {
 }
 
 func validateBERUniversalContents(number int, contents []byte) error {
-	// X.690 (02/2021) §§8.2.1, 8.3.2, 8.4, 8.6.2, 8.8.2,
+	// X.690 (02/2021) §§8.2.1, 8.3.2, 8.4, 8.5, 8.6.2, 8.8.2,
 	// 8.19.2, 8.20.2. BER permits non-ff TRUE and arbitrary unused bits.
 	switch number {
 	case tag.TagBoolean:
@@ -433,6 +433,10 @@ func validateBERUniversalContents(number int, contents []byte) error {
 		if len(contents) != 0 {
 			return fmt.Errorf("%w: NULL requires empty contents", ErrInvalidValue)
 		}
+	case tag.TagReal:
+		// X.690 (02/2021) §8.5 permits every BER representation;
+		// the DER-only normalization of §11.3 is not applied here.
+		return validateBERRealContents(contents)
 	case tag.TagInteger, tag.TagEnumerated:
 		return validateMinimalIntegerContents(contents)
 	case tag.TagBitString:
@@ -442,6 +446,98 @@ func validateBERUniversalContents(number int, contents []byte) error {
 		if err := validateBase128Subidentifiers(contents); err != nil {
 			return fmt.Errorf("%w: universal tag %d: %s", ErrInvalidValue, number, err)
 		}
+	}
+	return nil
+}
+
+// validateBERRealContents checks X.690 (02/2021) §8.5 without constructing a
+// numeric value. Decimal forms follow the same lexical rules as the decoder;
+// DER normalization in §11.3 does not apply to BER.
+func validateBERRealContents(value []byte) error {
+	if len(value) == 0 {
+		return nil
+	} // §8.5.2: zero
+	info := value[0]
+	if info&0xc0 == 0x40 {
+		if len(value) != 1 || info > 0x43 {
+			return fmt.Errorf("%w: invalid REAL special value", ErrInvalidValue)
+		} // §8.5.9
+		return nil
+	}
+	if info&0x80 != 0 {
+		if info&0x30 == 0x30 {
+			return fmt.Errorf("%w: reserved REAL binary base", ErrInvalidValue)
+		} // §8.5.7.2
+		expLen := [...]int{1, 2, 3, 0}[info&3]
+		body := value[1:]
+		if info&3 == 3 {
+			if len(body) == 0 {
+				return fmt.Errorf("%w: REAL exponent length truncated", ErrTruncated)
+			}
+			expLen = realExponentOctets(body[0])
+			body = body[1:]
+			if expLen == 0 {
+				return fmt.Errorf("%w: REAL exponent length is zero", ErrInvalidValue)
+			}
+		}
+		if expLen >= len(body) {
+			return fmt.Errorf("%w: REAL exponent or mantissa truncated", ErrTruncated)
+		}
+		exponent := body[:expLen]
+		// §8.5.7.4 d): the long-form exponent's first nine bits differ.
+		if info&3 == 3 && expLen > 1 && (exponent[0] == 0 && exponent[1]&0x80 == 0 || exponent[0] == 0xff && exponent[1]&0x80 != 0) {
+			return fmt.Errorf("%w: REAL long exponent violates the first-nine-bits rule", ErrInvalidValue)
+		}
+		for _, b := range body[expLen:] {
+			if b != 0 {
+				return nil
+			}
+		}
+		return fmt.Errorf("%w: REAL mantissa is zero", ErrInvalidValue)
+	}
+	// §8.5.8: only NR1, NR2 and NR3 decimal forms are assigned.
+	if info < 1 || info > 3 {
+		return fmt.Errorf("%w: reserved REAL decimal form %d", ErrInvalidValue, info)
+	}
+	text := value[1:]
+	for len(text) > 0 && text[0] == ' ' {
+		text = text[1:]
+	}
+	if len(text) > 0 && (text[0] == '+' || text[0] == '-') {
+		text = text[1:]
+	}
+	digits, nonzero, mark, exp := false, false, false, false
+	expDigits, expNonzero, expPlus, expSign := false, false, false, false
+	for _, b := range text {
+		if expSign {
+			expSign = false
+			if b == '+' || b == '-' {
+				expPlus = b == '+'
+				continue
+			}
+		}
+		if b >= '0' && b <= '9' {
+			if exp {
+				expDigits = true
+				expNonzero = expNonzero || b != '0'
+			} else {
+				digits = true
+				nonzero = nonzero || b != '0'
+			}
+			continue
+		}
+		if !exp && info >= 2 && !mark && (b == '.' || b == ',') {
+			mark = true
+			continue
+		}
+		if !exp && info == 3 && mark && (b == 'E' || b == 'e') {
+			exp, expSign = true, true
+			continue
+		}
+		return fmt.Errorf("%w: invalid REAL decimal form", ErrInvalidValue)
+	}
+	if !digits || !nonzero || info >= 2 && !mark || info == 3 && (!exp || !expDigits || !expNonzero && !expPlus) {
+		return fmt.Errorf("%w: invalid REAL decimal form", ErrInvalidValue)
 	}
 	return nil
 }

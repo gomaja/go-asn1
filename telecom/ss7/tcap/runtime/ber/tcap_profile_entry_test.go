@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile_entry_test.go; SHA-256 2b0bb8488951ed64b8921166f2aba63fae13060df5756a2e9dd5ffe29838c188.
+// Runtime source: runtime/ber/tcap_profile_entry_test.go; SHA-256 44118d84b1e24d0ead1fafabfd187d27bb170a99bdab233cb6e2f7539775fb4f.
 package ber
 
 import (
@@ -48,7 +48,7 @@ func TestTCAPProfileDefaultEntry(t *testing.T) {
 }
 
 func TestTCAPProfileDefaultPreservesActiveSubtree(t *testing.T) {
-	data, err := hex.DecodeString("a1090201010201016b8100")
+	data, err := hex.DecodeString("30090201010201016b8100")
 	if err != nil {
 		t.Fatal(err)
 	}

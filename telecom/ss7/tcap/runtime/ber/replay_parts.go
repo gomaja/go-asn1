@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_parts.go; SHA-256 1ee8bcf4f1a85d7eb76f22cee3abec69383e7a5b6db8bb429dd9139643c4d432.
+// Runtime source: runtime/ber/replay_parts.go; SHA-256 696b15e210fe3e41f86ebb62e4274837848e2d3acaaa3873a55d96959efc04fa.
 package ber
 
 import (
@@ -63,7 +63,7 @@ func readReplayPart(data []byte, pos *int, depth int) *replayPart {
 		end = contentStart + length
 	}
 	part := &replayPart{tag: identifier, start: start, header: data[start:contentStart], indefinite: indefinite,
-		cleanHeader: !tcapProfileViolation(data, start, tn, ln, indefinite, identifier, "")}
+		cleanHeader: !tcapProfileViolation(data, start, tn, ln, indefinite, identifier, tcapKindUnknown)}
 	if identifier.Constructed {
 		for *pos < end {
 			if indefinite && end-*pos >= 2 && data[*pos] == 0 && data[*pos+1] == 0 {

@@ -9,6 +9,7 @@ import (
 )
 
 // X.680 (02/2021) §§25.6, 29 and X.690 (02/2021) §§8.1, 8.3, 8.9, 8.18.
+// IMPLICIT containers retain the constructed base form (§§8.9.1, 8.10.1, 8.14.4).
 func TestElementMismatchAndImplicitIntegerContents(t *testing.T) {
 	for _, tc := range []struct {
 		wire, path   string
@@ -17,7 +18,7 @@ func TestElementMismatchAndImplicitIntegerContents(t *testing.T) {
 		{"62074801016b020500", "begin.dialoguePortion", ber.ErrUnexpectedElement, nil},
 		{"650648027f010500", "continue", ber.ErrUnexpectedElement, nil},
 		{"67054901016a00", "abort.reason.AbortReason.p-abortCause", ber.ErrInvalidTag, ber.ErrInvalidTag},
-		{"62054801014c00", "begin.components", ber.ErrInvalidTag, nil},
+		{"62054801014c00", "begin.components", ber.ErrInvalidTag, ber.ErrInvalidTag},
 		{"62054801016b00", "begin.dialoguePortion", ber.ErrUnexpectedElement, nil},
 		{"620c4801016b07280506012a8300", "begin.dialoguePortion", ber.ErrUnexpectedElement, nil},
 		{"620b48027f016c05a10302010a", "begin.components.element[0].basicROS.invoke", ber.ErrUnexpectedElement, nil},
@@ -36,7 +37,7 @@ func TestElementMismatchAndImplicitIntegerContents(t *testing.T) {
 		{"62ff", "TCMessage", ber.ErrInvalidLength, ber.ErrInvalidLength},
 		{"1f8000", "TCMessage", ber.ErrInvalidTag, ber.ErrInvalidTag},
 		{"1000", "TCMessage", ber.ErrInvalidTag, ber.ErrInvalidTag},
-		{"4200", "TCMessage.begin", ber.ErrInvalidTag, nil},
+		{"4200", "TCMessage.begin", ber.ErrInvalidTag, ber.ErrInvalidTag},
 	} {
 		t.Run(tc.wire, func(t *testing.T) {
 			data, err := hex.DecodeString(tc.wire)

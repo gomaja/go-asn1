@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 533776f4f98022ec81081cf687e36445d2ca3d8a74a591686ffc79f9338df104.
+// Runtime source: runtime/ber/decoder.go; SHA-256 e03c3880fe726c02ad5e225d1d0bfcf43385e567c73925673c7db8db71a4d9ab.
 package ber
 
 import (
@@ -358,6 +358,12 @@ func validateDERTLV(data []byte, depth, maxDepth, baseOffset int) (int, error) {
 		}
 		value := data[headerLen:end]
 		if len(value) != 0 && value[0]&0xc0 == 0 {
+			// X.690 (02/2021) §8.5.8 reserves every decimal form except
+			// NR1 to NR3 in BER too, before §11.3.2 normalization.
+			if value[0] < 1 || value[0] > 3 {
+				_, err := decodeRealContents(value)
+				return 0, err
+			}
 			// X.690 (02/2021) §11.3.2 and ISO 6093 NR3 determine
 			// canonical decimal REALs by spelling; no numeric conversion.
 			if !canonicalDecimalRealContents(value) {
@@ -1253,6 +1259,10 @@ func canonicalDecimalRealContents(value []byte) bool {
 	return true
 }
 
+// realExponentOctets widens the X.690 (02/2021) §8.5.7.4(d) length octet.
+// Sharing the conversion keeps validation and value decoding on the same bound.
+func realExponentOctets(length byte) int { return int(length) }
+
 func decodeRealContents(value []byte) (runtime.Real, error) {
 	if len(value) == 0 {
 		return runtime.Real{}, nil
@@ -1300,7 +1310,7 @@ func decodeRealContents(value []byte) (runtime.Real, error) {
 		if offset >= len(value) {
 			return runtime.Real{}, fmt.Errorf("%w: REAL exponent length truncated", ErrTruncated)
 		}
-		expLen = int(value[offset])
+		expLen = realExponentOctets(value[offset])
 		offset++
 		if expLen == 0 {
 			return runtime.Real{}, fmt.Errorf("%w: REAL exponent length is zero", ErrInvalidValue)

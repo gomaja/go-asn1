@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "11100e67fd12693f59c505f985eabe40b7d13537",
-    "tree": "4d04e7cc2ef73d62a918ba5ad8a103e085522b07",
+    "commit": "6cc5116c59168f49d98b8625a31d47ce81c1e5f0",
+    "tree": "21e0cc1720ca6a8f505e955888b29b7d9d91f8c3",
     "dirty": false
   },
   "source_lock": {
@@ -248,8 +248,8 @@
     {
       "path": "ber/decoder.go",
       "mode": "0644",
-      "size": 64930,
-      "sha256": "533776f4f98022ec81081cf687e36445d2ca3d8a74a591686ffc79f9338df104"
+      "size": 65392,
+      "sha256": "e03c3880fe726c02ad5e225d1d0bfcf43385e567c73925673c7db8db71a4d9ab"
     },
     {
       "path": "ber/depth_overflow_test.go",
@@ -366,6 +366,12 @@
       "sha256": "ad8e7eb9dec42ec6aec1d127cadcddcc47bc935b4f1f24950b9bcb9f9ccd28ed"
     },
     {
+      "path": "ber/external_open_contents_test.go",
+      "mode": "0644",
+      "size": 2128,
+      "sha256": "7615b08d479629f1381770c3dd619de530157f166f4df0c00571a29ed6157724"
+    },
+    {
       "path": "ber/external_options_test.go",
       "mode": "0644",
       "size": 3718,
@@ -471,7 +477,13 @@
       "path": "ber/implicit_integer_profile_test.go",
       "mode": "0644",
       "size": 3266,
-      "sha256": "2d84f89f90e84b0a5e75b815fc8acb5d31f96b6e68931d7b3f74d3bbf091cdab"
+      "sha256": "11dcc66c6738be9410fda8590bad91f941be9d4f9d8bb5805d53c76349ae3768"
+    },
+    {
+      "path": "ber/implicit_universal_profile_test.go",
+      "mode": "0644",
+      "size": 10180,
+      "sha256": "e6de412bf1960004596ed0106110fb3f50fe0b201bc109e20dd72985b834684e"
     },
     {
       "path": "ber/integer_minimal_test.go",
@@ -588,10 +600,22 @@
       "sha256": "9ad6ea6c4f5fc2532b9dda3dccaa032542926fec14bde286f91d365d663cc487"
     },
     {
+      "path": "ber/profile_root_kind_test.go",
+      "mode": "0644",
+      "size": 737,
+      "sha256": "47ce2b43ee8f7eecc5cd3e3d5fb74e17f65215533003733d13064e1e9a94496e"
+    },
+    {
       "path": "ber/raw_identifier_test.go",
       "mode": "0644",
       "size": 1657,
       "sha256": "3cf140f1c6f9aa2f9862b3cfbafbed6d0f877ca383a42db964f4b6450c80dea5"
+    },
+    {
+      "path": "ber/real_ber_contents_test.go",
+      "mode": "0644",
+      "size": 5273,
+      "sha256": "a2d7a39882974be1ea2e6aeaa8a0fe7f157ef208ca7e843230d8c1d4b3f2f3f8"
     },
     {
       "path": "ber/real_capacity_test.go",
@@ -686,8 +710,8 @@
     {
       "path": "ber/replay_parts.go",
       "mode": "0644",
-      "size": 12982,
-      "sha256": "1ee8bcf4f1a85d7eb76f22cee3abec69383e7a5b6db8bb429dd9139643c4d432"
+      "size": 12995,
+      "sha256": "696b15e210fe3e41f86ebb62e4274837848e2d3acaaa3873a55d96959efc04fa"
     },
     {
       "path": "ber/replay_parts_depth_test.go",
@@ -800,14 +824,14 @@
     {
       "path": "ber/tcap_profile.go",
       "mode": "0644",
-      "size": 19621,
-      "sha256": "572d8d55eb1d6ec4d6a246282606ba8d69f71e786a069663c5859ca5d8340167"
+      "size": 32990,
+      "sha256": "ee030f3ce6d6685abebac99ec893ddd16c0fd7836d47112a390556be624b9d31"
     },
     {
       "path": "ber/tcap_profile_entry_test.go",
       "mode": "0644",
       "size": 2178,
-      "sha256": "2b0bb8488951ed64b8921166f2aba63fae13060df5756a2e9dd5ffe29838c188"
+      "sha256": "44118d84b1e24d0ead1fafabfd187d27bb170a99bdab233cb6e2f7539775fb4f"
     },
     {
       "path": "ber/tcap_profile_test.go",
@@ -818,8 +842,8 @@
     {
       "path": "ber/tcap_segmented.go",
       "mode": "0644",
-      "size": 7872,
-      "sha256": "60576a596c5db4eeea7ac243fbb5b3c214d4699abd8405e96c116c96089e8d3a"
+      "size": 7910,
+      "sha256": "be5a8f18a8c3e6a3142bab332e13ecdc19d4852e38dec22a5bb64e8fdf72fcbe"
     },
     {
       "path": "ber/tcap_segmented_location_test.go",
@@ -902,8 +926,8 @@
     {
       "path": "ber/unexpected_element_test.go",
       "mode": "0644",
-      "size": 12733,
-      "sha256": "c1fdfd86fbf7988c7601a6d52045d7906f1b786148b944e7b845eb16ab598bde"
+      "size": 12810,
+      "sha256": "7a7be09ec7227cb2d47258355fde7d6a0883c6916a259aaa4a05a0bee66fc590"
     },
     {
       "path": "ber/universal_form_test.go",
@@ -950,8 +974,8 @@
     {
       "path": "ber/work.go",
       "mode": "0644",
-      "size": 25471,
-      "sha256": "5fe257c5051335fb84ddd3beb1bea55ca5be665e7a8e6d99a75c9c85638820be"
+      "size": 29705,
+      "sha256": "5b413c5b953e710a344f8f4035a53e18c5644111d6ff646d6e595cf3b306a8ba"
     },
     {
       "path": "ber/work_encode_test.go",
@@ -1180,8 +1204,8 @@
     {
       "path": "ber/decoder.go",
       "mode": "0644",
-      "size": 51881,
-      "sha256": "1523e9028c4ebde8df53769410e68a672fec3c2cde4f29730e301c640ca5ec42"
+      "size": 52343,
+      "sha256": "dc9397bfb1f3db0120e8598940ffeb6daba61eded0880421fabaa93a8230fd8b"
     },
     {
       "path": "ber/der_real_cost_test.go",
@@ -1272,6 +1296,12 @@
       "mode": "0644",
       "size": 4151,
       "sha256": "609c49e86614c9455e22622febfb2ab48a1b720284e225c7d30d9f1b10497d94"
+    },
+    {
+      "path": "ber/external_open_contents_test.go",
+      "mode": "0644",
+      "size": 2331,
+      "sha256": "eb64c96fee8ffe12dc29464b6be7f17a109bb84425ba5c0d695d0f85d28e0269"
     },
     {
       "path": "ber/external_options_test.go",
@@ -1367,7 +1397,13 @@
       "path": "ber/implicit_integer_profile_test.go",
       "mode": "0644",
       "size": 3471,
-      "sha256": "e8a747f0aa15104660005b88d7dc02c9a4df72808c8d64d4f93bab886623b07d"
+      "sha256": "14a1960779e7c9a77f67d9a8b02535cd3e986bd9fdec442cd336d995f0940673"
+    },
+    {
+      "path": "ber/implicit_universal_profile_test.go",
+      "mode": "0644",
+      "size": 10387,
+      "sha256": "ad2ce3b79c8704e9f1b6ee8294ba498d3cae40aceba677527be1a304b7c8ad1d"
     },
     {
       "path": "ber/integer_minimal_test.go",
@@ -1454,10 +1490,22 @@
       "sha256": "e2c7de1f28b191e5af99de8d54253dbd2025b87d7ff633701a36e6fe88edbc85"
     },
     {
+      "path": "ber/profile_root_kind_test.go",
+      "mode": "0644",
+      "size": 935,
+      "sha256": "84106eb7060bef1d3174a1af4b0969937bfe19430217bbbbf601e104c312bffe"
+    },
+    {
       "path": "ber/raw_identifier_test.go",
       "mode": "0644",
       "size": 1852,
       "sha256": "e973d317c395ae4f84f6787e454ac5eaa6933ba6f2c3f8ef74619d479724f694"
+    },
+    {
+      "path": "ber/real_ber_contents_test.go",
+      "mode": "0644",
+      "size": 5471,
+      "sha256": "4db3cbf7ca590f67b0a3d1412234a78a601c3f521b774632e6f2b356b9a710c7"
     },
     {
       "path": "ber/real_capacity_test.go",
@@ -1516,8 +1564,8 @@
     {
       "path": "ber/replay_parts.go",
       "mode": "0644",
-      "size": 13170,
-      "sha256": "a9910f626155072007bc2b113cbc5d95c400a751a2c59c50fe4f1645d00bae6c"
+      "size": 13183,
+      "sha256": "9e66173191b3ea99dcccc08d95a36eac332e352ae4e2f0d726e30747b3e26627"
     },
     {
       "path": "ber/replay_parts_depth_test.go",
@@ -1618,14 +1666,14 @@
     {
       "path": "ber/tcap_profile.go",
       "mode": "0644",
-      "size": 19809,
-      "sha256": "752bdc39692a2b6dba5b5e2b0305e7902a1e4ecf2f7a4387eb86a9480445938a"
+      "size": 33178,
+      "sha256": "c61c7cc1734a578aa9d776394256c85387efb1b9b695248138c947ee037c71ca"
     },
     {
       "path": "ber/tcap_profile_entry_test.go",
       "mode": "0644",
       "size": 2377,
-      "sha256": "50ca2e8da4039b39e26f6155394f74ba806cc824627622587c66536d1c34fba8"
+      "sha256": "bf4ef34e659820f76277ed8ec8058970ad8765d0bf654b2eef59dc3b282a4fd8"
     },
     {
       "path": "ber/tcap_profile_test.go",
@@ -1636,8 +1684,8 @@
     {
       "path": "ber/tcap_segmented.go",
       "mode": "0644",
-      "size": 8062,
-      "sha256": "ab81aea09a45daf40ea0650917ee03bc078df2d8cd4065453923f99deec2d743"
+      "size": 8100,
+      "sha256": "2b28898869ebf65edaac944c2ad25e3f7e997547a07bcfd71ad598ec00f55aa9"
     },
     {
       "path": "ber/tcap_segmented_location_test.go",
@@ -1696,8 +1744,8 @@
     {
       "path": "ber/unexpected_element_test.go",
       "mode": "0644",
-      "size": 5656,
-      "sha256": "6d31795c63813c9e2e21bff378e1375ce822cad4b217aaaffcd8705538e58f4f"
+      "size": 5733,
+      "sha256": "73ce7d4b87820abc5645002011293c122342ff84eb92fd73c861588d5d10d419"
     },
     {
       "path": "ber/universal_form_test.go",
@@ -1744,8 +1792,8 @@
     {
       "path": "ber/work.go",
       "mode": "0644",
-      "size": 25651,
-      "sha256": "05a6d803623c83c8af31741e5c0d84b723d995f74a6becce387758ab5db19514"
+      "size": 29885,
+      "sha256": "c59e2de06a8cccea8d44c67f326d7b3af3f3fb47bf1edb2592565864751c4e1a"
     },
     {
       "path": "ber/work_encode_test.go",
@@ -1992,8 +2040,8 @@
     {
       "path": "runtime/ber/decoder.go",
       "mode": "0644",
-      "size": 51881,
-      "sha256": "1523e9028c4ebde8df53769410e68a672fec3c2cde4f29730e301c640ca5ec42"
+      "size": 52343,
+      "sha256": "dc9397bfb1f3db0120e8598940ffeb6daba61eded0880421fabaa93a8230fd8b"
     },
     {
       "path": "runtime/ber/der_real_cost_test.go",
@@ -2084,6 +2132,12 @@
       "mode": "0644",
       "size": 4151,
       "sha256": "609c49e86614c9455e22622febfb2ab48a1b720284e225c7d30d9f1b10497d94"
+    },
+    {
+      "path": "runtime/ber/external_open_contents_test.go",
+      "mode": "0644",
+      "size": 2331,
+      "sha256": "eb64c96fee8ffe12dc29464b6be7f17a109bb84425ba5c0d695d0f85d28e0269"
     },
     {
       "path": "runtime/ber/external_options_test.go",
@@ -2179,7 +2233,13 @@
       "path": "runtime/ber/implicit_integer_profile_test.go",
       "mode": "0644",
       "size": 3471,
-      "sha256": "e8a747f0aa15104660005b88d7dc02c9a4df72808c8d64d4f93bab886623b07d"
+      "sha256": "14a1960779e7c9a77f67d9a8b02535cd3e986bd9fdec442cd336d995f0940673"
+    },
+    {
+      "path": "runtime/ber/implicit_universal_profile_test.go",
+      "mode": "0644",
+      "size": 10387,
+      "sha256": "ad2ce3b79c8704e9f1b6ee8294ba498d3cae40aceba677527be1a304b7c8ad1d"
     },
     {
       "path": "runtime/ber/integer_minimal_test.go",
@@ -2266,10 +2326,22 @@
       "sha256": "e2c7de1f28b191e5af99de8d54253dbd2025b87d7ff633701a36e6fe88edbc85"
     },
     {
+      "path": "runtime/ber/profile_root_kind_test.go",
+      "mode": "0644",
+      "size": 935,
+      "sha256": "84106eb7060bef1d3174a1af4b0969937bfe19430217bbbbf601e104c312bffe"
+    },
+    {
       "path": "runtime/ber/raw_identifier_test.go",
       "mode": "0644",
       "size": 1852,
       "sha256": "e973d317c395ae4f84f6787e454ac5eaa6933ba6f2c3f8ef74619d479724f694"
+    },
+    {
+      "path": "runtime/ber/real_ber_contents_test.go",
+      "mode": "0644",
+      "size": 5471,
+      "sha256": "4db3cbf7ca590f67b0a3d1412234a78a601c3f521b774632e6f2b356b9a710c7"
     },
     {
       "path": "runtime/ber/real_capacity_test.go",
@@ -2328,8 +2400,8 @@
     {
       "path": "runtime/ber/replay_parts.go",
       "mode": "0644",
-      "size": 13170,
-      "sha256": "a9910f626155072007bc2b113cbc5d95c400a751a2c59c50fe4f1645d00bae6c"
+      "size": 13183,
+      "sha256": "9e66173191b3ea99dcccc08d95a36eac332e352ae4e2f0d726e30747b3e26627"
     },
     {
       "path": "runtime/ber/replay_parts_depth_test.go",
@@ -2430,14 +2502,14 @@
     {
       "path": "runtime/ber/tcap_profile.go",
       "mode": "0644",
-      "size": 19809,
-      "sha256": "752bdc39692a2b6dba5b5e2b0305e7902a1e4ecf2f7a4387eb86a9480445938a"
+      "size": 33178,
+      "sha256": "c61c7cc1734a578aa9d776394256c85387efb1b9b695248138c947ee037c71ca"
     },
     {
       "path": "runtime/ber/tcap_profile_entry_test.go",
       "mode": "0644",
       "size": 2377,
-      "sha256": "50ca2e8da4039b39e26f6155394f74ba806cc824627622587c66536d1c34fba8"
+      "sha256": "bf4ef34e659820f76277ed8ec8058970ad8765d0bf654b2eef59dc3b282a4fd8"
     },
     {
       "path": "runtime/ber/tcap_profile_test.go",
@@ -2448,8 +2520,8 @@
     {
       "path": "runtime/ber/tcap_segmented.go",
       "mode": "0644",
-      "size": 8062,
-      "sha256": "ab81aea09a45daf40ea0650917ee03bc078df2d8cd4065453923f99deec2d743"
+      "size": 8100,
+      "sha256": "2b28898869ebf65edaac944c2ad25e3f7e997547a07bcfd71ad598ec00f55aa9"
     },
     {
       "path": "runtime/ber/tcap_segmented_location_test.go",
@@ -2508,8 +2580,8 @@
     {
       "path": "runtime/ber/unexpected_element_test.go",
       "mode": "0644",
-      "size": 5656,
-      "sha256": "6d31795c63813c9e2e21bff378e1375ce822cad4b217aaaffcd8705538e58f4f"
+      "size": 5733,
+      "sha256": "73ce7d4b87820abc5645002011293c122342ff84eb92fd73c861588d5d10d419"
     },
     {
       "path": "runtime/ber/universal_form_test.go",
@@ -2556,8 +2628,8 @@
     {
       "path": "runtime/ber/work.go",
       "mode": "0644",
-      "size": 25651,
-      "sha256": "05a6d803623c83c8af31741e5c0d84b723d995f74a6becce387758ab5db19514"
+      "size": 29885,
+      "sha256": "c59e2de06a8cccea8d44c67f326d7b3af3f3fb47bf1edb2592565864751c4e1a"
     },
     {
       "path": "runtime/ber/work_encode_test.go",
@@ -2710,5 +2782,5 @@
       "sha256": "1f1f3a57ca289296ea1f27af7c22b2af0fe37141bc4e606fc7e870b9f6f1de47"
     }
   ],
-  "go_toolchain": "go1.26.9"
+  "go_toolchain": "go1.26.10"
 }

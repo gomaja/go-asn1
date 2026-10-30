@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 5fe257c5051335fb84ddd3beb1bea55ca5be665e7a8e6d99a75c9c85638820be.
+// Runtime source: runtime/ber/work.go; SHA-256 5b413c5b953e710a344f8f4035a53e18c5644111d6ff646d6e595cf3b306a8ba.
 package ber
 
 import (
@@ -10,7 +10,8 @@ import (
 )
 
 type berScanFrame struct {
-	profileType    string
+	profileType    tcapKind
+	profileField   int
 	dialogueSyntax int
 	end            int
 	indefinite     bool
@@ -144,6 +145,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		return ErrTruncated
 	}
 
+	rootKind := tcapRootKind(config.profileType)
 	pos, elements, work := 0, 0, 0
 	var segmented *dialogueSegments
 	var segmentDepth int
@@ -190,8 +192,10 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		return nil
 	}
 	for len(stack) != 0 {
-		parent := stack[len(stack)-1]
-		failureOffset, failureDepth, failureIndex = pos, len(stack), parent.nextChild
+		parentFrame := &stack[len(stack)-1]
+		parent := parentFrame
+		childIndex := parent.nextChild
+		failureOffset, failureDepth, failureIndex = pos, len(stack), childIndex
 		if pos == parent.end {
 			if parent.indefinite {
 				failureOffset, failureDepth, failureIndex = parent.offset, len(stack)-1, parent.index
@@ -249,7 +253,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				for _, ancestor := range stack[2:] {
 					search.indexes = append(search.indexes, ancestor.index)
 				}
-				search.indexes = append(search.indexes, parent.nextChild)
+				search.indexes = append(search.indexes, childIndex)
 			}
 			return nil
 		}
@@ -282,10 +286,22 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		if parent.segmentTag != 0 && (t.Class != tag.ClassUniversal || t.Number != parent.segmentTag) {
 			return fmt.Errorf("%w: expected universal string segment tag %d, got %s", ErrInvalidTag, parent.segmentTag, t)
 		}
+		kind := tcapElementType(rootKind, parent.profileType, t, childIndex, len(stack) == 1, parent.dialogueSyntax)
+		if len(stack) > 1 {
+			if childKind, next, sequence := tcapSequenceElementType(parent.profileType, t, parent.profileField, parent.dialogueSyntax); sequence {
+				kind = childKind
+				// A universal EXTERNAL still supplies its own open-value
+				// boundary when it is unexpected by the containing schema.
+				if kind == tcapKindUnknown && t.Class == tag.ClassUniversal && t.Number == tag.TagExternal {
+					kind = tcapKindExternal
+				}
+				parentFrame.profileField = next
+			}
+		}
 		// Charge a header and each primitive content octet exactly once as
 		// the scan advances. A work refusal names this identifier (#155).
 		charge := tagLen + lenLen
-		encapsulated := config.profile && !t.Constructed && parent.profileType == "DialogueExternal" && parent.dialogueSyntax > 0 && t.Class == tag.ClassContextSpecific && (t.Number == 1 || t.Number == 2)
+		encapsulated := config.profile && !t.Constructed && parent.profileType == tcapKindDialogueExternal && parent.dialogueSyntax > 0 && (kind == tcapKindOctetString || kind == tcapKindBitString) && t.Class == tag.ClassContextSpecific && (t.Number == 1 || t.Number == 2)
 		if !t.Constructed && !indefinite {
 			if encapsulated {
 				if t.Number == 2 {
@@ -302,20 +318,20 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			return fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
 		}
 		work += charge
-		kind := tcapElementType(config.profileType, parent.profileType, t, parent.nextChild, len(stack) == 1, parent.dialogueSyntax)
+
 		if config.profile && !config.collectPositionsOnly && tcapProfileViolation(data, pos, tagLen, lenLen, indefinite, t, kind) {
 			// X.690 (02/2021) §§8.18.10–8.18.11, 8.7.3, 8.6.4:
 			// EXTERNAL string segment headers remain in its containing syntax.
-			if tcapProfileOwnsElement(data, stack, parent) {
+			if tcapProfileOwnsElement(data, stack, *parent) {
 				var indexes []int
 				if len(stack) > 1 {
 					for _, ancestor := range stack[2:] {
 						indexes = append(indexes, ancestor.index)
 					}
-					indexes = append(indexes, parent.nextChild)
+					indexes = append(indexes, childIndex)
 				}
 				path := qualifyConstraintPath(options, "")
-				parentType := ""
+				parentType := tcapKindUnknown
 				appendSegment := func(segment string) {
 					if segment != "" {
 						if path != "" {
@@ -329,7 +345,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 					appendSegment(tcapPathSegment(config.profileType, parentType, ancestor.profileType, ancestorTag, ancestor.index, index == 0))
 					parentType = ancestor.profileType
 				}
-				appendSegment(tcapPathSegment(config.profileType, parentType, kind, t, parent.nextChild, len(stack) == 1))
+				appendSegment(tcapPathSegment(config.profileType, parentType, kind, t, childIndex, len(stack) == 1))
 				if path == "" {
 					path = config.profileType
 					if path == "" {
@@ -339,7 +355,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				if err := checkTCAPProfileElement(data, pos, tagLen, lenLen, indefinite, t, indexes, config, options, kind, path); err != nil {
 					return err
 				}
-				if !config.profileNested && t.Constructed && parent.profileType == "DialogueExternal" && parent.dialogueSyntax > 0 && t.Class == tag.ClassContextSpecific && (t.Number == 1 || t.Number == 2) {
+				if !config.profileNested && t.Constructed && parent.profileType == tcapKindDialogueExternal && parent.dialogueSyntax > 0 && (kind == tcapKindOctetString || kind == tcapKindBitString) && t.Class == tag.ClassContextSpecific && (t.Number == 1 || t.Number == 2) {
 					segmented = &dialogueSegments{syntax: parent.dialogueSyntax}
 					segmentDepth = len(stack) + 1
 				}
@@ -349,6 +365,21 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		// cannot carry a constructed primitive-only type past it.
 		if err := checkUniversalForm(t); err != nil {
 			return err
+		}
+		// X.690 (02/2021) §8.14.4(a): an IMPLICIT primitive-only
+		// type cannot use constructed indefinite form either.
+		if config.profile && t.Class != tag.ClassUniversal &&
+			!config.generatedPreflight && (config.form == nil || !config.form.generated) {
+			if tcapExplicitType(kind) && !t.Constructed && !indefinite && tcapProfileOwnsElement(data, stack, *parent) {
+				return fmt.Errorf("%w: primitive EXPLICIT wrapper", ErrInvalidTag)
+			}
+			// X.690 (02/2021) §8.1.3.2(a): the existing primitive-
+			// indefinite length refusal precedes the IMPLICIT form check.
+			if number := tcapImplicitUniversalTag(kind); number != 0 && (!indefinite || t.Constructed) {
+				if err := checkUniversalForm(tag.Tag{Class: tag.ClassUniversal, Number: number, Constructed: t.Constructed}); err != nil {
+					return err
+				}
+			}
 		}
 		if elements >= limits.MaxElements {
 			return fmt.Errorf("%w: BER element limit exceeded", ErrResourceLimit)
@@ -386,7 +417,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{profileType: kind, end: parent.end, indefinite: true, segmentTag: tcapSegmentTag(t, kind), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: parent.nextChild})
+			stack = append(stack, berScanFrame{profileType: kind, end: parent.end, indefinite: true, segmentTag: tcapSegmentTag(t, kind), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 			continue
 		}
@@ -399,10 +430,10 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		end := start + length
 		// X.690 (02/2021) §8.18.4 Table 2: an indirect reference
 		// makes identification presentation-context-dependent (decision B).
-		if config.profile && parent.profileType == "DialogueExternal" && t.Class == tag.ClassUniversal && t.Number == tag.TagInteger {
+		if config.profile && parent.profileType == tcapKindDialogueExternal && parentFrame.profileField >= 0 && t.Class == tag.ClassUniversal && t.Number == tag.TagInteger {
 			stack[len(stack)-1].dialogueSyntax = -1
 		}
-		if config.profile && parent.profileType == "DialogueExternal" && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID && parent.dialogueSyntax >= 0 {
+		if config.profile && parent.profileType == tcapKindDialogueExternal && parentFrame.profileField >= 0 && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID && parent.dialogueSyntax >= 0 {
 			content := data[start:end]
 			if bytes.Equal(content, []byte{0, 17, 134, 5, 1, 1, 1}) {
 				stack[len(stack)-1].dialogueSyntax = 1
@@ -411,31 +442,17 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				stack[len(stack)-1].dialogueSyntax = 2
 			}
 		}
-		// X.690 (02/2021) §§8.6.2.2, 8.18.6: the bit-count octet
-		// remains BER syntax even when the EXTERNAL's syntax is unknown.
-		// X.690 (02/2021) §§8.3.1–8.3.2, 8.6.2.2: schema-known
-		// IMPLICIT INTEGER and BIT STRING contents retain their base type's
-		// BER rules. Foreign open-type contents have no inferred base type.
+		// X.680 (02/2021) §31.2.7; X.690 (02/2021) §8.14.4:
+		// every schema-known IMPLICIT position retains its universal base
+		// form and contents, including EXTERNAL choices within open values
+		// (§8.18.1). Profile ownership gates only the containing profile rules.
 		if config.profile && t.Class != tag.ClassUniversal {
-			switch kind {
-			case "BitString":
-				if t.Constructed {
-					break
-				}
-				if err := validatePrimitiveBitStringContents(data[start:end]); err != nil {
-					return err
-				}
-			case "Integer":
-				// Generated decoders already validate this value after preceding
-				// schema constraints. Keep their first error and Path stable;
-				// standalone profile validation must see hidden BER faults.
-				if !config.generatedPreflight && (config.form == nil || !config.form.generated) {
-					// X.690 (02/2021) §§8.3.1, 8.14.4: an
-					// IMPLICIT INTEGER must retain the primitive base form.
-					if t.Constructed {
-						return fmt.Errorf("%w: X.690 (02/2021) §8.3.1 requires primitive INTEGER", ErrInvalidTag)
-					}
-					if err := validateMinimalIntegerContents(data[start:end]); err != nil {
+			// Generated decoders retain their first error and Path: they
+			// apply these rules after preceding schema constraints. The BIT
+			// STRING count check already belongs to their structural preflight.
+			if kind == tcapKindBitString || !config.generatedPreflight && (config.form == nil || !config.form.generated) {
+				if number := tcapImplicitUniversalTag(kind); number != 0 && !t.Constructed {
+					if err := validateBERUniversalContents(number, data[start:end]); err != nil {
 						return err
 					}
 				}
@@ -481,7 +498,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if parent.segmentTag == tag.TagBitString {
 				stack[len(stack)-1].unusedBits = int(data[start])
 				stack[len(stack)-1].segmentOffset = pos
-				stack[len(stack)-1].segmentIndex = parent.nextChild
+				stack[len(stack)-1].segmentIndex = childIndex
 			}
 		}
 		if encapsulated {
@@ -492,11 +509,11 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				}
 				contentStart++
 			}
-			contentType := "DialogueContent"
+			contentType := tcapKindDialogueContent
 			if parent.dialogueSyntax == 2 {
-				contentType = "UniDialogueContent"
+				contentType = tcapKindUniDialogueContent
 			}
-			stack = append(stack, berScanFrame{end: end, offset: pos, index: parent.nextChild, profileType: contentType})
+			stack = append(stack, berScanFrame{end: end, offset: pos, index: childIndex, profileType: contentType})
 			pos = contentStart
 			continue
 		}
@@ -509,7 +526,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{profileType: kind, end: end, segmentTag: tcapSegmentTag(t, kind), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: parent.nextChild})
+			stack = append(stack, berScanFrame{profileType: kind, end: end, segmentTag: tcapSegmentTag(t, kind), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 		} else {
 			if shortSpans != nil {
@@ -555,7 +572,7 @@ func berSegmentTag(t tag.Tag) int {
 }
 
 func validateBERUniversalContents(number int, contents []byte) error {
-	// X.690 (02/2021) §§8.2.1, 8.3.2, 8.4, 8.6.2, 8.8.2,
+	// X.690 (02/2021) §§8.2.1, 8.3.2, 8.4, 8.5, 8.6.2, 8.8.2,
 	// 8.19.2, 8.20.2. BER permits non-ff TRUE and arbitrary unused bits.
 	switch number {
 	case tag.TagBoolean:
@@ -566,6 +583,10 @@ func validateBERUniversalContents(number int, contents []byte) error {
 		if len(contents) != 0 {
 			return fmt.Errorf("%w: NULL requires empty contents", ErrInvalidValue)
 		}
+	case tag.TagReal:
+		// X.690 (02/2021) §8.5 permits every BER representation;
+		// the DER-only normalization of §11.3 is not applied here.
+		return validateBERRealContents(contents)
 	case tag.TagInteger, tag.TagEnumerated:
 		return validateMinimalIntegerContents(contents)
 	case tag.TagBitString:
@@ -575,6 +596,98 @@ func validateBERUniversalContents(number int, contents []byte) error {
 		if err := validateBase128Subidentifiers(contents); err != nil {
 			return fmt.Errorf("%w: universal tag %d: %s", ErrInvalidValue, number, err)
 		}
+	}
+	return nil
+}
+
+// validateBERRealContents checks X.690 (02/2021) §8.5 without constructing a
+// numeric value. Decimal forms follow the same lexical rules as the decoder;
+// DER normalization in §11.3 does not apply to BER.
+func validateBERRealContents(value []byte) error {
+	if len(value) == 0 {
+		return nil
+	} // §8.5.2: zero
+	info := value[0]
+	if info&0xc0 == 0x40 {
+		if len(value) != 1 || info > 0x43 {
+			return fmt.Errorf("%w: invalid REAL special value", ErrInvalidValue)
+		} // §8.5.9
+		return nil
+	}
+	if info&0x80 != 0 {
+		if info&0x30 == 0x30 {
+			return fmt.Errorf("%w: reserved REAL binary base", ErrInvalidValue)
+		} // §8.5.7.2
+		expLen := [...]int{1, 2, 3, 0}[info&3]
+		body := value[1:]
+		if info&3 == 3 {
+			if len(body) == 0 {
+				return fmt.Errorf("%w: REAL exponent length truncated", ErrTruncated)
+			}
+			expLen = realExponentOctets(body[0])
+			body = body[1:]
+			if expLen == 0 {
+				return fmt.Errorf("%w: REAL exponent length is zero", ErrInvalidValue)
+			}
+		}
+		if expLen >= len(body) {
+			return fmt.Errorf("%w: REAL exponent or mantissa truncated", ErrTruncated)
+		}
+		exponent := body[:expLen]
+		// §8.5.7.4 d): the long-form exponent's first nine bits differ.
+		if info&3 == 3 && expLen > 1 && (exponent[0] == 0 && exponent[1]&0x80 == 0 || exponent[0] == 0xff && exponent[1]&0x80 != 0) {
+			return fmt.Errorf("%w: REAL long exponent violates the first-nine-bits rule", ErrInvalidValue)
+		}
+		for _, b := range body[expLen:] {
+			if b != 0 {
+				return nil
+			}
+		}
+		return fmt.Errorf("%w: REAL mantissa is zero", ErrInvalidValue)
+	}
+	// §8.5.8: only NR1, NR2 and NR3 decimal forms are assigned.
+	if info < 1 || info > 3 {
+		return fmt.Errorf("%w: reserved REAL decimal form %d", ErrInvalidValue, info)
+	}
+	text := value[1:]
+	for len(text) > 0 && text[0] == ' ' {
+		text = text[1:]
+	}
+	if len(text) > 0 && (text[0] == '+' || text[0] == '-') {
+		text = text[1:]
+	}
+	digits, nonzero, mark, exp := false, false, false, false
+	expDigits, expNonzero, expPlus, expSign := false, false, false, false
+	for _, b := range text {
+		if expSign {
+			expSign = false
+			if b == '+' || b == '-' {
+				expPlus = b == '+'
+				continue
+			}
+		}
+		if b >= '0' && b <= '9' {
+			if exp {
+				expDigits = true
+				expNonzero = expNonzero || b != '0'
+			} else {
+				digits = true
+				nonzero = nonzero || b != '0'
+			}
+			continue
+		}
+		if !exp && info >= 2 && !mark && (b == '.' || b == ',') {
+			mark = true
+			continue
+		}
+		if !exp && info == 3 && mark && (b == 'E' || b == 'e') {
+			exp, expSign = true, true
+			continue
+		}
+		return fmt.Errorf("%w: invalid REAL decimal form", ErrInvalidValue)
+	}
+	if !digits || !nonzero || info >= 2 && !mark || info == 3 && (!exp || !expDigits || !expNonzero && !expPlus) {
+		return fmt.Errorf("%w: invalid REAL decimal form", ErrInvalidValue)
 	}
 	return nil
 }
