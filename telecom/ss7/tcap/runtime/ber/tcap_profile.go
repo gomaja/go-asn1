@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 572d8d55eb1d6ec4d6a246282606ba8d69f71e786a069663c5859ca5d8340167.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 ee030f3ce6d6685abebac99ec893ddd16c0fd7836d47112a390556be624b9d31.
 package ber
 
 import (
@@ -8,6 +8,167 @@ import (
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
 	"math"
 )
+
+// Resolve the public root name once per scan. An unclassified non-empty
+// root remains distinct from the empty kind used for universal-tag fallback.
+type tcapKind uint8
+
+const (
+	tcapKindUnknown tcapKind = iota
+	tcapKindUnclassified
+	tcapKindAAREApdu
+	tcapKindAARQApdu
+	tcapKindABRTApdu
+	tcapKindAUDTApdu
+	tcapKindAbort
+	tcapKindAbortReason
+	tcapKindAssociateSourceDiagnostic
+	tcapKindBegin
+	tcapKindBind
+	tcapKindBitString
+	tcapKindComponent
+	tcapKindComponentPortion
+	tcapKindContinue
+	tcapKindDestTransactionID
+	tcapKindDialogueContent
+	tcapKindDialogueExternal
+	tcapKindDialoguePDU
+	tcapKindDialoguePortion
+	tcapKindEnd
+	tcapKindExplicitDiagnostic
+	tcapKindExplicitValue
+	tcapKindExternal
+	tcapKindExternalEncoding
+	tcapKindInteger
+	tcapKindInvoke
+	tcapKindInvokeLinkedId
+	tcapKindNull
+	tcapKindOctetString
+	tcapKindOpenValue
+	tcapKindOrigTransactionID
+	tcapKindPAbortCause
+	tcapKindRLREApdu
+	tcapKindRLRQApdu
+	tcapKindROS
+	tcapKindROSConsumerAS
+	tcapKindROSSingleAS
+	tcapKindROSSupplierAS
+	tcapKindReject
+	tcapKindRejectProblemChoice
+	tcapKindReturnError
+	tcapKindReturnResult
+	tcapKindReturnResultResult
+	tcapKindTCMessage
+	tcapKindUnbind
+	tcapKindUniDialogueContent
+	tcapKindUniDialoguePDU
+	tcapKindUnidirectional
+	tcapKindUserInformation
+)
+
+func tcapRootKind(name string) tcapKind {
+	switch name {
+	case "":
+		return tcapKindUnknown
+	case "AAREApdu":
+		return tcapKindAAREApdu
+	case "AARQApdu":
+		return tcapKindAARQApdu
+	case "ABRTApdu":
+		return tcapKindABRTApdu
+	case "AUDTApdu":
+		return tcapKindAUDTApdu
+	case "Abort":
+		return tcapKindAbort
+	case "AbortReason":
+		return tcapKindAbortReason
+	case "AssociateSourceDiagnostic":
+		return tcapKindAssociateSourceDiagnostic
+	case "Begin":
+		return tcapKindBegin
+	case "Bind":
+		return tcapKindBind
+	case "BitString":
+		return tcapKindBitString
+	case "Component":
+		return tcapKindComponent
+	case "ComponentPortion":
+		return tcapKindComponentPortion
+	case "Continue":
+		return tcapKindContinue
+	case "DestTransactionID":
+		return tcapKindDestTransactionID
+	case "DialogueContent":
+		return tcapKindDialogueContent
+	case "DialogueExternal":
+		return tcapKindDialogueExternal
+	case "DialoguePDU":
+		return tcapKindDialoguePDU
+	case "DialoguePortion":
+		return tcapKindDialoguePortion
+	case "End":
+		return tcapKindEnd
+	case "ExplicitDiagnostic":
+		return tcapKindExplicitDiagnostic
+	case "ExplicitValue":
+		return tcapKindExplicitValue
+	case "External":
+		return tcapKindExternal
+	case "ExternalEncoding":
+		return tcapKindExternalEncoding
+	case "Integer":
+		return tcapKindInteger
+	case "Invoke":
+		return tcapKindInvoke
+	case "InvokeLinkedId":
+		return tcapKindInvokeLinkedId
+	case "Null":
+		return tcapKindNull
+	case "OctetString":
+		return tcapKindOctetString
+	case "OpenValue":
+		return tcapKindOpenValue
+	case "OrigTransactionID":
+		return tcapKindOrigTransactionID
+	case "PAbortCause":
+		return tcapKindPAbortCause
+	case "RLREApdu":
+		return tcapKindRLREApdu
+	case "RLRQApdu":
+		return tcapKindRLRQApdu
+	case "ROS":
+		return tcapKindROS
+	case "ROSConsumerAS":
+		return tcapKindROSConsumerAS
+	case "ROSSingleAS":
+		return tcapKindROSSingleAS
+	case "ROSSupplierAS":
+		return tcapKindROSSupplierAS
+	case "Reject":
+		return tcapKindReject
+	case "RejectProblemChoice":
+		return tcapKindRejectProblemChoice
+	case "ReturnError":
+		return tcapKindReturnError
+	case "ReturnResult":
+		return tcapKindReturnResult
+	case "ReturnResultResult":
+		return tcapKindReturnResultResult
+	case "TCMessage":
+		return tcapKindTCMessage
+	case "Unbind":
+		return tcapKindUnbind
+	case "UniDialogueContent":
+		return tcapKindUniDialogueContent
+	case "UniDialoguePDU":
+		return tcapKindUniDialoguePDU
+	case "Unidirectional":
+		return tcapKindUnidirectional
+	case "UserInformation":
+		return tcapKindUserInformation
+	}
+	return tcapKindUnclassified
+}
 
 type tcapProfileOption struct {
 	source, ruleSource string
@@ -83,8 +244,8 @@ func TrackTCAPForm(options []DecodeOption, source ...string) []DecodeOption {
 	return trackBERForm(options, &c, err)
 }
 
-func tcapProfileViolation(data []byte, pos, tagLen, lenLen int, indefinite bool, t tag.Tag, kind string) bool {
-	return !indefinite && lenLen > 1 && (data[pos+tagLen+1] == 0 || lenLen == 2 && data[pos+tagLen+1] < 128) || t.Constructed && (kind == "OctetString" || kind == "BitString" || t.Class == tag.ClassUniversal && (t.Number == tag.TagOctetString || t.Number == tag.TagBitString))
+func tcapProfileViolation(data []byte, pos, tagLen, lenLen int, indefinite bool, t tag.Tag, kind tcapKind) bool {
+	return !indefinite && lenLen > 1 && (data[pos+tagLen+1] == 0 || lenLen == 2 && data[pos+tagLen+1] < 128) || t.Constructed && (kind == tcapKindOctetString || kind == tcapKindBitString || t.Class == tag.ClassUniversal && (t.Number == tag.TagOctetString || t.Number == tag.TagBitString))
 }
 
 // Q.773 (06/1997) §4.1.1 applies to the TC message and the dialogue
@@ -93,19 +254,21 @@ func tcapProfileViolation(data []byte, pos, tagLen, lenLen int, indefinite bool,
 // TC-user's syntax. X.690 §8.18.6–8.18.11 keeps EXTERNAL's encoding-choice
 // header in the containing syntax; only its value belongs to the identified
 // syntax. Q.773 dialogue is owned (§4.2.3); X.880 (07/1994) Annex A linkedId [0]/[1] puts opcode at index 2.
-func tcapProfileOwnsChild(parent string, index int, linked bool) bool {
+func tcapProfileOwnsChild(parent tcapKind, index int, linked bool) bool {
 	switch parent {
-	case "Invoke":
+	case tcapKindOpenValue:
+		return false
+	case tcapKindInvoke:
 		return index < 2 || linked && index == 2
-	case "ReturnResultResult":
+	case tcapKindReturnResultResult:
 		return index == 0
-	case "ReturnError":
+	case tcapKindReturnError:
 		return index < 2
 	}
 	return true
 }
 
-func checkTCAPProfileElement(data []byte, pos, tagLen, lenLen int, indefinite bool, t tag.Tag, indexes []int, config decodeConfig, options []DecodeOption, kind, path string) error {
+func checkTCAPProfileElement(data []byte, pos, tagLen, lenLen int, indefinite bool, t tag.Tag, indexes []int, config decodeConfig, options []DecodeOption, kind tcapKind, path string) error {
 	if !config.profile || config.profileNested {
 		return nil
 	}
@@ -157,10 +320,10 @@ func checkTCAPProfileElement(data []byte, pos, tagLen, lenLen int, indefinite bo
 		}
 	}
 	if t.Constructed {
-		if kind == "OctetString" || t.Class == tag.ClassUniversal && t.Number == tag.TagOctetString {
+		if kind == tcapKindOctetString || t.Class == tag.ClassUniversal && t.Number == tag.TagOctetString {
 			return report("primitive-octet-string", "constructed OCTET STRING")
 		}
-		if kind == "BitString" || t.Class == tag.ClassUniversal && t.Number == tag.TagBitString {
+		if kind == tcapKindBitString || t.Class == tag.ClassUniversal && t.Number == tag.TagBitString {
 			return report("primitive-bit-string", "constructed BIT STRING")
 		}
 	}
@@ -248,175 +411,336 @@ func (option tcapEncodedProfileOption) applyDecode(config *decodeConfig) error {
 
 // The schema boundary is confined to TCAP-owned fields. An unknown IMPLICIT
 // payload never receives a guessed underlying type. X.680 (02/2021) §31.2.7
-// and X.690 (02/2021) §§8.3.1–8.3.2, 8.14 retain the base INTEGER contents
-// rules under IMPLICIT tags; TCAPMessages, Remote-Operations-Generic-ROS-PDUs,
+// and X.690 (02/2021) §8.14.4 retain the base form and contents rules
+// under IMPLICIT tags; TCAPMessages, Remote-Operations-Generic-ROS-PDUs,
 // and DialoguePDUs identify the assignments below.
-func tcapElementType(root, parent string, t tag.Tag, index int, isRoot bool, syntax int) string {
-	kind := ""
+// The generated root decoder checks its own outer tag before inspecting
+// fields. An unrelated tag cannot acquire the requested root's schema.
+// X.680 (02/2021) §31; X.690 (02/2021) §§8.14.3–8.14.4.
+func tcapRootAdmits(root tcapKind, t tag.Tag) bool {
+	class, number := tag.ClassUniversal, tag.TagSequence
+	switch root {
+	case tcapKindBegin, tcapKindContinue, tcapKindEnd, tcapKindUnidirectional, tcapKindAbort, tcapKindInvoke,
+		tcapKindReturnResult, tcapKindReturnResultResult, tcapKindReturnError, tcapKindReject, tcapKindUserInformation:
+	case tcapKindOrigTransactionID:
+		class, number = tag.ClassApplication, 8
+	case tcapKindDestTransactionID:
+		class, number = tag.ClassApplication, 9
+	case tcapKindPAbortCause:
+		class, number = tag.ClassApplication, 10
+	case tcapKindDialoguePortion:
+		class, number = tag.ClassApplication, 11
+	case tcapKindComponentPortion:
+		class, number = tag.ClassApplication, 12
+	case tcapKindAARQApdu, tcapKindAUDTApdu:
+		class, number = tag.ClassApplication, 0
+	case tcapKindAAREApdu:
+		class, number = tag.ClassApplication, 1
+	case tcapKindRLRQApdu:
+		class, number = tag.ClassApplication, 2
+	case tcapKindRLREApdu:
+		class, number = tag.ClassApplication, 3
+	case tcapKindABRTApdu:
+		class, number = tag.ClassApplication, 4
+	case tcapKindExternal:
+		number = tag.TagExternal
+	default:
+		return true // CHOICE roots classify their alternatives below.
+	}
+	return t.Class == class && t.Number == number
+}
+
+func tcapElementType(root, parent tcapKind, t tag.Tag, index int, isRoot bool, syntax int) tcapKind {
+	kind := tcapKindUnknown
 	if isRoot {
-		kind = root
+		if tcapRootAdmits(root, t) {
+			kind = root
+		}
 	} else {
 		switch parent {
-		case "Begin", "Continue", "End", "Unidirectional", "Abort":
-			if t.Class == tag.ClassApplication {
-				switch t.Number {
-				case 8, 9:
-					kind = "OctetString"
-				case 11:
-					kind = "DialoguePortion"
-				case 12:
-					kind = "ComponentPortion"
-				case 10:
-					if parent == "Abort" && index == 1 {
-						kind = "Integer"
-					}
-				}
+		case tcapKindComponentPortion:
+			kind = tcapKindComponent
+		case tcapKindUserInformation:
+			if t.Class == tag.ClassUniversal && t.Number == tag.TagExternal {
+				kind = tcapKindExternal
 			}
-		case "ComponentPortion":
-			kind = "Component"
-		case "Invoke":
-			if index == 1 && t.Class == tag.ClassContextSpecific && t.Number == 0 {
-				kind = "Integer"
+		case tcapKindDialogueContent:
+			if index == 0 {
+				kind = tcapKindDialoguePDU
 			}
-		case "Reject":
-			if index == 1 && t.Class == tag.ClassContextSpecific && t.Number <= 3 {
-				kind = "Integer"
+		case tcapKindUniDialogueContent:
+			if index == 0 {
+				kind = tcapKindUniDialoguePDU
 			}
-		case "ReturnResult":
-			if t.Class == tag.ClassUniversal && t.Number == 16 {
-				kind = "ReturnResultResult"
-			}
-		case "DialoguePortion":
-			if t.Class == tag.ClassUniversal && t.Number == 8 {
-				kind = "DialogueExternal"
-			}
-		case "External", "DialogueExternal":
-			if t.Class == tag.ClassContextSpecific {
-				switch t.Number {
-				case 1:
-					kind = "OctetString"
-				case 2:
-					kind = "BitString"
-				case 0:
-					if parent == "DialogueExternal" && syntax == 1 {
-						kind = "DialogueContent"
-					} else if parent == "DialogueExternal" && syntax == 2 {
-						kind = "UniDialogueContent"
-					}
-				}
-			}
-		case "DialogueContent":
-			kind = "DialoguePDU"
-		case "UniDialogueContent":
-			kind = "UniDialoguePDU"
-		case "AARQApdu", "AAREApdu", "AUDTApdu":
-			if t.Class == tag.ClassContextSpecific {
-				if t.Number == 0 {
-					kind = "BitString"
-				}
-				if t.Number == 30 {
-					kind = "UserInformation"
-				}
-			}
-		case "ABRTApdu", "RLRQApdu", "RLREApdu":
-			if index == 0 && t.Class == tag.ClassContextSpecific && t.Number == 0 {
-				kind = "Integer"
+		case tcapKindExplicitDiagnostic:
+			if index == 0 {
+				kind = tcapKindAssociateSourceDiagnostic
 			}
 		}
 	}
 	switch kind {
-	case "OrigTransactionID", "DestTransactionID":
-		kind = "OctetString"
-	case "InvokeLinkedId":
-		if t.Class == tag.ClassContextSpecific && t.Number == 0 {
-			kind = "Integer"
+	case tcapKindOrigTransactionID, tcapKindDestTransactionID:
+		kind = tcapKindOctetString
+	case tcapKindPAbortCause:
+		if t.Class == tag.ClassApplication && t.Number == 10 {
+			kind = tcapKindInteger
 		}
-	case "Component", "ROS":
+	case tcapKindInvokeLinkedId:
+		kind = tcapKindUnknown
+		if t.Class == tag.ClassContextSpecific {
+			switch t.Number {
+			case 0:
+				kind = tcapKindInteger
+			case 1:
+				kind = tcapKindNull
+			}
+		}
+	// X.690 (02/2021) §8.15: ROS instances share the same open-value
+	// boundaries and IMPLICIT base types as their instantiated ROS syntax.
+	case tcapKindComponent, tcapKindROS, tcapKindROSSingleAS, tcapKindROSConsumerAS, tcapKindROSSupplierAS:
+		component := kind == tcapKindComponent
+		kind = tcapKindUnknown
 		if t.Class == tag.ClassContextSpecific {
 			switch t.Number {
 			case 1:
-				kind = "Invoke"
-			case 2, 7:
-				kind = "ReturnResult"
+				kind = tcapKindInvoke
+			case 2:
+				kind = tcapKindReturnResult
+			case 7:
+				if component {
+					kind = tcapKindReturnResult
+				}
 			case 3:
-				kind = "ReturnError"
+				kind = tcapKindReturnError
 			case 4:
-				kind = "Reject"
+				kind = tcapKindReject
 			}
 		}
-	case "RejectProblemChoice":
+	case tcapKindRejectProblemChoice:
+		kind = tcapKindUnknown
 		if t.Class == tag.ClassContextSpecific && t.Number <= 3 {
-			kind = "Integer"
+			kind = tcapKindInteger
 		}
-	case "AbortReason":
+	case tcapKindAbortReason:
+		kind = tcapKindUnknown
 		if t.Class == tag.ClassApplication && t.Number == 10 {
-			kind = "Integer"
+			kind = tcapKindInteger
 		}
 		if t.Class == tag.ClassApplication && t.Number == 11 {
-			kind = "DialoguePortion"
+			kind = tcapKindDialoguePortion
 		}
-	case "TCMessage":
+	case tcapKindTCMessage:
+		kind = tcapKindUnknown
 		if t.Class == tag.ClassApplication {
 			switch t.Number {
 			case 1:
-				kind = "Unidirectional"
+				kind = tcapKindUnidirectional
 			case 2:
-				kind = "Begin"
+				kind = tcapKindBegin
 			case 4:
-				kind = "End"
+				kind = tcapKindEnd
 			case 5:
-				kind = "Continue"
+				kind = tcapKindContinue
 			case 7:
-				kind = "Abort"
+				kind = tcapKindAbort
 			}
 		}
-	case "DialoguePDU":
+	case tcapKindDialoguePDU:
+		kind = tcapKindUnknown
 		if t.Class == tag.ClassApplication {
 			switch t.Number {
 			case 0:
-				kind = "AARQApdu"
+				kind = tcapKindAARQApdu
 			case 1:
-				kind = "AAREApdu"
+				kind = tcapKindAAREApdu
 			case 4:
-				kind = "ABRTApdu"
+				kind = tcapKindABRTApdu
 			}
 		}
-	case "UniDialoguePDU":
-		kind = "AUDTApdu"
+	case tcapKindUniDialoguePDU:
+		kind = tcapKindUnknown
+		if t.Class == tag.ClassApplication && t.Number == 0 {
+			kind = tcapKindAUDTApdu
+		}
+	case tcapKindBind, tcapKindUnbind:
+		parentKind := kind
+		kind = tcapKindUnknown
+		if t.Class == tag.ClassContextSpecific &&
+			(parentKind == tcapKindBind && t.Number >= 16 && t.Number <= 18 ||
+				parentKind == tcapKindUnbind && t.Number >= 19 && t.Number <= 21) {
+			kind = tcapKindOpenValue
+		}
+	case tcapKindAssociateSourceDiagnostic:
+		kind = tcapKindUnknown
+		if t.Class == tag.ClassContextSpecific && (t.Number == 1 || t.Number == 2) {
+			kind = tcapKindExplicitValue
+		}
 	}
-	if kind == "" && t.Class == tag.ClassUniversal {
+	if kind == tcapKindUnknown && t.Class == tag.ClassUniversal {
 		switch t.Number {
 		case 8:
-			kind = "External"
+			kind = tcapKindExternal
 		case 3:
-			kind = "BitString"
+			kind = tcapKindBitString
 		case 4:
-			kind = "OctetString"
+			kind = tcapKindOctetString
 		}
 	}
 	return kind
 }
 
-func tcapPathSegment(root, parent, kind string, t tag.Tag, index int, isRoot bool) string {
+// The next field is a grammar position, independent of the physical child
+// index: OPTIONAL and DEFAULT components may be absent. X.680 (02/2021)
+// §§25, 31 and X.690 (02/2021) §§8.14.3–8.14.4 do not assign a base
+// type to a tag outside the sequence's admitted position.
+type tcapProfileField struct {
+	class    tag.Class
+	number   int
+	kind     tcapKind
+	optional bool
+	next     int
+}
+
+func tcapSequenceElementType(parent tcapKind, t tag.Tag, field, syntax int) (tcapKind, int, bool) {
+	var fields []tcapProfileField
+	switch parent {
+	case tcapKindBegin:
+		fields = []tcapProfileField{{tag.ClassApplication, 8, tcapKindOctetString, false, 1}, {tag.ClassApplication, 11, tcapKindDialoguePortion, true, 2}, {tag.ClassApplication, 12, tcapKindComponentPortion, true, 3}}
+	case tcapKindEnd:
+		fields = []tcapProfileField{{tag.ClassApplication, 9, tcapKindOctetString, false, 1}, {tag.ClassApplication, 11, tcapKindDialoguePortion, true, 2}, {tag.ClassApplication, 12, tcapKindComponentPortion, true, 3}}
+	case tcapKindContinue:
+		fields = []tcapProfileField{{tag.ClassApplication, 8, tcapKindOctetString, false, 1}, {tag.ClassApplication, 9, tcapKindOctetString, false, 2}, {tag.ClassApplication, 11, tcapKindDialoguePortion, true, 3}, {tag.ClassApplication, 12, tcapKindComponentPortion, true, 4}}
+	case tcapKindUnidirectional:
+		fields = []tcapProfileField{{tag.ClassApplication, 11, tcapKindDialoguePortion, true, 1}, {tag.ClassApplication, 12, tcapKindComponentPortion, false, 2}}
+	case tcapKindAbort:
+		fields = []tcapProfileField{{tag.ClassApplication, 9, tcapKindOctetString, false, 1}, {tag.ClassApplication, -5, tcapKindAbortReason, true, 2}}
+	case tcapKindInvoke:
+		fields = []tcapProfileField{{tag.ClassUniversal, -3, tcapKindUnknown, false, 1}, {tag.ClassContextSpecific, -4, tcapKindInvokeLinkedId, true, 2}, {tag.ClassUniversal, -2, tcapKindUnknown, false, 3}, {0, -1, tcapKindUnknown, true, 4}}
+	case tcapKindReturnResult:
+		fields = []tcapProfileField{{tag.ClassUniversal, -3, tcapKindUnknown, false, 1}, {tag.ClassUniversal, tag.TagSequence, tcapKindReturnResultResult, true, 2}}
+	case tcapKindReturnResultResult:
+		fields = []tcapProfileField{{tag.ClassUniversal, -2, tcapKindUnknown, false, 1}, {0, -1, tcapKindUnknown, false, 2}}
+	case tcapKindReturnError:
+		fields = []tcapProfileField{{tag.ClassUniversal, -3, tcapKindUnknown, false, 1}, {tag.ClassUniversal, -2, tcapKindUnknown, false, 2}, {0, -1, tcapKindUnknown, true, 3}}
+	case tcapKindReject:
+		fields = []tcapProfileField{{tag.ClassUniversal, -3, tcapKindUnknown, false, 1}, {tag.ClassContextSpecific, -7, tcapKindInteger, false, 2}}
+	case tcapKindDialoguePortion:
+		fields = []tcapProfileField{{tag.ClassUniversal, tag.TagExternal, tcapKindDialogueExternal, false, 1}}
+	case tcapKindExternal, tcapKindDialogueExternal:
+		fields = []tcapProfileField{{tag.ClassUniversal, tag.TagObjectID, tcapKindUnknown, true, 1}, {tag.ClassUniversal, tag.TagInteger, tcapKindUnknown, true, 2}, {tag.ClassUniversal, 7, tcapKindUnknown, true, 3}, {tag.ClassContextSpecific, -6, tcapKindExternalEncoding, false, 4}}
+	case tcapKindAARQApdu, tcapKindAUDTApdu:
+		fields = []tcapProfileField{{tag.ClassContextSpecific, 0, tcapKindBitString, true, 1}, {tag.ClassContextSpecific, 1, tcapKindExplicitValue, false, 2}, {tag.ClassContextSpecific, 30, tcapKindUserInformation, true, 3}}
+	case tcapKindAAREApdu:
+		fields = []tcapProfileField{{tag.ClassContextSpecific, 0, tcapKindBitString, true, 1}, {tag.ClassContextSpecific, 1, tcapKindExplicitValue, false, 2}, {tag.ClassContextSpecific, 2, tcapKindExplicitValue, false, 3}, {tag.ClassContextSpecific, 3, tcapKindExplicitDiagnostic, false, 4}, {tag.ClassContextSpecific, 30, tcapKindUserInformation, true, 5}}
+	case tcapKindABRTApdu:
+		fields = []tcapProfileField{{tag.ClassContextSpecific, 0, tcapKindInteger, false, 1}, {tag.ClassContextSpecific, 30, tcapKindUserInformation, true, 2}}
+	case tcapKindRLRQApdu, tcapKindRLREApdu:
+		fields = []tcapProfileField{{tag.ClassContextSpecific, 0, tcapKindInteger, true, 1}, {tag.ClassContextSpecific, 30, tcapKindUserInformation, true, 2}}
+	default:
+		return tcapKindUnknown, field, false
+	}
+	if field < 0 {
+		return tcapKindUnknown, field, true
+	}
+	for i, candidate := range fields {
+		if i < field {
+			continue
+		}
+		matches := t.Class == candidate.class && t.Number == candidate.number
+		if candidate.number < 0 {
+			matches = t.Class == candidate.class
+			switch candidate.number {
+			case -1:
+				matches = true // A complete open value supplies its own tag.
+			case -2:
+				matches = matches && (t.Number == tag.TagInteger || t.Number == tag.TagObjectID)
+			case -3:
+				matches = matches && (t.Number == tag.TagInteger || t.Number == tag.TagNull)
+			case -4:
+				matches = matches && (t.Number == 0 || t.Number == 1)
+			case -5:
+				matches = matches && (t.Number == 10 || t.Number == 11)
+			case -6:
+				matches = matches && t.Number <= 2
+			case -7:
+				matches = matches && t.Number <= 3
+			}
+		}
+		if matches {
+			kind := candidate.kind
+			switch kind {
+			case tcapKindInvokeLinkedId:
+				if t.Number == 0 {
+					kind = tcapKindInteger
+				} else {
+					kind = tcapKindNull
+				}
+			case tcapKindAbortReason:
+				if t.Number == 10 {
+					kind = tcapKindInteger
+				} else {
+					kind = tcapKindDialoguePortion
+				}
+			case tcapKindExternalEncoding:
+				switch t.Number {
+				case 0:
+					kind = tcapKindExplicitValue
+					if parent == tcapKindDialogueExternal {
+						if syntax == 1 {
+							kind = tcapKindDialogueContent
+						}
+						if syntax == 2 {
+							kind = tcapKindUniDialogueContent
+						}
+					}
+				case 1:
+					kind = tcapKindOctetString
+				case 2:
+					kind = tcapKindBitString
+				}
+			}
+			return kind, candidate.next, true
+		}
+		if !candidate.optional {
+			break
+		}
+	}
+	// Once a required position mismatches, subsequent tags have no schema
+	// interpretation. The typed decoder diagnoses the unexpected element.
+	return tcapKindUnknown, -1, true
+}
+
+// X.690 (02/2021) §8.14.3: an EXPLICIT wrapper is constructed. Generated
+// decoders retain their own first error and schema Path; the independent
+// validation scan checks these positions even behind value constraints.
+func tcapExplicitType(kind tcapKind) bool {
+	switch kind {
+	case tcapKindDialoguePortion, tcapKindDialogueContent, tcapKindUniDialogueContent, tcapKindExplicitValue, tcapKindExplicitDiagnostic:
+		return true
+	}
+	return false
+}
+
+func tcapPathSegment(root string, parent, kind tcapKind, t tag.Tag, index int, isRoot bool) string {
 	if isRoot {
 		if root == "TCMessage" {
 			switch kind {
-			case "Begin":
+			case tcapKindBegin:
 				return "begin"
-			case "End":
+			case tcapKindEnd:
 				return "end"
-			case "Continue":
+			case tcapKindContinue:
 				return "continue"
-			case "Abort":
+			case tcapKindAbort:
 				return "abort"
-			case "Unidirectional":
+			case tcapKindUnidirectional:
 				return "unidirectional"
 			}
 		}
 		return ""
 	}
 	switch parent {
-	case "Begin", "Continue", "End", "Unidirectional", "Abort":
+	case tcapKindBegin, tcapKindContinue, tcapKindEnd, tcapKindUnidirectional, tcapKindAbort:
 		if t.Class == tag.ClassApplication {
 			switch t.Number {
 			case 8:
@@ -424,7 +748,7 @@ func tcapPathSegment(root, parent, kind string, t tag.Tag, index int, isRoot boo
 			case 9:
 				return "dtid"
 			case 11:
-				if parent == "Abort" {
+				if parent == tcapKindAbort {
 					return "reason.uAbortCause"
 				}
 				return "dialoguePortion"
@@ -434,7 +758,7 @@ func tcapPathSegment(root, parent, kind string, t tag.Tag, index int, isRoot boo
 				return "reason.pAbortCause"
 			}
 		}
-	case "ComponentPortion":
+	case tcapKindComponentPortion:
 		branch := ""
 		switch t.Number {
 		case 1:
@@ -452,14 +776,14 @@ func tcapPathSegment(root, parent, kind string, t tag.Tag, index int, isRoot boo
 			return fmt.Sprintf("element[%d]", index)
 		}
 		return fmt.Sprintf("element[%d].%s", index, branch)
-	case "Invoke", "ReturnError", "ReturnResult", "Reject":
+	case tcapKindInvoke, tcapKindReturnError, tcapKindReturnResult, tcapKindReject:
 		if index == 0 {
 			if t.Number == 5 {
 				return "invokeId.absent"
 			}
 			return "invokeId.present"
 		}
-		if parent == "Invoke" {
+		if parent == tcapKindInvoke {
 			// X.880 (07/1994) Annex A: linkedId CHOICE has both
 			// present [0] and absent [1] alternatives.
 			if t.Class == tag.ClassContextSpecific {
@@ -478,25 +802,25 @@ func tcapPathSegment(root, parent, kind string, t tag.Tag, index int, isRoot boo
 			}
 			return "argument"
 		}
-		if parent == "ReturnResult" {
+		if parent == tcapKindReturnResult {
 			return "result"
 		}
-		if parent == "ReturnError" {
+		if parent == tcapKindReturnError {
 			if index == 1 {
 				return "errcode"
 			}
 			return "parameter"
 		}
 		return "problem"
-	case "ReturnResultResult":
+	case tcapKindReturnResultResult:
 		if index == 0 {
 			return "opcode"
 		}
 		return "result"
-	case "DialoguePortion":
+	case tcapKindDialoguePortion:
 		return ""
-	case "DialogueExternal", "External":
-		if kind == "DialogueContent" || kind == "UniDialogueContent" {
+	case tcapKindDialogueExternal, tcapKindExternal:
+		if kind == tcapKindDialogueContent || kind == tcapKindUniDialogueContent {
 			return ""
 		}
 		if t.Class == tag.ClassUniversal {
@@ -519,18 +843,18 @@ func tcapPathSegment(root, parent, kind string, t tag.Tag, index int, isRoot boo
 				return "encoding.arbitrary"
 			}
 		}
-	case "DialogueContent":
+	case tcapKindDialogueContent:
 		switch kind {
-		case "AARQApdu":
+		case tcapKindAARQApdu:
 			return "dialogue.dialogueRequest"
-		case "AAREApdu":
+		case tcapKindAAREApdu:
 			return "dialogue.dialogueResponse"
-		case "ABRTApdu":
+		case tcapKindABRTApdu:
 			return "dialogue.dialogueAbort"
 		}
-	case "UniDialogueContent":
+	case tcapKindUniDialogueContent:
 		return "unidialogue.unidialoguePDU"
-	case "AARQApdu", "AAREApdu", "AUDTApdu":
+	case tcapKindAARQApdu, tcapKindAAREApdu, tcapKindAUDTApdu:
 		if t.Class == tag.ClassContextSpecific {
 			switch t.Number {
 			case 0:
@@ -545,7 +869,7 @@ func tcapPathSegment(root, parent, kind string, t tag.Tag, index int, isRoot boo
 				return "user-information"
 			}
 		}
-	case "UserInformation":
+	case tcapKindUserInformation:
 		return fmt.Sprintf("element[%d]", index)
 	}
 	return fmt.Sprintf("child[%d]", index)
@@ -558,11 +882,11 @@ func profileModule(source []string) string {
 	return ""
 }
 
-func tcapSegmentTag(t tag.Tag, kind string) int {
-	if kind == "OctetString" {
+func tcapSegmentTag(t tag.Tag, kind tcapKind) int {
+	if kind == tcapKindOctetString {
 		return tag.TagOctetString
 	}
-	if kind == "BitString" {
+	if kind == tcapKindBitString {
 		return tag.TagBitString
 	}
 	return berSegmentTag(t)
@@ -597,7 +921,7 @@ func tcapProfileOwnsElement(data []byte, stack []berScanFrame, parent berScanFra
 		if !tcapProfileOwnsChildAt(data, outer, ancestor.index) {
 			return false
 		}
-		if outer.profileType != "External" && outer.profileType != "DialogueExternal" {
+		if outer.profileType != tcapKindExternal && outer.profileType != tcapKindDialogueExternal {
 			outer = ancestor
 			continue
 		}
@@ -608,8 +932,10 @@ func tcapProfileOwnsElement(data []byte, stack []berScanFrame, parent berScanFra
 			return true
 		}
 		if identifier.Class == tag.ClassContextSpecific &&
-			!(identifier.Constructed && (identifier.Number == 1 || identifier.Number == 2) ||
-				outer.profileType == "DialogueExternal" && outer.dialogueSyntax > 0) {
+			!(identifier.Constructed && (ancestor.profileType == tcapKindOctetString || ancestor.profileType == tcapKindBitString) ||
+				outer.profileType == tcapKindDialogueExternal && outer.dialogueSyntax > 0 &&
+					(ancestor.profileType == tcapKindDialogueContent || ancestor.profileType == tcapKindUniDialogueContent ||
+						ancestor.profileType == tcapKindOctetString || ancestor.profileType == tcapKindBitString)) {
 			return false
 		}
 		outer = ancestor
@@ -618,7 +944,7 @@ func tcapProfileOwnsElement(data []byte, stack []berScanFrame, parent berScanFra
 }
 
 func tcapProfileOwnsChildAt(data []byte, parent berScanFrame, index int) bool {
-	linked := parent.profileType == "Invoke" && index == 2 && tcapProfileInvokeLinked(data, parent.offset)
+	linked := parent.profileType == tcapKindInvoke && index == 2 && tcapProfileInvokeLinked(data, parent.offset)
 	return tcapProfileOwnsChild(parent.profileType, index, linked)
 }
 
@@ -652,4 +978,27 @@ func tcapProfileInvokeLinked(data []byte, invokeOffset int) bool {
 	}
 	identifier, _, err := DecodeTag(firstValue[firstLength:])
 	return err == nil && identifier.Class == tag.ClassContextSpecific && (identifier.Number == 0 || identifier.Number == 1)
+}
+
+// X.680 (02/2021) §31.2.7 and X.690 (02/2021) §8.14.4 retain
+// the universal base encoding for each schema-known IMPLICIT position.
+// SEQUENCE/SEQUENCE OF are constructed (§§8.9.1, 8.10.1), INTEGER
+// and NULL are primitive (§§8.3.1, 8.8.1); strings keep §§8.6–8.7.
+func tcapImplicitUniversalTag(kind tcapKind) int {
+	switch kind {
+	case tcapKindInteger:
+		return tag.TagInteger
+	case tcapKindNull:
+		return tag.TagNull
+	case tcapKindBitString:
+		return tag.TagBitString
+	case tcapKindOctetString:
+		return tag.TagOctetString
+	case tcapKindBegin, tcapKindContinue, tcapKindEnd, tcapKindUnidirectional, tcapKindAbort,
+		tcapKindInvoke, tcapKindReturnResult, tcapKindReturnResultResult, tcapKindReturnError, tcapKindReject,
+		tcapKindAARQApdu, tcapKindAAREApdu, tcapKindABRTApdu, tcapKindRLRQApdu, tcapKindRLREApdu, tcapKindAUDTApdu,
+		tcapKindComponentPortion, tcapKindUserInformation:
+		return tag.TagSequence
+	}
+	return 0
 }

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/unexpected_element_test.go; SHA-256 7f5351f2448bbe2ea41cfb4cfc96dc9ef5f87e3c64345b230d30d5800d6a53fd.
+// Runtime source: runtime/ber/unexpected_element_test.go; SHA-256 7ef9503895aa92a549b328f6d37a46fd1268e2645877056b088e13b39628e852.
 package ber
 
 import (
@@ -46,6 +46,8 @@ func universalRejectionElements(t *testing.T) map[string][]byte {
 		}
 		invalid := [][]byte(nil)
 		switch number {
+		case tag.TagReal:
+			invalid = [][]byte{{0xb0, 0, 1}, {0x83}, {0}, {0x44}}
 		case tag.TagBoolean:
 			invalid = [][]byte{{}, {0, 0}}
 		case tag.TagNull:

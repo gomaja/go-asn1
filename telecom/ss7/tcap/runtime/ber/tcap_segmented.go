@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_segmented.go; SHA-256 60576a596c5db4eeea7ac243fbb5b3c214d4699abd8405e96c116c96089e8d3a.
+// Runtime source: runtime/ber/tcap_segmented.go; SHA-256 be5a8f18a8c3e6a3142bab332e13ecdc19d4852e38dec22a5bb64e8fdf72fcbe.
 package ber
 
 import (
@@ -56,7 +56,7 @@ func (segments *dialogueSegments) audit(data []byte, config decodeConfig, option
 	// Logical ancestry has one entry per enclosing scan frame.
 	segments.prefix = make([]int, 0, len(stack))
 	segments.path = qualifyConstraintPath(options, "")
-	parentType := ""
+	parentType := tcapKindUnknown
 	for index, ancestor := range stack[1:] {
 		identifier, _, _ := DecodeTag(data[ancestor.offset:])
 		segment := tcapPathSegment(config.profileType, parentType, ancestor.profileType, identifier, ancestor.index, index == 0)
@@ -89,11 +89,11 @@ func (segments *dialogueSegments) audit(data []byte, config decodeConfig, option
 		}
 		return 0, 0, &ElementError{offset: offset, childIndexes: segments.prefix, cause: err}
 	}
-	contentType := "DialogueContent"
+	contentType := tcapKindDialogueContent
 	if segments.syntax == 2 {
-		contentType = "UniDialogueContent"
+		contentType = tcapKindUniDialogueContent
 	}
-	kind := tcapElementType("", contentType, identifier, 0, false, segments.syntax)
+	kind := tcapElementType(tcapKindUnknown, contentType, identifier, 0, false, segments.syntax)
 	segment := tcapPathSegment("", contentType, kind, identifier, 0, false)
 	if segments.path != "" {
 		segments.path += "."

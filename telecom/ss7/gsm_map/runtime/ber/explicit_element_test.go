@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/explicit_element_test.go; SHA-256 b293248cc4de9b7f61bdf2bfad96d0a7fc7c46af9868ec9aed2ff1d01db14dcf.
+// Runtime source: runtime/ber/explicit_element_test.go; SHA-256 0ed28a45c129e74888d856314f4d3f99f5e858ae75fe32cc296cff116c69cec6.
 package ber
 
 import (
@@ -16,7 +16,7 @@ func assertElementSentinels(t *testing.T, got, want error) {
 	if (got == nil) != (want == nil) {
 		t.Fatalf("error=%v, want %v", got, want)
 	}
-	for _, sentinel := range []error{ErrUnexpectedElement, ErrTruncated, ErrInvalidTag, ErrInvalidLength, ErrIndefiniteLength, ErrExtraData, ErrInvalidValue, ErrUnsupported, ErrResourceLimit} {
+	for _, sentinel := range []error{ErrUnexpectedElement, ErrTruncated, ErrInvalidTag, ErrInvalidLength, ErrIndefiniteLength, ErrExtraData, ErrInvalidValue, ErrUnsupported, ErrResourceLimit, ErrInvalidCodec, ErrInvalidBinding} {
 		if errors.Is(got, sentinel) != (want == sentinel) {
 			t.Errorf("%v: errors.Is(%v)=%t, want %t", got, sentinel, errors.Is(got, sentinel), want == sentinel)
 		}
