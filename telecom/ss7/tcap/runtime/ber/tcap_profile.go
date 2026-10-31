@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 ee030f3ce6d6685abebac99ec893ddd16c0fd7836d47112a390556be624b9d31.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 2fc917d0d73085e13f7d0c4c6f63bebc22b7d6f5738a300fe9655a92aec17060.
 package ber
 
 import (
@@ -37,6 +37,7 @@ const (
 	tcapKindEnd
 	tcapKindExplicitDiagnostic
 	tcapKindExplicitValue
+	tcapKindExplicitOpenValue
 	tcapKindExternal
 	tcapKindExternalEncoding
 	tcapKindInteger
@@ -256,7 +257,7 @@ func tcapProfileViolation(data []byte, pos, tagLen, lenLen int, indefinite bool,
 // syntax. Q.773 dialogue is owned (§4.2.3); X.880 (07/1994) Annex A linkedId [0]/[1] puts opcode at index 2.
 func tcapProfileOwnsChild(parent tcapKind, index int, linked bool) bool {
 	switch parent {
-	case tcapKindOpenValue:
+	case tcapKindOpenValue, tcapKindExplicitOpenValue:
 		return false
 	case tcapKindInvoke:
 		return index < 2 || linked && index == 2
@@ -568,7 +569,8 @@ func tcapElementType(root, parent tcapKind, t tag.Tag, index int, isRoot bool, s
 		if t.Class == tag.ClassContextSpecific &&
 			(parentKind == tcapKindBind && t.Number >= 16 && t.Number <= 18 ||
 				parentKind == tcapKindUnbind && t.Number >= 19 && t.Number <= 21) {
-			kind = tcapKindOpenValue
+			// X.680 (02/2021) §31.2.7(c); X.690 (02/2021) §8.14.3.
+			kind = tcapKindExplicitOpenValue
 		}
 	case tcapKindAssociateSourceDiagnostic:
 		kind = tcapKindUnknown
@@ -715,7 +717,7 @@ func tcapSequenceElementType(parent tcapKind, t tag.Tag, field, syntax int) (tca
 // validation scan checks these positions even behind value constraints.
 func tcapExplicitType(kind tcapKind) bool {
 	switch kind {
-	case tcapKindDialoguePortion, tcapKindDialogueContent, tcapKindUniDialogueContent, tcapKindExplicitValue, tcapKindExplicitDiagnostic:
+	case tcapKindDialoguePortion, tcapKindDialogueContent, tcapKindUniDialogueContent, tcapKindExplicitValue, tcapKindExplicitDiagnostic, tcapKindExplicitOpenValue:
 		return true
 	}
 	return false

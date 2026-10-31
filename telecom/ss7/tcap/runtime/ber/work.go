@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 5b413c5b953e710a344f8f4035a53e18c5644111d6ff646d6e595cf3b306a8ba.
+// Runtime source: runtime/ber/work.go; SHA-256 c5e79666e5bd329b49eea432187764a3aab91f043baf6b65d184a14be6589ebd.
 package ber
 
 import (
@@ -15,6 +15,7 @@ type berScanFrame struct {
 	dialogueSyntax int
 	end            int
 	indefinite     bool
+	associatedType berAssociatedState
 	segmentTag     int
 	unusedBits     int
 	segmentOffset  int
@@ -192,8 +193,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		return nil
 	}
 	for len(stack) != 0 {
-		parentFrame := &stack[len(stack)-1]
-		parent := parentFrame
+		parent := &stack[len(stack)-1]
 		childIndex := parent.nextChild
 		failureOffset, failureDepth, failureIndex = pos, len(stack), childIndex
 		if pos == parent.end {
@@ -295,7 +295,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				if kind == tcapKindUnknown && t.Class == tag.ClassUniversal && t.Number == tag.TagExternal {
 					kind = tcapKindExternal
 				}
-				parentFrame.profileField = next
+				parent.profileField = next
 			}
 		}
 		// Charge a header and each primitive content octet exactly once as
@@ -361,6 +361,41 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				}
 			}
 		}
+		// X.690 (02/2021) §8.18.1 defines encoding after optional
+		// UNIVERSAL 6, 2, 7, each recognized only in that order. Mirror
+		// decodeExternalValue in external.go; later children are schema
+		// mismatches, not another encoding choice.
+		externalEncoding := false
+		if parent.associatedType >= berExternalBeforeDirect && parent.associatedType < berExternalAfterEncoding {
+			switch {
+			case parent.associatedType == berExternalBeforeDirect && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID:
+				parent.associatedType = berExternalAfterDirect
+			case parent.associatedType <= berExternalAfterDirect && t.Class == tag.ClassUniversal && t.Number == tag.TagInteger:
+				parent.associatedType = berExternalAfterIndirect
+			case parent.associatedType <= berExternalAfterIndirect && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectDesc:
+				parent.associatedType = berExternalAfterDescriptor
+			default:
+				externalEncoding = true
+				parent.associatedType = berExternalAfterEncoding
+			}
+		}
+		// X.690 (02/2021) §8.18.1 assumes EXPLICIT TAGS, so
+		// single-ASN1-type is explicit by X.680 (02/2021) §31.2.7 b)
+		// and constructed by X.690 §8.14.3. EMBEDDED PDV/CHARACTER
+		// STRING identification is explicit by X.680 §§36.5, 44.5,
+		// 31.2.7 c), encoded by X.690 §§8.17.1, 8.24.1.
+		if parent.associatedType != berNoAssociatedType && t.Class == tag.ClassContextSpecific && t.Number == 0 && !t.Constructed && !indefinite &&
+			(externalEncoding || parent.associatedType < berExternalBeforeDirect && childIndex == 0) {
+			if parent.associatedType >= berExternalBeforeDirect {
+				// Profile-owned EXTERNALs have an explicit-form rule and
+				// typed decoder. Retain their first error and schema Path.
+				if !config.profile || !tcapExplicitType(kind) || !tcapProfileOwnsElement(data, stack, *parent) {
+					return fmt.Errorf("%w: single-ASN1-type must be explicit", ErrInvalidTag)
+				}
+			} else {
+				return fmt.Errorf("%w: identification must be explicit", ErrInvalidTag)
+			}
+		}
 		// Checked before either length branch, so an indefinite length
 		// cannot carry a constructed primitive-only type past it.
 		if err := checkUniversalForm(t); err != nil {
@@ -417,7 +452,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{profileType: kind, end: parent.end, indefinite: true, segmentTag: tcapSegmentTag(t, kind), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
+			stack = append(stack, berScanFrame{profileType: kind, end: parent.end, indefinite: true, segmentTag: tcapSegmentTag(t, kind), associatedType: berAssociatedType(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 			continue
 		}
@@ -430,10 +465,10 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		end := start + length
 		// X.690 (02/2021) §8.18.4 Table 2: an indirect reference
 		// makes identification presentation-context-dependent (decision B).
-		if config.profile && parent.profileType == tcapKindDialogueExternal && parentFrame.profileField >= 0 && t.Class == tag.ClassUniversal && t.Number == tag.TagInteger {
+		if config.profile && parent.profileType == tcapKindDialogueExternal && parent.profileField >= 0 && t.Class == tag.ClassUniversal && t.Number == tag.TagInteger {
 			stack[len(stack)-1].dialogueSyntax = -1
 		}
-		if config.profile && parent.profileType == tcapKindDialogueExternal && parentFrame.profileField >= 0 && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID && parent.dialogueSyntax >= 0 {
+		if config.profile && parent.profileType == tcapKindDialogueExternal && parent.profileField >= 0 && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID && parent.dialogueSyntax >= 0 {
 			content := data[start:end]
 			if bytes.Equal(content, []byte{0, 17, 134, 5, 1, 1, 1}) {
 				stack[len(stack)-1].dialogueSyntax = 1
@@ -526,7 +561,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{profileType: kind, end: end, segmentTag: tcapSegmentTag(t, kind), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
+			stack = append(stack, berScanFrame{profileType: kind, end: end, segmentTag: tcapSegmentTag(t, kind), associatedType: berAssociatedType(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 		} else {
 			if shortSpans != nil {
@@ -786,4 +821,36 @@ func markBERForm(form *berFormState, t tag.Tag, lengthOctets []byte, indefinite 
 			}
 		}
 	}
+}
+
+// berAssociatedState combines associated-type identity and EXTERNAL progress.
+// EXTERNAL components advance in the order of X.690 (02/2021) §8.18.1.
+type berAssociatedState byte
+
+const (
+	berNoAssociatedType berAssociatedState = iota
+	berEmbeddedPDV
+	berCharacterString
+	berExternalBeforeDirect
+	berExternalAfterDirect
+	berExternalAfterIndirect
+	berExternalAfterDescriptor
+	berExternalAfterEncoding
+)
+
+// berAssociatedType returns the initial universal associated-type state; it
+// does not infer a schema for application or context-specific open values.
+// X.690 (02/2021) §§8.17.1, 8.18.1, 8.24.1.
+func berAssociatedType(t tag.Tag) berAssociatedState {
+	if t.Class == tag.ClassUniversal {
+		switch t.Number {
+		case tag.TagExternal:
+			return berExternalBeforeDirect
+		case tag.TagEmbeddedPDV:
+			return berEmbeddedPDV
+		case tag.TagCharacterString:
+			return berCharacterString
+		}
+	}
+	return berNoAssociatedType
 }
