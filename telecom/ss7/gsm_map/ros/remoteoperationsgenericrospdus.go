@@ -2890,11 +2890,13 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err := checkOpaqueElement(enc_0, opts, "bind-invoke", -1, "Remote-Operations-Generic-ROS-PDUs.Bind.bind-invoke", nil); err != nil {
 			return nil, qualifyBERError(err, "bind-invoke", "encoding", false)
 		}
-		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_0)
-		if tagErr_enc_0 != nil {
-			return nil, qualifyBERError(tagErr_enc_0, "bind-invoke", "encoding", false)
+		{
+			var encodeErr error
+			enc_0, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 16, enc_0)
+			if encodeErr != nil {
+				return nil, qualifyBERError(encodeErr, "bind-invoke", "encoding", false)
+			}
 		}
-		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case BindChoiceBindResult:
 		if v.BindResult == nil {
@@ -2907,11 +2909,13 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err := checkOpaqueElement(enc_1, opts, "bind-result", -1, "Remote-Operations-Generic-ROS-PDUs.Bind.bind-result", nil); err != nil {
 			return nil, qualifyBERError(err, "bind-result", "encoding", false)
 		}
-		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_1)
-		if tagErr_enc_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_1, "bind-result", "encoding", false)
+		{
+			var encodeErr error
+			enc_1, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 17, enc_1)
+			if encodeErr != nil {
+				return nil, qualifyBERError(encodeErr, "bind-result", "encoding", false)
+			}
 		}
-		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case BindChoiceBindError:
 		if v.BindError == nil {
@@ -2924,11 +2928,13 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err := checkOpaqueElement(enc_2, opts, "bind-error", -1, "Remote-Operations-Generic-ROS-PDUs.Bind.bind-error", nil); err != nil {
 			return nil, qualifyBERError(err, "bind-error", "encoding", false)
 		}
-		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_2)
-		if tagErr_enc_2 != nil {
-			return nil, qualifyBERError(tagErr_enc_2, "bind-error", "encoding", false)
+		{
+			var encodeErr error
+			enc_2, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 18, enc_2)
+			if encodeErr != nil {
+				return nil, qualifyBERError(encodeErr, "bind-error", "encoding", false)
+			}
 		}
-		enc_2 = retagged_enc_2
 		return enc_2, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for Bind", v.Choice)
@@ -3010,23 +3016,89 @@ func (destination *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 		return &ber.DecodeError{Offset: total, TypeName: "Bind", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
+	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) && peekTag.Constructed != true {
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Bind.bind-invoke", "decoding", false)
+	}
+	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) && peekTag.Constructed != true {
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Bind.bind-result", "decoding", false)
+	}
+	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) && peekTag.Constructed != true {
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Bind.bind-error", "decoding", false)
+	}
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = BindChoiceBindInvoke
 		ber.MarkPreflightTarget(opts, "bind-invoke", choiceData)
-		ber.MarkPreflightOpaque(opts, "bind-invoke", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
+		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData, opts...)
+		if tlvErr != nil {
+			return qualifyBERError(tlvErr, "bind-invoke", "decoding", false)
+		}
+		ber.MarkPreflightTarget(opts, "bind-invoke", innerData)
+		if len(innerData) == 0 {
+			return qualifyBERError(ber.ErrUnexpectedElement, "bind-invoke", "decoding", false)
+		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return qualifyBERError(innerErr, "bind-invoke", "decoding", false)
+		}
+		if innerUsed != len(innerData) {
+			return qualifyBERError(ber.ErrUnexpectedElement, "bind-invoke", "decoding", false)
+		}
+		ber.MarkPreflightOpaque(opts, "bind-invoke", innerData, len(innerData))
+		rawTag, _, rawErr := ber.DecodeTag(innerData)
+		if rawErr != nil {
+			return rawErr
+		}
+		tmpRaw := runtime.RawValue{Class: int(rawTag.Class), Tag: rawTag.Number, Constructed: rawTag.Constructed, Bytes: append([]byte(nil), innerData...)}
 		v.BindInvoke = &tmpRaw
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 && peekTag.Constructed == true {
 		v.Choice = BindChoiceBindResult
 		ber.MarkPreflightTarget(opts, "bind-result", choiceData)
-		ber.MarkPreflightOpaque(opts, "bind-result", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
+		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData, opts...)
+		if tlvErr != nil {
+			return qualifyBERError(tlvErr, "bind-result", "decoding", false)
+		}
+		ber.MarkPreflightTarget(opts, "bind-result", innerData)
+		if len(innerData) == 0 {
+			return qualifyBERError(ber.ErrUnexpectedElement, "bind-result", "decoding", false)
+		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return qualifyBERError(innerErr, "bind-result", "decoding", false)
+		}
+		if innerUsed != len(innerData) {
+			return qualifyBERError(ber.ErrUnexpectedElement, "bind-result", "decoding", false)
+		}
+		ber.MarkPreflightOpaque(opts, "bind-result", innerData, len(innerData))
+		rawTag, _, rawErr := ber.DecodeTag(innerData)
+		if rawErr != nil {
+			return rawErr
+		}
+		tmpRaw := runtime.RawValue{Class: int(rawTag.Class), Tag: rawTag.Number, Constructed: rawTag.Constructed, Bytes: append([]byte(nil), innerData...)}
 		v.BindResult = &tmpRaw
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 && peekTag.Constructed == true {
 		v.Choice = BindChoiceBindError
 		ber.MarkPreflightTarget(opts, "bind-error", choiceData)
-		ber.MarkPreflightOpaque(opts, "bind-error", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
+		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData, opts...)
+		if tlvErr != nil {
+			return qualifyBERError(tlvErr, "bind-error", "decoding", false)
+		}
+		ber.MarkPreflightTarget(opts, "bind-error", innerData)
+		if len(innerData) == 0 {
+			return qualifyBERError(ber.ErrUnexpectedElement, "bind-error", "decoding", false)
+		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return qualifyBERError(innerErr, "bind-error", "decoding", false)
+		}
+		if innerUsed != len(innerData) {
+			return qualifyBERError(ber.ErrUnexpectedElement, "bind-error", "decoding", false)
+		}
+		ber.MarkPreflightOpaque(opts, "bind-error", innerData, len(innerData))
+		rawTag, _, rawErr := ber.DecodeTag(innerData)
+		if rawErr != nil {
+			return rawErr
+		}
+		tmpRaw := runtime.RawValue{Class: int(rawTag.Class), Tag: rawTag.Number, Constructed: rawTag.Constructed, Bytes: append([]byte(nil), innerData...)}
 		v.BindError = &tmpRaw
 	} else {
 		return fmt.Errorf("%w: unknown tag %s for Bind CHOICE", ber.ErrUnexpectedElement, peekTag)
@@ -3067,11 +3139,13 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err := checkOpaqueElement(enc_0, opts, "unbind-invoke", -1, "Remote-Operations-Generic-ROS-PDUs.Unbind.unbind-invoke", nil); err != nil {
 			return nil, qualifyBERError(err, "unbind-invoke", "encoding", false)
 		}
-		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_0)
-		if tagErr_enc_0 != nil {
-			return nil, qualifyBERError(tagErr_enc_0, "unbind-invoke", "encoding", false)
+		{
+			var encodeErr error
+			enc_0, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 19, enc_0)
+			if encodeErr != nil {
+				return nil, qualifyBERError(encodeErr, "unbind-invoke", "encoding", false)
+			}
 		}
-		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case UnbindChoiceUnbindResult:
 		if v.UnbindResult == nil {
@@ -3084,11 +3158,13 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err := checkOpaqueElement(enc_1, opts, "unbind-result", -1, "Remote-Operations-Generic-ROS-PDUs.Unbind.unbind-result", nil); err != nil {
 			return nil, qualifyBERError(err, "unbind-result", "encoding", false)
 		}
-		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, enc_1)
-		if tagErr_enc_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_1, "unbind-result", "encoding", false)
+		{
+			var encodeErr error
+			enc_1, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 20, enc_1)
+			if encodeErr != nil {
+				return nil, qualifyBERError(encodeErr, "unbind-result", "encoding", false)
+			}
 		}
-		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case UnbindChoiceUnbindError:
 		if v.UnbindError == nil {
@@ -3101,11 +3177,13 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err := checkOpaqueElement(enc_2, opts, "unbind-error", -1, "Remote-Operations-Generic-ROS-PDUs.Unbind.unbind-error", nil); err != nil {
 			return nil, qualifyBERError(err, "unbind-error", "encoding", false)
 		}
-		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, enc_2)
-		if tagErr_enc_2 != nil {
-			return nil, qualifyBERError(tagErr_enc_2, "unbind-error", "encoding", false)
+		{
+			var encodeErr error
+			enc_2, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 21, enc_2)
+			if encodeErr != nil {
+				return nil, qualifyBERError(encodeErr, "unbind-error", "encoding", false)
+			}
 		}
-		enc_2 = retagged_enc_2
 		return enc_2, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for Unbind", v.Choice)
@@ -3187,23 +3265,89 @@ func (destination *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		return &ber.DecodeError{Offset: total, TypeName: "Unbind", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
+	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) && peekTag.Constructed != true {
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Unbind.unbind-invoke", "decoding", false)
+	}
+	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) && peekTag.Constructed != true {
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Unbind.unbind-result", "decoding", false)
+	}
+	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) && peekTag.Constructed != true {
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Unbind.unbind-error", "decoding", false)
+	}
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 && peekTag.Constructed == true {
 		v.Choice = UnbindChoiceUnbindInvoke
 		ber.MarkPreflightTarget(opts, "unbind-invoke", choiceData)
-		ber.MarkPreflightOpaque(opts, "unbind-invoke", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
+		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData, opts...)
+		if tlvErr != nil {
+			return qualifyBERError(tlvErr, "unbind-invoke", "decoding", false)
+		}
+		ber.MarkPreflightTarget(opts, "unbind-invoke", innerData)
+		if len(innerData) == 0 {
+			return qualifyBERError(ber.ErrUnexpectedElement, "unbind-invoke", "decoding", false)
+		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return qualifyBERError(innerErr, "unbind-invoke", "decoding", false)
+		}
+		if innerUsed != len(innerData) {
+			return qualifyBERError(ber.ErrUnexpectedElement, "unbind-invoke", "decoding", false)
+		}
+		ber.MarkPreflightOpaque(opts, "unbind-invoke", innerData, len(innerData))
+		rawTag, _, rawErr := ber.DecodeTag(innerData)
+		if rawErr != nil {
+			return rawErr
+		}
+		tmpRaw := runtime.RawValue{Class: int(rawTag.Class), Tag: rawTag.Number, Constructed: rawTag.Constructed, Bytes: append([]byte(nil), innerData...)}
 		v.UnbindInvoke = &tmpRaw
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 && peekTag.Constructed == true {
 		v.Choice = UnbindChoiceUnbindResult
 		ber.MarkPreflightTarget(opts, "unbind-result", choiceData)
-		ber.MarkPreflightOpaque(opts, "unbind-result", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
+		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData, opts...)
+		if tlvErr != nil {
+			return qualifyBERError(tlvErr, "unbind-result", "decoding", false)
+		}
+		ber.MarkPreflightTarget(opts, "unbind-result", innerData)
+		if len(innerData) == 0 {
+			return qualifyBERError(ber.ErrUnexpectedElement, "unbind-result", "decoding", false)
+		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return qualifyBERError(innerErr, "unbind-result", "decoding", false)
+		}
+		if innerUsed != len(innerData) {
+			return qualifyBERError(ber.ErrUnexpectedElement, "unbind-result", "decoding", false)
+		}
+		ber.MarkPreflightOpaque(opts, "unbind-result", innerData, len(innerData))
+		rawTag, _, rawErr := ber.DecodeTag(innerData)
+		if rawErr != nil {
+			return rawErr
+		}
+		tmpRaw := runtime.RawValue{Class: int(rawTag.Class), Tag: rawTag.Number, Constructed: rawTag.Constructed, Bytes: append([]byte(nil), innerData...)}
 		v.UnbindResult = &tmpRaw
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 && peekTag.Constructed == true {
 		v.Choice = UnbindChoiceUnbindError
 		ber.MarkPreflightTarget(opts, "unbind-error", choiceData)
-		ber.MarkPreflightOpaque(opts, "unbind-error", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
+		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData, opts...)
+		if tlvErr != nil {
+			return qualifyBERError(tlvErr, "unbind-error", "decoding", false)
+		}
+		ber.MarkPreflightTarget(opts, "unbind-error", innerData)
+		if len(innerData) == 0 {
+			return qualifyBERError(ber.ErrUnexpectedElement, "unbind-error", "decoding", false)
+		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return qualifyBERError(innerErr, "unbind-error", "decoding", false)
+		}
+		if innerUsed != len(innerData) {
+			return qualifyBERError(ber.ErrUnexpectedElement, "unbind-error", "decoding", false)
+		}
+		ber.MarkPreflightOpaque(opts, "unbind-error", innerData, len(innerData))
+		rawTag, _, rawErr := ber.DecodeTag(innerData)
+		if rawErr != nil {
+			return rawErr
+		}
+		tmpRaw := runtime.RawValue{Class: int(rawTag.Class), Tag: rawTag.Number, Constructed: rawTag.Constructed, Bytes: append([]byte(nil), innerData...)}
 		v.UnbindError = &tmpRaw
 	} else {
 		return fmt.Errorf("%w: unknown tag %s for Unbind CHOICE", ber.ErrUnexpectedElement, peekTag)
