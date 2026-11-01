@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "4da217f6e6234e84ca94d6718dbb5a910890e125",
-    "tree": "dcb4885118bc604af0f8d7b3c5215a7c37bcbcee",
+    "commit": "0c2b23686eaf04f4586192b8f54778c2ebda694e",
+    "tree": "c475fda06a65e0961ca8f4ed08a07b690119591b",
     "dirty": false
   },
   "source_lock": {
@@ -785,6 +785,18 @@
   },
   "runtime_original": [
     {
+      "path": "ber/associated_allocation_test.go",
+      "mode": "0644",
+      "size": 1347,
+      "sha256": "7be26649a0f0a0b23559090ec5aea9e6f90dc462a9dac0cc79742f3cafe930f1"
+    },
+    {
+      "path": "ber/associated_cardinality_test.go",
+      "mode": "0644",
+      "size": 7790,
+      "sha256": "cc820b4623120075680a359af33353c4fd22d56503f2ae0bc6569db5d7274e47"
+    },
+    {
       "path": "ber/associated_explicit_test.go",
       "mode": "0644",
       "size": 3048,
@@ -889,8 +901,8 @@
     {
       "path": "ber/decoder.go",
       "mode": "0644",
-      "size": 67273,
-      "sha256": "ace540101f267f3d8c0e83e61db7c8b044c822661fd11890aa53ad10a5a8a13f"
+      "size": 67524,
+      "sha256": "6c38d7c2d123e05fbf37170467581cf50f26779a67d4333535909bd6b7c5b437"
     },
     {
       "path": "ber/depth_overflow_test.go",
@@ -1597,8 +1609,8 @@
     {
       "path": "ber/universal_form_test.go",
       "mode": "0644",
-      "size": 5154,
-      "sha256": "964917ef0092b1122fe740498ba2fbfa4e6732fa22ed26b6232ab3a4197c74b4"
+      "size": 5259,
+      "sha256": "7db93697d3f8f27d3a58ab99423c4a59a9ccb26b5d186a7812b361b622243f09"
     },
     {
       "path": "ber/unused_bits.go",
@@ -1669,8 +1681,8 @@
     {
       "path": "ber/work.go",
       "mode": "0644",
-      "size": 27815,
-      "sha256": "dd0417ae4ceb3d21d902442d7c14b6d653653866f21ede4f985ab69028e09b2f"
+      "size": 28881,
+      "sha256": "3e48b749630eff6f972bcc5554c8c46f7d4dbf148788164aeefecc6b855ecb69"
     },
     {
       "path": "ber/work_encode_test.go",
@@ -1825,6 +1837,18 @@
   ],
   "runtime_emitted": [
     {
+      "path": "ber/associated_allocation_test.go",
+      "mode": "0644",
+      "size": 1540,
+      "sha256": "e6ac6b1e5950bdf36230f18804bc0e57f44880093f4868788f679c00e58761f7"
+    },
+    {
+      "path": "ber/associated_cardinality_test.go",
+      "mode": "0644",
+      "size": 7984,
+      "sha256": "361704589cee073887536e23744833a392b6fbdf7894a4f4a8e1216d4cebdcd6"
+    },
+    {
       "path": "ber/associated_explicit_test.go",
       "mode": "0644",
       "size": 3239,
@@ -1929,8 +1953,8 @@
     {
       "path": "ber/decoder.go",
       "mode": "0644",
-      "size": 67457,
-      "sha256": "a513e7a2fd5ff28e7a4798b36325d46396631000153dff92991882446496bc7f"
+      "size": 67708,
+      "sha256": "7377852c7232fc433551fc6efe6fca14699ee5777b7444d55baf6ee1778fab67"
     },
     {
       "path": "ber/depth_overflow_test.go",
@@ -2631,8 +2655,8 @@
     {
       "path": "ber/universal_form_test.go",
       "mode": "0644",
-      "size": 5340,
-      "sha256": "b85147f874f7dca09a1cc5d874a4a078e3af999e5a67fe87465452e340f22139"
+      "size": 5445,
+      "sha256": "dd2cdadc771dde76d17403c4ec8472f76d5ddce44dff62c9a78b30ad57f80077"
     },
     {
       "path": "ber/unused_bits.go",
@@ -2703,8 +2727,8 @@
     {
       "path": "ber/work.go",
       "mode": "0644",
-      "size": 27991,
-      "sha256": "22c865151172f0e16f5a84a80e5d12cf196a355da83c276cad4e0d5fc8a5138c"
+      "size": 29057,
+      "sha256": "b4d07df17cd3a78f3eee3d62911aee37faee52f75353cf96f378c6991a75c7be"
     },
     {
       "path": "ber/work_encode_test.go",
@@ -3123,6 +3147,18 @@
       "sha256": "9a04093a75bb782e2ff63c872b19cbf4ca35f4405c3c6fdd71f85a294a26f495"
     },
     {
+      "path": "runtime/ber/associated_allocation_test.go",
+      "mode": "0644",
+      "size": 1540,
+      "sha256": "e6ac6b1e5950bdf36230f18804bc0e57f44880093f4868788f679c00e58761f7"
+    },
+    {
+      "path": "runtime/ber/associated_cardinality_test.go",
+      "mode": "0644",
+      "size": 7984,
+      "sha256": "361704589cee073887536e23744833a392b6fbdf7894a4f4a8e1216d4cebdcd6"
+    },
+    {
       "path": "runtime/ber/associated_explicit_test.go",
       "mode": "0644",
       "size": 3239,
@@ -3227,8 +3263,8 @@
     {
       "path": "runtime/ber/decoder.go",
       "mode": "0644",
-      "size": 67457,
-      "sha256": "a513e7a2fd5ff28e7a4798b36325d46396631000153dff92991882446496bc7f"
+      "size": 67708,
+      "sha256": "7377852c7232fc433551fc6efe6fca14699ee5777b7444d55baf6ee1778fab67"
     },
     {
       "path": "runtime/ber/depth_overflow_test.go",
@@ -3929,8 +3965,8 @@
     {
       "path": "runtime/ber/universal_form_test.go",
       "mode": "0644",
-      "size": 5340,
-      "sha256": "b85147f874f7dca09a1cc5d874a4a078e3af999e5a67fe87465452e340f22139"
+      "size": 5445,
+      "sha256": "dd2cdadc771dde76d17403c4ec8472f76d5ddce44dff62c9a78b30ad57f80077"
     },
     {
       "path": "runtime/ber/unused_bits.go",
@@ -4001,8 +4037,8 @@
     {
       "path": "runtime/ber/work.go",
       "mode": "0644",
-      "size": 27991,
-      "sha256": "22c865151172f0e16f5a84a80e5d12cf196a355da83c276cad4e0d5fc8a5138c"
+      "size": 29057,
+      "sha256": "b4d07df17cd3a78f3eee3d62911aee37faee52f75353cf96f378c6991a75c7be"
     },
     {
       "path": "runtime/ber/work_encode_test.go",
