@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/universal_form_test.go; SHA-256 964917ef0092b1122fe740498ba2fbfa4e6732fa22ed26b6232ab3a4197c74b4.
+// Runtime source: runtime/ber/universal_form_test.go; SHA-256 7db93697d3f8f27d3a58ab99423c4a59a9ccb26b5d186a7812b361b622243f09.
 package ber
 
 import (
@@ -76,9 +76,10 @@ func TestValidateBERElementUniversalForms(t *testing.T) {
 	}
 }
 
-// The DER validator applies the same universal forms.
+// The DER validator applies the same universal forms and associated types.
+// X.690 (02/2021) §§8.24.1, 10–11; X.680 (02/2021) §44.5.
 func TestValidateDERElementUniversalForms(t *testing.T) {
-	for _, wire := range []string{"1d00", "3f1f00", "3f2000", "3f2100", "3f2200", "3f2300", "3f2400", "2e03" + "0e0130"} {
+	for _, wire := range []string{"3d00", "1d00", "3f1f00", "3f2000", "3f2100", "3f2200", "3f2300", "3f2400", "2e03" + "0e0130"} {
 		data, err := hex.DecodeString(wire)
 		if err != nil {
 			t.Fatal(err)
@@ -87,7 +88,7 @@ func TestValidateDERElementUniversalForms(t *testing.T) {
 			t.Errorf("DER %s: error = %v, want ErrInvalidValue", wire, err)
 		}
 	}
-	for _, wire := range []string{"3d00", "1f230130", "0e0130", "1f1f00"} {
+	for _, wire := range []string{"3d06a00285008200", "1f230130", "0e0130", "1f1f00"} {
 		data, err := hex.DecodeString(wire)
 		if err != nil {
 			t.Fatal(err)

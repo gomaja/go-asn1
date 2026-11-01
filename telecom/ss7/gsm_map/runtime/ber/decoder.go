@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 ace540101f267f3d8c0e83e61db7c8b044c822661fd11890aa53ad10a5a8a13f.
+// Runtime source: runtime/ber/decoder.go; SHA-256 6c38d7c2d123e05fbf37170467581cf50f26779a67d4333535909bd6b7c5b437.
 package ber
 
 import (
@@ -524,8 +524,15 @@ func validateDERUniversalValue(t tag.Tag, value []byte) error {
 		if !utf8.Valid(value) {
 			return errInvalidUTF8String
 		}
-	case tag.TagEmbeddedPDV:
-		if err := validateDEREmbeddedPDV(value); err != nil {
+	case tag.TagEmbeddedPDV, tag.TagCharacterString:
+		// X.690 (02/2021) §§8.17.1, 8.24.1 use the associated types
+		// of X.680 (02/2021) §§36.5, 44.5. X.690 §§10–11 apply DER
+		// to both: "shall be the CER or DER encoding, as appropriate".
+		name := "EMBEDDED PDV"
+		if t.Number == tag.TagCharacterString {
+			name = "CHARACTER STRING"
+		}
+		if err := validateDERAssociatedType(value, name); err != nil {
 			return invalid(err.Error())
 		}
 	case tag.TagUTCTime:
@@ -553,42 +560,43 @@ func validateDERUniversalValue(t tag.Tag, value []byte) error {
 // X.690 (02/2021) §8.17.1 encodes the associated type in X.680
 // (02/2021) §36.5. Automatic tags give identification [0] EXPLICIT,
 // its alternatives [0]–[5], and data-value [2] IMPLICIT OCTET STRING.
-// The associated type forbids data-value-descriptor.
-func validateDEREmbeddedPDV(value []byte) error {
-	ident, n, choice, err := DecodeTLV(value, encodingStructureOption(value))
+// The associated type forbids data-value-descriptor. DecodeEncodedTLV retains
+// input-sized framing limits without constructing an option for each child.
+func validateDERAssociatedType(value []byte, name string) error {
+	ident, n, choice, err := DecodeEncodedTLV(value)
 	if err != nil {
 		return err
 	}
 	if ident.Class != tag.ClassContextSpecific || ident.Number != 0 || !ident.Constructed {
-		return fmt.Errorf("EMBEDDED PDV identification must be [0] EXPLICIT")
+		return fmt.Errorf("%s identification must be [0] EXPLICIT", name)
 	}
-	alt, altLen, altValue, err := DecodeTLV(choice, encodingStructureOption(choice))
+	alt, altLen, altValue, err := DecodeEncodedTLV(choice)
 	if err != nil {
 		return err
 	}
 	if altLen != len(choice) || alt.Class != tag.ClassContextSpecific {
-		return fmt.Errorf("EMBEDDED PDV identification must contain one alternative")
+		return fmt.Errorf("%s identification must contain one alternative", name)
 	}
 	checkImplicit := func(number int, constructed bool, contents []byte) error {
 		return validateDERUniversalValue(tag.Tag{Class: tag.ClassUniversal, Number: number, Constructed: constructed}, contents)
 	}
 	checkPair := func(contents []byte, first, second int) error {
-		left, used, leftValue, err := DecodeTLV(contents, encodingStructureOption(contents))
+		left, used, leftValue, err := DecodeEncodedTLV(contents)
 		if err != nil {
 			return err
 		}
 		if used < 0 || used > len(contents) {
-			return fmt.Errorf("EMBEDDED PDV identification pair exceeds contents")
+			return fmt.Errorf("%s identification pair exceeds contents", name)
 		}
-		right, rightLen, rightValue, err := DecodeTLV(contents[used:], encodingStructureOption(contents[used:]))
+		right, rightLen, rightValue, err := DecodeEncodedTLV(contents[used:])
 		if err != nil {
 			return err
 		}
 		if rightLen < 0 || rightLen > len(contents)-used {
-			return fmt.Errorf("EMBEDDED PDV identification pair exceeds contents")
+			return fmt.Errorf("%s identification pair exceeds contents", name)
 		}
 		if used+rightLen != len(contents) || left.Class != tag.ClassContextSpecific || left.Number != 0 || left.Constructed || right.Class != tag.ClassContextSpecific || right.Number != 1 || right.Constructed {
-			return fmt.Errorf("EMBEDDED PDV identification pair has invalid components")
+			return fmt.Errorf("%s identification pair has invalid components", name)
 		}
 		if err := checkImplicit(first, false, leftValue); err != nil {
 			return err
@@ -598,47 +606,47 @@ func validateDEREmbeddedPDV(value []byte) error {
 	switch alt.Number {
 	case 0: // syntaxes: SEQUENCE { abstract OID, transfer OID }
 		if !alt.Constructed {
-			return fmt.Errorf("EMBEDDED PDV syntaxes must be constructed")
+			return fmt.Errorf("%s syntaxes must be constructed", name)
 		}
 		err = checkPair(altValue, tag.TagObjectID, tag.TagObjectID)
 	case 1, 4: // syntax or transfer-syntax: OID
 		if alt.Constructed {
-			return fmt.Errorf("EMBEDDED PDV OID identification must be primitive")
+			return fmt.Errorf("%s OID identification must be primitive", name)
 		}
 		err = checkImplicit(tag.TagObjectID, false, altValue)
 	case 2: // presentation-context-id: INTEGER
 		if alt.Constructed {
-			return fmt.Errorf("EMBEDDED PDV context id must be primitive")
+			return fmt.Errorf("%s context id must be primitive", name)
 		}
 		err = checkImplicit(tag.TagInteger, false, altValue)
 	case 3: // context-negotiation: SEQUENCE { context id, transfer OID }
 		if !alt.Constructed {
-			return fmt.Errorf("EMBEDDED PDV context negotiation must be constructed")
+			return fmt.Errorf("%s context negotiation must be constructed", name)
 		}
 		err = checkPair(altValue, tag.TagInteger, tag.TagObjectID)
 	case 5: // fixed: NULL
 		if alt.Constructed {
-			return fmt.Errorf("EMBEDDED PDV fixed must be primitive")
+			return fmt.Errorf("%s fixed must be primitive", name)
 		}
 		err = checkImplicit(tag.TagNull, false, altValue)
 	default:
-		return fmt.Errorf("EMBEDDED PDV identification alternative %d", alt.Number)
+		return fmt.Errorf("%s identification alternative %d", name, alt.Number)
 	}
 	if err != nil {
 		return err
 	}
 	if n < 0 || n > len(value) {
-		return fmt.Errorf("EMBEDDED PDV data-value exceeds contents")
+		return fmt.Errorf("%s data-value exceeds contents", name)
 	}
-	dataTag, dataLen, _, err := DecodeTLV(value[n:], encodingStructureOption(value[n:]))
+	dataTag, dataLen, _, err := DecodeEncodedTLV(value[n:])
 	if err != nil {
 		return err
 	}
 	if dataLen < 0 || dataLen > len(value)-n {
-		return fmt.Errorf("EMBEDDED PDV data-value exceeds contents")
+		return fmt.Errorf("%s data-value exceeds contents", name)
 	}
 	if n+dataLen != len(value) || dataTag.Class != tag.ClassContextSpecific || dataTag.Number != 2 || dataTag.Constructed {
-		return fmt.Errorf("EMBEDDED PDV requires one primitive [2] data-value")
+		return fmt.Errorf("%s requires one primitive [2] data-value", name)
 	}
 	return nil
 }

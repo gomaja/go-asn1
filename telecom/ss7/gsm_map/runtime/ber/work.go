@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 dd0417ae4ceb3d21d902442d7c14b6d653653866f21ede4f985ab69028e09b2f.
+// Runtime source: runtime/ber/work.go; SHA-256 3e48b749630eff6f972bcc5554c8c46f7d4dbf148788164aeefecc6b855ecb69.
 package ber
 
 import (
@@ -185,6 +185,12 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			}
 		}
 		failureOffset, failureDepth, failureIndex = closed.offset, len(stack)-1, closed.index
+		// X.690 (02/2021) §8.14.3: "the contents octets shall be the
+		// complete base encoding". The explicit associated-type wrapper
+		// therefore contains exactly one value; EOC is not a value (§8.1.5).
+		if closed.associatedType == berExplicitAssociatedValue && closed.nextChild != 1 {
+			return ErrUnexpectedElement
+		}
 		if closed.utf8Root && reportUTF8 && !utf8.Valid(*closed.utf8Contents) {
 			position, err := scannedUTF8Location(data, closed.offset, stack[:len(stack)-1], closed.index, config, options)
 			if err != nil {
@@ -318,6 +324,17 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				return fmt.Errorf("%w: identification must be explicit", ErrInvalidTag)
 			}
 		}
+		associatedType := berAssociatedType(t)
+		// X.690 (02/2021) §8.18.1: "an environment of EXPLICIT TAGS";
+		// X.680 (02/2021) §31.2.7 b) makes single-ASN1-type explicit.
+		// X.680 §§36.5, 44.5: "assuming an automatic tagging environment";
+		// their untagged identification CHOICE is explicit under §31.2.7 c).
+		// X.690 §§8.17.1, 8.24.1 encode those associated types. Only the
+		// outer identification [0] is explicit; its alternatives are implicit.
+		if t.Class == tag.ClassContextSpecific && t.Number == 0 && t.Constructed &&
+			(externalEncoding || (parent.associatedType == berEmbeddedPDV || parent.associatedType == berCharacterString) && childIndex == 0) {
+			associatedType = berExplicitAssociatedValue
+		}
 		// Checked before either length branch, so an indefinite length
 		// cannot carry a constructed primitive-only type past it.
 		if err := checkUniversalForm(t); err != nil {
@@ -360,7 +377,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{end: parent.end, indefinite: true, segmentTag: berSegmentTag(t), associatedType: berAssociatedType(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
+			stack = append(stack, berScanFrame{end: parent.end, indefinite: true, segmentTag: berSegmentTag(t), associatedType: associatedType, utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 			continue
 		}
@@ -408,7 +425,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{end: end, segmentTag: berSegmentTag(t), associatedType: berAssociatedType(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
+			stack = append(stack, berScanFrame{end: end, segmentTag: berSegmentTag(t), associatedType: associatedType, utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 		} else {
 			if shortSpans != nil {
@@ -737,6 +754,7 @@ const (
 	berExternalAfterIndirect
 	berExternalAfterDescriptor
 	berExternalAfterEncoding
+	berExplicitAssociatedValue
 )
 
 // berAssociatedType returns the initial universal associated-type state; it

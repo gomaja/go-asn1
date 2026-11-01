@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 2fc917d0d73085e13f7d0c4c6f63bebc22b7d6f5738a300fe9655a92aec17060.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 b321dc64e33b19eec75fbe2837b92c89cf82f63eefb132f98543ee644ca4fcd5.
 package ber
 
 import (
@@ -421,6 +421,10 @@ func (option tcapEncodedProfileOption) applyDecode(config *decodeConfig) error {
 func tcapRootAdmits(root tcapKind, t tag.Tag) bool {
 	class, number := tag.ClassUniversal, tag.TagSequence
 	switch root {
+	case tcapKindTCMessage:
+		// Q.773 (06/1997) §4.1.1 governs only admitted TCAP syntax;
+		// X.690 (02/2021) §8.15 keeps TC-user values in their own syntax.
+		return t.Class == tag.ClassApplication && (t.Number == 1 || t.Number == 2 || t.Number == 4 || t.Number == 5 || t.Number == 7)
 	case tcapKindBegin, tcapKindContinue, tcapKindEnd, tcapKindUnidirectional, tcapKindAbort, tcapKindInvoke,
 		tcapKindReturnResult, tcapKindReturnResultResult, tcapKindReturnError, tcapKindReject, tcapKindUserInformation:
 	case tcapKindOrigTransactionID:
@@ -914,14 +918,49 @@ func sourceAssignment(source []string) string {
 // Resolve ownership only for a profile violation. Q.773 (06/1997) §4.1.1
 // governs TCAP's syntax; X.690 (02/2021) §§8.15, 8.18.6–8.18.11 leave
 // open-type data foreign while retaining EXTERNAL choice and segment headers.
-func tcapProfileOwnsElement(data []byte, stack []berScanFrame, parent berScanFrame) bool {
+func tcapProfileOwnsElement(data []byte, stack []berScanFrame, parent berScanFrame, root tcapKind) bool {
+	// Q.773 (06/1997) §4.1.1 supplies no fields below an unadmitted
+	// TCMessage alternative. X.690 (02/2021) §8.15 still governs open values.
+	if root == tcapKindTCMessage {
+		identifier, _, err := DecodeTag(data)
+		if err == nil && identifier.Class == tag.ClassApplication && !tcapRootAdmits(root, identifier) {
+			return false
+		}
+	}
 	if !tcapProfileOwnsChildAt(data, parent, parent.nextChild) {
 		return false
 	}
 	outer := stack[0]
+	misplaced := false
 	for _, ancestor := range stack[1:] {
 		if !tcapProfileOwnsChildAt(data, outer, ancestor.index) {
 			return false
+		}
+		// Q.773 (06/1997) §4.1.1 governs TCAP's fields; X.690
+		// (02/2021) §8.15 keeps the complete TC-user value foreign
+		// even in a misplaced component portion. Recover only that
+		// ownership boundary here. The scan's grammar and IMPLICIT
+		// base-type classification remain unchanged outside their
+		// admitted positions (X.680 (02/2021) §§25, 31).
+		if ancestor.profileType == tcapKindUnknown {
+			identifier, _, err := DecodeTag(data[ancestor.offset:])
+			if err == nil {
+				switch outer.profileType {
+				case tcapKindBegin, tcapKindContinue, tcapKindEnd, tcapKindUnidirectional, tcapKindAbort:
+					if identifier.Class == tag.ClassApplication && identifier.Number == 12 && identifier.Constructed {
+						ancestor.profileType = tcapKindComponentPortion
+						misplaced = true
+					}
+				case tcapKindComponentPortion:
+					if misplaced {
+						ancestor.profileType = tcapElementType(tcapKindUnknown, tcapKindComponentPortion, identifier, ancestor.index, false, 0)
+					}
+				case tcapKindReturnResult:
+					if misplaced && ancestor.index == 1 && identifier.Class == tag.ClassUniversal && identifier.Number == tag.TagSequence && identifier.Constructed {
+						ancestor.profileType = tcapKindReturnResultResult
+					}
+				}
+			}
 		}
 		if outer.profileType != tcapKindExternal && outer.profileType != tcapKindDialogueExternal {
 			outer = ancestor
@@ -942,7 +981,7 @@ func tcapProfileOwnsElement(data []byte, stack []berScanFrame, parent berScanFra
 		}
 		outer = ancestor
 	}
-	return true
+	return !misplaced || tcapProfileOwnsChildAt(data, outer, parent.nextChild)
 }
 
 func tcapProfileOwnsChildAt(data []byte, parent berScanFrame, index int) bool {

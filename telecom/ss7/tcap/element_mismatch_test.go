@@ -89,8 +89,8 @@ func TestExplicitWrappersAndIntegerForms(t *testing.T) {
 		decode, scan error
 	}{
 		{"62204801016b1b2819060700118605010101a00e600ba10906070400000100130305", "child[1].child[0].child[1].child[1]", ber.ErrTruncated, ber.ErrTruncated},
-		{"62124801016b0d280b060700118605010101a000", "begin.dialoguePortion", ber.ErrUnexpectedElement, nil},
-		{"620d4801016b08280606022a03a000", "begin.dialoguePortion", ber.ErrUnexpectedElement, nil},
+		{"62124801016b0d280b060700118605010101a000", "begin.dialoguePortion", ber.ErrUnexpectedElement, ber.ErrUnexpectedElement},
+		{"620d4801016b08280606022a03a000", "begin.dialoguePortion", ber.ErrUnexpectedElement, ber.ErrUnexpectedElement},
 		{"670449006a00", "abort.dtid", ber.ErrInvalidValue, ber.ErrInvalidTag},
 		{"670749006a03020100", "abort.dtid", ber.ErrInvalidValue, ber.ErrInvalidTag},
 		{"62124801016c0da10b020101a00302010002012d", "begin.components.element[0].basicROS.invoke.linkedId.InvokeLinkedId.present", ber.ErrInvalidTag, ber.ErrInvalidTag},
@@ -182,10 +182,54 @@ func TestStandaloneExternalSentinelClassification(t *testing.T) {
 			_, err = ber.DecodeExternalValue(wire[2:])
 			assertBERErrors(t, err, tc.want)
 			scanWant := tc.want
-			if scanWant == ber.ErrUnexpectedElement || scanWant == ber.ErrInvalidValue {
+			if scanWant == ber.ErrInvalidValue {
 				scanWant = nil
 			}
 			assertBERErrors(t, ber.ValidateBERElement(wire, ber.TrackTCAPForm(nil, "External")...), scanWant)
+		})
+	}
+}
+
+// X.690 (02/2021) §§8.14.3, 8.18.1: the cardinality failure belongs
+// to the explicit single-ASN1-type wrapper, including nested user information.
+func TestStandaloneExternalWrapperLocations(t *testing.T) {
+	for _, tc := range []struct {
+		wire    string
+		offset  int
+		indexes []int
+	}{
+		{"62154804010203046b0d280b060700118605010101a000", 21, []int{1, 0, 1}},
+		{"62374804010203046b2f282d060700118605010101a022600f80020780a109060704000001000103600f80020780a109060704000001000103", 21, []int{1, 0, 1}},
+		{"62314804010203046b292827060700118605010101a01c601a80020780a109060704000001000103be09280706032a0304a000", 49, []int{1, 0, 1, 0, 2, 0, 1}},
+		{"62354804010203046b2d282b060700118605010101a020601e80020780a109060704000001000103be0d280b06032a0304a00405000500", 49, []int{1, 0, 1, 0, 2, 0, 1}},
+		{"651448010105006b0d280b060700118605010101a000", 20, []int{2, 0, 1}},
+	} {
+		t.Run(tc.wire, func(t *testing.T) {
+			wire, err := hex.DecodeString(tc.wire)
+			if err != nil {
+				t.Fatal(err)
+			}
+			for _, profile := range []bool{false, true} {
+				var opts []ber.DecodeOption
+				if profile {
+					opts = ber.TrackTCAPForm(nil, "TCMessage")
+				}
+				err := ber.ValidateBERElement(wire, opts...)
+				assertBERErrors(t, err, ber.ErrUnexpectedElement)
+				var located *ber.ElementError
+				if !errors.As(err, &located) || located.Offset() != tc.offset {
+					t.Fatalf("error=%v, offset want %d", err, tc.offset)
+				}
+				got := located.ChildIndexes()
+				if len(got) != len(tc.indexes) {
+					t.Fatalf("indexes=%v want %v", got, tc.indexes)
+				}
+				for i, index := range tc.indexes {
+					if got[i] != index {
+						t.Fatalf("indexes=%v want %v", got, tc.indexes)
+					}
+				}
+			}
 		})
 	}
 }

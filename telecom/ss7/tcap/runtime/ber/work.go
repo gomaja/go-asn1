@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 c5e79666e5bd329b49eea432187764a3aab91f043baf6b65d184a14be6589ebd.
+// Runtime source: runtime/ber/work.go; SHA-256 fd450928199bc6a7494e42cbe069be0de716c300d3435a0fd1712773d16d2029.
 package ber
 
 import (
@@ -179,6 +179,12 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			}
 		}
 		failureOffset, failureDepth, failureIndex = closed.offset, len(stack)-1, closed.index
+		// X.690 (02/2021) §8.14.3: "the contents octets shall be the
+		// complete base encoding". The explicit associated-type wrapper
+		// therefore contains exactly one value; EOC is not a value (§8.1.5).
+		if closed.associatedType == berExplicitAssociatedValue && closed.nextChild != 1 {
+			return ErrUnexpectedElement
+		}
 		if closed.utf8Root {
 			if err := checkUTF8String(*closed.utf8Contents, closed.utf8Source, config, options, true); err != nil {
 				return err
@@ -322,7 +328,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		if config.profile && !config.collectPositionsOnly && tcapProfileViolation(data, pos, tagLen, lenLen, indefinite, t, kind) {
 			// X.690 (02/2021) §§8.18.10–8.18.11, 8.7.3, 8.6.4:
 			// EXTERNAL string segment headers remain in its containing syntax.
-			if tcapProfileOwnsElement(data, stack, *parent) {
+			if tcapProfileOwnsElement(data, stack, *parent, rootKind) {
 				var indexes []int
 				if len(stack) > 1 {
 					for _, ancestor := range stack[2:] {
@@ -389,12 +395,26 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if parent.associatedType >= berExternalBeforeDirect {
 				// Profile-owned EXTERNALs have an explicit-form rule and
 				// typed decoder. Retain their first error and schema Path.
-				if !config.profile || !tcapExplicitType(kind) || !tcapProfileOwnsElement(data, stack, *parent) {
+				if !config.profile || !tcapExplicitType(kind) || !tcapProfileOwnsElement(data, stack, *parent, rootKind) {
 					return fmt.Errorf("%w: single-ASN1-type must be explicit", ErrInvalidTag)
 				}
 			} else {
 				return fmt.Errorf("%w: identification must be explicit", ErrInvalidTag)
 			}
+		}
+		associatedType := berAssociatedType(t)
+		// X.690 (02/2021) §8.18.1: "an environment of EXPLICIT TAGS";
+		// X.680 (02/2021) §31.2.7 b) makes single-ASN1-type explicit.
+		// X.680 §§36.5, 44.5: "assuming an automatic tagging environment";
+		// their untagged identification CHOICE is explicit under §31.2.7 c).
+		// X.690 §§8.17.1, 8.24.1 encode those associated types. Only the
+		// outer identification [0] is explicit; its alternatives are implicit.
+		// Generated preflight retains the typed decoder's error and Path
+		// at profile-owned positions; standalone scans enforce cardinality.
+		if t.Class == tag.ClassContextSpecific && t.Number == 0 && t.Constructed &&
+			(externalEncoding || (parent.associatedType == berEmbeddedPDV || parent.associatedType == berCharacterString) && childIndex == 0) &&
+			(!(config.generatedPreflight || config.form != nil && config.form.generated) || !config.profile || !tcapExplicitType(kind) || !tcapProfileOwnsElement(data, stack, *parent, rootKind)) {
+			associatedType = berExplicitAssociatedValue
 		}
 		// Checked before either length branch, so an indefinite length
 		// cannot carry a constructed primitive-only type past it.
@@ -405,7 +425,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		// type cannot use constructed indefinite form either.
 		if config.profile && t.Class != tag.ClassUniversal &&
 			!config.generatedPreflight && (config.form == nil || !config.form.generated) {
-			if tcapExplicitType(kind) && !t.Constructed && !indefinite && tcapProfileOwnsElement(data, stack, *parent) {
+			if tcapExplicitType(kind) && !t.Constructed && !indefinite && tcapProfileOwnsElement(data, stack, *parent, rootKind) {
 				return fmt.Errorf("%w: primitive EXPLICIT wrapper", ErrInvalidTag)
 			}
 			// X.690 (02/2021) §8.1.3.2(a): the existing primitive-
@@ -452,7 +472,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{profileType: kind, end: parent.end, indefinite: true, segmentTag: tcapSegmentTag(t, kind), associatedType: berAssociatedType(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
+			stack = append(stack, berScanFrame{profileType: kind, end: parent.end, indefinite: true, segmentTag: tcapSegmentTag(t, kind), associatedType: associatedType, utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 			continue
 		}
@@ -561,7 +581,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{profileType: kind, end: end, segmentTag: tcapSegmentTag(t, kind), associatedType: berAssociatedType(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
+			stack = append(stack, berScanFrame{profileType: kind, end: end, segmentTag: tcapSegmentTag(t, kind), associatedType: associatedType, utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 		} else {
 			if shortSpans != nil {
@@ -836,6 +856,7 @@ const (
 	berExternalAfterIndirect
 	berExternalAfterDescriptor
 	berExternalAfterEncoding
+	berExplicitAssociatedValue
 )
 
 // berAssociatedType returns the initial universal associated-type state; it
