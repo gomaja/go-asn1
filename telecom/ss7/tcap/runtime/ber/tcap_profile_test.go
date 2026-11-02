@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile_test.go; SHA-256 693e5662af67122f4c950207081f9c089d76b089aaa5e4c4242276c9cd348b8f.
+// Runtime source: runtime/ber/tcap_profile_test.go; SHA-256 f8708b2cff488b4f3a1520b591c4eef30231ddf73cfd191775916ea8ec72e309.
 package ber
 
 import (
@@ -12,20 +12,20 @@ import (
 
 func TestTCAPProfile(t *testing.T) {
 	for _, tc := range []struct {
-		wire, rule string
-		offset     int
+		wire, rule, root string
+		offset           int
 	}{
-		{"308100", "short-length", 0},
-		{"3003058100", "short-length", 2},
-		{"30820000", "minimum-length-octets", 0},
-		{"2403040101", "primitive-octet-string", 0},
-		{"2380030207800000", "primitive-bit-string", 0},
+		{"308100", "short-length", "Begin", 0},
+		{"3003058100", "short-length", "Begin", 2},
+		{"30820000", "minimum-length-octets", "Begin", 0},
+		{"2403040101", "primitive-octet-string", "OctetString", 0},
+		{"2380030207800000", "primitive-bit-string", "BitString", 0},
 	} {
 		data, err := hex.DecodeString(tc.wire)
 		if err != nil {
 			t.Fatal(err)
 		}
-		options := TrackTCAPForm(nil)
+		options := TrackTCAPForm(nil, tc.root)
 		err = ValidateBERElement(data, options...)
 		var failure *ValidationError
 		if !errors.As(err, &failure) || failure.Rule != (RuleRef{Document: "ITU-T Q.773", Edition: "06/1997", Clause: "4.1.1"}) || failure.Offset == nil || *failure.Offset != tc.offset {
@@ -33,7 +33,7 @@ func TestTCAPProfile(t *testing.T) {
 		}
 		var reports ViolationLog
 		options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
-		options = TrackTCAPForm(options)
+		options = TrackTCAPForm(options, tc.root)
 		for range 2 {
 			if err = ValidateBERElement(data, options...); err != nil {
 				t.Fatalf("%s: %v", tc.wire, err)
@@ -49,17 +49,17 @@ func TestTCAPProfile(t *testing.T) {
 	}
 	for _, wire := range []string{"308005000000", "30052403040101"} {
 		data, _ := hex.DecodeString(wire)
-		err := ValidateBERElement(data, TrackTCAPForm(nil)...)
+		err := ValidateBERElement(data, TrackTCAPForm(nil, "Begin")...)
 		if wire == "308005000000" && err != nil {
 			t.Fatal("legal indefinite container rejected", err)
 		}
 	}
 	canonical := append([]byte{0x04, 0x81, 0x80}, bytes.Repeat([]byte{0}, 128)...)
-	if err := ValidateBERElement(canonical, TrackTCAPForm(nil)...); err != nil {
+	if err := ValidateBERElement(canonical, TrackTCAPForm(nil, "OctetString")...); err != nil {
 		t.Fatal("minimal long length rejected", err)
 	}
 	nonminimal := append([]byte{0x04, 0x82, 0, 0x80}, bytes.Repeat([]byte{0}, 128)...)
-	if err := ValidateBERElement(nonminimal, TrackTCAPForm(nil)...); err == nil {
+	if err := ValidateBERElement(nonminimal, TrackTCAPForm(nil, "OctetString")...); err == nil {
 		t.Fatal("leading zero long length accepted")
 	}
 }

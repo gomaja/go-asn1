@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_encode_reports_test.go; SHA-256 f1bff7ec0d2cba386f4b1d758600c23370a44b65b972887136401cd85990ca5f.
+// Runtime source: runtime/ber/tcap_encode_reports_test.go; SHA-256 f8c043eb31d9f0845a6db442b41722081b5b42a35befddde51faa8d2f2f62ece.
 package ber
 
 import (
@@ -19,7 +19,7 @@ func TestTCAPEncodeProfileAbstractPositions(t *testing.T) {
 	// second report for the same abstract position on a repeated staged check.
 	for _, wires := range [][]string{
 		{"02810101", "02810101"},
-		{"6b8200082882000481020000", "6b830000082882000481020000"},
+		{"6b82000b2882000706012a81020000", "6b8300000b2882000706012a81020000"},
 	} {
 		var log ViolationLog
 		options, commit := StageEncodeReports([]EncodeOption{WithTolerance(&log)})

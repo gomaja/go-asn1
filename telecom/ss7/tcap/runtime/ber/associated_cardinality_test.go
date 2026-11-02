@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/associated_cardinality_test.go; SHA-256 616a79ada515c8c3e9696ae4502630f3f541956c56a73715bb57b947f2e71ce4.
+// Runtime source: runtime/ber/associated_cardinality_test.go; SHA-256 d87e75a41f16c7b37b64545df0688486aa8771e70be499a4d36a842e13eb7292.
 package ber
 
 import (
@@ -85,6 +85,8 @@ func TestAssociatedExplicitNestedOpenValues(t *testing.T) {
 			body := associatedCardinalityTLV(0xa0, bytes.Repeat(inner, count), false)
 			if identifier != 0x28 {
 				body = append(body, 0x82, 0)
+			} else {
+				body = append([]byte{6, 1, 0x2a}, body...)
 			}
 			value := associatedCardinalityTLV(identifier, body, false)
 			invoke := associatedCardinalityTLV(0xa1, append([]byte{2, 1, 1, 2, 1, 0x2d}, value...), false)
@@ -100,8 +102,8 @@ func TestAssociatedExplicitNestedOpenValues(t *testing.T) {
 	// A context [0] without an associated-type position has no inferred schema.
 	checkAssociatedCardinalityError(t, ValidateBERElement([]byte{0x30, 2, 0xa0, 0}), nil)
 	// Once EXTERNAL's encoding is past, a later [0] is a schema mismatch,
-	// rather than another explicit encoding position; the typed decoder owns it.
-	checkAssociatedCardinalityError(t, ValidateBERElement([]byte{0x28, 6, 0xa0, 2, 5, 0, 0xa0, 0}), nil)
+	// rather than another explicit encoding position.
+	checkAssociatedCardinalityError(t, ValidateBERElement([]byte{0x28, 9, 6, 1, 0x2a, 0xa0, 2, 5, 0, 0xa0, 0}), ErrUnexpectedElement)
 }
 
 // Standalone profile scans enforce cardinality; generated preflight retains
@@ -129,7 +131,7 @@ func TestAssociatedLaterContextZero(t *testing.T) {
 		for _, later := range [][]byte{{0xa0, 0}, {0xa0, 4, 5, 0, 5, 0}} {
 			for _, indefinite := range []bool{false, true} {
 				wire := associatedCardinalityTLV(outer, append([]byte{0xa0, 2, 0x85, 0}, later...), indefinite)
-				checkAssociatedCardinalityError(t, ValidateBERElement(wire), nil)
+				checkAssociatedCardinalityError(t, ValidateBERElement(wire), ErrUnexpectedElement)
 			}
 		}
 	}

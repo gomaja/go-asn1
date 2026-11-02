@@ -200,7 +200,7 @@ func TestUnknownExternalEncodingPosition(t *testing.T) {
 				t.Fatal(err)
 			}
 			profileDecodeModes(t, func(t *testing.T, options []ber.DecodeOption) {
-				assertImplicitSentinels(t, ber.ValidateBERElement(data, ber.TrackTCAPForm(options, "DialoguePortion")...), nil)
+				assertImplicitSentinels(t, ber.ValidateBERElement(data, ber.TrackTCAPForm(options, "DialoguePortion")...), ber.ErrUnexpectedElement)
 				var value tcap.DialoguePortion
 				assertImplicitSentinels(t, value.UnmarshalBER(data, options...), ber.ErrUnexpectedElement)
 			})

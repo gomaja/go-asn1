@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/universal_form_test.go; SHA-256 7db93697d3f8f27d3a58ab99423c4a59a9ccb26b5d186a7812b361b622243f09.
+// Runtime source: runtime/ber/universal_form_test.go; SHA-256 602c756407945fb20247ddf0e0af2772900a4143c86bde3f90d58756f7b1f658.
 package ber
 
 import (
@@ -62,7 +62,7 @@ func TestValidateBERElementUniversalForms(t *testing.T) {
 	}
 	valid := []string{
 		"0101ff", "020101", "0a0101", "0900", "0500", "06012a", "0d0101",
-		"3000", "3100", "30800000", "2800", "2b00", "3d00", "1f230130", "0e0130", "1f1f00", "a2030201ff", "a280020101" + "0000",
+		"3000", "3100", "30800000", "280806012aa003020101", "2b06a00285008200", "3d06a00285008200", "1f230130", "0e0130", "1f1f00", "a2030201ff", "a280020101" + "0000",
 		"2403040107", "24800401070000", "300302010a",
 	}
 	for _, wire := range valid {

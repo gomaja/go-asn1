@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/implicit_universal_profile_test.go; SHA-256 e6de412bf1960004596ed0106110fb3f50fe0b201bc109e20dd72985b834684e.
+// Runtime source: runtime/ber/implicit_universal_profile_test.go; SHA-256 1e54b3c1f1fe79c9894609ecc43f511da4cc796b0868bc3254fba2a739a87fe1.
 package ber
 
 import (
@@ -210,14 +210,18 @@ func TestProfileExplicitForms(t *testing.T) {
 // retains its open-value boundary; an invalid prefix cannot identify dialogue.
 func TestUnexpectedExternalOpenBoundary(t *testing.T) {
 	for _, row := range []struct{ root, wire string }{
-		{"AARQApdu", "600a2808a006048103616263"},
+		{"AARQApdu", "600d280b06012aa006048103616263"},
 		{"DialoguePortion", "6b1528130500060700118605010101a006048103616263"},
 	} {
 		data, err := hex.DecodeString(row.wire)
 		if err != nil {
 			t.Fatal(err)
 		}
-		assertElementSentinels(t, ValidateBERElement(data, TrackTCAPForm(nil, row.root)...), nil)
+		want := error(nil)
+		if row.root == "DialoguePortion" {
+			want = ErrUnexpectedElement
+		}
+		assertElementSentinels(t, ValidateBERElement(data, TrackTCAPForm(nil, row.root)...), want)
 	}
 }
 
@@ -259,7 +263,7 @@ func TestUnknownExternalEncodingPosition(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			assertElementSentinels(t, ValidateBERElement(data, TrackTCAPForm(nil, "DialoguePortion")...), nil)
+			assertElementSentinels(t, ValidateBERElement(data, TrackTCAPForm(nil, "DialoguePortion")...), ErrUnexpectedElement)
 		})
 	}
 }

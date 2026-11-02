@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 b321dc64e33b19eec75fbe2837b92c89cf82f63eefb132f98543ee644ca4fcd5.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 b5d7ac47d59de6a79fea40ed813acdd7137084cdb871611d57e80edba08302c6.
 package ber
 
 import (
@@ -243,6 +243,39 @@ func TrackTCAPForm(options []DecodeOption, source ...string) []DecodeOption {
 		c.profile, c.profileNested, c.profileType, c.profileSource = true, c.profile, name, ruleSource
 	}
 	return trackBERForm(options, &c, err)
+}
+
+// ValidateTCAPTransactionID checks the BER and Q.773 form of a standalone
+// leading transaction ID for a failed admitted TCMessage. Q.773 (06/1997)
+// §4.1.1 applies independently of an active containing-message profile: its
+// scan may have stopped at the message header. Reports must be staged by the
+// caller, since this diagnostic pass does not decode a new public value.
+// The caller checks the transaction ID SIZE (1..4) constraint.
+func ValidateTCAPTransactionID(data []byte, options ...DecodeOption) error {
+	if err := ValidateDecodeOptions(options...); err != nil {
+		return err
+	}
+	identifier, _, err := DecodeTag(data)
+	if err != nil {
+		return err
+	}
+	// Q.773 (06/1997) Annex A: only [APPLICATION 8] and [APPLICATION 9] are
+	// transaction IDs, so no other root takes their §4.1.1 profile. Its BER
+	// errors under the caller's options still precede the mismatch.
+	if identifier.Class != tag.ClassApplication || (identifier.Number != 8 && identifier.Number != 9) {
+		if err := ValidateBERElement(data, options...); err != nil {
+			return err
+		}
+		return ErrUnexpectedElement
+	}
+	source := "OrigTransactionID"
+	if identifier.Number == 9 {
+		source = "DestTransactionID"
+	}
+	// Keep the caller's limits and tolerance, but validate this standalone root
+	// even when its containing message already selected a profile.
+	options = append(options[:len(options):len(options)], tcapProfileOption{source: source, ruleSource: "TCAPMessages." + source})
+	return ValidateBERElement(data, options...)
 }
 
 func tcapProfileViolation(data []byte, pos, tagLen, lenLen int, indefinite bool, t tag.Tag, kind tcapKind) bool {
@@ -923,7 +956,7 @@ func tcapProfileOwnsElement(data []byte, stack []berScanFrame, parent berScanFra
 	// TCMessage alternative. X.690 (02/2021) §8.15 still governs open values.
 	if root == tcapKindTCMessage {
 		identifier, _, err := DecodeTag(data)
-		if err == nil && identifier.Class == tag.ClassApplication && !tcapRootAdmits(root, identifier) {
+		if err == nil && !tcapRootAdmits(root, identifier) {
 			return false
 		}
 	}

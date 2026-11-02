@@ -25,6 +25,10 @@ func universalRejectionElements(t *testing.T) map[string][]byte {
 			contents = []byte{0}
 		case tag.TagObjectID, tag.TagRelativeOID:
 			contents = []byte{42}
+		case tag.TagExternal:
+			contents = []byte{6, 1, 0x2a, 0xa0, 2, 5, 0}
+		case tag.TagEmbeddedPDV, tag.TagCharacterString:
+			contents = []byte{0xa0, 2, 0x85, 0, 0x82, 0}
 		case tag.TagUTF8String:
 			contents = []byte{'a'}
 		}
@@ -93,11 +97,11 @@ func TestTypedUnexpectedElementUniversalValidation(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
-				for _, got := range []error{root.UnmarshalBER(wire, opts...), component.UnmarshalBER(envelope, opts...)} {
-					// The public TCAP roots retain their existing primitive
-					// string encoding profile. The generic emitter matrix
-					// separately tests these two well-formed BER encodings.
-					if wire[0] == 0x23 || wire[0] == 0x24 {
+				for index, got := range []error{root.UnmarshalBER(wire, opts...), component.UnmarshalBER(envelope, opts...)} {
+					// Q.773 (06/1997) §4.1.1 still owns the contents of
+					// the Begin container. A universal root is not an admitted
+					// TCMessage alternative, and receives ordinary BER checks.
+					if index == 1 && (wire[0] == 0x23 || wire[0] == 0x24) {
 						var profile *ber.ValidationError
 						if !errors.As(got, &profile) {
 							t.Fatalf("%x: expected existing profile refusal, got %v", wire, got)

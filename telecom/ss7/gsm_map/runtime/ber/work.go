@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 3e48b749630eff6f972bcc5554c8c46f7d4dbf148788164aeefecc6b855ecb69.
+// Runtime source: runtime/ber/work.go; SHA-256 5f7d980275ae7506644d95ad5004ad902d530ee085082be594f89c37f7cbbdc6.
 package ber
 
 import (
@@ -188,8 +188,17 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		// X.690 (02/2021) §8.14.3: "the contents octets shall be the
 		// complete base encoding". The explicit associated-type wrapper
 		// therefore contains exactly one value; EOC is not a value (§8.1.5).
-		if closed.associatedType == berExplicitAssociatedValue && closed.nextChild != 1 {
-			return ErrUnexpectedElement
+		if closed.associatedType != berNoAssociatedType {
+			if closed.associatedType == berExplicitAssociatedValue || closed.associatedType == berIdentification {
+				if closed.nextChild != 1 {
+					return ErrUnexpectedElement
+				}
+			} else if closed.associatedType == berEmbeddedPDV || closed.associatedType == berCharacterString ||
+				closed.associatedType >= berSyntaxes && closed.associatedType <= berInvalidAssociatedComponents {
+				if err := closed.associatedType.closeAssociated(closed.nextChild); err != nil {
+					return err
+				}
+			}
 		}
 		if closed.utf8Root && reportUTF8 && !utf8.Valid(*closed.utf8Contents) {
 			position, err := scannedUTF8Location(data, closed.offset, stack[:len(stack)-1], closed.index, config, options)
@@ -293,47 +302,16 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			return fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
 		}
 		work += charge
-		// X.690 (02/2021) §8.18.1 defines encoding after optional
-		// UNIVERSAL 6, 2, 7, each recognized only in that order. Mirror
-		// decodeExternalValue in external.go; later children are schema
-		// mismatches, not another encoding choice.
-		externalEncoding := false
-		if parent.associatedType >= berExternalBeforeDirect && parent.associatedType < berExternalAfterEncoding {
-			switch {
-			case parent.associatedType == berExternalBeforeDirect && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID:
-				parent.associatedType = berExternalAfterDirect
-			case parent.associatedType <= berExternalAfterDirect && t.Class == tag.ClassUniversal && t.Number == tag.TagInteger:
-				parent.associatedType = berExternalAfterIndirect
-			case parent.associatedType <= berExternalAfterIndirect && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectDesc:
-				parent.associatedType = berExternalAfterDescriptor
-			default:
-				externalEncoding = true
-				parent.associatedType = berExternalAfterEncoding
+		var associatedType berAssociatedState
+		var implicitUniversal int
+		// Ordinary elements have no associated-type grammar. Keep its component
+		// checks off their path (X.690 (02/2021) §§8.17, 8.18, 8.24).
+		if parent.associatedType != berNoAssociatedType || t.Constructed && t.Class == tag.ClassUniversal &&
+			(t.Number == tag.TagExternal || t.Number == tag.TagEmbeddedPDV || t.Number == tag.TagCharacterString) {
+			associatedType, implicitUniversal, err = scanAssociatedComponents(parent, t, indefinite)
+			if err != nil {
+				return err
 			}
-		}
-		// X.690 (02/2021) §8.18.1 assumes EXPLICIT TAGS, so
-		// single-ASN1-type is explicit by X.680 (02/2021) §31.2.7 b)
-		// and constructed by X.690 §8.14.3. EMBEDDED PDV/CHARACTER
-		// STRING identification is explicit by X.680 §§36.5, 44.5,
-		// 31.2.7 c), encoded by X.690 §§8.17.1, 8.24.1.
-		if parent.associatedType != berNoAssociatedType && t.Class == tag.ClassContextSpecific && t.Number == 0 && !t.Constructed && !indefinite &&
-			(externalEncoding || parent.associatedType < berExternalBeforeDirect && childIndex == 0) {
-			if parent.associatedType >= berExternalBeforeDirect {
-				return fmt.Errorf("%w: single-ASN1-type must be explicit", ErrInvalidTag)
-			} else {
-				return fmt.Errorf("%w: identification must be explicit", ErrInvalidTag)
-			}
-		}
-		associatedType := berAssociatedType(t)
-		// X.690 (02/2021) §8.18.1: "an environment of EXPLICIT TAGS";
-		// X.680 (02/2021) §31.2.7 b) makes single-ASN1-type explicit.
-		// X.680 §§36.5, 44.5: "assuming an automatic tagging environment";
-		// their untagged identification CHOICE is explicit under §31.2.7 c).
-		// X.690 §§8.17.1, 8.24.1 encode those associated types. Only the
-		// outer identification [0] is explicit; its alternatives are implicit.
-		if t.Class == tag.ClassContextSpecific && t.Number == 0 && t.Constructed &&
-			(externalEncoding || (parent.associatedType == berEmbeddedPDV || parent.associatedType == berCharacterString) && childIndex == 0) {
-			associatedType = berExplicitAssociatedValue
 		}
 		// Checked before either length branch, so an indefinite length
 		// cannot carry a constructed primitive-only type past it.
@@ -377,7 +355,11 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{end: parent.end, indefinite: true, segmentTag: berSegmentTag(t), associatedType: associatedType, utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
+			segmentTag := berSegmentTag(t)
+			if implicitUniversal == tag.TagOctetString || implicitUniversal == tag.TagBitString {
+				segmentTag = implicitUniversal
+			}
+			stack = append(stack, berScanFrame{end: parent.end, indefinite: true, segmentTag: segmentTag, associatedType: associatedType, utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 			continue
 		}
@@ -388,6 +370,12 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			return ErrTruncated
 		}
 		end := start + length
+		if implicitUniversal != 0 && !t.Constructed {
+			if err := validateBERUniversalContents(implicitUniversal, data[start:end]); err != nil {
+				return err
+			}
+		}
+
 		if !t.Constructed && t.Class == tag.ClassUniversal {
 			if t.Number == tag.TagUTF8String && !config.collectPositionsOnly {
 				var source *byte
@@ -425,7 +413,11 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{end: end, segmentTag: berSegmentTag(t), associatedType: associatedType, utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
+			segmentTag := berSegmentTag(t)
+			if implicitUniversal == tag.TagOctetString || implicitUniversal == tag.TagBitString {
+				segmentTag = implicitUniversal
+			}
+			stack = append(stack, berScanFrame{end: end, segmentTag: segmentTag, associatedType: associatedType, utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 		} else {
 			if shortSpans != nil {
@@ -755,7 +747,99 @@ const (
 	berExternalAfterDescriptor
 	berExternalAfterEncoding
 	berExplicitAssociatedValue
+	berIdentification
+	berSyntaxes
+	berContextNegotiation
+	berCheckedExternalBeforeDirect
+	berCheckedExternalAfterDirect
+	berCheckedExternalAfterIndirect
+	berCheckedExternalAfterDescriptor
+	berCheckedExternalDescriptorWithoutReference
+	berCheckedExternalAfterEncoding
+	berCheckedExternalEncodingWithoutReference
+	berInvalidAssociatedComponents
 )
+
+// scanAssociatedComponents checks only the current element against its parent
+// state. The scanner retains traversal, budgets and child counts; structural
+// mismatches are still deferred until the parent closes (X.690 (02/2021)
+// §§8.9.2, 8.14.3–8.14.4, 8.17.1, 8.18.1, 8.24.1).
+func scanAssociatedComponents(parent *berScanFrame, t tag.Tag, indefinite bool) (berAssociatedState, int, error) {
+	childIndex := parent.nextChild
+	var associatedType berAssociatedState
+	if t.Constructed {
+		associatedType = berAssociatedType(t)
+	}
+	var implicitUniversal int
+	// X.690 (02/2021) §8.18.1 defines encoding after optional
+	// UNIVERSAL 6, 2, 7, each recognized only in that order. Mirror
+	// decodeExternalValue in external.go; later children are schema
+	// mismatches, not another encoding choice.
+	externalEncoding := false
+	if parent.associatedType >= berExternalBeforeDirect && parent.associatedType < berExternalAfterEncoding {
+		switch {
+		case parent.associatedType == berExternalBeforeDirect && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID:
+			parent.associatedType = berExternalAfterDirect
+		case parent.associatedType <= berExternalAfterDirect && t.Class == tag.ClassUniversal && t.Number == tag.TagInteger:
+			parent.associatedType = berExternalAfterIndirect
+		case parent.associatedType <= berExternalAfterIndirect && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectDesc:
+			parent.associatedType = berExternalAfterDescriptor
+		default:
+			externalEncoding = true
+			parent.associatedType = berExternalAfterEncoding
+		}
+	}
+	// X.690 (02/2021) §8.18.1 assumes EXPLICIT TAGS, so
+	// single-ASN1-type is explicit by X.680 (02/2021) §31.2.7 b)
+	// and constructed by X.690 §8.14.3. EMBEDDED PDV/CHARACTER
+	// STRING identification is explicit by X.680 §§36.5, 44.5,
+	// 31.2.7 c), encoded by X.690 §§8.17.1, 8.24.1.
+	if parent.associatedType != berNoAssociatedType && t.Class == tag.ClassContextSpecific && t.Number == 0 && !t.Constructed && !indefinite &&
+		(externalEncoding || parent.associatedType < berExternalBeforeDirect && childIndex == 0) {
+		if parent.associatedType >= berExternalBeforeDirect {
+			return berNoAssociatedType, 0, fmt.Errorf("%w: single-ASN1-type must be explicit", ErrInvalidTag)
+		} else {
+			return berNoAssociatedType, 0, fmt.Errorf("%w: identification must be explicit", ErrInvalidTag)
+		}
+	}
+	var childAssociated berAssociatedState
+	// Only grammar-tracked states inspect child components. Explicit wrappers
+	// count children at close; profile-owned states use their typed decoder.
+	if parent.associatedType == berCheckedExternalBeforeDirect && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID {
+		parent.associatedType = berCheckedExternalAfterDirect
+	} else if parent.associatedType >= berCheckedExternalAfterDirect && parent.associatedType <= berCheckedExternalAfterDescriptor && t.Class == tag.ClassContextSpecific && t.Number == 0 {
+		parent.associatedType = berCheckedExternalAfterEncoding
+		childAssociated = berExplicitAssociatedValue
+	} else if parent.associatedType == berEmbeddedPDV || parent.associatedType == berCharacterString ||
+		parent.associatedType >= berIdentification && parent.associatedType <= berCheckedExternalEncodingWithoutReference {
+		childAssociated, implicitUniversal = parent.associatedType.associatedChild(t, childIndex)
+	}
+	if childAssociated != berNoAssociatedType {
+		associatedType = childAssociated
+	}
+	// X.690 (02/2021) §8.18.1: "an environment of EXPLICIT TAGS";
+	// X.680 (02/2021) §31.2.7 b) makes single-ASN1-type explicit.
+	// X.680 §§36.5, 44.5: "assuming an automatic tagging environment";
+	// their untagged identification CHOICE is explicit under §31.2.7 c).
+	// X.690 §§8.17.1, 8.24.1 encode those associated types. Only the
+	// outer identification [0] is explicit; its alternatives are implicit.
+	if childAssociated == berNoAssociatedType && t.Class == tag.ClassContextSpecific && t.Number == 0 && t.Constructed &&
+		(externalEncoding || (parent.associatedType == berEmbeddedPDV || parent.associatedType == berCharacterString) && childIndex == 0) {
+		associatedType = berExplicitAssociatedValue
+	}
+
+	if childAssociated == berExplicitAssociatedValue && !t.Constructed && !indefinite {
+		return berNoAssociatedType, 0, fmt.Errorf("%w: single-ASN1-type must be explicit", ErrInvalidTag)
+	}
+	// X.690 §8.14.4 retains the base form under IMPLICIT tags;
+	// §8.1.3.2(a)'s primitive-indefinite error keeps precedence.
+	if implicitUniversal != 0 && (!indefinite || t.Constructed) {
+		if err := checkUniversalForm(tag.Tag{Class: tag.ClassUniversal, Number: implicitUniversal, Constructed: t.Constructed}); err != nil {
+			return berNoAssociatedType, 0, err
+		}
+	}
+	return associatedType, implicitUniversal, nil
+}
 
 // berAssociatedType returns the initial universal associated-type state; it
 // does not infer a schema for application or context-specific open values.
@@ -764,7 +848,7 @@ func berAssociatedType(t tag.Tag) berAssociatedState {
 	if t.Class == tag.ClassUniversal {
 		switch t.Number {
 		case tag.TagExternal:
-			return berExternalBeforeDirect
+			return berCheckedExternalBeforeDirect
 		case tag.TagEmbeddedPDV:
 			return berEmbeddedPDV
 		case tag.TagCharacterString:
@@ -772,4 +856,118 @@ func berAssociatedType(t tag.Tag) berAssociatedState {
 		}
 	}
 	return berNoAssociatedType
+}
+
+// associatedChild follows the automatically tagged components of X.680
+// (02/2021) §§36.5, 44.5 and the EXTERNAL sequence of X.690 §8.18.1.
+// Structural mismatches are delayed until close: §8.9.2 requires "one data value"
+// per mandatory component, but malformed TLVs retain their
+// encoding errors. No child is rescanned or materialized.
+func (s *berAssociatedState) associatedChild(t tag.Tag, index int) (berAssociatedState, int) {
+	switch *s {
+	case berEmbeddedPDV, berCharacterString:
+		switch {
+		case index == 0 && t.Class == tag.ClassContextSpecific && t.Number == 0:
+			return berIdentification, 0
+		case index == 1 && t.Class == tag.ClassContextSpecific && t.Number == 2:
+			// X.680 §§36.5, 44.5: "data-value-descriptor ABSENT".
+			// X.690 §§8.7.1, 8.17.1, 8.24.1 allow constructed OCTET STRINGs.
+			return berNoAssociatedType, tag.TagOctetString
+		default:
+			*s = berInvalidAssociatedComponents
+		}
+	case berIdentification:
+		// X.690 (02/2021) §8.14.3 admits one complete base value.
+		// Later context tags have no inferred base type; close checks the
+		// cardinality after ordinary BER validation of every extra value.
+		if index != 0 {
+			return berNoAssociatedType, 0
+		}
+		if t.Class != tag.ClassContextSpecific || t.Number > 5 {
+			*s = berInvalidAssociatedComponents
+			return berNoAssociatedType, 0
+		}
+		// X.680 §§36.5, 44.5 list six identification alternatives. X.690
+		// §8.14.4: implicit tagging retains "the contents octets" of the base
+		// encoding, including INTEGER minimality (§8.3.2), OIDs (§8.19), NULL (§8.8).
+		switch t.Number {
+		case 0:
+			return berSyntaxes, tag.TagSequence
+		case 1, 4:
+			return berNoAssociatedType, tag.TagObjectID
+		case 2:
+			return berNoAssociatedType, tag.TagInteger
+		case 3:
+			return berContextNegotiation, tag.TagSequence
+		case 5:
+			return berNoAssociatedType, tag.TagNull
+		}
+	case berSyntaxes, berContextNegotiation:
+		if index > 1 || t.Class != tag.ClassContextSpecific || t.Number != index {
+			*s = berInvalidAssociatedComponents
+			return berNoAssociatedType, 0
+		}
+		if *s == berContextNegotiation && index == 0 {
+			return berNoAssociatedType, tag.TagInteger
+		}
+		return berNoAssociatedType, tag.TagObjectID
+	case berCheckedExternalBeforeDirect, berCheckedExternalAfterDirect, berCheckedExternalAfterIndirect, berCheckedExternalAfterDescriptor, berCheckedExternalDescriptorWithoutReference:
+		switch {
+		case *s == berCheckedExternalBeforeDirect && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID:
+			*s = berCheckedExternalAfterDirect
+		case *s <= berCheckedExternalAfterDirect && t.Class == tag.ClassUniversal && t.Number == tag.TagInteger:
+			*s = berCheckedExternalAfterIndirect
+		case *s <= berCheckedExternalAfterIndirect && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectDesc:
+			if *s == berCheckedExternalBeforeDirect {
+				*s = berCheckedExternalDescriptorWithoutReference
+			} else {
+				*s = berCheckedExternalAfterDescriptor
+			}
+		default:
+			if t.Class != tag.ClassContextSpecific || t.Number > 2 {
+				*s = berInvalidAssociatedComponents
+				return berNoAssociatedType, 0
+			}
+			// X.690 §8.18.4 requires the reference mapping in "Table 2".
+			// Every admitted identification needs a reference.
+			if *s == berCheckedExternalBeforeDirect || *s == berCheckedExternalDescriptorWithoutReference {
+				*s = berCheckedExternalEncodingWithoutReference
+			} else {
+				*s = berCheckedExternalAfterEncoding
+			}
+			switch t.Number {
+			case 0:
+				return berExplicitAssociatedValue, 0
+			case 1:
+				return berNoAssociatedType, tag.TagOctetString
+			case 2:
+				return berNoAssociatedType, tag.TagBitString
+			}
+		}
+	case berCheckedExternalAfterEncoding, berCheckedExternalEncodingWithoutReference:
+		*s = berInvalidAssociatedComponents
+	}
+	return berNoAssociatedType, 0
+}
+
+func (s berAssociatedState) closeAssociated(count int) error {
+	switch s {
+	case berExplicitAssociatedValue, berIdentification:
+		// X.690 §8.14.3: "the complete base encoding" is one value.
+		if count != 1 {
+			return ErrUnexpectedElement
+		}
+	case berEmbeddedPDV, berCharacterString, berSyntaxes, berContextNegotiation:
+		// X.690 §8.9.2 requires every listed mandatory component once.
+		if count != 2 {
+			return ErrUnexpectedElement
+		}
+	case berCheckedExternalBeforeDirect, berCheckedExternalDescriptorWithoutReference, berCheckedExternalEncodingWithoutReference:
+		// X.690 §8.18.4 Table 2 admits syntax, presentation-context-id,
+		// context-negotiation; none omits both reference components.
+		return fmt.Errorf("%w: EXTERNAL identification requires a direct or indirect reference", ErrInvalidValue)
+	case berCheckedExternalAfterDirect, berCheckedExternalAfterIndirect, berCheckedExternalAfterDescriptor, berInvalidAssociatedComponents:
+		return ErrUnexpectedElement
+	}
+	return nil
 }
