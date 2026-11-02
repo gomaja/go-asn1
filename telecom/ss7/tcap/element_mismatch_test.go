@@ -20,7 +20,7 @@ func TestElementMismatchAndImplicitIntegerContents(t *testing.T) {
 		{"67054901016a00", "abort.reason.AbortReason.p-abortCause", ber.ErrInvalidTag, ber.ErrInvalidTag},
 		{"62054801014c00", "begin.components", ber.ErrInvalidTag, ber.ErrInvalidTag},
 		{"62054801016b00", "begin.dialoguePortion", ber.ErrUnexpectedElement, nil},
-		{"620c4801016b07280506012a8300", "begin.dialoguePortion", ber.ErrUnexpectedElement, nil},
+		{"620c4801016b07280506012a8300", "begin.dialoguePortion", ber.ErrUnexpectedElement, ber.ErrUnexpectedElement},
 		{"620b48027f016c05a10302010a", "begin.components.element[0].basicROS.invoke", ber.ErrUnexpectedElement, nil},
 		{"67054901014a00", "abort.reason.p-abortCause", ber.ErrInvalidValue, ber.ErrInvalidValue},
 		{"67074901014a020001", "abort.reason.p-abortCause", ber.ErrInvalidValue, ber.ErrInvalidValue},
@@ -182,9 +182,6 @@ func TestStandaloneExternalSentinelClassification(t *testing.T) {
 			_, err = ber.DecodeExternalValue(wire[2:])
 			assertBERErrors(t, err, tc.want)
 			scanWant := tc.want
-			if scanWant == ber.ErrInvalidValue {
-				scanWant = nil
-			}
 			assertBERErrors(t, ber.ValidateBERElement(wire, ber.TrackTCAPForm(nil, "External")...), scanWant)
 		})
 	}

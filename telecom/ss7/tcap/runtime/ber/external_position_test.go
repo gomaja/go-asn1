@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/external_position_test.go; SHA-256 db7438f1ca05d4e28da6c350e991c0093184467850c2a6b2d9c6b01a30405982.
+// Runtime source: runtime/ber/external_position_test.go; SHA-256 19b6aac68836efac338254d6f1f6ca53b109a20113a770533cfe3a87a3d21e3d.
 package ber
 
 import (
@@ -43,11 +43,11 @@ func TestExternalEncodingPosition(t *testing.T) {
 		if order[0] == 2 {
 			want = ErrInvalidValue
 		}
-		probes = append(probes, probe{fmt.Sprint("out-of-order-", order), prefix, []byte{0x80, 0}, nil, nil, want})
+		probes = append(probes, probe{fmt.Sprint("out-of-order-", order), prefix, []byte{0x80, 0}, nil, ErrUnexpectedElement, want})
 	}
-	probes = append(probes, probe{"unknown-encoding", optional[0], []byte{0x83, 0}, []byte{0x80, 0}, nil, ErrUnexpectedElement})
+	probes = append(probes, probe{"unknown-encoding", optional[0], []byte{0x83, 0}, []byte{0x80, 0}, ErrUnexpectedElement, ErrUnexpectedElement})
 	for i, encoding := range [][]byte{{0xa0, 2, 5, 0}, {0x81, 1, 0}, {0x82, 1, 0}} {
-		probes = append(probes, probe{fmt.Sprintf("trailing-%d", i), optional[0], encoding, []byte{0x80, 0}, nil, ErrUnexpectedElement})
+		probes = append(probes, probe{fmt.Sprintf("trailing-%d", i), optional[0], encoding, []byte{0x80, 0}, ErrUnexpectedElement, ErrUnexpectedElement})
 	}
 	// Two simultaneous violations intentionally retain the entry points' order:
 	// the scan sees the form; the decoder checks reference and trailing data first.

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/external_position_test.go; SHA-256 60c834556bebf340e98e5eecb95c683b37819904a864ea5315521e169ab6a893.
+// Runtime source: runtime/ber/external_position_test.go; SHA-256 f76b3c4a4398b9e2a59afeb91c6b558cfdaadf8462987d19cca606a7a3603ee8.
 package ber
 
 import (
@@ -43,11 +43,11 @@ func TestExternalEncodingPosition(t *testing.T) {
 		if order[0] == 2 {
 			want = ErrInvalidValue
 		}
-		probes = append(probes, probe{fmt.Sprint("out-of-order-", order), prefix, []byte{0x80, 0}, nil, nil, want})
+		probes = append(probes, probe{fmt.Sprint("out-of-order-", order), prefix, []byte{0x80, 0}, nil, ErrUnexpectedElement, want})
 	}
-	probes = append(probes, probe{"unknown-encoding", optional[0], []byte{0x83, 0}, []byte{0x80, 0}, nil, ErrUnexpectedElement})
+	probes = append(probes, probe{"unknown-encoding", optional[0], []byte{0x83, 0}, []byte{0x80, 0}, ErrUnexpectedElement, ErrUnexpectedElement})
 	for i, encoding := range [][]byte{{0xa0, 2, 5, 0}, {0x81, 1, 0}, {0x82, 1, 0}} {
-		probes = append(probes, probe{fmt.Sprintf("trailing-%d", i), optional[0], encoding, []byte{0x80, 0}, nil, ErrUnexpectedElement})
+		probes = append(probes, probe{fmt.Sprintf("trailing-%d", i), optional[0], encoding, []byte{0x80, 0}, ErrUnexpectedElement, ErrUnexpectedElement})
 	}
 	// Two simultaneous violations intentionally retain the entry points' order:
 	// the scan sees the form; the decoder checks reference and trailing data first.

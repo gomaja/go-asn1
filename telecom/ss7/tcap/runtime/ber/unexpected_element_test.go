@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/unexpected_element_test.go; SHA-256 7a7be09ec7227cb2d47258355fde7d6a0883c6916a259aaa4a05a0bee66fc590.
+// Runtime source: runtime/ber/unexpected_element_test.go; SHA-256 90c2acbcadbe0c70cfed0a7e25ebfc0335530b2f6dd2b0742d7ab1e25af53ec0.
 package ber
 
 import (
@@ -26,6 +26,10 @@ func universalRejectionElements(t *testing.T) map[string][]byte {
 			contents = []byte{0}
 		case tag.TagObjectID, tag.TagRelativeOID:
 			contents = []byte{42}
+		case tag.TagExternal:
+			contents = []byte{6, 1, 0x2a, 0xa0, 2, 5, 0}
+		case tag.TagEmbeddedPDV, tag.TagCharacterString:
+			contents = []byte{0xa0, 2, 0x85, 0, 0x82, 0}
 		case tag.TagUTF8String:
 			contents = []byte{'a'}
 		}

@@ -239,8 +239,8 @@ func externalProfileCodec(root string) interface {
 func TestExternalTrailingEncodingPosition(t *testing.T) {
 	wire := externalProfileHex("62244804000000016b1c281a060700118605010101a00d600ba1090607040000010005038000")
 	for _, opts := range [][]ber.DecodeOption{nil, {ber.WithTolerance(new(ber.ViolationLog))}} {
-		if err := ber.ValidateBERElement(wire, ber.TrackTCAPForm(opts, "TCMessage")...); err != nil {
-			t.Fatal(err)
+		if err := ber.ValidateBERElement(wire, ber.TrackTCAPForm(opts, "TCMessage")...); !errors.Is(err, ber.ErrUnexpectedElement) {
+			t.Fatalf("trailing EXTERNAL component: %v", err)
 		}
 		var value TCMessage
 		err := value.UnmarshalBER(wire, opts...)

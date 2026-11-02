@@ -97,7 +97,14 @@ func locateTCAPDecodeError(cause error, data []byte, options []ber.DecodeOption)
 		if err != nil || n <= 0 || n > boundary-offset {
 			break
 		}
-		if err = ber.ValidateBERElement(data[offset:offset+n], prefixOptions...); err != nil {
+		// Q.773 (06/1997) §4.1.1 and Annex A: validate admitted IDs as
+		// standalone fields even if the message scan stopped at its header.
+		if known {
+			err = ber.ValidateTCAPTransactionID(data[offset:offset+n], prefixOptions...)
+		} else {
+			err = ber.ValidateBERElement(data[offset:offset+n], prefixOptions...)
+		}
+		if err != nil {
 			break
 		}
 		id, err := ber.DecodeImplicitOctetStringValue(field.Constructed, contents, prefixOptions...)

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/associated_cardinality_test.go; SHA-256 cc820b4623120075680a359af33353c4fd22d56503f2ae0bc6569db5d7274e47.
+// Runtime source: runtime/ber/associated_cardinality_test.go; SHA-256 e32b3ad56427fbc86e06d5a35473a57cfa958d6f2c58a4ec1099f57a146d6bd9.
 package ber
 
 import (
@@ -148,6 +148,8 @@ func TestAssociatedExplicitNestedOpenValues(t *testing.T) {
 			body := associatedCardinalityTLV(0xa0, bytes.Repeat(inner, count), false)
 			if identifier != 0x28 {
 				body = append(body, 0x82, 0)
+			} else {
+				body = append([]byte{6, 1, 0x2a}, body...)
 			}
 			value := associatedCardinalityTLV(identifier, body, false)
 			extension := associatedCardinalityTLV(0x30, append([]byte{6, 3, 0x2a, 3, 4}, value...), false)
@@ -162,8 +164,8 @@ func TestAssociatedExplicitNestedOpenValues(t *testing.T) {
 	// A context [0] without an associated-type position has no inferred schema.
 	checkAssociatedCardinalityError(t, ValidateBERElement([]byte{0x30, 2, 0xa0, 0}), nil)
 	// Once EXTERNAL's encoding is past, a later [0] is a schema mismatch,
-	// rather than another explicit encoding position; the typed decoder owns it.
-	checkAssociatedCardinalityError(t, ValidateBERElement([]byte{0x28, 6, 0xa0, 2, 5, 0, 0xa0, 0}), nil)
+	// rather than another explicit encoding position.
+	checkAssociatedCardinalityError(t, ValidateBERElement([]byte{0x28, 9, 6, 1, 0x2a, 0xa0, 2, 5, 0, 0xa0, 0}), ErrUnexpectedElement)
 }
 
 // X.690 (02/2021) §§8.17.1, 8.24.1 and X.680 (02/2021) §§36.5,
@@ -174,7 +176,7 @@ func TestAssociatedLaterContextZero(t *testing.T) {
 		for _, later := range [][]byte{{0xa0, 0}, {0xa0, 4, 5, 0, 5, 0}} {
 			for _, indefinite := range []bool{false, true} {
 				wire := associatedCardinalityTLV(outer, append([]byte{0xa0, 2, 0x85, 0}, later...), indefinite)
-				checkAssociatedCardinalityError(t, ValidateBERElement(wire), nil)
+				checkAssociatedCardinalityError(t, ValidateBERElement(wire), ErrUnexpectedElement)
 			}
 		}
 	}
