@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 64f7c7a0af3e7bb78bfc9d73e51161a8eaa55247bd8e7d79fa22750d8f30cb86.
+// Runtime source: runtime/ber/work.go; SHA-256 0c71e36fe1970d221e84d26a353bd995693e9aec881a64ffae9b5c24c1b59707.
 package ber
 
 import (
@@ -102,12 +102,19 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			spans = make(map[int]int)
 		}
 	}
+	var restricted restrictedStringState
+	var restrictedDepth, restrictedOctets int
+	var restrictedSource *byte
 	var initial [8]berScanFrame
 	initial[0].end = len(data)
 	stack := initial[:1]
 	failureOffset, failureDepth, failureIndex := 0, 1, 0
+	var firstContentsFailure *ElementError
 	defer func() {
 		if returnErr == nil {
+			return
+		}
+		if firstContentsFailure != nil && returnErr == firstContentsFailure {
 			return
 		}
 		// A reassembled EXTERNAL APDU already carries its physical identifier
@@ -193,6 +200,15 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 					return err
 				}
 			}
+		}
+
+		if restrictedDepth != 0 && len(stack) == restrictedDepth {
+			if err := restricted.finish(); err != nil {
+				if firstContentsFailure == nil {
+					firstContentsFailure = scanContentsFailure(data, failureOffset, stack[:failureDepth], failureIndex, config, options, err)
+				}
+			}
+			restrictedDepth = 0
 		}
 		if closed.utf8Root {
 			if err := checkUTF8String(*closed.utf8Contents, closed.utf8Source, config, options, true); err != nil {
@@ -433,6 +449,14 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			}
 		}
 
+		if !config.collectPositionsOnly && t.Constructed && t.Class == tag.ClassUniversal && isCheckedRestrictedString(t.Number) {
+			restricted = restrictedStringState{number: t.Number}
+			restrictedDepth, restrictedOctets = len(stack)+1, 0
+			restrictedSource = nil
+			if start < len(data) {
+				restrictedSource = &data[start]
+			}
+		}
 		if indefinite {
 			if config.form != nil && config.form.lightInput == nil && config.generatedMode != generatedModeLight {
 				config.form.proofNeeded = true
@@ -502,6 +526,35 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				}
 				if err := checkUTF8String(data[start:end], source, config, options, true); err != nil {
 					return err
+				}
+			}
+
+			if !config.collectPositionsOnly && (restrictedDepth != 0 || isCheckedRestrictedString(t.Number)) {
+				number, source, logicalOffset := t.Number, (*byte)(nil), 0
+				if start < end {
+					source = &data[start]
+				}
+				if restrictedDepth != 0 {
+					number, source, logicalOffset = restricted.number, restrictedSource, restrictedOctets
+				}
+				if isAlphabetString(number) {
+					if err := checkAlphabetString(number, data[start:end], source, logicalOffset, config, options, true); err != nil {
+						if config.tolerant {
+							return err
+						}
+						if firstContentsFailure == nil {
+							firstContentsFailure = scanContentsFailure(data, failureOffset, stack[:failureDepth], failureIndex, config, options, err)
+						}
+					}
+				} else if restrictedDepth != 0 {
+					restricted.consume(data[start:end])
+				} else if err := validateRestrictedStringContents(number, data[start:end]); err != nil {
+					if firstContentsFailure == nil {
+						firstContentsFailure = scanContentsFailure(data, failureOffset, stack[:failureDepth], failureIndex, config, options, err)
+					}
+				}
+				if restrictedDepth != 0 {
+					restrictedOctets += end - start
 				}
 			}
 			if utf8Contents != nil {
@@ -579,6 +632,9 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 	}
 	if pos != len(data) {
 		return ErrExtraData
+	}
+	if firstContentsFailure != nil {
+		return firstContentsFailure
 	}
 	if spans != nil || shortSpans != nil {
 		validated := append([]byte(nil), data...)

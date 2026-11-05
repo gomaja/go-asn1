@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/encoder.go; SHA-256 f3ec2eddf4db9a63fe5dac367d1b02fdf9909fc9039a093b0ffdacc66b3cd7e7.
+// Runtime source: runtime/ber/encoder.go; SHA-256 0157799462d95030406f52b1699b9397ec01eb6589b286d40a2e0a7b769fabd2.
 package ber
 
 import (
@@ -371,6 +371,12 @@ func EncodeStringValueTagChecked(tagNum int, v string) ([]byte, error) {
 
 func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 	switch tagNum {
+	case tag.TagNumericString, tag.TagPrintableString, tag.TagIA5String, tag.TagVisibleString, tag.TagUTCTime, tag.TagGeneralizedTime:
+		if err := validateRestrictedStringContents(tagNum, []byte(v)); err != nil {
+			return nil, err
+		}
+		return []byte(v), nil
+
 	case tag.TagUTF8String:
 		// X.690 (02/2021) §8.23.10 requires shortest-form UTF-8.
 		if !utf8.ValidString(v) {
@@ -388,7 +394,7 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		value := make([]byte, 0, capacity)
 		for _, r := range v {
 			if r > 0xffff || !utf8.ValidRune(r) {
-				return nil, fmt.Errorf("BMPString character U+%04X is outside the Basic Multilingual Plane", r)
+				return nil, fmt.Errorf("%w: BMPString character U+%04X is outside the Basic Multilingual Plane (X.690 (02/2021) §8.23.8)", ErrInvalidValue, r)
 			}
 			value = binary.BigEndian.AppendUint16(value, uint16(r))
 		}
@@ -404,7 +410,7 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		value := make([]byte, 0, capacity)
 		for _, r := range v {
 			if r < 0 || r > utf8.MaxRune || !utf8.ValidRune(r) {
-				return nil, fmt.Errorf("UniversalString character U+%04X is not a Unicode scalar value", r)
+				return nil, fmt.Errorf("%w: UniversalString character U+%04X is not a Unicode scalar value (X.690 (02/2021) §8.23.7)", ErrInvalidValue, r)
 			}
 			value = binary.BigEndian.AppendUint32(value, uint32(r))
 		}

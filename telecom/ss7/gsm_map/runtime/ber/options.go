@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/options.go; SHA-256 ae047279a345161aad617e58508d072d0956a68f5cf2e63352afc93ea05a576c.
+// Runtime source: runtime/ber/options.go; SHA-256 faaabfac193ecc6875896307e883cfab571be11fce3dcffab1928b72ba6be876.
 package ber
 
 import (
@@ -69,24 +69,26 @@ type decodeOptionFunc func(*decodeConfig) error
 func (option decodeOptionFunc) applyDecode(config *decodeConfig) error { return option(config) }
 
 type decodeConfig struct {
-	rule                  RuleRef
-	ruleSource            string
-	checkReplayComparator bool
-	positionSearch        *positionSearch
-	collectPositionsOnly  bool
-	allowSiblingElements  bool // rejection scan shares one budget across sibling elements.
-	location              *decodeLocation
-	noReplayCapture       bool
-	limits                DecodeLimits
-	diagnostics           DiagnosticLimits
-	tolerant              bool
-	firstUTF8Only         bool // strict opaque refusal rescan; keep scanning structure
-	violations            *ViolationLog
-	reportScope           *reportScope
-	hasPath               bool
-	form                  *berFormState
-	collectionSizeChecked bool
-	generatedMode         generatedDecodeMode
+	rule                   RuleRef
+	ruleSource             string
+	checkReplayComparator  bool
+	positionSearch         *positionSearch
+	collectPositionsOnly   bool
+	allowSiblingElements   bool // rejection scan shares one budget across sibling elements.
+	location               *decodeLocation
+	noReplayCapture        bool
+	limits                 DecodeLimits
+	diagnostics            DiagnosticLimits
+	tolerant               bool
+	skipRestrictedContents bool // generated typed checks or open hooks own these contents
+	generatedContents      bool // defer new contents findings until typed ownership is known
+	firstUTF8Only          bool // strict opaque refusal rescan; keep scanning structure
+	violations             *ViolationLog
+	reportScope            *reportScope
+	hasPath                bool
+	form                   *berFormState
+	collectionSizeChecked  bool
+	generatedMode          generatedDecodeMode
 }
 
 type generatedDecodeMode uint8

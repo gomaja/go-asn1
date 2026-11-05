@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 a1ca3f4da5beb3bc25662afa526455ee99df5954a09185e133fa4b8ed2c67c94.
+// Runtime source: runtime/ber/utf8.go; SHA-256 8ea395a00305fd98712f1f1891d1a0b00c2ba41302edb801089edd3a4957a019.
 package ber
 
 import (
@@ -55,6 +55,17 @@ func checkUTF8String(contents []byte, source *byte, config decodeConfig, options
 }
 
 func decodeStringValueTagOptions(tagNum int, contents []byte, source *byte, options []DecodeOption) (string, error) {
+	if isAlphabetString(tagNum) && !validAlphabetContents(tagNum, contents) {
+		config, err := decodeOptions(options)
+		if err != nil {
+			return "", err
+		}
+		if err := checkAlphabetString(tagNum, contents, source, 0, config, options, false); err != nil {
+			return "", err
+		}
+		return string(contents), nil
+	}
+
 	if tagNum == tag.TagUTF8String {
 		if err := checkDecodedUTF8String(contents, source, options); err != nil {
 			return "", err

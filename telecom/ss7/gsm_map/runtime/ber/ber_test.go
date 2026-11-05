@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/ber_test.go; SHA-256 6e56d63cafede28956878331ab4d9a22b544f1f2394586bd0413eff5efa96f84.
+// Runtime source: runtime/ber/ber_test.go; SHA-256 0a8d930c229b2b6e8483fc68ae092d786a306897e330a60366c39898c5ecfde6.
 package ber
 
 import (
@@ -824,7 +824,7 @@ func TestEncodeStringTag(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			encoded := mustEncode(t)(EncodeStringTag(c.tagNum, "hello"))
+			encoded := mustEncode(t)(EncodeStringTag(c.tagNum, "123"))
 			decoded, n, err := DecodeString(encoded, c.tagNum)
 			if err != nil {
 				t.Fatalf("decode error: %v", err)
@@ -832,8 +832,8 @@ func TestEncodeStringTag(t *testing.T) {
 			if n != len(encoded) {
 				t.Errorf("consumed: got %d, want %d", n, len(encoded))
 			}
-			if decoded != "hello" {
-				t.Errorf("got %q, want %q", decoded, "hello")
+			if decoded != "123" {
+				t.Errorf("got %q, want %q", decoded, "123")
 			}
 		})
 	}

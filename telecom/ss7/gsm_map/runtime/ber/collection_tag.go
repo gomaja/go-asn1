@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/collection_tag.go; SHA-256 9901323583c4e5dc7ccb45b773c081d135b94ef2a7a571a041e2dcf3d0cadc6c.
+// Runtime source: runtime/ber/collection_tag.go; SHA-256 6cdb2530f1dda934cbef97dfcd39291edd246b6b8e37cccdcf0dca2f07a97789.
 package ber
 
 import (
@@ -50,7 +50,11 @@ func DecodeTaggedCollectionElement(data []byte, outer tag.Tag, explicit bool, in
 	// noncanonical BOOLEAN, REAL, or constructed string forms. Rewalk with
 	// the effective base tag before the generated decoder normalizes them.
 	// ITU-T X.690 (02/2021) §§8.2.1, 8.6.3, 8.7.3, 8.9.3, 11.1–11.3.
-	if err := ValidateBERElement(retagged, opts...); err != nil {
+	if len(opts) == 1 && isGeneratedDecodeContext(opts[0]) {
+		if err := validateGeneratedBERElement(retagged, opts); err != nil {
+			return nil, err
+		}
+	} else if err := ValidateBERElement(retagged, opts...); err != nil {
 		return nil, err
 	}
 	return retagged, nil

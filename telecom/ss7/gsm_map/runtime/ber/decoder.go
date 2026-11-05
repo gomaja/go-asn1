@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 6c38d7c2d123e05fbf37170467581cf50f26779a67d4333535909bd6b7c5b437.
+// Runtime source: runtime/ber/decoder.go; SHA-256 9b0c0f17c5a69dd285606d4d398b95d9e0a223a88b277ccdcea78642eba5c402.
 package ber
 
 import (
@@ -453,6 +453,12 @@ func validateDERTLV(data []byte, depth, maxDepth, baseOffset int) (int, error) {
 // §8.19–8.20 subidentifier forms;
 // Erratum 1 (09/2021) changes only Figure 4.
 func validateDERUniversalValue(t tag.Tag, value []byte) error {
+	if !t.Constructed && (isAlphabetString(t.Number) || t.Number == tag.TagBMPString || t.Number == tag.TagUniversalString) {
+		if err := validateRestrictedStringContents(t.Number, value); err != nil {
+			return err
+		}
+	}
+
 	invalid := func(reason string) error {
 		return fmt.Errorf("%w: DER universal tag %d: %s", ErrInvalidValue, t.Number, reason)
 	}
@@ -1463,6 +1469,12 @@ func DecodeStringValue(value []byte) string {
 // 8.23.8 require four-octet UniversalString and two-octet BMPString forms.
 func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 	switch tagNum {
+	case tag.TagNumericString, tag.TagPrintableString, tag.TagIA5String, tag.TagVisibleString:
+		if err := validateRestrictedStringContents(tagNum, value); err != nil {
+			return "", err
+		}
+		return string(value), nil
+
 	case tag.TagUTF8String:
 		if err := checkDecodedUTF8String(value, nil, nil); err != nil {
 			return "", err

@@ -1431,6 +1431,7 @@ func (destination *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte, 
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -1696,6 +1697,7 @@ func (destination *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byt
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -1961,6 +1963,7 @@ func (destination *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []b
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -2454,6 +2457,7 @@ func (destination *CommonDataTypesIMSIWithLMSI) UnmarshalBER(data []byte, opts .
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "CommonDataTypesIMSIWithLMSI", Cause: extErr_}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -3419,6 +3423,7 @@ func (destination *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte, opt
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -3914,6 +3919,7 @@ func (destination *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte,
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -4959,6 +4965,7 @@ func (destination *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte, opts ...b
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -5435,6 +5442,7 @@ func (destination *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...be
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")

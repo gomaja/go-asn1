@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/unexpected.go; SHA-256 45d1517473550b918b0ff8ce049821220159e3eeeb7b4784a6aff4eff8dcf07c.
+// Runtime source: runtime/ber/unexpected.go; SHA-256 54403d293be665f77de146e060f49c13fc6fda12829b89e830591e7d8275ed24.
 package ber
 
 // unexpectedElementError classifies only a complete, well-formed encoding as
@@ -26,6 +26,8 @@ func unexpectedElementConfig(options []DecodeOption) (decodeConfig, error) {
 	if err != nil {
 		return decodeConfig{}, err
 	}
+	config.generatedContents = false
+	config.skipRestrictedContents = false
 	config.form = nil
 	config.positionSearch = nil
 	config.collectPositionsOnly = false

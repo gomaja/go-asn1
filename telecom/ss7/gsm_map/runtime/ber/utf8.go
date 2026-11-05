@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 d57096100d51c0d2b6caa9a9bded158f9eaad3b83e10980dbde9cf66880aa328.
+// Runtime source: runtime/ber/utf8.go; SHA-256 30dc23259051227210dc269dc588f1a90464f7077b667d7ae128587ada5de45a.
 package ber
 
 import (
@@ -90,6 +90,31 @@ func checkUTF8String(contents []byte, source *byte, config decodeConfig, options
 }
 
 func decodeStringValueTagOptions(tagNum int, contents []byte, source *byte, options []DecodeOption) (string, error) {
+	if isAlphabetString(tagNum) {
+		if len(options) == 1 {
+			if context, ok := options[0].(*generatedDecodeOption); ok && context != nil && context.source != nil {
+				if form := context.config.form; form != nil && form.mapPending != nil && form.mapPending.contents != nil {
+					claimGeneratedAlphabet(context.config, options)
+				}
+				return string(contents), nil
+			}
+		}
+		// X.680 (02/2021) §41, §51.7: the generated check intersects the
+		// repertoire and FROM constraint once, retaining its typed diagnostic.
+		config, err := decodeOptions(options)
+		if err != nil {
+			return "", err
+		}
+		if generatedContentsPosition(config, options) {
+			claimGeneratedAlphabet(config, options)
+			return string(contents), nil
+		}
+		if err := checkAlphabetString(tagNum, contents, source, 0, config, options, false, nil); err != nil {
+			return "", err
+		}
+		return string(contents), nil
+	}
+
 	if tagNum == tag.TagUTF8String {
 		if err := checkDecodedUTF8String(contents, source, options); err != nil {
 			return "", err

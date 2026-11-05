@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_location_test.go; SHA-256 d3e1663e06ad04f3e757e77723246565c7dd77597c830af15bc44dcd6a5c1342.
+// Runtime source: runtime/ber/preflight_location_test.go; SHA-256 1f0bbc9d769fef461f1febf99d24408280aa1cd9d846c6c22fd93ca2a1a5eba9.
 package ber
 
 import (
@@ -80,7 +80,7 @@ func TestBERPreflightErrorLocation(t *testing.T) {
 // fragments use tag 3; all other constructed string fragments use tag 4.
 func TestBERPreflightStringFragmentLocations(t *testing.T) {
 	for _, number := range []byte{3, 4, 7, 12, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30} {
-		fragment := []byte{4, 1, 'A'}
+		fragment := []byte{4, 1, '1'}
 		if number == 3 {
 			fragment = []byte{3, 2, 0, 0x80}
 		}

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/map_profile.go; SHA-256 247c5d27fe2eb9684a21702a19132ab1e2a942e3b9d913054e7cca7c99ce5cfc.
+// Runtime source: runtime/ber/map_profile.go; SHA-256 2a3671ddb7a1a980bfff06cf66467602a2245452eaed48daebc011850c96037c.
 package ber
 
 import (
@@ -65,16 +65,27 @@ const (
 	mapSyntaxGeneric   uint8 = 1
 	mapSyntaxProfile   uint8 = 2
 	mapSyntaxGenerated uint8 = 3
+	mapSyntaxMask      uint8 = 0x3f
+	mapSyntaxRechecked uint8 = 0x40
+	mapSyntaxFlags     uint8 = 0xc0
+	mapSyntaxContents  uint8 = 0x80
 )
 
-func (form *berFormState) mapProfile() bool { return form.mapSyntax >= mapSyntaxProfile }
+func (form *berFormState) mapProfile() bool { return form.mapSyntax&mapSyntaxMask >= mapSyntaxProfile }
 func setMAPSyntax(form *berFormState, enabled bool) {
-	if form != nil && form.mapSyntax == 0 {
-		form.mapSyntax = mapSyntaxGeneric
+	if form != nil && form.mapSyntax&mapSyntaxMask == 0 {
+		form.mapSyntax = form.mapSyntax&mapSyntaxFlags | mapSyntaxGeneric
 		if enabled {
-			form.mapSyntax = mapSyntaxProfile
+			form.mapSyntax = form.mapSyntax&mapSyntaxFlags | mapSyntaxProfile
 		}
 	}
+}
+
+// The high syntax bit records tag presence, not a contents verdict. It lets
+// opaque intervals without any restricted strings reuse the structural proof.
+// A second flag limits the rejection-only rescan to one pass per root.
+func (form *berFormState) hasRestrictedContents() bool {
+	return form != nil && form.mapSyntax&mapSyntaxContents != 0
 }
 
 type mapProfileState struct {
@@ -82,7 +93,8 @@ type mapProfileState struct {
 	byOffset   map[int]*mapProfileElement
 	offsets    []int
 	candidates []int
-	failure    error
+	failure    *mapProfileFailure
+	contents   *deferredStringState
 }
 
 type mapProfileElement struct {
@@ -92,6 +104,8 @@ type mapProfileElement struct {
 	path, source string
 	segments     *mapProfileSegments
 }
+
+type mapProfileFailure struct{ cause error }
 
 // Fragment locations are materialized only for reports that can be emitted.
 // A known string shares its semantic location across all fragment candidates.
@@ -277,14 +291,14 @@ func excludeMAPOpaque(config decodeConfig, raw []byte, length int) {
 }
 
 func beginMAPDecode(form *berFormState, location *decodeLocation, options []DecodeOption, data []byte) {
-	if form == nil || !form.mapProfile() {
+	if form == nil || !form.mapProfile() && !form.hasRestrictedContents() && form.mapPending == nil {
 		return
 	}
 	if form.mapDepth == math.MaxUint32 {
 		if form.mapPending == nil {
 			form.mapPending = &mapProfileState{byOffset: make(map[int]*mapProfileElement)}
 		}
-		form.mapPending.failure = fmt.Errorf("%w: MAP generated-entry depth exceeded", ErrResourceLimit)
+		form.mapPending.failure = &mapProfileFailure{fmt.Errorf("%w: MAP generated-entry depth exceeded", ErrResourceLimit)}
 		return
 	}
 	form.mapDepth++
@@ -295,15 +309,36 @@ func beginMAPDecode(form *berFormState, location *decodeLocation, options []Deco
 
 func finishMAPDecode(prior error, config decodeConfig) error {
 	form := config.form
-	if form == nil || !form.mapProfile() || form.mapDepth == 0 {
+	if form == nil || !form.mapProfile() && !form.hasRestrictedContents() && form.mapPending == nil {
+		return nil
+	}
+	if form.mapDepth == 0 {
 		return nil
 	}
 	if form.mapPending != nil && form.mapPending.failure != nil {
-		return form.mapPending.failure
+		return form.mapPending.failure.cause
 	}
 	form.mapDepth--
+	// Tag rejection is not an alphabet constraint. Newly invalid universal
+	// contents keep their X.690 sentinel even when the generated decoder
+	// does not admit that tag (X.690 (02/2021) §§8.1.2, 8.23–8.25).
+	if prior != nil && errors.Is(prior, ErrUnexpectedElement) {
+		if form.hasRestrictedContents() {
+			if form.mapSyntax&mapSyntaxRechecked != 0 {
+				return nil
+			}
+			form.mapSyntax |= mapSyntaxRechecked
+			return recheckGeneratedRejection(config)
+		}
+		if form.mapPending != nil {
+			return finishGeneratedStringContents(config)
+		}
+	}
 	if form.mapDepth != 0 || prior != nil || form.mapPending == nil {
 		return nil
+	}
+	if err := finishGeneratedStringContents(config); err != nil {
+		return err
 	}
 	pending := form.mapPending
 	for _, offset := range pending.offsets {
