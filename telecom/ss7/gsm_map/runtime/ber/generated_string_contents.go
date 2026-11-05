@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_string_contents.go; SHA-256 45c92fe122523d6687e225f63523539d3a12f930123f7f7128a9d7013ac960e9.
+// Runtime source: runtime/ber/generated_string_contents.go; SHA-256 e409c3832a94e22abfaab1a9dce646d92a74b9f7555f47387db505c09c55616c.
 package ber
 
 import (
@@ -149,7 +149,11 @@ func finishGeneratedStringContents(config decodeConfig) error {
 		var contents []byte
 		_, _, err = decodeStringSegments(candidate.data, candidate.number, 0, &budget, &contents)
 		if err != nil {
-			return err
+			cause := &ElementError{offset: offset, childIndexes: position.ChildIndexes, cause: err}
+			if position.Path != "" {
+				return &preflightPathError{path: position.Path, cause: cause}
+			}
+			return cause
 		}
 		var contentsErr error
 		if isAlphabetString(candidate.number) {

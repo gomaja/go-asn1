@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 3fd0f6d36abeaec28f0bed609eac2fc7eb27d24e30dd3e5232358a3bf0405852.
+// Runtime source: runtime/ber/work.go; SHA-256 f5a5558a04bb3d2b835ef451b346ee1865a5250d925a5cdab99f4be2ff015256.
 package ber
 
 import (
@@ -136,30 +136,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		if firstContentsFailure != nil && returnErr == firstContentsFailure {
 			return
 		}
-		var indexes []int
-		if failureDepth > 1 {
-			// The sentinel and root frames have no child position in the path.
-			for _, ancestor := range stack[2:failureDepth] {
-				indexes = append(indexes, ancestor.index)
-			}
-			indexes = append(indexes, failureIndex)
-		}
-		if config.location != nil {
-			if absolute, ok := config.location.wireOffset(data[failureOffset:]); ok {
-				failureOffset = absolute
-				indexes, _ = config.location.decodeOrigin().ancestry(absolute)
-			} else {
-				base := config.location.receivedOffset()
-				if found, ok := config.location.decodeOrigin().mark(qualifyConstraintPath(options, "")); ok {
-					base = found
-				}
-				if failureOffset <= len(config.location.rootInput())-base {
-					failureOffset += base
-					indexes, _ = config.location.decodeOrigin().ancestry(failureOffset)
-				}
-			}
-		}
-		returnErr = &ElementError{offset: failureOffset, childIndexes: indexes, cause: returnErr}
+		returnErr = scanContentsFailure(data, failureOffset, stack[:failureDepth], failureIndex, config, options, returnErr)
 	}()
 	if len(data) == 0 {
 		return ErrTruncated

@@ -1,13 +1,12 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 8ea395a00305fd98712f1f1891d1a0b00c2ba41302edb801089edd3a4957a019.
+// Runtime source: runtime/ber/utf8.go; SHA-256 517159a43ecb98004e942878a79a09f4e39a78a2a7c2bc55562d61d2563ec798.
 package ber
 
 import (
 	"fmt"
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
 	"unicode/utf8"
-	"weak"
 )
 
 // X.690 (02/2021) §8.23.10 and ISO/IEC 10646 Annex D require
@@ -20,38 +19,17 @@ func checkDecodedUTF8String(contents []byte, source *byte, options []DecodeOptio
 	if err != nil {
 		return err
 	}
-	return checkUTF8String(contents, source, config, options, false)
+	return checkUTF8String(contents, source, config, options, false, nil)
 }
 
-func checkUTF8String(contents []byte, source *byte, config decodeConfig, options []DecodeOption, preflight bool) error {
+func checkUTF8String(contents []byte, source *byte, config decodeConfig, options []DecodeOption, preflight bool, position *Violation) error {
 	if utf8.Valid(contents) {
 		return nil
 	}
 	if !config.tolerant || config.profile {
 		return fmt.Errorf("%w: UTF8String is not shortest-form UTF-8 scalar text", ErrInvalidValue)
 	}
-	path := qualifyConstraintPath(options, "")
-	// DecodeRune consumes one octet on an invalid encoding. Report each such
-	// octet separately, so equal bad octets at different locations stay distinct.
-	// Never format the entire remaining string for each report: that is quadratic.
-	for offset := 0; offset < len(contents); {
-		r, size := utf8.DecodeRune(contents[offset:])
-		if r == utf8.RuneError && size == 1 {
-			location := offset
-			if err := config.violations.append(Violation{
-				Path: path, Constraint: "UTF8String shortest-form UTF-8 scalar text (X.690 (02/2021) §8.23.10)",
-				ObservedValue: fmt.Sprintf("%02x", contents[offset]), OctetOffset: &location,
-				source: weak.Make(source), preflight: preflight, scope: config.reportScope,
-			}, config.diagnostics); err != nil {
-				return err
-			}
-		}
-		offset += size
-	}
-	if config.form != nil {
-		config.form.preserve = true
-	}
-	return nil
+	return reportStringOctets(tag.TagUTF8String, contents, source, 0, config, options, preflight, position)
 }
 
 func decodeStringValueTagOptions(tagNum int, contents []byte, source *byte, options []DecodeOption) (string, error) {
@@ -60,7 +38,7 @@ func decodeStringValueTagOptions(tagNum int, contents []byte, source *byte, opti
 		if err != nil {
 			return "", err
 		}
-		if err := checkAlphabetString(tagNum, contents, source, 0, config, options, false); err != nil {
+		if err := checkAlphabetString(tagNum, contents, source, 0, config, options, false, nil); err != nil {
 			return "", err
 		}
 		return string(contents), nil

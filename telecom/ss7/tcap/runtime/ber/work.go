@@ -1,12 +1,13 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 0c71e36fe1970d221e84d26a353bd995693e9aec881a64ffae9b5c24c1b59707.
+// Runtime source: runtime/ber/work.go; SHA-256 6e645860809628a938f08bc733b2a97b264799055051a1fd0155aa3dc5d51bbd.
 package ber
 
 import (
 	"bytes"
 	"fmt"
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
+	"unicode/utf8"
 )
 
 type berScanFrame struct {
@@ -54,7 +55,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 
 // validateBERElement shares the X.690 scan with input ownership after its
 // options have already been resolved and validated.
-func validateBERElement(data []byte, options []DecodeOption, config decodeConfig) (returnErr error) {
+func validateBERElement(data []byte, options []DecodeOption, config decodeConfig, recordOrigin ...stringReportOrigin) (returnErr error) {
 	// A standalone TCAP profile scan has no generated root context. Its form
 	// marker is caller-owned; keep scan bookkeeping local to this call.
 	if config.profile && config.form != nil && !config.form.generated {
@@ -124,30 +125,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		if _, located := returnErr.(*ElementError); located {
 			return
 		}
-		var indexes []int
-		if failureDepth > 1 {
-			// The sentinel and root frames have no child position in the path.
-			for _, ancestor := range stack[2:failureDepth] {
-				indexes = append(indexes, ancestor.index)
-			}
-			indexes = append(indexes, failureIndex)
-		}
-		if config.location != nil {
-			if absolute, ok := config.location.wireOffset(data[failureOffset:]); ok {
-				failureOffset = absolute
-				indexes, _ = config.location.decodeOrigin().ancestry(absolute)
-			} else {
-				base := config.location.receivedOffset()
-				if found, ok := config.location.decodeOrigin().mark(qualifyConstraintPath(options, "")); ok {
-					base = found
-				}
-				if failureOffset <= len(config.location.rootInput())-base {
-					failureOffset += base
-					indexes, _ = config.location.decodeOrigin().ancestry(failureOffset)
-				}
-			}
-		}
-		returnErr = &ElementError{offset: failureOffset, childIndexes: indexes, cause: returnErr}
+		returnErr = scanContentsFailure(data, failureOffset, stack[:failureDepth], failureIndex, config, options, returnErr)
 	}()
 	if len(data) == 0 {
 		return ErrTruncated
@@ -210,8 +188,12 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			}
 			restrictedDepth = 0
 		}
-		if closed.utf8Root {
-			if err := checkUTF8String(*closed.utf8Contents, closed.utf8Source, config, options, true); err != nil {
+		if closed.utf8Root && !utf8.Valid(*closed.utf8Contents) {
+			position, err := scannedUTF8Location(data, closed.offset, stack[:len(stack)-1], closed.index, config, options, recordOrigin...)
+			if err != nil {
+				return err
+			}
+			if err := checkUTF8String(*closed.utf8Contents, closed.utf8Source, config, options, true, &position); err != nil {
 				return err
 			}
 		}
@@ -524,8 +506,14 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				if start < end {
 					source = &data[start]
 				}
-				if err := checkUTF8String(data[start:end], source, config, options, true); err != nil {
-					return err
+				if !utf8.Valid(data[start:end]) {
+					position, err := scannedUTF8Location(data, pos, stack, childIndex, config, options, recordOrigin...)
+					if err != nil {
+						return err
+					}
+					if err := checkUTF8String(data[start:end], source, config, options, true, &position); err != nil {
+						return err
+					}
 				}
 			}
 
@@ -538,12 +526,23 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 					number, source, logicalOffset = restricted.number, restrictedSource, restrictedOctets
 				}
 				if isAlphabetString(number) {
-					if err := checkAlphabetString(number, data[start:end], source, logicalOffset, config, options, true); err != nil {
-						if config.tolerant {
+					if !validAlphabetContents(number, data[start:end]) {
+						rootOffset, rootIndex, rootStack := pos, childIndex, stack
+						if restrictedDepth != 0 {
+							root := stack[restrictedDepth-1]
+							rootOffset, rootIndex, rootStack = root.offset, root.index, stack[:restrictedDepth-1]
+						}
+						position, err := scannedUTF8Location(data, rootOffset, rootStack, rootIndex, config, options, recordOrigin...)
+						if err != nil {
 							return err
 						}
-						if firstContentsFailure == nil {
-							firstContentsFailure = scanContentsFailure(data, failureOffset, stack[:failureDepth], failureIndex, config, options, err)
+						if err := checkAlphabetString(number, data[start:end], source, logicalOffset, config, options, true, &position); err != nil {
+							if config.tolerant {
+								return err
+							}
+							if firstContentsFailure == nil {
+								firstContentsFailure = scanContentsFailure(data, failureOffset, stack[:failureDepth], failureIndex, config, options, err)
+							}
 						}
 					}
 				} else if restrictedDepth != 0 {
