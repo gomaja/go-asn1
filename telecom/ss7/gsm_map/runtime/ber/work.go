@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 5f7d980275ae7506644d95ad5004ad902d530ee085082be594f89c37f7cbbdc6.
+// Runtime source: runtime/ber/work.go; SHA-256 3fd0f6d36abeaec28f0bed609eac2fc7eb27d24e30dd3e5232358a3bf0405852.
 package ber
 
 import (
@@ -50,6 +50,9 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 	if err != nil {
 		return err
 	}
+	if generatedContentsPosition(config, options) {
+		config.generatedContents = true
+	}
 	return validateBERElement(data, options, config)
 }
 
@@ -59,7 +62,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 	// TS 29.002 V19.1.0 §17.1.1 applies only to MAP-defined content.
 	// A standalone BER walk cannot identify foreign open values (X.690
 	// (02/2021) §8.15), so require a generated typed decoder to claim them.
-	if config.form != nil && config.form.mapSyntax == mapSyntaxProfile {
+	if config.form != nil && config.form.mapSyntax&mapSyntaxMask == mapSyntaxProfile {
 		return fmt.Errorf("%w: MAP profile requires a generated MAP decoder", ErrInvalidValue)
 	}
 	// An unknown CHOICE alternative is a complete foreign encoding, including
@@ -79,7 +82,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				if !context.source.validElement(data) {
 					return fmt.Errorf("%w: generated BER child is not a validated element", ErrInvalidValue)
 				}
-				if len(options) == 1 && context.source.matchesValidated(data) {
+				if (config.skipRestrictedContents || !config.form.hasRestrictedContents()) && len(options) == 1 && context.source.matchesValidated(data) {
 					return nil
 				}
 			} else {
@@ -119,12 +122,18 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			spans = make(map[int]int)
 		}
 	}
+	checkRestricted := !config.collectPositionsOnly && !config.skipRestrictedContents
+	var restricted restrictedScanState
 	var initial [8]berScanFrame
 	initial[0].end = len(data)
 	stack := initial[:1]
 	failureOffset, failureDepth, failureIndex := 0, 1, 0
+	var firstContentsFailure *ElementError
 	defer func() {
 		if returnErr == nil {
+			return
+		}
+		if firstContentsFailure != nil && returnErr == firstContentsFailure {
 			return
 		}
 		var indexes []int
@@ -200,6 +209,18 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				}
 			}
 		}
+
+		if restricted.depth != 0 && len(stack) == restricted.depth {
+			if err, fatal := restricted.finish(data, closed.offset, stack[:failureDepth], closed.index, config, options); err != nil {
+				if fatal {
+					return err
+				}
+				if firstContentsFailure == nil {
+					firstContentsFailure = scanContentsFailure(data, closed.offset, stack[:failureDepth], closed.index, config, options, err)
+				}
+			}
+		}
+
 		if closed.utf8Root && reportUTF8 && !utf8.Valid(*closed.utf8Contents) {
 			position, err := scannedUTF8Location(data, closed.offset, stack[:len(stack)-1], closed.index, config, options)
 			if err != nil {
@@ -345,6 +366,16 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			}
 		}
 
+		if config.skipRestrictedContents && config.form != nil && t.Class == tag.ClassUniversal && isCheckedRestrictedString(t.Number) {
+			config.form.mapSyntax |= mapSyntaxContents
+		}
+		if checkRestricted && t.Constructed && t.Class == tag.ClassUniversal && isCheckedRestrictedString(t.Number) {
+			restricted = restrictedScanState{value: restrictedStringState{number: t.Number}, depth: len(stack) + 1}
+			if start < len(data) {
+				restricted.source = &data[start]
+			}
+		}
+
 		if indefinite {
 			if config.form != nil && config.form.lightInput == nil && config.generatedMode != generatedModeLight {
 				config.form.proofNeeded = true
@@ -392,6 +423,18 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 					}
 				}
 			}
+
+			if checkRestricted && (restricted.depth != 0 || isCheckedRestrictedString(t.Number)) {
+				if err, fatal := restricted.consumePrimitive(data, pos, start, end, stack, childIndex, config, options, reportUTF8, t.Number); err != nil {
+					if fatal {
+						return err
+					}
+					if firstContentsFailure == nil {
+						firstContentsFailure = scanContentsFailure(data, failureOffset, stack[:failureDepth], failureIndex, config, options, err)
+					}
+				}
+			}
+
 			if utf8Contents != nil {
 				*utf8Contents = append(*utf8Contents, data[start:end]...)
 			}
@@ -430,6 +473,9 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 	}
 	if pos != len(data) {
 		return ErrExtraData
+	}
+	if firstContentsFailure != nil {
+		return firstContentsFailure
 	}
 	if spans != nil || shortSpans != nil {
 		validated := append([]byte(nil), data...)
@@ -695,8 +741,8 @@ func scannedUTF8Location(data []byte, offset int, stack []berScanFrame, index in
 	}
 	v.ChildIndexes = relative
 	if config.location != nil {
-		// The scan is enabled only for a subslice of the located root.
-		// The received identifier is therefore always directly locatable.
+		// Root slices and reconstructed IMPLICIT child buffers map through
+		// their decode location to the received identifier.
 		absolute, ok := config.location.wireOffset(data[offset:])
 		if !ok {
 			return Violation{}, ErrInvalidLength

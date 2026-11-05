@@ -1524,6 +1524,7 @@ func (destination *SMRoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -1918,6 +1919,7 @@ func (destination *SMRoutingInfoForSMRes) UnmarshalBER(data []byte, opts ...ber.
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -2194,6 +2196,7 @@ func (destination *SMIPSMGWGuidance) UnmarshalBER(data []byte, opts ...ber.Decod
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -3362,6 +3365,7 @@ func (destination *SMLocationInfoWithLMSI) UnmarshalBER(data []byte, opts ...ber
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -4065,6 +4069,7 @@ func (destination *SMMOForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -4317,6 +4322,7 @@ func (destination *SMMOForwardSMRes) UnmarshalBER(data []byte, opts ...ber.Decod
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -5090,6 +5096,7 @@ func (destination *SMMTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -5601,6 +5608,7 @@ func (destination *SMMTForwardSMRes) UnmarshalBER(data []byte, opts ...ber.Decod
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -7427,6 +7435,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -7692,6 +7701,7 @@ func (destination *SMReportSMDeliveryStatusRes) UnmarshalBER(data []byte, opts .
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -8623,6 +8633,7 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -8680,7 +8691,7 @@ func (v *SMInformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MwStatus.Bytes, namedBits_MwStatus.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mw-Status", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 		if namedBits_MwStatus.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -8818,7 +8829,7 @@ func (v *SMInformServiceCentreArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MwStatus.Bytes, namedBits_MwStatus.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mw-Status", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 		if namedBits_MwStatus.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -9206,6 +9217,7 @@ func (destination *SMInformServiceCentreArg) UnmarshalBER(data []byte, opts ...b
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -9636,6 +9648,7 @@ func (destination *SMReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -9835,6 +9848,7 @@ func (destination *SMReadyForSMRes) UnmarshalBER(data []byte, opts ...ber.Decode
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -10160,6 +10174,7 @@ func (destination *SMMTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.D
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -10693,6 +10708,7 @@ func (destination *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.D
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")

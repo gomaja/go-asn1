@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/validation.go; SHA-256 aa856dacc9dafa5839faffffcf89927b727d1a6c7481e1004323128d0c49d787.
+// Runtime source: runtime/ber/validation.go; SHA-256 ad9d1037d79fb51fdcd5815908606adaa89eff4666eeeee3a3078d89456bb266.
 package ber
 
 import (
@@ -458,7 +458,7 @@ func LocateDecodeError(err error, options []DecodeOption) error {
 	if err == nil && len(options) == 1 {
 		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
 			form := context.config.form
-			if form == nil || !form.mapProfile() {
+			if form == nil || !form.mapProfile() && !form.hasRestrictedContents() && form.mapPending == nil {
 				return nil
 			}
 			if form.mapDepth > 0 && (form.mapDepth > 1 || form.mapPending == nil) {
@@ -467,7 +467,7 @@ func LocateDecodeError(err error, options []DecodeOption) error {
 			}
 		}
 	}
-	if config, optionErr := decodeOptions(options); optionErr == nil && config.form != nil && config.form.mapProfile() {
+	if config, optionErr := decodeOptions(options); optionErr == nil && config.form != nil && (config.form.mapProfile() || config.form.hasRestrictedContents() || config.form.mapPending != nil) {
 		if profileErr := finishMAPDecode(err, config); profileErr != nil {
 			err = profileErr
 		}
@@ -533,6 +533,9 @@ func EncodeSource(options []EncodeOption, source string) []EncodeOption {
 // source and path semantics. Per-offset buckets avoid scanning the report log
 // for every successful field; opaque spans are visited once per containing type.
 func locateUTF8Reports(config decodeConfig, location *decodeLocation, raw []byte, name string, length int, options []DecodeOption) {
+	if config.form != nil && config.form.mapPending != nil && config.form.mapPending.contents != nil {
+		locateGeneratedStringContents(config, location, raw, name, length, options)
+	}
 	if !config.tolerant || config.violations == nil || location == nil || length < 0 || length > len(raw) {
 		return
 	}

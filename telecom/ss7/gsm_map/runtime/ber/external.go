@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/external.go; SHA-256 b25fba69471956dd42152e934bf7176c710ab028f277a24517bb4a2f46b21232.
+// Runtime source: runtime/ber/external.go; SHA-256 ebe86e4ca2239f0dd3db36622a6143ebfdc9982429b7648abd229c2f9ddc0ac2.
 package ber
 
 import (
@@ -212,6 +212,10 @@ func validateExternalSingleASN1(scan, value []byte, index int, implicit bool, op
 	config, err := decodeOptions(options)
 	if err != nil {
 		return err
+	}
+	checkGeneratedOpaqueContents(config, scan, len(scan), options)
+	if generatedContentsPosition(config, options) {
+		config.skipRestrictedContents = true
 	}
 	// TS 29.002 V19.1.0 §17.1.1 covers MAP-defined syntax only.
 	// This X.690 (02/2021) §8.18.9 scan cannot claim protocol ownership.

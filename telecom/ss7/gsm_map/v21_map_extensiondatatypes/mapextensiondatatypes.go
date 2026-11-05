@@ -392,6 +392,7 @@ func (destination *ExtensionDataTypesExtensionContainer) UnmarshalBER(data []byt
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -717,6 +718,7 @@ func (destination *ExtensionDataTypesSLRArgExtensionContainer) UnmarshalBER(data
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -1168,6 +1170,7 @@ func (destination *ExtensionDataTypesPCSExtensions) UnmarshalBER(data []byte, op
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesPCSExtensions", Cause: extErr_}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -1370,6 +1373,7 @@ func (destination *ExtensionDataTypesSLRArgPCSExtensions) UnmarshalBER(data []by
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")

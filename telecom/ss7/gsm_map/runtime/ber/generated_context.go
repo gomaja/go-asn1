@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 4f61c1bcc91109d1d755675f0e0cf75d6fe2b4c1457ef3610e825dd44a727a35.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 27ac36107ed16900feba2aa2cd194b9119db4a3a0228cfe318b20fdc02f73d1c.
 package ber
 
 import (
@@ -206,8 +206,8 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 	// Its form marker is direct, while diagnostic probes wrap their options.
 	for _, option := range options {
 		if form, ok := option.(berFormOption); ok && form.state != nil {
-			if form.state.mapSyntax == mapSyntaxProfile {
-				form.state.mapSyntax = mapSyntaxGenerated
+			if form.state.mapSyntax&mapSyntaxMask == mapSyntaxProfile {
+				form.state.mapSyntax = form.state.mapSyntax&mapSyntaxFlags | mapSyntaxGenerated
 			}
 			if form.state.lightInput != nil {
 				return data, nil
@@ -249,7 +249,7 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 			}
 			if _, within := berSubsliceOffset(context.source.owned, data); within {
 				if !context.source.matchesValidated(data) {
-					if err := ValidateBERElement(data, options...); err != nil {
+					if err := validateGeneratedBERElement(data, options); err != nil {
 						return nil, err
 					}
 				}
@@ -266,6 +266,8 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 		return nil, optionErr
 	}
 	preliminary := config
+	preliminary.generatedContents = true
+	preliminary.skipRestrictedContents = true
 	if preliminary.form != nil && preliminary.form.lightInput == nil && preliminary.form.owned == nil && preliminary.form.lightOwned == nil {
 		preliminary.form = nil
 		if preliminary.tolerant {
@@ -315,7 +317,7 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []DecodeOption, error) {
 	for _, option := range options {
 		if form, ok := option.(berFormOption); ok && form.state != nil && form.state.lightInput != nil {
-			if err := ValidateBERElement(data, options...); err != nil {
+			if err := validateGeneratedBERElement(data, options); err != nil {
 				return nil, nil, err
 			}
 			return data, options, nil
@@ -342,13 +344,13 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 				return nil, nil, fmt.Errorf("%w: invalid generated BER decode context", ErrInvalidValue)
 			}
 			if context.source.light {
-				if err := ValidateBERElement(data, options...); err != nil {
+				if err := validateGeneratedBERElement(data, options); err != nil {
 					return nil, nil, err
 				}
 				return data, options, nil
 			}
 			if context.source.validElement(data) {
-				if err := ValidateBERElement(data, options...); err != nil {
+				if err := validateGeneratedBERElement(data, options); err != nil {
 					return nil, nil, err
 				}
 				return data, options, nil
@@ -356,7 +358,7 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 			if _, within := berSubsliceOffset(context.source.owned, data); within {
 				return nil, nil, fmt.Errorf("%w: generated BER child is not a validated element", ErrInvalidValue)
 			}
-			if err := ValidateBERElement(data, options...); err != nil {
+			if err := validateGeneratedBERElement(data, options); err != nil {
 				return nil, nil, err
 			}
 			if context.pending == nil || !sameBERSlice(context.pending.input, data) {
@@ -386,7 +388,7 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 			break
 		}
 	}
-	if err := ValidateBERElement(data, options...); err != nil {
+	if err := validateGeneratedBERElement(data, options); err != nil {
 		return nil, nil, err
 	}
 	if len(options) == 1 {
@@ -429,7 +431,7 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 			*resolved = proofConfig
 			return nil
 		})
-		if err := ValidateBERElement(data, proofOption); err != nil {
+		if err := validateGeneratedBERElement(data, []DecodeOption{proofOption}); err != nil {
 			return nil, nil, err
 		}
 	}
@@ -572,7 +574,7 @@ func decodeValidatedTLV(data []byte, context *generatedDecodeOption, form *berFo
 		return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER prefix is not a validated element", ErrInvalidValue), true
 	}
 	if !context.source.matchesValidated(data) {
-		if err := ValidateBERElement(data, context); err != nil {
+		if err := validateGeneratedBERElement(data, []DecodeOption{context}); err != nil {
 			return tag.Tag{}, 0, nil, err, true
 		}
 	}

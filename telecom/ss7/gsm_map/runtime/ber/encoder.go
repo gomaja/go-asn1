@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/encoder.go; SHA-256 34b562297abcfafcb7ffea43d8f71c24105e9b67ef2b5f6c5f1caf236a4ce9a3.
+// Runtime source: runtime/ber/encoder.go; SHA-256 f786b143b6a914424d1814bdaf34377eb3177733fb7e2599b8161adb3361f7ce.
 package ber
 
 import (
@@ -428,11 +428,17 @@ func EncodeUTF8String(v string) ([]byte, error) {
 
 // EncodeIA5String encodes an IA5String.
 func EncodeIA5String(v string) ([]byte, error) {
+	if err := validateRestrictedStringContents(tag.TagIA5String, []byte(v)); err != nil {
+		return nil, err
+	}
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagIA5String}, []byte(v))
 }
 
 // EncodePrintableString encodes a PrintableString.
 func EncodePrintableString(v string) ([]byte, error) {
+	if err := validateRestrictedStringContents(tag.TagPrintableString, []byte(v)); err != nil {
+		return nil, err
+	}
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagPrintableString}, []byte(v))
 }
 
@@ -461,6 +467,12 @@ func EncodeStringValueTagChecked(tagNum int, v string) ([]byte, error) {
 
 func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 	switch tagNum {
+	case tag.TagNumericString, tag.TagPrintableString, tag.TagIA5String, tag.TagVisibleString, tag.TagUTCTime, tag.TagGeneralizedTime:
+		if err := validateRestrictedStringContents(tagNum, []byte(v)); err != nil {
+			return nil, err
+		}
+		return []byte(v), nil
+
 	case tag.TagUTF8String:
 		// X.690 (02/2021) §8.23.10 requires shortest-form UTF-8.
 		if !utf8.ValidString(v) {
@@ -482,7 +494,7 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		value := make([]byte, 0, capacity)
 		for _, r := range v {
 			if r > 0xffff || !utf8.ValidRune(r) {
-				return nil, fmt.Errorf("BMPString character U+%04X is outside the Basic Multilingual Plane", r)
+				return nil, fmt.Errorf("%w: BMPString character U+%04X is outside the Basic Multilingual Plane (X.690 (02/2021) §8.23.8)", ErrInvalidValue, r)
 			}
 			value = binary.BigEndian.AppendUint16(value, uint16(r))
 		}
@@ -498,7 +510,7 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		value := make([]byte, 0, capacity)
 		for _, r := range v {
 			if r < 0 || r > utf8.MaxRune || !utf8.ValidRune(r) {
-				return nil, fmt.Errorf("UniversalString character U+%04X is not a Unicode scalar value", r)
+				return nil, fmt.Errorf("%w: UniversalString character U+%04X is not a Unicode scalar value (X.690 (02/2021) §8.23.7)", ErrInvalidValue, r)
 			}
 			value = binary.BigEndian.AppendUint32(value, uint32(r))
 		}

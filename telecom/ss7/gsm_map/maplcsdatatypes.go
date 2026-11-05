@@ -1281,6 +1281,7 @@ func (destination *RoutingInfoForLCSArg) UnmarshalBER(data []byte, opts ...ber.D
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -1904,6 +1905,7 @@ func (destination *RoutingInfoForLCSRes) UnmarshalBER(data []byte, opts ...ber.D
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -2013,7 +2015,7 @@ func (v *LCSLocationInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedLCSCapabilitySets.Bytes, namedBits_SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedLCS-CapabilitySets", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 		if namedBits_SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2041,7 +2043,7 @@ func (v *LCSLocationInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_AdditionalLCSCapabilitySets.Bytes, namedBits_AdditionalLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "additional-LCS-CapabilitySets", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 		if namedBits_AdditionalLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2243,7 +2245,7 @@ func (v *LCSLocationInfo) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedLCSCapabilitySets.Bytes, namedBits_SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedLCS-CapabilitySets", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 		if namedBits_SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2271,7 +2273,7 @@ func (v *LCSLocationInfo) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_AdditionalLCSCapabilitySets.Bytes, namedBits_AdditionalLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "additional-LCS-CapabilitySets", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 		if namedBits_AdditionalLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2830,6 +2832,7 @@ func (destination *LCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -3029,7 +3032,7 @@ func (v *ProvideSubscriberLocationArg) marshalBER(opts ...ber.EncodeOption) ([]b
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedGADShapes.Bytes, namedBits_SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedGADShapes", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 		if namedBits_SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3373,7 +3376,7 @@ func (v *ProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedGADShapes.Bytes, namedBits_SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedGADShapes", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 		if namedBits_SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4338,6 +4341,7 @@ func (destination *ProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts 
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -4385,7 +4389,7 @@ func (v *LocationType) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_DeferredLocationEventType.Bytes, namedBits_DeferredLocationEventType.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "deferredLocationEventType", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 		if namedBits_DeferredLocationEventType.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4459,7 +4463,7 @@ func (v *LocationType) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_DeferredLocationEventType.Bytes, namedBits_DeferredLocationEventType.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "deferredLocationEventType", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 		if namedBits_DeferredLocationEventType.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4635,6 +4639,7 @@ func (destination *LocationType) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -5222,6 +5227,7 @@ func (destination *LCSClientID) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -5571,6 +5577,7 @@ func (destination *LCSClientName) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -6044,6 +6051,7 @@ func (destination *LCSRequestorID) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -6737,6 +6745,7 @@ func (destination *LCSQoS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -6888,6 +6897,7 @@ func (destination *ResponseTime) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ResponseTime", Cause: extErr_}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -7163,6 +7173,7 @@ func (destination *LCSCodeword) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSCodeword", Cause: extErr_}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -7539,6 +7550,7 @@ func (destination *LCSPrivacyCheck) UnmarshalBER(data []byte, opts ...ber.Decode
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -7869,6 +7881,7 @@ func (destination *AreaEventInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -8108,6 +8121,7 @@ func (destination *AreaDefinition) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "AreaDefinition", Cause: extErr_}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -8510,6 +8524,7 @@ func (destination *Area) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "Area", Cause: extErr_}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -8806,6 +8821,7 @@ func (destination *PeriodicLDRInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -9010,6 +9026,7 @@ func (destination *ReportingOptionMilliseconds) UnmarshalBER(data []byte, opts .
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ReportingOptionMilliseconds", Cause: extErr_}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -9299,6 +9316,7 @@ func (destination *ReportingPLMNList) UnmarshalBER(data []byte, opts ...ber.Deco
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ReportingPLMNList", Cause: extErr_}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -9776,6 +9794,7 @@ func (destination *ReportingPLMN) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -11033,6 +11052,7 @@ func (destination *ProvideSubscriberLocationRes) UnmarshalBER(data []byte, opts 
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -13182,6 +13202,7 @@ func (destination *SubscriberLocationReportArg) UnmarshalBER(data []byte, opts .
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -13221,7 +13242,7 @@ func (v *DeferredmtLrData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_DeferredLocationEventType.Bytes, namedBits_DeferredLocationEventType.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "deferredLocationEventType", "encoding", false)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 	if namedBits_DeferredLocationEventType.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -13303,7 +13324,7 @@ func (v *DeferredmtLrData) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_DeferredLocationEventType.Bytes, namedBits_DeferredLocationEventType.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "deferredLocationEventType", "encoding", true)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:755
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:757
 	if namedBits_DeferredLocationEventType.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -13524,6 +13545,7 @@ func (destination *DeferredmtLrData) UnmarshalBER(data []byte, opts ...ber.Decod
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -14377,6 +14399,7 @@ func (destination *SubscriberLocationReportRes) UnmarshalBER(data []byte, opts .
 				return orderErr_
 			}
 		}
+		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
