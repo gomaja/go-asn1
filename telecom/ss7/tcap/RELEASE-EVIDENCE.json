@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "ca49c87c8d6f3d5f565819d169786914ee330492",
-    "tree": "3b724b75ba7bfdc4d9181a469591dfc5a1fa8a8d",
+    "commit": "fa6635625eca8648687b7b54657eac2defef950b",
+    "tree": "f8e69fdd57d1c18d6f991afa70548438457d21bf",
     "dirty": false
   },
   "source_lock": {
@@ -866,8 +866,14 @@
     {
       "path": "ber/string_location.go",
       "mode": "0644",
-      "size": 1726,
-      "sha256": "6c2748e9e150015066e0dffcd9f00d0fc1e4f2e264058aac78e76b6efc320780"
+      "size": 1711,
+      "sha256": "52cd75a2308b824d8823771fea03c535f8361fc5d78720bb8b8757224e2da488"
+    },
+    {
+      "path": "ber/string_location_test.go",
+      "mode": "0644",
+      "size": 1360,
+      "sha256": "d401075ab725f03f3338be96d6afdd23308c488623557120ce7536096d6a91f8"
     },
     {
       "path": "ber/string_reporting.go",
@@ -1798,8 +1804,14 @@
     {
       "path": "ber/string_location.go",
       "mode": "0644",
-      "size": 1922,
-      "sha256": "bb3f9043f6b31bf17f73f185b7f1fcd648b8149891a63a3f39b6e1321d1c6b5c"
+      "size": 1907,
+      "sha256": "d2db12b7d00e62f59fd819cc32cb3ba5d818be987db0c380e90a30b2a797bd0b"
+    },
+    {
+      "path": "ber/string_location_test.go",
+      "mode": "0644",
+      "size": 1556,
+      "sha256": "2d43fb565c09edb7b28e016c38c82f9bd9b24168286fd6aa1683ce67ac69f54e"
     },
     {
       "path": "ber/string_reporting.go",
@@ -2724,8 +2736,14 @@
     {
       "path": "runtime/ber/string_location.go",
       "mode": "0644",
-      "size": 1922,
-      "sha256": "bb3f9043f6b31bf17f73f185b7f1fcd648b8149891a63a3f39b6e1321d1c6b5c"
+      "size": 1907,
+      "sha256": "d2db12b7d00e62f59fd819cc32cb3ba5d818be987db0c380e90a30b2a797bd0b"
+    },
+    {
+      "path": "runtime/ber/string_location_test.go",
+      "mode": "0644",
+      "size": 1556,
+      "sha256": "2d43fb565c09edb7b28e016c38c82f9bd9b24168286fd6aa1683ce67ac69f54e"
     },
     {
       "path": "runtime/ber/string_reporting.go",

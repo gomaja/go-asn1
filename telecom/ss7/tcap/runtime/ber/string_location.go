@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/string_location.go; SHA-256 6c2748e9e150015066e0dffcd9f00d0fc1e4f2e264058aac78e76b6efc320780.
+// Runtime source: runtime/ber/string_location.go; SHA-256 52cd75a2308b824d8823771fea03c535f8361fc5d78720bb8b8757224e2da488.
 package ber
 
 import (
@@ -30,11 +30,8 @@ func scannedUTF8Location(data []byte, offset int, stack []berScanFrame, index in
 			return Violation{}, ErrInvalidLength
 		}
 		offset = absolute
-		var err error
-		v.ChildIndexes, err = config.location.decodeOrigin().ancestry(offset)
-		if err != nil {
-			return Violation{}, err
-		}
+		// String records retain only the physical offset and local path;
+		// their reporting step discards ancestry metadata.
 	}
 	if len(recordOrigin) != 0 && config.location == nil {
 		origin := recordOrigin[0]
