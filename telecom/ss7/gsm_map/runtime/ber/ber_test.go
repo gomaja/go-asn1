@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/ber_test.go; SHA-256 0a8d930c229b2b6e8483fc68ae092d786a306897e330a60366c39898c5ecfde6.
+// Runtime source: runtime/ber/ber_test.go; SHA-256 ee62c14d31456cddd278af4e00b0891adc3fbc1006a27bca424482761a6e0169.
 package ber
 
 import (
@@ -810,21 +810,25 @@ func TestDecodeGeneralizedTimeValueInvalid(t *testing.T) {
 
 func TestEncodeStringTag(t *testing.T) {
 	cases := []struct {
-		name   string
-		tagNum int
+		name        string
+		tagNum      int
+		value, wire string
 	}{
-		{"UTF8String", tag.TagUTF8String},
-		{"PrintableString", tag.TagPrintableString},
-		{"IA5String", tag.TagIA5String},
-		{"T61String", tag.TagT61String},
-		{"VisibleString", tag.TagVisibleString},
-		{"NumericString", tag.TagNumericString},
-		{"BMPString", tag.TagBMPString},
-		{"UniversalString", tag.TagUniversalString},
+		{"UTF8String", tag.TagUTF8String, "abc", "0c03616263"},
+		{"PrintableString", tag.TagPrintableString, "abc", "1303616263"},
+		{"IA5String", tag.TagIA5String, "abc", "1603616263"},
+		{"T61String", tag.TagT61String, "abc", "1403616263"},
+		{"VisibleString", tag.TagVisibleString, "abc", "1a03616263"},
+		{"NumericString", tag.TagNumericString, "123", "1203313233"},
+		{"BMPString", tag.TagBMPString, "abc", "1e06006100620063"},
+		{"UniversalString", tag.TagUniversalString, "abc", "1c0c000000610000006200000063"},
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			encoded := mustEncode(t)(EncodeStringTag(c.tagNum, "123"))
+			encoded := mustEncode(t)(EncodeStringTag(c.tagNum, c.value))
+			if !bytes.Equal(encoded, structureWire(t, c.wire)) {
+				t.Fatalf("encoded value differs from %s fixture", c.name)
+			}
 			decoded, n, err := DecodeString(encoded, c.tagNum)
 			if err != nil {
 				t.Fatalf("decode error: %v", err)
@@ -832,8 +836,8 @@ func TestEncodeStringTag(t *testing.T) {
 			if n != len(encoded) {
 				t.Errorf("consumed: got %d, want %d", n, len(encoded))
 			}
-			if decoded != "123" {
-				t.Errorf("got %q, want %q", decoded, "123")
+			if decoded != c.value {
+				t.Errorf("got %q, want %q", decoded, c.value)
 			}
 		})
 	}

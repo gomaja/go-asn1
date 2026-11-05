@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 9b0c0f17c5a69dd285606d4d398b95d9e0a223a88b277ccdcea78642eba5c402.
+// Runtime source: runtime/ber/decoder.go; SHA-256 ab3ef3564e5a5b16e0dc2d95335c68cec619730471dc24996e2f16f33288c8ad.
 package ber
 
 import (
@@ -449,7 +449,8 @@ func validateDERTLV(data []byte, depth, maxDepth, baseOffset int) (int, error) {
 
 // validateDERUniversalValue applies rules that do not require a schema.
 // X.690 (02/2021) §§8.1.5, 8.2–8.4, 8.6, 8.8–8.12, 8.17.1, 8.18.1,
-// 8.21.1–8.22.1, 8.24.1, 8.26, 10.2, 11.1–11.2 and 11.7–11.8, including
+// 8.21.1–8.22.1, 8.23.4–8.23.8, 8.23.10, 8.24.1, 8.26, 10.2,
+// 11.1–11.2 and 11.7–11.8, including
 // §8.19–8.20 subidentifier forms;
 // Erratum 1 (09/2021) changes only Figure 4.
 func validateDERUniversalValue(t tag.Tag, value []byte) error {

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 b332d21cae82b0a40ac9985985f39b0aa16b800756b59ecbb071164c9a34bfce.
+// Runtime source: runtime/ber/constraints.go; SHA-256 036bf24da96ac85c2562bf25a180eff43c5e5bb83bb752b9f13ac17b79ee3374.
 package ber
 
 import (
@@ -156,7 +156,9 @@ func reportKey(record Violation) violationKey {
 		key.observed = sha256.Sum256(fmt.Append(nil, record.ChildIndexes))
 		return key
 	}
-	if record.Offset != nil {
+	// String reports retain their per-octet identity when a physical
+	// identifier is available; equal bad octets remain distinct.
+	if record.Offset != nil && record.OctetOffset == nil {
 		key.offset = *record.Offset
 		key.path = ""
 		return key

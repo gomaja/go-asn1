@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_path.go; SHA-256 1986347b8a94d47322913e8a1ec908a5fcdc048d402e392587f23a3aad1e75e3.
+// Runtime source: runtime/ber/preflight_path.go; SHA-256 3b0c12f0b449e914e1c63925b1fa0fa1d635ff0fc99079330fd068df17dae7ec.
 package ber
 
 import (
@@ -165,7 +165,8 @@ func MarkPreflightElement(options []DecodeOption, index int, raw []byte) {
 
 // MarkPreflightOpaque records the named prefix of an opaque field containing
 // the preflight failure. Remaining positions are reported as child indexes.
-// It scans each opaque field once only during a failed diagnostic decode.
+// A generated decode checks string contents when the message contains a
+// restricted string tag, then scans the field again on a failed diagnostic decode.
 func MarkPreflightOpaque(options []DecodeOption, name string, raw []byte, length int) {
 	if config, err := decodeOptions(options); err == nil {
 		checkGeneratedOpaqueContents(config, raw, length, options)

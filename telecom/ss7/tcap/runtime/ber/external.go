@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/external.go; SHA-256 d1688e31a3ca7f554aeaa18b74928d2a691f45c6a0a80eda8107eaec57128bf8.
+// Runtime source: runtime/ber/external.go; SHA-256 d17df33053f12c1626fabc42f9092c13fa7bce1c3535328070f3ac2e7972ac5d.
 package ber
 
 import (
@@ -168,21 +168,12 @@ func decodeExternalValue(value, element []byte, options []DecodeOption, prefligh
 			// Keep options intact for validated-element proofs and locations.
 			config.profile, config.profileEncode, config.profileNested = false, false, false
 			config.profileType, config.profileSource = "", ""
-			if err := validateBERElement(scan, options, config); err != nil {
+
+			if err := validateExternalStringRecords(scan, value, &result, element == nil, options, config); err != nil {
 				if element != nil {
 					return result, err
 				}
-				index := 0
-				if !result.DirectReference.IsZero() {
-					index++
-				}
-				if result.IndirectReference != nil {
-					index++
-				}
-				if result.DataValueDescriptor != nil {
-					index++
-				}
-				err = externalStructureError(err, value, choice, []int{index, 0}, options)
+				err = externalStructureError(err, value, choice, []int{externalChoiceIndex(&result), 0}, options)
 				return result, err
 			}
 		}
@@ -481,4 +472,37 @@ func encodeExternal(value runtime.External, der bool, options ...EncodeOption) (
 // The public BitString length uses int, so reject wire lengths beyond it.
 func externalBitLength(octets, unused int) (int, error) {
 	return BitStringBitLength(octets, unused)
+}
+
+// X.690 (02/2021) §§8.18.1, 8.23.3–8.23.5, 8.23.10: an implicit
+// EXTERNAL has no enclosing identifier. Translate open-value records into
+// the supplied contents; valid input needs no report storage or extra scan.
+func validateExternalStringRecords(scan, value []byte, external *runtime.External, implicit bool, options []DecodeOption, config decodeConfig) error {
+	if !implicit || !config.tolerant || config.location != nil {
+		return validateBERElement(scan, options, config)
+	}
+	return validateBERElement(scan, options, config, stringReportOrigin{input: value, external: external})
+}
+
+// The optional X.690 (02/2021) §8.18.1 identification fields precede
+// the encoding choice. Only a finding needs their structural ordinal.
+func externalChoiceIndex(value *runtime.External) int {
+	index := 0
+	if !value.DirectReference.IsZero() {
+		index++
+	}
+	if value.IndirectReference != nil {
+		index++
+	}
+	if value.DataValueDescriptor != nil {
+		index++
+	}
+	return index
+}
+
+// A standalone implicit EXTERNAL scans only its single-ASN1-type. This
+// translation is consumed only when that scan has a string finding.
+type stringReportOrigin struct {
+	input    []byte
+	external *runtime.External
 }

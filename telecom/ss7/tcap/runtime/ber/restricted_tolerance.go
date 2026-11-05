@@ -1,11 +1,10 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/restricted_tolerance.go; SHA-256 f75649ff9ce3e1de748956189a77ca89432a40d17a4ea688f4b0caf9c949ccab.
+// Runtime source: runtime/ber/restricted_tolerance.go; SHA-256 b275326faf46810c8873c036824bd39f4e4efe54f081a81f7e46f3ea6942cc91.
 package ber
 
 import (
 	"fmt"
-	"weak"
 )
 
 func validAlphabetContents(number int, contents []byte) bool {
@@ -17,34 +16,14 @@ func validAlphabetContents(number int, contents []byte) bool {
 	return true
 }
 
-func checkAlphabetString(number int, contents []byte, source *byte, logicalOffset int, config decodeConfig, options []DecodeOption, preflight bool) error {
+func checkAlphabetString(number int, contents []byte, source *byte, logicalOffset int, config decodeConfig, options []DecodeOption, preflight bool, position *Violation) error {
 	if validAlphabetContents(number, contents) {
 		return nil
 	}
 	if !config.tolerant || config.profile {
 		return fmt.Errorf("%w: %s", ErrInvalidValue, alphabetRule(number))
 	}
-	path := qualifyConstraintPath(options, "")
-	// Each out-of-alphabet octet has its own bounded report. Logical offsets
-	// continue across OCTET STRING segments (X.690 (02/2021) §8.23.3).
-	for offset := 0; offset < len(contents); {
-		size := 1
-		if !alphabetOctet(number, contents[offset]) {
-			location := logicalOffset + offset
-			if err := config.violations.append(Violation{
-				Rule: alphabetRuleRef(number), Path: path, Constraint: alphabetRule(number),
-				ObservedValue: fmt.Sprintf("%02x", contents[offset]), OctetOffset: &location,
-				source: weak.Make(source), preflight: preflight, scope: config.reportScope,
-			}, config.diagnostics); err != nil {
-				return err
-			}
-		}
-		offset += size
-	}
-	if config.form != nil {
-		config.form.preserve = true
-	}
-	return nil
+	return reportStringOctets(number, contents, source, logicalOffset, config, options, preflight, position)
 }
 
 func alphabetRuleRef(number int) RuleRef {

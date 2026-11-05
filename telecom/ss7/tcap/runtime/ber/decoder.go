@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 2f0890359e473126ff0279931f990a3f1b480848f9f95be9d68532f6ffe99644.
+// Runtime source: runtime/ber/decoder.go; SHA-256 8e2a09d812831707d1b2c36607e3b5b2858d96d4c99f1871a9c8d45d17026dfe.
 package ber
 
 import (
@@ -430,7 +430,8 @@ func validateDERTLV(data []byte, depth, maxDepth, baseOffset int) (int, error) {
 
 // validateDERUniversalValue applies rules that do not require a schema.
 // X.690 (02/2021) §§8.1.5, 8.2–8.4, 8.6, 8.8–8.12, 8.17.1, 8.18.1,
-// 8.21.1–8.22.1, 8.24.1, 8.26, 10.2, 11.1–11.2 and 11.7–11.8, including
+// 8.21.1–8.22.1, 8.23.4–8.23.8, 8.23.10, 8.24.1, 8.26, 10.2,
+// 11.1–11.2 and 11.7–11.8, including
 // §8.19–8.20 subidentifier forms;
 // Erratum 1 (09/2021) changes only Figure 4.
 func validateDERUniversalValue(t tag.Tag, value []byte) error {
