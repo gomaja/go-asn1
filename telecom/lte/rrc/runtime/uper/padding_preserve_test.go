@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/padding_preserve_test.go; SHA-256 46bb95d242ff5cadb30a5f2cc441404e079ca6ab287076c6879a0a79c611d359.
+// Runtime source: runtime/uper/padding_preserve_test.go; SHA-256 2b5e7406482fdaa652d5d742c2e1b7b8b50faa600518ccb05fabf5a054086a5e.
 package uper
 
 import (
@@ -69,7 +69,11 @@ func TestLPPCompletePaddingRejectsOutOfRangeBits(t *testing.T) {
 
 func FuzzCompletePaddingRoundTrip(f *testing.F) {
 	for _, seed := range [][]byte{{}, {0}, {0x8f}, {0xff}, {0x80, 0}} {
-		f.Add(seed, uint8(1))
+		prefixBits := uint8(1)
+		if len(seed) == 0 {
+			prefixBits = 0
+		}
+		f.Add(seed, prefixBits)
 	}
 	f.Fuzz(func(t *testing.T, wire []byte, prefixBits uint8) {
 		if len(wire) > 1024 || prefixBits > 7 || len(wire) == 0 && prefixBits > 0 {
