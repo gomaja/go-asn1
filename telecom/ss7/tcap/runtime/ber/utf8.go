@@ -1,18 +1,17 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 517159a43ecb98004e942878a79a09f4e39a78a2a7c2bc55562d61d2563ec798.
+// Runtime source: runtime/ber/utf8.go; SHA-256 9933f59325187595004503cbe47e563bc54a9a61dde91c29693abc1c2b006ad2.
 package ber
 
 import (
 	"fmt"
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
-	"unicode/utf8"
 )
 
 // X.690 (02/2021) §8.23.10 and ISO/IEC 10646 Annex D require
 // shortest-form UTF-8 scalar text, including for implicit string values.
 func checkDecodedUTF8String(contents []byte, source *byte, options []DecodeOption) error {
-	if utf8.Valid(contents) {
+	if validUTF8Contents(contents) {
 		return nil
 	}
 	config, err := decodeOptions(options)
@@ -23,10 +22,13 @@ func checkDecodedUTF8String(contents []byte, source *byte, options []DecodeOptio
 }
 
 func checkUTF8String(contents []byte, source *byte, config decodeConfig, options []DecodeOption, preflight bool, position *Violation) error {
-	if utf8.Valid(contents) {
+	if validUTF8Contents(contents) {
 		return nil
 	}
 	if !config.tolerant || config.profile {
+		if !validStringControls(tag.TagUTF8String, string(contents)) {
+			return invalidStringControl(tag.TagUTF8String)
+		}
 		return fmt.Errorf("%w: UTF8String is not shortest-form UTF-8 scalar text", ErrInvalidValue)
 	}
 	return reportStringOctets(tag.TagUTF8String, contents, source, 0, config, options, preflight, position)

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 8e2a09d812831707d1b2c36607e3b5b2858d96d4c99f1871a9c8d45d17026dfe.
+// Runtime source: runtime/ber/decoder.go; SHA-256 adbd85e9461ac33749473bbf4fa9a081da6c5d9aca907a8906369012923aba57.
 package ber
 
 import (
@@ -509,7 +509,7 @@ func validateDERUniversalValue(t tag.Tag, value []byte) error {
 			return invalid(err.Error())
 		}
 	case tag.TagUTF8String:
-		if !utf8.Valid(value) {
+		if !validUTF8Contents(value) {
 			return invalid("UTF8String is not shortest-form UTF-8 scalar text")
 		}
 	case tag.TagEmbeddedPDV, tag.TagCharacterString:
@@ -1201,14 +1201,19 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 		if len(value)%2 != 0 {
 			return "", fmt.Errorf("%w: BMPString content length %d is not divisible by 2", ErrInvalidValue, len(value))
 		}
+		var controls stringControlState
 		runes := make([]rune, 0, len(value)/2)
 		for offset := 0; offset < len(value); {
 			if len(value)-offset < 2 {
 				return "", ErrTruncated
 			}
 			r := rune(binary.BigEndian.Uint16(value[offset : offset+2]))
-			if !utf8.ValidRune(r) {
+			// X.680 (02/2021) §41.15 excludes surrogates and the last two BMP cells.
+			if r > 0xfffd || !utf8.ValidRune(r) {
 				return "", fmt.Errorf("%w: BMPString contains invalid code point U+%04X", ErrInvalidValue, r)
+			}
+			if controls.consume(tagNum, r) {
+				return "", invalidStringControl(tagNum)
 			}
 			runes = append(runes, r)
 			offset += 2
@@ -1218,6 +1223,7 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 		if len(value)%4 != 0 {
 			return "", fmt.Errorf("%w: UniversalString content length %d is not divisible by 4", ErrInvalidValue, len(value))
 		}
+		var controls stringControlState
 		runes := make([]rune, 0, len(value)/4)
 		for offset := 0; offset < len(value); {
 			if len(value)-offset < 4 {
@@ -1230,6 +1236,9 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 			r := rune(codePoint)
 			if !utf8.ValidRune(r) {
 				return "", fmt.Errorf("%w: UniversalString contains invalid code point U+%04X", ErrInvalidValue, r)
+			}
+			if controls.consume(tagNum, r) {
+				return "", invalidStringControl(tagNum)
 			}
 			runes = append(runes, r)
 			offset += 4

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 2a49323431d6f8a60e632d1afe6d1ad7e554996b9caa5e7f935a756693436675.
+// Runtime source: runtime/ber/constraints.go; SHA-256 f11a4e229a5845a5f60caef0b99d500ba338faac34e8df27de28341a0abca357.
 package ber
 
 import (
@@ -656,18 +656,21 @@ func CheckEncodedLength(options []EncodeOption, path, constraint string, observe
 }
 
 // CheckEncodedValue enforces a generated value-set check or records its violation.
-// With the X.690 §8.23.10 rule, observed is the current UTF8String contents;
+// With X.690 §§8.23.5.3 or 8.23.10, observed is the current string contents;
 // each invalid octet is reported separately, without parsing an encoded TLV.
 func CheckEncodedValue(options []EncodeOption, path, constraint, observed string) error {
 	config, err := encodeOptions(options)
 	if err != nil {
 		return err
 	}
-	// Generated UTF8String checks pass the current string, rather than a
-	// formatted observation. X.690 (02/2021) §8.23.10 identifies this wire-text
+	// Generated string checks pass the current string, rather than a
+	// formatted observation. X.690 (02/2021) §§8.23.5.3, 8.23.10 identify these
 	// rule explicitly; constraint wording does not select runtime policy.
 	if config.rule.Document == "ITU-T X.690" && config.rule.Clause == "8.23.10" {
 		return checkEncodedUTF8String(observed, options, path)
+	}
+	if config.rule.Document == "ITU-T X.690" && config.rule.Clause == "8.23.5.3" {
+		return checkEncodedIA5Controls(observed, options, path)
 	}
 	return checkEncodedConstraint(options, Violation{Path: path, Constraint: constraint, ObservedValue: observed})
 }

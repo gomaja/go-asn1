@@ -1,13 +1,12 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 6e645860809628a938f08bc733b2a97b264799055051a1fd0155aa3dc5d51bbd.
+// Runtime source: runtime/ber/work.go; SHA-256 4f12fab3008918402eb2c83a731b411fc720468033b764b7d343c4162ab7baba.
 package ber
 
 import (
 	"bytes"
 	"fmt"
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
-	"unicode/utf8"
 )
 
 type berScanFrame struct {
@@ -188,7 +187,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			}
 			restrictedDepth = 0
 		}
-		if closed.utf8Root && !utf8.Valid(*closed.utf8Contents) {
+		if closed.utf8Root && !validUTF8Contents(*closed.utf8Contents) {
 			position, err := scannedUTF8Location(data, closed.offset, stack[:len(stack)-1], closed.index, config, options, recordOrigin...)
 			if err != nil {
 				return err
@@ -506,7 +505,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				if start < end {
 					source = &data[start]
 				}
-				if !utf8.Valid(data[start:end]) {
+				if !validUTF8Contents(data[start:end]) {
 					position, err := scannedUTF8Location(data, pos, stack, childIndex, config, options, recordOrigin...)
 					if err != nil {
 						return err
@@ -526,7 +525,16 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 					number, source, logicalOffset = restricted.number, restrictedSource, restrictedOctets
 				}
 				if isAlphabetString(number) {
-					if !validAlphabetContents(number, data[start:end]) {
+					controls := stringControlState{}
+					if restrictedDepth != 0 {
+						controls = restricted.controls
+					}
+					initial := controls
+					valid := validAlphabetContentsState(number, data[start:end], &controls)
+					if restrictedDepth != 0 {
+						restricted.controls = controls
+					}
+					if !valid {
 						rootOffset, rootIndex, rootStack := pos, childIndex, stack
 						if restrictedDepth != 0 {
 							root := stack[restrictedDepth-1]
@@ -536,7 +544,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 						if err != nil {
 							return err
 						}
-						if err := checkAlphabetString(number, data[start:end], source, logicalOffset, config, options, true, &position); err != nil {
+						if err := checkAlphabetString(number, data[start:end], source, logicalOffset, config, options, true, &position, initial); err != nil {
 							if config.tolerant {
 								return err
 							}

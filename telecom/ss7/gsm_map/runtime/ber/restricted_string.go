@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/restricted_string.go; SHA-256 dc4afdf3ea10574555a4f5504dc760de1f8c939ef54ce144659a22c0c93d1e39.
+// Runtime source: runtime/ber/restricted_string.go; SHA-256 0be9ff1f3ef45b2781c924d70fb574c96e398b7337eb9d726fe0579aa0b3defb.
 package ber
 
 import (
@@ -70,11 +70,12 @@ func isCheckedRestrictedString(number int) bool {
 // another restricted-string root, so a scan needs only one local state;
 // no frame fields or concatenation buffer are needed.
 type restrictedStringState struct {
-	number  int
-	scalar  uint32
-	pending byte
-	invalid bool
-	clock   restrictedTimeSyntax
+	number   int
+	scalar   uint32
+	pending  byte
+	invalid  bool
+	clock    restrictedTimeSyntax
+	controls stringControlState
 }
 
 func (s *restrictedStringState) consume(contents []byte) {
@@ -90,7 +91,11 @@ func (s *restrictedStringState) consume(contents []byte) {
 			s.scalar = s.scalar<<8 | uint32(b)
 			s.pending++
 			if s.pending == width {
-				if s.scalar > utf8.MaxRune || !utf8.ValidRune(rune(s.scalar)) {
+				// X.680 (02/2021) §41.15: BMPString ends at cell U+FFFD.
+				if s.scalar > utf8.MaxRune || !utf8.ValidRune(rune(s.scalar)) || s.number == tag.TagBMPString && s.scalar > 0xfffd {
+					s.invalid = true
+				}
+				if s.controls.consume(s.number, rune(s.scalar)) {
 					s.invalid = true
 				}
 				s.scalar, s.pending = 0, 0
@@ -100,7 +105,7 @@ func (s *restrictedStringState) consume(contents []byte) {
 		s.clock.consume(contents)
 	default:
 		for _, b := range contents {
-			if !alphabetOctet(s.number, b) {
+			if !alphabetOctet(s.number, b) || s.number == tag.TagIA5String && s.controls.consume(s.number, rune(b)) {
 				s.invalid = true
 			}
 		}
@@ -111,9 +116,9 @@ func (s *restrictedStringState) finish() error {
 	if s.invalid || s.pending != 0 {
 		switch s.number {
 		case tag.TagBMPString:
-			return fmt.Errorf("%w: BMPString requires whole two-octet Unicode scalar values (X.690 (02/2021) §8.23.8)", ErrInvalidValue)
+			return fmt.Errorf("%w: BMPString requires whole two-octet values in its repertoire (X.680 (02/2021) §41.15; X.690 (02/2021) §§8.23.8–8.23.9)", ErrInvalidValue)
 		case tag.TagUniversalString:
-			return fmt.Errorf("%w: UniversalString requires whole four-octet Unicode scalar values (X.690 (02/2021) §8.23.7)", ErrInvalidValue)
+			return fmt.Errorf("%w: UniversalString requires whole four-octet Unicode scalar values (X.690 (02/2021) §§8.23.7, 8.23.9)", ErrInvalidValue)
 		default:
 			return fmt.Errorf("%w: %s", ErrInvalidValue, alphabetRule(s.number))
 		}

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/map_profile.go; SHA-256 2a3671ddb7a1a980bfff06cf66467602a2245452eaed48daebc011850c96037c.
+// Runtime source: runtime/ber/map_profile.go; SHA-256 f646a4c51f1faf41d7185309dd6ad664fd6c2208cb81f4c17a4ca3943f3700f3.
 package ber
 
 import (
@@ -315,10 +315,21 @@ func finishMAPDecode(prior error, config decodeConfig) error {
 	if form.mapDepth == 0 {
 		return nil
 	}
+	var contentsFailure error
 	if form.mapPending != nil && form.mapPending.failure != nil {
-		return form.mapPending.failure.cause
+		if deferred, ok := form.mapPending.failure.cause.(rootStringContentsFailure); ok {
+			contentsFailure = deferred.error
+		} else {
+			return form.mapPending.failure.cause
+		}
 	}
 	form.mapDepth--
+	if contentsFailure != nil {
+		if form.mapDepth == 0 {
+			return contentsFailure
+		}
+		return nil
+	}
 	// Tag rejection is not an alphabet constraint. Newly invalid universal
 	// contents keep their X.690 sentinel even when the generated decoder
 	// does not admit that tag (X.690 (02/2021) §§8.1.2, 8.23–8.25).
@@ -328,7 +339,16 @@ func finishMAPDecode(prior error, config decodeConfig) error {
 				return nil
 			}
 			form.mapSyntax |= mapSyntaxRechecked
-			return recheckGeneratedRejection(config)
+			if err := recheckGeneratedRejection(config); err != nil {
+				if form.mapDepth == 0 {
+					return err
+				}
+				if form.mapPending == nil {
+					form.mapPending = new(mapProfileState)
+				}
+				form.mapPending.failure = &mapProfileFailure{rootStringContentsFailure{err}}
+			}
+			return nil
 		}
 		if form.mapPending != nil {
 			return finishGeneratedStringContents(config)
@@ -622,3 +642,9 @@ func checkMAPEncoded(data []byte, options []EncodeOption, decode func([]byte, ..
 	}
 	return nil
 }
+
+// A rejected entry can discover invalid contents anywhere in the root input,
+// including a later sibling it never decoded. Keep that root-relative finding
+// private until the outermost entry returns; nested generated path wrappers
+// must not qualify it with the rejected entry's components.
+type rootStringContentsFailure struct{ error }

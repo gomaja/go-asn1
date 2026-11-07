@@ -1,11 +1,10 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 7f4ce4e38ff85270019c8746d9e10cf19d6467b0e77627ea6fa41ada547ca3f4.
+// Runtime source: runtime/ber/utf8.go; SHA-256 3f21f648c65c206d6a12c6697b49bbe87d3e2f05f91178c4a58d967b8505aa60.
 package ber
 
 import (
 	"fmt"
-	"unicode/utf8"
 
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
 )
@@ -13,7 +12,7 @@ import (
 // X.690 (02/2021) §8.23.10 and ISO/IEC 10646 Annex D require
 // shortest-form UTF-8 scalar text, including for implicit string values.
 func checkDecodedUTF8String(contents []byte, source *byte, options []DecodeOption) error {
-	if utf8.Valid(contents) {
+	if validUTF8Contents(contents) {
 		return nil
 	}
 	config, err := decodeOptions(options)
@@ -24,16 +23,37 @@ func checkDecodedUTF8String(contents []byte, source *byte, options []DecodeOptio
 }
 
 func checkUTF8String(contents []byte, source *byte, config decodeConfig, options []DecodeOption, preflight bool, position *Violation) error {
-	if utf8.Valid(contents) {
+	if validUTF8Contents(contents) {
 		return nil
 	}
 	if !config.tolerant {
+		if !validStringControls(tag.TagUTF8String, string(contents)) {
+			return invalidStringControl(tag.TagUTF8String)
+		}
 		return fmt.Errorf("%w: UTF8String is not shortest-form UTF-8 scalar text", ErrInvalidValue)
 	}
 	return reportStringOctets(tag.TagUTF8String, contents, source, 0, config, options, preflight, position)
 }
 
 func decodeStringValueTagOptions(tagNum int, contents []byte, source *byte, options []DecodeOption) (string, error) {
+	// Escape restrictions apply independently of generated FROM checks.
+	if tagNum == tag.TagIA5String && !validStringControls(tagNum, string(contents)) {
+		config, err := decodeOptions(options)
+		if err != nil {
+			return "", err
+		}
+		if !config.tolerant {
+			return "", invalidStringControl(tagNum)
+		}
+		// The generated typed alphabet check still owns any repertoire/FROM
+		// finding in the same value. Standalone decoders own both checks.
+		controlsOnly := generatedContentsPosition(config, options)
+		if err := reportStringContents(tagNum, contents, source, 0, config, options, false, nil, controlsOnly); err != nil {
+			return "", err
+		}
+		claimGeneratedAlphabet(config, options)
+		return string(contents), nil
+	}
 	if isAlphabetString(tagNum) {
 		if len(options) == 1 {
 			if context, ok := options[0].(*generatedDecodeOption); ok && context != nil && context.source != nil {

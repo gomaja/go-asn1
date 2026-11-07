@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/string_reporting.go; SHA-256 7775d228c1289069becbad2cb9b35ca640a6fff4d4467e8f1068e2f968e3e213.
+// Runtime source: runtime/ber/string_reporting.go; SHA-256 0de31bbc35e9e0294598bfd78c8ec15f46cc161bd4744597ebc65ca14b48bcf3.
 package ber
 
 import (
@@ -14,7 +14,13 @@ import (
 // X.690 (02/2021) §§8.23.3–8.23.5, 8.23.10: report each invalid
 // octet once, with offsets in the concatenated string. Resolve its element
 // only on the finding path; a valid string needs no location or report state.
-func reportStringOctets(number int, contents []byte, source *byte, logicalOffset int, config decodeConfig, options []DecodeOption, preflight bool, position *Violation) error {
+func reportStringOctets(number int, contents []byte, source *byte, logicalOffset int, config decodeConfig, options []DecodeOption, preflight bool, position *Violation, initial ...stringControlState) error {
+	return reportStringContents(number, contents, source, logicalOffset, config, options, preflight, position, false, initial...)
+}
+
+// Generated alphabets own repertoire/FROM diagnostics; their control check
+// reports only forbidden sequences, without repeating an out-of-alphabet octet.
+func reportStringContents(number int, contents []byte, source *byte, logicalOffset int, config decodeConfig, options []DecodeOption, preflight bool, position *Violation, controlsOnly bool, initial ...stringControlState) error {
 	// Strict opaque refusal rescans need one finding, independent of the
 	// tolerant report budget. The enclosing BER scan still checks all later
 	// structure (X.690 (02/2021) §§8.1.1, 8.23.10).
@@ -53,18 +59,37 @@ func reportStringOctets(number int, contents []byte, source *byte, logicalOffset
 	}
 	// DecodeRune consumes one octet on an invalid encoding. Never format
 	// the remaining string: a bounded observation keeps total work linear.
+	controls := stringControlState{}
+	if len(initial) != 0 {
+		controls = initial[0]
+	}
 	for offset := 0; offset < len(contents); {
 		size := 1
+		forbiddenControl := false
 		invalid := !alphabetOctet(number, contents[offset])
 		if number == tag.TagUTF8String {
 			var r rune
 			r, size = utf8.DecodeRune(contents[offset:])
-			invalid = r == utf8.RuneError && size == 1
+			forbiddenControl = controls.consume(number, r)
+			invalid = r == utf8.RuneError && size == 1 || forbiddenControl
+		}
+		if number == tag.TagIA5String {
+			forbiddenControl = controls.consume(number, rune(contents[offset]))
+			invalid = invalid || forbiddenControl
+		}
+		if controlsOnly {
+			invalid = forbiddenControl
 		}
 		if invalid {
 			location := logicalOffset + offset
 			record := *position
 			record.Rule, record.Constraint = rule, constraint
+			if forbiddenControl {
+				record.Constraint = stringControlConstraint(number)
+				if number == tag.TagIA5String {
+					record.Rule.Clause = "8.23.5.3"
+				}
+			}
 			record.ObservedValue, record.OctetOffset = fmt.Sprintf("%02x", contents[offset]), &location
 			record.source, record.preflight, record.scope = weak.Make(source), preflight, config.reportScope
 			if err := config.violations.append(record, config.diagnostics); err != nil {

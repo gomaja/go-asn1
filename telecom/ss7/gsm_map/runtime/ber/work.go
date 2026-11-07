@@ -1,12 +1,11 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 f5a5558a04bb3d2b835ef451b346ee1865a5250d925a5cdab99f4be2ff015256.
+// Runtime source: runtime/ber/work.go; SHA-256 b28490913e2bdc3e706053e6dde81778a3f9c43a072bc3fe9ad30ffd0e5b7cbf.
 package ber
 
 import (
 	"bytes"
 	"fmt"
-	"unicode/utf8"
 	"weak"
 
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
@@ -198,7 +197,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			}
 		}
 
-		if closed.utf8Root && reportUTF8 && !utf8.Valid(*closed.utf8Contents) {
+		if closed.utf8Root && reportUTF8 && !validUTF8Contents(*closed.utf8Contents) {
 			position, err := scannedUTF8Location(data, closed.offset, stack[:len(stack)-1], closed.index, config, options)
 			if err != nil {
 				return err
@@ -390,7 +389,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				if start < end {
 					source = &data[start]
 				}
-				if reportUTF8 && !utf8.Valid(data[start:end]) {
+				if reportUTF8 && !validUTF8Contents(data[start:end]) {
 					position, err := scannedUTF8Location(data, pos, stack, childIndex, config, options)
 					if err != nil {
 						return err

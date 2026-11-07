@@ -1801,6 +1801,9 @@ func marshalBERSSUserData(value *BERValue[SSUserData], opts ...ber.EncodeOption)
 	v := &struct{ Value SSUserData }{Value: value.Value}
 	_ = v
 	var children []byte
+	if constraintErr := checkIA5Controls(string(v.Value), opts, "SS-UserData", "SS-DataTypes.marshalBERSSUserData"); constraintErr != nil {
+		return nil, constraintErr
+	}
 	for _, character := range []byte(v.Value) {
 		if !(character >= 0x0 && character <= 0x7f) {
 			if constraintErr := checkEncodedValue(opts, "SS-DataTypes.marshalBERSSUserData", "41", "SS-UserData", "IA5String character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
@@ -1830,6 +1833,9 @@ func MarshalDERSSUserData(value *BERValue[SSUserData]) ([]byte, error) {
 	v := &struct{ Value SSUserData }{Value: value.Value}
 	_ = v
 	var children []byte
+	if constraintErr := checkIA5Controls(string(v.Value), nil, "SS-UserData", "SS-DataTypes.SS-UserData"); constraintErr != nil {
+		return nil, constraintErr
+	}
 	for _, character := range []byte(v.Value) {
 		if !(character >= 0x0 && character <= 0x7f) {
 			if constraintErr := checkEncodedValue(nil, "SS-DataTypes.SS-UserData", "41", "SS-UserData", "IA5String character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
