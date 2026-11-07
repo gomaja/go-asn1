@@ -1,11 +1,12 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8_validation_test.go; SHA-256 f507ebaead144f64cece34efb0f5ba7cac5adf5ce82dcadc26294835c3eab7c9.
+// Runtime source: runtime/ber/utf8_validation_test.go; SHA-256 db95fafd6c23ebe54ddeb6ebe87d2402948d08496689c1e045015ba23d29cfb7.
 package ber
 
 import (
 	"bytes"
 	"errors"
+	"regexp"
 	"strings"
 	"testing"
 	"unicode/utf8"
@@ -131,18 +132,24 @@ func TestUTF8StringAcceptsSplitScalars(t *testing.T) {
 	}
 }
 
+// Independently describe the forbidden UTF8 character sequences using a regular
+// expression, alongside the standard library's scalar/shortest-form oracle.
+var forbiddenUTF8Controls = regexp.MustCompile(`\x1b[\x20-\x2f]*[\x30-\x7e]|[\x0e\x0f\x{008e}\x{008f}]`)
+
 func FuzzUTF8StringValidation(f *testing.F) {
-	for _, text := range []string{"", "ff", "c080", "eda080", "e282", "e282ac", "f48fbfbf"} {
+	for _, text := range []string{"", "ff", "c080", "eda080", "e282", "e282ac", "f48fbfbf", "1b4e", "1b204c", "0e", "c28e", "1b", "0d0a"} {
 		f.Add(structureWire(f, text))
 	}
 	f.Fuzz(func(t *testing.T, contents []byte) {
 		if len(contents) > 4096 {
 			t.Skip()
 		}
+		forbidden := forbiddenUTF8Controls.FindAllIndex(contents, -1)
+		valid := utf8.Valid(contents) && len(forbidden) == 0
 		wire := mustEncode(t)(EncodeTLV(tag.Tag{Number: tag.TagUTF8String}, contents))
 		scanErr := ValidateBERElement(wire)
 		got, _, decodeErr := DecodeString(wire, tag.TagUTF8String)
-		if (scanErr == nil) != utf8.Valid(contents) || (decodeErr == nil) != utf8.Valid(contents) {
+		if (scanErr == nil) != valid || (decodeErr == nil) != valid {
 			t.Fatalf("UTF-8 agreement: scan=%v typed=%v", scanErr, decodeErr)
 		}
 		if decodeErr == nil && !bytes.Equal([]byte(got), contents) {
@@ -151,7 +158,7 @@ func FuzzUTF8StringValidation(f *testing.F) {
 		split := len(contents) / 2
 		fragments := append(mustEncode(t)(EncodeOctetString(contents[:split])), mustEncode(t)(EncodeOctetString(contents[split:]))...)
 		wire = mustEncode(t)(EncodeTLV(tag.Tag{Number: tag.TagUTF8String, Constructed: true}, fragments))
-		if err := ValidateBERElement(wire); (err == nil) != utf8.Valid(contents) {
+		if err := ValidateBERElement(wire); (err == nil) != valid {
 			t.Fatalf("segmented text: %v", err)
 		}
 		var reports ViolationLog
@@ -164,7 +171,7 @@ func FuzzUTF8StringValidation(f *testing.F) {
 			t.Fatalf("tolerant text: %v", err)
 		}
 		finish(true)
-		wantReports := 0
+		wantReports := len(forbidden)
 		// Go's string iteration replaces each malformed octet independently;
 		// an actually encoded U+FFFD is valid and must not produce a report.
 		for offset, r := range string(contents) {

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8_encode_direct_test.go; SHA-256 9b00b0331336f8fdd41e754c6fc362b2ab5393c487e897d0f984e24981920160.
+// Runtime source: runtime/ber/utf8_encode_direct_test.go; SHA-256 edd9a8daa0b0aa52e285252b7720823b398729063d2f55dbf202a4115f6ac04b.
 package ber
 
 import (
@@ -13,7 +13,7 @@ import (
 
 func TestTypedUTF8DirectCheck(t *testing.T) {
 	const source = "Module.Record.text"
-	for _, value := range []string{"a", "é", "\xff", "\xff\xff", "a\xe2\x82"} {
+	for _, value := range []string{"a", "é", "\xff", "\xff\xff", "a\xe2\x82", "\x1bN", "\x0e", "\u008e", "x\x1b L"} {
 		wire, err := EncodeTLV(tag.Tag{Number: tag.TagUTF8String}, []byte(value))
 		if err != nil {
 			t.Fatal(err)

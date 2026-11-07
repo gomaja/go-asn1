@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/restricted_scan.go; SHA-256 e845fa03d01ca4f76f11673010b8d4454c2343697fa7886be99d7550ce86d184.
+// Runtime source: runtime/ber/restricted_scan.go; SHA-256 9c0bd016b02dc36f57625bfd16b7fb9efdadb702134b9b4db05283e1069f3e2f.
 package ber
 
 // Keep the X.690 (02/2021) §§8.23–8.25 accumulator and diagnostic dispatch
@@ -41,7 +41,16 @@ func (s *restrictedScanState) consumePrimitive(data []byte, offset, start, end i
 		// retain findings; scannedUTF8Location maps its identifier through
 		// decodeLocation.wireOffset to the received value (X.690 (02/2021)
 		// §§8.14, 8.23.3–8.23.5). The root scan already owns UTF8String reports.
-		if (report || config.generatedContents) && !validAlphabetContents(number, data[start:end]) {
+		controls := stringControlState{}
+		if s.depth != 0 {
+			controls = s.value.controls
+		}
+		initial := controls
+		valid := validAlphabetContentsState(number, data[start:end], &controls)
+		if s.depth != 0 {
+			s.value.controls = controls
+		}
+		if (report || config.generatedContents) && !valid {
 			rootOffset, rootIndex, rootStack := offset, index, stack
 			if s.depth != 0 {
 				root := stack[s.depth-1]
@@ -56,7 +65,7 @@ func (s *restrictedScanState) consumePrimitive(data []byte, offset, start, end i
 				if err != nil {
 					return err, true
 				}
-				if err := checkAlphabetString(number, data[start:end], source, logicalOffset, config, options, true, &position); err != nil {
+				if err := checkAlphabetString(number, data[start:end], source, logicalOffset, config, options, true, &position, initial); err != nil {
 					if config.tolerant {
 						return err, true
 					}

@@ -576,10 +576,10 @@ func invalidDERAddition(data []byte, source string, children []byte, i int) erro
 }
 
 // X.690 (02/2021) §8.23.10: the primitive contents encoder checks
-// utf8.ValidString on the Go value before any TLV exists. Only malformed
+// scalar text and screens code-extension controls before any TLV exists. Only invalid
 // text needs diagnostic metadata; the encoded TLV is never parsed again.
 func encodeUTF8String(value string, opts []ber.EncodeOption, component string, index int, source string) ([]byte, error) {
-	if utf8.ValidString(value) {
+	if utf8.ValidString(value) && !strings.ContainsAny(value, "\x1b\x0e\x0f\u008e\u008f") {
 		return ber.EncodeTLV(tag.Tag{Number: 12}, []byte(value))
 	}
 	return encodeInvalidUTF8String(value, opts, component, index, source)
@@ -709,6 +709,17 @@ func checkPublicMAPEncode[T any](value *T, node *ber.ReplayNode, opts []ber.Enco
 	if *err != nil {
 		*data = nil
 	}
+}
+
+// X.690 (02/2021) §8.23.5.3/Table 3: ordinary IA5 text needs no
+// diagnostic options or source metadata. Only a possible escape uses the
+// runtime's complete-sequence recognizer and tolerant report policy.
+func checkIA5Controls(value string, opts []ber.EncodeOption, component, source string) error {
+	if !strings.ContainsRune(value, 0x1b) {
+		return nil
+	}
+	rule := ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.5.3"}
+	return ber.CheckEncodedValue(ber.EncodeRule(opts, source, rule), component, "IA5String escape sequences", value)
 }
 
 // TSTeleserviceCodeCodec binds MAP-TS-Code.TeleserviceCode.

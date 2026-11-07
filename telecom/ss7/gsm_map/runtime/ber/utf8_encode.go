@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8_encode.go; SHA-256 346200f8cf9f2f387c5ced23a2417eebf26d1c98a5a81aa131b01e4cf2d72e2f.
+// Runtime source: runtime/ber/utf8_encode.go; SHA-256 393747f9cfd1aa859e8f997f3cc3fa9acf326b5a638638fdd7300ec4861bf2ff.
 package ber
 
 import (
@@ -19,14 +19,16 @@ func checkEncodedUTF8String(value string, options []EncodeOption, component stri
 	if err != nil {
 		return err
 	}
-	if utf8.ValidString(value) {
+	if validUTF8Contents([]byte(value)) {
 		return nil
 	}
 	path := qualifyConstraintPath(options, component)
 	source := sourceField(config.source, component)
+	var controls stringControlState
 	for offset := 0; offset < len(value); {
 		r, size := utf8.DecodeRuneInString(value[offset:])
-		if r == utf8.RuneError && size == 1 {
+		forbidden := controls.consume(12, r)
+		if r == utf8.RuneError && size == 1 || forbidden {
 			octet := offset
 			record := Violation{
 				Rule: RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.10"},
@@ -34,6 +36,9 @@ func checkEncodedUTF8String(value string, options []EncodeOption, component stri
 				Constraint:    "UTF8String shortest-form UTF-8 scalar text (X.690 (02/2021) §8.23.10)",
 				ObservedValue: fmt.Sprintf("%02x", value[offset]), OctetOffset: &octet,
 				encodeRecord: true, scope: config.reportScope,
+			}
+			if forbidden {
+				record.Constraint = stringControlConstraint(12)
 			}
 			if !config.tolerant || config.noReplay {
 				record.OctetOffset = nil

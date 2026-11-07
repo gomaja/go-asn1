@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/encoder.go; SHA-256 f786b143b6a914424d1814bdaf34377eb3177733fb7e2599b8161adb3361f7ce.
+// Runtime source: runtime/ber/encoder.go; SHA-256 6684d3897c673a4f26581b75f9e31bb8d8c7b9e5019ba5976c89c703277a8da1.
 package ber
 
 import (
@@ -475,7 +475,7 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 
 	case tag.TagUTF8String:
 		// X.690 (02/2021) §8.23.10 requires shortest-form UTF-8.
-		if !utf8.ValidString(v) {
+		if !validUTF8Contents([]byte(v)) {
 			return nil, &ValidationError{Violation: Violation{
 				Rule:          RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.10"},
 				Constraint:    "UTF8String shortest-form UTF-8 scalar text (X.690 (02/2021) §8.23.10)",
@@ -492,9 +492,14 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 			return nil, err
 		}
 		value := make([]byte, 0, capacity)
+		var controls stringControlState
 		for _, r := range v {
-			if r > 0xffff || !utf8.ValidRune(r) {
-				return nil, fmt.Errorf("%w: BMPString character U+%04X is outside the Basic Multilingual Plane (X.690 (02/2021) §8.23.8)", ErrInvalidValue, r)
+			// X.680 (02/2021) §41.15 excludes surrogates and the last two BMP cells.
+			if r > 0xfffd || !utf8.ValidRune(r) {
+				return nil, fmt.Errorf("%w: BMPString character U+%04X is outside its repertoire (X.680 (02/2021) §41.15; X.690 (02/2021) §8.23.8)", ErrInvalidValue, r)
+			}
+			if controls.consume(tagNum, r) {
+				return nil, invalidStringControl(tagNum)
 			}
 			value = binary.BigEndian.AppendUint16(value, uint16(r))
 		}
@@ -508,9 +513,13 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 			return nil, err
 		}
 		value := make([]byte, 0, capacity)
+		var controls stringControlState
 		for _, r := range v {
 			if r < 0 || r > utf8.MaxRune || !utf8.ValidRune(r) {
 				return nil, fmt.Errorf("%w: UniversalString character U+%04X is not a Unicode scalar value (X.690 (02/2021) §8.23.7)", ErrInvalidValue, r)
+			}
+			if controls.consume(tagNum, r) {
+				return nil, invalidStringControl(tagNum)
 			}
 			value = binary.BigEndian.AppendUint32(value, uint32(r))
 		}

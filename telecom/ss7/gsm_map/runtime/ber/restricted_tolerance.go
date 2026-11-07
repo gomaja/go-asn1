@@ -1,29 +1,37 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/restricted_tolerance.go; SHA-256 8b5c04b31360ce0f8fe2f8eb42071f9383640ed9ae4dc773d205ba6d8feb7699.
+// Runtime source: runtime/ber/restricted_tolerance.go; SHA-256 3785403de6108d01ed0930084dcb2a03eb074576002de8b5fb4e57c52fd46e5a.
 package ber
 
 import (
 	"fmt"
+
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
 )
 
-func validAlphabetContents(number int, contents []byte) bool {
+func validAlphabetContentsState(number int, contents []byte, controls *stringControlState) bool {
+	valid := true
 	for _, b := range contents {
-		if !alphabetOctet(number, b) {
-			return false
+		forbidden := number == tag.TagIA5String && controls.consume(number, rune(b))
+		if !alphabetOctet(number, b) || forbidden {
+			valid = false
 		}
 	}
-	return true
+	return valid
 }
 
-func checkAlphabetString(number int, contents []byte, source *byte, logicalOffset int, config decodeConfig, options []DecodeOption, preflight bool, position *Violation) error {
-	if validAlphabetContents(number, contents) {
+func checkAlphabetString(number int, contents []byte, source *byte, logicalOffset int, config decodeConfig, options []DecodeOption, preflight bool, position *Violation, initial ...stringControlState) error {
+	controls := stringControlState{}
+	if len(initial) != 0 {
+		controls = initial[0]
+	}
+	if validAlphabetContentsState(number, contents, &controls) {
 		return nil
 	}
 	if !config.tolerant {
 		return fmt.Errorf("%w: %s", ErrInvalidValue, alphabetRule(number))
 	}
-	return reportStringOctets(number, contents, source, logicalOffset, config, options, preflight, position)
+	return reportStringOctets(number, contents, source, logicalOffset, config, options, preflight, position, initial...)
 }
 
 func alphabetRuleRef(number int) RuleRef {
