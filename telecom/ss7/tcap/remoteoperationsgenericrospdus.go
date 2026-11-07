@@ -3004,7 +3004,9 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, fmt.Errorf("%w: choice Bind: bind-invoke is nil", ber.ErrInvalidValue)
 		}
 		enc_0 := v.BindInvoke.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := checkTCAPOpaqueReplay(
+
+			enc_0, opts...); err != nil {
 			return nil, qualifyBERError(err, "bind-invoke", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_0); rawErr != nil {
@@ -3023,7 +3025,9 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, fmt.Errorf("%w: choice Bind: bind-result is nil", ber.ErrInvalidValue)
 		}
 		enc_1 := v.BindResult.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := checkTCAPOpaqueReplay(
+
+			enc_1, opts...); err != nil {
 			return nil, qualifyBERError(err, "bind-result", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_1); rawErr != nil {
@@ -3042,7 +3046,9 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, fmt.Errorf("%w: choice Bind: bind-error is nil", ber.ErrInvalidValue)
 		}
 		enc_2 := v.BindError.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := checkTCAPOpaqueReplay(
+
+			enc_2, opts...); err != nil {
 			return nil, qualifyBERError(err, "bind-error", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_2); rawErr != nil {
@@ -3295,7 +3301,9 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, fmt.Errorf("%w: choice Unbind: unbind-invoke is nil", ber.ErrInvalidValue)
 		}
 		enc_0 := v.UnbindInvoke.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := checkTCAPOpaqueReplay(
+
+			enc_0, opts...); err != nil {
 			return nil, qualifyBERError(err, "unbind-invoke", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_0); rawErr != nil {
@@ -3314,7 +3322,9 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, fmt.Errorf("%w: choice Unbind: unbind-result is nil", ber.ErrInvalidValue)
 		}
 		enc_1 := v.UnbindResult.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := checkTCAPOpaqueReplay(
+
+			enc_1, opts...); err != nil {
 			return nil, qualifyBERError(err, "unbind-result", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_1); rawErr != nil {
@@ -3333,7 +3343,9 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, fmt.Errorf("%w: choice Unbind: unbind-error is nil", ber.ErrInvalidValue)
 		}
 		enc_2 := v.UnbindError.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := checkTCAPOpaqueReplay(
+
+			enc_2, opts...); err != nil {
 			return nil, qualifyBERError(err, "unbind-error", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_2); rawErr != nil {
