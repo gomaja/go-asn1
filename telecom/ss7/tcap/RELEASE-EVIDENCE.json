@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "43a16f57b6ccd27cb1f1d17a315f6710e2c68180",
-    "tree": "7b1896570e5decdf0c88381b91af560864b83d0e",
+    "commit": "8081916d244cd08bd4ed6c9f8350e2a1cf39c492",
+    "tree": "0e4338bec4f33f654058d73d07fe6bfe424d300c",
     "dirty": false
   },
   "source_lock": {
@@ -320,8 +320,8 @@
     {
       "path": "ber/encode_options.go",
       "mode": "0644",
-      "size": 3684,
-      "sha256": "f7b7a4b5e2e68f32855325374494f502e4d0e32a6a25e418e40bf5b1f2963a3a"
+      "size": 3884,
+      "sha256": "95891091478b100eda6cbd9a3bceaf553345af8ca0422816ca0065fedf0e8aa2"
     },
     {
       "path": "ber/encoder.go",
@@ -1354,8 +1354,8 @@
     {
       "path": "ber/encode_options.go",
       "mode": "0644",
-      "size": 3879,
-      "sha256": "ed2e630a46f685f818c917d5db2728ad20acd01606630381a92abef40882b277"
+      "size": 4079,
+      "sha256": "b00c8ffb4b8f40b1a7b18c9f1e37a22faa438ed3e807e8fb5b7e072ac89acf29"
     },
     {
       "path": "ber/encoder.go",
@@ -2286,8 +2286,8 @@
     {
       "path": "runtime/ber/encode_options.go",
       "mode": "0644",
-      "size": 3879,
-      "sha256": "ed2e630a46f685f818c917d5db2728ad20acd01606630381a92abef40882b277"
+      "size": 4079,
+      "sha256": "b00c8ffb4b8f40b1a7b18c9f1e37a22faa438ed3e807e8fb5b7e072ac89acf29"
     },
     {
       "path": "runtime/ber/encoder.go",
