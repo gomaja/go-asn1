@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "fa6635625eca8648687b7b54657eac2defef950b",
-    "tree": "f8e69fdd57d1c18d6f991afa70548438457d21bf",
+    "commit": "43a16f57b6ccd27cb1f1d17a315f6710e2c68180",
+    "tree": "7b1896570e5decdf0c88381b91af560864b83d0e",
     "dirty": false
   },
   "source_lock": {
@@ -320,8 +320,8 @@
     {
       "path": "ber/encode_options.go",
       "mode": "0644",
-      "size": 3406,
-      "sha256": "4a05bb2e0137528ed8096007cf0c9d2cb91dfc47c16c94d993a25ec5c2bd4140"
+      "size": 3684,
+      "sha256": "f7b7a4b5e2e68f32855325374494f502e4d0e32a6a25e418e40bf5b1f2963a3a"
     },
     {
       "path": "ber/encoder.go",
@@ -1354,8 +1354,8 @@
     {
       "path": "ber/encode_options.go",
       "mode": "0644",
-      "size": 3601,
-      "sha256": "63a0ae40d82515f5f2dce4d0f7408bde14e1460c5b82ed2e7e82517d12f9d5c3"
+      "size": 3879,
+      "sha256": "ed2e630a46f685f818c917d5db2728ad20acd01606630381a92abef40882b277"
     },
     {
       "path": "ber/encoder.go",
@@ -2136,8 +2136,8 @@
     {
       "path": "remoteoperationsgenericrospdus.go",
       "mode": "0644",
-      "size": 209319,
-      "sha256": "959cc6e382a6a5c494918164dcc8e121d3d07340e004704760915d0387b317b9"
+      "size": 209373,
+      "sha256": "1c428b6f468bb79b2f8dac3417ab55c0e9cbbf5d52b8eadbf8bc89d2f0e15856"
     },
     {
       "path": "remoteoperationsinformationobjects.go",
@@ -2286,8 +2286,8 @@
     {
       "path": "runtime/ber/encode_options.go",
       "mode": "0644",
-      "size": 3601,
-      "sha256": "63a0ae40d82515f5f2dce4d0f7408bde14e1460c5b82ed2e7e82517d12f9d5c3"
+      "size": 3879,
+      "sha256": "ed2e630a46f685f818c917d5db2728ad20acd01606630381a92abef40882b277"
     },
     {
       "path": "runtime/ber/encoder.go",

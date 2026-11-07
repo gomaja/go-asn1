@@ -241,12 +241,12 @@ values recursively, including unchanged children. Opaque contents differ:
   values and unknown extensions, even if their bytes already pass DER checks.
 - MAP copies opaque open values and unknown additions that pass the same
   DER element checks as `MarshalDER`, and refuses those needing repair.
-- TCAP copies component arguments and parameters that pass its generic DER
-  payload checks, and refuses those needing repair. A dialogue portion
-  rebuilds a recognized dialogue APDU; for an unrecognized syntax, it encodes
-  the EXTERNAL with `EncodeExternalDER`, accepting an opaque
-  `single-ASN1-type` only if its element passes DER checks. TCAP's ROS
-  `Bind` and `Unbind` open values are refused even when canonical.
+- TCAP copies component arguments and parameters, and the open values of
+  its ROS `Bind` and `Unbind`, that pass its generic DER payload checks, and
+  refuses those needing repair. A dialogue portion rebuilds a recognized
+  dialogue APDU; for an unrecognized syntax, it encodes the EXTERNAL with
+  `EncodeExternalDER`, accepting an opaque `single-ASN1-type` only if its
+  element passes DER checks.
 
 These opaque checks cannot certify unknown IMPLICIT types, foreign DEFAULTs
 or schema-specific SET ordering. The option alone does not make all typed
