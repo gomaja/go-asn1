@@ -23,7 +23,9 @@ import "github.com/gomaja/go-asn1/telecom/lte/x2ap"
 
 // Decode an X2AP PDU from APER bytes
 var pdu x2ap.X2APPDU
-err := pdu.UnmarshalAPER(data)
+if _, err := pdu.UnmarshalAPER(data); err != nil {
+    return err
+}
 
 // Re-encode (byte-exact round-trip)
 encoded, err := pdu.MarshalAPER()
@@ -107,13 +109,23 @@ extension form is rejected on decode (§§16.6, 17.3).
 
 ### BER constraints and trace tolerance
 
-BER decoding and encoding enforce resolved INTEGER, ENUMERATED, REAL, and
-`SIZE` constraints and `FROM` permitted alphabets by default. Constraint
-failures return `*ber.ConstraintError`. For trace inspection, an explicit
-tolerance option admits representable out-of-constraint values and records
-each field path, constraint, and observed value or length. Pass the option
-to both decode and encode when preserving such a value. DER remains strict
-(ITU-T X.680 (02/2021) §§49–51; X.690 (02/2021) §§8.1.3, 8.7).
+The BER packages use three distinct runtimes. In this section, `ber` means
+that package's runtime; their options and error types are not
+interchangeable:
+
+| Packages | Runtime import | Tolerance option | Constraint error |
+|----------|----------------|------------------|------------------|
+| SGP.22, SGP.32 | `github.com/gomaja/go-asn1/runtime/ber` | `WithConstraintTolerance` | `*ConstraintError` |
+| TCAP | `github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/ber` | `WithTolerance` | `*ValidationError` |
+| GSM MAP | `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber` | `WithTolerance` | `*ValidationError` |
+
+Each runtime enforces resolved INTEGER, ENUMERATED, REAL, and `SIZE`
+constraints and `FROM` permitted alphabets on BER decode and encode. For
+trace inspection, an explicit tolerance option admits representable
+out-of-constraint values and records each field path, constraint, and
+observed value or length. Pass the option to both decode and encode when
+preserving such a value. DER remains strict (ITU-T X.680 (02/2021) §§49–51;
+X.690 (02/2021) §§8.1.3, 8.7).
 
 ```go
 package main
@@ -121,14 +133,14 @@ package main
 import (
     "log"
 
-    "github.com/gomaja/go-asn1/runtime/ber"
     "github.com/gomaja/go-asn1/telecom/ss7/tcap"
+    "github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/ber"
 )
 
 func replayBER(wire []byte) ([]byte, error) {
     var value tcap.TCMessage
     var violations ber.ViolationLog
-    option := ber.WithConstraintTolerance(&violations)
+    option := ber.WithTolerance(&violations)
     if err := value.UnmarshalBER(wire, option); err != nil {
         return nil, err
     }
@@ -147,20 +159,25 @@ func replayBER(wire []byte) ([]byte, error) {
 }
 ```
 
-`ber.ViolationLog` can be shared across concurrent decodes; `Snapshot`
-returns independent records. A report's `Path` is built from the ASN.1
-component identifiers of the source module, with a zero-based `element[i]`
-step inside a SEQUENCE OF or SET OF, for example
+For a TCAP Begin with an empty `otid`, this example logs `begin.otid: SIZE
+(1..4), length 0` and replays the input. TCAP's log also reports tolerated
+Q.773 encoding-profile violations; MAP's log also reports its TS 29.002
+encoding-profile violations.
+
+Each runtime's `ber.ViolationLog` can be shared across concurrent decodes;
+`Snapshot` returns independent records. A report's `Path` is built from the
+ASN.1 component identifiers of the source module, with a zero-based
+`element[i]` step inside a SEQUENCE OF or SET OF, for example
 `subscriberInfo.mnpInfoRes.routeingNumber` or `eplmn-List.element[1]`.
 Decoding and tolerant encoding report the same paths, and both record their
 violations. Reports are transactional: a call publishes them only when it
 succeeds, so a decode or encode that fails after tolerating a violation adds
-nothing to the log. Tolerance cannot represent a negative BER
-INTEGER in a generated `uint64` field or a value wider than a generated
-`int64` field: decoding returns `ber.ErrInvalidValue` without substituting
-raw bytes. Source value `EXCEPT` and collection-element unions that the
-frontend cannot resolve remain fail closed (ITU-T X.680 (02/2021) §§49.7,
-50–51).
+nothing to the log. For fields represented by `uint64` or `int64`, tolerance
+cannot represent a negative BER INTEGER in the unsigned field or a value
+wider than the signed field: each runtime returns `ber.ErrInvalidValue`
+without substituting raw bytes. Source value `EXCEPT` and collection-element
+unions that the frontend cannot resolve remain fail closed (ITU-T X.680
+(02/2021) §§49.7, 50–51).
 
 A permitted alphabet (X.680 (02/2021) §51.7) is checked wherever its type is
 used: in a SEQUENCE or SET component, a CHOICE alternative, a SEQUENCE OF or
@@ -168,20 +185,24 @@ SET OF element and a standalone value. In the release packages it applies to
 GSM MAP `Password ::= NumericString (FROM ("0"|"1"|...|"9")) (SIZE (4))`
 (3GPP TS 29.002 V19.1.0 §17.7.4) in each MAP version. Earlier releases
 checked only its size, so a strict decode of a value whose `Password` is,
-for example, `" 000"` now fails with `*ber.ConstraintError`. The tolerance option admits
-it and records the constraint `FROM permitted alphabet` with the first
-outside octet in hexadecimal as the observed value (`0x20`). An unchanged
-value re-encodes as received with the tolerance option.
+for example, `" 000"` now fails with `*mapber.ValidationError`, where
+`mapber` is MAP's runtime. MAP's `WithTolerance` option admits it and
+records the constraint `FROM permitted alphabet` with the first outside
+octet in hexadecimal as the observed value (`0x20`). An unchanged value
+re-encodes as received with the tolerance option.
 
 For IA5String, VisibleString, PrintableString and NumericString, `SIZE`
 counts octets: each character occupies one octet (X.690 (02/2021) §8.23.5,
-Table 3; X.680 (02/2021) §51.5.4). Their character repertoires are enforced
-on decode and encode (X.680 (02/2021) §41, Tables 8–10). Strict BER decode
-and BER/DER encode reject an outside octet; tolerant BER records its `0xNN`
-value and retains it for tolerant replay. UTF8String keeps its code-point
-SIZE checks. Invalid UTF-8 is rejected in strict mode; tolerant decoding
-records the invalid octets and preserves them for unchanged replay
-(X.690 (02/2021) §8.23.10).
+Table 3; X.680 (02/2021) §51.5.4). In the shared and MAP runtimes, their
+character repertoires are enforced on decode and encode (X.680 (02/2021)
+§41, Tables 8–10). Strict BER decode and BER/DER encode reject an outside
+octet; tolerant BER records its `0xNN` value and retains it for tolerant
+replay. UTF8String keeps its code-point SIZE checks. The shared and MAP
+runtimes reject invalid UTF-8 in strict mode; tolerant decoding records the
+invalid octets and preserves them for unchanged replay (X.690 (02/2021)
+§8.23.10). TCAP's generated decoders reject an outside octet or invalid
+UTF-8 even under tolerance, including inside an open value; TCAP's
+tolerance option does not admit them.
 
 A named SEQUENCE OF or SET OF component produces one record per violated
 SIZE constraint. Its path uses the ASN.1 component identifiers, such as
@@ -189,29 +210,50 @@ SIZE constraint. Its path uses the ASN.1 component identifiers, such as
 
 #### Preserved BER forms and DER
 
-Generated BER decoders use a lighter path for shallow values with definite
-lengths and a path that records validated spans for deeper or indefinite
-values. Both enforce the same BER rules and decode limits. The
-`ber.ForceGeneratedBERLightForTesting` and
-`ber.ForceGeneratedBERProofForTesting` options are test controls; applications
-do not need to select a path.
+All three runtimes' generated BER decoders use a lighter path for shallow
+values with definite lengths and a path that records validated spans for
+deeper or indefinite values. Both enforce the same BER rules and decode
+limits. The `ber.ForceGeneratedBERLightForTesting` and
+`ber.ForceGeneratedBERProofForTesting` options are test controls;
+applications do not need to select a path.
 
-Strict and tolerant decoders retain received BER bytes only when an unchanged
-value would otherwise lose a valid noncanonical form, such as a constructed
-string, an indefinite length, a nonminimal length, a non-normalised REAL, a
-SET whose components arrived in an order other than their schema order, or a
-SET with an unknown component, and, in tolerant mode, when it carries a
-tolerated constraint violation. Canonical input takes no received-byte
-snapshot: a SET received in schema order keeps no copy, because a fresh
-`MarshalBER` writes schema order (X.690 (02/2021) §8.11.2 leaves the order to
-the sender). Changing a typed field makes BER encoding use its
-current value. Out-of-constraint values still require the tolerance option
-when encoding. `ber.WithoutBERReplay()` on a BER encoder rebuilds current
-typed values recursively, including unchanged children. It refuses opaque
-open values and unknown extensions, which have no typed value to rebuild.
-The default continues exact replay of unchanged BER. This option does not
-apply DER rules or guarantee a protocol-specific transfer profile
-(X.690 (02/2021) §§8.1.3, 8.7.3).
+The shared runtime accepts BER's noncanonical forms in strict mode. TCAP and
+MAP additionally enforce their encoding profiles (Q.773 (06/1997) §4.1.1; TS
+29.002 V19.1.0 §17.1.1); a form forbidden by the applicable profile requires
+tolerance even when it is valid generic BER.
+
+For accepted input, all three runtimes retain received BER bytes only when
+an unchanged value would otherwise lose a valid noncanonical form, such as a
+constructed string, an indefinite length, a nonminimal length, a
+non-normalised REAL, a SET whose components arrived in an order other than
+their schema order, or a SET with an unknown component, and, in tolerant
+mode, when it carries a tolerated constraint violation. Canonical input
+takes no received-byte snapshot: a SET received in schema order keeps no
+copy, because a fresh `MarshalBER` writes schema order (X.690 (02/2021)
+§8.11.2 leaves the order to the sender). Changing a typed field makes BER
+encoding use its current value. Out-of-constraint values still require the
+tolerance option when encoding.
+
+In all three runtimes, `ber.WithoutBERReplay()` rebuilds current typed
+values recursively, including unchanged children. Opaque contents differ:
+
+- The shared runtime used by SGP.22 and SGP.32 refuses present opaque open
+  values and unknown extensions, even if their bytes already pass DER checks.
+- MAP copies opaque open values and unknown additions that pass the same
+  DER element checks as `MarshalDER`, and refuses those needing repair.
+- TCAP copies component arguments and parameters that pass its generic DER
+  payload checks, and refuses those needing repair. A dialogue portion
+  rebuilds a recognized dialogue APDU; for an unrecognized syntax, it encodes
+  the EXTERNAL with `EncodeExternalDER`, accepting an opaque
+  `single-ASN1-type` only if its element passes DER checks. TCAP's ROS
+  `Bind` and `Unbind` open values are refused even when canonical.
+
+These opaque checks cannot certify unknown IMPLICIT types, foreign DEFAULTs
+or schema-specific SET ordering. The option alone does not make all typed
+output DER or guarantee a protocol-specific transfer profile (X.690
+(02/2021) §§8.1.3, 8.7.3, 10–11). In each runtime the default retains exact
+replay of unchanged accepted BER, with tolerance still required for a
+violating value.
 
 When a field in an aggregate changes, the encoder compares each child with
 the child at the same encoded position in the received value. A child proved
@@ -227,19 +269,21 @@ Imported values cross the package boundary through their public marshal
 methods. BER replay and DER validation remain subject to the rules described
 here (ITU-T X.690 (02/2021) §§8.1.3, 10.1).
 
-`MarshalDER` encodes typed values in DER form and never re-emits preserved BER
-bytes: REAL values take their distinguished form, SET components are sorted,
-a SEQUENCE or SET component equal to its `DEFAULT` is omitted, and a named
-BIT STRING loses its trailing zero bits (ITU-T X.690 (02/2021) §8.5.7 NOTE 1,
-§§10.3, 11.2.2, 11.3.1, 11.5). The named BIT STRING rule changes the DER of
-such values in GSM MAP, TCAP (`protocol-version`), SGP.22 and SGP.32 when they
-end in zero bits. When decoding, trailing zero bits of a named BIT STRING may be added or
-removed to meet its `SIZE` bounds while keeping every set value bit
-(X.680 (02/2021) §22.7); unchanged BER still replays its received form.
-Open-type contents are emitted as carried.
-An unchanged valid BER REAL whose normalized exponent cannot fit the 255-octet
-encoding limit can still be re-encoded as BER; `MarshalDER` returns
-`ber.ErrInvalidValue` (X.690 §§8.5.7.4, 11.3.1).
+`MarshalDER` encodes typed values in DER form and never re-emits preserved
+BER bytes: REAL values take their distinguished form, SET components are
+sorted, a SEQUENCE or SET component equal to its `DEFAULT` is omitted, and a
+named BIT STRING loses its trailing zero bits (ITU-T X.690 (02/2021) §8.5.7
+NOTE 1, §§10.3, 11.2.2, 11.3.1, 11.5). The named BIT STRING rule changes the
+DER of such values in GSM MAP, TCAP (`protocol-version`), SGP.22 and SGP.32
+when they end in zero bits. When decoding, trailing zero bits of a named BIT
+STRING may be added or removed to meet its `SIZE` bounds while keeping every
+set value bit (X.680 (02/2021) §22.7); unchanged BER still replays its
+received form. For opaque open values and unknown additions, all three
+packages' DER encoders copy only elements that pass generic DER checks and
+refuse ones needing schema-dependent repair; they do not canonicalize the
+foreign value. An unchanged valid BER REAL whose normalized exponent cannot
+fit the 255-octet encoding limit can still be re-encoded as BER;
+`MarshalDER` returns `ber.ErrInvalidValue` (X.690 §§8.5.7.4, 11.3.1).
 
 Named BIT STRING types expose Go constants for their bit positions. For
 example, `sgp22.UICCCapabilityContactlessSupport` is position zero and can be
@@ -285,36 +329,40 @@ three components are sent explicit, as before, in BER and DER, for a new or
 an edited value. Decoders accept both forms, and an unchanged decoded value
 re-encodes in the form it arrived in.
 
-Constraint tolerance does not admit invalid encodings. Both modes reject:
+Constraint tolerance does not admit the following malformed structures. All
+three runtimes reject them in strict and tolerant modes:
 
 - INTEGER and ENUMERATED encodings with redundant sign octets, including
   under implicit tags, with `ber.ErrInvalidValue` (X.690 §§8.3.2, 8.4);
 - a constructed NULL, including under an implicit tag (X.690 §8.8.1);
-- any component encoding inside a non-extensible SEQUENCE or SET that has no
-  components, with a `*ber.DecodeError` naming the type and wrapping
-  `ber.ErrExtraData` (X.690 §§8.9.2, 8.11.2). Extensible empty types keep
-  their extensions;
+- any component encoding inside MAP's non-extensible empty SEQUENCEs
+  `LCSDLRSPPTransportRes` and `LCSULRSPPTransportRes`, with
+  `ber.ErrUnexpectedElement` (X.690 §§8.9.2, 8.11.2). SGP.22, SGP.32 and
+  TCAP have no non-extensible empty aggregate. Extensible empty types in
+  SGP.22, SGP.32 and MAP keep their extensions;
 - octets after the base encoding inside an EXPLICIT tag, with
-  `ber.ErrExtraData`: the contents of an explicitly tagged value are exactly
+  `ber.ErrExtraData` in the shared runtime or `ber.ErrUnexpectedElement`
+  in TCAP and MAP: the contents of an explicitly tagged value are exactly
   one complete encoding (X.690 §8.14.3). Earlier releases accepted and
   dropped them, for example after the application-context-name of a TCAP
   `AARQ-apdu`.
 
 #### Unknown SEQUENCE extensions
 
-An extensible SEQUENCE keeps the TLVs that follow its known components in
-`ExtData_` and re-encodes them as received. The first of them cannot carry
-the tag of a component in the trailing run of OPTIONAL or DEFAULT components
-of the known type, taking the root and the known additions in textual order:
-ITU-T X.680 (02/2021) §§25.6.1, 25.6.3 and 52.7.3 NOTE b) keep an unknown
-addition distinct from those tags. Such a TLV is a known component sent out
-of order or twice (X.690 (02/2021) §§8.9.2, 8.9.3), and strict decoding now
-rejects it with `ber.ErrInvalidTag`; earlier releases kept it silently as an
-unknown extension. For example, every root component of TS 24.080
-`NotifySS-Arg` is OPTIONAL, so `3006840100810100` (`ss-Status [4]` before
-`ss-Code [1]`) and `3006810100810101` (`ss-Code` twice) are rejected, while
-`3006810100840100` decodes. The tolerance option admits the TLV and records
-it under a path ending in `ExtData_[0]`, with the constraint
+In the shared and MAP runtimes, an extensible SEQUENCE keeps the TLVs that
+follow its known components in `ExtData_` and re-encodes them as received.
+The first of them cannot carry the tag of a component in the trailing run of
+OPTIONAL or DEFAULT components of the known type, taking the root and the
+known additions in textual order: ITU-T X.680 (02/2021) §§25.6.1, 25.6.3 and
+52.7.3 NOTE b) keep an unknown addition distinct from those tags. Such a TLV
+is a known component sent out of order or twice (X.690 (02/2021) §§8.9.2,
+8.9.3), and strict decoding now rejects it with `ber.ErrInvalidTag` in the
+shared runtime and `ber.ErrUnexpectedElement` in MAP; earlier releases kept
+it silently as an unknown extension. For example, every root component of TS
+24.080 `NotifySS-Arg` is OPTIONAL, so `3006840100810100` (`ss-Status [4]`
+before `ss-Code [1]`) and `3006810100810101` (`ss-Code` twice) are rejected,
+while `3006810100840100` decodes. The tolerance option admits the TLV and
+records it under a path ending in `ExtData_[0]`, with the constraint
 `SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)` and the tag, for
 example `[CONTEXT 1 PRIMITIVE]`, as the observed value. BER and DER encoders
 also refuse a first unknown extension TLV carrying a tag from that trailing
@@ -323,11 +371,9 @@ encoding records the violation instead. A value decoded with a tolerated
 first-extension violation re-encodes as received only with the tolerance
 option; strict encoding rejects it.
 
-For an extensible SET, every unknown extension entry must have a tag distinct
-from every known component (X.680 (02/2021) §§27.3, 52.7.1–52.7.3). Strict
-BER and DER encoders refuse a collision at any index, including a tag for an
-absent component. Tolerant BER encoding records each collision at its
-`ExtData_[i]` path.
+The released SGP.22, SGP.32, TCAP and MAP packages have no extensible SET
+type. X.680 (02/2021) §§27.3, 52.7.1–52.7.3 requires an unknown addition
+of an extensible SET to have a tag distinct from every known component.
 
 The SEQUENCE check applies to the first unknown TLV only, and only to that
 trailing run. Additions may reuse a mandatory component's tag, and any tag
@@ -341,11 +387,12 @@ tail rather than becoming `smsOverIP-OnlyIndicator`. Similarly,
 
 #### Unknown CHOICE extensions
 
-An extensible BER CHOICE can retain an alternative absent from its compiled
-schema. `UnknownExtension.Element` holds a copy of the complete received BER
-element, including its identifier, length, contents and any end-of-contents
-octets. `MarshalBER` reproduces it; `MarshalDER` accepts it only when the
-complete element is valid DER (ITU-T X.690 (02/2021) §§8.1.1, 8.13, 10–11).
+In SGP.22 and SGP.32, an extensible BER CHOICE can retain an alternative
+absent from its compiled schema. `UnknownExtension.Element` holds a copy of
+the complete received BER element, including its identifier, length,
+contents and any end-of-contents octets. `MarshalBER` reproduces it;
+`MarshalDER` accepts it only when the complete element is valid DER (ITU-T
+X.690 (02/2021) §§8.1.1, 8.13, 10–11).
 
 A fresh value may set `UnknownExtension` if it selects no known alternative
 and the element does not reuse a known alternative's tag. At the CHOICE's
@@ -489,9 +536,11 @@ visible framing and universal-tag rules; it cannot certify an unknown
 IMPLICIT type, a foreign DEFAULT or schema-specific SET ordering (ITU-T
 X.690 (02/2021) §§10–11).
 
-This runtime drop does not add the TS 29.002 §17.1.1 encoding profile,
-source-aware named-bit builders or operation/context descriptors. Those are
-separate milestones. Procedure and application-context checks belong to wrappers.
+MAP's codecs enforce the TS 29.002 V19.1.0 §17.1.1 encoding profile at
+MAP protocol positions; supplementary-service and ROS values retain their
+applicable BER rules. The MAP package also provides named-bit builders and
+operation/context descriptors. Procedure and application-context checks
+belong to wrappers.
 
 #### Standalone operation and error values
 
