@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/time_test.go; SHA-256 098e82a532379a80f04bff6d5bf4e6a6bbe694c0c3fc5ec52d54e7be01511d79.
+// Runtime source: runtime/ber/time_test.go; SHA-256 0d65b50957db9f41320730445c608aeb929adc84b9a628720302e219eaaf89b9.
 package ber
 
 import (
@@ -277,12 +277,31 @@ func checkBERTimeElement(t *testing.T, number int, data []byte) {
 			t.Fatalf("%q: DER %q is a different instant", text, derText)
 		}
 	} else {
-		a, errA := mustGeneralizedTime(text).Time()
-		b, errB := mustGeneralizedTime(derText).Time()
-		if errA != nil || errB != nil || !a.Equal(b) {
+		at, leapA := leapSecondInMinute(text)
+		bt, leapB := leapSecondInMinute(derText)
+		a, errA := mustGeneralizedTime(at).Time()
+		b, errB := mustGeneralizedTime(bt).Time()
+		if errA != nil || errB != nil || leapA != leapB || !a.Equal(b) {
 			t.Fatalf("%q: DER %q is a different instant", text, derText)
 		}
 	}
+}
+
+// leapSecondInMinute reads a positive leap second as second 59 of its
+// containing minute, reporting whether the text had one. X.680 (02/2021)
+// §46.3 a) 2) admits second 60 through ISO 8601, and time.Time cannot hold
+// it, so two leap seconds denote the same instant exactly when their
+// second-59 readings do.
+func leapSecondInMinute(text string) (string, bool) {
+	if len(text) < 14 || text[12:14] != "60" {
+		return text, false
+	}
+	for _, c := range text[:14] {
+		if c < '0' || c > '9' {
+			return text, false
+		}
+	}
+	return text[:12] + "59" + text[14:], true
 }
 
 // FuzzBERTimeRoundTrip checks, for any input, that a decoded time
@@ -300,6 +319,10 @@ func FuzzBERTimeRoundTrip(f *testing.F) {
 	}
 	f.Add([]byte{0x17, 0x81, 0x0d, '9', '9', '1', '2', '3', '1', '2', '3', '5', '9', '5', '9', 'Z'})
 	f.Add([]byte{0x38, 0x80, 0x04, 0x02, '2', '0', 0x00, 0x00})
+	// Leap seconds whose DER form moves the containing minute to UTC.
+	for _, text := range []string{"00000101010060+00", "20161231235960Z", "20170101005960.5+0100"} {
+		f.Add(primitiveTime(tag.TagGeneralizedTime, text))
+	}
 	f.Fuzz(func(t *testing.T, data []byte) {
 		checkBERTimeElement(t, tag.TagUTCTime, data)
 		checkBERTimeElement(t, tag.TagGeneralizedTime, data)

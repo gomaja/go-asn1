@@ -582,6 +582,12 @@ func invalidDERAddition(data []byte, source string, children []byte, i int) erro
 // text needs diagnostic metadata; the encoded TLV is never parsed again.
 func encodeUTF8String(value string, opts []ber.EncodeOption, component string, index int, source string) ([]byte, error) {
 	if utf8.ValidString(value) && !strings.ContainsAny(value, "\x1b\x0e\x0f\u008e\u008f") {
+		// X.680 (02/2021) §§41.6,41.16; ISO/IEC 10646:2003 §§7 a),8 exclude noncharacters.
+		for _, r := range value {
+			if r >= 0xfdd0 && r <= 0xfdef || r&0xffff >= 0xfffe {
+				return encodeInvalidUTF8String(value, opts, component, index, source)
+			}
+		}
 		return ber.EncodeTLV(tag.Tag{Number: 12}, []byte(value))
 	}
 	return encodeInvalidUTF8String(value, opts, component, index, source)

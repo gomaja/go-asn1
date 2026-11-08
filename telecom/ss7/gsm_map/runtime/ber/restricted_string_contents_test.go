@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/restricted_string_contents_test.go; SHA-256 a7339c3de917f405cfc18656d7c9159308c23a1154a8aa4cc0a729d31c110d8f.
+// Runtime source: runtime/ber/restricted_string_contents_test.go; SHA-256 86412ec3e5144896c46fd0e718a4247747fbccdd6a646e4548357784f5f7f1dd.
 package ber
 
 import (
@@ -38,7 +38,7 @@ func TestRestrictedContentsIssueVectors(t *testing.T) {
 		{"1701ff", true, false}, {"1801ff", true, false}, {"0c01ff", true, true},
 		{"1e02d800", true, false}, {"1e02dfff", true, false}, {"1e02d7ff", false, false}, {"1e02e000", false, false},
 		{"1c040000d800", true, false}, {"1c040000dfff", true, false}, {"1c0400110000", true, false},
-		{"1c040010ffff", false, false}, {"1c04ffffffff", true, false},
+		{"1c040010ffff", true, false}, {"1c04ffffffff", true, false},
 	} {
 		t.Run(row.wire, func(t *testing.T) {
 			wire := structureWire(t, row.wire)
@@ -323,7 +323,7 @@ func TestRestrictedScalarEverySegmentBoundary(t *testing.T) {
 		invalid  bool
 	}{
 		{30, []byte{0xd7, 0xff}, false}, {30, []byte{0xd8, 0}, true}, {30, []byte{0xe0, 0}, false},
-		{28, []byte{0, 0x10, 0xff, 0xff}, false}, {28, []byte{0, 0x11, 0, 0}, true}, {28, []byte{0, 0, 0xd8, 0}, true},
+		{28, []byte{0, 0x10, 0xff, 0xff}, true}, {28, []byte{0, 0x11, 0, 0}, true}, {28, []byte{0, 0, 0xd8, 0}, true},
 	} {
 		for split := 0; split <= len(row.contents); split++ {
 			wire := []byte{byte(row.number) | 32, 128, 4, byte(split)}

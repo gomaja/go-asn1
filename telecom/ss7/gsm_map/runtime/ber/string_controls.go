@@ -1,10 +1,9 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/string_controls.go; SHA-256 269ff902824c857c5f01bcf9e64e4cfc8b58ba36b65d9bdfd95bc22016a766be.
+// Runtime source: runtime/ber/string_controls.go; SHA-256 e2cd37024826e5934446c877afacb6f83f1d1abc4d6c7ea3841c68143417eb48.
 package ber
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 	"unicode/utf8"
@@ -63,6 +62,7 @@ func (s *stringControlState) consume(number int, r rune) bool {
 			}
 			return r == 'N' || r == 'O' || r == 'n' || r == 'o' || r == '|' || r == '}' || r == '~'
 		}
+		// ISO/IEC 2022:1994 §13.1: a control is not an escape final byte.
 		s.phase = 0
 	case 3:
 		// ISO/IEC 10646:2003 §16.3: IUCS = CSI Ps... SP m;
@@ -91,6 +91,7 @@ func (s *stringControlState) consume(number int, r rune) bool {
 }
 
 func validStringControls(number int, value string) bool {
+	// X.690 (02/2021) §8.23.5.3 forbids IA5 escapes, not standalone SI/SO.
 	if number == tag.TagIA5String && strings.IndexByte(value, 0x1b) < 0 {
 		return true
 	}
@@ -103,14 +104,30 @@ func validStringControls(number int, value string) bool {
 	return true
 }
 
+// X.680 (02/2021) §§41.6, 41.15–41.16 adopt ISO/IEC 10646:2003;
+// §§7 a), 8 permanently reserve the plane-end cells and U+FDD0–U+FDEF.
+func isUnicodeNoncharacter(r rune) bool {
+	return r >= 0xfdd0 && r <= 0xfdef || r >= 0 && r <= utf8.MaxRune && r&0xffff >= 0xfffe
+}
+
+const unicodeNoncharacterConstraint = "UCS repertoire excludes permanently reserved noncharacters (X.680 (02/2021) §§41.6, 41.15–41.16; ISO/IEC 10646:2003 §§7 a), 8)"
+
+func unicodeNoncharacterRule() RuleRef {
+	return RuleRef{Document: "ISO/IEC 10646", Edition: "2003", Clause: "7 a), 8"}
+}
+
 func validUTF8Contents(contents []byte) bool {
 	if !utf8.Valid(contents) {
 		return false
 	}
-	if !bytes.ContainsAny(contents, "\x1b\x0e\x0f\u008e\u008f") {
-		return true
+	var controls stringControlState
+	for _, r := range string(contents) {
+		// ISO/IEC 10646:2003 §§7 a), 8 exclude permanently reserved noncharacters.
+		if isUnicodeNoncharacter(r) || controls.consume(tag.TagUTF8String, r) {
+			return false
+		}
 	}
-	return validStringControls(tag.TagUTF8String, string(contents))
+	return true
 }
 
 func invalidStringControl(number int) error {
@@ -123,3 +140,7 @@ func stringControlConstraint(number int) string {
 	}
 	return "UTF8String forbids escapes and code-extension shifts (X.690 (02/2021) §8.23.10; ISO/IEC 10646:2003 §15)"
 }
+
+// X.680 (02/2021) §§41.6, 41.15–41.16 and ISO/IEC 10646:2003 §§7 a), 8
+// require scalar characters outside the permanently reserved noncharacter cells.
+func validUCSCharacter(r rune) bool { return utf8.ValidRune(r) && !isUnicodeNoncharacter(r) }

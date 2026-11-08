@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/restricted_controls_test.go; SHA-256 51bf8a924976d0ac39b604b406c2f3abc5b0ffdcd3124e0862d3794d01b03d0b.
+// Runtime source: runtime/ber/restricted_controls_test.go; SHA-256 5cf78803b923cd9a5ab289ff3ad3e49660f2cd64c5ffdb4d8c6827f0ecfa0330.
 package ber
 
 import (
@@ -120,10 +120,10 @@ func TestRestrictedControlSequences(t *testing.T) {
 				t.Run(fmt.Sprintf("%d/%x", number, text), func(t *testing.T) { checkControlWire(t, wire, text, true) })
 			}
 		}
-		// Retain incomplete ESC inputs while their handling is decided separately.
+		// ISO/IEC 2022:1994 §13.1 requires a final byte; incomplete ESC stays accepted.
 		valid := []string{"\t\r\n", "plain", "\x00", "\x1b", "\x1b ", "\x1b\n"}
 		if number == tag.TagBMPString || number == tag.TagUniversalString {
-			valid = append(valid, "\x1bD", "\u009b31m", "\x1b[31m", "\u010e\u010f\u011bN", "\ufdd0")
+			valid = append(valid, "\x1bD", "\u009b31m", "\x1b[31m", "\u010e\u010f\u011bN")
 		}
 		if number == tag.TagIA5String {
 			valid = append(valid, "\x0e\x0f")

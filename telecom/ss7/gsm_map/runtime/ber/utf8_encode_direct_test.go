@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8_encode_direct_test.go; SHA-256 edd9a8daa0b0aa52e285252b7720823b398729063d2f55dbf202a4115f6ac04b.
+// Runtime source: runtime/ber/utf8_encode_direct_test.go; SHA-256 e3502d21d4739b0c87454bf21af5e35cc8671aa572b9c11e6e76cebb0ccdbd32.
 package ber
 
 import (
@@ -13,7 +13,7 @@ import (
 
 func TestTypedUTF8DirectCheck(t *testing.T) {
 	const source = "Module.Record.text"
-	for _, value := range []string{"a", "é", "\xff", "\xff\xff", "a\xe2\x82", "\x1bN", "\x0e", "\u008e", "x\x1b L"} {
+	for _, value := range []string{"a", "é", "\xff", "\xff\xff", "a\xe2\x82", "\x1bN", "\x0e", "\u008e", "x\x1b L", "\ufdd0", "\ufdef", "\ufffe", "\U0001fffe", "\U0010ffff"} {
 		wire, err := EncodeTLV(tag.Tag{Number: tag.TagUTF8String}, []byte(value))
 		if err != nil {
 			t.Fatal(err)
@@ -69,19 +69,21 @@ func TestTypedUTF8DirectCheck(t *testing.T) {
 
 func TestTypedUTF8EncodeDiagnosticsGrowLinearly(t *testing.T) {
 	rule := RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.10"}
-	for _, size := range []int{64, 128, 256, 512, 1024} {
-		value := strings.Repeat("\xff", size)
-		allocated := testing.AllocsPerRun(2, func() {
-			var reports ViolationLog
-			options, finish := StageEncodeReports([]EncodeOption{WithTolerance(&reports)})
-			err := CheckEncodedValue(EncodeRule(options, "Module.Record.text", rule), "text", "UTF8String", value)
-			finish(err == nil)
-			if err != nil || len(reports.Snapshot()) != size {
-				t.Fatalf("size=%d error=%v records=%d", size, err, len(reports.Snapshot()))
+	for _, unit := range []string{"\xff", "\ufdd0", "\U0001fffe"} {
+		for _, size := range []int{64, 128, 256, 512, 1024} {
+			value := strings.Repeat(unit, size)
+			allocated := testing.AllocsPerRun(2, func() {
+				var reports ViolationLog
+				options, finish := StageEncodeReports([]EncodeOption{WithTolerance(&reports)})
+				err := CheckEncodedValue(EncodeRule(options, "Module.Record.text", rule), "text", "UTF8String", value)
+				finish(err == nil)
+				if err != nil || len(reports.Snapshot()) != size {
+					t.Fatalf("size=%d error=%v records=%d", size, err, len(reports.Snapshot()))
+				}
+			})
+			if allocated > float64(32*size+256) {
+				t.Fatalf("size=%d allocations=%.0f exceed linear bound", size, allocated)
 			}
-		})
-		if allocated > float64(32*size+256) {
-			t.Fatalf("size=%d allocations=%.0f exceed linear bound", size, allocated)
 		}
 	}
 	var reports ViolationLog

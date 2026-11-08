@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 3f21f648c65c206d6a12c6697b49bbe87d3e2f05f91178c4a58d967b8505aa60.
+// Runtime source: runtime/ber/utf8.go; SHA-256 c046c7fb47f4e895a7c3bdb4ca563760fcc218b26191fd48e7c927fe3eb617c4.
 package ber
 
 import (
@@ -30,7 +30,7 @@ func checkUTF8String(contents []byte, source *byte, config decodeConfig, options
 		if !validStringControls(tag.TagUTF8String, string(contents)) {
 			return invalidStringControl(tag.TagUTF8String)
 		}
-		return fmt.Errorf("%w: UTF8String is not shortest-form UTF-8 scalar text", ErrInvalidValue)
+		return fmt.Errorf("%w: UTF8String violates its encoding or repertoire rules", ErrInvalidValue)
 	}
 	return reportStringOctets(tag.TagUTF8String, contents, source, 0, config, options, preflight, position)
 }

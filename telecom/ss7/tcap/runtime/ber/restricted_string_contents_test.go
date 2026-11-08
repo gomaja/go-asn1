@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/restricted_string_contents_test.go; SHA-256 da6b5974c323db4eb757875f45a27e02e53598b2459739d5bf71922bad095f4f.
+// Runtime source: runtime/ber/restricted_string_contents_test.go; SHA-256 16327e4a87f7aa9bc6c31fc54dab393cac94d5f7e74bbb6059cb30aa70c7b273.
 package ber
 
 import (
@@ -105,7 +105,7 @@ func TestRestrictedScalarEverySegmentBoundary(t *testing.T) {
 		invalid  bool
 	}{
 		{30, []byte{0xd7, 0xff}, false}, {30, []byte{0xd8, 0}, true}, {30, []byte{0xe0, 0}, false},
-		{28, []byte{0, 0x10, 0xff, 0xff}, false}, {28, []byte{0, 0x11, 0, 0}, true}, {28, []byte{0, 0, 0xd8, 0}, true},
+		{28, []byte{0, 0x10, 0xff, 0xff}, true}, {28, []byte{0, 0x11, 0, 0}, true}, {28, []byte{0, 0, 0xd8, 0}, true},
 	} {
 		for split := 0; split <= len(row.contents); split++ {
 			wire := []byte{byte(row.number) | 32, 128, 4, byte(split)}

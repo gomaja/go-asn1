@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/restricted_string.go; SHA-256 f56050f7d1b663132168c033a86af0f20ebb6c7193edbd96e6642357e91c23d2.
+// Runtime source: runtime/ber/restricted_string.go; SHA-256 e32dbeaa0979003862a9a12e4802e4e284d0609ddbc1a8423c003caf70ad5bac.
 package ber
 
 import (
@@ -90,8 +90,9 @@ func (s *restrictedStringState) consume(contents []byte) {
 			s.scalar = s.scalar<<8 | uint32(b)
 			s.pending++
 			if s.pending == width {
-				// X.680 (02/2021) §41.15: BMPString ends at cell U+FFFD.
-				if s.scalar > utf8.MaxRune || !utf8.ValidRune(rune(s.scalar)) || s.number == tag.TagBMPString && s.scalar > 0xfffd {
+				// X.680 (02/2021) §§41.6, 41.15–41.16 and ISO/IEC 10646:2003
+				// §§7 a), 8 exclude permanently reserved noncharacters; BMP ends at U+FFFD.
+				if s.scalar > utf8.MaxRune || !validUCSCharacter(rune(s.scalar)) || s.number == tag.TagBMPString && s.scalar > 0xfffd {
 					s.invalid = true
 				}
 				if s.controls.consume(s.number, rune(s.scalar)) {
@@ -117,7 +118,7 @@ func (s *restrictedStringState) finish() error {
 		case tag.TagBMPString:
 			return fmt.Errorf("%w: BMPString requires whole two-octet values in its repertoire (X.680 (02/2021) §41.15; X.690 (02/2021) §§8.23.8–8.23.9)", ErrInvalidValue)
 		case tag.TagUniversalString:
-			return fmt.Errorf("%w: UniversalString requires whole four-octet Unicode scalar values (X.690 (02/2021) §§8.23.7, 8.23.9)", ErrInvalidValue)
+			return fmt.Errorf("%w: UniversalString requires whole four-octet values in its repertoire (X.680 (02/2021) §41.6; ISO/IEC 10646:2003 §§7 a), 8; X.690 (02/2021) §§8.23.7, 8.23.9)", ErrInvalidValue)
 		default:
 			return fmt.Errorf("%w: %s", ErrInvalidValue, alphabetRule(s.number))
 		}
@@ -232,10 +233,13 @@ func (s *restrictedTimeSyntax) valid(utc bool) bool {
 	if int(s.count) > start+10 {
 		second = timeDigitPair(s.digits[start+10], s.digits[start+11])
 	}
-	// Match the typed parser's existing seconds range. GeneralizedTime leap
-	// seconds admitted by X.680 §46.3's ISO 8601 reference require typed runtime
-	// support too; this scanner cannot admit a value the typed parser refuses.
-	if month < 1 || month > 12 || day < 1 || hour > 23 || minute > 59 || second > 59 {
+	// X.680 (02/2021) §46.3 imports ISO 8601 positive leap seconds;
+	// §47.3 b) 2) restricts UTCTime seconds to 00–59.
+	maxSecond := 60
+	if utc {
+		maxSecond = 59
+	}
+	if month < 1 || month > 12 || day < 1 || hour > 23 || minute > 59 || second > maxSecond {
 		return false
 	}
 	if day > time.Date(year, time.Month(month+1), 0, 0, 0, 0, 0, time.UTC).Day() {

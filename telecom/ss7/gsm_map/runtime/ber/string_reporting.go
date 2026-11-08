@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/string_reporting.go; SHA-256 0de31bbc35e9e0294598bfd78c8ec15f46cc161bd4744597ebc65ca14b48bcf3.
+// Runtime source: runtime/ber/string_reporting.go; SHA-256 979f289e1d1379889e502d523e2fc74c88fcf1c110891aa34f724246864c0874.
 package ber
 
 import (
@@ -66,12 +66,15 @@ func reportStringContents(number int, contents []byte, source *byte, logicalOffs
 	for offset := 0; offset < len(contents); {
 		size := 1
 		forbiddenControl := false
+		noncharacter := false
 		invalid := !alphabetOctet(number, contents[offset])
 		if number == tag.TagUTF8String {
 			var r rune
 			r, size = utf8.DecodeRune(contents[offset:])
 			forbiddenControl = controls.consume(number, r)
-			invalid = r == utf8.RuneError && size == 1 || forbiddenControl
+			noncharacter = isUnicodeNoncharacter(r)
+			// ISO/IEC 10646:2003 §§7 a), 8 also exclude noncharacters.
+			invalid = r == utf8.RuneError && size == 1 || noncharacter || forbiddenControl
 		}
 		if number == tag.TagIA5String {
 			forbiddenControl = controls.consume(number, rune(contents[offset]))
@@ -84,6 +87,9 @@ func reportStringContents(number int, contents []byte, source *byte, logicalOffs
 			location := logicalOffset + offset
 			record := *position
 			record.Rule, record.Constraint = rule, constraint
+			if noncharacter {
+				record.Rule, record.Constraint = unicodeNoncharacterRule(), unicodeNoncharacterConstraint
+			}
 			if forbiddenControl {
 				record.Constraint = stringControlConstraint(number)
 				if number == tag.TagIA5String {
