@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/encoder.go; SHA-256 6684d3897c673a4f26581b75f9e31bb8d8c7b9e5019ba5976c89c703277a8da1.
+// Runtime source: runtime/ber/encoder.go; SHA-256 5bdb4a1ff5fc2e4891423ca7a20df895543fd37d4ed0d52604495231616349b1.
 package ber
 
 import (
@@ -476,11 +476,7 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 	case tag.TagUTF8String:
 		// X.690 (02/2021) §8.23.10 requires shortest-form UTF-8.
 		if !validUTF8Contents([]byte(v)) {
-			return nil, &ValidationError{Violation: Violation{
-				Rule:          RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.10"},
-				Constraint:    "UTF8String shortest-form UTF-8 scalar text (X.690 (02/2021) §8.23.10)",
-				ObservedValue: "invalid UTF-8",
-			}}
+			return nil, checkEncodedUTF8String(v, nil, "")
 		}
 		return []byte(v), nil
 	case tag.TagBMPString:
@@ -495,7 +491,8 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		var controls stringControlState
 		for _, r := range v {
 			// X.680 (02/2021) §41.15 excludes surrogates and the last two BMP cells.
-			if r > 0xfffd || !utf8.ValidRune(r) {
+			// X.680 §§41.6, 41.15; ISO/IEC 10646:2003 §§7 a), 8 exclude noncharacters.
+			if r > 0xfffd || !utf8.ValidRune(r) || isUnicodeNoncharacter(r) {
 				return nil, fmt.Errorf("%w: BMPString character U+%04X is outside its repertoire (X.680 (02/2021) §41.15; X.690 (02/2021) §8.23.8)", ErrInvalidValue, r)
 			}
 			if controls.consume(tagNum, r) {
@@ -515,8 +512,9 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		value := make([]byte, 0, capacity)
 		var controls stringControlState
 		for _, r := range v {
-			if r < 0 || r > utf8.MaxRune || !utf8.ValidRune(r) {
-				return nil, fmt.Errorf("%w: UniversalString character U+%04X is not a Unicode scalar value (X.690 (02/2021) §8.23.7)", ErrInvalidValue, r)
+			// X.680 §41.6; ISO/IEC 10646:2003 §§7 a), 8 exclude noncharacters.
+			if r < 0 || r > utf8.MaxRune || !utf8.ValidRune(r) || isUnicodeNoncharacter(r) {
+				return nil, fmt.Errorf("%w: UniversalString character U+%04X is outside its repertoire (X.680 (02/2021) §41.6; ISO/IEC 10646:2003 §§7 a), 8; X.690 (02/2021) §8.23.7)", ErrInvalidValue, r)
 			}
 			if controls.consume(tagNum, r) {
 				return nil, invalidStringControl(tagNum)

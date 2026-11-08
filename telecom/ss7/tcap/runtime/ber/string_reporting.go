@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/string_reporting.go; SHA-256 fe489ec78768a2082a01ea2dca48163c0443d795f8b69555195395a28e3252d1.
+// Runtime source: runtime/ber/string_reporting.go; SHA-256 18a5ba93fa7bbd62b4dff925de9646190c5a4e92bf6edc820c960c9c5eb5564c.
 package ber
 
 import (
@@ -36,12 +36,15 @@ func reportStringOctets(number int, contents []byte, source *byte, logicalOffset
 	for offset := 0; offset < len(contents); {
 		size := 1
 		forbiddenControl := false
+		noncharacter := false
 		invalid := !alphabetOctet(number, contents[offset])
 		if number == tag.TagUTF8String {
 			var r rune
 			r, size = utf8.DecodeRune(contents[offset:])
 			forbiddenControl = controls.consume(number, r)
-			invalid = r == utf8.RuneError && size == 1 || forbiddenControl
+			noncharacter = isUnicodeNoncharacter(r)
+			// ISO/IEC 10646:2003 §§7 a), 8 also exclude noncharacters.
+			invalid = r == utf8.RuneError && size == 1 || noncharacter || forbiddenControl
 		}
 		if number == tag.TagIA5String {
 			forbiddenControl = controls.consume(number, rune(contents[offset]))
@@ -54,6 +57,9 @@ func reportStringOctets(number int, contents []byte, source *byte, logicalOffset
 			// offset and structural path are enriched by location resolution.
 			record.Source, record.ChildIndexes = "", nil
 			record.Rule, record.Constraint = rule, constraint
+			if noncharacter {
+				record.Rule, record.Constraint = unicodeNoncharacterRule(), unicodeNoncharacterConstraint
+			}
 			if forbiddenControl {
 				record.Constraint = stringControlConstraint(number)
 				if number == tag.TagIA5String {

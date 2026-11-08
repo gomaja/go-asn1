@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/bmp_repertoire_test.go; SHA-256 1ca966ae24869b224c10e0e79732c87a3561a20b855b14b133869ca8b70a6289.
+// Runtime source: runtime/ber/bmp_repertoire_test.go; SHA-256 1a0de37fda3eecd6c7ac1ef4180ffdf3b96e58f64983cdd2a4fa6d8f9bcc17ee.
 package ber
 
 import (
@@ -50,9 +50,9 @@ func TestBMPStringRepertoireBoundary(t *testing.T) {
 	}
 }
 
-// §§41.6–41.7, 41.16 do not impose BMPString's 64K-2-cell restriction.
+// X.680 §§41.6–41.7, 41.16 and ISO/IEC 10646:2003 §§7 a), 8 retain scalar neighbors.
 func TestOtherUnicodeStringsKeepScalarBoundary(t *testing.T) {
-	for _, r := range []rune{0xfffd, 0xfffe, 0xffff, 0x10000, 0x10ffff} {
+	for _, r := range []rune{0xfffd, 0x10000, 0x1fffd, 0x10fffd} {
 		for _, number := range []int{tag.TagUniversalString, tag.TagUTF8String} {
 			wire, err := EncodeStringTagChecked(number, string(r))
 			if err != nil {

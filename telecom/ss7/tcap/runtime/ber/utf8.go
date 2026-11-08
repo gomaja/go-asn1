@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 9933f59325187595004503cbe47e563bc54a9a61dde91c29693abc1c2b006ad2.
+// Runtime source: runtime/ber/utf8.go; SHA-256 55710231cc41cef7d51dc6e0f1ac4e9e36750e19af768b753b31a33b09a95819.
 package ber
 
 import (
@@ -29,7 +29,7 @@ func checkUTF8String(contents []byte, source *byte, config decodeConfig, options
 		if !validStringControls(tag.TagUTF8String, string(contents)) {
 			return invalidStringControl(tag.TagUTF8String)
 		}
-		return fmt.Errorf("%w: UTF8String is not shortest-form UTF-8 scalar text", ErrInvalidValue)
+		return fmt.Errorf("%w: UTF8String violates its encoding or repertoire rules", ErrInvalidValue)
 	}
 	return reportStringOctets(tag.TagUTF8String, contents, source, 0, config, options, preflight, position)
 }

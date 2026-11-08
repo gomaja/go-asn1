@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 4a99be91a77224a2be8b7cc1be930ace15619c765d3001150f871de6b01c6dd3.
+// Runtime source: runtime/ber/decoder.go; SHA-256 c0a0d7125b2dc00453b8eb5d229455f9ddeca51a39865b4a7bc073fd727d0a3f.
 package ber
 
 import (
@@ -1493,7 +1493,8 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 			}
 			r := rune(binary.BigEndian.Uint16(value[offset : offset+2]))
 			// X.680 (02/2021) §41.15 excludes surrogates and the last two BMP cells.
-			if r > 0xfffd || !utf8.ValidRune(r) {
+			// X.680 §§41.6, 41.15; ISO/IEC 10646:2003 §§7 a), 8 exclude noncharacters.
+			if r > 0xfffd || !utf8.ValidRune(r) || isUnicodeNoncharacter(r) {
 				return "", fmt.Errorf("%w: BMPString contains invalid code point U+%04X", ErrInvalidValue, r)
 			}
 			if controls.consume(tagNum, r) {
@@ -1518,7 +1519,8 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 				return "", fmt.Errorf("%w: UniversalString code point exceeds Unicode range", ErrInvalidValue)
 			}
 			r := rune(codePoint)
-			if !utf8.ValidRune(r) {
+			// X.680 §41.6; ISO/IEC 10646:2003 §§7 a), 8 exclude noncharacters.
+			if !utf8.ValidRune(r) || isUnicodeNoncharacter(r) {
 				return "", fmt.Errorf("%w: UniversalString contains invalid code point U+%04X", ErrInvalidValue, r)
 			}
 			if controls.consume(tagNum, r) {

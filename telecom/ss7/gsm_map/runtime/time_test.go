@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/time_test.go; SHA-256 b6db4edb560af1dc163aae63514be3ae4fd9b868b491756dec70a24768a11fae.
+// Runtime source: runtime/time_test.go; SHA-256 66244e9ecf29234d3ca5f072d00796a35d694d990a20224d0c40c0a9744deeb1.
 package runtime
 
 import (
@@ -79,7 +79,7 @@ var invalidTimes = []struct {
 	in  string
 }{
 	{false, "20260101240000Z"},     // §46.2 a) excludes midnight at the end of a day
-	{false, "20261231235960Z"},     // leap second: decision D4
+	{false, "20261231235961Z"},     // ISO 8601 permits 60, but never 61
 	{false, "20260101120000.Z"},    // decimal sign without digits
 	{false, "20260101120000z"},     // §46.3 b) upper-case Z
 	{false, "20260230120000Z"},     // no 30 February
@@ -383,7 +383,7 @@ func oracleGeneralized(s string) bool {
 	if !oracleDate(oracleNumber(m[1]), oracleNumber(m[2]), oracleNumber(m[3])) || oracleNumber(m[4]) > 23 {
 		return false
 	}
-	if m[5] != "" && oracleNumber(m[5]) > 59 || m[6] != "" && oracleNumber(m[6]) > 59 {
+	if m[5] != "" && oracleNumber(m[5]) > 59 || m[6] != "" && oracleNumber(m[6]) > 60 {
 		return false
 	}
 	return oracleZone(m[8])
@@ -460,13 +460,22 @@ func checkGeneralizedTime(t *testing.T, s string) {
 		if !errors.Is(err, ErrNoCanonicalTime) || g.IsCanonical() {
 			t.Fatalf("%q: local time canonicalised to %q", s, c)
 		}
-		if _, err := g.Time(); !errors.Is(err, ErrLocalTime) {
+		want := ErrLocalTime
+		if reGeneralized.FindStringSubmatch(s)[6] == "60" {
+			want = ErrTimeRange
+		}
+		if _, err := g.Time(); !errors.Is(err, want) {
 			t.Fatalf("%q: local Time() = %v", s, err)
 		}
 		return
 	}
 	if err != nil {
 		y := exactInstant(s)
+		// A leap second belongs to its containing minute. Counting it as the
+		// following minute would incorrectly admit the year-0000 boundary.
+		if reGeneralized.FindStringSubmatch(s)[6] == "60" {
+			y = exactInstant(s[:12] + "59" + s[14:])
+		}
 		lo := new(big.Rat).SetInt64(time.Date(0, 1, 1, 0, 0, 0, 0, time.UTC).Unix())
 		hi := new(big.Rat).SetInt64(time.Date(10000, 1, 1, 0, 0, 0, 0, time.UTC).Unix())
 		if !errors.Is(err, ErrNoCanonicalTime) || y.Cmp(lo) >= 0 && y.Cmp(hi) < 0 {
@@ -476,6 +485,9 @@ func checkGeneralizedTime(t *testing.T, s string) {
 	}
 	if !reDERGeneralized.MatchString(c.String()) || !oracleGeneralized(c.String()) {
 		t.Fatalf("%q: canonical %q violates X.690 §11.7", s, c)
+	}
+	if reGeneralized.FindStringSubmatch(s)[6] == "60" && c.String()[12:14] != "60" {
+		t.Fatalf("%q: canonical %q lost the leap second", s, c)
 	}
 	if exactInstant(s).Cmp(exactInstant(c.String())) != 0 {
 		t.Fatalf("%q: canonical %q is a different instant", s, c)
@@ -487,6 +499,12 @@ func checkGeneralizedTime(t *testing.T, s string) {
 		t.Fatalf("%q: IsCanonical() = %v, canonical %q", s, g.IsCanonical(), c)
 	}
 	inst, err := g.Time()
+	if reGeneralized.FindStringSubmatch(s)[6] == "60" {
+		if !errors.Is(err, ErrTimeRange) || !strings.Contains(err.Error(), "leap second") {
+			t.Fatalf("%q: leap second conversion = %v, %v", s, inst, err)
+		}
+		return
+	}
 	if err != nil {
 		t.Fatalf("%q: Time: %v", s, err)
 	}
@@ -637,6 +655,9 @@ func FuzzParseGeneralizedTime(f *testing.F) {
 	}
 	for _, c := range invalidTimes {
 		f.Add(c.in)
+	}
+	for _, text := range []string{"20161231235960Z", "20161231235960.500Z", "00000101005960+0100", "00000101000060+0001", "99991231235960Z"} {
+		f.Add(text)
 	}
 	f.Fuzz(func(t *testing.T, s string) { checkGeneralizedTime(t, s) })
 }

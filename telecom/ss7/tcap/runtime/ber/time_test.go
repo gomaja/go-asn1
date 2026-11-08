@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/time_test.go; SHA-256 a91be237e0bf5ca098699c10a09f5df999d1a814e1fa22faaff16cc1fb66bf5a.
+// Runtime source: runtime/ber/time_test.go; SHA-256 9d2e19e25ad2ecc90e6dffdaa6b870c8b1cba80ee1bc4ae5018e27fd9de3c042.
 package ber
 
 import (

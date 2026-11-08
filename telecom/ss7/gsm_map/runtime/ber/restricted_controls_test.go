@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/restricted_controls_test.go; SHA-256 868b21125cd07c37ad28dc50c0aa5a5afaf814f2579b6a0ccf9fdcd0de99b363.
+// Runtime source: runtime/ber/restricted_controls_test.go; SHA-256 fcc5e49052ac54b9b8b7f63722ef389b5606f8b9e3f282e62526a5c021e6b70f.
 package ber
 
 import (
@@ -121,10 +121,10 @@ func TestRestrictedControlSequences(t *testing.T) {
 				t.Run(fmt.Sprintf("%d/%x", number, text), func(t *testing.T) { checkControlWire(t, wire, text, true) })
 			}
 		}
-		// Retain incomplete ESC inputs while their handling is decided separately.
+		// ISO/IEC 2022:1994 §13.1 requires a final byte; incomplete ESC stays accepted.
 		valid := []string{"\t\r\n", "plain", "\x00", "\x1b", "\x1b ", "\x1b\n"}
 		if number == tag.TagBMPString || number == tag.TagUniversalString {
-			valid = append(valid, "\x1bD", "\u009b31m", "\x1b[31m", "\u010e\u010f\u011bN", "\ufdd0")
+			valid = append(valid, "\x1bD", "\u009b31m", "\x1b[31m", "\u010e\u010f\u011bN")
 		}
 		if number == tag.TagIA5String {
 			valid = append(valid, "\x0e\x0f")

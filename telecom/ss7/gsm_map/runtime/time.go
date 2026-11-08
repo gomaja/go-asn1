@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/time.go; SHA-256 37ee95854474363fcdf5424cd1ca6aa11199c49122acf835b74d05e691e10fca.
+// Runtime source: runtime/time.go; SHA-256 fdd405a3c958379266910c0c4480c0ff232fa03f0df2438e1bc28941aef367fd.
 package runtime
 
 import (
@@ -28,7 +28,8 @@ var (
 	// cannot represent: a local time of day, or a UTC equivalent outside the
 	// years of the type.
 	ErrNoCanonicalTime = errors.New("asn1: time has no canonical DER/PER form")
-	// ErrTimeRange reports a time.Time that the type cannot represent exactly.
+	// ErrTimeRange reports a value that cannot be converted between the
+	// ASN.1 time type and time.Time, including a positive leap second.
 	ErrTimeRange = errors.New("asn1: time outside the range of the type")
 	// ErrTimeNotSet reports use of a zero value, which means "not set".
 	ErrTimeNotSet = errors.New("asn1: time value not set")
@@ -102,9 +103,10 @@ func digitsValue(s string) int {
 }
 
 // validRanges checks X.680 (02/2021) §46.2 a) (midnight at the end of a day
-// excluded), §47.3 a)–b), and rejects a leap second.
+// excluded) and §47.3 a)–b). X.680 §46.3 imports ISO 8601, which admits
+// second 60 for a positive leap second; §47.3 b) 2) limits UTCTime to 59.
 func (f *timeFields) validRanges() bool {
-	if f.month < 1 || f.month > 12 || f.day < 1 || f.hour > 23 || f.minute > 59 || f.second > 59 {
+	if f.month < 1 || f.month > 12 || f.day < 1 || f.hour > 23 || f.minute > 59 || f.second > 60 {
 		return false
 	}
 	lastDay := time.Date(f.year, time.Month(f.month+1), 0, 0, 0, 0, 0, time.UTC).Day()
@@ -201,14 +203,15 @@ func parseUTCFields(s string) (timeFields, error) {
 		f.second, f.unit = digitsValue(s[10:12]), TimeUnitSecond
 	}
 	var ok bool
-	if f.zone, f.offset, ok = parseTimeZone(s[count:], false, false); !ok || !f.validRanges() {
+	if f.zone, f.offset, ok = parseTimeZone(s[count:], false, false); !ok || !f.validRanges() || f.second > 59 {
 		return f, timeSyntaxError("UTCTime", s)
 	}
 	return f, nil
 }
 
 // ParseGeneralizedTime validates s against X.680 (02/2021) §46.3 and keeps
-// it verbatim. A leap second (60) is rejected.
+// it verbatim, including second 60 for a positive leap second. The encoding
+// check does not determine which minutes actually contained a leap second.
 func ParseGeneralizedTime(s string) (GeneralizedTime, error) {
 	if _, err := parseGeneralizedFields(s); err != nil {
 		return GeneralizedTime{}, err
@@ -355,12 +358,18 @@ func (f timeFields) wallClock(loc *time.Location) time.Time {
 // Time returns the instant, in time.UTC for "Z" and in a fixed zone for a
 // differential. A local time of day with no differential fixes no instant
 // and returns ErrLocalTime; use TimeIn. Fraction digits finer than a
-// nanosecond are truncated; the lexical value keeps them.
+// nanosecond are truncated; the lexical value keeps them. A positive leap
+// second returns ErrTimeRange because time.Time cannot represent second 60.
 func (g GeneralizedTime) Time() (time.Time, error) {
 	if g.IsZero() {
 		return time.Time{}, ErrTimeNotSet
 	}
 	f := g.fields()
+	// X.680 (02/2021) §46.3 admits second 60 through ISO 8601;
+	// time.Date would silently normalize it to the following minute.
+	if f.second == 60 {
+		return time.Time{}, fmt.Errorf("%w: GeneralizedTime %q contains a leap second", ErrTimeRange, g.text)
+	}
 	if f.zone == TimeZoneLocal {
 		return time.Time{}, fmt.Errorf("%w: GeneralizedTime %q", ErrLocalTime, g.text)
 	}
@@ -375,6 +384,11 @@ func (g GeneralizedTime) TimeIn(loc *time.Location) (time.Time, error) {
 		return time.Time{}, ErrTimeNotSet
 	}
 	f := g.fields()
+	// X.680 (02/2021) §46.3 admits second 60 through ISO 8601;
+	// time.Date would silently normalize it to the following minute.
+	if f.second == 60 {
+		return time.Time{}, fmt.Errorf("%w: GeneralizedTime %q contains a leap second", ErrTimeRange, g.text)
+	}
 	if f.zone != TimeZoneLocal {
 		return f.wallClock(f.location()), nil
 	}
@@ -412,11 +426,19 @@ func (g GeneralizedTime) Canonical() (GeneralizedTime, error) {
 		return GeneralizedTime{}, fmt.Errorf("%w: GeneralizedTime %q is a local time of day; X.690 (02/2021) §11.7.1 requires Z", ErrNoCanonicalTime, g.text)
 	}
 	seconds, fraction := f.secondsOfDay()
+	// X.690 (02/2021) §11.7 retains second 60. Shift its containing
+	// minute to UTC, then restore 60 so time.Date cannot roll it forward.
+	if f.second == 60 {
+		seconds -= 60
+	}
 	t := time.Date(f.year, time.Month(f.month), f.day, 0, 0, seconds-f.offset*60, 0, time.UTC)
 	if t.Year() < 0 || t.Year() > 9999 {
 		return GeneralizedTime{}, fmt.Errorf("%w: GeneralizedTime %q is outside the years 0000-9999 in UTC", ErrNoCanonicalTime, g.text)
 	}
 	text := formatGeneralizedSeconds(t)
+	if f.second == 60 {
+		text = text[:12] + "60"
+	}
 	if fraction != "" {
 		text += "." + fraction
 	}

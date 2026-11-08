@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 adbd85e9461ac33749473bbf4fa9a081da6c5d9aca907a8906369012923aba57.
+// Runtime source: runtime/ber/decoder.go; SHA-256 b6abddd3726a2d670d6e9af8a08cd435644c9e78aef97d8b107426ae5bc61189.
 package ber
 
 import (
@@ -510,7 +510,7 @@ func validateDERUniversalValue(t tag.Tag, value []byte) error {
 		}
 	case tag.TagUTF8String:
 		if !validUTF8Contents(value) {
-			return invalid("UTF8String is not shortest-form UTF-8 scalar text")
+			return invalid("UTF8String violates its encoding or repertoire rules")
 		}
 	case tag.TagEmbeddedPDV, tag.TagCharacterString:
 		// X.690 (02/2021) §§8.17.1, 8.24.1 use the associated types
@@ -1209,7 +1209,8 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 			}
 			r := rune(binary.BigEndian.Uint16(value[offset : offset+2]))
 			// X.680 (02/2021) §41.15 excludes surrogates and the last two BMP cells.
-			if r > 0xfffd || !utf8.ValidRune(r) {
+			// X.680 §§41.6, 41.15; ISO/IEC 10646:2003 §§7 a), 8 exclude noncharacters.
+			if r > 0xfffd || !utf8.ValidRune(r) || isUnicodeNoncharacter(r) {
 				return "", fmt.Errorf("%w: BMPString contains invalid code point U+%04X", ErrInvalidValue, r)
 			}
 			if controls.consume(tagNum, r) {
@@ -1234,7 +1235,8 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 				return "", fmt.Errorf("%w: UniversalString code point exceeds Unicode range", ErrInvalidValue)
 			}
 			r := rune(codePoint)
-			if !utf8.ValidRune(r) {
+			// X.680 §41.6; ISO/IEC 10646:2003 §§7 a), 8 exclude noncharacters.
+			if !utf8.ValidRune(r) || isUnicodeNoncharacter(r) {
 				return "", fmt.Errorf("%w: UniversalString contains invalid code point U+%04X", ErrInvalidValue, r)
 			}
 			if controls.consume(tagNum, r) {

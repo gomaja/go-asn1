@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/opaque.go; SHA-256 32c7a7868a4b51d49e0d80604210ac0753f0d7d7c966cb70f15fa7f409a5fd22.
+// Runtime source: runtime/ber/opaque.go; SHA-256 90a391f2e7727f03c23de4031c3aafd1240abc66f8201241a3eafb6b2d6b9e13.
 package ber
 
 import (
@@ -79,7 +79,7 @@ func checkInvalidBEROpaqueElement(data []byte, options []EncodeOption, config en
 }
 
 // An invalid UTF8String is a value violation even when the enclosing type is
-// opaque. Re-scan only failed encodes to retain the same X.690 §8.23.10 record
+// opaque. Re-scan only failed encodes to retain the same encoding or repertoire record
 // as tolerant decoding; unrelated structural failures keep their original kind.
 func opaqueUTF8EncodeError(data []byte, source string, options []EncodeOption, cause error) error {
 	if !errors.Is(cause, ErrInvalidValue) {
@@ -102,7 +102,13 @@ func opaqueUTF8EncodeError(data []byte, source string, options []EncodeOption, c
 		return err
 	}
 	records := reports.Snapshot()
-	if len(records) == 0 || records[0].Rule.Clause != "8.23.10" {
+	if len(records) == 0 {
+		return cause
+	}
+	// X.690 (02/2021) §8.23.10 and ISO/IEC 10646:2003 §§7 a), 8
+	// give UTF8String both encoding and repertoire requirements.
+	rule := records[0].Rule
+	if rule != (RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.10"}) && rule != unicodeNoncharacterRule() {
 		return cause
 	}
 	record := records[0]

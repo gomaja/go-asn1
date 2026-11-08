@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/bmp_repertoire_test.go; SHA-256 35e86fb536b7040dc6978e6849871f2b2235d9d408fc3f3c87ea162ce6008898.
+// Runtime source: runtime/ber/bmp_repertoire_test.go; SHA-256 b6eecf77f3ed3c5a19a91e3a65821f1297950566f43125acb81308b1ec889b3c.
 package ber
 
 import (
@@ -49,9 +49,9 @@ func TestBMPStringRepertoireBoundary(t *testing.T) {
 	}
 }
 
-// §§41.6–41.7, 41.16 do not impose BMPString's 64K-2-cell restriction.
+// X.680 §§41.6–41.7, 41.16 and ISO/IEC 10646:2003 §§7 a), 8 retain scalar neighbors.
 func TestOtherUnicodeStringsKeepScalarBoundary(t *testing.T) {
-	for _, r := range []rune{0xfffd, 0xfffe, 0xffff, 0x10000, 0x10ffff} {
+	for _, r := range []rune{0xfffd, 0x10000, 0x1fffd, 0x10fffd} {
 		for _, number := range []int{tag.TagUniversalString, tag.TagUTF8String} {
 			wire, err := EncodeStringTagChecked(number, string(r))
 			if err != nil {

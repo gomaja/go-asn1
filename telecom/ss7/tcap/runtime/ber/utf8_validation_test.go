@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8_validation_test.go; SHA-256 191427c31d9519ccc785160eb056e1999e7f6811b670884993169b93899bd028.
+// Runtime source: runtime/ber/utf8_validation_test.go; SHA-256 cf956a759ee9fee71cbfedfed583f69054ed470185c7db714e594388f85bfbb9.
 package ber
 
 import (
@@ -12,7 +12,7 @@ import (
 )
 
 func TestUTF8StringAcceptsSplitScalars(t *testing.T) {
-	for _, wireText := range []string{"0c00", "0c07efbfbdf48fbfbf", "2c090401e20401820401ac", "2c800401f0248004019004018000000401800000", "2c0404002400"} {
+	for _, wireText := range []string{"0c00", "0c07efbfbdf48fbfbd", "2c090401e20401820401ac", "2c800401f0248004019004018000000401800000", "2c0404002400"} {
 		wire := structureWire(t, wireText)
 		if err := ValidateBERElement(wire); err != nil {
 			t.Fatalf("%s: %v", wireText, err)
@@ -33,8 +33,12 @@ func TestUTF8StringAcceptsSplitScalars(t *testing.T) {
 var forbiddenUTF8Controls = regexp.MustCompile(`\x1b[\x20-\x2f]*[\x30-\x7e]|[\x0e\x0f\x{008e}\x{008f}]`)
 
 func FuzzUTF8StringValidation(f *testing.F) {
-	for _, text := range []string{"", "ff", "c080", "eda080", "e282", "e282ac", "f48fbfbf", "1b4e", "1b204c", "0e", "c28e", "1b", "0d0a"} {
+	for _, text := range []string{"", "ff", "c080", "eda080", "e282", "e282ac", "f48fbfbf", "efb790", "efb7af", "efb78f", "efb7b0", "1b4e", "1b204c", "0e", "c28e", "1b", "0d0a"} {
 		f.Add(structureWire(f, text))
+	}
+	noncharacters := map[rune]bool{}
+	for _, r := range noncharacterTestRunes() {
+		noncharacters[r] = true
 	}
 	f.Fuzz(func(t *testing.T, contents []byte) {
 		if len(contents) > 4096 {
@@ -42,6 +46,11 @@ func FuzzUTF8StringValidation(f *testing.F) {
 		}
 		forbidden := forbiddenUTF8Controls.FindAllIndex(contents, -1)
 		valid := utf8.Valid(contents) && len(forbidden) == 0
+		for _, r := range string(contents) {
+			if noncharacters[r] {
+				valid = false
+			}
+		}
 		wire := mustEncode(t)(EncodeTLV(tag.Tag{Number: tag.TagUTF8String}, contents))
 		scanErr := ValidateBERElement(wire)
 		got, _, decodeErr := DecodeString(wire, tag.TagUTF8String)
@@ -71,7 +80,7 @@ func FuzzUTF8StringValidation(f *testing.F) {
 		// Go's string iteration replaces each malformed octet independently;
 		// an actually encoded U+FFFD is valid and must not produce a report.
 		for offset, r := range string(contents) {
-			if r == utf8.RuneError && !bytes.HasPrefix(contents[offset:], []byte{0xef, 0xbf, 0xbd}) {
+			if r == utf8.RuneError && !bytes.HasPrefix(contents[offset:], []byte{0xef, 0xbf, 0xbd}) || noncharacters[r] {
 				wantReports++
 			}
 		}
