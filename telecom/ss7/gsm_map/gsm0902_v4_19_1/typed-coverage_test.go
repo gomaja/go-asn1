@@ -1,0 +1,195 @@
+// Code generated from the edition's declared type inventory. DO NOT EDIT.
+package gsm0902_v4_19_1
+
+import (
+	"reflect"
+	"testing"
+)
+
+func TestEditionAllDeclaredTypesExposeTypedParts(t *testing.T) {
+	for _, row := range []struct {
+		name string
+		typ  reflect.Type
+	}{
+		{"MobileDomainDefinitions.CommonComponentId", reflect.TypeFor[CommonComponentId]()},
+		{"MAP-BS-Code.BearerServiceCode", reflect.TypeFor[BearerServiceCode]()},
+		{"MAP-TS-Code.TeleserviceCode", reflect.TypeFor[TeleserviceCode]()},
+		{"MAP-CommonDataTypes.TBCD-STRING", reflect.TypeFor[TBCDSTRING]()},
+		{"MAP-CommonDataTypes.AddressString", reflect.TypeFor[AddressString]()},
+		{"MAP-CommonDataTypes.ISDN-AddressString", reflect.TypeFor[ISDNAddressString]()},
+		{"MAP-CommonDataTypes.ISDN-SubaddressString", reflect.TypeFor[ISDNSubaddressString]()},
+		{"MAP-CommonDataTypes.ExternalSignalInfo", reflect.TypeFor[ExternalSignalInfo]()},
+		{"MAP-CommonDataTypes.SignalInfo", reflect.TypeFor[SignalInfo]()},
+		{"MAP-CommonDataTypes.ProtocolId", reflect.TypeFor[ProtocolId]()},
+		{"MAP-CommonDataTypes.IMSI", reflect.TypeFor[IMSI]()},
+		{"MAP-CommonDataTypes.TMSI", reflect.TypeFor[TMSI]()},
+		{"MAP-CommonDataTypes.SubscriberId", reflect.TypeFor[SubscriberId]()},
+		{"MAP-CommonDataTypes.IMEI", reflect.TypeFor[IMEI]()},
+		{"MAP-CommonDataTypes.LocationInfo", reflect.TypeFor[LocationInfo]()},
+		{"MAP-CommonDataTypes.HLR-Id", reflect.TypeFor[HLRId]()},
+		{"MAP-CommonDataTypes.HLR-List", reflect.TypeFor[HLRList]()},
+		{"MAP-CommonDataTypes.LMSI", reflect.TypeFor[LMSI]()},
+		{"MAP-CommonDataTypes.GlobalCellId", reflect.TypeFor[GlobalCellId]()},
+		{"MAP-CommonDataTypes.NetworkResource", reflect.TypeFor[NetworkResource]()},
+		{"MAP-CommonDataTypes.Category", reflect.TypeFor[Category]()},
+		{"MAP-CommonDataTypes.BearerServiceList", reflect.TypeFor[BearerServiceList]()},
+		{"MAP-CommonDataTypes.TeleserviceList", reflect.TypeFor[TeleserviceList]()},
+		{"MAP-CommonDataTypes.BasicServiceCode", reflect.TypeFor[BasicServiceCode]()},
+		{"MAP-CommonDataTypes.BasicServiceList", reflect.TypeFor[BasicServiceList]()},
+		{"MAP-CommonDataTypes.BasicServiceGroupList", reflect.TypeFor[BasicServiceGroupList]()},
+		{"MAP-SS-Code.SS-Code", reflect.TypeFor[SSCode]()},
+		{"MAP-SS-DataTypes.RegisterSS-Arg", reflect.TypeFor[RegisterSSArg]()},
+		{"MAP-SS-DataTypes.NoReplyConditionTime", reflect.TypeFor[NoReplyConditionTime]()},
+		{"MAP-SS-DataTypes.SS-Info", reflect.TypeFor[SSInfo]()},
+		{"MAP-SS-DataTypes.ForwardingInfo", reflect.TypeFor[ForwardingInfo]()},
+		{"MAP-SS-DataTypes.ForwardingFeatureList", reflect.TypeFor[ForwardingFeatureList]()},
+		{"MAP-SS-DataTypes.ForwardingFeature", reflect.TypeFor[ForwardingFeature]()},
+		{"MAP-SS-DataTypes.SS-Status", reflect.TypeFor[SSStatus]()},
+		{"MAP-SS-DataTypes.ForwardingOptions", reflect.TypeFor[ForwardingOptions]()},
+		{"MAP-SS-DataTypes.CallBarringInfo", reflect.TypeFor[CallBarringInfo]()},
+		{"MAP-SS-DataTypes.CallBarringFeatureList", reflect.TypeFor[CallBarringFeatureList]()},
+		{"MAP-SS-DataTypes.CallBarringFeature", reflect.TypeFor[CallBarringFeature]()},
+		{"MAP-SS-DataTypes.CUG-Info", reflect.TypeFor[CUGInfo]()},
+		{"MAP-SS-DataTypes.CUG-SubscriptionList", reflect.TypeFor[CUGSubscriptionList]()},
+		{"MAP-SS-DataTypes.CUG-Subscription", reflect.TypeFor[CUGSubscription]()},
+		{"MAP-SS-DataTypes.CUG-Index", reflect.TypeFor[CUGIndex]()},
+		{"MAP-SS-DataTypes.CUG-Interlock", reflect.TypeFor[CUGInterlock]()},
+		{"MAP-SS-DataTypes.IntraCUG-Options", reflect.TypeFor[IntraCUGOptions]()},
+		{"MAP-SS-DataTypes.CUG-FeatureList", reflect.TypeFor[CUGFeatureList]()},
+		{"MAP-SS-DataTypes.CUG-Feature", reflect.TypeFor[CUGFeature]()},
+		{"MAP-SS-DataTypes.InterCUG-Restrictions", reflect.TypeFor[InterCUGRestrictions]()},
+		{"MAP-SS-DataTypes.SS-Data", reflect.TypeFor[SSData]()},
+		{"MAP-SS-DataTypes.SS-SubscriptionOption", reflect.TypeFor[SSSubscriptionOption]()},
+		{"MAP-SS-DataTypes.CliRestrictionOption", reflect.TypeFor[CliRestrictionOption]()},
+		{"MAP-SS-DataTypes.OverrideCategory", reflect.TypeFor[OverrideCategory]()},
+		{"MAP-SS-DataTypes.SS-ForBS-Code", reflect.TypeFor[SSForBSCode]()},
+		{"MAP-SS-DataTypes.Cli-RestrictionInfo", reflect.TypeFor[CliRestrictionInfo]()},
+		{"MAP-SS-DataTypes.InterrogateSS-Res", reflect.TypeFor[InterrogateSSRes]()},
+		{"MAP-SS-DataTypes.SS-UserData", reflect.TypeFor[SSUserData]()},
+		{"MAP-SS-DataTypes.USSD-Arg", reflect.TypeFor[USSDArg]()},
+		{"MAP-SS-DataTypes.USSD-Res", reflect.TypeFor[USSDRes]()},
+		{"MAP-SS-DataTypes.USSD-DataCodingScheme", reflect.TypeFor[USSDDataCodingScheme]()},
+		{"MAP-SS-DataTypes.USSD-String", reflect.TypeFor[USSDString]()},
+		{"MAP-SS-DataTypes.Password", reflect.TypeFor[Password]()},
+		{"MAP-SS-DataTypes.GuidanceInfo", reflect.TypeFor[GuidanceInfo]()},
+		{"MAP-SS-DataTypes.BeginSubscriberActivityArg", reflect.TypeFor[BeginSubscriberActivityArg]()},
+		{"MAP-SS-DataTypes.SS-List", reflect.TypeFor[SSList]()},
+		{"MAP-SS-DataTypes.SS-InfoList", reflect.TypeFor[SSInfoList]()},
+		{"MAP-SS-DataTypes.ForwardingData", reflect.TypeFor[ForwardingData]()},
+		{"MAP-CH-DataTypes.CUG-CheckInfo", reflect.TypeFor[CUGCheckInfo]()},
+		{"MAP-CH-DataTypes.NumberOfForwarding", reflect.TypeFor[NumberOfForwarding]()},
+		{"MAP-CH-DataTypes.SendRoutingInfoArg", reflect.TypeFor[SendRoutingInfoArg]()},
+		{"MAP-CH-DataTypes.SendRoutingInfoRes", reflect.TypeFor[SendRoutingInfoRes]()},
+		{"MAP-CH-DataTypes.RoutingInfo", reflect.TypeFor[RoutingInfo]()},
+		{"MAP-CH-DataTypes.ProvideRoamingNumberArg", reflect.TypeFor[ProvideRoamingNumberArg]()},
+		{"MAP-DialogueInformation.MAP-DialoguePDU", reflect.TypeFor[MAPDialoguePDU]()},
+		{"MAP-DialogueInformation.MAP-OpenInfo", reflect.TypeFor[MAPOpenInfo]()},
+		{"MAP-DialogueInformation.MAP-AcceptInfo", reflect.TypeFor[MAPAcceptInfo]()},
+		{"MAP-DialogueInformation.MAP-CloseInfo", reflect.TypeFor[MAPCloseInfo]()},
+		{"MAP-DialogueInformation.MAP-RefuseInfo", reflect.TypeFor[MAPRefuseInfo]()},
+		{"MAP-DialogueInformation.Reason", reflect.TypeFor[Reason]()},
+		{"MAP-DialogueInformation.MAP-UserAbortInfo", reflect.TypeFor[MAPUserAbortInfo]()},
+		{"MAP-DialogueInformation.MAP-UserAbortChoice", reflect.TypeFor[MAPUserAbortChoice]()},
+		{"MAP-DialogueInformation.ResourceUnavailableReason", reflect.TypeFor[ResourceUnavailableReason]()},
+		{"MAP-DialogueInformation.ProcedureCancellationReason", reflect.TypeFor[ProcedureCancellationReason]()},
+		{"MAP-DialogueInformation.MAP-ProviderAbortInfo", reflect.TypeFor[MAPProviderAbortInfo]()},
+		{"MAP-DialogueInformation.MAP-ProviderAbortReason", reflect.TypeFor[MAPProviderAbortReason]()},
+		{"MAP-ER-DataTypes.RoamingNotAllowedCause", reflect.TypeFor[RoamingNotAllowedCause]()},
+		{"MAP-ER-DataTypes.CallBarringCause", reflect.TypeFor[CallBarringCause]()},
+		{"MAP-ER-DataTypes.CUG-RejectCause", reflect.TypeFor[CUGRejectCause]()},
+		{"MAP-ER-DataTypes.SS-IncompatibilityCause", reflect.TypeFor[SSIncompatibilityCause]()},
+		{"MAP-ER-DataTypes.PW-RegistrationFailureCause", reflect.TypeFor[PWRegistrationFailureCause]()},
+		{"MAP-ER-DataTypes.SM-DeliveryFailureCause", reflect.TypeFor[SMDeliveryFailureCause]()},
+		{"MAP-ER-DataTypes.SM-EnumeratedDeliveryFailureCause", reflect.TypeFor[SMEnumeratedDeliveryFailureCause]()},
+		{"MAP-ER-DataTypes.SM-DeliveryFailureCauseWithDiagnostic", reflect.TypeFor[SMDeliveryFailureCauseWithDiagnostic]()},
+		{"MAP-MS-DataTypes.UpdateLocationArg", reflect.TypeFor[UpdateLocationArg]()},
+		{"MAP-MS-DataTypes.UpdateLocationRes", reflect.TypeFor[UpdateLocationRes]()},
+		{"MAP-MS-DataTypes.ExtensibleUpdateLocationRes", reflect.TypeFor[ExtensibleUpdateLocationRes]()},
+		{"MAP-MS-DataTypes.CancelLocationArg", reflect.TypeFor[CancelLocationArg]()},
+		{"MAP-MS-DataTypes.PurgeMS-Arg", reflect.TypeFor[PurgeMSArg]()},
+		{"MAP-MS-DataTypes.IMSI-WithLMSI", reflect.TypeFor[IMSIWithLMSI]()},
+		{"MAP-MS-DataTypes.SendIdentificationRes", reflect.TypeFor[SendIdentificationRes]()},
+		{"MAP-MS-DataTypes.AuthenticationSetList", reflect.TypeFor[AuthenticationSetList]()},
+		{"MAP-MS-DataTypes.AuthenticationSet", reflect.TypeFor[AuthenticationSet]()},
+		{"MAP-MS-DataTypes.RAND", reflect.TypeFor[RAND]()},
+		{"MAP-MS-DataTypes.SRES", reflect.TypeFor[SRES]()},
+		{"MAP-MS-DataTypes.Kc", reflect.TypeFor[Kc]()},
+		{"MAP-MS-DataTypes.PrepareHO-Arg", reflect.TypeFor[PrepareHOArg]()},
+		{"MAP-MS-DataTypes.PerformHO-Arg", reflect.TypeFor[PerformHOArg]()},
+		{"MAP-MS-DataTypes.ChannelType", reflect.TypeFor[ChannelType]()},
+		{"MAP-MS-DataTypes.ClassmarkInfo", reflect.TypeFor[ClassmarkInfo]()},
+		{"MAP-MS-DataTypes.HandoverPriority", reflect.TypeFor[HandoverPriority]()},
+		{"MAP-MS-DataTypes.PrepareHO-Res", reflect.TypeFor[PrepareHORes]()},
+		{"MAP-MS-DataTypes.PerformHO-Res", reflect.TypeFor[PerformHORes]()},
+		{"MAP-MS-DataTypes.PrepareSubsequentHO-Arg", reflect.TypeFor[PrepareSubsequentHOArg]()},
+		{"MAP-MS-DataTypes.PerformSubsequentHO-Arg", reflect.TypeFor[PerformSubsequentHOArg]()},
+		{"MAP-MS-DataTypes.SendAuthenticationInfoArg", reflect.TypeFor[SendAuthenticationInfoArg]()},
+		{"MAP-MS-DataTypes.SendAuthenticationInfoRes", reflect.TypeFor[SendAuthenticationInfoRes]()},
+		{"MAP-MS-DataTypes.Ki", reflect.TypeFor[Ki]()},
+		{"MAP-MS-DataTypes.EquipmentStatus", reflect.TypeFor[EquipmentStatus]()},
+		{"MAP-MS-DataTypes.SendParametersArg", reflect.TypeFor[SendParametersArg]()},
+		{"MAP-MS-DataTypes.RequestParameterList", reflect.TypeFor[RequestParameterList]()},
+		{"MAP-MS-DataTypes.RequestParameter", reflect.TypeFor[RequestParameter]()},
+		{"MAP-MS-DataTypes.SentParameterList", reflect.TypeFor[SentParameterList]()},
+		{"MAP-MS-DataTypes.SentParameter", reflect.TypeFor[SentParameter]()},
+		{"MAP-MS-DataTypes.InsertSubscriberDataArg", reflect.TypeFor[InsertSubscriberDataArg]()},
+		{"MAP-MS-DataTypes.SubscriberData", reflect.TypeFor[SubscriberData]()},
+		{"MAP-MS-DataTypes.SubscriberStatus", reflect.TypeFor[SubscriberStatus]()},
+		{"MAP-MS-DataTypes.ODB-Data", reflect.TypeFor[ODBData]()},
+		{"MAP-MS-DataTypes.ODB-GeneralData", reflect.TypeFor[ODBGeneralData]()},
+		{"MAP-MS-DataTypes.ODB-HPLMN-Data", reflect.TypeFor[ODBHPLMNData]()},
+		{"MAP-MS-DataTypes.ZoneCodeList", reflect.TypeFor[ZoneCodeList]()},
+		{"MAP-MS-DataTypes.ZoneCode", reflect.TypeFor[ZoneCode]()},
+		{"MAP-MS-DataTypes.InsertSubscriberDataRes", reflect.TypeFor[InsertSubscriberDataRes]()},
+		{"MAP-MS-DataTypes.RegionalSubscriptionResponse", reflect.TypeFor[RegionalSubscriptionResponse]()},
+		{"MAP-MS-DataTypes.DeleteSubscriberDataArg", reflect.TypeFor[DeleteSubscriberDataArg]()},
+		{"MAP-MS-DataTypes.DeleteSubscriberDataRes", reflect.TypeFor[DeleteSubscriberDataRes]()},
+		{"MAP-MS-DataTypes.ResetArg", reflect.TypeFor[ResetArg]()},
+		{"MAP-MS-DataTypes.RestoreDataArg", reflect.TypeFor[RestoreDataArg]()},
+		{"MAP-MS-DataTypes.RestoreDataRes", reflect.TypeFor[RestoreDataRes]()},
+		{"MAP-OM-DataTypes.ActivateTraceModeArg", reflect.TypeFor[ActivateTraceModeArg]()},
+		{"MAP-OM-DataTypes.TraceReference", reflect.TypeFor[TraceReference]()},
+		{"MAP-OM-DataTypes.TraceType", reflect.TypeFor[TraceType]()},
+		{"MAP-OM-DataTypes.DeactivateTraceModeArg", reflect.TypeFor[DeactivateTraceModeArg]()},
+		{"MAP-OM-DataTypes.TraceSubscriberActivityArg", reflect.TypeFor[TraceSubscriberActivityArg]()},
+		{"MAP-OM-DataTypes.CallReference", reflect.TypeFor[CallReference]()},
+		{"MAP-OM-DataTypes.NoteInternalHO-Arg", reflect.TypeFor[NoteInternalHOArg]()},
+		{"MAP-OM-DataTypes.HandoverType", reflect.TypeFor[HandoverType]()},
+		{"MAP-SM-DataTypes.RoutingInfoForSM-Arg", reflect.TypeFor[RoutingInfoForSMArg]()},
+		{"MAP-SM-DataTypes.RoutingInfoForSM-Res", reflect.TypeFor[RoutingInfoForSMRes]()},
+		{"MAP-SM-DataTypes.LocationInfoWithLMSI", reflect.TypeFor[LocationInfoWithLMSI]()},
+		{"MAP-SM-DataTypes.ForwardSM-Arg", reflect.TypeFor[ForwardSMArg]()},
+		{"MAP-SM-DataTypes.SM-RP-DA", reflect.TypeFor[SMRPDA]()},
+		{"MAP-SM-DataTypes.SM-RP-OA", reflect.TypeFor[SMRPOA]()},
+		{"MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", reflect.TypeFor[ReportSMDeliveryStatusArg]()},
+		{"MAP-SM-DataTypes.SM-DeliveryOutcome", reflect.TypeFor[SMDeliveryOutcome]()},
+		{"MAP-SM-DataTypes.AlertServiceCentreArg", reflect.TypeFor[AlertServiceCentreArg]()},
+		{"MAP-SM-DataTypes.InformServiceCentreArg", reflect.TypeFor[InformServiceCentreArg]()},
+		{"MAP-SM-DataTypes.MW-Status", reflect.TypeFor[MWStatus]()},
+		{"MAP-SM-DataTypes.ReadyForSM-Arg", reflect.TypeFor[ReadyForSMArg]()},
+		{"MAP-SM-DataTypes.AlertReason", reflect.TypeFor[AlertReason]()},
+	} {
+		t.Run(row.name, func(t *testing.T) { editionTypedShape(t, row.typ, map[reflect.Type]bool{}) })
+	}
+}
+func editionTypedShape(t *testing.T, typ reflect.Type, seen map[reflect.Type]bool) {
+	t.Helper()
+	if seen[typ] {
+		return
+	}
+	seen[typ] = true
+	if typ.Name() == "RawValue" || typ.Kind() == reflect.Interface {
+		t.Fatalf("opaque declared source part: %s", typ)
+	}
+	switch typ.Kind() {
+	case reflect.Pointer, reflect.Slice, reflect.Array:
+		editionTypedShape(t, typ.Elem(), seen)
+	case reflect.Struct:
+		for i := 0; i < typ.NumField(); i++ {
+			f := typ.Field(i)
+			if f.IsExported() && f.Tag.Get("asn1") != "-" {
+				editionTypedShape(t, f.Type, seen)
+			}
+		}
+	}
+}

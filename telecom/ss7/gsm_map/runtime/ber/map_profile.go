@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/map_profile.go; SHA-256 f646a4c51f1faf41d7185309dd6ad664fd6c2208cb81f4c17a4ca3943f3700f3.
+// Runtime source: runtime/ber/map_profile.go; SHA-256 194025dc66d8ec601ffef797df9353261605c5a3419add9686219ace16a460e2.
 package ber
 
 import (
@@ -28,15 +28,27 @@ func TrackMAPForm(options []DecodeOption) []DecodeOption {
 // §17.1.1 covers its defined abstract syntaxes; X.880 and TS 24.080 roots
 // retain generic X.690 BER, including nested imported MAP definitions.
 func TrackMAPSyntax(options []DecodeOption, enabled bool) []DecodeOption {
+	return trackMAPSyntax(options, enabled, false)
+}
+
+// TrackGSM0902Form selects the historical edition's own BER profile.
+// GSM 09.02 V4.19.1 §14.1.1: “OCTET STRING values and BIT STRING values
+// must be encoded in a primitive form.” Its length rules match the predicates
+// below; the diagnostic authority remains this edition.
+func TrackGSM0902Form(options []DecodeOption) []DecodeOption {
+	return trackMAPSyntax(options, true, true)
+}
+
+func trackMAPSyntax(options []DecodeOption, enabled, historical bool) []DecodeOption {
 	options = TrackBERForm(options)
 	if len(options) == 1 {
 		switch option := options[0].(type) {
 		case berFormOption:
-			setMAPSyntax(option.state, enabled)
+			setMAPSyntax(option.state, enabled, historical)
 			return options
 		case *generatedDecodeOption:
 			if option != nil {
-				setMAPSyntax(option.config.form, enabled)
+				setMAPSyntax(option.config.form, enabled, historical)
 			}
 			return options
 		}
@@ -44,15 +56,15 @@ func TrackMAPSyntax(options []DecodeOption, enabled bool) []DecodeOption {
 	for _, option := range options {
 		switch value := option.(type) {
 		case berFormOption:
-			setMAPSyntax(value.state, enabled)
+			setMAPSyntax(value.state, enabled, historical)
 			return options
 		case *generatedDecodeOption:
 			if value != nil {
-				setMAPSyntax(value.config.form, enabled)
+				setMAPSyntax(value.config.form, enabled, historical)
 			}
 			return options
 		case diagnosticChildOption:
-			TrackMAPSyntax(value.options, enabled)
+			trackMAPSyntax(value.options, enabled, historical)
 			return options
 		}
 	}
@@ -65,18 +77,22 @@ const (
 	mapSyntaxGeneric   uint8 = 1
 	mapSyntaxProfile   uint8 = 2
 	mapSyntaxGenerated uint8 = 3
-	mapSyntaxMask      uint8 = 0x3f
+	mapSyntaxMask      uint8 = 0x1f
+	mapSyntaxGSM0902   uint8 = 0x20
 	mapSyntaxRechecked uint8 = 0x40
-	mapSyntaxFlags     uint8 = 0xc0
+	mapSyntaxFlags     uint8 = 0xe0
 	mapSyntaxContents  uint8 = 0x80
 )
 
 func (form *berFormState) mapProfile() bool { return form.mapSyntax&mapSyntaxMask >= mapSyntaxProfile }
-func setMAPSyntax(form *berFormState, enabled bool) {
+func setMAPSyntax(form *berFormState, enabled, historical bool) {
 	if form != nil && form.mapSyntax&mapSyntaxMask == 0 {
 		form.mapSyntax = form.mapSyntax&mapSyntaxFlags | mapSyntaxGeneric
 		if enabled {
 			form.mapSyntax = form.mapSyntax&mapSyntaxFlags | mapSyntaxProfile
+			if historical {
+				form.mapSyntax |= mapSyntaxGSM0902
+			}
 		}
 	}
 }
@@ -371,6 +387,10 @@ func finishMAPDecode(prior error, config decodeConfig) error {
 				continue
 			}
 			v := Violation{Kind: ProtocolRule, Rule: RuleRef{Document: "3GPP TS 29.002", Edition: "V19.1.0", Clause: "17.1.1"}, Constraint: "TS 29.002 §17.1.1: " + name, Path: element.path, Source: element.source, Offset: new(offset), ObservedValue: "received BER form", scope: config.reportScope}
+			if form.mapSyntax&mapSyntaxGSM0902 != 0 {
+				v.Rule = RuleRef{Document: "GSM 09.02", Edition: "V4.19.1", Clause: "14.1.1"}
+				v.Constraint = "GSM 09.02 V4.19.1 §14.1.1: " + name
+			}
 			if config.location != nil {
 				var err error
 				v.ChildIndexes, err = config.location.decodeOrigin().ancestry(offset)
@@ -628,7 +648,7 @@ func checkMAPEncoded(data []byte, options []EncodeOption, decode func([]byte, ..
 		return err
 	}
 	for _, v := range log.Snapshot() {
-		if v.Kind != ProtocolRule || v.Rule.Document != "3GPP TS 29.002" || v.Rule.Clause != "17.1.1" {
+		if v.Kind != ProtocolRule || !(v.Rule.Document == "3GPP TS 29.002" && v.Rule.Clause == "17.1.1" || v.Rule.Document == "GSM 09.02" && v.Rule.Edition == "V4.19.1" && v.Rule.Clause == "14.1.1") {
 			continue
 		}
 		v.scope = config.reportScope

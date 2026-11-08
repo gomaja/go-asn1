@@ -1,0 +1,46 @@
+{
+  "distribution": "pycrate",
+  "version": "0.7.11",
+  "module_sha256": "d509666bfd4fac63dc3344bf7b861ae90ad782e3c7d987f1ae91c28cec3afc9c",
+  "confirmed": 151,
+  "decoded": 151,
+  "exact_replay": 151,
+  "independent_fresh_encode": 151,
+  "decoded_fresh_semantics_equal": 151,
+  "semantic_nodes": {
+    "boolean": 2,
+    "character_string": 2,
+    "collection": 19,
+    "integer_or_enum": 56,
+    "null": 1,
+    "octet_string": 168,
+    "record_or_choice": 228
+  },
+  "schema": "SEQUENCE keys retain original names; absent fields omitted; present NULL retained as null; CHOICE one-entry object; lists arrays; octets {octets:hex}; bit strings {bits:left-aligned zero-padded-byte-hex,bit_length:n}; integers/enumerations {integer:n}; booleans bool; character strings str",
+  "scope": "151 fixed synthetic records only; typed semantic expectations, not universal protocol coverage or independent source-parser proof",
+  "helper_sha256": "0c6b35466bd89cb2b57aae24f186283a5d131eb5c17e2618c375a07dde673f75",
+  "excluded": [
+    {
+      "code": 27,
+      "kind": "error",
+      "old_type": "BOOLEAN",
+      "reason": "Not confirmed by the independent named-type oracle; BOOLEAN mwd-Set is forbidden above version one by source comment.",
+      "record": 137,
+      "source_role": "parameter"
+    },
+    {
+      "code": 27,
+      "kind": "error",
+      "old_type": "BOOLEAN",
+      "reason": "Not confirmed by the independent named-type oracle; BOOLEAN mwd-Set is forbidden above version one by source comment.",
+      "record": 138,
+      "source_role": "parameter"
+    }
+  ],
+  "created_utc": "2026-11-08T03:09:18.554610+00:00",
+  "fixture_sha256": "58812b09eda5a6260d35a632d8c518cfb4861094306a2365272a33b4b1c45f4a",
+  "original_synthetic_input_sha256": "e753eab8781d20df6b4cf9e08d19f20f28b4eed0cdfb84538c563843ce743452",
+  "prior_confirmation_sha256": "13f9579a493c1912bf934c52dd2fcc1162deda8374609b40479ae05d23d79f4b",
+  "semantic_expectations_sha256": "f6fa59376601d06802dcd67dd066ff2f2d8b737c479cdc151c2c2b720aa561d8",
+  "independent_fresh_constructor_sha256": "bce1d45395f67607575b1e3e78ae01aecf9b60927e8aa6ef5576d428440544b5"
+}

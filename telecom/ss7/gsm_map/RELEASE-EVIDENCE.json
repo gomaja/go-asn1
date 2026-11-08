@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "8d7cf7229c1b8a1f13c6890449e789fc5b2f10fa",
-    "tree": "abe0dc515c7a30b91bc50f91e4d51330fa0c9d42",
+    "commit": "eb33ca61709c01a4fc592e7ab5e4477835d621ef",
+    "tree": "982a853280239c8341c40d45c72aa37fd2c2f1d4",
     "dirty": false
   },
   "source_lock": {
@@ -1145,6 +1145,12 @@
       "sha256": "d3fbdf093d06e3582f0d272161191868c57ddf9a8157ac0d3301b44a8069d939"
     },
     {
+      "path": "ber/gsm0902_profile_test.go",
+      "mode": "0644",
+      "size": 1705,
+      "sha256": "6d4895394ce0822cea454283b1c7c015dd3fcff0bd49f755ed2e603a2d9a1c2e"
+    },
+    {
       "path": "ber/hardening_test.go",
       "mode": "0644",
       "size": 8174,
@@ -1189,8 +1195,8 @@
     {
       "path": "ber/map_profile.go",
       "mode": "0644",
-      "size": 20969,
-      "sha256": "f646a4c51f1faf41d7185309dd6ad664fd6c2208cb81f4c17a4ca3943f3700f3"
+      "size": 21955,
+      "sha256": "194025dc66d8ec601ffef797df9353261605c5a3419add9686219ace16a460e2"
     },
     {
       "path": "ber/map_profile_resource_test.go",
@@ -2329,6 +2335,12 @@
       "sha256": "e60075ac005fb277b62c61931f76d08011c1483d9883dd5ae9f83b1f1d19a8fa"
     },
     {
+      "path": "ber/gsm0902_profile_test.go",
+      "mode": "0644",
+      "size": 1892,
+      "sha256": "5b5eb139efedbfdc07e86dc147c55b1932d2d1436ee0c84808599430464c119f"
+    },
+    {
       "path": "ber/hardening_test.go",
       "mode": "0644",
       "size": 8365,
@@ -2373,8 +2385,8 @@
     {
       "path": "ber/map_profile.go",
       "mode": "0644",
-      "size": 21152,
-      "sha256": "a5cea87f81d3cacad0815990a90a9e48ae8ede061fc468dd5b0a1a8541ff8ff4"
+      "size": 22138,
+      "sha256": "6d52f612e632381786d565fcb94b0000f679578590811216c003a89bd0b99eae"
     },
     {
       "path": "ber/map_profile_resource_test.go",
@@ -3771,6 +3783,12 @@
       "sha256": "e60075ac005fb277b62c61931f76d08011c1483d9883dd5ae9f83b1f1d19a8fa"
     },
     {
+      "path": "runtime/ber/gsm0902_profile_test.go",
+      "mode": "0644",
+      "size": 1892,
+      "sha256": "5b5eb139efedbfdc07e86dc147c55b1932d2d1436ee0c84808599430464c119f"
+    },
+    {
       "path": "runtime/ber/hardening_test.go",
       "mode": "0644",
       "size": 8365,
@@ -3815,8 +3833,8 @@
     {
       "path": "runtime/ber/map_profile.go",
       "mode": "0644",
-      "size": 21152,
-      "sha256": "a5cea87f81d3cacad0815990a90a9e48ae8ede061fc468dd5b0a1a8541ff8ff4"
+      "size": 22138,
+      "sha256": "6d52f612e632381786d565fcb94b0000f679578590811216c003a89bd0b99eae"
     },
     {
       "path": "runtime/ber/map_profile_resource_test.go",

@@ -1,0 +1,5208 @@
+{
+  "files": [
+    {
+      "modules": [
+        "MobileDomainDefinitions"
+      ],
+      "originalSHA256": "801ba400996edc73da1f27d7df2ec773efc6817393541adea62b3d92c8195483",
+      "path": "spec/etr091/modules/MobileDomainDefinitions.asn",
+      "relativePath": "modules/MobileDomainDefinitions.asn",
+      "sha256": "801ba400996edc73da1f27d7df2ec773efc6817393541adea62b3d92c8195483",
+      "sourceCollection": "etr091"
+    },
+    {
+      "modules": [
+        "MAP-ApplicationContexts"
+      ],
+      "originalSHA256": "c101d778b24ab0469a17c1004e1c7651e97e63eccecfd438caad96bb9429937b",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn",
+      "relativePath": "modules/MAP-ApplicationContexts.asn",
+      "sha256": "c101d778b24ab0469a17c1004e1c7651e97e63eccecfd438caad96bb9429937b",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-BS-Code"
+      ],
+      "originalSHA256": "a7d1aa6f7346a68c95cd36a8b8b90382b26921c052029e214503ff24fd02649e",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn",
+      "relativePath": "modules/MAP-BS-Code.asn",
+      "sha256": "a7d1aa6f7346a68c95cd36a8b8b90382b26921c052029e214503ff24fd02649e",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-TS-Code"
+      ],
+      "originalSHA256": "755592f7786d9da5048bc1bb97b476e323f3cc5e7951434e526fa3e3ac3b4397",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn",
+      "relativePath": "modules/MAP-TS-Code.asn",
+      "sha256": "755592f7786d9da5048bc1bb97b476e323f3cc5e7951434e526fa3e3ac3b4397",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-CommonDataTypes"
+      ],
+      "originalSHA256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn",
+      "relativePath": "modules/MAP-CommonDataTypes.asn",
+      "sha256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-SS-Code"
+      ],
+      "originalSHA256": "4914972bce8d5eb209897c77210c936e5fe3c8070f7204de0a0a18696a39c5d9",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn",
+      "relativePath": "modules/MAP-SS-Code.asn",
+      "sha256": "4914972bce8d5eb209897c77210c936e5fe3c8070f7204de0a0a18696a39c5d9",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-SS-DataTypes"
+      ],
+      "originalSHA256": "e233ecc28d56c0a04624674d22e898f4e9d58f90c25d0ea7be6b12145b030657",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn",
+      "relativePath": "modules/MAP-SS-DataTypes.asn",
+      "sha256": "e233ecc28d56c0a04624674d22e898f4e9d58f90c25d0ea7be6b12145b030657",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-CH-DataTypes"
+      ],
+      "originalSHA256": "76c86becb2d7bc42489df0d22fee83e4b8f2e49646becceaedd6b8a8d25a855b",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn",
+      "relativePath": "modules/MAP-CH-DataTypes.asn",
+      "sha256": "76c86becb2d7bc42489df0d22fee83e4b8f2e49646becceaedd6b8a8d25a855b",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-DialogueInformation"
+      ],
+      "originalSHA256": "f9a705dc4201a9597af910421356b7162f06e6950c6739c2337f153847403d50",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn",
+      "relativePath": "modules/MAP-DialogueInformation.asn",
+      "sha256": "f9a705dc4201a9597af910421356b7162f06e6950c6739c2337f153847403d50",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-ER-DataTypes"
+      ],
+      "originalSHA256": "eab6ce58310219eaa19bb44f913ae436e30578688f2d5a2e6510fb4a9a203099",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn",
+      "relativePath": "modules/MAP-ER-DataTypes.asn",
+      "sha256": "eab6ce58310219eaa19bb44f913ae436e30578688f2d5a2e6510fb4a9a203099",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-MS-DataTypes"
+      ],
+      "originalSHA256": "e0a0a1e1c5647e5782d209180bf5c6fa25ba7dece73d122f6cac608d993fb053",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn",
+      "relativePath": "modules/MAP-MS-DataTypes.asn",
+      "sha256": "e0a0a1e1c5647e5782d209180bf5c6fa25ba7dece73d122f6cac608d993fb053",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-OM-DataTypes"
+      ],
+      "originalSHA256": "e35177ca9c891c97dc3f4960852926ca05b17e6c56605075b98b7ee7b3ce242c",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn",
+      "relativePath": "modules/MAP-OM-DataTypes.asn",
+      "sha256": "e35177ca9c891c97dc3f4960852926ca05b17e6c56605075b98b7ee7b3ce242c",
+      "sourceCollection": "gsm0902-v4-19-1"
+    },
+    {
+      "modules": [
+        "MAP-SM-DataTypes"
+      ],
+      "originalSHA256": "5cae5ce6f2d7f6fb871514ba6a3615c50de2b4959362b45a2baafa21f03be341",
+      "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn",
+      "relativePath": "modules/MAP-SM-DataTypes.asn",
+      "sha256": "5cae5ce6f2d7f6fb871514ba6a3615c50de2b4959362b45a2baafa21f03be341",
+      "sourceCollection": "gsm0902-v4-19-1"
+    }
+  ],
+  "modules": [
+    {
+      "assignments": [
+        {
+          "kind": "value",
+          "name": "mobileDomainId",
+          "position": {
+            "column": 1,
+            "line": 6,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "gsm-NetworkId",
+          "position": {
+            "column": 1,
+            "line": 8,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "gsm-AccessId",
+          "position": {
+            "column": 1,
+            "line": 9,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "gsm-OperationAndMaintenanceId",
+          "position": {
+            "column": 1,
+            "line": 10,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "gsm-MessagingId",
+          "position": {
+            "column": 1,
+            "line": 11,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CommonComponentId",
+          "position": {
+            "column": 1,
+            "line": 13,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "ac-Id",
+          "position": {
+            "column": 1,
+            "line": 14,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "as-Id",
+          "position": {
+            "column": 1,
+            "line": 15,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "ase-Id",
+          "position": {
+            "column": 1,
+            "line": 16,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "moduleId",
+          "position": {
+            "column": 1,
+            "line": 17,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "er-Id",
+          "position": {
+            "column": 1,
+            "line": 18,
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": true
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#0/#1}",
+        "name": "MobileDomainDefinitions",
+        "path": "spec/etr091/modules/MobileDomainDefinitions.asn",
+        "relativePath": "modules/MobileDomainDefinitions.asn",
+        "sha256": "801ba400996edc73da1f27d7df2ec773efc6817393541adea62b3d92c8195483",
+        "sourceCollection": "etr091"
+      },
+      "name": "MobileDomainDefinitions",
+      "oid": "{ ccitt ( 0 ) identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) mobileDomainDefinitions ( 0 ) version1 ( 1 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/etr091/modules/MobileDomainDefinitions.asn"
+      },
+      "sha256": "801ba400996edc73da1f27d7df2ec773efc6817393541adea62b3d92c8195483"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "value",
+          "name": "map-ac",
+          "position": {
+            "column": 1,
+            "line": 25,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "networkLocUpContext-v2",
+          "position": {
+            "column": 1,
+            "line": 27,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "networkLocUpContext-v1",
+          "position": {
+            "column": 1,
+            "line": 29,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "locationCancellation-v2",
+          "position": {
+            "column": 1,
+            "line": 33,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "locationCancellation-v1",
+          "position": {
+            "column": 1,
+            "line": 35,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "roamingNumberEnquiryContext-v2",
+          "position": {
+            "column": 1,
+            "line": 38,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "roamingNumberEnquiryContext-v1",
+          "position": {
+            "column": 1,
+            "line": 40,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "locationInfoRetrievalContext-v2",
+          "position": {
+            "column": 1,
+            "line": 43,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "locationInfoRetrievalContext-v1",
+          "position": {
+            "column": 1,
+            "line": 45,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "resetContext-v2",
+          "position": {
+            "column": 1,
+            "line": 48,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "resetContext-v1",
+          "position": {
+            "column": 1,
+            "line": 50,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "handoverControlContext-v2",
+          "position": {
+            "column": 1,
+            "line": 53,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "handoverControlContext-v1",
+          "position": {
+            "column": 1,
+            "line": 55,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "equipmentMngtContext-v2",
+          "position": {
+            "column": 1,
+            "line": 58,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "equipmentMngtContext-v1",
+          "position": {
+            "column": 1,
+            "line": 60,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "infoRetrievalContext-v2",
+          "position": {
+            "column": 1,
+            "line": 63,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "infoRetrievalContext-v1",
+          "position": {
+            "column": 1,
+            "line": 65,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "interVlrInfoRetrievalContext-v2",
+          "position": {
+            "column": 1,
+            "line": 68,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "subscriberDataMngtContext-v2",
+          "position": {
+            "column": 1,
+            "line": 71,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "subscriberDataMngtContext-v1",
+          "position": {
+            "column": 1,
+            "line": 73,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "tracingContext-v2",
+          "position": {
+            "column": 1,
+            "line": 76,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "tracingContext-v1",
+          "position": {
+            "column": 1,
+            "line": 78,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "networkFunctionalSsContext-v2",
+          "position": {
+            "column": 1,
+            "line": 81,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "networkFunctionalSsContext-v1",
+          "position": {
+            "column": 1,
+            "line": 83,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "networkUnstructuredSsContext-v2",
+          "position": {
+            "column": 1,
+            "line": 87,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "shortMsgGatewayContext-v2",
+          "position": {
+            "column": 1,
+            "line": 90,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "shortMsgGatewayContext-v1",
+          "position": {
+            "column": 1,
+            "line": 92,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "shortMsgMO-RelayContext-v2",
+          "position": {
+            "column": 1,
+            "line": 95,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "shortMsgRelayContext-v1",
+          "position": {
+            "column": 1,
+            "line": 97,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "shortMsgAlertContext-v2",
+          "position": {
+            "column": 1,
+            "line": 100,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "shortMsgAlertContext-v1",
+          "position": {
+            "column": 1,
+            "line": 102,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "mwdMngtContext-v2",
+          "position": {
+            "column": 1,
+            "line": 105,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "mwdMngtContext-v1",
+          "position": {
+            "column": 1,
+            "line": 107,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "shortMsgMT-RelayContext-v2",
+          "position": {
+            "column": 1,
+            "line": 110,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "imsiRetrievalContext-v2",
+          "position": {
+            "column": 1,
+            "line": 113,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "msPurgingContext-v2",
+          "position": {
+            "column": 1,
+            "line": 116,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": true
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#2/#2}",
+        "name": "MAP-ApplicationContexts",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn",
+        "relativePath": "modules/MAP-ApplicationContexts.asn",
+        "sha256": "c101d778b24ab0469a17c1004e1c7651e97e63eccecfd438caad96bb9429937b",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "imports": [
+        {
+          "module": "MobileDomainDefinitions",
+          "moduleOid": "{ ccitt ( 0 ) identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) mobileDomainDefinitions ( 0 ) version1 ( 1 ) }",
+          "position": {
+            "column": 6,
+            "line": 18,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+          },
+          "symbols": [
+            {
+              "kind": "value",
+              "name": "gsm-NetworkId",
+              "position": {
+                "column": 2,
+                "line": 16,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "ac-Id",
+              "position": {
+                "column": 2,
+                "line": 17,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#0/#1}",
+            "name": "MobileDomainDefinitions",
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn",
+            "relativePath": "modules/MobileDomainDefinitions.asn",
+            "sha256": "801ba400996edc73da1f27d7df2ec773efc6817393541adea62b3d92c8195483",
+            "sourceCollection": "etr091"
+          }
+        }
+      ],
+      "name": "MAP-ApplicationContexts",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-ApplicationContexts ( 2 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn"
+      },
+      "sha256": "c101d778b24ab0469a17c1004e1c7651e97e63eccecfd438caad96bb9429937b"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "BearerServiceCode",
+          "position": {
+            "column": 1,
+            "line": 11,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allBearerServices",
+          "position": {
+            "column": 1,
+            "line": 31,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allDataCDA-Services",
+          "position": {
+            "column": 1,
+            "line": 33,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataCDA-300bps",
+          "position": {
+            "column": 1,
+            "line": 34,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataCDA-1200bps",
+          "position": {
+            "column": 1,
+            "line": 35,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataCDA-1200-75bps",
+          "position": {
+            "column": 1,
+            "line": 36,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataCDA-2400bps",
+          "position": {
+            "column": 1,
+            "line": 37,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataCDA-4800bps",
+          "position": {
+            "column": 1,
+            "line": 38,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataCDA-9600bps",
+          "position": {
+            "column": 1,
+            "line": 39,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allDataCDS-Services",
+          "position": {
+            "column": 1,
+            "line": 41,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataCDS-1200bps",
+          "position": {
+            "column": 1,
+            "line": 42,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataCDS-2400bps",
+          "position": {
+            "column": 1,
+            "line": 43,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataCDS-4800bps",
+          "position": {
+            "column": 1,
+            "line": 44,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataCDS-9600bps",
+          "position": {
+            "column": 1,
+            "line": 45,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allPadAccessCA-Services",
+          "position": {
+            "column": 1,
+            "line": 47,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "padAccessCA-300bps",
+          "position": {
+            "column": 1,
+            "line": 48,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "padAccessCA-1200bps",
+          "position": {
+            "column": 1,
+            "line": 49,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "padAccessCA-1200-75bps",
+          "position": {
+            "column": 1,
+            "line": 50,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "padAccessCA-2400bps",
+          "position": {
+            "column": 1,
+            "line": 51,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "padAccessCA-4800bps",
+          "position": {
+            "column": 1,
+            "line": 52,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "padAccessCA-9600bps",
+          "position": {
+            "column": 1,
+            "line": 53,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allDataPDS-Services",
+          "position": {
+            "column": 1,
+            "line": 55,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataPDS-2400bps",
+          "position": {
+            "column": 1,
+            "line": 56,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataPDS-4800bps",
+          "position": {
+            "column": 1,
+            "line": 57,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "dataPDS-9600bps",
+          "position": {
+            "column": 1,
+            "line": 58,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allAlternateSpeech-DataCDA",
+          "position": {
+            "column": 1,
+            "line": 60,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allAlternateSpeech-DataCDS",
+          "position": {
+            "column": 1,
+            "line": 62,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allSpeechFollowedByDataCDA",
+          "position": {
+            "column": 1,
+            "line": 64,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allSpeechFollowedByDataCDS",
+          "position": {
+            "column": 1,
+            "line": 66,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allDataCircuitAsynchronous",
+          "position": {
+            "column": 1,
+            "line": 70,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allAsynchronousServices",
+          "position": {
+            "column": 1,
+            "line": 73,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allDataCircuitSynchronous",
+          "position": {
+            "column": 1,
+            "line": 76,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allSynchronousServices",
+          "position": {
+            "column": 1,
+            "line": 79,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allPLMN-specificBS",
+          "position": {
+            "column": 1,
+            "line": 90,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-1",
+          "position": {
+            "column": 1,
+            "line": 92,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-2",
+          "position": {
+            "column": 1,
+            "line": 93,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-3",
+          "position": {
+            "column": 1,
+            "line": 94,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-4",
+          "position": {
+            "column": 1,
+            "line": 95,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-5",
+          "position": {
+            "column": 1,
+            "line": 96,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-6",
+          "position": {
+            "column": 1,
+            "line": 97,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-7",
+          "position": {
+            "column": 1,
+            "line": 98,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-8",
+          "position": {
+            "column": 1,
+            "line": 99,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-9",
+          "position": {
+            "column": 1,
+            "line": 100,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-A",
+          "position": {
+            "column": 1,
+            "line": 101,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-B",
+          "position": {
+            "column": 1,
+            "line": 102,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-C",
+          "position": {
+            "column": 1,
+            "line": 103,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-D",
+          "position": {
+            "column": 1,
+            "line": 104,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-E",
+          "position": {
+            "column": 1,
+            "line": 105,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificBS-F",
+          "position": {
+            "column": 1,
+            "line": 106,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": true
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#20/#2}",
+        "name": "MAP-BS-Code",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn",
+        "relativePath": "modules/MAP-BS-Code.asn",
+        "sha256": "a7d1aa6f7346a68c95cd36a8b8b90382b26921c052029e214503ff24fd02649e",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "name": "MAP-BS-Code",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-BS-Code ( 20 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn"
+      },
+      "sha256": "a7d1aa6f7346a68c95cd36a8b8b90382b26921c052029e214503ff24fd02649e"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "TeleserviceCode",
+          "position": {
+            "column": 1,
+            "line": 11,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allTeleservices",
+          "position": {
+            "column": 1,
+            "line": 20,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allSpeechTransmissionServices",
+          "position": {
+            "column": 1,
+            "line": 22,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "telephony",
+          "position": {
+            "column": 1,
+            "line": 23,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "emergencyCalls",
+          "position": {
+            "column": 1,
+            "line": 24,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allShortMessageServices",
+          "position": {
+            "column": 1,
+            "line": 26,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "shortMessageMT-PP",
+          "position": {
+            "column": 1,
+            "line": 27,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "shortMessageMO-PP",
+          "position": {
+            "column": 1,
+            "line": 28,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allFacsimileTransmissionServices",
+          "position": {
+            "column": 1,
+            "line": 30,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "facsimileGroup3AndAlterSpeech",
+          "position": {
+            "column": 1,
+            "line": 31,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "automaticFacsimileGroup3",
+          "position": {
+            "column": 1,
+            "line": 32,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "facsimileGroup4",
+          "position": {
+            "column": 1,
+            "line": 33,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allDataTeleservices",
+          "position": {
+            "column": 1,
+            "line": 38,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allTeleservices-ExeptSMS",
+          "position": {
+            "column": 1,
+            "line": 41,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allPLMN-specificTS",
+          "position": {
+            "column": 1,
+            "line": 51,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-1",
+          "position": {
+            "column": 1,
+            "line": 53,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-2",
+          "position": {
+            "column": 1,
+            "line": 54,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-3",
+          "position": {
+            "column": 1,
+            "line": 55,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-4",
+          "position": {
+            "column": 1,
+            "line": 56,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-5",
+          "position": {
+            "column": 1,
+            "line": 57,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-6",
+          "position": {
+            "column": 1,
+            "line": 58,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-7",
+          "position": {
+            "column": 1,
+            "line": 59,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-8",
+          "position": {
+            "column": 1,
+            "line": 60,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-9",
+          "position": {
+            "column": 1,
+            "line": 61,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-A",
+          "position": {
+            "column": 1,
+            "line": 62,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-B",
+          "position": {
+            "column": 1,
+            "line": 63,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-C",
+          "position": {
+            "column": 1,
+            "line": 64,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-D",
+          "position": {
+            "column": 1,
+            "line": 65,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-E",
+          "position": {
+            "column": 1,
+            "line": 66,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificTS-F",
+          "position": {
+            "column": 1,
+            "line": 67,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": true
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#19/#2}",
+        "name": "MAP-TS-Code",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn",
+        "relativePath": "modules/MAP-TS-Code.asn",
+        "sha256": "755592f7786d9da5048bc1bb97b476e323f3cc5e7951434e526fa3e3ac3b4397",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "name": "MAP-TS-Code",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-TS-Code ( 19 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+      },
+      "sha256": "755592f7786d9da5048bc1bb97b476e323f3cc5e7951434e526fa3e3ac3b4397"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "TBCD-STRING",
+          "position": {
+            "column": 1,
+            "line": 55,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "AddressString",
+          "position": {
+            "column": 1,
+            "line": 65,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxAddressLength",
+          "position": {
+            "column": 1,
+            "line": 106,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ISDN-AddressString",
+          "position": {
+            "column": 1,
+            "line": 108,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxISDN-AddressLength",
+          "position": {
+            "column": 1,
+            "line": 112,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ISDN-SubaddressString",
+          "position": {
+            "column": 1,
+            "line": 114,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxISDN-SubaddressLength",
+          "position": {
+            "column": 1,
+            "line": 152,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ExternalSignalInfo",
+          "position": {
+            "column": 1,
+            "line": 154,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SignalInfo",
+          "position": {
+            "column": 1,
+            "line": 161,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxSignalInfoLength",
+          "position": {
+            "column": 1,
+            "line": 163,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ProtocolId",
+          "position": {
+            "column": 1,
+            "line": 171,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "IMSI",
+          "position": {
+            "column": 1,
+            "line": 179,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "TMSI",
+          "position": {
+            "column": 1,
+            "line": 182,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SubscriberId",
+          "position": {
+            "column": 1,
+            "line": 184,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "IMEI",
+          "position": {
+            "column": 1,
+            "line": 188,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "LocationInfo",
+          "position": {
+            "column": 1,
+            "line": 196,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "HLR-Id",
+          "position": {
+            "column": 1,
+            "line": 201,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "HLR-List",
+          "position": {
+            "column": 1,
+            "line": 205,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumOfHLR-Id",
+          "position": {
+            "column": 1,
+            "line": 208,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "LMSI",
+          "position": {
+            "column": 1,
+            "line": 210,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "GlobalCellId",
+          "position": {
+            "column": 1,
+            "line": 212,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "NetworkResource",
+          "position": {
+            "column": 1,
+            "line": 222,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Category",
+          "position": {
+            "column": 1,
+            "line": 233,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "BearerServiceList",
+          "position": {
+            "column": 1,
+            "line": 236,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumOfBearerServices",
+          "position": {
+            "column": 1,
+            "line": 239,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "TeleserviceList",
+          "position": {
+            "column": 1,
+            "line": 241,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumOfTeleservices",
+          "position": {
+            "column": 1,
+            "line": 244,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "BasicServiceCode",
+          "position": {
+            "column": 1,
+            "line": 246,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "BasicServiceList",
+          "position": {
+            "column": 1,
+            "line": 250,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumOfBasicServices",
+          "position": {
+            "column": 1,
+            "line": 253,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "BasicServiceGroupList",
+          "position": {
+            "column": 1,
+            "line": 255,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumOfBasicServiceGroups",
+          "position": {
+            "column": 1,
+            "line": 258,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": false,
+        "symbols": [
+          {
+            "name": "AddressString",
+            "position": {
+              "column": 2,
+              "line": 15,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "ISDN-AddressString",
+            "position": {
+              "column": 2,
+              "line": 16,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "ISDN-SubaddressString",
+            "position": {
+              "column": 2,
+              "line": 17,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "ExternalSignalInfo",
+            "position": {
+              "column": 2,
+              "line": 18,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "SignalInfo",
+            "position": {
+              "column": 2,
+              "line": 19,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "maxSignalInfoLength",
+            "position": {
+              "column": 2,
+              "line": 20,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "IMSI",
+            "position": {
+              "column": 2,
+              "line": 22,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "TMSI",
+            "position": {
+              "column": 2,
+              "line": 23,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "SubscriberId",
+            "position": {
+              "column": 2,
+              "line": 24,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "IMEI",
+            "position": {
+              "column": 2,
+              "line": 25,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "LocationInfo",
+            "position": {
+              "column": 2,
+              "line": 26,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "HLR-List",
+            "position": {
+              "column": 2,
+              "line": 27,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "LMSI",
+            "position": {
+              "column": 2,
+              "line": 28,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "GlobalCellId",
+            "position": {
+              "column": 2,
+              "line": 29,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "NetworkResource",
+            "position": {
+              "column": 2,
+              "line": 30,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "Category",
+            "position": {
+              "column": 2,
+              "line": 32,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "BearerServiceList",
+            "position": {
+              "column": 2,
+              "line": 33,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "TeleserviceList",
+            "position": {
+              "column": 2,
+              "line": 34,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "BasicServiceCode",
+            "position": {
+              "column": 2,
+              "line": 35,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "BasicServiceList",
+            "position": {
+              "column": 2,
+              "line": 36,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "BasicServiceGroupList",
+            "position": {
+              "column": 2,
+              "line": 37,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          },
+          {
+            "name": "maxNumOfBasicServiceGroups",
+            "position": {
+              "column": 2,
+              "line": 38,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+            }
+          }
+        ]
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#18/#2}",
+        "name": "MAP-CommonDataTypes",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn",
+        "relativePath": "modules/MAP-CommonDataTypes.asn",
+        "sha256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "imports": [
+        {
+          "module": "MAP-TS-Code",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-TS-Code ( 19 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 43,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "TeleserviceCode",
+              "position": {
+                "column": 2,
+                "line": 42,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#19/#2}",
+            "name": "MAP-TS-Code",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn",
+            "relativePath": "modules/MAP-TS-Code.asn",
+            "sha256": "755592f7786d9da5048bc1bb97b476e323f3cc5e7951434e526fa3e3ac3b4397",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        },
+        {
+          "module": "MAP-BS-Code",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-BS-Code ( 20 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 48,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "BearerServiceCode",
+              "position": {
+                "column": 2,
+                "line": 47,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#20/#2}",
+            "name": "MAP-BS-Code",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn",
+            "relativePath": "modules/MAP-BS-Code.asn",
+            "sha256": "a7d1aa6f7346a68c95cd36a8b8b90382b26921c052029e214503ff24fd02649e",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        }
+      ],
+      "name": "MAP-CommonDataTypes",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-CommonDataTypes ( 18 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn"
+      },
+      "sha256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "SS-Code",
+          "position": {
+            "column": 1,
+            "line": 11,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allSS",
+          "position": {
+            "column": 1,
+            "line": 21,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allLineIdentificationSS",
+          "position": {
+            "column": 1,
+            "line": 25,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "clip",
+          "position": {
+            "column": 1,
+            "line": 28,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "clir",
+          "position": {
+            "column": 1,
+            "line": 30,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "colp",
+          "position": {
+            "column": 1,
+            "line": 32,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "colr",
+          "position": {
+            "column": 1,
+            "line": 34,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "mci",
+          "position": {
+            "column": 1,
+            "line": 36,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allForwardingSS",
+          "position": {
+            "column": 1,
+            "line": 40,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "cfu",
+          "position": {
+            "column": 1,
+            "line": 42,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allCondForwardingSS",
+          "position": {
+            "column": 1,
+            "line": 44,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "cfb",
+          "position": {
+            "column": 1,
+            "line": 46,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "cfnry",
+          "position": {
+            "column": 1,
+            "line": 48,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "cfnrc",
+          "position": {
+            "column": 1,
+            "line": 50,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allCallOfferingSS",
+          "position": {
+            "column": 1,
+            "line": 53,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "ct",
+          "position": {
+            "column": 1,
+            "line": 56,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "mah",
+          "position": {
+            "column": 1,
+            "line": 59,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allCallCompletionSS",
+          "position": {
+            "column": 1,
+            "line": 63,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "cw",
+          "position": {
+            "column": 1,
+            "line": 66,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "hold",
+          "position": {
+            "column": 1,
+            "line": 68,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "ccbs",
+          "position": {
+            "column": 1,
+            "line": 70,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allMultiPartySS",
+          "position": {
+            "column": 1,
+            "line": 74,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "multiPTY",
+          "position": {
+            "column": 1,
+            "line": 77,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allCommunityOfInterest-SS",
+          "position": {
+            "column": 1,
+            "line": 80,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "cug",
+          "position": {
+            "column": 1,
+            "line": 83,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allChargingSS",
+          "position": {
+            "column": 1,
+            "line": 86,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "aoci",
+          "position": {
+            "column": 1,
+            "line": 89,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "aocc",
+          "position": {
+            "column": 1,
+            "line": 91,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allAdditionalInfoTransferSS",
+          "position": {
+            "column": 1,
+            "line": 94,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "uus",
+          "position": {
+            "column": 1,
+            "line": 97,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allBarringSS",
+          "position": {
+            "column": 1,
+            "line": 101,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "barringOfOutgoingCalls",
+          "position": {
+            "column": 1,
+            "line": 103,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "baoc",
+          "position": {
+            "column": 1,
+            "line": 105,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "boic",
+          "position": {
+            "column": 1,
+            "line": 107,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "boicExHC",
+          "position": {
+            "column": 1,
+            "line": 109,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "barringOfIncomingCalls",
+          "position": {
+            "column": 1,
+            "line": 112,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "baic",
+          "position": {
+            "column": 1,
+            "line": 114,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "bicRoam",
+          "position": {
+            "column": 1,
+            "line": 116,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "allPLMN-specificSS",
+          "position": {
+            "column": 1,
+            "line": 121,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-1",
+          "position": {
+            "column": 1,
+            "line": 123,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-2",
+          "position": {
+            "column": 1,
+            "line": 124,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-3",
+          "position": {
+            "column": 1,
+            "line": 125,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-4",
+          "position": {
+            "column": 1,
+            "line": 126,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-5",
+          "position": {
+            "column": 1,
+            "line": 127,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-6",
+          "position": {
+            "column": 1,
+            "line": 128,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-7",
+          "position": {
+            "column": 1,
+            "line": 129,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-8",
+          "position": {
+            "column": 1,
+            "line": 130,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-9",
+          "position": {
+            "column": 1,
+            "line": 131,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-A",
+          "position": {
+            "column": 1,
+            "line": 132,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-B",
+          "position": {
+            "column": 1,
+            "line": 133,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-C",
+          "position": {
+            "column": 1,
+            "line": 134,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-D",
+          "position": {
+            "column": 1,
+            "line": 135,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-E",
+          "position": {
+            "column": 1,
+            "line": 136,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "plmn-specificSS-F",
+          "position": {
+            "column": 1,
+            "line": 137,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": true
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#15/#2}",
+        "name": "MAP-SS-Code",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn",
+        "relativePath": "modules/MAP-SS-Code.asn",
+        "sha256": "4914972bce8d5eb209897c77210c936e5fe3c8070f7204de0a0a18696a39c5d9",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "name": "MAP-SS-Code",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-SS-Code ( 15 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn"
+      },
+      "sha256": "4914972bce8d5eb209897c77210c936e5fe3c8070f7204de0a0a18696a39c5d9"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "RegisterSS-Arg",
+          "position": {
+            "column": 1,
+            "line": 58,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "NoReplyConditionTime",
+          "position": {
+            "column": 1,
+            "line": 67,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-Info",
+          "position": {
+            "column": 1,
+            "line": 69,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardingInfo",
+          "position": {
+            "column": 1,
+            "line": 76,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardingFeatureList",
+          "position": {
+            "column": 1,
+            "line": 81,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardingFeature",
+          "position": {
+            "column": 1,
+            "line": 85,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-Status",
+          "position": {
+            "column": 1,
+            "line": 96,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardingOptions",
+          "position": {
+            "column": 1,
+            "line": 111,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallBarringInfo",
+          "position": {
+            "column": 1,
+            "line": 142,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallBarringFeatureList",
+          "position": {
+            "column": 1,
+            "line": 148,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallBarringFeature",
+          "position": {
+            "column": 1,
+            "line": 152,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Info",
+          "position": {
+            "column": 1,
+            "line": 158,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-SubscriptionList",
+          "position": {
+            "column": 1,
+            "line": 163,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Subscription",
+          "position": {
+            "column": 1,
+            "line": 166,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Index",
+          "position": {
+            "column": 1,
+            "line": 173,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Interlock",
+          "position": {
+            "column": 1,
+            "line": 176,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "IntraCUG-Options",
+          "position": {
+            "column": 1,
+            "line": 178,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumOfCUG",
+          "position": {
+            "column": 1,
+            "line": 183,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-FeatureList",
+          "position": {
+            "column": 1,
+            "line": 185,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Feature",
+          "position": {
+            "column": 1,
+            "line": 188,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "InterCUG-Restrictions",
+          "position": {
+            "column": 1,
+            "line": 194,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-Data",
+          "position": {
+            "column": 1,
+            "line": 204,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-SubscriptionOption",
+          "position": {
+            "column": 1,
+            "line": 214,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CliRestrictionOption",
+          "position": {
+            "column": 1,
+            "line": 218,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "OverrideCategory",
+          "position": {
+            "column": 1,
+            "line": 223,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-ForBS-Code",
+          "position": {
+            "column": 1,
+            "line": 227,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Cli-RestrictionInfo",
+          "position": {
+            "column": 1,
+            "line": 232,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "InterrogateSS-Res",
+          "position": {
+            "column": 1,
+            "line": 237,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-UserData",
+          "position": {
+            "column": 1,
+            "line": 246,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "USSD-Arg",
+          "position": {
+            "column": 1,
+            "line": 248,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "USSD-Res",
+          "position": {
+            "column": 1,
+            "line": 253,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "USSD-DataCodingScheme",
+          "position": {
+            "column": 1,
+            "line": 258,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "USSD-String",
+          "position": {
+            "column": 1,
+            "line": 263,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxUSSD-StringLength",
+          "position": {
+            "column": 1,
+            "line": 267,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Password",
+          "position": {
+            "column": 1,
+            "line": 269,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "GuidanceInfo",
+          "position": {
+            "column": 1,
+            "line": 273,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "BeginSubscriberActivityArg",
+          "position": {
+            "column": 1,
+            "line": 285,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-List",
+          "position": {
+            "column": 1,
+            "line": 289,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumOfSS",
+          "position": {
+            "column": 1,
+            "line": 292,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-InfoList",
+          "position": {
+            "column": 1,
+            "line": 294,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardingData",
+          "position": {
+            "column": 1,
+            "line": 297,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": false,
+        "symbols": [
+          {
+            "name": "RegisterSS-Arg",
+            "position": {
+              "column": 2,
+              "line": 14,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SS-Info",
+            "position": {
+              "column": 2,
+              "line": 15,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SS-Status",
+            "position": {
+              "column": 2,
+              "line": 16,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "CUG-Index",
+            "position": {
+              "column": 2,
+              "line": 17,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "CUG-Interlock",
+            "position": {
+              "column": 2,
+              "line": 18,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SS-SubscriptionOption",
+            "position": {
+              "column": 2,
+              "line": 19,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SS-ForBS-Code",
+            "position": {
+              "column": 2,
+              "line": 20,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "InterrogateSS-Res",
+            "position": {
+              "column": 2,
+              "line": 21,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SS-UserData",
+            "position": {
+              "column": 2,
+              "line": 22,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "USSD-Arg",
+            "position": {
+              "column": 2,
+              "line": 23,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "USSD-Res",
+            "position": {
+              "column": 2,
+              "line": 24,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "Password",
+            "position": {
+              "column": 2,
+              "line": 25,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "GuidanceInfo",
+            "position": {
+              "column": 2,
+              "line": 26,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "BeginSubscriberActivityArg",
+            "position": {
+              "column": 2,
+              "line": 27,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SS-List",
+            "position": {
+              "column": 2,
+              "line": 28,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SS-InfoList",
+            "position": {
+              "column": 2,
+              "line": 29,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "ForwardingData",
+            "position": {
+              "column": 2,
+              "line": 30,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "IntraCUG-Options",
+            "position": {
+              "column": 2,
+              "line": 31,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "InterCUG-Restrictions",
+            "position": {
+              "column": 2,
+              "line": 32,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "OverrideCategory",
+            "position": {
+              "column": 2,
+              "line": 33,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "CliRestrictionOption",
+            "position": {
+              "column": 2,
+              "line": 34,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "NoReplyConditionTime",
+            "position": {
+              "column": 2,
+              "line": 35,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "ForwardingOptions",
+            "position": {
+              "column": 2,
+              "line": 36,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+            }
+          }
+        ]
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#14/#2}",
+        "name": "MAP-SS-DataTypes",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn",
+        "relativePath": "modules/MAP-SS-DataTypes.asn",
+        "sha256": "e233ecc28d56c0a04624674d22e898f4e9d58f90c25d0ea7be6b12145b030657",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "imports": [
+        {
+          "module": "MAP-CommonDataTypes",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-CommonDataTypes ( 18 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 47,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "AddressString",
+              "position": {
+                "column": 2,
+                "line": 39,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "ISDN-AddressString",
+              "position": {
+                "column": 2,
+                "line": 40,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "ISDN-SubaddressString",
+              "position": {
+                "column": 2,
+                "line": 41,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxSignalInfoLength",
+              "position": {
+                "column": 2,
+                "line": 42,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "IMSI",
+              "position": {
+                "column": 2,
+                "line": 43,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "BasicServiceCode",
+              "position": {
+                "column": 2,
+                "line": 44,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "BasicServiceGroupList",
+              "position": {
+                "column": 2,
+                "line": 45,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumOfBasicServiceGroups",
+              "position": {
+                "column": 2,
+                "line": 46,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#18/#2}",
+            "name": "MAP-CommonDataTypes",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn",
+            "relativePath": "modules/MAP-CommonDataTypes.asn",
+            "sha256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        },
+        {
+          "module": "MAP-SS-Code",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-SS-Code ( 15 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 52,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "SS-Code",
+              "position": {
+                "column": 2,
+                "line": 51,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#15/#2}",
+            "name": "MAP-SS-Code",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn",
+            "relativePath": "modules/MAP-SS-Code.asn",
+            "sha256": "4914972bce8d5eb209897c77210c936e5fe3c8070f7204de0a0a18696a39c5d9",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        }
+      ],
+      "name": "MAP-SS-DataTypes",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-SS-DataTypes ( 14 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn"
+      },
+      "sha256": "e233ecc28d56c0a04624674d22e898f4e9d58f90c25d0ea7be6b12145b030657"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "CUG-CheckInfo",
+          "position": {
+            "column": 1,
+            "line": 37,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "NumberOfForwarding",
+          "position": {
+            "column": 1,
+            "line": 42,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SendRoutingInfoArg",
+          "position": {
+            "column": 1,
+            "line": 44,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SendRoutingInfoRes",
+          "position": {
+            "column": 1,
+            "line": 52,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "RoutingInfo",
+          "position": {
+            "column": 1,
+            "line": 59,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ProvideRoamingNumberArg",
+          "position": {
+            "column": 1,
+            "line": 63,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": false,
+        "symbols": [
+          {
+            "name": "SendRoutingInfoArg",
+            "position": {
+              "column": 2,
+              "line": 14,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SendRoutingInfoRes",
+            "position": {
+              "column": 2,
+              "line": 15,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+            }
+          },
+          {
+            "name": "ProvideRoamingNumberArg",
+            "position": {
+              "column": 2,
+              "line": 16,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+            }
+          },
+          {
+            "name": "NumberOfForwarding",
+            "position": {
+              "column": 2,
+              "line": 17,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+            }
+          }
+        ]
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#13/#2}",
+        "name": "MAP-CH-DataTypes",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn",
+        "relativePath": "modules/MAP-CH-DataTypes.asn",
+        "sha256": "76c86becb2d7bc42489df0d22fee83e4b8f2e49646becceaedd6b8a8d25a855b",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "imports": [
+        {
+          "module": "MAP-SS-DataTypes",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-SS-DataTypes ( 14 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 23,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "CUG-Interlock",
+              "position": {
+                "column": 2,
+                "line": 21,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "ForwardingData",
+              "position": {
+                "column": 2,
+                "line": 22,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#14/#2}",
+            "name": "MAP-SS-DataTypes",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn",
+            "relativePath": "modules/MAP-SS-DataTypes.asn",
+            "sha256": "e233ecc28d56c0a04624674d22e898f4e9d58f90c25d0ea7be6b12145b030657",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        },
+        {
+          "module": "MAP-CommonDataTypes",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-CommonDataTypes ( 18 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 31,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "ISDN-AddressString",
+              "position": {
+                "column": 2,
+                "line": 27,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "ExternalSignalInfo",
+              "position": {
+                "column": 2,
+                "line": 28,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "IMSI",
+              "position": {
+                "column": 2,
+                "line": 29,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "LMSI",
+              "position": {
+                "column": 2,
+                "line": 30,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#18/#2}",
+            "name": "MAP-CommonDataTypes",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn",
+            "relativePath": "modules/MAP-CommonDataTypes.asn",
+            "sha256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        }
+      ],
+      "name": "MAP-CH-DataTypes",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-CH-DataTypes ( 13 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn"
+      },
+      "sha256": "76c86becb2d7bc42489df0d22fee83e4b8f2e49646becceaedd6b8a8d25a855b"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "value",
+          "name": "map-DialogueAS",
+          "position": {
+            "column": 1,
+            "line": 33,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MAP-DialoguePDU",
+          "position": {
+            "column": 1,
+            "line": 36,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MAP-OpenInfo",
+          "position": {
+            "column": 1,
+            "line": 44,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MAP-AcceptInfo",
+          "position": {
+            "column": 1,
+            "line": 49,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MAP-CloseInfo",
+          "position": {
+            "column": 1,
+            "line": 52,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MAP-RefuseInfo",
+          "position": {
+            "column": 1,
+            "line": 56,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Reason",
+          "position": {
+            "column": 1,
+            "line": 60,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MAP-UserAbortInfo",
+          "position": {
+            "column": 1,
+            "line": 65,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MAP-UserAbortChoice",
+          "position": {
+            "column": 1,
+            "line": 69,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ResourceUnavailableReason",
+          "position": {
+            "column": 1,
+            "line": 75,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ProcedureCancellationReason",
+          "position": {
+            "column": 1,
+            "line": 79,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MAP-ProviderAbortInfo",
+          "position": {
+            "column": 1,
+            "line": 88,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MAP-ProviderAbortReason",
+          "position": {
+            "column": 1,
+            "line": 92,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": false,
+        "symbols": [
+          {
+            "name": "map-DialogueAS",
+            "position": {
+              "column": 2,
+              "line": 14,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+            }
+          },
+          {
+            "name": "MAP-DialoguePDU",
+            "position": {
+              "column": 2,
+              "line": 15,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+            }
+          }
+        ]
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#3/#2}",
+        "name": "MAP-DialogueInformation",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn",
+        "relativePath": "modules/MAP-DialogueInformation.asn",
+        "sha256": "f9a705dc4201a9597af910421356b7162f06e6950c6739c2337f153847403d50",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "imports": [
+        {
+          "module": "MobileDomainDefinitions",
+          "moduleOid": "{ ccitt ( 0 ) identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) mobileDomainDefinitions ( 0 ) version1 ( 1 ) }",
+          "position": {
+            "column": 6,
+            "line": 21,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          },
+          "symbols": [
+            {
+              "kind": "value",
+              "name": "gsm-NetworkId",
+              "position": {
+                "column": 2,
+                "line": 19,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "as-Id",
+              "position": {
+                "column": 2,
+                "line": 20,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#0/#1}",
+            "name": "MobileDomainDefinitions",
+            "path": "spec/etr091/modules/MobileDomainDefinitions.asn",
+            "relativePath": "modules/MobileDomainDefinitions.asn",
+            "sha256": "801ba400996edc73da1f27d7df2ec773efc6817393541adea62b3d92c8195483",
+            "sourceCollection": "etr091"
+          }
+        },
+        {
+          "module": "MAP-CommonDataTypes",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-CommonDataTypes ( 18 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 26,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "AddressString",
+              "position": {
+                "column": 2,
+                "line": 25,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#18/#2}",
+            "name": "MAP-CommonDataTypes",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn",
+            "relativePath": "modules/MAP-CommonDataTypes.asn",
+            "sha256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        }
+      ],
+      "name": "MAP-DialogueInformation",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-DialogueInformation ( 3 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn"
+      },
+      "sha256": "f9a705dc4201a9597af910421356b7162f06e6950c6739c2337f153847403d50"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "RoamingNotAllowedCause",
+          "position": {
+            "column": 1,
+            "line": 41,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallBarringCause",
+          "position": {
+            "column": 1,
+            "line": 45,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-RejectCause",
+          "position": {
+            "column": 1,
+            "line": 49,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-IncompatibilityCause",
+          "position": {
+            "column": 1,
+            "line": 57,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "PW-RegistrationFailureCause",
+          "position": {
+            "column": 1,
+            "line": 63,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SM-DeliveryFailureCause",
+          "position": {
+            "column": 1,
+            "line": 68,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SM-EnumeratedDeliveryFailureCause",
+          "position": {
+            "column": 1,
+            "line": 78,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SM-DeliveryFailureCauseWithDiagnostic",
+          "position": {
+            "column": 1,
+            "line": 87,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": false,
+        "symbols": [
+          {
+            "name": "RoamingNotAllowedCause",
+            "position": {
+              "column": 2,
+              "line": 14,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+            }
+          },
+          {
+            "name": "CallBarringCause",
+            "position": {
+              "column": 2,
+              "line": 15,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+            }
+          },
+          {
+            "name": "CUG-RejectCause",
+            "position": {
+              "column": 2,
+              "line": 16,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SS-IncompatibilityCause",
+            "position": {
+              "column": 2,
+              "line": 17,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+            }
+          },
+          {
+            "name": "PW-RegistrationFailureCause",
+            "position": {
+              "column": 2,
+              "line": 18,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SM-DeliveryFailureCause",
+            "position": {
+              "column": 2,
+              "line": 19,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+            }
+          }
+        ]
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#17/#2}",
+        "name": "MAP-ER-DataTypes",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn",
+        "relativePath": "modules/MAP-ER-DataTypes.asn",
+        "sha256": "eab6ce58310219eaa19bb44f913ae436e30578688f2d5a2e6510fb4a9a203099",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "imports": [
+        {
+          "module": "MAP-SS-DataTypes",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-SS-DataTypes ( 14 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 24,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "SS-Status",
+              "position": {
+                "column": 2,
+                "line": 23,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#14/#2}",
+            "name": "MAP-SS-DataTypes",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn",
+            "relativePath": "modules/MAP-SS-DataTypes.asn",
+            "sha256": "e233ecc28d56c0a04624674d22e898f4e9d58f90c25d0ea7be6b12145b030657",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        },
+        {
+          "module": "MAP-CommonDataTypes",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-CommonDataTypes ( 18 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 30,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "SignalInfo",
+              "position": {
+                "column": 2,
+                "line": 28,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "BasicServiceCode",
+              "position": {
+                "column": 2,
+                "line": 29,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#18/#2}",
+            "name": "MAP-CommonDataTypes",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn",
+            "relativePath": "modules/MAP-CommonDataTypes.asn",
+            "sha256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        },
+        {
+          "module": "MAP-SS-Code",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-SS-Code ( 15 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 35,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "SS-Code",
+              "position": {
+                "column": 2,
+                "line": 34,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#15/#2}",
+            "name": "MAP-SS-Code",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn",
+            "relativePath": "modules/MAP-SS-Code.asn",
+            "sha256": "4914972bce8d5eb209897c77210c936e5fe3c8070f7204de0a0a18696a39c5d9",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        }
+      ],
+      "name": "MAP-ER-DataTypes",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-ER-DataTypes ( 17 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn"
+      },
+      "sha256": "eab6ce58310219eaa19bb44f913ae436e30578688f2d5a2e6510fb4a9a203099"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "UpdateLocationArg",
+          "position": {
+            "column": 1,
+            "line": 79,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "UpdateLocationRes",
+          "position": {
+            "column": 1,
+            "line": 86,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ExtensibleUpdateLocationRes",
+          "position": {
+            "column": 1,
+            "line": 92,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CancelLocationArg",
+          "position": {
+            "column": 1,
+            "line": 96,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "PurgeMS-Arg",
+          "position": {
+            "column": 1,
+            "line": 100,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "IMSI-WithLMSI",
+          "position": {
+            "column": 1,
+            "line": 105,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SendIdentificationRes",
+          "position": {
+            "column": 1,
+            "line": 111,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "AuthenticationSetList",
+          "position": {
+            "column": 1,
+            "line": 116,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "AuthenticationSet",
+          "position": {
+            "column": 1,
+            "line": 119,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "RAND",
+          "position": {
+            "column": 1,
+            "line": 125,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SRES",
+          "position": {
+            "column": 1,
+            "line": 127,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Kc",
+          "position": {
+            "column": 1,
+            "line": 129,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "PrepareHO-Arg",
+          "position": {
+            "column": 1,
+            "line": 131,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "PerformHO-Arg",
+          "position": {
+            "column": 1,
+            "line": 137,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ChannelType",
+          "position": {
+            "column": 1,
+            "line": 145,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ClassmarkInfo",
+          "position": {
+            "column": 1,
+            "line": 153,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "HandoverPriority",
+          "position": {
+            "column": 1,
+            "line": 157,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "PrepareHO-Res",
+          "position": {
+            "column": 1,
+            "line": 160,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "PerformHO-Res",
+          "position": {
+            "column": 1,
+            "line": 165,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "PrepareSubsequentHO-Arg",
+          "position": {
+            "column": 1,
+            "line": 169,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "PerformSubsequentHO-Arg",
+          "position": {
+            "column": 1,
+            "line": 175,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SendAuthenticationInfoArg",
+          "position": {
+            "column": 1,
+            "line": 182,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SendAuthenticationInfoRes",
+          "position": {
+            "column": 1,
+            "line": 184,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Ki",
+          "position": {
+            "column": 1,
+            "line": 186,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "EquipmentStatus",
+          "position": {
+            "column": 1,
+            "line": 190,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SendParametersArg",
+          "position": {
+            "column": 1,
+            "line": 196,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "RequestParameterList",
+          "position": {
+            "column": 1,
+            "line": 200,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "RequestParameter",
+          "position": {
+            "column": 1,
+            "line": 203,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SentParameterList",
+          "position": {
+            "column": 1,
+            "line": 209,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SentParameter",
+          "position": {
+            "column": 1,
+            "line": 212,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumOfSentParameter",
+          "position": {
+            "column": 1,
+            "line": 218,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "InsertSubscriberDataArg",
+          "position": {
+            "column": 1,
+            "line": 222,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SubscriberData",
+          "position": {
+            "column": 1,
+            "line": 227,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SubscriberStatus",
+          "position": {
+            "column": 1,
+            "line": 243,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ODB-Data",
+          "position": {
+            "column": 1,
+            "line": 247,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ODB-GeneralData",
+          "position": {
+            "column": 1,
+            "line": 252,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ODB-HPLMN-Data",
+          "position": {
+            "column": 1,
+            "line": 260,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ZoneCodeList",
+          "position": {
+            "column": 1,
+            "line": 266,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ZoneCode",
+          "position": {
+            "column": 1,
+            "line": 269,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumOfZoneCodes",
+          "position": {
+            "column": 1,
+            "line": 272,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "InsertSubscriberDataRes",
+          "position": {
+            "column": 1,
+            "line": 274,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "RegionalSubscriptionResponse",
+          "position": {
+            "column": 1,
+            "line": 284,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "DeleteSubscriberDataArg",
+          "position": {
+            "column": 1,
+            "line": 290,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "DeleteSubscriberDataRes",
+          "position": {
+            "column": 1,
+            "line": 301,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ResetArg",
+          "position": {
+            "column": 1,
+            "line": 306,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "RestoreDataArg",
+          "position": {
+            "column": 1,
+            "line": 314,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "RestoreDataRes",
+          "position": {
+            "column": 1,
+            "line": 319,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": false,
+        "symbols": [
+          {
+            "name": "UpdateLocationArg",
+            "position": {
+              "column": 2,
+              "line": 15,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "UpdateLocationRes",
+            "position": {
+              "column": 2,
+              "line": 16,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "CancelLocationArg",
+            "position": {
+              "column": 2,
+              "line": 17,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "PurgeMS-Arg",
+            "position": {
+              "column": 2,
+              "line": 18,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SendIdentificationRes",
+            "position": {
+              "column": 2,
+              "line": 19,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "PrepareHO-Arg",
+            "position": {
+              "column": 2,
+              "line": 21,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "PrepareHO-Res",
+            "position": {
+              "column": 2,
+              "line": 22,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "PrepareSubsequentHO-Arg",
+            "position": {
+              "column": 2,
+              "line": 23,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "PerformHO-Arg",
+            "position": {
+              "column": 2,
+              "line": 24,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "PerformHO-Res",
+            "position": {
+              "column": 2,
+              "line": 25,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "PerformSubsequentHO-Arg",
+            "position": {
+              "column": 2,
+              "line": 26,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SendAuthenticationInfoArg",
+            "position": {
+              "column": 2,
+              "line": 28,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SendAuthenticationInfoRes",
+            "position": {
+              "column": 2,
+              "line": 29,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "Ki",
+            "position": {
+              "column": 2,
+              "line": 30,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "EquipmentStatus",
+            "position": {
+              "column": 2,
+              "line": 32,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SendParametersArg",
+            "position": {
+              "column": 2,
+              "line": 34,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SentParameterList",
+            "position": {
+              "column": 2,
+              "line": 35,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "InsertSubscriberDataArg",
+            "position": {
+              "column": 2,
+              "line": 36,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "InsertSubscriberDataRes",
+            "position": {
+              "column": 2,
+              "line": 37,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "DeleteSubscriberDataArg",
+            "position": {
+              "column": 2,
+              "line": 38,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "DeleteSubscriberDataRes",
+            "position": {
+              "column": 2,
+              "line": 39,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SubscriberData",
+            "position": {
+              "column": 2,
+              "line": 40,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "ODB-Data",
+            "position": {
+              "column": 2,
+              "line": 41,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SubscriberStatus",
+            "position": {
+              "column": 2,
+              "line": 42,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "ZoneCodeList",
+            "position": {
+              "column": 2,
+              "line": 43,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "maxNumOfZoneCodes",
+            "position": {
+              "column": 2,
+              "line": 44,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "ResetArg",
+            "position": {
+              "column": 2,
+              "line": 46,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "RestoreDataArg",
+            "position": {
+              "column": 2,
+              "line": 47,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          },
+          {
+            "name": "RestoreDataRes",
+            "position": {
+              "column": 2,
+              "line": 48,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+            }
+          }
+        ]
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#11/#2}",
+        "name": "MAP-MS-DataTypes",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn",
+        "relativePath": "modules/MAP-MS-DataTypes.asn",
+        "sha256": "e0a0a1e1c5647e5782d209180bf5c6fa25ba7dece73d122f6cac608d993fb053",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "imports": [
+        {
+          "module": "MAP-SS-DataTypes",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-SS-DataTypes ( 14 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 54,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "SS-List",
+              "position": {
+                "column": 2,
+                "line": 52,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "SS-InfoList",
+              "position": {
+                "column": 2,
+                "line": 53,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#14/#2}",
+            "name": "MAP-SS-DataTypes",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn",
+            "relativePath": "modules/MAP-SS-DataTypes.asn",
+            "sha256": "e233ecc28d56c0a04624674d22e898f4e9d58f90c25d0ea7be6b12145b030657",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        },
+        {
+          "module": "MAP-CommonDataTypes",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-CommonDataTypes ( 18 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 72,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "ISDN-AddressString",
+              "position": {
+                "column": 2,
+                "line": 58,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "ExternalSignalInfo",
+              "position": {
+                "column": 2,
+                "line": 59,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "IMSI",
+              "position": {
+                "column": 2,
+                "line": 60,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "SubscriberId",
+              "position": {
+                "column": 2,
+                "line": 61,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "IMEI",
+              "position": {
+                "column": 2,
+                "line": 62,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "LocationInfo",
+              "position": {
+                "column": 2,
+                "line": 63,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "HLR-List",
+              "position": {
+                "column": 2,
+                "line": 64,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "LMSI",
+              "position": {
+                "column": 2,
+                "line": 65,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "GlobalCellId",
+              "position": {
+                "column": 2,
+                "line": 66,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "NetworkResource",
+              "position": {
+                "column": 2,
+                "line": 67,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "Category",
+              "position": {
+                "column": 2,
+                "line": 68,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "BearerServiceList",
+              "position": {
+                "column": 2,
+                "line": 69,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "TeleserviceList",
+              "position": {
+                "column": 2,
+                "line": 70,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "BasicServiceList",
+              "position": {
+                "column": 2,
+                "line": 71,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#18/#2}",
+            "name": "MAP-CommonDataTypes",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn",
+            "relativePath": "modules/MAP-CommonDataTypes.asn",
+            "sha256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        }
+      ],
+      "name": "MAP-MS-DataTypes",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-MS-DataTypes ( 11 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn"
+      },
+      "sha256": "e0a0a1e1c5647e5782d209180bf5c6fa25ba7dece73d122f6cac608d993fb053"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "ActivateTraceModeArg",
+          "position": {
+            "column": 1,
+            "line": 32,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "TraceReference",
+          "position": {
+            "column": 1,
+            "line": 39,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "TraceType",
+          "position": {
+            "column": 1,
+            "line": 41,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "DeactivateTraceModeArg",
+          "position": {
+            "column": 1,
+            "line": 45,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "TraceSubscriberActivityArg",
+          "position": {
+            "column": 1,
+            "line": 50,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallReference",
+          "position": {
+            "column": 1,
+            "line": 57,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "NoteInternalHO-Arg",
+          "position": {
+            "column": 1,
+            "line": 59,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "HandoverType",
+          "position": {
+            "column": 1,
+            "line": 64,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": false,
+        "symbols": [
+          {
+            "name": "ActivateTraceModeArg",
+            "position": {
+              "column": 2,
+              "line": 14,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "DeactivateTraceModeArg",
+            "position": {
+              "column": 2,
+              "line": 15,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "TraceSubscriberActivityArg",
+            "position": {
+              "column": 2,
+              "line": 16,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "NoteInternalHO-Arg",
+            "position": {
+              "column": 2,
+              "line": 17,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+            }
+          }
+        ]
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#12/#2}",
+        "name": "MAP-OM-DataTypes",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn",
+        "relativePath": "modules/MAP-OM-DataTypes.asn",
+        "sha256": "e35177ca9c891c97dc3f4960852926ca05b17e6c56605075b98b7ee7b3ce242c",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "imports": [
+        {
+          "module": "MAP-CommonDataTypes",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-CommonDataTypes ( 18 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 25,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "AddressString",
+              "position": {
+                "column": 2,
+                "line": 21,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "ExternalSignalInfo",
+              "position": {
+                "column": 2,
+                "line": 22,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "IMSI",
+              "position": {
+                "column": 2,
+                "line": 23,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "GlobalCellId",
+              "position": {
+                "column": 2,
+                "line": 24,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#18/#2}",
+            "name": "MAP-CommonDataTypes",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn",
+            "relativePath": "modules/MAP-CommonDataTypes.asn",
+            "sha256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        }
+      ],
+      "name": "MAP-OM-DataTypes",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-OM-DataTypes ( 12 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn"
+      },
+      "sha256": "e35177ca9c891c97dc3f4960852926ca05b17e6c56605075b98b7ee7b3ce242c"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "RoutingInfoForSM-Arg",
+          "position": {
+            "column": 1,
+            "line": 43,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "RoutingInfoForSM-Res",
+          "position": {
+            "column": 1,
+            "line": 51,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "LocationInfoWithLMSI",
+          "position": {
+            "column": 1,
+            "line": 58,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardSM-Arg",
+          "position": {
+            "column": 1,
+            "line": 63,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SM-RP-DA",
+          "position": {
+            "column": 1,
+            "line": 72,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SM-RP-OA",
+          "position": {
+            "column": 1,
+            "line": 81,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ReportSM-DeliveryStatusArg",
+          "position": {
+            "column": 1,
+            "line": 87,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SM-DeliveryOutcome",
+          "position": {
+            "column": 1,
+            "line": 95,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "AlertServiceCentreArg",
+          "position": {
+            "column": 1,
+            "line": 100,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "InformServiceCentreArg",
+          "position": {
+            "column": 1,
+            "line": 105,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MW-Status",
+          "position": {
+            "column": 1,
+            "line": 110,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ReadyForSM-Arg",
+          "position": {
+            "column": 1,
+            "line": 115,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "AlertReason",
+          "position": {
+            "column": 1,
+            "line": 120,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": false,
+        "symbols": [
+          {
+            "name": "RoutingInfoForSM-Arg",
+            "position": {
+              "column": 2,
+              "line": 14,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "RoutingInfoForSM-Res",
+            "position": {
+              "column": 2,
+              "line": 15,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "ForwardSM-Arg",
+            "position": {
+              "column": 2,
+              "line": 16,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "ReportSM-DeliveryStatusArg",
+            "position": {
+              "column": 2,
+              "line": 17,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "AlertServiceCentreArg",
+            "position": {
+              "column": 2,
+              "line": 18,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "InformServiceCentreArg",
+            "position": {
+              "column": 2,
+              "line": 19,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "ReadyForSM-Arg",
+            "position": {
+              "column": 2,
+              "line": 20,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "SM-DeliveryOutcome",
+            "position": {
+              "column": 2,
+              "line": 21,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+            }
+          },
+          {
+            "name": "AlertReason",
+            "position": {
+              "column": 2,
+              "line": 22,
+              "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+            }
+          }
+        ]
+      },
+      "identity": {
+        "canonicalOid": "{#0/#4/#0/#0/#1/#3/#16/#2}",
+        "name": "MAP-SM-DataTypes",
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn",
+        "relativePath": "modules/MAP-SM-DataTypes.asn",
+        "sha256": "5cae5ce6f2d7f6fb871514ba6a3615c50de2b4959362b45a2baafa21f03be341",
+        "sourceCollection": "gsm0902-v4-19-1"
+      },
+      "imports": [
+        {
+          "module": "MAP-CommonDataTypes",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-CommonDataTypes ( 18 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 32,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "AddressString",
+              "position": {
+                "column": 2,
+                "line": 26,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "ISDN-AddressString",
+              "position": {
+                "column": 2,
+                "line": 27,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "SignalInfo",
+              "position": {
+                "column": 2,
+                "line": 28,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "IMSI",
+              "position": {
+                "column": 2,
+                "line": 29,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "LocationInfo",
+              "position": {
+                "column": 2,
+                "line": 30,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "type",
+              "name": "LMSI",
+              "position": {
+                "column": 2,
+                "line": 31,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#18/#2}",
+            "name": "MAP-CommonDataTypes",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn",
+            "relativePath": "modules/MAP-CommonDataTypes.asn",
+            "sha256": "ccfaf4c7de5e29b8684b392541e4e41b0ca362f5da5a18094872539b1682dfac",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        },
+        {
+          "module": "MAP-TS-Code",
+          "moduleOid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-TS-Code ( 19 ) version2 ( 2 ) }",
+          "position": {
+            "column": 6,
+            "line": 37,
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "type",
+              "name": "TeleserviceCode",
+              "position": {
+                "column": 2,
+                "line": 36,
+                "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "canonicalOid": "{#0/#4/#0/#0/#1/#3/#19/#2}",
+            "name": "MAP-TS-Code",
+            "path": "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn",
+            "relativePath": "modules/MAP-TS-Code.asn",
+            "sha256": "755592f7786d9da5048bc1bb97b476e323f3cc5e7951434e526fa3e3ac3b4397",
+            "sourceCollection": "gsm0902-v4-19-1"
+          }
+        }
+      ],
+      "name": "MAP-SM-DataTypes",
+      "oid": "{ ccitt identified-organization ( 4 ) etsi ( 0 ) mobileDomain ( 0 ) gsm-Network ( 1 ) modules ( 3 ) map-SM-DataTypes ( 16 ) version2 ( 2 ) }",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn"
+      },
+      "sha256": "5cae5ce6f2d7f6fb871514ba6a3615c50de2b4959362b45a2baafa21f03be341"
+    }
+  ],
+  "rootFiles": [
+    "spec/gsm0902-v4-19-1/modules/MAP-ApplicationContexts.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-BS-Code.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-CH-DataTypes.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-CommonDataTypes.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-DialogueInformation.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-ER-DataTypes.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-MS-DataTypes.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-OM-DataTypes.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-SM-DataTypes.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-SS-Code.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-SS-DataTypes.asn",
+    "spec/gsm0902-v4-19-1/modules/MAP-TS-Code.asn"
+  ],
+  "version": 1
+}
