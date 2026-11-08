@@ -1,0 +1,2482 @@
+[
+  {
+    "record": 0,
+    "kind": "invoke",
+    "code": 2,
+    "old_type": "UpdateLocationArg",
+    "source_role": "argument",
+    "hex": "300b0403000000800100040100",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      },
+      "locationInfo": {
+        "roamingNumber": {
+          "octets": "00"
+        }
+      },
+      "vlr-Number": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 1,
+    "kind": "invoke",
+    "code": 2,
+    "old_type": "UpdateLocationArg",
+    "source_role": "argument",
+    "hex": "30200408000000000000000080090000000000000000000409000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "0000000000000000"
+      },
+      "locationInfo": {
+        "roamingNumber": {
+          "octets": "000000000000000000"
+        }
+      },
+      "vlr-Number": {
+        "octets": "000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 2,
+    "kind": "invoke",
+    "code": 2,
+    "old_type": "UpdateLocationArg",
+    "source_role": "argument",
+    "hex": "300b0403000000810100040100",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      },
+      "locationInfo": {
+        "msc-Number": {
+          "octets": "00"
+        }
+      },
+      "vlr-Number": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 3,
+    "kind": "result",
+    "code": 2,
+    "old_type": "UpdateLocationRes",
+    "source_role": "result",
+    "hex": "040100",
+    "confirmed": true,
+    "expected": {
+      "hlr-Number": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 4,
+    "kind": "result",
+    "code": 2,
+    "old_type": "UpdateLocationRes",
+    "source_role": "result",
+    "hex": "0409000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "hlr-Number": {
+        "octets": "000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 5,
+    "kind": "result",
+    "code": 2,
+    "old_type": "UpdateLocationRes",
+    "source_role": "result",
+    "hex": "3003040100",
+    "confirmed": true,
+    "expected": {
+      "extensibleUpdateLocationRes": {
+        "hlr-Number": {
+          "octets": "00"
+        }
+      }
+    }
+  },
+  {
+    "record": 6,
+    "kind": "invoke",
+    "code": 3,
+    "old_type": "CancelLocationArg",
+    "source_role": "argument",
+    "hex": "0403000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      }
+    }
+  },
+  {
+    "record": 7,
+    "kind": "invoke",
+    "code": 3,
+    "old_type": "CancelLocationArg",
+    "source_role": "argument",
+    "hex": "04080000000000000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "0000000000000000"
+      }
+    }
+  },
+  {
+    "record": 8,
+    "kind": "invoke",
+    "code": 3,
+    "old_type": "CancelLocationArg",
+    "source_role": "argument",
+    "hex": "300b0403000000040400000000",
+    "confirmed": true,
+    "expected": {
+      "imsi-WithLMSI": {
+        "imsi": {
+          "octets": "000000"
+        },
+        "lmsi": {
+          "octets": "00000000"
+        }
+      }
+    }
+  },
+  {
+    "record": 9,
+    "kind": "invoke",
+    "code": 67,
+    "old_type": "PurgeMS-Arg",
+    "source_role": "argument",
+    "hex": "30080403000000040100",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      },
+      "vlr-Number": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 10,
+    "kind": "invoke",
+    "code": 67,
+    "old_type": "PurgeMS-Arg",
+    "source_role": "argument",
+    "hex": "3015040800000000000000000409000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "0000000000000000"
+      },
+      "vlr-Number": {
+        "octets": "000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 11,
+    "kind": "invoke",
+    "code": 55,
+    "old_type": "TMSI",
+    "source_role": "argument",
+    "hex": "040100",
+    "confirmed": true,
+    "expected": {
+      "octets": "00"
+    }
+  },
+  {
+    "record": 12,
+    "kind": "invoke",
+    "code": 55,
+    "old_type": "TMSI",
+    "source_role": "argument",
+    "hex": "040400000000",
+    "confirmed": true,
+    "expected": {
+      "octets": "00000000"
+    }
+  },
+  {
+    "record": 13,
+    "kind": "result",
+    "code": 55,
+    "old_type": "SendIdentificationRes",
+    "source_role": "result",
+    "hex": "30050403000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      }
+    }
+  },
+  {
+    "record": 14,
+    "kind": "result",
+    "code": 55,
+    "old_type": "SendIdentificationRes",
+    "source_role": "result",
+    "hex": "300a04080000000000000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "0000000000000000"
+      }
+    }
+  },
+  {
+    "record": 15,
+    "kind": "invoke",
+    "code": 68,
+    "old_type": "PrepareHO-Arg",
+    "source_role": "argument",
+    "hex": "3000",
+    "confirmed": true,
+    "expected": {}
+  },
+  {
+    "record": 16,
+    "kind": "result",
+    "code": 68,
+    "old_type": "PrepareHO-Res",
+    "source_role": "result",
+    "hex": "3000",
+    "confirmed": true,
+    "expected": {}
+  },
+  {
+    "record": 17,
+    "kind": "invoke",
+    "code": 29,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "30060a0101040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 1
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 18,
+    "kind": "invoke",
+    "code": 29,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "3081ce0a01010481c80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 1
+      },
+      "signalInfo": {
+        "octets": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 19,
+    "kind": "invoke",
+    "code": 29,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "30060a0102040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 2
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 20,
+    "kind": "invoke",
+    "code": 29,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "30060a0103040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 3
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 21,
+    "kind": "invoke",
+    "code": 33,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "30060a0101040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 1
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 22,
+    "kind": "invoke",
+    "code": 33,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "3081ce0a01010481c80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 1
+      },
+      "signalInfo": {
+        "octets": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 23,
+    "kind": "invoke",
+    "code": 33,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "30060a0102040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 2
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 24,
+    "kind": "invoke",
+    "code": 33,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "30060a0103040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 3
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 25,
+    "kind": "invoke",
+    "code": 34,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "30060a0101040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 1
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 26,
+    "kind": "invoke",
+    "code": 34,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "3081ce0a01010481c80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 1
+      },
+      "signalInfo": {
+        "octets": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 27,
+    "kind": "invoke",
+    "code": 34,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "30060a0102040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 2
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 28,
+    "kind": "invoke",
+    "code": 34,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "argument",
+    "hex": "30060a0103040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 3
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 29,
+    "kind": "invoke",
+    "code": 69,
+    "old_type": "PrepareSubsequentHO-Arg",
+    "source_role": "argument",
+    "hex": "30120405000000000004010030060a0101040100",
+    "confirmed": true,
+    "expected": {
+      "bss-APDU": {
+        "protocolId": {
+          "integer": 1
+        },
+        "signalInfo": {
+          "octets": "00"
+        }
+      },
+      "targetCellId": {
+        "octets": "0000000000"
+      },
+      "targetMSC-Number": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 30,
+    "kind": "invoke",
+    "code": 69,
+    "old_type": "PrepareSubsequentHO-Arg",
+    "source_role": "argument",
+    "hex": "3081e504070000000000000004090000000000000000003081ce0a01010481c80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "bss-APDU": {
+        "protocolId": {
+          "integer": 1
+        },
+        "signalInfo": {
+          "octets": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "targetCellId": {
+        "octets": "00000000000000"
+      },
+      "targetMSC-Number": {
+        "octets": "000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 31,
+    "kind": "invoke",
+    "code": 69,
+    "old_type": "PrepareSubsequentHO-Arg",
+    "source_role": "argument",
+    "hex": "30120405000000000004010030060a0102040100",
+    "confirmed": true,
+    "expected": {
+      "bss-APDU": {
+        "protocolId": {
+          "integer": 2
+        },
+        "signalInfo": {
+          "octets": "00"
+        }
+      },
+      "targetCellId": {
+        "octets": "0000000000"
+      },
+      "targetMSC-Number": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 32,
+    "kind": "invoke",
+    "code": 69,
+    "old_type": "PrepareSubsequentHO-Arg",
+    "source_role": "argument",
+    "hex": "30120405000000000004010030060a0103040100",
+    "confirmed": true,
+    "expected": {
+      "bss-APDU": {
+        "protocolId": {
+          "integer": 3
+        },
+        "signalInfo": {
+          "octets": "00"
+        }
+      },
+      "targetCellId": {
+        "octets": "0000000000"
+      },
+      "targetMSC-Number": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 33,
+    "kind": "result",
+    "code": 69,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "result",
+    "hex": "30060a0101040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 1
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 34,
+    "kind": "result",
+    "code": 69,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "result",
+    "hex": "3081ce0a01010481c80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 1
+      },
+      "signalInfo": {
+        "octets": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 35,
+    "kind": "result",
+    "code": 69,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "result",
+    "hex": "30060a0102040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 2
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 36,
+    "kind": "result",
+    "code": 69,
+    "old_type": "ExternalSignalInfo",
+    "source_role": "result",
+    "hex": "30060a0103040100",
+    "confirmed": true,
+    "expected": {
+      "protocolId": {
+        "integer": 3
+      },
+      "signalInfo": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 37,
+    "kind": "invoke",
+    "code": 56,
+    "old_type": "SendAuthenticationInfoArg",
+    "source_role": "argument",
+    "hex": "0403000000",
+    "confirmed": true,
+    "expected": {
+      "octets": "000000"
+    }
+  },
+  {
+    "record": 38,
+    "kind": "invoke",
+    "code": 56,
+    "old_type": "SendAuthenticationInfoArg",
+    "source_role": "argument",
+    "hex": "04080000000000000000",
+    "confirmed": true,
+    "expected": {
+      "octets": "0000000000000000"
+    }
+  },
+  {
+    "record": 39,
+    "kind": "result",
+    "code": 56,
+    "old_type": "SendAuthenticationInfoRes",
+    "source_role": "result",
+    "hex": "3024302204100000000000000000000000000000000004040000000004080000000000000000",
+    "confirmed": true,
+    "expected": [
+      {
+        "kc": {
+          "octets": "0000000000000000"
+        },
+        "rand": {
+          "octets": "00000000000000000000000000000000"
+        },
+        "sres": {
+          "octets": "00000000"
+        }
+      }
+    ]
+  },
+  {
+    "record": 40,
+    "kind": "result",
+    "code": 56,
+    "old_type": "SendAuthenticationInfoRes",
+    "source_role": "result",
+    "hex": "3081b4302204100000000000000000000000000000000004040000000004080000000000000000302204100000000000000000000000000000000004040000000004080000000000000000302204100000000000000000000000000000000004040000000004080000000000000000302204100000000000000000000000000000000004040000000004080000000000000000302204100000000000000000000000000000000004040000000004080000000000000000",
+    "confirmed": true,
+    "expected": [
+      {
+        "kc": {
+          "octets": "0000000000000000"
+        },
+        "rand": {
+          "octets": "00000000000000000000000000000000"
+        },
+        "sres": {
+          "octets": "00000000"
+        }
+      },
+      {
+        "kc": {
+          "octets": "0000000000000000"
+        },
+        "rand": {
+          "octets": "00000000000000000000000000000000"
+        },
+        "sres": {
+          "octets": "00000000"
+        }
+      },
+      {
+        "kc": {
+          "octets": "0000000000000000"
+        },
+        "rand": {
+          "octets": "00000000000000000000000000000000"
+        },
+        "sres": {
+          "octets": "00000000"
+        }
+      },
+      {
+        "kc": {
+          "octets": "0000000000000000"
+        },
+        "rand": {
+          "octets": "00000000000000000000000000000000"
+        },
+        "sres": {
+          "octets": "00000000"
+        }
+      },
+      {
+        "kc": {
+          "octets": "0000000000000000"
+        },
+        "rand": {
+          "octets": "00000000000000000000000000000000"
+        },
+        "sres": {
+          "octets": "00000000"
+        }
+      }
+    ]
+  },
+  {
+    "record": 41,
+    "kind": "invoke",
+    "code": 43,
+    "old_type": "IMEI",
+    "source_role": "argument",
+    "hex": "04080000000000000000",
+    "confirmed": true,
+    "expected": {
+      "octets": "0000000000000000"
+    }
+  },
+  {
+    "record": 42,
+    "kind": "result",
+    "code": 43,
+    "old_type": "EquipmentStatus",
+    "source_role": "result",
+    "hex": "0a0100",
+    "confirmed": true,
+    "expected": {
+      "integer": 0
+    }
+  },
+  {
+    "record": 43,
+    "kind": "result",
+    "code": 43,
+    "old_type": "EquipmentStatus",
+    "source_role": "result",
+    "hex": "0a0101",
+    "confirmed": true,
+    "expected": {
+      "integer": 1
+    }
+  },
+  {
+    "record": 44,
+    "kind": "result",
+    "code": 43,
+    "old_type": "EquipmentStatus",
+    "source_role": "result",
+    "hex": "0a0102",
+    "confirmed": true,
+    "expected": {
+      "integer": 2
+    }
+  },
+  {
+    "record": 45,
+    "kind": "invoke",
+    "code": 7,
+    "old_type": "InsertSubscriberDataArg",
+    "source_role": "argument",
+    "hex": "3000",
+    "confirmed": true,
+    "expected": {}
+  },
+  {
+    "record": 46,
+    "kind": "result",
+    "code": 7,
+    "old_type": "InsertSubscriberDataRes",
+    "source_role": "result",
+    "hex": "3000",
+    "confirmed": true,
+    "expected": {}
+  },
+  {
+    "record": 47,
+    "kind": "invoke",
+    "code": 8,
+    "old_type": "DeleteSubscriberDataArg",
+    "source_role": "argument",
+    "hex": "30058003000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      }
+    }
+  },
+  {
+    "record": 48,
+    "kind": "invoke",
+    "code": 8,
+    "old_type": "DeleteSubscriberDataArg",
+    "source_role": "argument",
+    "hex": "300a80080000000000000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "0000000000000000"
+      }
+    }
+  },
+  {
+    "record": 49,
+    "kind": "result",
+    "code": 8,
+    "old_type": "DeleteSubscriberDataRes",
+    "source_role": "result",
+    "hex": "3000",
+    "confirmed": true,
+    "expected": {}
+  },
+  {
+    "record": 50,
+    "kind": "invoke",
+    "code": 37,
+    "old_type": "ResetArg",
+    "source_role": "argument",
+    "hex": "3003040100",
+    "confirmed": true,
+    "expected": {
+      "hlr-Number": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 51,
+    "kind": "invoke",
+    "code": 37,
+    "old_type": "ResetArg",
+    "source_role": "argument",
+    "hex": "300b0409000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "hlr-Number": {
+        "octets": "000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 52,
+    "kind": "invoke",
+    "code": 57,
+    "old_type": "RestoreDataArg",
+    "source_role": "argument",
+    "hex": "30050403000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      }
+    }
+  },
+  {
+    "record": 53,
+    "kind": "invoke",
+    "code": 57,
+    "old_type": "RestoreDataArg",
+    "source_role": "argument",
+    "hex": "300a04080000000000000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "0000000000000000"
+      }
+    }
+  },
+  {
+    "record": 54,
+    "kind": "result",
+    "code": 57,
+    "old_type": "RestoreDataRes",
+    "source_role": "result",
+    "hex": "3003040100",
+    "confirmed": true,
+    "expected": {
+      "hlr-Number": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 55,
+    "kind": "result",
+    "code": 57,
+    "old_type": "RestoreDataRes",
+    "source_role": "result",
+    "hex": "300b0409000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "hlr-Number": {
+        "octets": "000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 56,
+    "kind": "invoke",
+    "code": 50,
+    "old_type": "ActivateTraceModeArg",
+    "source_role": "argument",
+    "hex": "3006810100820100",
+    "confirmed": true,
+    "expected": {
+      "traceReference": {
+        "octets": "00"
+      },
+      "traceType": {
+        "integer": 0
+      }
+    }
+  },
+  {
+    "record": 57,
+    "kind": "invoke",
+    "code": 50,
+    "old_type": "ActivateTraceModeArg",
+    "source_role": "argument",
+    "hex": "300881020000820200ff",
+    "confirmed": true,
+    "expected": {
+      "traceReference": {
+        "octets": "0000"
+      },
+      "traceType": {
+        "integer": 255
+      }
+    }
+  },
+  {
+    "record": 58,
+    "kind": "invoke",
+    "code": 51,
+    "old_type": "DeactivateTraceModeArg",
+    "source_role": "argument",
+    "hex": "3003810100",
+    "confirmed": true,
+    "expected": {
+      "traceReference": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 59,
+    "kind": "invoke",
+    "code": 51,
+    "old_type": "DeactivateTraceModeArg",
+    "source_role": "argument",
+    "hex": "300481020000",
+    "confirmed": true,
+    "expected": {
+      "traceReference": {
+        "octets": "0000"
+      }
+    }
+  },
+  {
+    "record": 60,
+    "kind": "invoke",
+    "code": 58,
+    "old_type": "ISDN-AddressString",
+    "source_role": "argument",
+    "hex": "040100",
+    "confirmed": true,
+    "expected": {
+      "octets": "00"
+    }
+  },
+  {
+    "record": 61,
+    "kind": "invoke",
+    "code": 58,
+    "old_type": "ISDN-AddressString",
+    "source_role": "argument",
+    "hex": "0409000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "octets": "000000000000000000"
+    }
+  },
+  {
+    "record": 62,
+    "kind": "result",
+    "code": 58,
+    "old_type": "IMSI",
+    "source_role": "result",
+    "hex": "0403000000",
+    "confirmed": true,
+    "expected": {
+      "octets": "000000"
+    }
+  },
+  {
+    "record": 63,
+    "kind": "result",
+    "code": 58,
+    "old_type": "IMSI",
+    "source_role": "result",
+    "hex": "04080000000000000000",
+    "confirmed": true,
+    "expected": {
+      "octets": "0000000000000000"
+    }
+  },
+  {
+    "record": 64,
+    "kind": "invoke",
+    "code": 22,
+    "old_type": "SendRoutingInfoArg",
+    "source_role": "argument",
+    "hex": "3003800100",
+    "confirmed": true,
+    "expected": {
+      "msisdn": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 65,
+    "kind": "invoke",
+    "code": 22,
+    "old_type": "SendRoutingInfoArg",
+    "source_role": "argument",
+    "hex": "300b8009000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "msisdn": {
+        "octets": "000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 66,
+    "kind": "result",
+    "code": 22,
+    "old_type": "SendRoutingInfoRes",
+    "source_role": "result",
+    "hex": "30080403000000040100",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      },
+      "routingInfo": {
+        "roamingNumber": {
+          "octets": "00"
+        }
+      }
+    }
+  },
+  {
+    "record": 67,
+    "kind": "result",
+    "code": 22,
+    "old_type": "SendRoutingInfoRes",
+    "source_role": "result",
+    "hex": "3015040800000000000000000409000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "0000000000000000"
+      },
+      "routingInfo": {
+        "roamingNumber": {
+          "octets": "000000000000000000"
+        }
+      }
+    }
+  },
+  {
+    "record": 68,
+    "kind": "result",
+    "code": 22,
+    "old_type": "SendRoutingInfoRes",
+    "source_role": "result",
+    "hex": "300704030000003000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      },
+      "routingInfo": {
+        "forwardingData": {}
+      }
+    }
+  },
+  {
+    "record": 69,
+    "kind": "invoke",
+    "code": 4,
+    "old_type": "ProvideRoamingNumberArg",
+    "source_role": "argument",
+    "hex": "30058003000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      }
+    }
+  },
+  {
+    "record": 70,
+    "kind": "invoke",
+    "code": 4,
+    "old_type": "ProvideRoamingNumberArg",
+    "source_role": "argument",
+    "hex": "300a80080000000000000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "0000000000000000"
+      }
+    }
+  },
+  {
+    "record": 71,
+    "kind": "result",
+    "code": 4,
+    "old_type": "ISDN-AddressString",
+    "source_role": "result",
+    "hex": "040100",
+    "confirmed": true,
+    "expected": {
+      "octets": "00"
+    }
+  },
+  {
+    "record": 72,
+    "kind": "result",
+    "code": 4,
+    "old_type": "ISDN-AddressString",
+    "source_role": "result",
+    "hex": "0409000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "octets": "000000000000000000"
+    }
+  },
+  {
+    "record": 73,
+    "kind": "invoke",
+    "code": 10,
+    "old_type": "RegisterSS-Arg",
+    "source_role": "argument",
+    "hex": "3003040100",
+    "confirmed": true,
+    "expected": {
+      "ss-Code": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 74,
+    "kind": "result",
+    "code": 10,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a00430023000",
+    "confirmed": true,
+    "expected": {
+      "forwardingInfo": {
+        "forwardingFeatureList": [
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 75,
+    "kind": "result",
+    "code": 10,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a01c301a3000300030003000300030003000300030003000300030003000",
+    "confirmed": true,
+    "expected": {
+      "forwardingInfo": {
+        "forwardingFeatureList": [
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 76,
+    "kind": "result",
+    "code": 10,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a10430023000",
+    "confirmed": true,
+    "expected": {
+      "callBarringInfo": {
+        "callBarringFeatureList": [
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 77,
+    "kind": "result",
+    "code": 10,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a210300e300c0201000404000000000a0100",
+    "confirmed": true,
+    "expected": {
+      "cug-Info": {
+        "cug-SubscriptionList": [
+          {
+            "cug-Index": {
+              "integer": 0
+            },
+            "cug-Interlock": {
+              "octets": "00000000"
+            },
+            "intraCUG-Options": {
+              "integer": 0
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "record": 78,
+    "kind": "invoke",
+    "code": 11,
+    "old_type": "SS-ForBS-Code",
+    "source_role": "argument",
+    "hex": "3003040100",
+    "confirmed": true,
+    "expected": {
+      "ss-Code": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 79,
+    "kind": "result",
+    "code": 11,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a00430023000",
+    "confirmed": true,
+    "expected": {
+      "forwardingInfo": {
+        "forwardingFeatureList": [
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 80,
+    "kind": "result",
+    "code": 11,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a01c301a3000300030003000300030003000300030003000300030003000",
+    "confirmed": true,
+    "expected": {
+      "forwardingInfo": {
+        "forwardingFeatureList": [
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 81,
+    "kind": "result",
+    "code": 11,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a10430023000",
+    "confirmed": true,
+    "expected": {
+      "callBarringInfo": {
+        "callBarringFeatureList": [
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 82,
+    "kind": "result",
+    "code": 11,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a210300e300c0201000404000000000a0100",
+    "confirmed": true,
+    "expected": {
+      "cug-Info": {
+        "cug-SubscriptionList": [
+          {
+            "cug-Index": {
+              "integer": 0
+            },
+            "cug-Interlock": {
+              "octets": "00000000"
+            },
+            "intraCUG-Options": {
+              "integer": 0
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "record": 83,
+    "kind": "invoke",
+    "code": 12,
+    "old_type": "SS-ForBS-Code",
+    "source_role": "argument",
+    "hex": "3003040100",
+    "confirmed": true,
+    "expected": {
+      "ss-Code": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 84,
+    "kind": "result",
+    "code": 12,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a00430023000",
+    "confirmed": true,
+    "expected": {
+      "forwardingInfo": {
+        "forwardingFeatureList": [
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 85,
+    "kind": "result",
+    "code": 12,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a01c301a3000300030003000300030003000300030003000300030003000",
+    "confirmed": true,
+    "expected": {
+      "forwardingInfo": {
+        "forwardingFeatureList": [
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 86,
+    "kind": "result",
+    "code": 12,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a10430023000",
+    "confirmed": true,
+    "expected": {
+      "callBarringInfo": {
+        "callBarringFeatureList": [
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 87,
+    "kind": "result",
+    "code": 12,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a210300e300c0201000404000000000a0100",
+    "confirmed": true,
+    "expected": {
+      "cug-Info": {
+        "cug-SubscriptionList": [
+          {
+            "cug-Index": {
+              "integer": 0
+            },
+            "cug-Interlock": {
+              "octets": "00000000"
+            },
+            "intraCUG-Options": {
+              "integer": 0
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "record": 88,
+    "kind": "invoke",
+    "code": 13,
+    "old_type": "SS-ForBS-Code",
+    "source_role": "argument",
+    "hex": "3003040100",
+    "confirmed": true,
+    "expected": {
+      "ss-Code": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 89,
+    "kind": "result",
+    "code": 13,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a00430023000",
+    "confirmed": true,
+    "expected": {
+      "forwardingInfo": {
+        "forwardingFeatureList": [
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 90,
+    "kind": "result",
+    "code": 13,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a01c301a3000300030003000300030003000300030003000300030003000",
+    "confirmed": true,
+    "expected": {
+      "forwardingInfo": {
+        "forwardingFeatureList": [
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 91,
+    "kind": "result",
+    "code": 13,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a10430023000",
+    "confirmed": true,
+    "expected": {
+      "callBarringInfo": {
+        "callBarringFeatureList": [
+          {}
+        ]
+      }
+    }
+  },
+  {
+    "record": 92,
+    "kind": "result",
+    "code": 13,
+    "old_type": "SS-Info",
+    "source_role": "result",
+    "hex": "a210300e300c0201000404000000000a0100",
+    "confirmed": true,
+    "expected": {
+      "cug-Info": {
+        "cug-SubscriptionList": [
+          {
+            "cug-Index": {
+              "integer": 0
+            },
+            "cug-Interlock": {
+              "octets": "00000000"
+            },
+            "intraCUG-Options": {
+              "integer": 0
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "record": 93,
+    "kind": "invoke",
+    "code": 14,
+    "old_type": "SS-ForBS-Code",
+    "source_role": "argument",
+    "hex": "3003040100",
+    "confirmed": true,
+    "expected": {
+      "ss-Code": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 94,
+    "kind": "result",
+    "code": 14,
+    "old_type": "InterrogateSS-Res",
+    "source_role": "result",
+    "hex": "800100",
+    "confirmed": true,
+    "expected": {
+      "ss-Status": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 95,
+    "kind": "result",
+    "code": 14,
+    "old_type": "InterrogateSS-Res",
+    "source_role": "result",
+    "hex": "810100",
+    "confirmed": true,
+    "expected": {
+      "forwardedToNumber": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 96,
+    "kind": "result",
+    "code": 14,
+    "old_type": "InterrogateSS-Res",
+    "source_role": "result",
+    "hex": "a203820100",
+    "confirmed": true,
+    "expected": {
+      "basicServiceGroupList": [
+        {
+          "bearerService": {
+            "octets": "00"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "record": 97,
+    "kind": "invoke",
+    "code": 59,
+    "old_type": "USSD-Arg",
+    "source_role": "argument",
+    "hex": "3006040100040100",
+    "confirmed": true,
+    "expected": {
+      "ussd-DataCodingScheme": {
+        "octets": "00"
+      },
+      "ussd-String": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 98,
+    "kind": "invoke",
+    "code": 59,
+    "old_type": "USSD-Arg",
+    "source_role": "argument",
+    "hex": "3081a60401000481a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "ussd-DataCodingScheme": {
+        "octets": "00"
+      },
+      "ussd-String": {
+        "octets": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 99,
+    "kind": "result",
+    "code": 59,
+    "old_type": "USSD-Res",
+    "source_role": "result",
+    "hex": "3006040100040100",
+    "confirmed": true,
+    "expected": {
+      "ussd-DataCodingScheme": {
+        "octets": "00"
+      },
+      "ussd-String": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 100,
+    "kind": "result",
+    "code": 59,
+    "old_type": "USSD-Res",
+    "source_role": "result",
+    "hex": "3081a60401000481a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "ussd-DataCodingScheme": {
+        "octets": "00"
+      },
+      "ussd-String": {
+        "octets": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 101,
+    "kind": "invoke",
+    "code": 60,
+    "old_type": "USSD-Arg",
+    "source_role": "argument",
+    "hex": "3006040100040100",
+    "confirmed": true,
+    "expected": {
+      "ussd-DataCodingScheme": {
+        "octets": "00"
+      },
+      "ussd-String": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 102,
+    "kind": "invoke",
+    "code": 60,
+    "old_type": "USSD-Arg",
+    "source_role": "argument",
+    "hex": "3081a60401000481a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "ussd-DataCodingScheme": {
+        "octets": "00"
+      },
+      "ussd-String": {
+        "octets": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 103,
+    "kind": "result",
+    "code": 60,
+    "old_type": "USSD-Res",
+    "source_role": "result",
+    "hex": "3006040100040100",
+    "confirmed": true,
+    "expected": {
+      "ussd-DataCodingScheme": {
+        "octets": "00"
+      },
+      "ussd-String": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 104,
+    "kind": "result",
+    "code": 60,
+    "old_type": "USSD-Res",
+    "source_role": "result",
+    "hex": "3081a60401000481a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "ussd-DataCodingScheme": {
+        "octets": "00"
+      },
+      "ussd-String": {
+        "octets": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 105,
+    "kind": "invoke",
+    "code": 61,
+    "old_type": "USSD-Arg",
+    "source_role": "argument",
+    "hex": "3006040100040100",
+    "confirmed": true,
+    "expected": {
+      "ussd-DataCodingScheme": {
+        "octets": "00"
+      },
+      "ussd-String": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 106,
+    "kind": "invoke",
+    "code": 61,
+    "old_type": "USSD-Arg",
+    "source_role": "argument",
+    "hex": "3081a60401000481a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "ussd-DataCodingScheme": {
+        "octets": "00"
+      },
+      "ussd-String": {
+        "octets": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 107,
+    "kind": "invoke",
+    "code": 17,
+    "old_type": "SS-Code",
+    "source_role": "argument",
+    "hex": "040100",
+    "confirmed": true,
+    "expected": {
+      "octets": "00"
+    }
+  },
+  {
+    "record": 108,
+    "kind": "result",
+    "code": 17,
+    "old_type": "Password",
+    "source_role": "result",
+    "hex": "120430303030",
+    "confirmed": true,
+    "expected": "0000"
+  },
+  {
+    "record": 109,
+    "kind": "invoke",
+    "code": 18,
+    "old_type": "GuidanceInfo",
+    "source_role": "argument",
+    "hex": "0a0100",
+    "confirmed": true,
+    "expected": {
+      "integer": 0
+    }
+  },
+  {
+    "record": 110,
+    "kind": "invoke",
+    "code": 18,
+    "old_type": "GuidanceInfo",
+    "source_role": "argument",
+    "hex": "0a0101",
+    "confirmed": true,
+    "expected": {
+      "integer": 1
+    }
+  },
+  {
+    "record": 111,
+    "kind": "invoke",
+    "code": 18,
+    "old_type": "GuidanceInfo",
+    "source_role": "argument",
+    "hex": "0a0102",
+    "confirmed": true,
+    "expected": {
+      "integer": 2
+    }
+  },
+  {
+    "record": 112,
+    "kind": "result",
+    "code": 18,
+    "old_type": "Password",
+    "source_role": "result",
+    "hex": "120430303030",
+    "confirmed": true,
+    "expected": "0000"
+  },
+  {
+    "record": 113,
+    "kind": "invoke",
+    "code": 45,
+    "old_type": "RoutingInfoForSM-Arg",
+    "source_role": "argument",
+    "hex": "3009800100810100820100",
+    "confirmed": true,
+    "expected": {
+      "msisdn": {
+        "octets": "00"
+      },
+      "serviceCentreAddress": {
+        "octets": "00"
+      },
+      "sm-RP-PRI": false
+    }
+  },
+  {
+    "record": 114,
+    "kind": "invoke",
+    "code": 45,
+    "old_type": "RoutingInfoForSM-Arg",
+    "source_role": "argument",
+    "hex": "302480090000000000000000008101ff82140000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "msisdn": {
+        "octets": "000000000000000000"
+      },
+      "serviceCentreAddress": {
+        "octets": "0000000000000000000000000000000000000000"
+      },
+      "sm-RP-PRI": true
+    }
+  },
+  {
+    "record": 115,
+    "kind": "result",
+    "code": 45,
+    "old_type": "RoutingInfoForSM-Res",
+    "source_role": "result",
+    "hex": "300a0403000000a003800100",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      },
+      "locationInfoWithLMSI": {
+        "locationInfo": {
+          "roamingNumber": {
+            "octets": "00"
+          }
+        }
+      }
+    }
+  },
+  {
+    "record": 116,
+    "kind": "result",
+    "code": 45,
+    "old_type": "RoutingInfoForSM-Res",
+    "source_role": "result",
+    "hex": "301704080000000000000000a00b8009000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "0000000000000000"
+      },
+      "locationInfoWithLMSI": {
+        "locationInfo": {
+          "roamingNumber": {
+            "octets": "000000000000000000"
+          }
+        }
+      }
+    }
+  },
+  {
+    "record": 117,
+    "kind": "result",
+    "code": 45,
+    "old_type": "RoutingInfoForSM-Res",
+    "source_role": "result",
+    "hex": "300a0403000000a003810100",
+    "confirmed": true,
+    "expected": {
+      "imsi": {
+        "octets": "000000"
+      },
+      "locationInfoWithLMSI": {
+        "locationInfo": {
+          "msc-Number": {
+            "octets": "00"
+          }
+        }
+      }
+    }
+  },
+  {
+    "record": 118,
+    "kind": "invoke",
+    "code": 46,
+    "old_type": "ForwardSM-Arg",
+    "source_role": "argument",
+    "hex": "300b8003000000820100040100",
+    "confirmed": true,
+    "expected": {
+      "sm-RP-DA": {
+        "imsi": {
+          "octets": "000000"
+        }
+      },
+      "sm-RP-OA": {
+        "msisdn": {
+          "octets": "00"
+        }
+      },
+      "sm-RP-UI": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 119,
+    "kind": "invoke",
+    "code": 46,
+    "old_type": "ForwardSM-Arg",
+    "source_role": "argument",
+    "hex": "3081e08008000000000000000082090000000000000000000481c80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "sm-RP-DA": {
+        "imsi": {
+          "octets": "0000000000000000"
+        }
+      },
+      "sm-RP-OA": {
+        "msisdn": {
+          "octets": "000000000000000000"
+        }
+      },
+      "sm-RP-UI": {
+        "octets": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 120,
+    "kind": "invoke",
+    "code": 46,
+    "old_type": "ForwardSM-Arg",
+    "source_role": "argument",
+    "hex": "300c810400000000840100040100",
+    "confirmed": true,
+    "expected": {
+      "sm-RP-DA": {
+        "lmsi": {
+          "octets": "00000000"
+        }
+      },
+      "sm-RP-OA": {
+        "serviceCentreAddressOA": {
+          "octets": "00"
+        }
+      },
+      "sm-RP-UI": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 121,
+    "kind": "invoke",
+    "code": 46,
+    "old_type": "ForwardSM-Arg",
+    "source_role": "argument",
+    "hex": "30088301008500040100",
+    "confirmed": true,
+    "expected": {
+      "sm-RP-DA": {
+        "roamingNumber": {
+          "octets": "00"
+        }
+      },
+      "sm-RP-OA": {
+        "noSM-RP-OA": null
+      },
+      "sm-RP-UI": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 122,
+    "kind": "invoke",
+    "code": 47,
+    "old_type": "ReportSM-DeliveryStatusArg",
+    "source_role": "argument",
+    "hex": "3006040100040100",
+    "confirmed": true,
+    "expected": {
+      "msisdn": {
+        "octets": "00"
+      },
+      "serviceCentreAddress": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 123,
+    "kind": "invoke",
+    "code": 47,
+    "old_type": "ReportSM-DeliveryStatusArg",
+    "source_role": "argument",
+    "hex": "3021040900000000000000000004140000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "msisdn": {
+        "octets": "000000000000000000"
+      },
+      "serviceCentreAddress": {
+        "octets": "0000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 124,
+    "kind": "result",
+    "code": 47,
+    "old_type": "ISDN-AddressString",
+    "source_role": "result",
+    "hex": "040100",
+    "confirmed": true,
+    "expected": {
+      "octets": "00"
+    }
+  },
+  {
+    "record": 125,
+    "kind": "result",
+    "code": 47,
+    "old_type": "ISDN-AddressString",
+    "source_role": "result",
+    "hex": "0409000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "octets": "000000000000000000"
+    }
+  },
+  {
+    "record": 126,
+    "kind": "invoke",
+    "code": 64,
+    "old_type": "AlertServiceCentreArg",
+    "source_role": "argument",
+    "hex": "3006040100040100",
+    "confirmed": true,
+    "expected": {
+      "msisdn": {
+        "octets": "00"
+      },
+      "serviceCentreAddress": {
+        "octets": "00"
+      }
+    }
+  },
+  {
+    "record": 127,
+    "kind": "invoke",
+    "code": 64,
+    "old_type": "AlertServiceCentreArg",
+    "source_role": "argument",
+    "hex": "3021040900000000000000000004140000000000000000000000000000000000000000",
+    "confirmed": true,
+    "expected": {
+      "msisdn": {
+        "octets": "000000000000000000"
+      },
+      "serviceCentreAddress": {
+        "octets": "0000000000000000000000000000000000000000"
+      }
+    }
+  },
+  {
+    "record": 128,
+    "kind": "invoke",
+    "code": 63,
+    "old_type": "InformServiceCentreArg",
+    "source_role": "argument",
+    "hex": "3000",
+    "confirmed": true,
+    "expected": {}
+  },
+  {
+    "record": 129,
+    "kind": "invoke",
+    "code": 66,
+    "old_type": "ReadyForSM-Arg",
+    "source_role": "argument",
+    "hex": "300880030000000a0100",
+    "confirmed": true,
+    "expected": {
+      "alertReason": {
+        "integer": 0
+      },
+      "imsi": {
+        "octets": "000000"
+      }
+    }
+  },
+  {
+    "record": 130,
+    "kind": "invoke",
+    "code": 66,
+    "old_type": "ReadyForSM-Arg",
+    "source_role": "argument",
+    "hex": "300d800800000000000000000a0100",
+    "confirmed": true,
+    "expected": {
+      "alertReason": {
+        "integer": 0
+      },
+      "imsi": {
+        "octets": "0000000000000000"
+      }
+    }
+  },
+  {
+    "record": 131,
+    "kind": "invoke",
+    "code": 66,
+    "old_type": "ReadyForSM-Arg",
+    "source_role": "argument",
+    "hex": "300880030000000a0101",
+    "confirmed": true,
+    "expected": {
+      "alertReason": {
+        "integer": 1
+      },
+      "imsi": {
+        "octets": "000000"
+      }
+    }
+  },
+  {
+    "record": 132,
+    "kind": "error",
+    "code": 34,
+    "old_type": "NetworkResource",
+    "source_role": "parameter",
+    "hex": "0a0100",
+    "confirmed": true,
+    "expected": {
+      "integer": 0
+    }
+  },
+  {
+    "record": 133,
+    "kind": "error",
+    "code": 34,
+    "old_type": "NetworkResource",
+    "source_role": "parameter",
+    "hex": "0a0101",
+    "confirmed": true,
+    "expected": {
+      "integer": 1
+    }
+  },
+  {
+    "record": 134,
+    "kind": "error",
+    "code": 34,
+    "old_type": "NetworkResource",
+    "source_role": "parameter",
+    "hex": "0a0102",
+    "confirmed": true,
+    "expected": {
+      "integer": 2
+    }
+  },
+  {
+    "record": 135,
+    "kind": "error",
+    "code": 8,
+    "old_type": "RoamingNotAllowedCause",
+    "source_role": "parameter",
+    "hex": "0a0100",
+    "confirmed": true,
+    "expected": {
+      "integer": 0
+    }
+  },
+  {
+    "record": 136,
+    "kind": "error",
+    "code": 8,
+    "old_type": "RoamingNotAllowedCause",
+    "source_role": "parameter",
+    "hex": "0a0103",
+    "confirmed": true,
+    "expected": {
+      "integer": 3
+    }
+  },
+  {
+    "record": 137,
+    "kind": "error",
+    "code": 27,
+    "old_type": "BOOLEAN",
+    "source_role": "parameter",
+    "hex": "010100",
+    "confirmed": false
+  },
+  {
+    "record": 138,
+    "kind": "error",
+    "code": 27,
+    "old_type": "BOOLEAN",
+    "source_role": "parameter",
+    "hex": "0101ff",
+    "confirmed": false
+  },
+  {
+    "record": 139,
+    "kind": "error",
+    "code": 13,
+    "old_type": "CallBarringCause",
+    "source_role": "parameter",
+    "hex": "0a0100",
+    "confirmed": true,
+    "expected": {
+      "integer": 0
+    }
+  },
+  {
+    "record": 140,
+    "kind": "error",
+    "code": 13,
+    "old_type": "CallBarringCause",
+    "source_role": "parameter",
+    "hex": "0a0101",
+    "confirmed": true,
+    "expected": {
+      "integer": 1
+    }
+  },
+  {
+    "record": 141,
+    "kind": "error",
+    "code": 15,
+    "old_type": "CUG-RejectCause",
+    "source_role": "parameter",
+    "hex": "0a0100",
+    "confirmed": true,
+    "expected": {
+      "integer": 0
+    }
+  },
+  {
+    "record": 142,
+    "kind": "error",
+    "code": 15,
+    "old_type": "CUG-RejectCause",
+    "source_role": "parameter",
+    "hex": "0a0101",
+    "confirmed": true,
+    "expected": {
+      "integer": 1
+    }
+  },
+  {
+    "record": 143,
+    "kind": "error",
+    "code": 15,
+    "old_type": "CUG-RejectCause",
+    "source_role": "parameter",
+    "hex": "0a0105",
+    "confirmed": true,
+    "expected": {
+      "integer": 5
+    }
+  },
+  {
+    "record": 144,
+    "kind": "error",
+    "code": 17,
+    "old_type": "SS-Status",
+    "source_role": "parameter",
+    "hex": "040100",
+    "confirmed": true,
+    "expected": {
+      "octets": "00"
+    }
+  },
+  {
+    "record": 145,
+    "kind": "error",
+    "code": 19,
+    "old_type": "SS-SubscriptionOption",
+    "source_role": "parameter",
+    "hex": "820100",
+    "confirmed": true,
+    "expected": {
+      "cliRestrictionOption": {
+        "integer": 0
+      }
+    }
+  },
+  {
+    "record": 146,
+    "kind": "error",
+    "code": 19,
+    "old_type": "SS-SubscriptionOption",
+    "source_role": "parameter",
+    "hex": "810100",
+    "confirmed": true,
+    "expected": {
+      "overrideCategory": {
+        "integer": 0
+      }
+    }
+  },
+  {
+    "record": 147,
+    "kind": "error",
+    "code": 20,
+    "old_type": "SS-IncompatibilityCause",
+    "source_role": "parameter",
+    "hex": "3000",
+    "confirmed": true,
+    "expected": {}
+  },
+  {
+    "record": 148,
+    "kind": "error",
+    "code": 37,
+    "old_type": "PW-RegistrationFailureCause",
+    "source_role": "parameter",
+    "hex": "0a0100",
+    "confirmed": true,
+    "expected": {
+      "integer": 0
+    }
+  },
+  {
+    "record": 149,
+    "kind": "error",
+    "code": 37,
+    "old_type": "PW-RegistrationFailureCause",
+    "source_role": "parameter",
+    "hex": "0a0101",
+    "confirmed": true,
+    "expected": {
+      "integer": 1
+    }
+  },
+  {
+    "record": 150,
+    "kind": "error",
+    "code": 37,
+    "old_type": "PW-RegistrationFailureCause",
+    "source_role": "parameter",
+    "hex": "0a0102",
+    "confirmed": true,
+    "expected": {
+      "integer": 2
+    }
+  },
+  {
+    "record": 151,
+    "kind": "error",
+    "code": 32,
+    "old_type": "SM-DeliveryFailureCause",
+    "source_role": "parameter",
+    "hex": "30030a0100",
+    "confirmed": true,
+    "expected": {
+      "sm-DeliveryFailureCauseWithDiagnostic": {
+        "sm-EnumeratedDeliveryFailureCause": {
+          "integer": 0
+        }
+      }
+    }
+  },
+  {
+    "record": 152,
+    "kind": "error",
+    "code": 32,
+    "old_type": "SM-DeliveryFailureCause",
+    "source_role": "parameter",
+    "hex": "0a0100",
+    "confirmed": true,
+    "expected": {
+      "sm-EnumeratedDeliveryFailureCause": {
+        "integer": 0
+      }
+    }
+  }
+]

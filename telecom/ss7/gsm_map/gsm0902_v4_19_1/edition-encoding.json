@@ -1,0 +1,112 @@
+[
+  {
+    "id": "encoding/short-definite",
+    "module": "MAP-CommonDataTypes",
+    "type": "IMSI",
+    "hex": "048103000000",
+    "valid": false,
+    "tolerant": true,
+    "family": "profile",
+    "source": "GSM 09.02 V4.19.1 \u00a714.1.1 (ETS 300 599 ed.9); short definite length below 128"
+  },
+  {
+    "id": "encoding/minimum-long",
+    "module": "MAP-SS-DataTypes",
+    "type": "USSD-String",
+    "hex": "048200800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "valid": false,
+    "tolerant": true,
+    "family": "profile",
+    "source": "GSM 09.02 V4.19.1 \u00a714.1.1 (ETS 300 599 ed.9); minimum length octets"
+  },
+  {
+    "id": "encoding/primitive-octets",
+    "module": "MAP-CommonDataTypes",
+    "type": "IMSI",
+    "hex": "24050403000000",
+    "valid": false,
+    "tolerant": true,
+    "family": "profile",
+    "source": "GSM 09.02 V4.19.1 \u00a714.1.1 (ETS 300 599 ed.9); primitive OCTET STRING"
+  },
+  {
+    "id": "encoding/primitive-bits",
+    "module": "MAP-MS-DataTypes",
+    "type": "ODB-GeneralData",
+    "hex": "230403020280",
+    "valid": false,
+    "tolerant": true,
+    "family": "profile",
+    "source": "GSM 09.02 V4.19.1 \u00a714.1.1 (ETS 300 599 ed.9); primitive BIT STRING"
+  },
+  {
+    "id": "encoding/empty-constructor",
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-AcceptInfo",
+    "hex": "3000",
+    "valid": true,
+    "tolerant": false,
+    "family": "encoding",
+    "source": "GSM 09.02 V4.19.1 \u00a714.1.1 (ETS 300 599 ed.9); permitted empty constructor"
+  },
+  {
+    "id": "encoding/indefinite-constructor",
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-AcceptInfo",
+    "hex": "30800000",
+    "valid": true,
+    "tolerant": false,
+    "family": "encoding",
+    "source": "X.209 (11/1988) \u00a7\u00a76.1.2,6.3.4,6.5; constructed indefinite with EOC"
+  },
+  {
+    "id": "encoding/constructed-character",
+    "module": "MAP-SS-DataTypes",
+    "type": "SS-UserData",
+    "hex": "3603040130",
+    "valid": true,
+    "tolerant": false,
+    "family": "encoding",
+    "source": "X.209 (11/1988) \u00a7\u00a723.1\u201323.5,Table 2; constructed IA5String with OCTET STRING segment"
+  },
+  {
+    "id": "encoding/bit-unused-count",
+    "module": "MAP-MS-DataTypes",
+    "type": "ODB-GeneralData",
+    "hex": "03020800",
+    "valid": false,
+    "tolerant": false,
+    "family": "encoding",
+    "source": "X.209 (11/1988) \u00a711.2.2; unused-bit count at most seven"
+  },
+  {
+    "id": "encoding/integer-minimal",
+    "module": "MobileDomainDefinitions",
+    "type": "CommonComponentId",
+    "hex": "02020001",
+    "valid": false,
+    "tolerant": false,
+    "family": "encoding",
+    "source": "X.209 (11/1988) \u00a78.3; minimum integer contents"
+  },
+  {
+    "id": "encoding/enumeration-minimal",
+    "module": "MAP-ER-DataTypes",
+    "type": "RoamingNotAllowedCause",
+    "hex": "0a020000",
+    "valid": false,
+    "tolerant": false,
+    "family": "encoding",
+    "source": "X.209 (11/1988) \u00a7\u00a78.3,9.1; ENUMERATED uses minimum INTEGER contents"
+  },
+  {
+    "id": "encoding/missing-eoc",
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-AcceptInfo",
+    "hex": "3080",
+    "valid": false,
+    "tolerant": false,
+    "family": "encoding",
+    "source": "X.209 (11/1988) \u00a7\u00a76.1.2,6.3.4,6.5; missing EOC"
+  }
+]

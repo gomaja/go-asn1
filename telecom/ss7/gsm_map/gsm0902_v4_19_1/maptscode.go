@@ -1,0 +1,109 @@
+// Code generated from ASN.1 module "MAP-TS-Code". DO NOT EDIT.
+
+package gsm0902_v4_19_1
+
+import (
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
+)
+
+// Ensure imports are used.
+var (
+	_ runtime.BitString
+	_ = ber.EncodeTLV
+	_ = tag.ClassUniversal
+)
+
+const (
+
+	// AllTeleservices is the octet string constant for allTeleservices.
+	AllTeleservices = "\x00"
+
+	// AllSpeechTransmissionServices is the octet string constant for allSpeechTransmissionServices.
+	AllSpeechTransmissionServices = "\x10"
+
+	// Telephony is the octet string constant for telephony.
+	Telephony = "\x11"
+
+	// EmergencyCalls is the octet string constant for emergencyCalls.
+	EmergencyCalls = "\x12"
+
+	// AllShortMessageServices is the octet string constant for allShortMessageServices.
+	AllShortMessageServices = "\x20"
+
+	// ShortMessageMTPP is the octet string constant for shortMessageMT-PP.
+	ShortMessageMTPP = "\x21"
+
+	// ShortMessageMOPP is the octet string constant for shortMessageMO-PP.
+	ShortMessageMOPP = "\x22"
+
+	// AllFacsimileTransmissionServices is the octet string constant for allFacsimileTransmissionServices.
+	AllFacsimileTransmissionServices = "\x60"
+
+	// FacsimileGroup3AndAlterSpeech is the octet string constant for facsimileGroup3AndAlterSpeech.
+	FacsimileGroup3AndAlterSpeech = "\x61"
+
+	// AutomaticFacsimileGroup3 is the octet string constant for automaticFacsimileGroup3.
+	AutomaticFacsimileGroup3 = "\x62"
+
+	// FacsimileGroup4 is the octet string constant for facsimileGroup4.
+	FacsimileGroup4 = "\x63"
+
+	// AllDataTeleservices is the octet string constant for allDataTeleservices.
+	AllDataTeleservices = "\x70"
+
+	// AllTeleservicesExeptSMS is the octet string constant for allTeleservices-ExeptSMS.
+	AllTeleservicesExeptSMS = "\x80"
+
+	// AllPLMNSpecificTS is the octet string constant for allPLMN-specificTS.
+	AllPLMNSpecificTS = "\xd0"
+
+	// PlmnSpecificTS1 is the octet string constant for plmn-specificTS-1.
+	PlmnSpecificTS1 = "\xd1"
+
+	// PlmnSpecificTS2 is the octet string constant for plmn-specificTS-2.
+	PlmnSpecificTS2 = "\xd2"
+
+	// PlmnSpecificTS3 is the octet string constant for plmn-specificTS-3.
+	PlmnSpecificTS3 = "\xd3"
+
+	// PlmnSpecificTS4 is the octet string constant for plmn-specificTS-4.
+	PlmnSpecificTS4 = "\xd4"
+
+	// PlmnSpecificTS5 is the octet string constant for plmn-specificTS-5.
+	PlmnSpecificTS5 = "\xd5"
+
+	// PlmnSpecificTS6 is the octet string constant for plmn-specificTS-6.
+	PlmnSpecificTS6 = "\xd6"
+
+	// PlmnSpecificTS7 is the octet string constant for plmn-specificTS-7.
+	PlmnSpecificTS7 = "\xd7"
+
+	// PlmnSpecificTS8 is the octet string constant for plmn-specificTS-8.
+	PlmnSpecificTS8 = "\xd8"
+
+	// PlmnSpecificTS9 is the octet string constant for plmn-specificTS-9.
+	PlmnSpecificTS9 = "\xd9"
+
+	// PlmnSpecificTSA is the octet string constant for plmn-specificTS-A.
+	PlmnSpecificTSA = "\xda"
+
+	// PlmnSpecificTSB is the octet string constant for plmn-specificTS-B.
+	PlmnSpecificTSB = "\xdb"
+
+	// PlmnSpecificTSC is the octet string constant for plmn-specificTS-C.
+	PlmnSpecificTSC = "\xdc"
+
+	// PlmnSpecificTSD is the octet string constant for plmn-specificTS-D.
+	PlmnSpecificTSD = "\xdd"
+
+	// PlmnSpecificTSE is the octet string constant for plmn-specificTS-E.
+	PlmnSpecificTSE = "\xde"
+
+	// PlmnSpecificTSF is the octet string constant for plmn-specificTS-F.
+	PlmnSpecificTSF = "\xdf"
+)
+
+// TeleserviceCode represents the ASN.1 type TeleserviceCode (OCTET_STRING).
+type TeleserviceCode = []byte

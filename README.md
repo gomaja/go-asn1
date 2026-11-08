@@ -627,6 +627,63 @@ rejects it with `runtime.ErrTimeNotSet`.
   `"NotBefore":"19920722132100.30"`; an unset required field is `""`.
   RFC 3339 input is rejected with `runtime.ErrTimeSyntax`.
 
+### GSM MAP Phase 2 source edition
+
+`github.com/gomaja/go-asn1/telecom/ss7/gsm_map/gsm0902_v4_19_1` holds the
+codecs of GSM 09.02 V4.19.1 (ETS 300 599 edition 9, December 2000), the final
+Phase 2 edition, which MAP application contexts of version 2 use. It exposes
+the edition's 156 named types and the one imported ETR 091 type through typed
+fields, and its native catalogue keeps all 46 operations and 38 errors: each
+code with its ARGUMENT, RESULT or PARAMETER type, its ERRORS and LINKED
+lists, and an absent RESULT kept apart from an empty one (Q.773 (06/1997)
+§3.1). The package holds codecs only. Dialogue and procedure state stay with
+the wrapper.
+
+A wrapper chooses this package from the dialogue's application context:
+version 2 selects it, and the operation code then selects the argument, result
+or error parameter. An operation code alone does not identify the edition.
+
+Some source comments restrict a field or an alternative to a version. For
+example, `AbsentSubscriber`'s BOOLEAN parameter `mwd-Set` carries
+`-- OA>1 mwd-Set must be absent in version greater 1`. These are procedure
+rules, so the codecs follow the grammar and leave them to the wrapper. The
+package's `VERSION-COMMENTS.json` lists all 123 of them, each with its ASN.1
+module and its line range in the official `ASN.1.txt` of the 3GPP archive
+`0902-4j1.zip`.
+
+Strict decoding applies the edition's BER profile, GSM 09.02 V4.19.1
+§14.1.1: short definite lengths below 128, long-form lengths in the fewest
+octets, primitive OCTET STRING and BIT STRING, and empty constructors where
+the type allows them. MAP's `WithTolerance` option admits a representable
+deviation and records it. Pass the option to both decode and encode to
+replay such a value as received. Fresh encoding checks the source
+constraints.
+
+`ODB-GeneralData` (`SIZE (6)`), `ODB-HPLMN-Data` (`SIZE (4)`) and
+`MW-Status` (`SIZE (6)`) keep their exact bit counts. X.208 (11/1988) §17.10
+leaves the significance of trailing 0 bits to the use of the notation, and
+nothing in the modules makes them insignificant; §§37.4.3–37.4.4 count SIZE
+in bits, and X.209 (11/1988) §11.2 transfers the value's bits. Strict decoding
+refuses another bit count, tolerant decoding keeps the bits and records the
+size finding, and encoding refuses a value of another length. The
+trailing-zero rule of X.680 (02/2021) §22.7 and X.690 (02/2021) §8.6.2.4,
+which the TS 29.002 package applies, is not among this edition's references.
+
+The locked `ASN.1.txt` keeps its original bytes. One approved reading
+applies when parsing: in `MAP-SupplementaryServiceOperations`, the bare line
+`10 min (for MSC/VLR)` after `UnstructuredSS-Request ::= OPERATION --Timer ml
+(for MS)` is read as the rest of that timer comment. Timers carry no codec
+content.
+
+Fifty-four extensible types keep unknown additions as complete TLVs
+(V4.19.1 §14.1.4). Those additions are retained, not typed. OCTET STRING
+fields carry their source bytes, and protocols carried inside them need their
+own codecs.
+
+This is a historical edition by design. ITU-T withdrew X.208 and X.209 on
+30 October 2002 in favour of X.680–X.683 and X.690, and the edition keeps
+the 1988 references it was written against.
+
 ### Owned runtimes
 
 S1AP, X2AP, LPPa, LTE RRC, LPP and UMTS RRC carry their own runtimes. None of these packages, nor their runtimes, imports the shared root
@@ -1701,6 +1758,7 @@ was rejected and now decodes `[timeslotISCP, primaryCCPCH-RSCP]`.
 | `ss7/tcap` | TCAP | MTP3/SCCP (transaction layer) | BER | **[compiled]** |
 | `ss7/ansi_tcap` | ANSI TCAP | MTP3/SCCP (ANSI variant) | BER | planned |
 | `ss7/gsm_map` | GSM MAP | C/D/E/Gr (HLR/VLR/MSC) | BER | **[compiled]** |
+| `ss7/gsm_map/gsm0902_v4_19_1` | GSM MAP Phase 2 (GSM 09.02 V4.19.1) | Application contexts of version 2 | BER | **[compiled]** |
 | `ss7/camel` | CAMEL | gsmSSF ↔ gsmSCF | BER | planned |
 | `ss7/inap` | INAP | SSF ↔ SCF (IN CS-1/CS-2) | BER | planned |
 | `ss7/ain` | AIN | SSP ↔ SCP (N. America) | BER | planned |

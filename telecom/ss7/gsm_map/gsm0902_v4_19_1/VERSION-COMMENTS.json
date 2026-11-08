@@ -1,0 +1,1001 @@
+{
+  "edition": "GSM 09.02 V4.19.1",
+  "archive": {
+    "name": "0902-4j1.zip",
+    "url": "https://www.3gpp.org/ftp/Specs/archive/09_series/09.02/0902-4j1.zip",
+    "size": 995672,
+    "sha256": "6785b6df732604b24bd9b3624a97384e6800fb9b44b8e3fb8b1c5147f1fa683e"
+  },
+  "member": {
+    "name": "ASN.1.txt",
+    "size": 231520,
+    "sha256": "3ec89ec7012530cbe6e7a859a337cb212ac0d5939ce5af11e8f111ef398252a2"
+  },
+  "count": 123,
+  "rows": [
+    {
+      "module": "MAP-BS-Code",
+      "line": 3529,
+      "end_line": 3530,
+      "annotation": "NU1",
+      "subject": "Compound Bearer Service Group Codes",
+      "text": "Compound Bearer Service Group Codes must not be used in version 1."
+    },
+    {
+      "module": "MAP-BS-Code",
+      "line": 3533,
+      "end_line": 3533,
+      "annotation": "NU1",
+      "subject": "*plmn-specific*",
+      "text": "*plmn-specific* must not be used in version 1"
+    },
+    {
+      "module": "MAP-CH-DataTypes",
+      "line": 2426,
+      "end_line": 2426,
+      "annotation": "OA1",
+      "subject": "cug-CheckInfo",
+      "text": "cug-CheckInfo must be absent in version 1"
+    },
+    {
+      "module": "MAP-CH-DataTypes",
+      "line": 2435,
+      "end_line": 2435,
+      "annotation": "OA1",
+      "subject": "cug-CheckInfo",
+      "text": "cug-CheckInfo must be absent in version 1"
+    },
+    {
+      "module": "MAP-CH-DataTypes",
+      "line": 2445,
+      "end_line": 2445,
+      "annotation": "OP\u003e1",
+      "subject": "msc-Number",
+      "text": "msc-Number must be present in version greater 1"
+    },
+    {
+      "module": "MAP-CallHandlingOperations",
+      "line": 1324,
+      "end_line": 1324,
+      "annotation": "NU1",
+      "subject": "NumberChanged",
+      "text": "NumberChanged must not be used in version 1"
+    },
+    {
+      "module": "MAP-CallHandlingOperations",
+      "line": 1330,
+      "end_line": 1330,
+      "annotation": "NU1",
+      "subject": "CUG-Reject",
+      "text": "CUG-Reject must not be used in version 1"
+    },
+    {
+      "module": "MAP-CommonDataTypes",
+      "line": 3288,
+      "end_line": 3289,
+      "annotation": "NU1 NU2",
+      "subject": "Value 3",
+      "text": "Value 3 must not be used in version 1 and must not be used in version 2."
+    },
+    {
+      "module": "MAP-CommonDataTypes",
+      "line": 3307,
+      "end_line": 3307,
+      "annotation": "prose",
+      "subject": "IMEI Software Version Number (SVN)",
+      "text": "The SVN must not be present in version 1."
+    },
+    {
+      "module": "MAP-CommonDataTypes",
+      "line": 3311,
+      "end_line": 3311,
+      "annotation": "NU\u003e1",
+      "subject": "roamingNumber",
+      "text": "roamingNumber must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-ER-DataTypes",
+      "line": 3075,
+      "end_line": 3076,
+      "annotation": "NU1",
+      "subject": "calledPartySS-InteractionViolation",
+      "text": "calledPartySS-InteractionViolation must not be used in version 1"
+    },
+    {
+      "module": "MAP-ER-DataTypes",
+      "line": 3092,
+      "end_line": 3093,
+      "annotation": "NU1",
+      "subject": "sm-DeliveryFailureCauseWithDiagnostic",
+      "text": "sm-DeliveryFailureCauseWithDiagnostic must not be used in version 1"
+    },
+    {
+      "module": "MAP-ER-DataTypes",
+      "line": 3096,
+      "end_line": 3097,
+      "annotation": "NU\u003e1",
+      "subject": "sm-EnumeratedDeliveryFailureCause",
+      "text": "sm-EnumeratedDeliveryFailureCause must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-Errors",
+      "line": 1896,
+      "end_line": 1896,
+      "annotation": "OA1",
+      "subject": "roamingNotAllowedCause",
+      "text": "roamingNotAllowedCause must be absent in version 1"
+    },
+    {
+      "module": "MAP-Errors",
+      "line": 1897,
+      "end_line": 1897,
+      "annotation": "OP\u003e1",
+      "subject": "roamingNotAllowedCause",
+      "text": "roamingNotAllowedCause must be present in version greater 1"
+    },
+    {
+      "module": "MAP-Errors",
+      "line": 1929,
+      "end_line": 1929,
+      "annotation": "OA\u003e1",
+      "subject": "mwd-Set",
+      "text": "mwd-Set must be absent in version greater 1"
+    },
+    {
+      "module": "MAP-Errors",
+      "line": 1958,
+      "end_line": 1958,
+      "annotation": "NU\u003e1",
+      "subject": "ss-SubscriptionOption",
+      "text": "ss-SubscriptionOption must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-MS-DataTypes",
+      "line": 2075,
+      "end_line": 2075,
+      "annotation": "NU\u003e1",
+      "subject": "hlr-Number",
+      "text": "hlr-Number must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-MS-DataTypes",
+      "line": 2077,
+      "end_line": 2077,
+      "annotation": "NU1",
+      "subject": "extensibleUpdateLocationRes",
+      "text": "extensibleUpdateLocationRes must not be used in version 1"
+    },
+    {
+      "module": "MAP-MS-DataTypes",
+      "line": 2222,
+      "end_line": 2222,
+      "annotation": "OA1",
+      "subject": "odb-Data",
+      "text": "odb-Data must be absent in version 1"
+    },
+    {
+      "module": "MAP-MS-DataTypes",
+      "line": 2224,
+      "end_line": 2225,
+      "annotation": "OA1",
+      "subject": "roamingRestrictionDueToUnsupportedFeature",
+      "text": "roamingRestrictionDueToUnsupportedFeature must be absent in version 1"
+    },
+    {
+      "module": "MAP-MS-DataTypes",
+      "line": 2227,
+      "end_line": 2227,
+      "annotation": "OA1",
+      "subject": "regionalSubscriptionData",
+      "text": "regionalSubscriptionData must be absent in version 1"
+    },
+    {
+      "module": "MAP-MS-DataTypes",
+      "line": 2268,
+      "end_line": 2268,
+      "annotation": "OA1",
+      "subject": "regionalSubscriptionResponse",
+      "text": "regionalSubscriptionResponse must be absent in version 1"
+    },
+    {
+      "module": "MAP-MS-DataTypes",
+      "line": 2282,
+      "end_line": 2283,
+      "annotation": "OA1",
+      "subject": "roamingRestrictionDueToUnsupportedFeature",
+      "text": "roamingRestrictionDueToUnsupportedFeature must be absent in version 1"
+    },
+    {
+      "module": "MAP-MS-DataTypes",
+      "line": 2285,
+      "end_line": 2285,
+      "annotation": "OA1",
+      "subject": "regionalSubscriptionIdentifier",
+      "text": "regionalSubscriptionIdentifier must be absent in version 1"
+    },
+    {
+      "module": "MAP-MS-DataTypes",
+      "line": 2295,
+      "end_line": 2295,
+      "annotation": "OP1",
+      "subject": "networkResource",
+      "text": "networkResource must be present in version 1"
+    },
+    {
+      "module": "MAP-MS-DataTypes",
+      "line": 2296,
+      "end_line": 2296,
+      "annotation": "OA\u003e1",
+      "subject": "networkResource",
+      "text": "networkResource must be absent in version greater 1"
+    },
+    {
+      "module": "MAP-MobileServiceOperations",
+      "line": 988,
+      "end_line": 988,
+      "annotation": "NU1",
+      "subject": "DataMissing",
+      "text": "DataMissing must not be used in version 1"
+    },
+    {
+      "module": "MAP-MobileServiceOperations",
+      "line": 1000,
+      "end_line": 1000,
+      "annotation": "NU1",
+      "subject": "DataMissing",
+      "text": "DataMissing must not be used in version 1"
+    },
+    {
+      "module": "MAP-MobileServiceOperations",
+      "line": 1003,
+      "end_line": 1004,
+      "annotation": "NU\u003e1",
+      "subject": "UnidentifiedSubscriber",
+      "text": "UnidentifiedSubscriber must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-MobileServiceOperations",
+      "line": 1049,
+      "end_line": 1049,
+      "annotation": "OA1",
+      "subject": "bss-APDU",
+      "text": "bss-APDU must be absent in version 1"
+    },
+    {
+      "module": "MAP-MobileServiceOperations",
+      "line": 1050,
+      "end_line": 1050,
+      "annotation": "OP\u003e1",
+      "subject": "bss-APDU",
+      "text": "bss-APDU must be present in version greater 1"
+    },
+    {
+      "module": "MAP-MobileServiceOperations",
+      "line": 1107,
+      "end_line": 1107,
+      "annotation": "NU1",
+      "subject": "DataMissing",
+      "text": "DataMissing must not be used in version 1"
+    },
+    {
+      "module": "MAP-MobileServiceOperations",
+      "line": 1109,
+      "end_line": 1109,
+      "annotation": "NU\u003e1",
+      "subject": "UnexpectedDataValue",
+      "text": "UnexpectedDataValue must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-MobileServiceOperations",
+      "line": 1132,
+      "end_line": 1132,
+      "annotation": "OA1",
+      "subject": "insertSubscriberDataRes",
+      "text": "insertSubscriberDataRes must be absent in version 1"
+    },
+    {
+      "module": "MAP-MobileServiceOperations",
+      "line": 1144,
+      "end_line": 1144,
+      "annotation": "OA1",
+      "subject": "deleteSubscriberDataRes",
+      "text": "deleteSubscriberDataRes must be absent in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 710,
+      "end_line": 710,
+      "annotation": "NU1",
+      "subject": "purgeMS",
+      "text": "purgeMS must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 712,
+      "end_line": 712,
+      "annotation": "NU1",
+      "subject": "sendIdentification",
+      "text": "sendIdentification must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 717,
+      "end_line": 717,
+      "annotation": "NU\u003e1",
+      "subject": "performHandover",
+      "text": "performHandover must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 719,
+      "end_line": 719,
+      "annotation": "NU1",
+      "subject": "prepareHandover",
+      "text": "prepareHandover must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 725,
+      "end_line": 725,
+      "annotation": "NU\u003e1",
+      "subject": "performSubsequentHandover",
+      "text": "performSubsequentHandover must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 728,
+      "end_line": 728,
+      "annotation": "NU1",
+      "subject": "prepareSubsequentHandover",
+      "text": "prepareSubsequentHandover must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 733,
+      "end_line": 733,
+      "annotation": "NU1",
+      "subject": "sendAuthenticationInfo",
+      "text": "sendAuthenticationInfo must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 742,
+      "end_line": 742,
+      "annotation": "NU\u003e1",
+      "subject": "sendParameters",
+      "text": "sendParameters must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 752,
+      "end_line": 752,
+      "annotation": "NU1",
+      "subject": "restoreData",
+      "text": "restoreData must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 759,
+      "end_line": 759,
+      "annotation": "NU\u003e1",
+      "subject": "traceSubscriberActivity",
+      "text": "traceSubscriberActivity must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 761,
+      "end_line": 761,
+      "annotation": "NU\u003e1",
+      "subject": "noteInternalHandover",
+      "text": "noteInternalHandover must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 763,
+      "end_line": 763,
+      "annotation": "NU1",
+      "subject": "sendIMSI",
+      "text": "sendIMSI must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 779,
+      "end_line": 779,
+      "annotation": "NU\u003e1",
+      "subject": "processUnstructuredSS-Data",
+      "text": "processUnstructuredSS-Data must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 782,
+      "end_line": 782,
+      "annotation": "NU1",
+      "subject": "processUnstructuredSS-Request",
+      "text": "processUnstructuredSS-Request must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 784,
+      "end_line": 784,
+      "annotation": "NU1",
+      "subject": "unstructuredSS-Request",
+      "text": "unstructuredSS-Request must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 786,
+      "end_line": 786,
+      "annotation": "NU1",
+      "subject": "unstructuredSS-Notify",
+      "text": "unstructuredSS-Notify must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 790,
+      "end_line": 790,
+      "annotation": "NU\u003e1",
+      "subject": "beginSubscriberActivity",
+      "text": "beginSubscriberActivity must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 798,
+      "end_line": 798,
+      "annotation": "NU\u003e1",
+      "subject": "noteSubscriberPresent",
+      "text": "noteSubscriberPresent must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 801,
+      "end_line": 802,
+      "annotation": "NU\u003e1",
+      "subject": "alertServiceCentreWithoutResult",
+      "text": "alertServiceCentreWithoutResult must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 804,
+      "end_line": 804,
+      "annotation": "NU1",
+      "subject": "informServiceCentre",
+      "text": "informServiceCentre must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 806,
+      "end_line": 806,
+      "annotation": "NU1",
+      "subject": "alertServiceCentre",
+      "text": "alertServiceCentre must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 808,
+      "end_line": 808,
+      "annotation": "NU1",
+      "subject": "readyForSM",
+      "text": "readyForSM must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 865,
+      "end_line": 865,
+      "annotation": "NU1",
+      "subject": "unknownAlphabet",
+      "text": "unknownAlphabet must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 867,
+      "end_line": 867,
+      "annotation": "NU1",
+      "subject": "ussd-Busy",
+      "text": "ussd-Busy must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 872,
+      "end_line": 872,
+      "annotation": "NU1",
+      "subject": "numberOfPW-AttemptsViolation",
+      "text": "numberOfPW-AttemptsViolation must not be used in version 1"
+    },
+    {
+      "module": "MAP-Protocol",
+      "line": 877,
+      "end_line": 877,
+      "annotation": "NU1",
+      "subject": "subscriberBusyForMT-SMS",
+      "text": "subscriberBusyForMT-SMS must not be used in version 1"
+    },
+    {
+      "module": "MAP-SM-DataTypes",
+      "line": 2945,
+      "end_line": 2945,
+      "annotation": "OA\u003e1",
+      "subject": "teleservice",
+      "text": "teleservice must be absent in version greater 1"
+    },
+    {
+      "module": "MAP-SM-DataTypes",
+      "line": 2952,
+      "end_line": 2952,
+      "annotation": "OA\u003e1",
+      "subject": "mwd-Set",
+      "text": "mwd-Set must be absent in version greater 1"
+    },
+    {
+      "module": "MAP-SM-DataTypes",
+      "line": 2965,
+      "end_line": 2965,
+      "annotation": "OA1",
+      "subject": "moreMessagesToSend",
+      "text": "moreMessagesToSend must be absent in version 1"
+    },
+    {
+      "module": "MAP-SM-DataTypes",
+      "line": 2973,
+      "end_line": 2973,
+      "annotation": "NU\u003e1",
+      "subject": "roaming number",
+      "text": "roaming number must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SM-DataTypes",
+      "line": 2976,
+      "end_line": 2976,
+      "annotation": "NU1",
+      "subject": "noSM-RP-DA",
+      "text": "noSM-RP-DA must not be used in version 1"
+    },
+    {
+      "module": "MAP-SM-DataTypes",
+      "line": 2982,
+      "end_line": 2982,
+      "annotation": "NU1",
+      "subject": "noSM-RP-OA",
+      "text": "noSM-RP-OA must not be used in version 1"
+    },
+    {
+      "module": "MAP-SM-DataTypes",
+      "line": 2988,
+      "end_line": 2988,
+      "annotation": "OA1",
+      "subject": "sm-DeliveryOutcome",
+      "text": "sm-DeliveryOutcome must be absent in version 1"
+    },
+    {
+      "module": "MAP-SM-DataTypes",
+      "line": 2989,
+      "end_line": 2989,
+      "annotation": "OP\u003e1",
+      "subject": "sm-DeliveryOutcome",
+      "text": "sm-DeliveryOutcome must be present in version greater 1"
+    },
+    {
+      "module": "MAP-SS-Code",
+      "line": 2880,
+      "end_line": 2880,
+      "annotation": "NU1",
+      "subject": "*plmn-specific*",
+      "text": "*plmn-specific* must not be used in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2516,
+      "end_line": 2516,
+      "annotation": "OA1",
+      "subject": "forwardedToSubaddress",
+      "text": "forwardedToSubaddress must be absent in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2526,
+      "end_line": 2526,
+      "annotation": "NU1",
+      "subject": "cug-info",
+      "text": "cug-info must not be used in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2541,
+      "end_line": 2541,
+      "annotation": "OP1",
+      "subject": "ss-Status",
+      "text": "ss-Status must be present in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2544,
+      "end_line": 2544,
+      "annotation": "OA1",
+      "subject": "forwardedToSubaddress",
+      "text": "forwardedToSubaddress must be absent in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2597,
+      "end_line": 2597,
+      "annotation": "OP1",
+      "subject": "ss-Code",
+      "text": "ss-Code must be present in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2608,
+      "end_line": 2608,
+      "annotation": "OP1",
+      "subject": "ss-Status",
+      "text": "ss-Status must be present in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2659,
+      "end_line": 2659,
+      "annotation": "OP1",
+      "subject": "ss-Code",
+      "text": "ss-Code must be present in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2662,
+      "end_line": 2662,
+      "annotation": "OA1",
+      "subject": "ss-SubscriptionOption",
+      "text": "ss-SubscriptionOption must be absent in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2664,
+      "end_line": 2664,
+      "annotation": "OA1",
+      "subject": "basicServiceGroupList",
+      "text": "basicServiceGroupList must be absent in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2693,
+      "end_line": 2693,
+      "annotation": "NU\u003e1",
+      "subject": "forwardedToNumber",
+      "text": "forwardedToNumber must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2697,
+      "end_line": 2697,
+      "annotation": "NU=1",
+      "subject": "cli-RestrictionInfo",
+      "text": "cli-RestrictionInfo must not be used in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2731,
+      "end_line": 2731,
+      "annotation": "NU\u003e1",
+      "subject": "badPW-TryAgain",
+      "text": "badPW-TryAgain must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2733,
+      "end_line": 2733,
+      "annotation": "NU\u003e1",
+      "subject": "badPW-FormatTryAgain",
+      "text": "badPW-FormatTryAgain must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2752,
+      "end_line": 2752,
+      "annotation": "OP1",
+      "subject": "forwardedToNumber",
+      "text": "forwardedToNumber must be present in version 1"
+    },
+    {
+      "module": "MAP-SS-DataTypes",
+      "line": 2754,
+      "end_line": 2754,
+      "annotation": "OA1",
+      "subject": "forwardedToSubaddress",
+      "text": "forwardedToSubaddress must be absent in version 1"
+    },
+    {
+      "module": "MAP-ShortMessageServiceOperations",
+      "line": 1719,
+      "end_line": 1719,
+      "annotation": "NU1",
+      "subject": "DataMissing",
+      "text": "DataMissing must not be used in version 1"
+    },
+    {
+      "module": "MAP-ShortMessageServiceOperations",
+      "line": 1725,
+      "end_line": 1725,
+      "annotation": "NU1",
+      "subject": "IllegalEquipment",
+      "text": "IllegalEquipment must not be used in version 1"
+    },
+    {
+      "module": "MAP-ShortMessageServiceOperations",
+      "line": 1728,
+      "end_line": 1728,
+      "annotation": "NU1",
+      "subject": "SubscriberBusyForMT-SMS",
+      "text": "SubscriberBusyForMT-SMS must not be used in version 1"
+    },
+    {
+      "module": "MAP-ShortMessageServiceOperations",
+      "line": 1737,
+      "end_line": 1737,
+      "annotation": "OA1",
+      "subject": "storedMSISDN",
+      "text": "storedMSISDN must be absent in version 1"
+    },
+    {
+      "module": "MAP-ShortMessageServiceOperations",
+      "line": 1741,
+      "end_line": 1741,
+      "annotation": "NU1",
+      "subject": "DataMissing",
+      "text": "DataMissing must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1435,
+      "end_line": 1435,
+      "annotation": "NU\u003e1",
+      "subject": "UnknownSubscriber",
+      "text": "UnknownSubscriber must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1439,
+      "end_line": 1439,
+      "annotation": "NU1",
+      "subject": "CallBarred",
+      "text": "CallBarred must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1443,
+      "end_line": 1444,
+      "annotation": "NU\u003e1",
+      "subject": "SS-SubscriptionViolation",
+      "text": "SS-SubscriptionViolation must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1456,
+      "end_line": 1456,
+      "annotation": "NU1",
+      "subject": "DataMissing",
+      "text": "DataMissing must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1459,
+      "end_line": 1459,
+      "annotation": "NU\u003e1",
+      "subject": "UnknownSubscriber",
+      "text": "UnknownSubscriber must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1461,
+      "end_line": 1461,
+      "annotation": "NU1",
+      "subject": "BearerServiceNotProvisioned",
+      "text": "BearerServiceNotProvisioned must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1463,
+      "end_line": 1463,
+      "annotation": "NU1",
+      "subject": "TeleserviceNotProvisioned",
+      "text": "TeleserviceNotProvisioned must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1465,
+      "end_line": 1465,
+      "annotation": "NU1",
+      "subject": "CallBarred",
+      "text": "CallBarred must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1469,
+      "end_line": 1470,
+      "annotation": "NU\u003e1",
+      "subject": "SS-SubscriptionViolation",
+      "text": "SS-SubscriptionViolation must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1483,
+      "end_line": 1483,
+      "annotation": "NU1",
+      "subject": "DataMissing",
+      "text": "DataMissing must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1486,
+      "end_line": 1486,
+      "annotation": "NU\u003e1",
+      "subject": "UnknownSubscriber",
+      "text": "UnknownSubscriber must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1488,
+      "end_line": 1488,
+      "annotation": "NU1",
+      "subject": "BearerServiceNotProvisioned",
+      "text": "BearerServiceNotProvisioned must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1490,
+      "end_line": 1490,
+      "annotation": "NU1",
+      "subject": "TeleserviceNotProvisioned",
+      "text": "TeleserviceNotProvisioned must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1492,
+      "end_line": 1492,
+      "annotation": "NU1",
+      "subject": "CallBarred",
+      "text": "CallBarred must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1499,
+      "end_line": 1499,
+      "annotation": "NU1",
+      "subject": "NumberOfPW-AttemptsViolation",
+      "text": "NumberOfPW-AttemptsViolation must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1510,
+      "end_line": 1510,
+      "annotation": "NU1",
+      "subject": "DataMissing",
+      "text": "DataMissing must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1513,
+      "end_line": 1513,
+      "annotation": "NU\u003e1",
+      "subject": "UnknownSubscriber",
+      "text": "UnknownSubscriber must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1515,
+      "end_line": 1515,
+      "annotation": "NU1",
+      "subject": "BearerServiceNotProvisioned",
+      "text": "BearerServiceNotProvisioned must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1517,
+      "end_line": 1517,
+      "annotation": "NU1",
+      "subject": "TeleserviceNotProvisioned",
+      "text": "TeleserviceNotProvisioned must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1519,
+      "end_line": 1519,
+      "annotation": "NU1",
+      "subject": "CallBarred",
+      "text": "CallBarred must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1525,
+      "end_line": 1525,
+      "annotation": "NU1",
+      "subject": "NumberOfPW-AttemptsViolation",
+      "text": "NumberOfPW-AttemptsViolation must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1536,
+      "end_line": 1536,
+      "annotation": "NU1",
+      "subject": "DataMissing",
+      "text": "DataMissing must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1539,
+      "end_line": 1539,
+      "annotation": "NU\u003e1",
+      "subject": "UnknownSubscriber",
+      "text": "UnknownSubscriber must not be used in version greater 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1541,
+      "end_line": 1541,
+      "annotation": "NU1",
+      "subject": "BearerServiceNotProvisioned",
+      "text": "BearerServiceNotProvisioned must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1543,
+      "end_line": 1543,
+      "annotation": "NU1",
+      "subject": "TeleserviceNotProvisioned",
+      "text": "TeleserviceNotProvisioned must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1545,
+      "end_line": 1545,
+      "annotation": "NU1",
+      "subject": "CallBarred",
+      "text": "CallBarred must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1610,
+      "end_line": 1610,
+      "annotation": "NU1",
+      "subject": "DataMissing",
+      "text": "DataMissing must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1613,
+      "end_line": 1613,
+      "annotation": "NU1",
+      "subject": "CallBarred",
+      "text": "CallBarred must not be used in version 1"
+    },
+    {
+      "module": "MAP-SupplementaryServiceOperations",
+      "line": 1618,
+      "end_line": 1618,
+      "annotation": "NU1",
+      "subject": "NumberOfPW-AttemptsViolation",
+      "text": "NumberOfPW-AttemptsViolation must not be used in version 1"
+    },
+    {
+      "module": "MAP-TS-Code",
+      "line": 3407,
+      "end_line": 3407,
+      "annotation": "NU1",
+      "subject": "facsimileGroup4",
+      "text": "facsimileGroup4 must not be used in version 1"
+    },
+    {
+      "module": "MAP-TS-Code",
+      "line": 3422,
+      "end_line": 3422,
+      "annotation": "NU1",
+      "subject": "Codes",
+      "text": "Codes must not be used in version 1."
+    },
+    {
+      "module": "MAP-TS-Code",
+      "line": 3425,
+      "end_line": 3425,
+      "annotation": "NU1",
+      "subject": "*plmn-specific*",
+      "text": "*plmn-specific* must not be used in version 1"
+    }
+  ]
+}

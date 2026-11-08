@@ -1,0 +1,949 @@
+[
+  {
+    "module": "MAP-BS-Code",
+    "type": "BearerServiceCode",
+    "typed": true
+  },
+  {
+    "module": "MAP-CH-DataTypes",
+    "type": "CUG-CheckInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-CH-DataTypes",
+    "type": "NumberOfForwarding",
+    "typed": true
+  },
+  {
+    "module": "MAP-CH-DataTypes",
+    "type": "ProvideRoamingNumberArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-CH-DataTypes",
+    "type": "RoutingInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-CH-DataTypes",
+    "type": "SendRoutingInfoArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-CH-DataTypes",
+    "type": "SendRoutingInfoRes",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "AddressString",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "BasicServiceCode",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "BasicServiceGroupList",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "BasicServiceList",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "BearerServiceList",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "Category",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "ExternalSignalInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "GlobalCellId",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "HLR-Id",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "HLR-List",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "IMEI",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "IMSI",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "ISDN-AddressString",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "ISDN-SubaddressString",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "LMSI",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "LocationInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "NetworkResource",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "ProtocolId",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "SignalInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "SubscriberId",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "TBCD-STRING",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "TMSI",
+    "typed": true
+  },
+  {
+    "module": "MAP-CommonDataTypes",
+    "type": "TeleserviceList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-AcceptInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-CloseInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-DialoguePDU",
+    "typed": true
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-OpenInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-ProviderAbortInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-ProviderAbortReason",
+    "typed": true
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-RefuseInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-UserAbortChoice",
+    "typed": true
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "MAP-UserAbortInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "ProcedureCancellationReason",
+    "typed": true
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "Reason",
+    "typed": true
+  },
+  {
+    "module": "MAP-DialogueInformation",
+    "type": "ResourceUnavailableReason",
+    "typed": true
+  },
+  {
+    "module": "MAP-ER-DataTypes",
+    "type": "CUG-RejectCause",
+    "typed": true
+  },
+  {
+    "module": "MAP-ER-DataTypes",
+    "type": "CallBarringCause",
+    "typed": true
+  },
+  {
+    "module": "MAP-ER-DataTypes",
+    "type": "PW-RegistrationFailureCause",
+    "typed": true
+  },
+  {
+    "module": "MAP-ER-DataTypes",
+    "type": "RoamingNotAllowedCause",
+    "typed": true
+  },
+  {
+    "module": "MAP-ER-DataTypes",
+    "type": "SM-DeliveryFailureCause",
+    "typed": true
+  },
+  {
+    "module": "MAP-ER-DataTypes",
+    "type": "SM-DeliveryFailureCauseWithDiagnostic",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-ER-DataTypes",
+    "type": "SM-EnumeratedDeliveryFailureCause",
+    "typed": true
+  },
+  {
+    "module": "MAP-ER-DataTypes",
+    "type": "SS-IncompatibilityCause",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "AuthenticationSet",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "AuthenticationSetList",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "CancelLocationArg",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "ChannelType",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "ClassmarkInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "DeleteSubscriberDataArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "DeleteSubscriberDataRes",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "EquipmentStatus",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "ExtensibleUpdateLocationRes",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "HandoverPriority",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "IMSI-WithLMSI",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "InsertSubscriberDataArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "InsertSubscriberDataRes",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "Kc",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "Ki",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "ODB-Data",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "ODB-GeneralData",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "ODB-HPLMN-Data",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "PerformHO-Arg",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "PerformHO-Res",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "PerformSubsequentHO-Arg",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "PrepareHO-Arg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "PrepareHO-Res",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "PrepareSubsequentHO-Arg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "PurgeMS-Arg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "RAND",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "RegionalSubscriptionResponse",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "RequestParameter",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "RequestParameterList",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "ResetArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "RestoreDataArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "RestoreDataRes",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "SRES",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "SendAuthenticationInfoArg",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "SendAuthenticationInfoRes",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "SendIdentificationRes",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "SendParametersArg",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "SentParameter",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "SentParameterList",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "SubscriberData",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "SubscriberStatus",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "UpdateLocationArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "UpdateLocationRes",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "ZoneCode",
+    "typed": true
+  },
+  {
+    "module": "MAP-MS-DataTypes",
+    "type": "ZoneCodeList",
+    "typed": true
+  },
+  {
+    "module": "MAP-OM-DataTypes",
+    "type": "ActivateTraceModeArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-OM-DataTypes",
+    "type": "CallReference",
+    "typed": true
+  },
+  {
+    "module": "MAP-OM-DataTypes",
+    "type": "DeactivateTraceModeArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-OM-DataTypes",
+    "type": "HandoverType",
+    "typed": true
+  },
+  {
+    "module": "MAP-OM-DataTypes",
+    "type": "NoteInternalHO-Arg",
+    "typed": true
+  },
+  {
+    "module": "MAP-OM-DataTypes",
+    "type": "TraceReference",
+    "typed": true
+  },
+  {
+    "module": "MAP-OM-DataTypes",
+    "type": "TraceSubscriberActivityArg",
+    "typed": true
+  },
+  {
+    "module": "MAP-OM-DataTypes",
+    "type": "TraceType",
+    "typed": true
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "AlertReason",
+    "typed": true
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "AlertServiceCentreArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "ForwardSM-Arg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "InformServiceCentreArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "LocationInfoWithLMSI",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "MW-Status",
+    "typed": true
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "ReadyForSM-Arg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "ReportSM-DeliveryStatusArg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "RoutingInfoForSM-Arg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "RoutingInfoForSM-Res",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "SM-DeliveryOutcome",
+    "typed": true
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "SM-RP-DA",
+    "typed": true
+  },
+  {
+    "module": "MAP-SM-DataTypes",
+    "type": "SM-RP-OA",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-Code",
+    "type": "SS-Code",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "BeginSubscriberActivityArg",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CUG-Feature",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CUG-FeatureList",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CUG-Index",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CUG-Info",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CUG-Interlock",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CUG-Subscription",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CUG-SubscriptionList",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CallBarringFeature",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CallBarringFeatureList",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CallBarringInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "Cli-RestrictionInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "CliRestrictionOption",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "ForwardingData",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "ForwardingFeature",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "ForwardingFeatureList",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "ForwardingInfo",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "ForwardingOptions",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "GuidanceInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "InterCUG-Restrictions",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "InterrogateSS-Res",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "IntraCUG-Options",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "NoReplyConditionTime",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "OverrideCategory",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "Password",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "RegisterSS-Arg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "SS-Data",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "SS-ForBS-Code",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "SS-Info",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "SS-InfoList",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "SS-List",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "SS-Status",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "SS-SubscriptionOption",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "SS-UserData",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "USSD-Arg",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "USSD-DataCodingScheme",
+    "typed": true
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "USSD-Res",
+    "typed": true,
+    "opaque_acceptance": [
+      "unknown extension additions have no declared source schema; retained as complete TLVs, excluded from typed-field coverage"
+    ]
+  },
+  {
+    "module": "MAP-SS-DataTypes",
+    "type": "USSD-String",
+    "typed": true
+  },
+  {
+    "module": "MAP-TS-Code",
+    "type": "TeleserviceCode",
+    "typed": true
+  },
+  {
+    "module": "MobileDomainDefinitions",
+    "type": "CommonComponentId",
+    "typed": true
+  }
+]
