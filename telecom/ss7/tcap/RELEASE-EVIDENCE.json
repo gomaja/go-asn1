@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "8d7cf7229c1b8a1f13c6890449e789fc5b2f10fa",
-    "tree": "abe0dc515c7a30b91bc50f91e4d51330fa0c9d42",
+    "commit": "58d869305b5dcba681ede1faacb5173073a50b75",
+    "tree": "4e42d9bbf308d8527f43984471193428a388a729",
     "dirty": false
   },
   "source_lock": {
@@ -1238,8 +1238,8 @@
     {
       "path": "time.go",
       "mode": "0644",
-      "size": 19555,
-      "sha256": "fdd405a3c958379266910c0c4480c0ff232fa03f0df2438e1bc28941aef367fd"
+      "size": 19579,
+      "sha256": "643947ed644f6cbc7b5b17c915448011a15cc84a9d552a9723071ff401ae7a18"
     },
     {
       "path": "time_leap_second_test.go",
@@ -2176,8 +2176,8 @@
     {
       "path": "time.go",
       "mode": "0644",
-      "size": 9165,
-      "sha256": "cd243710480944e5a4ee67cb581df95e05bf885a1109a2307208311f589952a7"
+      "size": 9166,
+      "sha256": "05f8079dbfb35b1b72873334c93376be0150b0b0821d910a9ff40b8a9c684eea"
     },
     {
       "path": "types.go",
@@ -3144,8 +3144,8 @@
     {
       "path": "runtime/time.go",
       "mode": "0644",
-      "size": 9165,
-      "sha256": "cd243710480944e5a4ee67cb581df95e05bf885a1109a2307208311f589952a7"
+      "size": 9166,
+      "sha256": "05f8079dbfb35b1b72873334c93376be0150b0b0821d910a9ff40b8a9c684eea"
     },
     {
       "path": "runtime/types.go",

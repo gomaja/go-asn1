@@ -1,6 +1,6 @@
 // Code generated from UMTS RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/time.go; SHA-256 eb4f03bda9708f902e26de34f76d4b084b636cb433a2713b1ee0082d60961ae4.
+// Runtime source: runtime/time.go; SHA-256 f348a3747cf5f25ef9bb8c8d2f36aa5ca80d3c31e8b0b8b93578c53091b08f55.
 package runtime
 
 import (
@@ -56,8 +56,8 @@ const (
 // rejects it. == compares lexical identity; Equal compares abstract values.
 type UTCTime struct{ text string }
 
-// timeFields is the abstract value: the decimal sign and the spelling of a
-// whole-hour differential are not part of it (X.690 (02/2021) §11.9.1 a), b)).
+// timeFields holds UTCTime's calendar date, minute or second precision time,
+// and optional UTC differential (X.680 (02/2021) §47.2 a)–c), §47.3).
 type timeFields struct {
 	year, month, day, hour, minute, second int
 	unit                                   TimeUnit

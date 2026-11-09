@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/time.go; SHA-256 fdd405a3c958379266910c0c4480c0ff232fa03f0df2438e1bc28941aef367fd.
+// Runtime source: runtime/time.go; SHA-256 643947ed644f6cbc7b5b17c915448011a15cc84a9d552a9723071ff401ae7a18.
 package runtime
 
 import (
@@ -64,8 +64,8 @@ type GeneralizedTime struct{ text string }
 // rejects it. == compares lexical identity; Equal compares abstract values.
 type UTCTime struct{ text string }
 
-// timeFields is the abstract value: the decimal sign and the spelling of a
-// whole-hour differential are not part of it (X.690 (02/2021) §11.9.1 a), b)).
+// timeFields holds the abstract value, excluding GeneralizedTime's decimal sign
+// and whole-hour offset spelling (X.680 (02/2021) §46.3 a) 2), §46.3 c)).
 type timeFields struct {
 	year, month, day, hour, minute, second int
 	unit                                   TimeUnit
