@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "eb33ca61709c01a4fc592e7ab5e4477835d621ef",
-    "tree": "982a853280239c8341c40d45c72aa37fd2c2f1d4",
+    "commit": "58d869305b5dcba681ede1faacb5173073a50b75",
+    "tree": "4e42d9bbf308d8527f43984471193428a388a729",
     "dirty": false
   },
   "source_lock": {
@@ -1432,8 +1432,8 @@
     {
       "path": "time.go",
       "mode": "0644",
-      "size": 19555,
-      "sha256": "fdd405a3c958379266910c0c4480c0ff232fa03f0df2438e1bc28941aef367fd"
+      "size": 19579,
+      "sha256": "643947ed644f6cbc7b5b17c915448011a15cc84a9d552a9723071ff401ae7a18"
     },
     {
       "path": "time_leap_second_test.go",

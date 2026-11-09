@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/time.go; SHA-256 37ee95854474363fcdf5424cd1ca6aa11199c49122acf835b74d05e691e10fca.
+// Runtime source: runtime/time.go; SHA-256 8785ba6140f91f9f0a3644f9e164603b7428d0dd6496bdb55dd4abf8fac1027c.
 package runtime
 
 import (
@@ -70,8 +70,8 @@ type GeneralizedTime struct{ text string }
 // rejects it. == compares lexical identity; Equal compares abstract values.
 type UTCTime struct{ text string }
 
-// timeFields is the abstract value: the decimal sign and the spelling of a
-// whole-hour differential are not part of it (X.690 (02/2021) §11.9.1 a), b)).
+// timeFields holds the abstract value, excluding GeneralizedTime's decimal sign
+// and whole-hour offset spelling (X.680 (02/2021) §46.3 a) 2), §46.3 c)).
 type timeFields struct {
 	year, month, day, hour, minute, second int
 	unit                                   TimeUnit
@@ -270,8 +270,8 @@ func (u UTCTime) Zone() (kind TimeZoneKind, offsetMinutes int) {
 }
 
 // Accuracy reports the least significant unit present and the number of
-// fraction digits applied to it. X.680 (02/2021) §46.3 NOTE 3 makes both part
-// of the abstract value. It returns (0, 0) when the value is not set.
+// fraction digits applied to it. Both describe the accuracy of the value
+// (X.680 (02/2021) §46.2 a)–c)). It returns (0, 0) when the value is not set.
 func (g GeneralizedTime) Accuracy() (unit TimeUnit, fractionDigits int) {
 	if g.IsZero() {
 		return 0, 0
@@ -289,10 +289,10 @@ func (u UTCTime) Accuracy() (unit TimeUnit, fractionDigits int) {
 	return u.fields().unit, 0
 }
 
-// Equal reports whether both carry the same abstract value. The decimal sign
-// and the spelling of a whole-hour differential are not part of it
-// (X.690 (02/2021) §11.9.1 a), b)); the accuracy and the zone kind are
-// (X.680 (02/2021) §46.3 NOTE 3). Two unset values are equal.
+// Equal compares abstract values: date, time, accuracy, zone kind and differential
+// (X.680 (02/2021) §46.2 a)–c)), ignoring decimal sign and whole-hour offset
+// spelling (§46.3 a) 2), c)). Canonical separately supplies the CER/DER form
+// (X.690 (02/2021) §11.7). Two unset values are equal.
 func (g GeneralizedTime) Equal(other GeneralizedTime) bool {
 	if g.IsZero() || other.IsZero() {
 		return g.IsZero() && other.IsZero()
