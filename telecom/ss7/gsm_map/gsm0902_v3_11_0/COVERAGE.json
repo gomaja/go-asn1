@@ -1,0 +1,747 @@
+[
+  {
+    "module": "MAP-AbortInformation",
+    "type": "MAPAbortInformation",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "AccessConnectionStatus",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "AddressString",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "AuthenticationSet",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "BasicServiceCode",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "BasicServiceList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "BearerServiceCode",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "BearerServiceList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CKSN",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CUG-Facilities",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CUG-Feature",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CUG-FeatureList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CUG-Index",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CUG-Information",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CUG-Information-component1",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CUG-Interlock",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CUG-Options",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CallBarringFeature",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CallBarringFeatureList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CallBarringInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CallDateTime",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CallDuration",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CallReference",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CallStatus",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CallType",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "Category",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "ChannelType",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "Charge",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "ChargingUnit",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CipheringMode",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "ClassmarkInformation",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "CmServiceType",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "EquipStatus",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "ExternalSignalInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "ForwardingData",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "ForwardingFeature",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "ForwardingFeatureList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "ForwardingInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "ForwardingOptions",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "GlobalCellId",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "GuidanceInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "HandoverPriority",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "HandoverType",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "HlrId",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "HlrList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "HuntGroupAccessSelectionOrder",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "IMEI",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "IMSI",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "IsdnAddressString",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "Kc",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "Ki",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "LMsId",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "LocAreaId",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "LocationInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "MaximumConfereesNumber",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "NetworkResource",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "NoReplyConditionTime",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "NumberOfConferees",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "NumberOfForwarding",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "PacketDataVolume",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "Password",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "ProtocolId",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "Rand",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "RequestParameter",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "RequestParameters",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SM-RP-DA",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SM-RP-OA",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SM-RP-UI",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-ChargingData",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-ChargingInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-Code",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-CodeList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-Data",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-DataList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-InfoList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-Information",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-Notification",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-Request",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-Status",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-SubscriptionOption",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SS-UserData",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SentParameter",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SentParameters",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SignalInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "Sres",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SubscriberData",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SubscriberId",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "SubscriberStatus",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "TBCD-STRING",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "TMSI",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "TeleserviceCode",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "TeleserviceList",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "TraceReference",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "TraceType",
+    "typed": true
+  },
+  {
+    "module": "MAP-DataTypes",
+    "type": "UserToUserServiceIndicator",
+    "typed": true
+  },
+  {
+    "module": "MAP-Errors",
+    "type": "CUG-Reject-parameter",
+    "typed": true
+  },
+  {
+    "module": "MAP-Errors",
+    "type": "CallBarred-parameter",
+    "typed": true
+  },
+  {
+    "module": "MAP-Errors",
+    "type": "PasswordRegistrationFailure-parameter",
+    "typed": true
+  },
+  {
+    "module": "MAP-Errors",
+    "type": "SM-DeliveryFailure-parameter",
+    "typed": true
+  },
+  {
+    "module": "MAP-Errors",
+    "type": "SS-Incompatibility-parameter",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "ActivateSS-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "ActivateTraceMode-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "AlertServiceCentre-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "Authenticate-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "BeginSubscriberActivity-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "CancelLocation-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "CancelLocation-argument-alternative1",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "CompleteCall-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "ConnectToFollowingAddress-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "DeactivateSS-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "DeactivateTraceMode-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "DeleteSubscriberData-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "EraseSS-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "ForwardShortMessage-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "ForwardSsNotification-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "InsertSubscriberData-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "InterrogateSS-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "InterrogateSS-result",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "InvokeSS-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "NoteInternalHandover-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "Page-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "PerformHandover-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "PerformHandover-result",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "PerformSubsequentHandover-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "ProcessAccessRequest-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "ProcessAccessRequest-result",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "ProvideRoamingNumber-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "RegisterChargingInformation-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "RegisterSS-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "Reset-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SearchForMobileSubscriber-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SearchForMobileSubscriber-argument-storedLocationArea",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendInfoForIncomingCall-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendInfoForIncomingCall-argument-incomingId",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendInfoForOutgoingCall-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendParameters-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendRoutingInfoForSM-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendRoutingInfoForSM-result",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendRoutingInfoForSM-result-component1",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendRoutingInfoForSM-result-component1-alternative0",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendRoutingInformation-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendRoutingInformation-result",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SendRoutingInformation-result-routingInfo",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SetCipheringMode-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "SetMessageWaitingData-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "TraceSubscriberActivity-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "UpdateLocation-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "UpdateLocationArea-argument",
+    "typed": true
+  },
+  {
+    "module": "MAP-Operations",
+    "type": "UpdateLocationArea-argument-previousLocAreaId",
+    "typed": true
+  }
+]

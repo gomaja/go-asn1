@@ -1,0 +1,1399 @@
+{
+  "corrections": [
+    {
+      "correctedSHA256": "8579161370b8cdca0de2a069a00266d0f47a79ebf46c697aeba524a3b4782e95",
+      "expected": "1..MaxSignalInfoLength",
+      "kind": "exact_source_replacement",
+      "originalSHA256": "4ed65796dc7ba73e523cd86c33036167cecd7d7fcfcde4f8952e59b32e13a790",
+      "path": "modules/MAP-AbortInformation.asn",
+      "reason": "Approved reading, 2026-11-09, decision 150 item 8: reference the imported maxSignalInfoLength value",
+      "replacement": "1..maxSignalInfoLength",
+      "sourceCollection": "gsm0902-v3-11-0",
+      "standardReference": "GSM 09.02 V3.11.0 §6, modules/MAP-AbortInformation.asn:21:4; X.208 (11/1988) §§9.3, 9.7–9.8; PDF page 22, OCR locator line 30"
+    },
+    {
+      "correctedSHA256": "c833a0e274fda04590ea6c4a8f58a50b6013d6b300dfff40cba9ed0a719b8887",
+      "expected": "maxNumberOfTeleServices,",
+      "kind": "exact_source_replacement",
+      "originalSHA256": "d6a5b0758429538e31814735dad8084c5392e36e10e86fbb5b592dab7d793ffa",
+      "path": "modules/MAP-Constants.asn",
+      "reason": "Approved reading, 2026-11-09, decision 150 item 8: reference the single declared maxNumberOfTeleservices",
+      "replacement": "maxNumberOfTeleservices,",
+      "sourceCollection": "gsm0902-v3-11-0",
+      "standardReference": "GSM 09.02 V3.11.0 §6, modules/MAP-Constants.asn:8:1; X.208 (11/1988) §§9.3, 9.7–9.8; PDF page 467, OCR locator line 7"
+    },
+    {
+      "correctedSHA256": "90e9e7e238b90ecb925c6d48c588d7182db47a8dd0f15c2f8ce37a13853743bb",
+      "expected": "maxNumberOfTeleServices,",
+      "kind": "exact_source_replacement",
+      "originalSHA256": "fd707cf966945294f97da47c4cef62215615df8b330ae735bb57b8b18ee79bfd",
+      "path": "modules/MAP-DataTypes.asn",
+      "reason": "Approved reading, 2026-11-09, decision 150 item 8: reference the single declared maxNumberOfTeleservices",
+      "replacement": "maxNumberOfTeleservices,",
+      "sourceCollection": "gsm0902-v3-11-0",
+      "standardReference": "GSM 09.02 V3.11.0 §6, modules/MAP-DataTypes.asn:10:22; X.208 (11/1988) §§9.3, 9.7–9.8; PDF page 471, OCR locator line 11"
+    }
+  ],
+  "files": [
+    {
+      "modules": [
+        "MAP-Constants"
+      ],
+      "originalSHA256": "d6a5b0758429538e31814735dad8084c5392e36e10e86fbb5b592dab7d793ffa",
+      "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn",
+      "relativePath": "modules/MAP-Constants.asn",
+      "sha256": "c833a0e274fda04590ea6c4a8f58a50b6013d6b300dfff40cba9ed0a719b8887",
+      "sourceCollection": "gsm0902-v3-11-0"
+    },
+    {
+      "modules": [
+        "MAP-AbortInformation"
+      ],
+      "originalSHA256": "4ed65796dc7ba73e523cd86c33036167cecd7d7fcfcde4f8952e59b32e13a790",
+      "path": "spec/gsm0902-v3-11-0/modules/MAP-AbortInformation.asn",
+      "relativePath": "modules/MAP-AbortInformation.asn",
+      "sha256": "8579161370b8cdca0de2a069a00266d0f47a79ebf46c697aeba524a3b4782e95",
+      "sourceCollection": "gsm0902-v3-11-0"
+    },
+    {
+      "modules": [
+        "MAP-DataTypes"
+      ],
+      "originalSHA256": "fd707cf966945294f97da47c4cef62215615df8b330ae735bb57b8b18ee79bfd",
+      "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn",
+      "relativePath": "modules/MAP-DataTypes.asn",
+      "sha256": "90e9e7e238b90ecb925c6d48c588d7182db47a8dd0f15c2f8ce37a13853743bb",
+      "sourceCollection": "gsm0902-v3-11-0"
+    }
+  ],
+  "modules": [
+    {
+      "assignments": [
+        {
+          "kind": "value",
+          "name": "maxSignalInfoLength",
+          "position": {
+            "column": 1,
+            "line": 25,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumberOfTeleservices",
+          "position": {
+            "column": 1,
+            "line": 38,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumberOfBearerServices",
+          "position": {
+            "column": 1,
+            "line": 39,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumberOfSupplServices",
+          "position": {
+            "column": 1,
+            "line": 40,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumberOfCUG",
+          "position": {
+            "column": 1,
+            "line": 42,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumberOfBasicServices",
+          "position": {
+            "column": 1,
+            "line": 43,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumberOfForwardingFeatures",
+          "position": {
+            "column": 1,
+            "line": 44,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumberOfCallBarringFeatures",
+          "position": {
+            "column": 1,
+            "line": 45,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumberOfHlrId",
+          "position": {
+            "column": 1,
+            "line": 46,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxPacketDataVolume",
+          "position": {
+            "column": 1,
+            "line": 47,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumberOfChargingUnit",
+          "position": {
+            "column": 1,
+            "line": 48,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxCallDuration",
+          "position": {
+            "column": 1,
+            "line": 49,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxAddressLength",
+          "position": {
+            "column": 1,
+            "line": 50,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        },
+        {
+          "kind": "value",
+          "name": "maxNumberOfSentParameters",
+          "position": {
+            "column": 1,
+            "line": 52,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": false,
+        "symbols": [
+          {
+            "name": "maxSignalInfoLength",
+            "position": {
+              "column": 1,
+              "line": 7,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxNumberOfTeleservices",
+            "position": {
+              "column": 1,
+              "line": 8,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxNumberOfBearerServices",
+            "position": {
+              "column": 1,
+              "line": 9,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxNumberOfSupplServices",
+            "position": {
+              "column": 1,
+              "line": 10,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxNumberOfCUG",
+            "position": {
+              "column": 1,
+              "line": 12,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxNumberOfBasicServices",
+            "position": {
+              "column": 1,
+              "line": 13,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxNumberOfForwardingFeatures",
+            "position": {
+              "column": 1,
+              "line": 14,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxNumberOfCallBarringFeatures",
+            "position": {
+              "column": 1,
+              "line": 15,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxNumberOfHlrId",
+            "position": {
+              "column": 1,
+              "line": 16,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxPacketDataVolume",
+            "position": {
+              "column": 1,
+              "line": 17,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxNumberOfChargingUnit",
+            "position": {
+              "column": 1,
+              "line": 18,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxCallDuration",
+            "position": {
+              "column": 1,
+              "line": 19,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxAddressLength",
+            "position": {
+              "column": 1,
+              "line": 20,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          },
+          {
+            "name": "maxNumberOfSentParameters",
+            "position": {
+              "column": 1,
+              "line": 21,
+              "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+            }
+          }
+        ]
+      },
+      "identity": {
+        "name": "MAP-Constants",
+        "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn",
+        "relativePath": "modules/MAP-Constants.asn",
+        "sha256": "c833a0e274fda04590ea6c4a8f58a50b6013d6b300dfff40cba9ed0a719b8887",
+        "sourceCollection": "gsm0902-v3-11-0"
+      },
+      "name": "MAP-Constants",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn"
+      },
+      "sha256": "c833a0e274fda04590ea6c4a8f58a50b6013d6b300dfff40cba9ed0a719b8887"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "MAPAbortInformation",
+          "position": {
+            "column": 1,
+            "line": 8,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-AbortInformation.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": true
+      },
+      "identity": {
+        "name": "MAP-AbortInformation",
+        "path": "spec/gsm0902-v3-11-0/modules/MAP-AbortInformation.asn",
+        "relativePath": "modules/MAP-AbortInformation.asn",
+        "sha256": "8579161370b8cdca0de2a069a00266d0f47a79ebf46c697aeba524a3b4782e95",
+        "sourceCollection": "gsm0902-v3-11-0"
+      },
+      "imports": [
+        {
+          "module": "MAP-Constants",
+          "position": {
+            "column": 26,
+            "line": 6,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-AbortInformation.asn"
+          },
+          "symbols": [
+            {
+              "kind": "value",
+              "name": "maxSignalInfoLength",
+              "position": {
+                "column": 1,
+                "line": 6,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-AbortInformation.asn"
+              }
+            }
+          ],
+          "target": {
+            "name": "MAP-Constants",
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn",
+            "relativePath": "modules/MAP-Constants.asn",
+            "sha256": "c833a0e274fda04590ea6c4a8f58a50b6013d6b300dfff40cba9ed0a719b8887",
+            "sourceCollection": "gsm0902-v3-11-0"
+          }
+        }
+      ],
+      "name": "MAP-AbortInformation",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v3-11-0/modules/MAP-AbortInformation.asn"
+      },
+      "sha256": "8579161370b8cdca0de2a069a00266d0f47a79ebf46c697aeba524a3b4782e95"
+    },
+    {
+      "assignments": [
+        {
+          "kind": "type",
+          "name": "TBCD-STRING",
+          "position": {
+            "column": 1,
+            "line": 21,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "AddressString",
+          "position": {
+            "column": 1,
+            "line": 27,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "IsdnAddressString",
+          "position": {
+            "column": 1,
+            "line": 30,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ExternalSignalInfo",
+          "position": {
+            "column": 1,
+            "line": 32,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SignalInfo",
+          "position": {
+            "column": 1,
+            "line": 36,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ProtocolId",
+          "position": {
+            "column": 1,
+            "line": 38,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "IMSI",
+          "position": {
+            "column": 1,
+            "line": 49,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "TMSI",
+          "position": {
+            "column": 1,
+            "line": 52,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SubscriberId",
+          "position": {
+            "column": 1,
+            "line": 55,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "IMEI",
+          "position": {
+            "column": 1,
+            "line": 60,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "LocAreaId",
+          "position": {
+            "column": 1,
+            "line": 67,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "LocationInfo",
+          "position": {
+            "column": 1,
+            "line": 76,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "HlrId",
+          "position": {
+            "column": 1,
+            "line": 80,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "HlrList",
+          "position": {
+            "column": 1,
+            "line": 83,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "LMsId",
+          "position": {
+            "column": 1,
+            "line": 87,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "GlobalCellId",
+          "position": {
+            "column": 1,
+            "line": 90,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Category",
+          "position": {
+            "column": 1,
+            "line": 107,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "EquipStatus",
+          "position": {
+            "column": 1,
+            "line": 110,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "BearerServiceCode",
+          "position": {
+            "column": 1,
+            "line": 116,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "BearerServiceList",
+          "position": {
+            "column": 1,
+            "line": 152,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "TeleserviceCode",
+          "position": {
+            "column": 1,
+            "line": 236,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "TeleserviceList",
+          "position": {
+            "column": 1,
+            "line": 245,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "BasicServiceCode",
+          "position": {
+            "column": 1,
+            "line": 250,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "BasicServiceList",
+          "position": {
+            "column": 1,
+            "line": 254,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SubscriberStatus",
+          "position": {
+            "column": 1,
+            "line": 259,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-Code",
+          "position": {
+            "column": 1,
+            "line": 304,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-CodeList",
+          "position": {
+            "column": 1,
+            "line": 326,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-Status",
+          "position": {
+            "column": 1,
+            "line": 331,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-Information",
+          "position": {
+            "column": 1,
+            "line": 343,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-InfoList",
+          "position": {
+            "column": 1,
+            "line": 349,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-Data",
+          "position": {
+            "column": 1,
+            "line": 357,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-DataList",
+          "position": {
+            "column": 1,
+            "line": 363,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-Request",
+          "position": {
+            "column": 1,
+            "line": 368,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-SubscriptionOption",
+          "position": {
+            "column": 1,
+            "line": 377,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardingOptions",
+          "position": {
+            "column": 1,
+            "line": 386,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "UserToUserServiceIndicator",
+          "position": {
+            "column": 1,
+            "line": 397,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "MaximumConfereesNumber",
+          "position": {
+            "column": 1,
+            "line": 406,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "HuntGroupAccessSelectionOrder",
+          "position": {
+            "column": 1,
+            "line": 412,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "NoReplyConditionTime",
+          "position": {
+            "column": 1,
+            "line": 417,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "NumberOfConferees",
+          "position": {
+            "column": 1,
+            "line": 421,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Facilities",
+          "position": {
+            "column": 1,
+            "line": 424,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Interlock",
+          "position": {
+            "column": 1,
+            "line": 432,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Index",
+          "position": {
+            "column": 1,
+            "line": 435,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Options",
+          "position": {
+            "column": 1,
+            "line": 438,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Feature",
+          "position": {
+            "column": 1,
+            "line": 450,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-FeatureList",
+          "position": {
+            "column": 1,
+            "line": 457,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CUG-Information",
+          "position": {
+            "column": 1,
+            "line": 463,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardingInfo",
+          "position": {
+            "column": 1,
+            "line": 472,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardingData",
+          "position": {
+            "column": 1,
+            "line": 476,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardingFeature",
+          "position": {
+            "column": 1,
+            "line": 481,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ForwardingFeatureList",
+          "position": {
+            "column": 1,
+            "line": 488,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallBarringInfo",
+          "position": {
+            "column": 1,
+            "line": 491,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallBarringFeature",
+          "position": {
+            "column": 1,
+            "line": 495,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallBarringFeatureList",
+          "position": {
+            "column": 1,
+            "line": 499,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SubscriberData",
+          "position": {
+            "column": 1,
+            "line": 502,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-Notification",
+          "position": {
+            "column": 1,
+            "line": 513,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Password",
+          "position": {
+            "column": 1,
+            "line": 517,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "GuidanceInfo",
+          "position": {
+            "column": 1,
+            "line": 526,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-UserData",
+          "position": {
+            "column": 1,
+            "line": 539,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallReference",
+          "position": {
+            "column": 1,
+            "line": 557,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallType",
+          "position": {
+            "column": 1,
+            "line": 559,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-ChargingData",
+          "position": {
+            "column": 1,
+            "line": 566,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SS-ChargingInfo",
+          "position": {
+            "column": 1,
+            "line": 571,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallDuration",
+          "position": {
+            "column": 1,
+            "line": 575,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallDateTime",
+          "position": {
+            "column": 1,
+            "line": 577,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "PacketDataVolume",
+          "position": {
+            "column": 1,
+            "line": 581,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Charge",
+          "position": {
+            "column": 1,
+            "line": 583,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ChargingUnit",
+          "position": {
+            "column": 1,
+            "line": 585,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CallStatus",
+          "position": {
+            "column": 1,
+            "line": 588,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "NumberOfForwarding",
+          "position": {
+            "column": 1,
+            "line": 603,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ChannelType",
+          "position": {
+            "column": 1,
+            "line": 610,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "ClassmarkInformation",
+          "position": {
+            "column": 1,
+            "line": 619,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "HandoverPriority",
+          "position": {
+            "column": 1,
+            "line": 624,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "HandoverType",
+          "position": {
+            "column": 1,
+            "line": 630,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "AuthenticationSet",
+          "position": {
+            "column": 1,
+            "line": 639,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Rand",
+          "position": {
+            "column": 1,
+            "line": 645,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Sres",
+          "position": {
+            "column": 1,
+            "line": 647,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Kc",
+          "position": {
+            "column": 1,
+            "line": 649,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "Ki",
+          "position": {
+            "column": 1,
+            "line": 651,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CKSN",
+          "position": {
+            "column": 1,
+            "line": 653,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CipheringMode",
+          "position": {
+            "column": 1,
+            "line": 658,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SM-RP-DA",
+          "position": {
+            "column": 1,
+            "line": 668,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SM-RP-OA",
+          "position": {
+            "column": 1,
+            "line": 675,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SM-RP-UI",
+          "position": {
+            "column": 1,
+            "line": 680,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "TraceReference",
+          "position": {
+            "column": 1,
+            "line": 687,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "TraceType",
+          "position": {
+            "column": 1,
+            "line": 689,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "NetworkResource",
+          "position": {
+            "column": 1,
+            "line": 698,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "RequestParameter",
+          "position": {
+            "column": 1,
+            "line": 713,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "RequestParameters",
+          "position": {
+            "column": 1,
+            "line": 720,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SentParameter",
+          "position": {
+            "column": 1,
+            "line": 722,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "SentParameters",
+          "position": {
+            "column": 1,
+            "line": 730,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "CmServiceType",
+          "position": {
+            "column": 1,
+            "line": 735,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        },
+        {
+          "kind": "type",
+          "name": "AccessConnectionStatus",
+          "position": {
+            "column": 1,
+            "line": 744,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          }
+        }
+      ],
+      "exports": {
+        "all": true
+      },
+      "identity": {
+        "name": "MAP-DataTypes",
+        "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn",
+        "relativePath": "modules/MAP-DataTypes.asn",
+        "sha256": "90e9e7e238b90ecb925c6d48c588d7182db47a8dd0f15c2f8ce37a13853743bb",
+        "sourceCollection": "gsm0902-v3-11-0"
+      },
+      "imports": [
+        {
+          "module": "MAP-Constants",
+          "position": {
+            "column": 6,
+            "line": 17,
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+          },
+          "symbols": [
+            {
+              "kind": "value",
+              "name": "maxSignalInfoLength",
+              "position": {
+                "column": 1,
+                "line": 10,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumberOfTeleservices",
+              "position": {
+                "column": 22,
+                "line": 10,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumberOfBearerServices",
+              "position": {
+                "column": 1,
+                "line": 11,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumberOfSupplServices",
+              "position": {
+                "column": 28,
+                "line": 11,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumberOfCUG",
+              "position": {
+                "column": 1,
+                "line": 12,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumberOfBasicServices",
+              "position": {
+                "column": 17,
+                "line": 12,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumberOfForwardingFeatures",
+              "position": {
+                "column": 1,
+                "line": 13,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumberOfCallBarringFeatures",
+              "position": {
+                "column": 32,
+                "line": 13,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumberOfHlrId",
+              "position": {
+                "column": 1,
+                "line": 14,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxPacketDataVolume",
+              "position": {
+                "column": 19,
+                "line": 14,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumberOfChargingUnit",
+              "position": {
+                "column": 1,
+                "line": 15,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxCallDuration",
+              "position": {
+                "column": 26,
+                "line": 15,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxAddressLength",
+              "position": {
+                "column": 1,
+                "line": 16,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            },
+            {
+              "kind": "value",
+              "name": "maxNumberOfSentParameters",
+              "position": {
+                "column": 19,
+                "line": 16,
+                "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+              }
+            }
+          ],
+          "target": {
+            "name": "MAP-Constants",
+            "path": "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn",
+            "relativePath": "modules/MAP-Constants.asn",
+            "sha256": "c833a0e274fda04590ea6c4a8f58a50b6013d6b300dfff40cba9ed0a719b8887",
+            "sourceCollection": "gsm0902-v3-11-0"
+          }
+        }
+      ],
+      "name": "MAP-DataTypes",
+      "position": {
+        "column": 1,
+        "line": 1,
+        "path": "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+      },
+      "sha256": "90e9e7e238b90ecb925c6d48c588d7182db47a8dd0f15c2f8ce37a13853743bb"
+    }
+  ],
+  "rootFiles": [
+    "spec/gsm0902-v3-11-0/modules/MAP-AbortInformation.asn",
+    "spec/gsm0902-v3-11-0/modules/MAP-Constants.asn",
+    "spec/gsm0902-v3-11-0/modules/MAP-DataTypes.asn"
+  ],
+  "version": 1
+}

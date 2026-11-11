@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/map_profile.go; SHA-256 194025dc66d8ec601ffef797df9353261605c5a3419add9686219ace16a460e2.
+// Runtime source: runtime/ber/map_profile.go; SHA-256 70124d1229f37fe8828ec213fb1f0997e1d81b17d60efb378b30e1cb58cbc6b6.
 package ber
 
 import (
@@ -28,7 +28,7 @@ func TrackMAPForm(options []DecodeOption) []DecodeOption {
 // §17.1.1 covers its defined abstract syntaxes; X.880 and TS 24.080 roots
 // retain generic X.690 BER, including nested imported MAP definitions.
 func TrackMAPSyntax(options []DecodeOption, enabled bool) []DecodeOption {
-	return trackMAPSyntax(options, enabled, false)
+	return trackMAPSyntax(options, enabled, false, false)
 }
 
 // TrackGSM0902Form selects the historical edition's own BER profile.
@@ -36,19 +36,26 @@ func TrackMAPSyntax(options []DecodeOption, enabled bool) []DecodeOption {
 // must be encoded in a primitive form.” Its length rules match the predicates
 // below; the diagnostic authority remains this edition.
 func TrackGSM0902Form(options []DecodeOption) []DecodeOption {
-	return trackMAPSyntax(options, true, true)
+	return trackMAPSyntax(options, true, true, false)
 }
 
-func trackMAPSyntax(options []DecodeOption, enabled, historical bool) []DecodeOption {
+// TrackGSM0902Phase1Form selects GSM 09.02 V3.11.0 §6.1.
+// Only OCTET STRING is required to be primitive. Constructed BIT STRING and
+// indefinite constructed lengths retain the referenced X.209 BER rules.
+func TrackGSM0902Phase1Form(options []DecodeOption) []DecodeOption {
+	return trackMAPSyntax(options, true, false, true)
+}
+
+func trackMAPSyntax(options []DecodeOption, enabled, historical, phase1 bool) []DecodeOption {
 	options = TrackBERForm(options)
 	if len(options) == 1 {
 		switch option := options[0].(type) {
 		case berFormOption:
-			setMAPSyntax(option.state, enabled, historical)
+			setMAPSyntax(option.state, enabled, historical, phase1)
 			return options
 		case *generatedDecodeOption:
 			if option != nil {
-				setMAPSyntax(option.config.form, enabled, historical)
+				setMAPSyntax(option.config.form, enabled, historical, phase1)
 			}
 			return options
 		}
@@ -56,15 +63,15 @@ func trackMAPSyntax(options []DecodeOption, enabled, historical bool) []DecodeOp
 	for _, option := range options {
 		switch value := option.(type) {
 		case berFormOption:
-			setMAPSyntax(value.state, enabled, historical)
+			setMAPSyntax(value.state, enabled, historical, phase1)
 			return options
 		case *generatedDecodeOption:
 			if value != nil {
-				setMAPSyntax(value.config.form, enabled, historical)
+				setMAPSyntax(value.config.form, enabled, historical, phase1)
 			}
 			return options
 		case diagnosticChildOption:
-			trackMAPSyntax(value.options, enabled, historical)
+			trackMAPSyntax(value.options, enabled, historical, phase1)
 			return options
 		}
 	}
@@ -77,21 +84,25 @@ const (
 	mapSyntaxGeneric   uint8 = 1
 	mapSyntaxProfile   uint8 = 2
 	mapSyntaxGenerated uint8 = 3
-	mapSyntaxMask      uint8 = 0x1f
+	mapSyntaxMask      uint8 = 0x0f
+	mapSyntaxPhase1    uint8 = 0x10
 	mapSyntaxGSM0902   uint8 = 0x20
 	mapSyntaxRechecked uint8 = 0x40
-	mapSyntaxFlags     uint8 = 0xe0
+	mapSyntaxFlags     uint8 = 0xf0
 	mapSyntaxContents  uint8 = 0x80
 )
 
 func (form *berFormState) mapProfile() bool { return form.mapSyntax&mapSyntaxMask >= mapSyntaxProfile }
-func setMAPSyntax(form *berFormState, enabled, historical bool) {
+func setMAPSyntax(form *berFormState, enabled, historical, phase1 bool) {
 	if form != nil && form.mapSyntax&mapSyntaxMask == 0 {
 		form.mapSyntax = form.mapSyntax&mapSyntaxFlags | mapSyntaxGeneric
 		if enabled {
 			form.mapSyntax = form.mapSyntax&mapSyntaxFlags | mapSyntaxProfile
 			if historical {
 				form.mapSyntax |= mapSyntaxGSM0902
+			}
+			if phase1 {
+				form.mapSyntax |= mapSyntaxPhase1
 			}
 		}
 	}
@@ -166,6 +177,10 @@ func collectMAPForm(form *berFormState, data []byte, offset int, t tag.Tag, leng
 		return
 	}
 	rules := mapProfileRules(t, length, indefinite)
+	// GSM 09.02 V3.11.0 §6.1 modifies OCTET STRING only.
+	if form.mapSyntax&mapSyntaxPhase1 != 0 {
+		rules &^= mapPrimitiveBits
+	}
 	if rules == 0 {
 		return
 	}
@@ -391,6 +406,10 @@ func finishMAPDecode(prior error, config decodeConfig) error {
 				v.Rule = RuleRef{Document: "GSM 09.02", Edition: "V4.19.1", Clause: "14.1.1"}
 				v.Constraint = "GSM 09.02 V4.19.1 §14.1.1: " + name
 			}
+			if form.mapSyntax&mapSyntaxPhase1 != 0 {
+				v.Rule = RuleRef{Document: "GSM 09.02", Edition: "V3.11.0", Clause: "6.1"}
+				v.Constraint = "GSM 09.02 V3.11.0 §6.1: " + name
+			}
 			if config.location != nil {
 				var err error
 				v.ChildIndexes, err = config.location.decodeOrigin().ancestry(offset)
@@ -435,6 +454,11 @@ func checkMAPStringForm(constructed bool, kind int, options []DecodeOption) erro
 		return err
 	}
 	if config.form == nil || !config.form.mapProfile() || config.location == nil {
+		return nil
+	}
+	// GSM 09.02 V3.11.0 §6.1 does not restrict constructed BIT STRING,
+	// including IMPLICIT strings whose universal tag is absent on the wire.
+	if kind == tag.TagBitString && config.form.mapSyntax&mapSyntaxPhase1 != 0 {
 		return nil
 	}
 	location := config.location
