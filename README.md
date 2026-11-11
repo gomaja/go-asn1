@@ -684,6 +684,79 @@ This is a historical edition by design. ITU-T withdrew X.208 and X.209 on
 30 October 2002 in favour of X.680–X.683 and X.690, and the edition keeps
 the 1988 references it was written against.
 
+### GSM MAP Phase 1 source edition
+
+`github.com/gomaja/go-asn1/telecom/ss7/gsm_map/gsm0902_v3_11_0` holds the
+codecs of GSM 09.02 V3.11.0 (April 1995), the final Phase 1 edition, which MAP
+application contexts of version 1 use. All 149 of its types are typed: the 94
+declared in its modules, the 47 written inline in its OPERATION and ERROR
+macros, and 8 nested types lifted from those. The native catalogue keeps the
+53 coded operations and 39 errors under Q.773 (11/1988) Annex A. Each
+operation keeps its parameter and result types and its ERRORS and LINKED
+lists, with an absent RESULT kept apart from an empty one, and each error its
+parameter type. `DeregisterMobileSubscriber` is declared without a code, so it
+is not in the catalogue. `LookupMacroOperation` and `LookupMacroError` build
+only the requested entry. The package holds codecs only. Dialogue and
+procedure state stay with the wrapper.
+
+A wrapper chooses this package from the dialogue's application context:
+version 1 selects it, and the operation code then selects the parameter,
+result or error parameter. An operation code alone does not identify the
+edition.
+
+The modules use three X.208 (11/1988) notations that later ASN.1 dropped,
+and the package keeps their meaning:
+
+- **Components without identifiers** (§§12.5–12.6, 20.1, 22.1, 24.1), as in
+  `CUG-Information` and `Password`. Such a component is named after its
+  zero-based position in the printed list: `CUGInformation.Component1`,
+  `Password.Alternative0` and `Password.Alternative1`. An inline macro type
+  takes the name of its definition and role, such as `ActivateSSArgument`.
+- **A union of an alphabet and a size** (§§36.6–36.8). `Password`'s
+  NumericString alternative is printed as
+  `FROM ("0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") | SIZE(4)`, and a value is
+  valid when it satisfies either operand. Later editions write an
+  intersection instead.
+- **SIZE on GeneralizedTime** (§32.3, Table 7, §37.4):
+  `CallDateTime ::= GeneralizedTime (SIZE (14 .. 24))` counts characters.
+
+GeneralizedTime follows X.208 §32.3 and the standards it brings in:
+ISO 3307:1975 §2.5 limits seconds to 00–59, and ISO 4031:1978 §3 writes a
+time differential as a sign and four digits. The package refuses second 60
+and hour-only differentials and enforces `CallDateTime`'s SIZE, both when
+decoding and when encoding; fresh encoding refuses such a time even with
+`ber.WithTolerance`. The TS 29.002 package and the Phase 2 edition keep their
+own rules.
+
+Strict decoding applies the edition's BER profile, GSM 09.02 V3.11.0 §6.1:
+primitive OCTET STRING, and, where the definite form is used, short lengths
+below 128 and long-form lengths in the fewest octets. That text imposes no
+primitive BIT STRING and no definite-only constructors, so the profile does
+not either. `ber.WithTolerance` records a representable violation instead of
+refusing it, and strict replay of such a value refuses it. Fresh encoding
+checks the source constraints.
+The package's generated diagnostics cite X.208 and X.209 (11/1988); the
+shared runtime's structural diagnostics keep their own citations.
+
+The locked modules keep their original bytes. Eighteen approved readings
+apply when parsing, each an exact source replacement with its location and
+reason: operation 19 and errors 33 and 37 get the governor or the `=` their
+declarations need, operation 48 the declared `NoteMSPresent`, four ERRORS and
+LINKED lists their opening braces, eight references their single declared
+targets, and two import lists their missing commas.
+
+No capture of this edition exists. Its 160 synthetic values, two for each of
+the 80 typed operation and error roles, decode strictly into typed values,
+replay byte for byte, and encode from their typed fields alone to the same
+bytes. Erlang/OTP 29 with ASN.1 5.5.2 decodes all 160 of them independently
+and pycrate 0.7.11 decodes 154, with the same typed fields. OCTET STRING
+fields carry their source bytes, and protocols carried inside them need their
+own codecs.
+
+This is a historical edition by design. ITU-T withdrew X.208 and X.209 on
+30 October 2002 in favour of X.680–X.683 and X.690, Q.773 (11/1988) has been
+superseded, and the edition keeps the 1988 references it was written against.
+
 ### Owned runtimes
 
 S1AP, X2AP, LPPa, LTE RRC, LPP and UMTS RRC carry their own runtimes. None of these packages, nor their runtimes, imports the shared root
@@ -1759,6 +1832,7 @@ was rejected and now decodes `[timeslotISCP, primaryCCPCH-RSCP]`.
 | `ss7/ansi_tcap` | ANSI TCAP | MTP3/SCCP (ANSI variant) | BER | planned |
 | `ss7/gsm_map` | GSM MAP | C/D/E/Gr (HLR/VLR/MSC) | BER | **[compiled]** |
 | `ss7/gsm_map/gsm0902_v4_19_1` | GSM MAP Phase 2 (GSM 09.02 V4.19.1) | Application contexts of version 2 | BER | **[compiled]** |
+| `ss7/gsm_map/gsm0902_v3_11_0` | GSM MAP Phase 1 (GSM 09.02 V3.11.0) | Application contexts of version 1 | BER | **[compiled]** |
 | `ss7/camel` | CAMEL | gsmSSF ↔ gsmSCF | BER | planned |
 | `ss7/inap` | INAP | SSF ↔ SCF (IN CS-1/CS-2) | BER | planned |
 | `ss7/ain` | AIN | SSP ↔ SCP (N. America) | BER | planned |

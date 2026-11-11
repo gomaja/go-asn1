@@ -1,0 +1,321 @@
+{
+  "edition": "gsm0902-v3-11-0",
+  "fixture_sha256": "7ab856a9b1c301cf647e5d70604048af661c0069b63e726a4d00eb1fe00f2133",
+  "source_lock_sha256": "ae7663cff21a2388c7dd7d2d2726b14b6da7a80abacdee82f716ba55347f96e2",
+  "approved_readings_sha256": "16a3ebef66b5f528613a057a44fc0e216165d511fefea9b302e17d38b7049acb",
+  "otp": {
+    "image": "erlang@sha256:d6cd61f5946cc8a39da42a1e90adeef1301b92c86ede6c5a8cf9594d03e0b8b1",
+    "release": "29",
+    "asn1_version": "5.5.2",
+    "values": 160,
+    "typed_roles": 80,
+    "coded_typed_roles": 79,
+    "scope": "Grammar and value mapping; subtype and historical time verdicts come from the source texts"
+  },
+  "independent_pycrate": {
+    "version": "0.7.11",
+    "values": 154,
+    "typed_roles": 77,
+    "excluded_roles": [
+      "getPassword/result",
+      "registerChargingInformation/argument",
+      "registerPassword/result"
+    ],
+    "scope": "Oracle-only copies omit Password, CallDateTime and the three dependent role aliases; no generated input is changed"
+  },
+  "copies": [
+    {
+      "file": "MAP-AbortInformation.asn",
+      "original_sha256": "4ed65796dc7ba73e523cd86c33036167cecd7d7fcfcde4f8952e59b32e13a790",
+      "approved_sha256": "8579161370b8cdca0de2a069a00266d0f47a79ebf46c697aeba524a3b4782e95",
+      "copy_sha256": "8579161370b8cdca0de2a069a00266d0f47a79ebf46c697aeba524a3b4782e95",
+      "original_bytes": 626,
+      "approved_bytes": 626,
+      "copy_bytes": 626,
+      "approved_readings": 1,
+      "insertions": 0
+    },
+    {
+      "file": "MAP-Constants.asn",
+      "original_sha256": "d6a5b0758429538e31814735dad8084c5392e36e10e86fbb5b592dab7d793ffa",
+      "approved_sha256": "c833a0e274fda04590ea6c4a8f58a50b6013d6b300dfff40cba9ed0a719b8887",
+      "copy_sha256": "c833a0e274fda04590ea6c4a8f58a50b6013d6b300dfff40cba9ed0a719b8887",
+      "original_bytes": 1545,
+      "approved_bytes": 1545,
+      "copy_bytes": 1545,
+      "approved_readings": 1,
+      "insertions": 0
+    },
+    {
+      "file": "MAP-DataTypes.asn",
+      "original_sha256": "fd707cf966945294f97da47c4cef62215615df8b330ae735bb57b8b18ee79bfd",
+      "approved_sha256": "90e9e7e238b90ecb925c6d48c588d7182db47a8dd0f15c2f8ce37a13853743bb",
+      "copy_sha256": "465089b1b8188f8398db69e7f744bdc7736fc67bc4682c48bea797fabfa197f4",
+      "original_bytes": 15688,
+      "approved_bytes": 15688,
+      "copy_bytes": 15725,
+      "approved_readings": 1,
+      "insertions": 3
+    },
+    {
+      "file": "MAP-Errors.asn",
+      "original_sha256": "aeec58fd412ba963965b980e45526bf9688d9bc5cf0ca49c85e7fc0c36c0aed1",
+      "approved_sha256": "f1b92ec139d1651e686dc13c3b75f5f7553eddead90de5f99e7802848e855221",
+      "copy_sha256": "f1b92ec139d1651e686dc13c3b75f5f7553eddead90de5f99e7802848e855221",
+      "original_bytes": 3236,
+      "approved_bytes": 3236,
+      "copy_bytes": 3236,
+      "approved_readings": 1,
+      "insertions": 0
+    },
+    {
+      "file": "MAP-Operations.asn",
+      "original_sha256": "d9ba969076b62cb9c885d3e60b4970cf24cc7fe0dcde03e1eaeca88102df5e01",
+      "approved_sha256": "a3b70ac40097c55683ae1de6a0740961ec228a2fad46d75db3973f4765a7fcd0",
+      "copy_sha256": "bd6dfa39979375cafb8b98bfdea1b66552ed363c000dd063978c129a339ebe1f",
+      "original_bytes": 19249,
+      "approved_bytes": 19257,
+      "copy_bytes": 19346,
+      "approved_readings": 6,
+      "insertions": 7
+    },
+    {
+      "file": "MAP-Protocol.asn",
+      "original_sha256": "edb01ce95e7de2678ab0b91ab4ffd3ff3bbcd765e9fdb626f6201aed13fc6ba5",
+      "approved_sha256": "df1619b8cad3a450f28595cd49bde04ac290290d996549bf0d25acc504298ace",
+      "copy_sha256": "df1619b8cad3a450f28595cd49bde04ac290290d996549bf0d25acc504298ace",
+      "original_bytes": 6440,
+      "approved_bytes": 6490,
+      "copy_bytes": 6490,
+      "approved_readings": 8,
+      "insertions": 0
+    }
+  ],
+  "anonymous_insertions": [
+    {
+      "file": "MAP-DataTypes.asn",
+      "owner": "CUG-Information",
+      "container": "SEQUENCE",
+      "position": 1,
+      "identifier": "component1",
+      "byte_offset": 9034,
+      "line": 465,
+      "column": 4,
+      "type_start": "CHOICE{\n\tcug-Feature\t\t\t[0] IMPLICIT CUG-Feature,\n\tcug-FeatureList\t\t[1] IMPLICIT CUG-FeatureList}",
+      "insertion": "component1 "
+    },
+    {
+      "file": "MAP-DataTypes.asn",
+      "owner": "Password",
+      "container": "CHOICE",
+      "position": 0,
+      "identifier": "alternative0",
+      "byte_offset": 10660,
+      "line": 518,
+      "column": 3,
+      "type_start": "PrintableString (SIZE(4..8))",
+      "insertion": "alternative0 "
+    },
+    {
+      "file": "MAP-DataTypes.asn",
+      "owner": "Password",
+      "container": "CHOICE",
+      "position": 1,
+      "identifier": "alternative1",
+      "byte_offset": 10692,
+      "line": 519,
+      "column": 3,
+      "type_start": "NumericString (FROM (\n\t\t\"0\"|\"1\"|\"2\"|\"3\"|\"4\"|\n\t\t\"5\"|\"6\"|\"7\"|\"8\"|\"9\")|\n\t\tSIZE(4))",
+      "insertion": "alternative1 "
+    },
+    {
+      "file": "MAP-Operations.asn",
+      "owner": "UpdateLocationArea",
+      "container": "CHOICE",
+      "position": 0,
+      "identifier": "alternative0",
+      "byte_offset": 3450,
+      "line": 105,
+      "column": 5,
+      "type_start": "LocAreaId",
+      "insertion": "alternative0 "
+    },
+    {
+      "file": "MAP-Operations.asn",
+      "owner": "UpdateLocationArea",
+      "container": "CHOICE",
+      "position": 1,
+      "identifier": "alternative1",
+      "byte_offset": 3465,
+      "line": 106,
+      "column": 5,
+      "type_start": "NULL",
+      "insertion": "alternative1 "
+    },
+    {
+      "file": "MAP-Operations.asn",
+      "owner": "CancelLocation",
+      "container": "CHOICE",
+      "position": 1,
+      "identifier": "alternative1",
+      "byte_offset": 3994,
+      "line": 141,
+      "column": 4,
+      "type_start": "SEQUENCE{\n\timsi\t\t\tIMSI,\n\tlMsId\t\t\tLMsId}",
+      "insertion": "alternative1 "
+    },
+    {
+      "file": "MAP-Operations.asn",
+      "owner": "SearchForMobileSubscriber",
+      "container": "CHOICE",
+      "position": 0,
+      "identifier": "alternative0",
+      "byte_offset": 12861,
+      "line": 591,
+      "column": 5,
+      "type_start": "LocAreaId",
+      "insertion": "alternative0 "
+    },
+    {
+      "file": "MAP-Operations.asn",
+      "owner": "SearchForMobileSubscriber",
+      "container": "CHOICE",
+      "position": 1,
+      "identifier": "alternative1",
+      "byte_offset": 12876,
+      "line": 592,
+      "column": 5,
+      "type_start": "NULL",
+      "insertion": "alternative1 "
+    },
+    {
+      "file": "MAP-Operations.asn",
+      "owner": "SendRoutingInfoForSM",
+      "container": "SEQUENCE",
+      "position": 1,
+      "identifier": "component1",
+      "byte_offset": 17680,
+      "line": 882,
+      "column": 4,
+      "type_start": "CHOICE{\n\t\t\t\t[0] IMPLICIT SEQUENCE{\n\tlocationInfo\t\t\t\tLocationInfo,\n\tlMsId\t\t\t\tLMsId OPTIONAL},\n\tforwardingData\t\t[1] IMPLICIT ForwardingData}",
+      "insertion": "component1 "
+    },
+    {
+      "file": "MAP-Operations.asn",
+      "owner": "SendRoutingInfoForSM",
+      "container": "CHOICE",
+      "position": 0,
+      "identifier": "alternative0",
+      "byte_offset": 17692,
+      "line": 883,
+      "column": 5,
+      "type_start": "[0] IMPLICIT SEQUENCE{\n\tlocationInfo\t\t\t\tLocationInfo,\n\tlMsId\t\t\t\tLMsId OPTIONAL}",
+      "insertion": "alternative0 "
+    }
+  ],
+  "role_copies": [
+    {
+      "file": "EditionRoles.asn",
+      "original_sha256": "61d97d4d0bd7351a104ed09f3a5a9fac261e433e336acc9419834d017a6a84bd",
+      "approved_sha256": "61d97d4d0bd7351a104ed09f3a5a9fac261e433e336acc9419834d017a6a84bd",
+      "copy_sha256": "ccfbe0bbc7543c50b597706ea6f1ccb739831ea31e0478be12007203217bcd3e",
+      "original_bytes": 10975,
+      "approved_bytes": 10975,
+      "copy_bytes": 11064,
+      "approved_readings": 0,
+      "insertions": 7
+    }
+  ],
+  "role_anonymous_insertions": [
+    {
+      "file": "EditionRoles.asn",
+      "owner": "Role10Argument",
+      "container": "CHOICE",
+      "position": 1,
+      "identifier": "alternative1",
+      "byte_offset": 2575,
+      "line": 16,
+      "column": 41,
+      "type_start": "SEQUENCE { imsi IMSI , lMsId LMsId }",
+      "insertion": "alternative1 "
+    },
+    {
+      "file": "EditionRoles.asn",
+      "owner": "Role57Argument",
+      "container": "CHOICE",
+      "position": 0,
+      "identifier": "alternative0",
+      "byte_offset": 7997,
+      "line": 63,
+      "column": 71,
+      "type_start": "LocAreaId",
+      "insertion": "alternative0 "
+    },
+    {
+      "file": "EditionRoles.asn",
+      "owner": "Role57Argument",
+      "container": "CHOICE",
+      "position": 1,
+      "identifier": "alternative1",
+      "byte_offset": 8009,
+      "line": 63,
+      "column": 83,
+      "type_start": "NULL",
+      "insertion": "alternative1 "
+    },
+    {
+      "file": "EditionRoles.asn",
+      "owner": "Role65Result",
+      "container": "SEQUENCE",
+      "position": 1,
+      "identifier": "component1",
+      "byte_offset": 9165,
+      "line": 71,
+      "column": 41,
+      "type_start": "CHOICE { [ 0 ] IMPLICIT SEQUENCE { locationInfo LocationInfo , lMsId LMsId OPTIONAL } , forwardingData [ 1 ] IMPLICIT ForwardingData }",
+      "insertion": "component1 "
+    },
+    {
+      "file": "EditionRoles.asn",
+      "owner": "Role65Result",
+      "container": "CHOICE",
+      "position": 0,
+      "identifier": "alternative0",
+      "byte_offset": 9174,
+      "line": 71,
+      "column": 50,
+      "type_start": "[ 0 ] IMPLICIT SEQUENCE { locationInfo LocationInfo , lMsId LMsId OPTIONAL }",
+      "insertion": "alternative0 "
+    },
+    {
+      "file": "EditionRoles.asn",
+      "owner": "Role78Argument",
+      "container": "CHOICE",
+      "position": 0,
+      "identifier": "alternative0",
+      "byte_offset": 10886,
+      "line": 84,
+      "column": 86,
+      "type_start": "LocAreaId",
+      "insertion": "alternative0 "
+    },
+    {
+      "file": "EditionRoles.asn",
+      "owner": "Role78Argument",
+      "container": "CHOICE",
+      "position": 1,
+      "identifier": "alternative1",
+      "byte_offset": 10898,
+      "line": 84,
+      "column": 98,
+      "type_start": "NULL",
+      "insertion": "alternative1 "
+    }
+  ],
+  "helpers": {
+    "make-role-values.py": "278ac83477851730fa3a8fce673ac6d3dd1e39b019d1971111f5abda29c249ec",
+    "run-oracle.py": "800d503173b511b09ce69d3910be876063492970de977e2c02fb0907723f3ab7",
+    "independent-pycrate.py": "06c905306f0d67bc6f8f05f386105101be117ae7b5fc05b16389369ad0e4670f",
+    "role_oracle.erl": "4157493f4597cd347f6a25b260a1749e3cdf8509639eef2d0617712a542e4dcd"
+  }
+}
