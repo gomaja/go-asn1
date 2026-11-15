@@ -27,7 +27,7 @@ func TestRestrictedStringTCUserArgument(t *testing.T) {
 			t.Fatalf("tolerant=%v: %v", tolerant, err)
 		}
 		var located interface{ ASN1BERPath() string }
-		if !errors.As(err, &located) || located.ASN1BERPath() != "child[1].child[0].child[2]" {
+		if !errors.As(err, &located) || located.ASN1BERPath() != "begin.components.element[0].basicROS.invoke.argument" {
 			t.Fatalf("missing argument Path: %v", err)
 		}
 		t.Logf("tolerant=%v Path=%s reports=%d", tolerant, located.ASN1BERPath(), len(log.Snapshot()))

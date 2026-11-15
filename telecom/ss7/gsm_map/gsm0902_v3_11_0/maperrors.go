@@ -244,7 +244,7 @@ func (v *SSIncompatibilityParameter) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SSIncompatibilityParameter as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SS-Incompatibility-parameter", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -294,10 +294,10 @@ func (destination *SSIncompatibilityParameter) UnmarshalBER(data []byte, opts ..
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SSIncompatibilityParameter SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SS-Incompatibility-parameter", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SSIncompatibilityParameter", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SS-Incompatibility-parameter", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode ss-Code
@@ -396,7 +396,7 @@ func (destination *SSIncompatibilityParameter) UnmarshalBER(data []byte, opts ..
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SSIncompatibilityParameter", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SS-Incompatibility-parameter", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }

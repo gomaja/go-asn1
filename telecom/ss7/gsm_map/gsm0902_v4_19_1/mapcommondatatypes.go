@@ -296,12 +296,12 @@ func marshalBERISDNAddressString(value *BERValue[ISDNAddressString], opts ...ber
 	_ = v
 	var children []byte
 	if len(v.Value) < 1 || len(v.Value) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERISDNAddressString", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ISDN-AddressString", "SIZE (1..9)", len(v.Value)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ISDN-AddressString", "SIZE (1..9)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Value) < 1 || len(v.Value) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERISDNAddressString", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ISDN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ISDN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -498,7 +498,7 @@ func (v *ExternalSignalInfo) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ExternalSignalInfo as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ExternalSignalInfo", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -548,7 +548,7 @@ func (destination *ExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ExternalSignalInfo SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ExternalSignalInfo", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ExternalSignalInfo", Cause: ber.ErrExtraData}
@@ -643,7 +643,7 @@ func marshalBERIMSI(value *BERValue[IMSI], opts ...ber.EncodeOption) ([]byte, er
 	_ = v
 	var children []byte
 	if len(v.Value) < 3 || len(v.Value) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERIMSI", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -664,7 +664,7 @@ func MarshalDERIMSI(value *BERValue[IMSI]) ([]byte, error) {
 	_ = v
 	var children []byte
 	if len(v.Value) < 3 || len(v.Value) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.IMSI", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s24ff19_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -694,7 +694,7 @@ func UnmarshalBERIMSI(data []byte, opts ...ber.DecodeOption) (returnValue *BERVa
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.IMSI", opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_2, opts)
 	defer func() {
 		returnErr = ber.LocateDecodeError(returnErr, opts)
 		if returnErr != nil {
@@ -717,7 +717,7 @@ func UnmarshalBERIMSI(data []byte, opts ...ber.DecodeOption) (returnValue *BERVa
 
 		offset += n
 		if len(v.Value) < 3 || len(v.Value) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.IMSI", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -769,7 +769,7 @@ func (v *SubscriberId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "imsi", "encoding", false)
 		}
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -788,7 +788,7 @@ func (v *SubscriberId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_1, "tmsi", "encoding", false)
 		}
 		if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -820,7 +820,7 @@ func (v *SubscriberId) MarshalDER() ([]byte, error) {
 		case SubscriberIdChoiceTmsi:
 			return nil, qualifyBERError(err, "tmsi", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding SubscriberId as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SubscriberId", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -865,7 +865,7 @@ func (destination *SubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, s24ff19_2, opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_3, opts)
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SubscriberId{}
 	if len(data) == 0 {
@@ -879,7 +879,7 @@ func (destination *SubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding SubscriberId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SubscriberId", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "SubscriberId", Cause: ber.ErrExtraData}
@@ -900,7 +900,7 @@ func (destination *SubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		tmp := IMSI(decVal)
 		v.Imsi = &tmp
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -919,7 +919,7 @@ func (destination *SubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		tmp := TMSI(decVal)
 		v.Tmsi = &tmp
 		if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -946,7 +946,7 @@ func marshalBERIMEI(value *BERValue[IMEI], opts ...ber.EncodeOption) ([]byte, er
 	_ = v
 	var children []byte
 	if len(v.Value) < 8 || len(v.Value) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERIMEI", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMEI", "SIZE (8)", len(v.Value)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMEI", "SIZE (8)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -967,7 +967,7 @@ func MarshalDERIMEI(value *BERValue[IMEI]) ([]byte, error) {
 	_ = v
 	var children []byte
 	if len(v.Value) < 8 || len(v.Value) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.IMEI", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMEI", "SIZE (8)", len(v.Value)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s24ff19_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMEI", "SIZE (8)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -997,7 +997,7 @@ func UnmarshalBERIMEI(data []byte, opts ...ber.DecodeOption) (returnValue *BERVa
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.IMEI", opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_4, opts)
 	defer func() {
 		returnErr = ber.LocateDecodeError(returnErr, opts)
 		if returnErr != nil {
@@ -1020,7 +1020,7 @@ func UnmarshalBERIMEI(data []byte, opts ...ber.DecodeOption) (returnValue *BERVa
 
 		offset += n
 		if len(v.Value) < 8 || len(v.Value) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.IMEI", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMEI", "SIZE (8)", len(v.Value)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "IMEI", "SIZE (8)", len(v.Value)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1072,12 +1072,12 @@ func (v *LocationInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "roamingNumber", "encoding", false)
 		}
 		if len(*v.RoamingNumber) < 1 || len(*v.RoamingNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "roamingNumber", "SIZE (1..9)", len(*v.RoamingNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "roamingNumber", "SIZE (1..9)", len(*v.RoamingNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.RoamingNumber) < 1 || len(*v.RoamingNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "roamingNumber", "SIZE (1..20)", len(*v.RoamingNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "roamingNumber", "SIZE (1..20)", len(*v.RoamingNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1096,12 +1096,12 @@ func (v *LocationInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_1, "msc-Number", "encoding", false)
 		}
 		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msc-Number", "SIZE (1..9)", len(*v.MscNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msc-Number", "SIZE (1..9)", len(*v.MscNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msc-Number", "SIZE (1..20)", len(*v.MscNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msc-Number", "SIZE (1..20)", len(*v.MscNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1133,7 +1133,7 @@ func (v *LocationInfo) MarshalDER() ([]byte, error) {
 		case LocationInfoChoiceMscNumber:
 			return nil, qualifyBERError(err, "msc-Number", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding LocationInfo as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding LocationInfo", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1178,7 +1178,7 @@ func (destination *LocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, s24ff19_3, opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_5, opts)
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = LocationInfo{}
 	if len(data) == 0 {
@@ -1192,7 +1192,7 @@ func (destination *LocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding LocationInfo CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding LocationInfo", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "LocationInfo", Cause: ber.ErrExtraData}
@@ -1213,12 +1213,12 @@ func (destination *LocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		tmp := ISDNAddressString(decVal)
 		v.RoamingNumber = &tmp
 		if len(*v.RoamingNumber) < 1 || len(*v.RoamingNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "roamingNumber", "SIZE (1..9)", len(*v.RoamingNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "roamingNumber", "SIZE (1..9)", len(*v.RoamingNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(*v.RoamingNumber) < 1 || len(*v.RoamingNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "roamingNumber", "SIZE (1..20)", len(*v.RoamingNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "roamingNumber", "SIZE (1..20)", len(*v.RoamingNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1237,12 +1237,12 @@ func (destination *LocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		tmp := ISDNAddressString(decVal)
 		v.MscNumber = &tmp
 		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msc-Number", "SIZE (1..9)", len(*v.MscNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msc-Number", "SIZE (1..9)", len(*v.MscNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msc-Number", "SIZE (1..20)", len(*v.MscNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msc-Number", "SIZE (1..20)", len(*v.MscNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1269,7 +1269,7 @@ func marshalBERHLRId(value *BERValue[HLRId], opts ...ber.EncodeOption) ([]byte, 
 	_ = v
 	var children []byte
 	if len(v.Value) < 3 || len(v.Value) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERHLRId", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-Id", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_6, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-Id", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1290,7 +1290,7 @@ func MarshalDERHLRId(value *BERValue[HLRId]) ([]byte, error) {
 	_ = v
 	var children []byte
 	if len(v.Value) < 3 || len(v.Value) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.HLR-Id", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-Id", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s24ff19_6, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-Id", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1320,7 +1320,7 @@ func UnmarshalBERHLRId(data []byte, opts ...ber.DecodeOption) (returnValue *BERV
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.HLR-Id", opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_6, opts)
 	defer func() {
 		returnErr = ber.LocateDecodeError(returnErr, opts)
 		if returnErr != nil {
@@ -1343,7 +1343,7 @@ func UnmarshalBERHLRId(data []byte, opts ...ber.DecodeOption) (returnValue *BERV
 
 		offset += n
 		if len(v.Value) < 3 || len(v.Value) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.HLR-Id", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-Id", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_6, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-Id", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1379,7 +1379,7 @@ func MarshalBERHLRList(collection *HLRList, opts ...ber.EncodeOption) (returnByt
 func marshalBERHLRList(collection *HLRList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERHLRList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s24ff19_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1387,7 +1387,7 @@ func marshalBERHLRList(collection *HLRList, opts ...ber.EncodeOption) ([]byte, e
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 3 || len(elem) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERHLRList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1420,7 +1420,7 @@ func MarshalDERHLRList(collection *HLRList) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s24ff19_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s24ff19_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1428,7 +1428,7 @@ func MarshalDERHLRList(collection *HLRList) ([]byte, error) {
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 3 || len(elem) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s24ff19_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s24ff19_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1446,7 +1446,7 @@ func MarshalDERHLRList(collection *HLRList) ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding HLRList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding HLR-List", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1478,7 +1478,7 @@ func UnmarshalBERHLRList(data []byte, opts ...ber.DecodeOption) (returnValue *HL
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, s24ff19_4, opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_7, opts)
 	defer func() {
 		returnErr = ber.LocateDecodeError(returnErr, opts)
 		if returnErr != nil {
@@ -1487,10 +1487,10 @@ func UnmarshalBERHLRList(data []byte, opts ...ber.DecodeOption) (returnValue *HL
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %w", "decoding HLRList", qualifyBERError(err, "", "decoding", false))
+		return nil, fmt.Errorf("%s: %w", "decoding HLR-List", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "HLRList", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "HLR-List", Cause: ber.ErrExtraData}
 	}
 	var result []HLRId
 	offset := 0
@@ -1507,7 +1507,7 @@ func UnmarshalBERHLRList(data []byte, opts ...ber.DecodeOption) (returnValue *HL
 				"decoding", false)
 		}
 		if len(val) < 3 || len(val) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (3..8)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (3..8)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1520,7 +1520,7 @@ func UnmarshalBERHLRList(data []byte, opts ...ber.DecodeOption) (returnValue *HL
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s24ff19_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-List", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s24ff19_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "HLR-List", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1548,7 +1548,7 @@ func MarshalBERBearerServiceList(collection *BearerServiceList, opts ...ber.Enco
 func marshalBERBearerServiceList(collection *BearerServiceList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERBearerServiceList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BearerServiceList", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s24ff19_8, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BearerServiceList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1556,7 +1556,7 @@ func marshalBERBearerServiceList(collection *BearerServiceList, opts ...ber.Enco
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERBearerServiceList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_8, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1589,7 +1589,7 @@ func MarshalDERBearerServiceList(collection *BearerServiceList) ([]byte, error) 
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BearerServiceList", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s24ff19_8, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BearerServiceList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1597,7 +1597,7 @@ func MarshalDERBearerServiceList(collection *BearerServiceList) ([]byte, error) 
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s24ff19_8, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1615,7 +1615,7 @@ func MarshalDERBearerServiceList(collection *BearerServiceList) ([]byte, error) 
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding BearerServiceList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding BearerServiceList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1647,7 +1647,7 @@ func UnmarshalBERBearerServiceList(data []byte, opts ...ber.DecodeOption) (retur
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, s24ff19_5, opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_8, opts)
 	defer func() {
 		returnErr = ber.LocateDecodeError(returnErr, opts)
 		if returnErr != nil {
@@ -1676,7 +1676,7 @@ func UnmarshalBERBearerServiceList(data []byte, opts ...ber.DecodeOption) (retur
 				"decoding", false)
 		}
 		if len(val) < 1 || len(val) > 1 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (1)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_8, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (1)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1689,7 +1689,7 @@ func UnmarshalBERBearerServiceList(data []byte, opts ...ber.DecodeOption) (retur
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s24ff19_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BearerServiceList", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s24ff19_8, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BearerServiceList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1717,7 +1717,7 @@ func MarshalBERTeleserviceList(collection *TeleserviceList, opts ...ber.EncodeOp
 func marshalBERTeleserviceList(collection *TeleserviceList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 20 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERTeleserviceList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "TeleserviceList", "SIZE (1..20)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s24ff19_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "TeleserviceList", "SIZE (1..20)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1725,7 +1725,7 @@ func marshalBERTeleserviceList(collection *TeleserviceList, opts ...ber.EncodeOp
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERTeleserviceList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1758,7 +1758,7 @@ func MarshalDERTeleserviceList(collection *TeleserviceList) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 20 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s24ff19_6, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "TeleserviceList", "SIZE (1..20)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s24ff19_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "TeleserviceList", "SIZE (1..20)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1766,7 +1766,7 @@ func MarshalDERTeleserviceList(collection *TeleserviceList) ([]byte, error) {
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s24ff19_6, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s24ff19_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1784,7 +1784,7 @@ func MarshalDERTeleserviceList(collection *TeleserviceList) ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding TeleserviceList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding TeleserviceList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1816,7 +1816,7 @@ func UnmarshalBERTeleserviceList(data []byte, opts ...ber.DecodeOption) (returnV
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, s24ff19_6, opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_9, opts)
 	defer func() {
 		returnErr = ber.LocateDecodeError(returnErr, opts)
 		if returnErr != nil {
@@ -1845,7 +1845,7 @@ func UnmarshalBERTeleserviceList(data []byte, opts ...ber.DecodeOption) (returnV
 				"decoding", false)
 		}
 		if len(val) < 1 || len(val) > 1 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_6, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (1)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (1)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1858,7 +1858,7 @@ func UnmarshalBERTeleserviceList(data []byte, opts ...ber.DecodeOption) (returnV
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 20 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s24ff19_6, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "TeleserviceList", "SIZE (1..20)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s24ff19_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "TeleserviceList", "SIZE (1..20)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1902,7 +1902,7 @@ func (v *BasicServiceCode) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, qualifyBERError(encodeErr_enc_0, "bearerService", "encoding", false)
 		}
 		if len(*v.BearerService) < 1 || len(*v.BearerService) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_10, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1921,7 +1921,7 @@ func (v *BasicServiceCode) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, qualifyBERError(encodeErr_enc_1, "teleservice", "encoding", false)
 		}
 		if len(*v.Teleservice) < 1 || len(*v.Teleservice) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s24ff19_10, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1953,7 +1953,7 @@ func (v *BasicServiceCode) MarshalDER() ([]byte, error) {
 		case BasicServiceCodeChoiceTeleservice:
 			return nil, qualifyBERError(err, "teleservice", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding BasicServiceCode as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding BasicServiceCode", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1998,7 +1998,7 @@ func (destination *BasicServiceCode) UnmarshalBER(data []byte, opts ...ber.Decod
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, s24ff19_7, opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_10, opts)
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = BasicServiceCode{}
 	if len(data) == 0 {
@@ -2012,7 +2012,7 @@ func (destination *BasicServiceCode) UnmarshalBER(data []byte, opts ...ber.Decod
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding BasicServiceCode CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding BasicServiceCode", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "BasicServiceCode", Cause: ber.ErrExtraData}
@@ -2033,7 +2033,7 @@ func (destination *BasicServiceCode) UnmarshalBER(data []byte, opts ...ber.Decod
 		tmp := BearerServiceCode(decVal)
 		v.BearerService = &tmp
 		if len(*v.BearerService) < 1 || len(*v.BearerService) > 1 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_10, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2052,7 +2052,7 @@ func (destination *BasicServiceCode) UnmarshalBER(data []byte, opts ...ber.Decod
 		tmp := TeleserviceCode(decVal)
 		v.Teleservice = &tmp
 		if len(*v.Teleservice) < 1 || len(*v.Teleservice) > 1 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s24ff19_10, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2077,7 +2077,7 @@ func MarshalBERBasicServiceList(collection *BasicServiceList, opts ...ber.Encode
 func marshalBERBasicServiceList(collection *BasicServiceList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 70 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERBasicServiceList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceList", "SIZE (1..70)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s24ff19_11, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceList", "SIZE (1..70)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2115,7 +2115,7 @@ func MarshalDERBasicServiceList(collection *BasicServiceList) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 70 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.BasicServiceList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceList", "SIZE (1..70)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s24ff19_11, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceList", "SIZE (1..70)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2137,7 +2137,7 @@ func MarshalDERBasicServiceList(collection *BasicServiceList) ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding BasicServiceList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding BasicServiceList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2169,7 +2169,7 @@ func UnmarshalBERBasicServiceList(data []byte, opts ...ber.DecodeOption) (return
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.BasicServiceList", opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_11, opts)
 	defer func() {
 		returnErr = ber.LocateDecodeError(returnErr, opts)
 		if returnErr != nil {
@@ -2213,7 +2213,7 @@ func UnmarshalBERBasicServiceList(data []byte, opts ...ber.DecodeOption) (return
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 70 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.BasicServiceList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceList", "SIZE (1..70)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s24ff19_11, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceList", "SIZE (1..70)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2241,7 +2241,7 @@ func MarshalBERBasicServiceGroupList(collection *BasicServiceGroupList, opts ...
 func marshalBERBasicServiceGroupList(collection *BasicServiceGroupList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 13 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERBasicServiceGroupList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceGroupList", "SIZE (1..13)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s24ff19_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceGroupList", "SIZE (1..13)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2279,7 +2279,7 @@ func MarshalDERBasicServiceGroupList(collection *BasicServiceGroupList) ([]byte,
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 13 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.BasicServiceGroupList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceGroupList", "SIZE (1..13)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s24ff19_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceGroupList", "SIZE (1..13)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2301,7 +2301,7 @@ func MarshalDERBasicServiceGroupList(collection *BasicServiceGroupList) ([]byte,
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding BasicServiceGroupList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding BasicServiceGroupList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2333,7 +2333,7 @@ func UnmarshalBERBasicServiceGroupList(data []byte, opts ...ber.DecodeOption) (r
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.BasicServiceGroupList", opts)
+	opts = ber.LocateDecodedElement(data, s24ff19_12, opts)
 	defer func() {
 		returnErr = ber.LocateDecodeError(returnErr, opts)
 		if returnErr != nil {
@@ -2377,7 +2377,7 @@ func UnmarshalBERBasicServiceGroupList(data []byte, opts ...ber.DecodeOption) (r
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 13 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.BasicServiceGroupList", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceGroupList", "SIZE (1..13)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s24ff19_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "BasicServiceGroupList", "SIZE (1..13)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2391,12 +2391,17 @@ func UnmarshalBERBasicServiceGroupList(data []byte, opts ...ber.DecodeOption) (r
 }
 
 const (
-	s24ff19_0 = "MAP-CommonDataTypes.ISDN-AddressString"
-	s24ff19_1 = "MAP-CommonDataTypes.ExternalSignalInfo"
-	s24ff19_2 = "MAP-CommonDataTypes.SubscriberId"
-	s24ff19_3 = "MAP-CommonDataTypes.LocationInfo"
-	s24ff19_4 = "MAP-CommonDataTypes.HLR-List"
-	s24ff19_5 = "MAP-CommonDataTypes.BearerServiceList"
-	s24ff19_6 = "MAP-CommonDataTypes.TeleserviceList"
-	s24ff19_7 = "MAP-CommonDataTypes.BasicServiceCode"
+	s24ff19_0  = "MAP-CommonDataTypes.ISDN-AddressString"
+	s24ff19_1  = "MAP-CommonDataTypes.ExternalSignalInfo"
+	s24ff19_2  = "MAP-CommonDataTypes.IMSI"
+	s24ff19_3  = "MAP-CommonDataTypes.SubscriberId"
+	s24ff19_4  = "MAP-CommonDataTypes.IMEI"
+	s24ff19_5  = "MAP-CommonDataTypes.LocationInfo"
+	s24ff19_6  = "MAP-CommonDataTypes.HLR-Id"
+	s24ff19_7  = "MAP-CommonDataTypes.HLR-List"
+	s24ff19_8  = "MAP-CommonDataTypes.BearerServiceList"
+	s24ff19_9  = "MAP-CommonDataTypes.TeleserviceList"
+	s24ff19_10 = "MAP-CommonDataTypes.BasicServiceCode"
+	s24ff19_11 = "MAP-CommonDataTypes.BasicServiceList"
+	s24ff19_12 = "MAP-CommonDataTypes.BasicServiceGroupList"
 )

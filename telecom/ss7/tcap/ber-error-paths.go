@@ -79,7 +79,44 @@ func (e *berPathError) ASN1BERPath() string {
 	return strings.Join(parts, ".")
 }
 
-func qualifyBERError(err error, segment, phase string, qualifyConstraint bool) error {
+// berDiagnosticError retains fmt's wrapper and text suffix while using the
+// same source path as a validation finding or generated path decorator.
+func berDiagnosticError(assignment, pattern string, args ...any) error {
+	var cause error
+	for _, arg := range args {
+		if err, ok := arg.(error); ok {
+			cause = err
+			break
+		}
+	}
+	path := ""
+	var finding *ber.ValidationError
+	if errors.As(cause, &finding) {
+		path = finding.Path
+	} else {
+		var located interface{ ASN1BERPath() string }
+		if errors.As(cause, &located) {
+			path = located.ASN1BERPath()
+		}
+	}
+	prefix := pattern
+	argumentPrefix := pattern == "%s: %w" && len(args) > 1
+	if argumentPrefix {
+		prefix, _ = args[0].(string)
+	}
+	phase, _, _ := strings.Cut(prefix, " ")
+	if path == "" {
+		path = assignment
+	}
+	if argumentPrefix {
+		args[0] = phase + " " + path
+	} else if _, suffix, ok := strings.Cut(pattern, ":"); ok {
+		pattern = phase + " " + path + ":" + suffix
+	}
+	return fmt.Errorf(pattern, args...)
+}
+
+func qualifyBERError(err error, segment, phase string, qualifyConstraint bool, componentSource ...string) error {
 	if err == nil {
 		return nil
 	}
@@ -92,10 +129,20 @@ func qualifyBERError(err error, segment, phase string, qualifyConstraint bool) e
 				return err
 			}
 			qualified := *constraintErr
-			if qualified.Path == "" {
+			// A standalone assignment label gives way to its containing component.
+			// The containing assignment declares this component (X.680 §16).
+			if _, assignment, ok := strings.Cut(qualified.Source, "."); ok && assignment == qualified.Path {
 				qualified.Path = segment
+				if len(componentSource) > 0 {
+					qualified.Source = componentSource[0]
+				}
+			} else if qualified.Path == "" {
+				qualified.Path = segment
+				if len(componentSource) > 0 {
+					qualified.Source = componentSource[0]
+				}
 			} else {
-				qualified.Path = fmt.Sprintf("%s.%s", segment, qualified.Path)
+				qualified.Path = segment + "." + qualified.Path
 			}
 			return &qualified
 		}

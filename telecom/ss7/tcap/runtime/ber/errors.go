@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/errors.go; SHA-256 05d517412eb049ea262303f5b03a4b10252116a8d8775c51755343ab99b4f1f4.
+// Runtime source: runtime/ber/errors.go; SHA-256 ca0cfa7ffc4ecdbf59e233340b3b2a90cd85a3d6a4a0373837347fabeabcec54.
 package ber
 
 import (
@@ -57,6 +57,7 @@ func (e *DecodeError) Unwrap() error {
 // Generated codecs can translate these positions to ASN.1 component names
 // and collection indexes. This diagnostic API imposes no new wire rules.
 type ElementError struct {
+	path         string // source position retained only for a failed TCAP scan
 	offset       int
 	childIndexes []int
 	cause        error

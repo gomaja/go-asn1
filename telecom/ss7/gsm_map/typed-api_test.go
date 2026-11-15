@@ -1903,3 +1903,34 @@ func TestValueCodecRefusedCallbackReturnsZero(t *testing.T) {
 		t.Fatalf("caller decoder retained its value or received form: %v", err)
 	}
 }
+
+func TestISDNAddressStringEncoderSourceAssignment(t *testing.T) {
+	const source = "MAP-CommonDataTypes.ISDN-AddressString"
+	check := func(err error) {
+		t.Helper()
+		var violation *ber.ValidationError
+		if !errors.As(err, &violation) {
+			t.Fatalf("missing SIZE violation: %v", err)
+		}
+		if violation.Source != source {
+			t.Fatalf("source = %q, want %q", violation.Source, source)
+		}
+	}
+	wireInput := append([]byte{4, 10}, make([]byte, 10)...)
+	_, err := mapvalues.UnmarshalBERISDNAddressString(wireInput)
+	check(err)
+	value := &mapvalues.BERValue[mapvalues.ISDNAddressString]{Value: make([]byte, 10)}
+	_, err = mapvalues.MarshalBERISDNAddressString(value)
+	check(err)
+	_, err = mapvalues.MarshalDERISDNAddressString(value)
+	check(err)
+	var reports ber.ViolationLog
+	wire, err := mapvalues.MarshalBERISDNAddressString(value, ber.WithTolerance(&reports))
+	if err != nil || !bytes.Equal(wire, wireInput) {
+		t.Fatalf("tolerant encoding: %x %v", wire, err)
+	}
+	rows := reports.Snapshot()
+	if len(rows) != 1 || rows[0].Source != source {
+		t.Fatalf("encoder records: %+v", rows)
+	}
+}

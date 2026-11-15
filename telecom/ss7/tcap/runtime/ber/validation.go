@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/validation.go; SHA-256 ef5ae8f90f071323fdb445f5969a8e323c0275d337ec07cdd2a8ebc938db52e6.
+// Runtime source: runtime/ber/validation.go; SHA-256 b5d4e1f154fae7acb3d37948432b9034e5d79355db3ffea205e40e505916cb14.
 package ber
 
 import (
@@ -538,7 +538,7 @@ func sourceField(source, field string) string {
 		return ""
 	}
 	assignment := source[strings.LastIndex(source, ".")+1:]
-	if field == "" || strings.EqualFold(strings.ReplaceAll(assignment, "-", ""), strings.ReplaceAll(field, "-", "")) {
+	if field == "" || assignment == field {
 		return source
 	}
 	return source + "." + field

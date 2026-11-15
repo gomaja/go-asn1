@@ -113,7 +113,7 @@ func (v *Code) MarshalDER() ([]byte, error) {
 		case CodeChoiceGlobal:
 			return nil, qualifyBERError(err, "global", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding Code as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Code", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -163,17 +163,17 @@ func (destination *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding Code CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Code", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "Code", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Code.local", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "local", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 6) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Code.global", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "global", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = CodeChoiceLocal
@@ -218,7 +218,7 @@ func marshalBERPriority(value *BERValue[Priority], opts ...ber.EncodeOption) ([]
 		return nil, fmt.Errorf("%s: %w", "encoding Priority", qualifyBERError(fmt.Errorf("%w: required INTEGER is nil", ber.ErrInvalidValue), "", "encoding", false))
 	}
 	if !(v.Value.Cmp(runtime.MustParseBigIntDecimal("0")) >= 0) {
-		if constraintErr := checkEncodedValue(opts, "Remote-Operations-Information-Objects.marshalBERPriority", "51.4", "Priority", "(0..MAX)", ber.ObserveInteger(v.Value)); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, "Remote-Operations-Information-Objects.Priority", "51.4", "Priority", "(0..MAX)", ber.ObserveInteger(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}

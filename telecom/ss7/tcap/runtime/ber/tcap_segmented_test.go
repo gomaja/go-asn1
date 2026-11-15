@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_segmented_test.go; SHA-256 201c1253821fae63141e31878f935e73f5610b9e3f48e4280ba2c97ea2f23f95.
+// Runtime source: runtime/ber/tcap_segmented_test.go; SHA-256 5982a03498b9834a35cf5944e7ec0f1a8b93137032ffa89ad32edfdea4223125.
 package ber
 
 import (
@@ -38,8 +38,12 @@ func TestTCAPSegmentedDialogueProfile(t *testing.T) {
 			if len(reports) != row.count {
 				t.Fatalf("reports = %+v, want %d", reports, row.count)
 			}
+			encodingPath := "encoding.octet-aligned"
+			if strings.Contains(row.name, "bits") {
+				encodingPath = "encoding.arbitrary"
+			}
 			v := reports[len(reports)-1]
-			if v.Offset == nil || *v.Offset != row.offset || v.Path != "begin.dialoguePortion.dialogue.dialogueRequest.protocol-version" || !strings.HasSuffix(v.Constraint, "primitive-bit-string") {
+			if v.Offset == nil || *v.Offset != row.offset || v.Path != "begin.dialoguePortion."+encodingPath+".dialogueRequest.protocol-version" || !strings.HasSuffix(v.Constraint, "primitive-bit-string") {
 				t.Fatalf("APDU location = %+v", v)
 			}
 			// Logical ancestry below the encoding choice, independent of segmentation.
@@ -202,9 +206,13 @@ func TestTCAPSegmentedDialogueEveryBoundary(t *testing.T) {
 						if len(rows) != want {
 							t.Fatalf("cut=%d bits=%t nested=%t indefinite=%t long=%t: %+v", cut, bit, nested, indefinite, long, rows)
 						}
+						encodingPath := "encoding.octet-aligned"
+						if bit {
+							encodingPath = "encoding.arbitrary"
+						}
 						offset := bytes.IndexByte(wire, 0xa0)
 						for _, v := range rows[len(rows)-1-btoi(long):] {
-							if v.Offset == nil || *v.Offset != offset || v.Path != "begin.dialoguePortion.dialogue.dialogueRequest.protocol-version" || !reflect.DeepEqual(v.ChildIndexes, []int{1, 0, 1, 0, 0}) {
+							if v.Offset == nil || *v.Offset != offset || v.Path != "begin.dialoguePortion."+encodingPath+".dialogueRequest.protocol-version" || !reflect.DeepEqual(v.ChildIndexes, []int{1, 0, 1, 0, 0}) {
 								t.Fatalf("split identifier location: %+v wire=%x", v, wire)
 							}
 						}

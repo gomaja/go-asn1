@@ -424,7 +424,7 @@ func (v *TCMessage) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Enco
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassApplication, Number: 1}, false)
 		_, err := v.Unidirectional.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "unidirectional")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "unidirectional", "encoding", true)
+			return nil, qualifyBERError(err, "unidirectional", "encoding", true, "TCAPMessages.TCMessage.unidirectional")
 		}
 		return nil, nil
 	case TCMessageChoiceBegin:
@@ -434,7 +434,7 @@ func (v *TCMessage) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Enco
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassApplication, Number: 2}, false)
 		_, err := v.Begin.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "begin")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "begin", "encoding", true)
+			return nil, qualifyBERError(err, "begin", "encoding", true, "TCAPMessages.TCMessage.begin")
 		}
 		return nil, nil
 	case TCMessageChoiceEnd:
@@ -444,7 +444,7 @@ func (v *TCMessage) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Enco
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassApplication, Number: 4}, false)
 		_, err := v.End.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "end")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "end", "encoding", true)
+			return nil, qualifyBERError(err, "end", "encoding", true, "TCAPMessages.TCMessage.end")
 		}
 		return nil, nil
 	case TCMessageChoiceContinue:
@@ -454,7 +454,7 @@ func (v *TCMessage) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Enco
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassApplication, Number: 5}, false)
 		_, err := v.Continue.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "continue")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "continue", "encoding", true)
+			return nil, qualifyBERError(err, "continue", "encoding", true, "TCAPMessages.TCMessage.continue")
 		}
 		return nil, nil
 	case TCMessageChoiceAbort:
@@ -464,7 +464,7 @@ func (v *TCMessage) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Enco
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassApplication, Number: 7}, false)
 		_, err := v.Abort.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "abort")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "abort", "encoding", true)
+			return nil, qualifyBERError(err, "abort", "encoding", true, "TCAPMessages.TCMessage.abort")
 		}
 		return nil, nil
 	default:
@@ -586,15 +586,15 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0, err := v.Unidirectional.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "unidirectional", "encoding", true)
+			return nil, qualifyBERError(err, "unidirectional", "encoding", true, "TCAPMessages.TCMessage.unidirectional")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_0, "unidirectional", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_0, "unidirectional", "encoding", true, "TCAPMessages.TCMessage.unidirectional")
 		}
 		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDEREncodedElement(enc_der_0); derErr != nil {
-			return nil, qualifyBERError(derErr, "unidirectional", "encoding", true)
+			return nil, qualifyBERError(derErr, "unidirectional", "encoding", true, "TCAPMessages.TCMessage.unidirectional")
 		}
 		return enc_der_0, nil
 	case TCMessageChoiceBegin:
@@ -603,15 +603,15 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1, err := v.Begin.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "begin", "encoding", true)
+			return nil, qualifyBERError(err, "begin", "encoding", true, "TCAPMessages.TCMessage.begin")
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 2, enc_der_1)
 		if tagErr_enc_der_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_1, "begin", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_1, "begin", "encoding", true, "TCAPMessages.TCMessage.begin")
 		}
 		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
-			return nil, qualifyBERError(derErr, "begin", "encoding", true)
+			return nil, qualifyBERError(derErr, "begin", "encoding", true, "TCAPMessages.TCMessage.begin")
 		}
 		return enc_der_1, nil
 	case TCMessageChoiceEnd:
@@ -620,15 +620,15 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		}
 		enc_der_2, err := v.End.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "end", "encoding", true)
+			return nil, qualifyBERError(err, "end", "encoding", true, "TCAPMessages.TCMessage.end")
 		}
 		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, enc_der_2)
 		if tagErr_enc_der_2 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_2, "end", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_2, "end", "encoding", true, "TCAPMessages.TCMessage.end")
 		}
 		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDEREncodedElement(enc_der_2); derErr != nil {
-			return nil, qualifyBERError(derErr, "end", "encoding", true)
+			return nil, qualifyBERError(derErr, "end", "encoding", true, "TCAPMessages.TCMessage.end")
 		}
 		return enc_der_2, nil
 	case TCMessageChoiceContinue:
@@ -637,15 +637,15 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		}
 		enc_der_3, err := v.Continue.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "continue", "encoding", true)
+			return nil, qualifyBERError(err, "continue", "encoding", true, "TCAPMessages.TCMessage.continue")
 		}
 		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 5, enc_der_3)
 		if tagErr_enc_der_3 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_3, "continue", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_3, "continue", "encoding", true, "TCAPMessages.TCMessage.continue")
 		}
 		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDEREncodedElement(enc_der_3); derErr != nil {
-			return nil, qualifyBERError(derErr, "continue", "encoding", true)
+			return nil, qualifyBERError(derErr, "continue", "encoding", true, "TCAPMessages.TCMessage.continue")
 		}
 		return enc_der_3, nil
 	case TCMessageChoiceAbort:
@@ -654,15 +654,15 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		}
 		enc_der_4, err := v.Abort.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "abort", "encoding", true)
+			return nil, qualifyBERError(err, "abort", "encoding", true, "TCAPMessages.TCMessage.abort")
 		}
 		retagged_enc_der_4, tagErr_enc_der_4 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 7, enc_der_4)
 		if tagErr_enc_der_4 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_4, "abort", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_4, "abort", "encoding", true, "TCAPMessages.TCMessage.abort")
 		}
 		enc_der_4 = retagged_enc_der_4
 		if derErr := ber.ValidateDEREncodedElement(enc_der_4); derErr != nil {
-			return nil, qualifyBERError(derErr, "abort", "encoding", true)
+			return nil, qualifyBERError(derErr, "abort", "encoding", true, "TCAPMessages.TCMessage.abort")
 		}
 		return enc_der_4, nil
 	}
@@ -673,17 +673,17 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		switch v.Choice {
 		case TCMessageChoiceUnidirectional:
-			return nil, qualifyBERError(err, "unidirectional", "encoding", true)
+			return nil, qualifyBERError(err, "unidirectional", "encoding", true, "TCAPMessages.TCMessage.unidirectional")
 		case TCMessageChoiceBegin:
-			return nil, qualifyBERError(err, "begin", "encoding", true)
+			return nil, qualifyBERError(err, "begin", "encoding", true, "TCAPMessages.TCMessage.begin")
 		case TCMessageChoiceEnd:
-			return nil, qualifyBERError(err, "end", "encoding", true)
+			return nil, qualifyBERError(err, "end", "encoding", true, "TCAPMessages.TCMessage.end")
 		case TCMessageChoiceContinue:
-			return nil, qualifyBERError(err, "continue", "encoding", true)
+			return nil, qualifyBERError(err, "continue", "encoding", true, "TCAPMessages.TCMessage.continue")
 		case TCMessageChoiceAbort:
-			return nil, qualifyBERError(err, "abort", "encoding", true)
+			return nil, qualifyBERError(err, "abort", "encoding", true, "TCAPMessages.TCMessage.abort")
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding TCMessage as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, berDiagnosticError("TCMessage", "%s: %w", "encoding TCMessage", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -704,7 +704,7 @@ func (v *TCMessage) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) 
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassApplication, Number: 1}, false)
 		_, err := v.Unidirectional.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "unidirectional", "encoding", true)
+			return nil, qualifyBERError(err, "unidirectional", "encoding", true, "TCAPMessages.TCMessage.unidirectional")
 		}
 		return nil, nil
 	case TCMessageChoiceBegin:
@@ -714,7 +714,7 @@ func (v *TCMessage) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) 
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassApplication, Number: 2}, false)
 		_, err := v.Begin.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "begin", "encoding", true)
+			return nil, qualifyBERError(err, "begin", "encoding", true, "TCAPMessages.TCMessage.begin")
 		}
 		return nil, nil
 	case TCMessageChoiceEnd:
@@ -724,7 +724,7 @@ func (v *TCMessage) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) 
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassApplication, Number: 4}, false)
 		_, err := v.End.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "end", "encoding", true)
+			return nil, qualifyBERError(err, "end", "encoding", true, "TCAPMessages.TCMessage.end")
 		}
 		return nil, nil
 	case TCMessageChoiceContinue:
@@ -734,7 +734,7 @@ func (v *TCMessage) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) 
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassApplication, Number: 5}, false)
 		_, err := v.Continue.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "continue", "encoding", true)
+			return nil, qualifyBERError(err, "continue", "encoding", true, "TCAPMessages.TCMessage.continue")
 		}
 		return nil, nil
 	case TCMessageChoiceAbort:
@@ -744,7 +744,7 @@ func (v *TCMessage) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) 
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassApplication, Number: 7}, false)
 		_, err := v.Abort.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "abort", "encoding", true)
+			return nil, qualifyBERError(err, "abort", "encoding", true, "TCAPMessages.TCMessage.abort")
 		}
 		return nil, nil
 	default:
@@ -819,26 +819,26 @@ func (destination *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding TCMessage CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return berDiagnosticError("TCMessage", "%s: %w", "decoding TCMessage", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "TCMessage", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassApplication && peekTag.Number == 1) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "TCMessage.unidirectional", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "unidirectional", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassApplication && peekTag.Number == 2) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "TCMessage.begin", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "begin", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassApplication && peekTag.Number == 4) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "TCMessage.end", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "end", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassApplication && peekTag.Number == 5) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "TCMessage.continue", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "continue", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassApplication && peekTag.Number == 7) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "TCMessage.abort", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "abort", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassApplication && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = TCMessageChoiceUnidirectional
@@ -1036,7 +1036,7 @@ func (v *Unidirectional) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber
 	if v.DialoguePortion != nil {
 		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER(ber.ChildGeneratedEncodeOptions(opts, "dialoguePortion")...)
 		if extErr != nil {
-			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true)
+			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true, "TCAPMessages.Unidirectional.dialoguePortion")
 		}
 		encoder.Append(enc_dialogueportion)
 	}
@@ -1049,7 +1049,7 @@ func (v *Unidirectional) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber
 		}
 		enc_components, err := tcapMarshalBERComponentPortion(&v.Components, ber.ParentGeneratedCollectionSizeEncodeOptions(ber.ChildGeneratedEncodeOptions(opts, "components"))...)
 		if err != nil {
-			return nil, qualifyBERError(err, "components", "encoding", true)
+			return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.Unidirectional.components")
 		}
 		if ber.BERGeneratedReplayEnabled(opts) && v.berComponentsIndef_ {
 			indefTag_, _, indefContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_components)
@@ -1060,7 +1060,7 @@ func (v *Unidirectional) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber
 				var encodeErr error
 				enc_components, encodeErr = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
 				if encodeErr != nil {
-					return nil, qualifyBERError(encodeErr, "Components", "encoding", true)
+					return nil, qualifyBERError(encodeErr, "Components", "encoding", true, "TCAPMessages.Unidirectional.Components")
 				}
 			}
 		}
@@ -1075,7 +1075,7 @@ func (v *Unidirectional) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber
 			}
 			_, err := appendBERLinearComponentPortion(encoder, &v.Components, ber.ParentGeneratedCollectionSizeEncodeOptions(ber.ChildGeneratedEncodeOptions(opts, "components"))...)
 			if err != nil {
-				return nil, qualifyBERError(err, "components", "encoding", true)
+				return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.Unidirectional.components")
 			}
 		}
 	}
@@ -1118,7 +1118,7 @@ func (v *Unidirectional) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, er
 	if v.DialoguePortion != nil {
 		enc_dialogueportion, extErr := v.DialoguePortion.MarshalDER()
 		if extErr != nil {
-			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true)
+			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true, "TCAPMessages.Unidirectional.dialoguePortion")
 		}
 		encoder.Append(enc_dialogueportion)
 	}
@@ -1131,7 +1131,7 @@ func (v *Unidirectional) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, er
 		}
 		_, err := appendDERLinearComponentPortion(encoder, &v.Components)
 		if err != nil {
-			return nil, qualifyBERError(err, "components", "encoding", true)
+			return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.Unidirectional.components")
 		}
 	}
 	if err := encoder.End(innerFrame_); err != nil {
@@ -1184,7 +1184,7 @@ func (destination *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding Unidirectional SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return berDiagnosticError("Unidirectional", "%s: %w", "decoding Unidirectional", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "Unidirectional", Cause: ber.ErrExtraData}
@@ -1401,18 +1401,18 @@ func (v *Begin) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOp
 	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
-		return nil, qualifyBERError(encodeErr_enc_otid, "otid", "encoding", true)
+		return nil, qualifyBERError(encodeErr_enc_otid, "otid", "encoding", true, "TCAPMessages.Begin.otid")
 	}
 	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
 	if tagErr_enc_otid != nil {
-		return nil, qualifyBERError(tagErr_enc_otid, "otid", "encoding", true)
+		return nil, qualifyBERError(tagErr_enc_otid, "otid", "encoding", true, "TCAPMessages.Begin.otid")
 	}
 	enc_otid = retagged_enc_otid
 	encoder.Append(enc_otid)
 	if v.DialoguePortion != nil {
 		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER(ber.ChildGeneratedEncodeOptions(opts, "dialoguePortion")...)
 		if extErr != nil {
-			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true)
+			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true, "TCAPMessages.Begin.dialoguePortion")
 		}
 		encoder.Append(enc_dialogueportion)
 	}
@@ -1425,7 +1425,7 @@ func (v *Begin) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOp
 			}
 			enc_components, err := tcapMarshalBERComponentPortion(v.Components, ber.ParentGeneratedCollectionSizeEncodeOptions(ber.ChildGeneratedEncodeOptions(opts, "components"))...)
 			if err != nil {
-				return nil, qualifyBERError(err, "components", "encoding", true)
+				return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.Begin.components")
 			}
 			if ber.BERGeneratedReplayEnabled(opts) && v.berComponentsIndef_ {
 				indefTag_, _, indefContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_components)
@@ -1436,7 +1436,7 @@ func (v *Begin) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOp
 					var encodeErr error
 					enc_components, encodeErr = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
 					if encodeErr != nil {
-						return nil, qualifyBERError(encodeErr, "Components", "encoding", true)
+						return nil, qualifyBERError(encodeErr, "Components", "encoding", true, "TCAPMessages.Begin.Components")
 					}
 				}
 			}
@@ -1450,7 +1450,7 @@ func (v *Begin) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOp
 				}
 				_, err := appendBERLinearComponentPortion(encoder, v.Components, ber.ParentGeneratedCollectionSizeEncodeOptions(ber.ChildGeneratedEncodeOptions(opts, "components"))...)
 				if err != nil {
-					return nil, qualifyBERError(err, "components", "encoding", true)
+					return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.Begin.components")
 				}
 			}
 		}
@@ -1498,18 +1498,18 @@ func (v *Begin) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
-		return nil, qualifyBERError(encodeErr_enc_otid, "otid", "encoding", true)
+		return nil, qualifyBERError(encodeErr_enc_otid, "otid", "encoding", true, "TCAPMessages.Begin.otid")
 	}
 	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
 	if tagErr_enc_otid != nil {
-		return nil, qualifyBERError(tagErr_enc_otid, "otid", "encoding", true)
+		return nil, qualifyBERError(tagErr_enc_otid, "otid", "encoding", true, "TCAPMessages.Begin.otid")
 	}
 	enc_otid = retagged_enc_otid
 	encoder.Append(enc_otid)
 	if v.DialoguePortion != nil {
 		enc_dialogueportion, extErr := v.DialoguePortion.MarshalDER()
 		if extErr != nil {
-			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true)
+			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true, "TCAPMessages.Begin.dialoguePortion")
 		}
 		encoder.Append(enc_dialogueportion)
 	}
@@ -1522,7 +1522,7 @@ func (v *Begin) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 			}
 			_, err := appendDERLinearComponentPortion(encoder, v.Components)
 			if err != nil {
-				return nil, qualifyBERError(err, "components", "encoding", true)
+				return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.Begin.components")
 			}
 		}
 	}
@@ -1575,7 +1575,7 @@ func (destination *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding Begin SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return berDiagnosticError("Begin", "%s: %w", "decoding Begin", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "Begin", Cause: ber.ErrExtraData}
@@ -1827,18 +1827,18 @@ func (v *End) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOpti
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
-		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.End.dtid")
 	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
-		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.End.dtid")
 	}
 	enc_dtid = retagged_enc_dtid
 	encoder.Append(enc_dtid)
 	if v.DialoguePortion != nil {
 		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER(ber.ChildGeneratedEncodeOptions(opts, "dialoguePortion")...)
 		if extErr != nil {
-			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true)
+			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true, "TCAPMessages.End.dialoguePortion")
 		}
 		encoder.Append(enc_dialogueportion)
 	}
@@ -1851,7 +1851,7 @@ func (v *End) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOpti
 			}
 			enc_components, err := tcapMarshalBERComponentPortion(v.Components, ber.ParentGeneratedCollectionSizeEncodeOptions(ber.ChildGeneratedEncodeOptions(opts, "components"))...)
 			if err != nil {
-				return nil, qualifyBERError(err, "components", "encoding", true)
+				return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.End.components")
 			}
 			if ber.BERGeneratedReplayEnabled(opts) && v.berComponentsIndef_ {
 				indefTag_, _, indefContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_components)
@@ -1862,7 +1862,7 @@ func (v *End) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOpti
 					var encodeErr error
 					enc_components, encodeErr = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
 					if encodeErr != nil {
-						return nil, qualifyBERError(encodeErr, "Components", "encoding", true)
+						return nil, qualifyBERError(encodeErr, "Components", "encoding", true, "TCAPMessages.End.Components")
 					}
 				}
 			}
@@ -1876,7 +1876,7 @@ func (v *End) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOpti
 				}
 				_, err := appendBERLinearComponentPortion(encoder, v.Components, ber.ParentGeneratedCollectionSizeEncodeOptions(ber.ChildGeneratedEncodeOptions(opts, "components"))...)
 				if err != nil {
-					return nil, qualifyBERError(err, "components", "encoding", true)
+					return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.End.components")
 				}
 			}
 		}
@@ -1924,18 +1924,18 @@ func (v *End) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
-		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.End.dtid")
 	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
-		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.End.dtid")
 	}
 	enc_dtid = retagged_enc_dtid
 	encoder.Append(enc_dtid)
 	if v.DialoguePortion != nil {
 		enc_dialogueportion, extErr := v.DialoguePortion.MarshalDER()
 		if extErr != nil {
-			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true)
+			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true, "TCAPMessages.End.dialoguePortion")
 		}
 		encoder.Append(enc_dialogueportion)
 	}
@@ -1948,7 +1948,7 @@ func (v *End) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 			}
 			_, err := appendDERLinearComponentPortion(encoder, v.Components)
 			if err != nil {
-				return nil, qualifyBERError(err, "components", "encoding", true)
+				return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.End.components")
 			}
 		}
 	}
@@ -1997,7 +1997,7 @@ func (destination *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding End SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return berDiagnosticError("End", "%s: %w", "decoding End", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "End", Cause: ber.ErrExtraData}
@@ -2264,11 +2264,11 @@ func (v *Continue) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
-		return nil, qualifyBERError(encodeErr_enc_otid, "otid", "encoding", true)
+		return nil, qualifyBERError(encodeErr_enc_otid, "otid", "encoding", true, "TCAPMessages.Continue.otid")
 	}
 	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
 	if tagErr_enc_otid != nil {
-		return nil, qualifyBERError(tagErr_enc_otid, "otid", "encoding", true)
+		return nil, qualifyBERError(tagErr_enc_otid, "otid", "encoding", true, "TCAPMessages.Continue.otid")
 	}
 	enc_otid = retagged_enc_otid
 	encoder.Append(enc_otid)
@@ -2279,18 +2279,18 @@ func (v *Continue) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
-		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.Continue.dtid")
 	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
-		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.Continue.dtid")
 	}
 	enc_dtid = retagged_enc_dtid
 	encoder.Append(enc_dtid)
 	if v.DialoguePortion != nil {
 		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER(ber.ChildGeneratedEncodeOptions(opts, "dialoguePortion")...)
 		if extErr != nil {
-			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true)
+			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true, "TCAPMessages.Continue.dialoguePortion")
 		}
 		encoder.Append(enc_dialogueportion)
 	}
@@ -2303,7 +2303,7 @@ func (v *Continue) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 			}
 			enc_components, err := tcapMarshalBERComponentPortion(v.Components, ber.ParentGeneratedCollectionSizeEncodeOptions(ber.ChildGeneratedEncodeOptions(opts, "components"))...)
 			if err != nil {
-				return nil, qualifyBERError(err, "components", "encoding", true)
+				return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.Continue.components")
 			}
 			if ber.BERGeneratedReplayEnabled(opts) && v.berComponentsIndef_ {
 				indefTag_, _, indefContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_components)
@@ -2314,7 +2314,7 @@ func (v *Continue) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 					var encodeErr error
 					enc_components, encodeErr = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
 					if encodeErr != nil {
-						return nil, qualifyBERError(encodeErr, "Components", "encoding", true)
+						return nil, qualifyBERError(encodeErr, "Components", "encoding", true, "TCAPMessages.Continue.Components")
 					}
 				}
 			}
@@ -2328,7 +2328,7 @@ func (v *Continue) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 				}
 				_, err := appendBERLinearComponentPortion(encoder, v.Components, ber.ParentGeneratedCollectionSizeEncodeOptions(ber.ChildGeneratedEncodeOptions(opts, "components"))...)
 				if err != nil {
-					return nil, qualifyBERError(err, "components", "encoding", true)
+					return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.Continue.components")
 				}
 			}
 		}
@@ -2376,11 +2376,11 @@ func (v *Continue) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
-		return nil, qualifyBERError(encodeErr_enc_otid, "otid", "encoding", true)
+		return nil, qualifyBERError(encodeErr_enc_otid, "otid", "encoding", true, "TCAPMessages.Continue.otid")
 	}
 	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
 	if tagErr_enc_otid != nil {
-		return nil, qualifyBERError(tagErr_enc_otid, "otid", "encoding", true)
+		return nil, qualifyBERError(tagErr_enc_otid, "otid", "encoding", true, "TCAPMessages.Continue.otid")
 	}
 	enc_otid = retagged_enc_otid
 	encoder.Append(enc_otid)
@@ -2391,18 +2391,18 @@ func (v *Continue) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
-		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.Continue.dtid")
 	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
-		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.Continue.dtid")
 	}
 	enc_dtid = retagged_enc_dtid
 	encoder.Append(enc_dtid)
 	if v.DialoguePortion != nil {
 		enc_dialogueportion, extErr := v.DialoguePortion.MarshalDER()
 		if extErr != nil {
-			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true)
+			return nil, qualifyBERError(extErr, "dialoguePortion", "encoding", true, "TCAPMessages.Continue.dialoguePortion")
 		}
 		encoder.Append(enc_dialogueportion)
 	}
@@ -2415,7 +2415,7 @@ func (v *Continue) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 			}
 			_, err := appendDERLinearComponentPortion(encoder, v.Components)
 			if err != nil {
-				return nil, qualifyBERError(err, "components", "encoding", true)
+				return nil, qualifyBERError(err, "components", "encoding", true, "TCAPMessages.Continue.components")
 			}
 		}
 	}
@@ -2468,7 +2468,7 @@ func (destination *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding Continue SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return berDiagnosticError("Continue", "%s: %w", "decoding Continue", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "Continue", Cause: ber.ErrExtraData}
@@ -2730,11 +2730,11 @@ func (v *Abort) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOp
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
-		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.Abort.dtid")
 	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
-		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.Abort.dtid")
 	}
 	enc_dtid = retagged_enc_dtid
 	encoder.Append(enc_dtid)
@@ -2742,7 +2742,7 @@ func (v *Abort) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOp
 		{
 			_, err := v.Reason.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "reason")...)
 			if err != nil {
-				return nil, qualifyBERError(err, "reason", "encoding", true)
+				return nil, qualifyBERError(err, "reason", "encoding", true, "TCAPMessages.Abort.reason")
 			}
 		}
 	}
@@ -2789,11 +2789,11 @@ func (v *Abort) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
-		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(encodeErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.Abort.dtid")
 	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
-		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true)
+		return nil, qualifyBERError(tagErr_enc_dtid, "dtid", "encoding", true, "TCAPMessages.Abort.dtid")
 	}
 	enc_dtid = retagged_enc_dtid
 	encoder.Append(enc_dtid)
@@ -2801,7 +2801,7 @@ func (v *Abort) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 		{
 			_, err := v.Reason.appendDERLinear(encoder)
 			if err != nil {
-				return nil, qualifyBERError(err, "reason", "encoding", true)
+				return nil, qualifyBERError(err, "reason", "encoding", true, "TCAPMessages.Abort.reason")
 			}
 		}
 	}
@@ -2854,7 +2854,7 @@ func (destination *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding Abort SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return berDiagnosticError("Abort", "%s: %w", "decoding Abort", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "Abort", Cause: ber.ErrExtraData}
@@ -2982,7 +2982,7 @@ func tcapMarshalBERComponentPortion(collection *ComponentPortion, opts ...ber.En
 func marshalBERComponentPortion(collection *ComponentPortion, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeSource(opts, "TCAPMessages.marshalBERComponentPortion"), "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeSource(opts, "TCAPMessages.ComponentPortion"), "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3014,7 +3014,7 @@ func appendBERLinearComponentPortion(encoder *ber.LinearEncoder, collection *Com
 	}
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeSource(opts, "TCAPMessages.appendBERLinearComponentPortion"), "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeSource(opts, "TCAPMessages.ComponentPortion"), "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3052,7 +3052,7 @@ func appendDERLinearComponentPortion(encoder *ber.LinearEncoder, collection *Com
 	}
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeSource(nil, "TCAPMessages.appendDERLinearComponentPortion"), "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeSource(nil, "TCAPMessages.ComponentPortion"), "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3092,10 +3092,10 @@ func tcapUnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (re
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %w", "decoding ComponentPortion", qualifyBERError(err, "", "decoding", false))
+		return nil, berDiagnosticError("ComponentPortion", "%s: %w", "decoding ComponentPortion", qualifyBERError(err, "", "decoding", false))
 	}
 	if decodedTag.Class != tag.ClassApplication || decodedTag.Number != 12 {
-		return nil, fmt.Errorf("%s: %w", "decoding ComponentPortion", qualifyBERError(fmt.Errorf("%w: expected tag [APPLICATION 12], got %s", ber.ErrUnexpectedElement, decodedTag), "", "decoding", false))
+		return nil, berDiagnosticError("ComponentPortion", "%s: %w", "decoding ComponentPortion", qualifyBERError(fmt.Errorf("%w: expected tag [APPLICATION 12], got %s", ber.ErrUnexpectedElement, decodedTag), "", "decoding", false))
 	}
 	if !decodedTag.Constructed {
 		return nil, fmt.Errorf("%w: invalid primitive/constructed form", ber.ErrInvalidTag)
@@ -3217,7 +3217,7 @@ func (v *Component) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Enco
 		}
 		_, err := v.BasicROS.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "basicROS")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "basicROS", "encoding", true)
+			return nil, qualifyBERError(err, "basicROS", "encoding", true, "TCAPMessages.Component.basicROS")
 		}
 		return nil, nil
 	case ComponentChoiceReturnResultNotLast:
@@ -3227,7 +3227,7 @@ func (v *Component) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Enco
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 7}, false)
 		_, err := v.ReturnResultNotLast.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnResultNotLast")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResultNotLast", "encoding", true)
+			return nil, qualifyBERError(err, "returnResultNotLast", "encoding", true, "TCAPMessages.Component.returnResultNotLast")
 		}
 		return nil, nil
 	default:
@@ -3302,10 +3302,10 @@ func (v *Component) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0, err := v.BasicROS.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "basicROS", "encoding", true)
+			return nil, qualifyBERError(err, "basicROS", "encoding", true, "TCAPMessages.Component.basicROS")
 		}
 		if derErr := ber.ValidateDEREncodedElement(enc_der_0); derErr != nil {
-			return nil, qualifyBERError(derErr, "basicROS", "encoding", true)
+			return nil, qualifyBERError(derErr, "basicROS", "encoding", true, "TCAPMessages.Component.basicROS")
 		}
 		return enc_der_0, nil
 	case ComponentChoiceReturnResultNotLast:
@@ -3314,15 +3314,15 @@ func (v *Component) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1, err := v.ReturnResultNotLast.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResultNotLast", "encoding", true)
+			return nil, qualifyBERError(err, "returnResultNotLast", "encoding", true, "TCAPMessages.Component.returnResultNotLast")
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_der_1)
 		if tagErr_enc_der_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_1, "returnResultNotLast", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_1, "returnResultNotLast", "encoding", true, "TCAPMessages.Component.returnResultNotLast")
 		}
 		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
-			return nil, qualifyBERError(derErr, "returnResultNotLast", "encoding", true)
+			return nil, qualifyBERError(derErr, "returnResultNotLast", "encoding", true, "TCAPMessages.Component.returnResultNotLast")
 		}
 		return enc_der_1, nil
 	}
@@ -3333,11 +3333,11 @@ func (v *Component) MarshalDER() ([]byte, error) {
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		switch v.Choice {
 		case ComponentChoiceBasicROS:
-			return nil, qualifyBERError(err, "basicROS", "encoding", true)
+			return nil, qualifyBERError(err, "basicROS", "encoding", true, "TCAPMessages.Component.basicROS")
 		case ComponentChoiceReturnResultNotLast:
-			return nil, qualifyBERError(err, "returnResultNotLast", "encoding", true)
+			return nil, qualifyBERError(err, "returnResultNotLast", "encoding", true, "TCAPMessages.Component.returnResultNotLast")
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding Component as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, berDiagnosticError("Component", "%s: %w", "encoding Component", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3357,7 +3357,7 @@ func (v *Component) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) 
 		}
 		_, err := v.BasicROS.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "basicROS", "encoding", true)
+			return nil, qualifyBERError(err, "basicROS", "encoding", true, "TCAPMessages.Component.basicROS")
 		}
 		return nil, nil
 	case ComponentChoiceReturnResultNotLast:
@@ -3367,7 +3367,7 @@ func (v *Component) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) 
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 7}, false)
 		_, err := v.ReturnResultNotLast.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResultNotLast", "encoding", true)
+			return nil, qualifyBERError(err, "returnResultNotLast", "encoding", true, "TCAPMessages.Component.returnResultNotLast")
 		}
 		return nil, nil
 	default:
@@ -3434,14 +3434,14 @@ func (destination *Component) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding Component CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return berDiagnosticError("Component", "%s: %w", "decoding Component", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "Component", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Component.returnResultNotLast", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnResultNotLast", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 && peekTag.Constructed == true {
 		v.Choice = ComponentChoiceReturnResultNotLast
@@ -3592,11 +3592,11 @@ func (v *TCInvokeIdSet) MarshalDER() ([]byte, error) {
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		switch v.Choice {
 		case TCInvokeIdSetChoicePresent:
-			return nil, qualifyBERError(err, "present", "encoding", true)
+			return nil, qualifyBERError(err, "present", "encoding", true, "TCAPMessages.TCInvokeIdSet.present")
 		case TCInvokeIdSetChoiceAbsent:
-			return nil, qualifyBERError(err, "absent", "encoding", true)
+			return nil, qualifyBERError(err, "absent", "encoding", true, "TCAPMessages.TCInvokeIdSet.absent")
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding TCInvokeIdSet as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, berDiagnosticError("TCInvokeIdSet", "%s: %w", "encoding TCInvokeIdSet", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3667,17 +3667,17 @@ func (destination *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding TCInvokeIdSet CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return berDiagnosticError("TCInvokeIdSet", "%s: %w", "decoding TCInvokeIdSet", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "TCInvokeIdSet", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "TCInvokeIdSet.present", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "present", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "TCInvokeIdSet.absent", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "absent", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = TCInvokeIdSetChoicePresent
@@ -3828,10 +3828,10 @@ func (v *AbortReason) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1, err := v.UAbortCause.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "u-abortCause", "encoding", true)
+			return nil, qualifyBERError(err, "u-abortCause", "encoding", true, "TCAPMessages.Abort-reason.u-abortCause")
 		}
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
-			return nil, qualifyBERError(derErr, "u-abortCause", "encoding", true)
+			return nil, qualifyBERError(derErr, "u-abortCause", "encoding", true, "TCAPMessages.Abort-reason.u-abortCause")
 		}
 		return enc_der_1, nil
 	}
@@ -3842,11 +3842,11 @@ func (v *AbortReason) MarshalDER() ([]byte, error) {
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		switch v.Choice {
 		case AbortReasonChoicePAbortCause:
-			return nil, qualifyBERError(err, "p-abortCause", "encoding", true)
+			return nil, qualifyBERError(err, "p-abortCause", "encoding", true, "TCAPMessages.Abort-reason.p-abortCause")
 		case AbortReasonChoiceUAbortCause:
-			return nil, qualifyBERError(err, "u-abortCause", "encoding", true)
+			return nil, qualifyBERError(err, "u-abortCause", "encoding", true, "TCAPMessages.Abort-reason.u-abortCause")
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding AbortReason as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, berDiagnosticError("Abort-reason", "%s: %w", "encoding Abort-reason", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3908,27 +3908,27 @@ func (destination *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = AbortReason{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for AbortReason CHOICE")
+		return fmt.Errorf("empty data for Abort-reason CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for AbortReason: %w", peekErr)
+		return fmt.Errorf("peeking tag for Abort-reason: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding AbortReason CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return berDiagnosticError("Abort-reason", "%s: %w", "decoding Abort-reason", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "AbortReason", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "Abort-reason", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassApplication && peekTag.Number == 10) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "AbortReason.p-abortCause", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "p-abortCause", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassApplication && peekTag.Number == 11) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "AbortReason.u-abortCause", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "u-abortCause", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassApplication && peekTag.Number == 10 && peekTag.Constructed == false {
 		v.Choice = AbortReasonChoicePAbortCause
@@ -3961,7 +3961,7 @@ func (destination *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		v.UAbortCause = &decodedExternal
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for AbortReason CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for Abort-reason CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }

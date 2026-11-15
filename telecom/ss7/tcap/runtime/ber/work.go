@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 4f12fab3008918402eb2c83a731b411fc720468033b764b7d343c4162ab7baba.
+// Runtime source: runtime/ber/work.go; SHA-256 e3556bc86896fdadf3d21f93787125dbd7668178478653fe6b914bdf33217cee.
 package ber
 
 import (
@@ -342,33 +342,12 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 					}
 					indexes = append(indexes, childIndex)
 				}
-				path := qualifyConstraintPath(options, "")
-				parentType := tcapKindUnknown
-				appendSegment := func(segment string) {
-					if segment != "" {
-						if path != "" {
-							path += "."
-						}
-						path += segment
-					}
-				}
-				for index, ancestor := range stack[1:] {
-					ancestorTag, _, _ := DecodeTag(data[ancestor.offset:])
-					appendSegment(tcapPathSegment(config.profileType, parentType, ancestor.profileType, ancestorTag, ancestor.index, index == 0))
-					parentType = ancestor.profileType
-				}
-				appendSegment(tcapPathSegment(config.profileType, parentType, kind, t, childIndex, len(stack) == 1))
-				if path == "" {
-					path = config.profileType
-					if path == "" {
-						path = "TCAP"
-					}
-				}
+				path := tcapElementPath(data, stack, kind, t, childIndex, config, options)
 				if err := checkTCAPProfileElement(data, pos, tagLen, lenLen, indefinite, t, indexes, config, options, kind, path); err != nil {
 					return err
 				}
 				if !config.profileNested && t.Constructed && parent.profileType == tcapKindDialogueExternal && parent.dialogueSyntax > 0 && (kind == tcapKindOctetString || kind == tcapKindBitString) && t.Class == tag.ClassContextSpecific && (t.Number == 1 || t.Number == 2) {
-					segmented = &dialogueSegments{syntax: parent.dialogueSyntax}
+					segmented = &dialogueSegments{syntax: parent.dialogueSyntax, encoding: t.Number}
 					segmentDepth = len(stack) + 1
 				}
 			}

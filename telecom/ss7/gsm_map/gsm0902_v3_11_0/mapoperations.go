@@ -716,7 +716,7 @@ func (v *ActivateSSArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ActivateSSArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ActivateSS-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -766,10 +766,10 @@ func (destination *ActivateSSArgument) UnmarshalBER(data []byte, opts ...ber.Dec
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ActivateSSArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ActivateSS-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ActivateSSArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ActivateSS-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode ss-Code
@@ -827,7 +827,7 @@ func (destination *ActivateSSArgument) UnmarshalBER(data []byte, opts ...ber.Dec
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ActivateSSArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "ActivateSS-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -992,7 +992,7 @@ func (v *ActivateTraceModeArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ActivateTraceModeArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ActivateTraceMode-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1042,10 +1042,10 @@ func (destination *ActivateTraceModeArgument) UnmarshalBER(data []byte, opts ...
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ActivateTraceModeArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ActivateTraceMode-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ActivateTraceModeArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ActivateTraceMode-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -1187,7 +1187,7 @@ func (destination *ActivateTraceModeArgument) UnmarshalBER(data []byte, opts ...
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ActivateTraceModeArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "ActivateTraceMode-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -1280,7 +1280,7 @@ func (v *AlertServiceCentreArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding AlertServiceCentreArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding AlertServiceCentre-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1330,10 +1330,10 @@ func (destination *AlertServiceCentreArgument) UnmarshalBER(data []byte, opts ..
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding AlertServiceCentreArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding AlertServiceCentre-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "AlertServiceCentreArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "AlertServiceCentre-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msIsdn
@@ -1387,7 +1387,7 @@ func (destination *AlertServiceCentreArgument) UnmarshalBER(data []byte, opts ..
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "AlertServiceCentreArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "AlertServiceCentre-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -1470,7 +1470,7 @@ func (v *AuthenticateArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding AuthenticateArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Authenticate-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1520,10 +1520,10 @@ func (destination *AuthenticateArgument) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding AuthenticateArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Authenticate-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "AuthenticateArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "Authenticate-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode rand
@@ -1572,7 +1572,7 @@ func (destination *AuthenticateArgument) UnmarshalBER(data []byte, opts ...ber.D
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "AuthenticateArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "Authenticate-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -1665,7 +1665,7 @@ func (v *BeginSubscriberActivityArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding BeginSubscriberActivityArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding BeginSubscriberActivity-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1715,10 +1715,10 @@ func (destination *BeginSubscriberActivityArgument) UnmarshalBER(data []byte, op
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding BeginSubscriberActivityArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding BeginSubscriberActivity-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "BeginSubscriberActivityArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "BeginSubscriberActivity-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -1772,7 +1772,7 @@ func (destination *BeginSubscriberActivityArgument) UnmarshalBER(data []byte, op
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "BeginSubscriberActivityArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "BeginSubscriberActivity-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -1858,7 +1858,7 @@ func (v *CancelLocationArgument) MarshalDER() ([]byte, error) {
 		case CancelLocationArgumentChoiceAlternative1:
 			return nil, qualifyBERError(err, "alternative1", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding CancelLocationArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding CancelLocation-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1908,24 +1908,24 @@ func (destination *CancelLocationArgument) UnmarshalBER(data []byte, opts ...ber
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CancelLocationArgument{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for CancelLocationArgument CHOICE")
+		return fmt.Errorf("empty data for CancelLocation-argument CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for CancelLocationArgument: %w", peekErr)
+		return fmt.Errorf("peeking tag for CancelLocation-argument: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding CancelLocationArgument CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding CancelLocation-argument", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "CancelLocationArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "CancelLocation-argument", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "CancelLocationArgument.alternative1", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "alternative1", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
 		v.Choice = CancelLocationArgumentChoiceImsi
@@ -1950,7 +1950,7 @@ func (destination *CancelLocationArgument) UnmarshalBER(data []byte, opts ...ber
 		}
 		v.Alternative1 = &dec
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for CancelLocationArgument CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for CancelLocation-argument CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -2204,7 +2204,7 @@ func (v *CompleteCallArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding CompleteCallArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding CompleteCall-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2254,10 +2254,10 @@ func (destination *CompleteCallArgument) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding CompleteCallArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding CompleteCall-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CompleteCallArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "CompleteCall-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msIsdn
@@ -2502,7 +2502,7 @@ func (destination *CompleteCallArgument) UnmarshalBER(data []byte, opts ...ber.D
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CompleteCallArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "CompleteCall-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -2590,7 +2590,7 @@ func (v *ConnectToFollowingAddressArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ConnectToFollowingAddressArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ConnectToFollowingAddress-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2640,10 +2640,10 @@ func (destination *ConnectToFollowingAddressArgument) UnmarshalBER(data []byte, 
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ConnectToFollowingAddressArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ConnectToFollowingAddress-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ConnectToFollowingAddressArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ConnectToFollowingAddress-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode forwardingData
@@ -2702,7 +2702,7 @@ func (destination *ConnectToFollowingAddressArgument) UnmarshalBER(data []byte, 
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ConnectToFollowingAddressArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "ConnectToFollowingAddress-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -2780,7 +2780,7 @@ func (v *DeactivateSSArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding DeactivateSSArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding DeactivateSS-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2830,10 +2830,10 @@ func (destination *DeactivateSSArgument) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding DeactivateSSArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding DeactivateSS-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "DeactivateSSArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "DeactivateSS-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode ss-Code
@@ -2889,7 +2889,7 @@ func (destination *DeactivateSSArgument) UnmarshalBER(data []byte, opts ...ber.D
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "DeactivateSSArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "DeactivateSS-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -2996,7 +2996,7 @@ func (v *DeactivateTraceModeArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding DeactivateTraceModeArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding DeactivateTraceMode-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3046,10 +3046,10 @@ func (destination *DeactivateTraceModeArgument) UnmarshalBER(data []byte, opts .
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding DeactivateTraceModeArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding DeactivateTraceMode-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "DeactivateTraceModeArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "DeactivateTraceMode-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -3120,7 +3120,7 @@ func (destination *DeactivateTraceModeArgument) UnmarshalBER(data []byte, opts .
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "DeactivateTraceModeArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "DeactivateTraceMode-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -3293,7 +3293,7 @@ func (v *DeleteSubscriberDataArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding DeleteSubscriberDataArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding DeleteSubscriberData-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3343,10 +3343,10 @@ func (destination *DeleteSubscriberDataArgument) UnmarshalBER(data []byte, opts 
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding DeleteSubscriberDataArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding DeleteSubscriberData-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "DeleteSubscriberDataArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "DeleteSubscriberData-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -3498,7 +3498,7 @@ func (destination *DeleteSubscriberDataArgument) UnmarshalBER(data []byte, opts 
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "DeleteSubscriberDataArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "DeleteSubscriberData-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -3576,7 +3576,7 @@ func (v *EraseSSArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding EraseSSArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding EraseSS-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3626,10 +3626,10 @@ func (destination *EraseSSArgument) UnmarshalBER(data []byte, opts ...ber.Decode
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding EraseSSArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding EraseSS-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "EraseSSArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "EraseSS-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode ss-Code
@@ -3685,7 +3685,7 @@ func (destination *EraseSSArgument) UnmarshalBER(data []byte, opts ...ber.Decode
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "EraseSSArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "EraseSS-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -3770,7 +3770,7 @@ func (v *ForwardShortMessageArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ForwardShortMessageArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ForwardShortMessage-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3820,10 +3820,10 @@ func (destination *ForwardShortMessageArgument) UnmarshalBER(data []byte, opts .
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ForwardShortMessageArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ForwardShortMessage-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ForwardShortMessageArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ForwardShortMessage-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode sm-RP-DA
@@ -3900,7 +3900,7 @@ func (destination *ForwardShortMessageArgument) UnmarshalBER(data []byte, opts .
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ForwardShortMessageArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "ForwardShortMessage-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -4147,7 +4147,7 @@ func (v *ForwardSsNotificationArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ForwardSsNotificationArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ForwardSsNotification-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4197,10 +4197,10 @@ func (destination *ForwardSsNotificationArgument) UnmarshalBER(data []byte, opts
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ForwardSsNotificationArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ForwardSsNotification-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ForwardSsNotificationArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ForwardSsNotification-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -4401,7 +4401,7 @@ func (destination *ForwardSsNotificationArgument) UnmarshalBER(data []byte, opts
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ForwardSsNotificationArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "ForwardSsNotification-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -4734,7 +4734,7 @@ func (v *InsertSubscriberDataArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding InsertSubscriberDataArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding InsertSubscriberData-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4784,10 +4784,10 @@ func (destination *InsertSubscriberDataArgument) UnmarshalBER(data []byte, opts 
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding InsertSubscriberDataArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding InsertSubscriberData-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "InsertSubscriberDataArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "InsertSubscriberData-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -5105,7 +5105,7 @@ func (destination *InsertSubscriberDataArgument) UnmarshalBER(data []byte, opts 
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "InsertSubscriberDataArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "InsertSubscriberData-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -5183,7 +5183,7 @@ func (v *InterrogateSSArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding InterrogateSSArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding InterrogateSS-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5233,10 +5233,10 @@ func (destination *InterrogateSSArgument) UnmarshalBER(data []byte, opts ...ber.
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding InterrogateSSArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding InterrogateSS-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "InterrogateSSArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "InterrogateSS-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode ss-Code
@@ -5292,7 +5292,7 @@ func (destination *InterrogateSSArgument) UnmarshalBER(data []byte, opts ...ber.
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "InterrogateSSArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "InterrogateSS-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -5409,7 +5409,7 @@ func (v *InterrogateSSResult) MarshalDER() ([]byte, error) {
 	case InterrogateSSResultChoiceActivesBasicServices:
 		enc_der_2, err := MarshalDERBasicServiceList(v.ActivesBasicServices)
 		if err != nil {
-			return nil, qualifyBERError(err, "activesBasicServices", "encoding", true)
+			return nil, qualifyDERError(err, "activesBasicServices", sd78d83_15)
 		}
 		if len((v.ActivesBasicServices).Values) < 1 || len((v.ActivesBasicServices).Values) > 70 {
 			if constraintErr := checkEncodedLength(nil, sd78d83_15, "37.4", "activesBasicServices", "SIZE (1..70)", len((v.ActivesBasicServices).Values)); constraintErr != nil {
@@ -5418,17 +5418,17 @@ func (v *InterrogateSSResult) MarshalDER() ([]byte, error) {
 		}
 		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_2)
 		if tagErr_enc_der_2 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_2, "activesBasicServices", "encoding", true)
+			return nil, qualifyDERError(tagErr_enc_der_2, "activesBasicServices", sd78d83_15)
 		}
 		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDEREncodedElement(enc_der_2); derErr != nil {
-			return nil, qualifyBERError(derErr, "activesBasicServices", "encoding", true)
+			return nil, qualifyDERError(derErr, "activesBasicServices", sd78d83_15)
 		}
 		return enc_der_2, nil
 	case InterrogateSSResultChoiceForwardingFeatureList:
 		enc_der_3, err := MarshalDERForwardingFeatureList(v.ForwardingFeatureList)
 		if err != nil {
-			return nil, qualifyBERError(err, "forwardingFeatureList", "encoding", true)
+			return nil, qualifyDERError(err, "forwardingFeatureList", sd78d83_15)
 		}
 		if len((v.ForwardingFeatureList).Values) < 1 || len((v.ForwardingFeatureList).Values) > 13 {
 			if constraintErr := checkEncodedLength(nil, sd78d83_15, "37.4", "forwardingFeatureList", "SIZE (1..13)", len((v.ForwardingFeatureList).Values)); constraintErr != nil {
@@ -5437,11 +5437,11 @@ func (v *InterrogateSSResult) MarshalDER() ([]byte, error) {
 		}
 		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_3)
 		if tagErr_enc_der_3 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_3, "forwardingFeatureList", "encoding", true)
+			return nil, qualifyDERError(tagErr_enc_der_3, "forwardingFeatureList", sd78d83_15)
 		}
 		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDEREncodedElement(enc_der_3); derErr != nil {
-			return nil, qualifyBERError(derErr, "forwardingFeatureList", "encoding", true)
+			return nil, qualifyDERError(derErr, "forwardingFeatureList", sd78d83_15)
 		}
 		return enc_der_3, nil
 	}
@@ -5456,11 +5456,11 @@ func (v *InterrogateSSResult) MarshalDER() ([]byte, error) {
 		case InterrogateSSResultChoiceForwardedToNumber:
 			return nil, qualifyBERError(err, "forwardedToNumber", "encoding", true)
 		case InterrogateSSResultChoiceActivesBasicServices:
-			return nil, qualifyBERError(err, "activesBasicServices", "encoding", true)
+			return nil, qualifyDERError(err, "activesBasicServices", sd78d83_15)
 		case InterrogateSSResultChoiceForwardingFeatureList:
-			return nil, qualifyBERError(err, "forwardingFeatureList", "encoding", true)
+			return nil, qualifyDERError(err, "forwardingFeatureList", sd78d83_15)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding InterrogateSSResult as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding InterrogateSS-result", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5510,27 +5510,27 @@ func (destination *InterrogateSSResult) UnmarshalBER(data []byte, opts ...ber.De
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = InterrogateSSResult{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for InterrogateSSResult CHOICE")
+		return fmt.Errorf("empty data for InterrogateSS-result CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for InterrogateSSResult: %w", peekErr)
+		return fmt.Errorf("peeking tag for InterrogateSS-result: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding InterrogateSSResult CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding InterrogateSS-result", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "InterrogateSSResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "InterrogateSS-result", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "InterrogateSSResult.activesBasicServices", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "activesBasicServices", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "InterrogateSSResult.forwardingFeatureList", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "forwardingFeatureList", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
 		v.Choice = InterrogateSSResultChoiceSsStatus
@@ -5620,7 +5620,7 @@ func (destination *InterrogateSSResult) UnmarshalBER(data []byte, opts ...ber.De
 			}
 		}
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for InterrogateSSResult CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for InterrogateSS-result CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -5794,7 +5794,7 @@ func (v *InvokeSSArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding InvokeSSArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding InvokeSS-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5844,10 +5844,10 @@ func (destination *InvokeSSArgument) UnmarshalBER(data []byte, opts ...ber.Decod
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding InvokeSSArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding InvokeSS-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "InvokeSSArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "InvokeSS-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode ss-Code
@@ -6007,7 +6007,7 @@ func (destination *InvokeSSArgument) UnmarshalBER(data []byte, opts ...ber.Decod
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "InvokeSSArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "InvokeSS-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -6123,7 +6123,7 @@ func (v *NoteInternalHandoverArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding NoteInternalHandoverArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding NoteInternalHandover-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -6173,10 +6173,10 @@ func (destination *NoteInternalHandoverArgument) UnmarshalBER(data []byte, opts 
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding NoteInternalHandoverArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding NoteInternalHandover-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "NoteInternalHandoverArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "NoteInternalHandover-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode handoverType
@@ -6275,7 +6275,7 @@ func (destination *NoteInternalHandoverArgument) UnmarshalBER(data []byte, opts 
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "NoteInternalHandoverArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "NoteInternalHandover-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -6412,7 +6412,7 @@ func (v *PageArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding PageArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Page-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -6462,10 +6462,10 @@ func (destination *PageArgument) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding PageArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Page-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "PageArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "Page-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -6572,7 +6572,7 @@ func (destination *PageArgument) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "PageArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "Page-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -6763,7 +6763,7 @@ func (v *PerformHandoverArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding PerformHandoverArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding PerformHandover-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -6813,10 +6813,10 @@ func (destination *PerformHandoverArgument) UnmarshalBER(data []byte, opts ...be
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding PerformHandoverArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding PerformHandover-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "PerformHandoverArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "PerformHandover-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode targetCellId
@@ -6977,7 +6977,7 @@ func (destination *PerformHandoverArgument) UnmarshalBER(data []byte, opts ...be
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "PerformHandoverArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "PerformHandover-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -7061,7 +7061,7 @@ func (v *PerformHandoverResult) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding PerformHandoverResult as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding PerformHandover-result", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -7111,10 +7111,10 @@ func (destination *PerformHandoverResult) UnmarshalBER(data []byte, opts ...ber.
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding PerformHandoverResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding PerformHandover-result", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "PerformHandoverResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "PerformHandover-result", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode handoverNumber
@@ -7173,7 +7173,7 @@ func (destination *PerformHandoverResult) UnmarshalBER(data []byte, opts ...ber.
 		offset += n_accesssignalinfo
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "PerformHandoverResult", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "PerformHandover-result", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -7320,7 +7320,7 @@ func (v *PerformSubsequentHandoverArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding PerformSubsequentHandoverArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding PerformSubsequentHandover-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -7370,10 +7370,10 @@ func (destination *PerformSubsequentHandoverArgument) UnmarshalBER(data []byte, 
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding PerformSubsequentHandoverArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding PerformSubsequentHandover-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "PerformSubsequentHandoverArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "PerformSubsequentHandover-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode targetCellId
@@ -7483,7 +7483,7 @@ func (destination *PerformSubsequentHandoverArgument) UnmarshalBER(data []byte, 
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "PerformSubsequentHandoverArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "PerformSubsequentHandover-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -7591,7 +7591,7 @@ func (v *ProcessAccessRequestArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ProcessAccessRequestArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ProcessAccessRequest-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -7641,10 +7641,10 @@ func (destination *ProcessAccessRequestArgument) UnmarshalBER(data []byte, opts 
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ProcessAccessRequestArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ProcessAccessRequest-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ProcessAccessRequestArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ProcessAccessRequest-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode subscriberId
@@ -7741,7 +7741,7 @@ func (destination *ProcessAccessRequestArgument) UnmarshalBER(data []byte, opts 
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProcessAccessRequestArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "ProcessAccessRequest-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -7838,7 +7838,7 @@ func (v *ProcessAccessRequestResult) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ProcessAccessRequestResult as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ProcessAccessRequest-result", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -7888,10 +7888,10 @@ func (destination *ProcessAccessRequestResult) UnmarshalBER(data []byte, opts ..
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ProcessAccessRequestResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ProcessAccessRequest-result", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ProcessAccessRequestResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ProcessAccessRequest-result", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -7948,7 +7948,7 @@ func (destination *ProcessAccessRequestResult) UnmarshalBER(data []byte, opts ..
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProcessAccessRequestResult", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "ProcessAccessRequest-result", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -8237,7 +8237,7 @@ func (v *ProvideRoamingNumberArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ProvideRoamingNumberArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ProvideRoamingNumber-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -8287,10 +8287,10 @@ func (destination *ProvideRoamingNumberArgument) UnmarshalBER(data []byte, opts 
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ProvideRoamingNumberArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ProvideRoamingNumber-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ProvideRoamingNumberArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ProvideRoamingNumber-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -8560,7 +8560,7 @@ func (destination *ProvideRoamingNumberArgument) UnmarshalBER(data []byte, opts 
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ProvideRoamingNumberArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "ProvideRoamingNumber-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -9077,7 +9077,7 @@ func (v *RegisterChargingInformationArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding RegisterChargingInformationArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding RegisterChargingInformation-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -9127,10 +9127,10 @@ func (destination *RegisterChargingInformationArgument) UnmarshalBER(data []byte
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding RegisterChargingInformationArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding RegisterChargingInformation-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RegisterChargingInformationArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "RegisterChargingInformation-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msIsdn
@@ -9638,7 +9638,7 @@ func (destination *RegisterChargingInformationArgument) UnmarshalBER(data []byte
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "RegisterChargingInformationArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "RegisterChargingInformation-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -9788,7 +9788,7 @@ func (v *RegisterSSArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding RegisterSSArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding RegisterSS-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -9838,10 +9838,10 @@ func (destination *RegisterSSArgument) UnmarshalBER(data []byte, opts ...ber.Dec
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding RegisterSSArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding RegisterSS-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RegisterSSArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "RegisterSS-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode ss-Code
@@ -9975,7 +9975,7 @@ func (destination *RegisterSSArgument) UnmarshalBER(data []byte, opts ...ber.Dec
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "RegisterSSArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "RegisterSS-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -10087,7 +10087,7 @@ func (v *ResetArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ResetArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Reset-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -10137,10 +10137,10 @@ func (destination *ResetArgument) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ResetArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Reset-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ResetArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "Reset-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode networkResource
@@ -10237,7 +10237,7 @@ func (destination *ResetArgument) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ResetArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "Reset-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -10311,7 +10311,7 @@ func (v *SearchForMobileSubscriberArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SearchForMobileSubscriberArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SearchForMobileSubscriber-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -10361,10 +10361,10 @@ func (destination *SearchForMobileSubscriberArgument) UnmarshalBER(data []byte, 
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SearchForMobileSubscriberArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SearchForMobileSubscriber-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SearchForMobileSubscriberArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SearchForMobileSubscriber-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -10416,7 +10416,7 @@ func (destination *SearchForMobileSubscriberArgument) UnmarshalBER(data []byte, 
 		offset += n_storedlocationarea
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SearchForMobileSubscriberArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SearchForMobileSubscriber-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -10678,7 +10678,7 @@ func (v *SendInfoForIncomingCallArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendInfoForIncomingCallArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendInfoForIncomingCall-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -10728,10 +10728,10 @@ func (destination *SendInfoForIncomingCallArgument) UnmarshalBER(data []byte, op
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendInfoForIncomingCallArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendInfoForIncomingCall-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendInfoForIncomingCallArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendInfoForIncomingCall-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode incomingId
@@ -10965,7 +10965,7 @@ func (destination *SendInfoForIncomingCallArgument) UnmarshalBER(data []byte, op
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SendInfoForIncomingCallArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SendInfoForIncomingCall-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -11116,7 +11116,7 @@ func (v *SendInfoForOutgoingCallArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendInfoForOutgoingCallArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendInfoForOutgoingCall-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -11166,10 +11166,10 @@ func (destination *SendInfoForOutgoingCallArgument) UnmarshalBER(data []byte, op
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendInfoForOutgoingCallArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendInfoForOutgoingCall-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendInfoForOutgoingCallArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendInfoForOutgoingCall-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode calledNumber
@@ -11278,7 +11278,7 @@ func (destination *SendInfoForOutgoingCallArgument) UnmarshalBER(data []byte, op
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SendInfoForOutgoingCallArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SendInfoForOutgoingCall-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -11359,7 +11359,7 @@ func (v *SendParametersArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendParametersArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendParameters-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -11409,10 +11409,10 @@ func (destination *SendParametersArgument) UnmarshalBER(data []byte, opts ...ber
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendParametersArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendParameters-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendParametersArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendParameters-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode subscriberId
@@ -11483,7 +11483,7 @@ func (destination *SendParametersArgument) UnmarshalBER(data []byte, opts ...ber
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SendParametersArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SendParameters-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -11683,7 +11683,7 @@ func (v *SendRoutingInfoForSMArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoForSMArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoForSM-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -11733,10 +11733,10 @@ func (destination *SendRoutingInfoForSMArgument) UnmarshalBER(data []byte, opts 
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoForSMArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoForSM-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInfoForSMArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInfoForSM-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msIsdn
@@ -11920,7 +11920,7 @@ func (destination *SendRoutingInfoForSMArgument) UnmarshalBER(data []byte, opts 
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInfoForSMArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInfoForSM-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -12017,7 +12017,7 @@ func (v *SendRoutingInfoForSMResult) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoForSMResult as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoForSM-result", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -12067,10 +12067,10 @@ func (destination *SendRoutingInfoForSMResult) UnmarshalBER(data []byte, opts ..
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoForSMResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoForSM-result", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInfoForSMResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInfoForSM-result", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -12158,7 +12158,7 @@ func (destination *SendRoutingInfoForSMResult) UnmarshalBER(data []byte, opts ..
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInfoForSMResult", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInfoForSM-result", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -12328,7 +12328,7 @@ func (v *SendRoutingInformationArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInformationArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInformation-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -12378,10 +12378,10 @@ func (destination *SendRoutingInformationArgument) UnmarshalBER(data []byte, opt
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendRoutingInformationArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendRoutingInformation-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInformationArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInformation-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msIsdn
@@ -12534,7 +12534,7 @@ func (destination *SendRoutingInformationArgument) UnmarshalBER(data []byte, opt
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInformationArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInformation-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -12608,7 +12608,7 @@ func (v *SendRoutingInformationResult) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInformationResult as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInformation-result", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -12658,10 +12658,10 @@ func (destination *SendRoutingInformationResult) UnmarshalBER(data []byte, opts 
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendRoutingInformationResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendRoutingInformation-result", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInformationResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInformation-result", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -12713,7 +12713,7 @@ func (destination *SendRoutingInformationResult) UnmarshalBER(data []byte, opts 
 		offset += n_routinginfo
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInformationResult", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInformation-result", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -12794,7 +12794,7 @@ func (v *SetCipheringModeArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SetCipheringModeArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SetCipheringMode-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -12844,10 +12844,10 @@ func (destination *SetCipheringModeArgument) UnmarshalBER(data []byte, opts ...b
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SetCipheringModeArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SetCipheringMode-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SetCipheringModeArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SetCipheringMode-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode cipheringMode
@@ -12899,7 +12899,7 @@ func (destination *SetCipheringModeArgument) UnmarshalBER(data []byte, opts ...b
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SetCipheringModeArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SetCipheringMode-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -12992,7 +12992,7 @@ func (v *SetMessageWaitingDataArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SetMessageWaitingDataArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SetMessageWaitingData-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -13042,10 +13042,10 @@ func (destination *SetMessageWaitingDataArgument) UnmarshalBER(data []byte, opts
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SetMessageWaitingDataArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SetMessageWaitingData-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SetMessageWaitingDataArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SetMessageWaitingData-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msIsdn
@@ -13099,7 +13099,7 @@ func (destination *SetMessageWaitingDataArgument) UnmarshalBER(data []byte, opts
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SetMessageWaitingDataArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SetMessageWaitingData-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -13298,7 +13298,7 @@ func (v *TraceSubscriberActivityArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding TraceSubscriberActivityArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding TraceSubscriberActivity-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -13348,10 +13348,10 @@ func (destination *TraceSubscriberActivityArgument) UnmarshalBER(data []byte, op
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding TraceSubscriberActivityArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding TraceSubscriberActivity-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "TraceSubscriberActivityArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "TraceSubscriberActivity-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -13526,7 +13526,7 @@ func (destination *TraceSubscriberActivityArgument) UnmarshalBER(data []byte, op
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "TraceSubscriberActivityArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "TraceSubscriberActivity-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -13664,7 +13664,7 @@ func (v *UpdateLocationArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding UpdateLocationArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding UpdateLocation-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -13714,10 +13714,10 @@ func (destination *UpdateLocationArgument) UnmarshalBER(data []byte, opts ...ber
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding UpdateLocationArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding UpdateLocation-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "UpdateLocationArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "UpdateLocation-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -13830,7 +13830,7 @@ func (destination *UpdateLocationArgument) UnmarshalBER(data []byte, opts ...ber
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "UpdateLocationArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "UpdateLocation-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -13935,7 +13935,7 @@ func (v *UpdateLocationAreaArgument) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding UpdateLocationAreaArgument as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding UpdateLocationArea-argument", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -13985,10 +13985,10 @@ func (destination *UpdateLocationAreaArgument) UnmarshalBER(data []byte, opts ..
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding UpdateLocationAreaArgument SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding UpdateLocationArea-argument", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "UpdateLocationAreaArgument", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "UpdateLocationArea-argument", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode subscriberId
@@ -14088,7 +14088,7 @@ func (destination *UpdateLocationAreaArgument) UnmarshalBER(data []byte, opts ..
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "UpdateLocationAreaArgument", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "UpdateLocationArea-argument", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -14171,7 +14171,7 @@ func (v *CancelLocationArgumentAlternative1) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding CancelLocationArgumentAlternative1 as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding CancelLocation-argument-alternative1", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -14221,10 +14221,10 @@ func (destination *CancelLocationArgumentAlternative1) UnmarshalBER(data []byte,
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding CancelLocationArgumentAlternative1 SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding CancelLocation-argument-alternative1", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CancelLocationArgumentAlternative1", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "CancelLocation-argument-alternative1", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -14273,7 +14273,7 @@ func (destination *CancelLocationArgumentAlternative1) UnmarshalBER(data []byte,
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "CancelLocationArgumentAlternative1", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "CancelLocation-argument-alternative1", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -14339,7 +14339,7 @@ func (v *SearchForMobileSubscriberArgumentStoredLocationArea) MarshalDER() ([]by
 		case SearchForMobileSubscriberArgumentStoredLocationAreaChoiceAlternative1:
 			return nil, qualifyBERError(err, "alternative1", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding SearchForMobileSubscriberArgumentStoredLocationArea as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SearchForMobileSubscriber-argument-storedLocationArea", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -14389,24 +14389,24 @@ func (destination *SearchForMobileSubscriberArgumentStoredLocationArea) Unmarsha
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SearchForMobileSubscriberArgumentStoredLocationArea{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for SearchForMobileSubscriberArgumentStoredLocationArea CHOICE")
+		return fmt.Errorf("empty data for SearchForMobileSubscriber-argument-storedLocationArea CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SearchForMobileSubscriberArgumentStoredLocationArea: %w", peekErr)
+		return fmt.Errorf("peeking tag for SearchForMobileSubscriber-argument-storedLocationArea: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding SearchForMobileSubscriberArgumentStoredLocationArea CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SearchForMobileSubscriber-argument-storedLocationArea", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "SearchForMobileSubscriberArgumentStoredLocationArea", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SearchForMobileSubscriber-argument-storedLocationArea", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "SearchForMobileSubscriberArgumentStoredLocationArea.alternative1", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "alternative1", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
 		v.Choice = SearchForMobileSubscriberArgumentStoredLocationAreaChoiceAlternative0
@@ -14430,7 +14430,7 @@ func (destination *SearchForMobileSubscriberArgumentStoredLocationArea) Unmarsha
 			return qualifyBERError(nullErr, "alternative1", "decoding", false)
 		}
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for SearchForMobileSubscriberArgumentStoredLocationArea CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for SearchForMobileSubscriber-argument-storedLocationArea CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -14522,7 +14522,7 @@ func (v *SendInfoForIncomingCallArgumentIncomingId) MarshalDER() ([]byte, error)
 		case SendInfoForIncomingCallArgumentIncomingIdChoiceImsi:
 			return nil, qualifyBERError(err, "imsi", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding SendInfoForIncomingCallArgumentIncomingId as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendInfoForIncomingCall-argument-incomingId", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -14572,20 +14572,20 @@ func (destination *SendInfoForIncomingCallArgumentIncomingId) UnmarshalBER(data 
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SendInfoForIncomingCallArgumentIncomingId{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for SendInfoForIncomingCallArgumentIncomingId CHOICE")
+		return fmt.Errorf("empty data for SendInfoForIncomingCall-argument-incomingId CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SendInfoForIncomingCallArgumentIncomingId: %w", peekErr)
+		return fmt.Errorf("peeking tag for SendInfoForIncomingCall-argument-incomingId: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding SendInfoForIncomingCallArgumentIncomingId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendInfoForIncomingCall-argument-incomingId", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendInfoForIncomingCallArgumentIncomingId", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendInfoForIncomingCall-argument-incomingId", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
@@ -14632,7 +14632,7 @@ func (destination *SendInfoForIncomingCallArgumentIncomingId) UnmarshalBER(data 
 			}
 		}
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for SendInfoForIncomingCallArgumentIncomingId CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for SendInfoForIncomingCall-argument-incomingId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -14745,7 +14745,7 @@ func (v *SendRoutingInfoForSMResultComponent1) MarshalDER() ([]byte, error) {
 		case SendRoutingInfoForSMResultComponent1ChoiceForwardingData:
 			return nil, qualifyBERError(err, "forwardingData", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoForSMResultComponent1 as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoForSM-result-component1", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -14795,27 +14795,27 @@ func (destination *SendRoutingInfoForSMResultComponent1) UnmarshalBER(data []byt
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SendRoutingInfoForSMResultComponent1{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for SendRoutingInfoForSMResultComponent1 CHOICE")
+		return fmt.Errorf("empty data for SendRoutingInfoForSM-result-component1 CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SendRoutingInfoForSMResultComponent1: %w", peekErr)
+		return fmt.Errorf("peeking tag for SendRoutingInfoForSM-result-component1: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoForSMResultComponent1 CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoForSM-result-component1", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInfoForSMResultComponent1", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInfoForSM-result-component1", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "SendRoutingInfoForSMResultComponent1.alternative0", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "alternative0", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "SendRoutingInfoForSMResultComponent1.forwardingData", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "forwardingData", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = SendRoutingInfoForSMResultComponent1ChoiceAlternative0
@@ -14852,7 +14852,7 @@ func (destination *SendRoutingInfoForSMResultComponent1) UnmarshalBER(data []byt
 		}
 		v.ForwardingData = &dec
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for SendRoutingInfoForSMResultComponent1 CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for SendRoutingInfoForSM-result-component1 CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -14930,7 +14930,7 @@ func (v *SendRoutingInfoForSMResultComponent1Alternative0) MarshalDER() ([]byte,
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoForSMResultComponent1Alternative0 as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoForSM-result-component1-alternative0", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -14980,10 +14980,10 @@ func (destination *SendRoutingInfoForSMResultComponent1Alternative0) UnmarshalBE
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoForSMResultComponent1Alternative0 SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoForSM-result-component1-alternative0", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInfoForSMResultComponent1Alternative0", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInfoForSM-result-component1-alternative0", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode locationInfo
@@ -15037,7 +15037,7 @@ func (destination *SendRoutingInfoForSMResultComponent1Alternative0) UnmarshalBE
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInfoForSMResultComponent1Alternative0", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "SendRoutingInfoForSM-result-component1-alternative0", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -15128,7 +15128,7 @@ func (v *SendRoutingInformationResultRoutingInfo) MarshalDER() ([]byte, error) {
 		case SendRoutingInformationResultRoutingInfoChoiceForwardingData:
 			return nil, qualifyBERError(err, "forwardingData", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInformationResultRoutingInfo as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInformation-result-routingInfo", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -15178,24 +15178,24 @@ func (destination *SendRoutingInformationResultRoutingInfo) UnmarshalBER(data []
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SendRoutingInformationResultRoutingInfo{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for SendRoutingInformationResultRoutingInfo CHOICE")
+		return fmt.Errorf("empty data for SendRoutingInformation-result-routingInfo CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SendRoutingInformationResultRoutingInfo: %w", peekErr)
+		return fmt.Errorf("peeking tag for SendRoutingInformation-result-routingInfo: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding SendRoutingInformationResultRoutingInfo CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendRoutingInformation-result-routingInfo", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInformationResultRoutingInfo", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInformation-result-routingInfo", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "SendRoutingInformationResultRoutingInfo.forwardingData", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "forwardingData", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
 		v.Choice = SendRoutingInformationResultRoutingInfoChoiceRoamingNumber
@@ -15225,7 +15225,7 @@ func (destination *SendRoutingInformationResultRoutingInfo) UnmarshalBER(data []
 		}
 		v.ForwardingData = &dec
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for SendRoutingInformationResultRoutingInfo CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for SendRoutingInformation-result-routingInfo CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -15291,7 +15291,7 @@ func (v *UpdateLocationAreaArgumentPreviousLocAreaId) MarshalDER() ([]byte, erro
 		case UpdateLocationAreaArgumentPreviousLocAreaIdChoiceAlternative1:
 			return nil, qualifyBERError(err, "alternative1", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding UpdateLocationAreaArgumentPreviousLocAreaId as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding UpdateLocationArea-argument-previousLocAreaId", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -15341,24 +15341,24 @@ func (destination *UpdateLocationAreaArgumentPreviousLocAreaId) UnmarshalBER(dat
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = UpdateLocationAreaArgumentPreviousLocAreaId{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for UpdateLocationAreaArgumentPreviousLocAreaId CHOICE")
+		return fmt.Errorf("empty data for UpdateLocationArea-argument-previousLocAreaId CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for UpdateLocationAreaArgumentPreviousLocAreaId: %w", peekErr)
+		return fmt.Errorf("peeking tag for UpdateLocationArea-argument-previousLocAreaId: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding UpdateLocationAreaArgumentPreviousLocAreaId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding UpdateLocationArea-argument-previousLocAreaId", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "UpdateLocationAreaArgumentPreviousLocAreaId", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "UpdateLocationArea-argument-previousLocAreaId", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "UpdateLocationAreaArgumentPreviousLocAreaId.alternative1", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "alternative1", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
 		v.Choice = UpdateLocationAreaArgumentPreviousLocAreaIdChoiceAlternative0
@@ -15382,7 +15382,7 @@ func (destination *UpdateLocationAreaArgumentPreviousLocAreaId) UnmarshalBER(dat
 			return qualifyBERError(nullErr, "alternative1", "decoding", false)
 		}
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for UpdateLocationAreaArgumentPreviousLocAreaId CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for UpdateLocationArea-argument-previousLocAreaId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }

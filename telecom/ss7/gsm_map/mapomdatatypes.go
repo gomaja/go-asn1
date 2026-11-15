@@ -1400,7 +1400,7 @@ func (v *ActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ActivateTraceModeArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ActivateTraceModeArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1441,7 +1441,7 @@ func (destination *ActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ActivateTraceModeArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ActivateTraceModeArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ActivateTraceModeArg", Cause: ber.ErrExtraData}
@@ -2554,7 +2554,7 @@ func (v *MDTConfiguration) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding MDTConfiguration as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding MDT-Configuration", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2595,10 +2595,10 @@ func (destination *MDTConfiguration) UnmarshalBER(data []byte, opts ...ber.Decod
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding MDTConfiguration SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding MDT-Configuration", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MDTConfiguration", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "MDT-Configuration", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode jobType
@@ -3309,12 +3309,12 @@ func (destination *MDTConfiguration) UnmarshalBER(data []byte, opts ...ber.Decod
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MDTConfiguration", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "MDT-Configuration", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MDTConfiguration", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MDT-Configuration", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sf38eb6_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -3354,7 +3354,7 @@ func MarshalBERMDTAllowedPLMNIdList(collection *MDTAllowedPLMNIdList, opts ...be
 func marshalBERMDTAllowedPLMNIdList(collection *MDTAllowedPLMNIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 16 {
-		if constraintErr := checkEncodedCollectionLength(opts, "MAP-OM-DataTypes.marshalBERMDTAllowedPLMNIdList", "51.5", "MDT-Allowed-PLMNId-List", "SIZE (1..16)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, sf38eb6_2, "51.5", "MDT-Allowed-PLMNId-List", "SIZE (1..16)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3362,7 +3362,7 @@ func marshalBERMDTAllowedPLMNIdList(collection *MDTAllowedPLMNIdList, opts ...be
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 3 || len(elem) > 3 {
-			if constraintErr := checkEncodedLength(opts, "MAP-OM-DataTypes.marshalBERMDTAllowedPLMNIdList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (3)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_2, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (3)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3421,7 +3421,7 @@ func MarshalDERMDTAllowedPLMNIdList(collection *MDTAllowedPLMNIdList) ([]byte, e
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding MDTAllowedPLMNIdList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding MDT-Allowed-PLMNId-List", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3458,10 +3458,10 @@ func UnmarshalBERMDTAllowedPLMNIdList(data []byte, opts ...ber.DecodeOption) (re
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %w", "decoding MDTAllowedPLMNIdList", qualifyBERError(err, "", "decoding", false))
+		return nil, fmt.Errorf("%s: %w", "decoding MDT-Allowed-PLMNId-List", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "MDTAllowedPLMNIdList", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "MDT-Allowed-PLMNId-List", Cause: ber.ErrExtraData}
 	}
 	var result []PLMNId
 	offset := 0
@@ -3853,7 +3853,7 @@ func (v *AreaScope) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding AreaScope as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding AreaScope", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3893,7 +3893,7 @@ func (destination *AreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding AreaScope SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding AreaScope", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "AreaScope", Cause: ber.ErrExtraData}
@@ -4282,7 +4282,7 @@ func MarshalBERCGIList(collection *CGIList, opts ...ber.EncodeOption) (returnByt
 func marshalBERCGIList(collection *CGIList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := checkEncodedCollectionLength(opts, "MAP-OM-DataTypes.marshalBERCGIList", "51.5", "CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, sf38eb6_4, "51.5", "CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4290,7 +4290,7 @@ func marshalBERCGIList(collection *CGIList, opts ...ber.EncodeOption) ([]byte, e
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 5 || len(elem) > 7 {
-			if constraintErr := checkEncodedLength(opts, "MAP-OM-DataTypes.marshalBERCGIList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (5..7)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_4, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (5..7)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4349,7 +4349,7 @@ func MarshalDERCGIList(collection *CGIList) ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding CGIList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding CGI-List", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4386,10 +4386,10 @@ func UnmarshalBERCGIList(data []byte, opts ...ber.DecodeOption) (returnValue *CG
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %w", "decoding CGIList", qualifyBERError(err, "", "decoding", false))
+		return nil, fmt.Errorf("%s: %w", "decoding CGI-List", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "CGIList", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "CGI-List", Cause: ber.ErrExtraData}
 	}
 	var result []GlobalCellId
 	offset := 0
@@ -4447,7 +4447,7 @@ func MarshalBEREUTRANCGIList(collection *EUTRANCGIList, opts ...ber.EncodeOption
 func marshalBEREUTRANCGIList(collection *EUTRANCGIList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := checkEncodedCollectionLength(opts, "MAP-OM-DataTypes.marshalBEREUTRANCGIList", "51.5", "E-UTRAN-CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, sf38eb6_5, "51.5", "E-UTRAN-CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4455,7 +4455,7 @@ func marshalBEREUTRANCGIList(collection *EUTRANCGIList, opts ...ber.EncodeOption
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 7 || len(elem) > 7 {
-			if constraintErr := checkEncodedLength(opts, "MAP-OM-DataTypes.marshalBEREUTRANCGIList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (7)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_5, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (7)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4514,7 +4514,7 @@ func MarshalDEREUTRANCGIList(collection *EUTRANCGIList) ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding EUTRANCGIList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding E-UTRAN-CGI-List", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4551,10 +4551,10 @@ func UnmarshalBEREUTRANCGIList(data []byte, opts ...ber.DecodeOption) (returnVal
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %w", "decoding EUTRANCGIList", qualifyBERError(err, "", "decoding", false))
+		return nil, fmt.Errorf("%s: %w", "decoding E-UTRAN-CGI-List", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "EUTRANCGIList", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "E-UTRAN-CGI-List", Cause: ber.ErrExtraData}
 	}
 	var result []EUTRANCGI
 	offset := 0
@@ -4612,7 +4612,7 @@ func MarshalBERRoutingAreaIdList(collection *RoutingAreaIdList, opts ...ber.Enco
 func marshalBERRoutingAreaIdList(collection *RoutingAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		if constraintErr := checkEncodedCollectionLength(opts, "MAP-OM-DataTypes.marshalBERRoutingAreaIdList", "51.5", "RoutingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, sf38eb6_6, "51.5", "RoutingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4620,7 +4620,7 @@ func marshalBERRoutingAreaIdList(collection *RoutingAreaIdList, opts ...ber.Enco
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 6 || len(elem) > 6 {
-			if constraintErr := checkEncodedLength(opts, "MAP-OM-DataTypes.marshalBERRoutingAreaIdList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (6)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_6, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (6)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4679,7 +4679,7 @@ func MarshalDERRoutingAreaIdList(collection *RoutingAreaIdList) ([]byte, error) 
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding RoutingAreaIdList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding RoutingAreaId-List", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4716,10 +4716,10 @@ func UnmarshalBERRoutingAreaIdList(data []byte, opts ...ber.DecodeOption) (retur
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %w", "decoding RoutingAreaIdList", qualifyBERError(err, "", "decoding", false))
+		return nil, fmt.Errorf("%s: %w", "decoding RoutingAreaId-List", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "RoutingAreaIdList", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "RoutingAreaId-List", Cause: ber.ErrExtraData}
 	}
 	var result []RAIdentity
 	offset := 0
@@ -4777,7 +4777,7 @@ func MarshalBERLocationAreaIdList(collection *LocationAreaIdList, opts ...ber.En
 func marshalBERLocationAreaIdList(collection *LocationAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		if constraintErr := checkEncodedCollectionLength(opts, "MAP-OM-DataTypes.marshalBERLocationAreaIdList", "51.5", "LocationAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, sf38eb6_7, "51.5", "LocationAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4785,7 +4785,7 @@ func marshalBERLocationAreaIdList(collection *LocationAreaIdList, opts ...ber.En
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 5 || len(elem) > 5 {
-			if constraintErr := checkEncodedLength(opts, "MAP-OM-DataTypes.marshalBERLocationAreaIdList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_7, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4844,7 +4844,7 @@ func MarshalDERLocationAreaIdList(collection *LocationAreaIdList) ([]byte, error
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding LocationAreaIdList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding LocationAreaId-List", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4881,10 +4881,10 @@ func UnmarshalBERLocationAreaIdList(data []byte, opts ...ber.DecodeOption) (retu
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %w", "decoding LocationAreaIdList", qualifyBERError(err, "", "decoding", false))
+		return nil, fmt.Errorf("%s: %w", "decoding LocationAreaId-List", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "LocationAreaIdList", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "LocationAreaId-List", Cause: ber.ErrExtraData}
 	}
 	var result []LAIFixedLength
 	offset := 0
@@ -4942,7 +4942,7 @@ func MarshalBERTrackingAreaIdList(collection *TrackingAreaIdList, opts ...ber.En
 func marshalBERTrackingAreaIdList(collection *TrackingAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		if constraintErr := checkEncodedCollectionLength(opts, "MAP-OM-DataTypes.marshalBERTrackingAreaIdList", "51.5", "TrackingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, sf38eb6_8, "51.5", "TrackingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4950,7 +4950,7 @@ func marshalBERTrackingAreaIdList(collection *TrackingAreaIdList, opts ...ber.En
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 5 || len(elem) > 5 {
-			if constraintErr := checkEncodedLength(opts, "MAP-OM-DataTypes.marshalBERTrackingAreaIdList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_8, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5009,7 +5009,7 @@ func MarshalDERTrackingAreaIdList(collection *TrackingAreaIdList) ([]byte, error
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding TrackingAreaIdList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding TrackingAreaId-List", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5046,10 +5046,10 @@ func UnmarshalBERTrackingAreaIdList(data []byte, opts ...ber.DecodeOption) (retu
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %w", "decoding TrackingAreaIdList", qualifyBERError(err, "", "decoding", false))
+		return nil, fmt.Errorf("%s: %w", "decoding TrackingAreaId-List", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "TrackingAreaIdList", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "TrackingAreaId-List", Cause: ber.ErrExtraData}
 	}
 	var result []TAId
 	offset := 0
@@ -5526,7 +5526,7 @@ func (v *TraceDepthList) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding TraceDepthList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding TraceDepthList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5567,7 +5567,7 @@ func (destination *TraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding TraceDepthList SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding TraceDepthList", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "TraceDepthList", Cause: ber.ErrExtraData}
@@ -6881,7 +6881,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding TraceInterfaceList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding TraceInterfaceList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -6922,7 +6922,7 @@ func (destination *TraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.Dec
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding TraceInterfaceList SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding TraceInterfaceList", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "TraceInterfaceList", Cause: ber.ErrExtraData}
@@ -7865,7 +7865,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding TraceEventList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding TraceEventList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -7906,7 +7906,7 @@ func (destination *TraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding TraceEventList SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding TraceEventList", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "TraceEventList", Cause: ber.ErrExtraData}
@@ -8843,7 +8843,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding TracePropagationList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding TracePropagationList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -8884,7 +8884,7 @@ func (destination *TracePropagationList) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding TracePropagationList SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding TracePropagationList", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "TracePropagationList", Cause: ber.ErrExtraData}
@@ -9564,7 +9564,7 @@ func (v *ActivateTraceModeRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ActivateTraceModeRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ActivateTraceModeRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -9605,7 +9605,7 @@ func (destination *ActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ActivateTraceModeRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ActivateTraceModeRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ActivateTraceModeRes", Cause: ber.ErrExtraData}
@@ -9912,7 +9912,7 @@ func (v *DeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding DeactivateTraceModeArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding DeactivateTraceModeArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -9953,7 +9953,7 @@ func (destination *DeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding DeactivateTraceModeArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding DeactivateTraceModeArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "DeactivateTraceModeArg", Cause: ber.ErrExtraData}
@@ -10237,7 +10237,7 @@ func (v *DeactivateTraceModeRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding DeactivateTraceModeRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding DeactivateTraceModeRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -10278,7 +10278,7 @@ func (destination *DeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding DeactivateTraceModeRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding DeactivateTraceModeRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "DeactivateTraceModeRes", Cause: ber.ErrExtraData}

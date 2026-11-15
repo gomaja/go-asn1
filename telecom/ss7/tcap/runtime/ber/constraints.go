@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 036bf24da96ac85c2562bf25a180eff43c5e5bb83bb752b9f13ac17b79ee3374.
+// Runtime source: runtime/ber/constraints.go; SHA-256 a53cecd63c1fc9370cfc98fa618a9f92f9bc94b994c6cbb62389143b748f58e1.
 package ber
 
 import (
@@ -519,7 +519,7 @@ func encodeOptions(options []EncodeOption) (encodeConfig, error) {
 		case generatedEncodeMarker:
 			// The generated call marker does not change encoding policy.
 		case constraintPathOption:
-			if value == "" || strings.Contains(string(value), ".") {
+			if !validConstraintPathComponent(string(value)) {
 				return config, fmt.Errorf("%w: invalid BER constraint path component", ErrInvalidValue)
 			}
 			config.collectionSizeChecked = false
@@ -737,9 +737,21 @@ func generatedConstraintPath(context *generatedDecodeOption) string {
 	return context.path
 }
 
+// X.690 (02/2021) §8.18 names EXTERNAL's encoding CHOICE and its
+// alternative. Keep that fixed source position in one existing path slot.
+func validConstraintPathComponent(component string) bool {
+	if component == "" {
+		return false
+	}
+	if !strings.Contains(component, ".") {
+		return true
+	}
+	return component == "encoding.single-ASN1-type" || component == "encoding.octet-aligned" || component == "encoding.arbitrary"
+}
+
 func (option constraintPathOption) applyDecode(config *decodeConfig) error {
 	config.collectionSizeChecked = false
-	if strings.Contains(string(option), ".") || option == "" {
+	if !validConstraintPathComponent(string(option)) {
 		return fmt.Errorf("%w: invalid BER constraint path component", ErrInvalidValue)
 	}
 	config.hasPath = true
@@ -748,7 +760,7 @@ func (option constraintPathOption) applyDecode(config *decodeConfig) error {
 
 func (option constraintPathOption) applyEncode(config *encodeConfig) error {
 	config.collectionSizeChecked = false
-	if strings.Contains(string(option), ".") || option == "" {
+	if !validConstraintPathComponent(string(option)) {
 		return fmt.Errorf("%w: invalid BER constraint path component", ErrInvalidValue)
 	}
 	config.hasPath = true
@@ -761,7 +773,7 @@ func ChildDecodeOptions(options []DecodeOption, component string) []DecodeOption
 		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
 			storage := new(generatedDecodeContextStorage)
 			child := &storage.context
-			*child = generatedDecodeOption{source: context.source, config: context.config, parent: context, component: component, validated: context.validated && component != "" && !strings.Contains(component, ".")}
+			*child = generatedDecodeOption{source: context.source, config: context.config, parent: context, component: component, validated: context.validated && validConstraintPathComponent(component)}
 			child.config.collectionSizeChecked = false
 			child.config.hasPath = true
 			storage.options[0] = child

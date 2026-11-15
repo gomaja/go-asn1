@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/validation.go; SHA-256 ad9d1037d79fb51fdcd5815908606adaa89eff4666eeeee3a3078d89456bb266.
+// Runtime source: runtime/ber/validation.go; SHA-256 9ddef92b6c49891000a4ae0082c7c04d5403e5342841ab987481c4284f04f032.
 package ber
 
 import (
@@ -510,7 +510,7 @@ func sourceField(source, field string) string {
 		return ""
 	}
 	assignment := source[strings.LastIndex(source, ".")+1:]
-	if field == "" || strings.EqualFold(strings.ReplaceAll(assignment, "-", ""), strings.ReplaceAll(field, "-", "")) {
+	if field == "" || field == assignment {
 		return source
 	}
 	return source + "." + field

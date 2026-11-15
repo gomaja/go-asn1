@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "5905224cfade52fa881db513ace8e65abd4d37ca",
-    "tree": "9319ce8180fbfc5b4af62ac63f096100f4e8e021",
+    "commit": "66c6808bf8773f45c47d23bc4fad128a87ff1a38",
+    "tree": "3cb3950a53460c67fdaa82b85af259e74ac20fcc",
     "dirty": false
   },
   "source_lock": {
@@ -1542,8 +1542,8 @@
     {
       "path": "ber/map_profile.go",
       "mode": "0644",
-      "size": 22997,
-      "sha256": "70124d1229f37fe8828ec213fb1f0997e1d81b17d60efb378b30e1cb58cbc6b6"
+      "size": 24249,
+      "sha256": "3877f62c83af2aea2f5987a6a94616293ca39e519f16bb228df6015804904d4d"
     },
     {
       "path": "ber/map_profile_resource_test.go",
@@ -1554,8 +1554,8 @@
     {
       "path": "ber/map_profile_test.go",
       "mode": "0644",
-      "size": 14805,
-      "sha256": "3b4f516ebe0d9d51365e35c9dfaeaa012093fda5465eb8e026f4806799339ea7"
+      "size": 14814,
+      "sha256": "31807f76d3a3c5af2b0d200791098a2305288b1b543beaf44de876318cb09a1d"
     },
     {
       "path": "ber/named_bit_encoding.go",
@@ -1656,8 +1656,8 @@
     {
       "path": "ber/phase1_profile_test.go",
       "mode": "0644",
-      "size": 5183,
-      "sha256": "e9c37feb83381115d9f7d294b2c418b985a198b4ed16768527a8769c8404c11c"
+      "size": 9951,
+      "sha256": "2c32479a7d25ec2777d211d6fe997a71c44ea7d4d2716097432bfdcf2e8c6025"
     },
     {
       "path": "ber/preflight_location_test.go",
@@ -1954,6 +1954,12 @@
       "sha256": "e8fe444087e28aff07e59e3c9f66cf1a98a0fc061d3bb76f41b3312b319cda64"
     },
     {
+      "path": "ber/source_field_test.go",
+      "mode": "0644",
+      "size": 838,
+      "sha256": "05ccfd5490c46697de4eb5de688c1c10493a24f4ea342caf9944f02c17f23bcf"
+    },
+    {
       "path": "ber/stage_fast_path_test.go",
       "mode": "0644",
       "size": 2800,
@@ -2160,8 +2166,8 @@
     {
       "path": "ber/validation.go",
       "mode": "0644",
-      "size": 18689,
-      "sha256": "ad9d1037d79fb51fdcd5815908606adaa89eff4666eeeee3a3078d89456bb266"
+      "size": 18614,
+      "sha256": "9ddef92b6c49891000a4ae0082c7c04d5403e5342841ab987481c4284f04f032"
     },
     {
       "path": "ber/work.go",
@@ -2355,8 +2361,8 @@
     {
       "path": "ber-error-paths.go",
       "mode": "0644",
-      "size": 2953,
-      "sha256": "45163b717603a9daab1f2dc2c969c042eeea0e7c9a4f20c51b1cfe151966e9b3"
+      "size": 3911,
+      "sha256": "31178cf0d7230628af1807e16f651a539dffe5aaa237f9940f0fd93bbc3ed427"
     },
     {
       "path": "ber_value.go",
@@ -2379,8 +2385,8 @@
     {
       "path": "edition-values_test.go",
       "mode": "0644",
-      "size": 21460,
-      "sha256": "fdc4c86421dabcc92d0b099cd87fd405c8111b283644663d451c5ead624f9927"
+      "size": 27743,
+      "sha256": "60bfa8f079505418429346521ee7bce28c90273817316e31d9dbb37b652e7bac"
     },
     {
       "path": "macro-catalogue.go",
@@ -2391,8 +2397,8 @@
     {
       "path": "mapabortinformation.go",
       "mode": "0644",
-      "size": 8705,
-      "sha256": "28fb80c900d629bae90131043e2346e3b6c087cf029d64368cdd9f0b1cc84e85"
+      "size": 8689,
+      "sha256": "a35edab321c99ca8e8f5ebdc512311cfb13ec71c90f7137f7a7b08ba1872635f"
     },
     {
       "path": "mapconstants.go",
@@ -2403,20 +2409,20 @@
     {
       "path": "mapdatatypes.go",
       "mode": "0644",
-      "size": 392216,
-      "sha256": "256ea5ca051b70e9a441d10d5496d69d69a2b2be651b55030a0dd8fe31a49c3e"
+      "size": 390692,
+      "sha256": "27d486765faf65f6a7b701480d1692e1566a492f45b307aa363e8a127bbcc90d"
     },
     {
       "path": "maperrors.go",
       "mode": "0644",
-      "size": 15918,
-      "sha256": "903c62ff6a3437328cf1078e530ee54219a57fd1775fdd1fc957e4af627c3faf"
+      "size": 15910,
+      "sha256": "1c7c7c6c5962a02bde378949b639af08b1eedfd93f89875af9588502cecfe5b8"
     },
     {
       "path": "mapoperations.go",
       "mode": "0644",
-      "size": 679161,
-      "sha256": "2626ec79b47abbeb27230a4701146dc859a62341182176698cb24ce8d6ad660f"
+      "size": 678322,
+      "sha256": "47142897b6f5cb559153a9452968058f95e03ed93f5e2b02546274479434969e"
     },
     {
       "path": "typed-coverage_test.go",

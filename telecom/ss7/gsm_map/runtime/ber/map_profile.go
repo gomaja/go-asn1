@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/map_profile.go; SHA-256 70124d1229f37fe8828ec213fb1f0997e1d81b17d60efb378b30e1cb58cbc6b6.
+// Runtime source: runtime/ber/map_profile.go; SHA-256 3877f62c83af2aea2f5987a6a94616293ca39e519f16bb228df6015804904d4d.
 package ber
 
 import (
@@ -150,6 +150,41 @@ const (
 
 var mapRuleNames = [...]string{"short-length", "minimum-length-octets", "primitive-octet-string", "primitive-bit-string"}
 var mapRuleBits = [...]uint8{mapShortLength, mapMinimumLength, mapPrimitiveOctets, mapPrimitiveBits}
+
+// Representation findings use the root edition's authority on both decode
+// and tolerant replay: GSM 09.02 V3.11.0 §6.1, V4.19.1 §14.1.1, and
+// TS 29.002 V19.1.0 §17.1.1. More specific syntax flags take precedence.
+var mapRepresentationRules = [...]struct {
+	syntax uint8
+	rule   RuleRef
+	prefix string
+}{
+	{mapSyntaxPhase1, RuleRef{Document: "GSM 09.02", Edition: "V3.11.0", Clause: "6.1"}, "GSM 09.02 V3.11.0 §6.1: "},
+	{mapSyntaxGSM0902, RuleRef{Document: "GSM 09.02", Edition: "V4.19.1", Clause: "14.1.1"}, "GSM 09.02 V4.19.1 §14.1.1: "},
+	{0, RuleRef{Document: "3GPP TS 29.002", Edition: "V19.1.0", Clause: "17.1.1"}, "TS 29.002 §17.1.1: "},
+}
+
+func mapRepresentationViolation(syntax uint8, name string) Violation {
+	for _, entry := range mapRepresentationRules {
+		if entry.syntax == 0 || syntax&entry.syntax != 0 {
+			return Violation{Kind: ProtocolRule, Rule: entry.rule, Constraint: entry.prefix + name}
+		}
+	}
+	panic("missing MAP representation authority")
+}
+
+func isMAPRepresentationViolation(v Violation) bool {
+	if v.Kind != ProtocolRule {
+		return false
+	}
+	for _, entry := range mapRepresentationRules {
+		// Keep the TS 29.002 clause filter edition-independent, as before.
+		if v.Rule.Document == entry.rule.Document && v.Rule.Clause == entry.rule.Clause && (entry.syntax == 0 || v.Rule.Edition == entry.rule.Edition) {
+			return true
+		}
+	}
+	return false
+}
 
 func mapProfileRules(t tag.Tag, length []byte, indefinite bool) (rules uint8) {
 	// TS 29.002 V19.1.0 §17.1.1. Empty constructors and constructed
@@ -401,14 +436,13 @@ func finishMAPDecode(prior error, config decodeConfig) error {
 			if element.rules&mapRuleBits[bit] == 0 {
 				continue
 			}
-			v := Violation{Kind: ProtocolRule, Rule: RuleRef{Document: "3GPP TS 29.002", Edition: "V19.1.0", Clause: "17.1.1"}, Constraint: "TS 29.002 §17.1.1: " + name, Path: element.path, Source: element.source, Offset: new(offset), ObservedValue: "received BER form", scope: config.reportScope}
-			if form.mapSyntax&mapSyntaxGSM0902 != 0 {
-				v.Rule = RuleRef{Document: "GSM 09.02", Edition: "V4.19.1", Clause: "14.1.1"}
-				v.Constraint = "GSM 09.02 V4.19.1 §14.1.1: " + name
-			}
-			if form.mapSyntax&mapSyntaxPhase1 != 0 {
-				v.Rule = RuleRef{Document: "GSM 09.02", Edition: "V3.11.0", Clause: "6.1"}
-				v.Constraint = "GSM 09.02 V3.11.0 §6.1: " + name
+			v := mapRepresentationViolation(form.mapSyntax, name)
+			v.Path, v.Source, v.Offset = element.path, element.source, new(offset)
+			v.ObservedValue, v.scope = "received BER form", config.reportScope
+			// A composite or collection root has no enclosing component marker.
+			// Name only an emitted finding; valid inputs need no root marker.
+			if v.Path == "" && offset == 0 {
+				_, v.Path, _ = strings.Cut(v.Source, ".")
 			}
 			if config.location != nil {
 				var err error
@@ -420,6 +454,12 @@ func finishMAPDecode(prior error, config decodeConfig) error {
 			if segments := element.segments; segments != nil {
 				var path strings.Builder
 				path.WriteString(segments.path)
+				// A generic root string has no component marker. Name only
+				// emitted segment findings, like standalone string decoders.
+				if path.Len() == 0 {
+					_, assignment, _ := strings.Cut(segments.source, ".")
+					path.WriteString(assignment)
+				}
 				for _, index := range v.ChildIndexes[min(len(v.ChildIndexes), segments.depth):] {
 					if path.Len() != 0 {
 						path.WriteByte('.')
@@ -672,7 +712,7 @@ func checkMAPEncoded(data []byte, options []EncodeOption, decode func([]byte, ..
 		return err
 	}
 	for _, v := range log.Snapshot() {
-		if v.Kind != ProtocolRule || !(v.Rule.Document == "3GPP TS 29.002" && v.Rule.Clause == "17.1.1" || v.Rule.Document == "GSM 09.02" && v.Rule.Edition == "V4.19.1" && v.Rule.Clause == "14.1.1") {
+		if !isMAPRepresentationViolation(v) {
 			continue
 		}
 		v.scope = config.reportScope

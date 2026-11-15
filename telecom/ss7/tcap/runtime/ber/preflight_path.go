@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_path.go; SHA-256 70a0ca40e05dbe733ea683749fe8f7d3e85dd2b1a1f873db3806a20f3e725695.
+// Runtime source: runtime/ber/preflight_path.go; SHA-256 7eb640255a1f94a5b4647ebbeeec26c1f22aba1a9a47925711f3ef20c01cd9d6.
 package ber
 
 import (
@@ -33,13 +33,21 @@ type preflightPathError struct {
 }
 
 // Error formats the preflight component path and underlying diagnostic.
-func (e *preflightPathError) Error() string { return fmt.Sprintf("decoding %s: %v", e.path, e.cause) }
+func (e *preflightPathError) Error() string {
+	return fmt.Sprintf("decoding %s: %v", e.ASN1BERPath(), e.cause)
+}
 
 // Unwrap returns the underlying preflight error.
 func (e *preflightPathError) Unwrap() error { return e.cause }
 
 // ASN1BERPath returns the component path assigned during preflight. The zero value returns an empty string.
-func (e *preflightPathError) ASN1BERPath() string { return e.path }
+func (e *preflightPathError) ASN1BERPath() string {
+	var finding *ValidationError
+	if errors.As(e.cause, &finding) {
+		return finding.Path
+	}
+	return e.path
+}
 
 // DiagnosePreflight adds a generated schema path to a whole-element failure.
 // The callback runs once with nested preflight disabled; generated markers
@@ -59,6 +67,11 @@ func DiagnosePreflight(err error, data []byte, options []DecodeOption, rootChild
 	indexes := located.ChildIndexes()
 	if len(indexes) == 0 {
 		return err
+	}
+	// A failed TCAP scan already has its classified ancestors. Reuse the
+	// shared builder; opaque descendants retain only their child indexes.
+	if located.path != "" {
+		return &preflightPathError{path: located.path, cause: err}
 	}
 	state := &preflightProbeState{active: true}
 	if located.Offset() >= 0 && located.Offset() < len(data) {

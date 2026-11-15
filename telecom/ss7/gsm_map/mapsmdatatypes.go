@@ -1020,7 +1020,7 @@ func (v *RoutingInfoForSMArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding RoutingInfoForSMArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding RoutingInfoForSM-Arg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1061,10 +1061,10 @@ func (destination *RoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.De
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding RoutingInfoForSMArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding RoutingInfoForSM-Arg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RoutingInfoForSMArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "RoutingInfoForSM-Arg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msisdn
@@ -1553,12 +1553,12 @@ func (destination *RoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.De
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "RoutingInfoForSMArg", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "RoutingInfoForSM-Arg", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "RoutingInfoForSMArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "RoutingInfoForSM-Arg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1748,7 +1748,7 @@ func (v *RoutingInfoForSMRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding RoutingInfoForSMRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding RoutingInfoForSM-Res", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1789,10 +1789,10 @@ func (destination *RoutingInfoForSMRes) UnmarshalBER(data []byte, opts ...ber.De
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding RoutingInfoForSMRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding RoutingInfoForSM-Res", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "RoutingInfoForSMRes", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "RoutingInfoForSM-Res", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -1948,12 +1948,12 @@ func (destination *RoutingInfoForSMRes) UnmarshalBER(data []byte, opts ...ber.De
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "RoutingInfoForSMRes", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "RoutingInfoForSM-Res", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "RoutingInfoForSMRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "RoutingInfoForSM-Res", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -2095,7 +2095,7 @@ func (v *IPSMGWGuidance) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding IPSMGWGuidance as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding IP-SM-GW-Guidance", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2136,10 +2136,10 @@ func (destination *IPSMGWGuidance) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding IPSMGWGuidance SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding IP-SM-GW-Guidance", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "IPSMGWGuidance", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "IP-SM-GW-Guidance", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode minimumDeliveryTimeValue
@@ -2225,12 +2225,12 @@ func (destination *IPSMGWGuidance) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "IPSMGWGuidance", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "IP-SM-GW-Guidance", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "IPSMGWGuidance", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "IP-SM-GW-Guidance", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -2751,7 +2751,7 @@ func (v *LocationInfoWithLMSI) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding LocationInfoWithLMSI as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding LocationInfoWithLMSI", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2792,7 +2792,7 @@ func (destination *LocationInfoWithLMSI) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding LocationInfoWithLMSI SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding LocationInfoWithLMSI", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "LocationInfoWithLMSI", Cause: ber.ErrExtraData}
@@ -3515,7 +3515,7 @@ func (v *AdditionalNumber) MarshalDER() ([]byte, error) {
 		case AdditionalNumberChoiceSgsnNumber:
 			return nil, qualifyBERError(err, "sgsn-Number", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding AdditionalNumber as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Additional-Number", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3556,20 +3556,20 @@ func (destination *AdditionalNumber) UnmarshalBER(data []byte, opts ...ber.Decod
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = AdditionalNumber{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for AdditionalNumber CHOICE")
+		return fmt.Errorf("empty data for Additional-Number CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for AdditionalNumber: %w", peekErr)
+		return fmt.Errorf("peeking tag for Additional-Number: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding AdditionalNumber CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Additional-Number", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "AdditionalNumber", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "Additional-Number", Cause: ber.ErrExtraData}
 	}
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
@@ -3621,7 +3621,7 @@ func (destination *AdditionalNumber) UnmarshalBER(data []byte, opts ...ber.Decod
 			}
 		}
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for AdditionalNumber CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for Additional-Number CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3834,7 +3834,7 @@ func (v *MOForwardSMArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding MOForwardSMArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding MO-ForwardSM-Arg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3875,10 +3875,10 @@ func (destination *MOForwardSMArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding MOForwardSMArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding MO-ForwardSM-Arg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MOForwardSMArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "MO-ForwardSM-Arg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode sm-RP-DA
@@ -4097,12 +4097,12 @@ func (destination *MOForwardSMArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MOForwardSMArg", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "MO-ForwardSM-Arg", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MOForwardSMArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MO-ForwardSM-Arg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_5, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -4240,7 +4240,7 @@ func (v *MOForwardSMRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding MOForwardSMRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding MO-ForwardSM-Res", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4281,10 +4281,10 @@ func (destination *MOForwardSMRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding MOForwardSMRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding MO-ForwardSM-Res", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MOForwardSMRes", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "MO-ForwardSM-Res", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode sm-RP-UI
@@ -4350,12 +4350,12 @@ func (destination *MOForwardSMRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MOForwardSMRes", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "MO-ForwardSM-Res", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MOForwardSMRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MO-ForwardSM-Res", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_6, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -4707,7 +4707,7 @@ func (v *MTForwardSMArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding MTForwardSMArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding MT-ForwardSM-Arg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4748,10 +4748,10 @@ func (destination *MTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding MTForwardSMArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding MT-ForwardSM-Arg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MTForwardSMArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "MT-ForwardSM-Arg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode sm-RP-DA
@@ -5124,12 +5124,12 @@ func (destination *MTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MTForwardSMArg", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "MT-ForwardSM-Arg", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MTForwardSMArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MT-ForwardSM-Arg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_7, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5270,7 +5270,7 @@ func (v *CorrelationID) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding CorrelationID as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding CorrelationID", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5310,7 +5310,7 @@ func (destination *CorrelationID) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding CorrelationID SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding CorrelationID", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "CorrelationID", Cause: ber.ErrExtraData}
@@ -5525,7 +5525,7 @@ func (v *MTForwardSMRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding MTForwardSMRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding MT-ForwardSM-Res", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5566,10 +5566,10 @@ func (destination *MTForwardSMRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding MTForwardSMRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding MT-ForwardSM-Res", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MTForwardSMRes", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "MT-ForwardSM-Res", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode sm-RP-UI
@@ -5635,12 +5635,12 @@ func (destination *MTForwardSMRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MTForwardSMRes", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "MT-ForwardSM-Res", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MTForwardSMRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MT-ForwardSM-Res", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_9, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5778,7 +5778,7 @@ func (v *SMRPDA) MarshalDER() ([]byte, error) {
 		case SMRPDAChoiceNoSMRPDA:
 			return nil, qualifyBERError(err, "noSM-RP-DA", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding SMRPDA as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SM-RP-DA", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5818,24 +5818,24 @@ func (destination *SMRPDA) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMRPDA{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for SMRPDA CHOICE")
+		return fmt.Errorf("empty data for SM-RP-DA CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SMRPDA: %w", peekErr)
+		return fmt.Errorf("peeking tag for SM-RP-DA: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding SMRPDA CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SM-RP-DA", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "SMRPDA", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SM-RP-DA", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "SMRPDA.noSM-RP-DA", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "noSM-RP-DA", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
 		v.Choice = SMRPDAChoiceImsi
@@ -5907,7 +5907,7 @@ func (destination *SMRPDA) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		}
 		v.NoSMRPDA = &struct{}{}
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for SMRPDA CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for SM-RP-DA CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -6009,7 +6009,7 @@ func (v *SMRPOA) MarshalDER() ([]byte, error) {
 		case SMRPOAChoiceNoSMRPOA:
 			return nil, qualifyBERError(err, "noSM-RP-OA", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding SMRPOA as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SM-RP-OA", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -6049,24 +6049,24 @@ func (destination *SMRPOA) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMRPOA{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for SMRPOA CHOICE")
+		return fmt.Errorf("empty data for SM-RP-OA CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for SMRPOA: %w", peekErr)
+		return fmt.Errorf("peeking tag for SM-RP-OA: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding SMRPOA CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SM-RP-OA", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "SMRPOA", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SM-RP-OA", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "SMRPOA.noSM-RP-OA", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "noSM-RP-OA", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = SMRPOAChoiceMsisdn
@@ -6124,7 +6124,7 @@ func (destination *SMRPOA) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		}
 		v.NoSMRPOA = &struct{}{}
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for SMRPOA CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for SM-RP-OA CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -6761,7 +6761,7 @@ func (v *ReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReportSMDeliveryStatusArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ReportSM-DeliveryStatusArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -6802,10 +6802,10 @@ func (destination *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts ...
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ReportSMDeliveryStatusArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ReportSM-DeliveryStatusArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ReportSMDeliveryStatusArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ReportSM-DeliveryStatusArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode msisdn
@@ -7573,12 +7573,12 @@ func (destination *ReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts ...
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ReportSMDeliveryStatusArg", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "ReportSM-DeliveryStatusArg", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ReportSMDeliveryStatusArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ReportSM-DeliveryStatusArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_12, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -7776,7 +7776,7 @@ func (v *ReportSMDeliveryStatusRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReportSMDeliveryStatusRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ReportSM-DeliveryStatusRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -7817,10 +7817,10 @@ func (destination *ReportSMDeliveryStatusRes) UnmarshalBER(data []byte, opts ...
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ReportSMDeliveryStatusRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ReportSM-DeliveryStatusRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ReportSMDeliveryStatusRes", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ReportSM-DeliveryStatusRes", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode storedMSISDN
@@ -7950,12 +7950,12 @@ func (destination *ReportSMDeliveryStatusRes) UnmarshalBER(data []byte, opts ...
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ReportSMDeliveryStatusRes", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "ReportSM-DeliveryStatusRes", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ReportSMDeliveryStatusRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ReportSM-DeliveryStatusRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_13, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -7995,7 +7995,7 @@ func MarshalBERSMServingNodeAddressList(collection *SMServingNodeAddressList, op
 func marshalBERSMServingNodeAddressList(collection *SMServingNodeAddressList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := checkEncodedCollectionLength(opts, "MAP-SM-DataTypes.marshalBERSMServingNodeAddressList", "51.5", "SMServingNodeAddressList", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, s949588_14, "51.5", "SMServingNodeAddressList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8033,7 +8033,7 @@ func MarshalDERSMServingNodeAddressList(collection *SMServingNodeAddressList) ([
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := checkEncodedCollectionLength(nil, "MAP-SM-DataTypes.SMServingNodeAddressList", "51.5", "SMServingNodeAddressList", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(nil, s949588_14, "51.5", "SMServingNodeAddressList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8055,7 +8055,7 @@ func MarshalDERSMServingNodeAddressList(collection *SMServingNodeAddressList) ([
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SMServingNodeAddressList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SMServingNodeAddressList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -8073,7 +8073,7 @@ func appendDERLinearSMServingNodeAddressList(encoder *ber.LinearEncoder, collect
 func UnmarshalBERSMServingNodeAddressList(data []byte, opts ...ber.DecodeOption) (returnValue *SMServingNodeAddressList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "MAP-SM-DataTypes.SMServingNodeAddressList", "element", func(data []byte,
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, s949588_14, "element", func(data []byte,
 
 		probeOpts []ber.DecodeOption) error {
 		_, probeErr := UnmarshalBERSMServingNodeAddressList(data, probeOpts...)
@@ -8127,7 +8127,7 @@ func UnmarshalBERSMServingNodeAddressList(data []byte, opts ...ber.DecodeOption)
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := checkDecodedCollectionLength(opts, "MAP-SM-DataTypes.SMServingNodeAddressList", "51.5", "SMServingNodeAddressList", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := checkDecodedCollectionLength(opts, s949588_14, "51.5", "SMServingNodeAddressList", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8171,12 +8171,12 @@ func (v *SMServingNodeAddress) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, qualifyBERError(encodeErr_enc_0, "networkNode-Number", "encoding", false)
 		}
 		if len(*v.NetworkNodeNumber) < 1 || len(*v.NetworkNodeNumber) > 9 {
-			if constraintErr := checkEncodedLength(opts, s949588_14, "51.5", "networkNode-Number", "SIZE (1..9)", len(*v.NetworkNodeNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "networkNode-Number", "SIZE (1..9)", len(*v.NetworkNodeNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NetworkNodeNumber) < 1 || len(*v.NetworkNodeNumber) > 20 {
-			if constraintErr := checkEncodedLength(opts, s949588_14, "51.5", "networkNode-Number", "SIZE (1..20)", len(*v.NetworkNodeNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "networkNode-Number", "SIZE (1..20)", len(*v.NetworkNodeNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8241,7 +8241,7 @@ func (v *SMServingNodeAddress) MarshalDER() ([]byte, error) {
 		case SMServingNodeAddressChoiceDiameterAddress:
 			return nil, qualifyBERError(err, "diameterAddress", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding SMServingNodeAddress as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SMServingNodeAddress", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -8266,7 +8266,7 @@ func (destination *SMServingNodeAddress) UnmarshalBER(data []byte, opts ...ber.D
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_14, "child", (*SMServingNodeAddress).UnmarshalBER)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_15, "child", (*SMServingNodeAddress).UnmarshalBER)
 	if prepareErr != nil {
 		return prepareErr
 	}
@@ -8292,14 +8292,14 @@ func (destination *SMServingNodeAddress) UnmarshalBER(data []byte, opts ...ber.D
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding SMServingNodeAddress CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SMServingNodeAddress", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "SMServingNodeAddress", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "SMServingNodeAddress.diameterAddress", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "diameterAddress", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
 		v.Choice = SMServingNodeAddressChoiceNetworkNodeNumber
@@ -8316,12 +8316,12 @@ func (destination *SMServingNodeAddress) UnmarshalBER(data []byte, opts ...ber.D
 		tmp := ISDNAddressString(decVal)
 		v.NetworkNodeNumber = &tmp
 		if len(*v.NetworkNodeNumber) < 1 || len(*v.NetworkNodeNumber) > 9 {
-			if constraintErr := checkDecodedLength(opts, s949588_14, "51.5", "networkNode-Number", "SIZE (1..9)", len(*v.NetworkNodeNumber)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "networkNode-Number", "SIZE (1..9)", len(*v.NetworkNodeNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(*v.NetworkNodeNumber) < 1 || len(*v.NetworkNodeNumber) > 20 {
-			if constraintErr := checkDecodedLength(opts, s949588_14, "51.5", "networkNode-Number", "SIZE (1..20)", len(*v.NetworkNodeNumber)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "networkNode-Number", "SIZE (1..20)", len(*v.NetworkNodeNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -8363,12 +8363,12 @@ func (v *AlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	var children []byte
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8378,7 +8378,7 @@ func (v *AlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	children = append(children, enc_msisdn...)
 	if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-		if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8389,7 +8389,7 @@ func (v *AlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	children = append(children, enc_servicecentreaddress...)
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8409,7 +8409,7 @@ func (v *AlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	if v.MaximumUeAvailabilityTime != nil {
 		if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-			if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8426,7 +8426,7 @@ func (v *AlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	if v.SmsGmscAlertEvent != nil {
 		if int64(*v.SmsGmscAlertEvent) != 0 && int64(*v.SmsGmscAlertEvent) != 1 {
-			if constraintErr := checkEncodedValue(opts, s949588_15, "20", "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s949588_16, "20", "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8453,12 +8453,12 @@ func (v *AlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	if v.NewSGSNNumber != nil {
 		if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 9 {
-			if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 20 {
-			if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8488,12 +8488,12 @@ func (v *AlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	if v.NewMMENumber != nil {
 		if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 9 {
-			if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 20 {
-			if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8523,12 +8523,12 @@ func (v *AlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	if v.NewMSCNumber != nil {
 		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 9 {
-			if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 20 {
-			if constraintErr := checkEncodedLength(opts, s949588_15, "51.5", "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8545,7 +8545,7 @@ func (v *AlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := checkOpaqueAddition(ext, opts, s949588_15, children, i, &base_); err != nil {
+		if err := checkOpaqueAddition(ext, opts, s949588_16, children, i, &base_); err != nil {
 			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -8557,7 +8557,7 @@ func (v *AlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8583,12 +8583,12 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8598,7 +8598,7 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_msisdn...)
 	if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-		if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8609,7 +8609,7 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_servicecentreaddress...)
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8628,7 +8628,7 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.MaximumUeAvailabilityTime != nil {
 		if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-			if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8645,7 +8645,7 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmsGmscAlertEvent != nil {
 		if int64(*v.SmsGmscAlertEvent) != 0 && int64(*v.SmsGmscAlertEvent) != 1 {
-			if constraintErr := checkEncodedValue(nil, s949588_15, "20", "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s949588_16, "20", "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8671,12 +8671,12 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.NewSGSNNumber != nil {
 		if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 9 {
-			if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 20 {
-			if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8705,12 +8705,12 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.NewMMENumber != nil {
 		if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 9 {
-			if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 20 {
-			if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8739,12 +8739,12 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.NewMSCNumber != nil {
 		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 9 {
-			if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 20 {
-			if constraintErr := checkEncodedLength(nil, s949588_15, "51.5", "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8761,7 +8761,7 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, invalidDERAddition(ext, s949588_15, children, i)
+			return nil, invalidDERAddition(ext, s949588_16, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8769,7 +8769,7 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8780,7 +8780,7 @@ func (v *AlertServiceCentreArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding AlertServiceCentreArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding AlertServiceCentreArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -8804,7 +8804,7 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_15, "child", (*AlertServiceCentreArg).UnmarshalBER)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_16, "child", (*AlertServiceCentreArg).UnmarshalBER)
 	if prepareErr != nil {
 		return prepareErr
 	}
@@ -8821,7 +8821,7 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding AlertServiceCentreArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding AlertServiceCentreArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "AlertServiceCentreArg", Cause: ber.ErrExtraData}
@@ -8844,12 +8844,12 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 
 		offset += n
 		if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-			if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-			if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -8872,7 +8872,7 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 
 		offset += n
 		if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-			if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -8896,7 +8896,7 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 
 				offset += n
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8960,7 +8960,7 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 
 				offset += n_maximumueavailabilitytime
 				if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-					if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8997,7 +8997,7 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 
 				offset += n_smsgmscalertevent
 				if int64(*v.SmsGmscAlertEvent) != 0 && int64(*v.SmsGmscAlertEvent) != 1 {
-					if constraintErr := checkDecodedValue(opts, s949588_15, "20", "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, s949588_16, "20", "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9072,12 +9072,12 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 
 				offset += n_newsgsnnumber
 				if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 9 {
-					if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 20 {
-					if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9152,12 +9152,12 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 
 				offset += n_newmmenumber
 				if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 9 {
-					if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 20 {
-					if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9232,12 +9232,12 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 
 				offset += n_newmscnumber
 				if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 9 {
-					if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 20 {
-					if constraintErr := checkDecodedLength(opts, s949588_15, "51.5", "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9257,7 +9257,7 @@ func (destination *AlertServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "AlertServiceCentreArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -9296,12 +9296,12 @@ func (v *InformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	var children []byte
 	if v.StoredMSISDN != nil {
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 9 {
-			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_17, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 20 {
-			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_17, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9312,7 +9312,7 @@ func (v *InformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_storedmsisdn...)
 	}
 	if v.MwStatus != nil {
-		namedBits_MwStatus, namedBitErr_ := normalizeNamedBits(*v.MwStatus, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, opts, "mw-Status", s949588_16)
+		namedBits_MwStatus, namedBitErr_ := normalizeNamedBits(*v.MwStatus, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, opts, "mw-Status", s949588_17)
 		if namedBitErr_ != nil {
 			return nil, namedBitErr_
 		}
@@ -9324,7 +9324,7 @@ func (v *InformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MwStatus).BitLength < 6 || (namedBits_MwStatus).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s949588_16, "51.5", "mw-Status", "SIZE (6..16)", namedBitObservedLength(namedBits_MwStatus)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_17, "51.5", "mw-Status", "SIZE (6..16)", namedBitObservedLength(namedBits_MwStatus)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9344,7 +9344,7 @@ func (v *InformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.AbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := checkEncodedValue(opts, s949588_16, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s949588_17, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9353,7 +9353,7 @@ func (v *InformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.AdditionalAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AdditionalAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AdditionalAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := checkEncodedValue(opts, s949588_16, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s949588_17, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9367,7 +9367,7 @@ func (v *InformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.Smsf3gppAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := checkEncodedValue(opts, s949588_16, "51.4", "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s949588_17, "51.4", "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9381,7 +9381,7 @@ func (v *InformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.SmsfNon3gppAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := checkEncodedValue(opts, s949588_16, "51.4", "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s949588_17, "51.4", "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9395,7 +9395,7 @@ func (v *InformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := checkOpaqueAddition(ext, opts, s949588_16, children, i, &base_); err != nil {
+		if err := checkOpaqueAddition(ext, opts, s949588_17, children, i, &base_); err != nil {
 			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -9407,7 +9407,7 @@ func (v *InformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 3) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9434,12 +9434,12 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.StoredMSISDN != nil {
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 9 {
-			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_17, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 20 {
-			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_17, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9450,7 +9450,7 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_storedmsisdn...)
 	}
 	if v.MwStatus != nil {
-		namedBits_MwStatus, namedBitErr_ := normalizeNamedBits(*v.MwStatus, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, nil, "mw-Status", s949588_16)
+		namedBits_MwStatus, namedBitErr_ := normalizeNamedBits(*v.MwStatus, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, nil, "mw-Status", s949588_17)
 		if namedBitErr_ != nil {
 			return nil, namedBitErr_
 		}
@@ -9462,7 +9462,7 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MwStatus).BitLength < 6 || (namedBits_MwStatus).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s949588_16, "51.5", "mw-Status", "SIZE (6..16)", namedBitObservedLength(namedBits_MwStatus)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_17, "51.5", "mw-Status", "SIZE (6..16)", namedBitObservedLength(namedBits_MwStatus)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9481,7 +9481,7 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := checkEncodedValue(nil, s949588_16, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s949588_17, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9490,7 +9490,7 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AdditionalAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AdditionalAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := checkEncodedValue(nil, s949588_16, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s949588_17, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9504,7 +9504,7 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Smsf3gppAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := checkEncodedValue(nil, s949588_16, "51.4", "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s949588_17, "51.4", "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9518,7 +9518,7 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmsfNon3gppAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := checkEncodedValue(nil, s949588_16, "51.4", "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s949588_17, "51.4", "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9532,7 +9532,7 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, invalidDERAddition(ext, s949588_16, children, i)
+			return nil, invalidDERAddition(ext, s949588_17, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9540,7 +9540,7 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 3) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9551,7 +9551,7 @@ func (v *InformServiceCentreArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding InformServiceCentreArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding InformServiceCentreArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -9575,7 +9575,7 @@ func (destination *InformServiceCentreArg) UnmarshalBER(data []byte, opts ...ber
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_16, "child", (*InformServiceCentreArg).UnmarshalBER)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_17, "child", (*InformServiceCentreArg).UnmarshalBER)
 	if prepareErr != nil {
 		return prepareErr
 	}
@@ -9592,7 +9592,7 @@ func (destination *InformServiceCentreArg) UnmarshalBER(data []byte, opts ...ber
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding InformServiceCentreArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding InformServiceCentreArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "InformServiceCentreArg", Cause: ber.ErrExtraData}
@@ -9616,12 +9616,12 @@ func (destination *InformServiceCentreArg) UnmarshalBER(data []byte, opts ...ber
 
 				offset += n
 				if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 9 {
-					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_17, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 20 {
-					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_17, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9652,7 +9652,7 @@ func (destination *InformServiceCentreArg) UnmarshalBER(data []byte, opts ...ber
 				offset += n
 				*v.MwStatus = ber.NormalizeNamedBitStringSize(*v.MwStatus, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, opts...)
 				if (*v.MwStatus).BitLength < 6 || (*v.MwStatus).BitLength > 16 {
-					if constraintErr := checkDecodedLength(opts, s949588_16, "51.5", "mw-Status", "SIZE (6..16)", (*v.MwStatus).BitLength); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_17, "51.5", "mw-Status", "SIZE (6..16)", (*v.MwStatus).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9710,7 +9710,7 @@ func (destination *InformServiceCentreArg) UnmarshalBER(data []byte, opts ...ber
 
 				offset += n
 				if !(int64(*v.AbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := checkDecodedValue(opts, s949588_16, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, s949588_17, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9747,7 +9747,7 @@ func (destination *InformServiceCentreArg) UnmarshalBER(data []byte, opts ...ber
 
 				offset += n_additionalabsentsubscriberdiagnosticsm
 				if !(int64(*v.AdditionalAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AdditionalAbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := checkDecodedValue(opts, s949588_16, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, s949588_17, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9784,7 +9784,7 @@ func (destination *InformServiceCentreArg) UnmarshalBER(data []byte, opts ...ber
 
 				offset += n_smsf3gppabsentsubscriberdiagnosticsm
 				if !(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := checkDecodedValue(opts, s949588_16, "51.4", "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, s949588_17, "51.4", "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9821,7 +9821,7 @@ func (destination *InformServiceCentreArg) UnmarshalBER(data []byte, opts ...ber
 
 				offset += n_smsfnon3gppabsentsubscriberdiagnosticsm
 				if !(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := checkDecodedValue(opts, s949588_16, "51.4", "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, s949588_17, "51.4", "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9841,7 +9841,7 @@ func (destination *InformServiceCentreArg) UnmarshalBER(data []byte, opts ...ber
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "InformServiceCentreArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -9879,7 +9879,7 @@ func (v *ReadyForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := checkEncodedLength(opts, s949588_17, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s949588_18, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9894,7 +9894,7 @@ func (v *ReadyForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if int64(v.AlertReason) != 0 && int64(v.AlertReason) != 1 {
-		if constraintErr := checkEncodedValue(opts, s949588_17, "20", "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, s949588_18, "20", "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9923,7 +9923,7 @@ func (v *ReadyForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.MaximumUeAvailabilityTime != nil {
 		if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-			if constraintErr := checkEncodedLength(opts, s949588_17, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_18, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9935,7 +9935,7 @@ func (v *ReadyForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := checkOpaqueAddition(ext, opts, s949588_17, children, i, &base_); err != nil {
+		if err := checkOpaqueAddition(ext, opts, s949588_18, children, i, &base_); err != nil {
 			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -9947,7 +9947,7 @@ func (v *ReadyForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9973,7 +9973,7 @@ func (v *ReadyForSMArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := checkEncodedLength(nil, s949588_17, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s949588_18, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9988,7 +9988,7 @@ func (v *ReadyForSMArg) MarshalDER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if int64(v.AlertReason) != 0 && int64(v.AlertReason) != 1 {
-		if constraintErr := checkEncodedValue(nil, s949588_17, "20", "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, s949588_18, "20", "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10016,7 +10016,7 @@ func (v *ReadyForSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.MaximumUeAvailabilityTime != nil {
 		if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-			if constraintErr := checkEncodedLength(nil, s949588_17, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_18, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10028,7 +10028,7 @@ func (v *ReadyForSMArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, invalidDERAddition(ext, s949588_17, children, i)
+			return nil, invalidDERAddition(ext, s949588_18, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -10036,7 +10036,7 @@ func (v *ReadyForSMArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10047,7 +10047,7 @@ func (v *ReadyForSMArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReadyForSMArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ReadyForSM-Arg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -10070,7 +10070,7 @@ func (destination *ReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_17, "child", (*ReadyForSMArg).UnmarshalBER)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_18, "child", (*ReadyForSMArg).UnmarshalBER)
 	if prepareErr != nil {
 		return prepareErr
 	}
@@ -10087,10 +10087,10 @@ func (destination *ReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ReadyForSMArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ReadyForSM-Arg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ReadyForSMArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ReadyForSM-Arg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -10122,7 +10122,7 @@ func (destination *ReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 		offset += n_imsi
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := checkDecodedLength(opts, s949588_17, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_18, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -10145,7 +10145,7 @@ func (destination *ReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 		offset += n
 		if int64(v.AlertReason) != 0 && int64(v.AlertReason) != 1 {
-			if constraintErr := checkDecodedValue(opts, s949588_17, "20", "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s949588_18, "20", "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -10251,7 +10251,7 @@ func (destination *ReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n
 				if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-					if constraintErr := checkDecodedLength(opts, s949588_17, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_18, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -10264,14 +10264,14 @@ func (destination *ReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ReadyForSMArg", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "ReadyForSM-Arg", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ReadyForSMArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ReadyForSM-Arg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -10318,7 +10318,7 @@ func (v *ReadyForSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := checkOpaqueAddition(ext, opts, s949588_18, children, i, &base_); err != nil {
+		if err := checkOpaqueAddition(ext, opts, s949588_19, children, i, &base_); err != nil {
 			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -10330,7 +10330,7 @@ func (v *ReadyForSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10364,7 +10364,7 @@ func (v *ReadyForSMRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, invalidDERAddition(ext, s949588_18, children, i)
+			return nil, invalidDERAddition(ext, s949588_19, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -10372,7 +10372,7 @@ func (v *ReadyForSMRes) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10383,7 +10383,7 @@ func (v *ReadyForSMRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReadyForSMRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ReadyForSM-Res", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -10406,7 +10406,7 @@ func (destination *ReadyForSMRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_18, "child", (*ReadyForSMRes).UnmarshalBER)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_19, "child", (*ReadyForSMRes).UnmarshalBER)
 	if prepareErr != nil {
 		return prepareErr
 	}
@@ -10423,10 +10423,10 @@ func (destination *ReadyForSMRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ReadyForSMRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ReadyForSM-Res", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ReadyForSMRes", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ReadyForSM-Res", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode extensionContainer
@@ -10463,14 +10463,14 @@ func (destination *ReadyForSMRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ReadyForSMRes", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "ReadyForSM-Res", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ReadyForSMRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ReadyForSM-Res", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -10508,7 +10508,7 @@ func (v *MTForwardSMVGCSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	var children []byte
 	if len(v.AsciCallReference) < 1 || len(v.AsciCallReference) > 8 {
-		if constraintErr := checkEncodedLength(opts, s949588_19, "51.5", "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s949588_20, "51.5", "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10524,7 +10524,7 @@ func (v *MTForwardSMVGCSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_smrpoa)
 	children = append(children, enc_smrpoa...)
 	if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-		if constraintErr := checkEncodedLength(opts, s949588_19, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s949588_20, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10543,7 +10543,7 @@ func (v *MTForwardSMVGCSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := checkOpaqueAddition(ext, opts, s949588_19, children, i, &base_); err != nil {
+		if err := checkOpaqueAddition(ext, opts, s949588_20, children, i, &base_); err != nil {
 			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -10555,7 +10555,7 @@ func (v *MTForwardSMVGCSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_20, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10581,7 +10581,7 @@ func (v *MTForwardSMVGCSArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.AsciCallReference) < 1 || len(v.AsciCallReference) > 8 {
-		if constraintErr := checkEncodedLength(nil, s949588_19, "51.5", "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s949588_20, "51.5", "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10596,7 +10596,7 @@ func (v *MTForwardSMVGCSArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_smrpoa...)
 	if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-		if constraintErr := checkEncodedLength(nil, s949588_19, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s949588_20, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10614,7 +10614,7 @@ func (v *MTForwardSMVGCSArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, invalidDERAddition(ext, s949588_19, children, i)
+			return nil, invalidDERAddition(ext, s949588_20, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -10622,7 +10622,7 @@ func (v *MTForwardSMVGCSArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_20, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10633,7 +10633,7 @@ func (v *MTForwardSMVGCSArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding MTForwardSMVGCSArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding MT-ForwardSM-VGCS-Arg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -10657,7 +10657,7 @@ func (destination *MTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.Dec
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_19, "child", (*MTForwardSMVGCSArg).UnmarshalBER)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_20, "child", (*MTForwardSMVGCSArg).UnmarshalBER)
 	if prepareErr != nil {
 		return prepareErr
 	}
@@ -10674,10 +10674,10 @@ func (destination *MTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.Dec
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding MTForwardSMVGCSArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding MT-ForwardSM-VGCS-Arg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MTForwardSMVGCSArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "MT-ForwardSM-VGCS-Arg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode asciCallReference
@@ -10697,7 +10697,7 @@ func (destination *MTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.Dec
 
 		offset += n
 		if len(v.AsciCallReference) < 1 || len(v.AsciCallReference) > 8 {
-			if constraintErr := checkDecodedLength(opts, s949588_19, "51.5", "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_20, "51.5", "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -10746,7 +10746,7 @@ func (destination *MTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.Dec
 
 		offset += n
 		if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-			if constraintErr := checkDecodedLength(opts, s949588_19, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_20, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -10789,14 +10789,14 @@ func (destination *MTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.Dec
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MTForwardSMVGCSArg", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "MT-ForwardSM-VGCS-Arg", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MTForwardSMVGCSArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MT-ForwardSM-VGCS-Arg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_20, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -10835,7 +10835,7 @@ func (v *MTForwardSMVGCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	var children []byte
 	if v.SmRPUI != nil {
 		if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-			if constraintErr := checkEncodedLength(opts, s949588_20, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_21, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10852,7 +10852,7 @@ func (v *MTForwardSMVGCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.DispatcherList != nil {
 		if len((v.DispatcherList).Values) < 1 || len((v.DispatcherList).Values) > 5 {
-			if constraintErr := checkEncodedLength(opts, s949588_20, "51.5", "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_21, "51.5", "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10902,7 +10902,7 @@ func (v *MTForwardSMVGCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.AdditionalDispatcherList != nil {
 		if len((v.AdditionalDispatcherList).Values) < 1 || len((v.AdditionalDispatcherList).Values) > 15 {
-			if constraintErr := checkEncodedLength(opts, s949588_20, "51.5", "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_21, "51.5", "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10935,7 +10935,7 @@ func (v *MTForwardSMVGCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := checkOpaqueAddition(ext, opts, s949588_20, children, i, &base_); err != nil {
+		if err := checkOpaqueAddition(ext, opts, s949588_21, children, i, &base_); err != nil {
 			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -10947,7 +10947,7 @@ func (v *MTForwardSMVGCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_20, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s949588_21, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10974,7 +10974,7 @@ func (v *MTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SmRPUI != nil {
 		if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-			if constraintErr := checkEncodedLength(nil, s949588_20, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_21, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10991,7 +10991,7 @@ func (v *MTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 	}
 	if v.DispatcherList != nil {
 		if len((v.DispatcherList).Values) < 1 || len((v.DispatcherList).Values) > 5 {
-			if constraintErr := checkEncodedLength(nil, s949588_20, "51.5", "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_21, "51.5", "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11024,7 +11024,7 @@ func (v *MTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalDispatcherList != nil {
 		if len((v.AdditionalDispatcherList).Values) < 1 || len((v.AdditionalDispatcherList).Values) > 15 {
-			if constraintErr := checkEncodedLength(nil, s949588_20, "51.5", "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_21, "51.5", "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11041,7 +11041,7 @@ func (v *MTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, invalidDERAddition(ext, s949588_20, children, i)
+			return nil, invalidDERAddition(ext, s949588_21, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -11049,7 +11049,7 @@ func (v *MTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_20, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s949588_21, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11060,7 +11060,7 @@ func (v *MTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding MTForwardSMVGCSRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding MT-ForwardSM-VGCS-Res", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -11084,7 +11084,7 @@ func (destination *MTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.Dec
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_20, "child", (*MTForwardSMVGCSRes).UnmarshalBER)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s949588_21, "child", (*MTForwardSMVGCSRes).UnmarshalBER)
 	if prepareErr != nil {
 		return prepareErr
 	}
@@ -11101,10 +11101,10 @@ func (destination *MTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.Dec
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding MTForwardSMVGCSRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding MT-ForwardSM-VGCS-Res", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "MTForwardSMVGCSRes", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "MT-ForwardSM-VGCS-Res", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode sm-RP-UI
@@ -11132,7 +11132,7 @@ func (destination *MTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.Dec
 
 				offset += n_smrpui
 				if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-					if constraintErr := checkDecodedLength(opts, s949588_20, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_21, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -11191,7 +11191,7 @@ func (destination *MTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.Dec
 
 				offset += n_dispatcherlist
 				if len((v.DispatcherList).Values) < 1 || len((v.DispatcherList).Values) > 5 {
-					if constraintErr := checkDecodedLength(opts, s949588_20, "51.5", "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_21, "51.5", "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -11312,7 +11312,7 @@ func (destination *MTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.Dec
 
 				offset += n_additionaldispatcherlist
 				if len((v.AdditionalDispatcherList).Values) < 1 || len((v.AdditionalDispatcherList).Values) > 15 {
-					if constraintErr := checkDecodedLength(opts, s949588_20, "51.5", "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s949588_21, "51.5", "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -11325,14 +11325,14 @@ func (destination *MTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.Dec
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "MTForwardSMVGCSRes", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "MT-ForwardSM-VGCS-Res", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "MTForwardSMVGCSRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "MT-ForwardSM-VGCS-Res", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_20, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s949588_21, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -11370,7 +11370,7 @@ func MarshalBERDispatcherList(collection *DispatcherList, opts ...ber.EncodeOpti
 func marshalBERDispatcherList(collection *DispatcherList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := checkEncodedCollectionLength(opts, "MAP-SM-DataTypes.marshalBERDispatcherList", "51.5", "DispatcherList", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, s949588_22, "51.5", "DispatcherList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11378,12 +11378,12 @@ func marshalBERDispatcherList(collection *DispatcherList, opts ...ber.EncodeOpti
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 9 {
-			if constraintErr := checkEncodedLength(opts, "MAP-SM-DataTypes.marshalBERDispatcherList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_22, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(elem) < 1 || len(elem) > 20 {
-			if constraintErr := checkEncodedLength(opts, "MAP-SM-DataTypes.marshalBERDispatcherList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_22, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11416,7 +11416,7 @@ func MarshalDERDispatcherList(collection *DispatcherList) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := checkEncodedCollectionLength(nil, s949588_21, "51.5", "DispatcherList", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(nil, s949588_22, "51.5", "DispatcherList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11424,12 +11424,12 @@ func MarshalDERDispatcherList(collection *DispatcherList) ([]byte, error) {
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 9 {
-			if constraintErr := checkEncodedLength(nil, s949588_21, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_22, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(elem) < 1 || len(elem) > 20 {
-			if constraintErr := checkEncodedLength(nil, s949588_21, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_22, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11447,7 +11447,7 @@ func MarshalDERDispatcherList(collection *DispatcherList) ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding DispatcherList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding DispatcherList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -11465,7 +11465,7 @@ func appendDERLinearDispatcherList(encoder *ber.LinearEncoder, collection *Dispa
 func UnmarshalBERDispatcherList(data []byte, opts ...ber.DecodeOption) (returnValue *DispatcherList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, s949588_21, "element", func(data []byte,
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, s949588_22, "element", func(data []byte,
 
 		probeOpts []ber.DecodeOption) error {
 		_, probeErr := UnmarshalBERDispatcherList(data, probeOpts...)
@@ -11504,12 +11504,12 @@ func UnmarshalBERDispatcherList(data []byte, opts ...ber.DecodeOption) (returnVa
 				"decoding", false)
 		}
 		if len(val) < 1 || len(val) > 9 {
-			if constraintErr := checkDecodedLength(opts, s949588_21, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..9)", len(val)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_22, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..9)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(val) < 1 || len(val) > 20 {
-			if constraintErr := checkDecodedLength(opts, s949588_21, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_22, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11522,7 +11522,7 @@ func UnmarshalBERDispatcherList(data []byte, opts ...ber.DecodeOption) (returnVa
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := checkDecodedCollectionLength(opts, s949588_21, "51.5", "DispatcherList", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := checkDecodedCollectionLength(opts, s949588_22, "51.5", "DispatcherList", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11550,7 +11550,7 @@ func MarshalBERAdditionalDispatcherList(collection *AdditionalDispatcherList, op
 func marshalBERAdditionalDispatcherList(collection *AdditionalDispatcherList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 15 {
-		if constraintErr := checkEncodedCollectionLength(opts, "MAP-SM-DataTypes.marshalBERAdditionalDispatcherList", "51.5", "AdditionalDispatcherList", "SIZE (1..15)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, s949588_23, "51.5", "AdditionalDispatcherList", "SIZE (1..15)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11558,12 +11558,12 @@ func marshalBERAdditionalDispatcherList(collection *AdditionalDispatcherList, op
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 9 {
-			if constraintErr := checkEncodedLength(opts, "MAP-SM-DataTypes.marshalBERAdditionalDispatcherList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_23, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(elem) < 1 || len(elem) > 20 {
-			if constraintErr := checkEncodedLength(opts, "MAP-SM-DataTypes.marshalBERAdditionalDispatcherList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s949588_23, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11596,7 +11596,7 @@ func MarshalDERAdditionalDispatcherList(collection *AdditionalDispatcherList) ([
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 15 {
-		if constraintErr := checkEncodedCollectionLength(nil, s949588_22, "51.5", "AdditionalDispatcherList", "SIZE (1..15)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(nil, s949588_23, "51.5", "AdditionalDispatcherList", "SIZE (1..15)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11604,12 +11604,12 @@ func MarshalDERAdditionalDispatcherList(collection *AdditionalDispatcherList) ([
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 9 {
-			if constraintErr := checkEncodedLength(nil, s949588_22, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_23, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(elem) < 1 || len(elem) > 20 {
-			if constraintErr := checkEncodedLength(nil, s949588_22, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s949588_23, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11627,7 +11627,7 @@ func MarshalDERAdditionalDispatcherList(collection *AdditionalDispatcherList) ([
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding AdditionalDispatcherList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding AdditionalDispatcherList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -11645,7 +11645,7 @@ func appendDERLinearAdditionalDispatcherList(encoder *ber.LinearEncoder, collect
 func UnmarshalBERAdditionalDispatcherList(data []byte, opts ...ber.DecodeOption) (returnValue *AdditionalDispatcherList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, s949588_22, "element", func(data []byte,
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, s949588_23, "element", func(data []byte,
 
 		probeOpts []ber.DecodeOption) error {
 		_, probeErr := UnmarshalBERAdditionalDispatcherList(data, probeOpts...)
@@ -11684,12 +11684,12 @@ func UnmarshalBERAdditionalDispatcherList(data []byte, opts ...ber.DecodeOption)
 				"decoding", false)
 		}
 		if len(val) < 1 || len(val) > 9 {
-			if constraintErr := checkDecodedLength(opts, s949588_22, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..9)", len(val)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_23, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..9)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(val) < 1 || len(val) > 20 {
-			if constraintErr := checkDecodedLength(opts, s949588_22, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s949588_23, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11702,7 +11702,7 @@ func UnmarshalBERAdditionalDispatcherList(data []byte, opts ...ber.DecodeOption)
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 15 {
-		if constraintErr := checkDecodedCollectionLength(opts, s949588_22, "51.5", "AdditionalDispatcherList", "SIZE (1..15)", len(result)); constraintErr != nil {
+		if constraintErr := checkDecodedCollectionLength(opts, s949588_23, "51.5", "AdditionalDispatcherList", "SIZE (1..15)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11730,13 +11730,14 @@ const (
 	s949588_11 = "MAP-SM-DataTypes.SM-RP-OA"
 	s949588_12 = "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg"
 	s949588_13 = "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes"
-	s949588_14 = "MAP-SM-DataTypes.SMServingNodeAddress"
-	s949588_15 = "MAP-SM-DataTypes.AlertServiceCentreArg"
-	s949588_16 = "MAP-SM-DataTypes.InformServiceCentreArg"
-	s949588_17 = "MAP-SM-DataTypes.ReadyForSM-Arg"
-	s949588_18 = "MAP-SM-DataTypes.ReadyForSM-Res"
-	s949588_19 = "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg"
-	s949588_20 = "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res"
-	s949588_21 = "MAP-SM-DataTypes.DispatcherList"
-	s949588_22 = "MAP-SM-DataTypes.AdditionalDispatcherList"
+	s949588_14 = "MAP-SM-DataTypes.SMServingNodeAddressList"
+	s949588_15 = "MAP-SM-DataTypes.SMServingNodeAddress"
+	s949588_16 = "MAP-SM-DataTypes.AlertServiceCentreArg"
+	s949588_17 = "MAP-SM-DataTypes.InformServiceCentreArg"
+	s949588_18 = "MAP-SM-DataTypes.ReadyForSM-Arg"
+	s949588_19 = "MAP-SM-DataTypes.ReadyForSM-Res"
+	s949588_20 = "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg"
+	s949588_21 = "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res"
+	s949588_22 = "MAP-SM-DataTypes.DispatcherList"
+	s949588_23 = "MAP-SM-DataTypes.AdditionalDispatcherList"
 )

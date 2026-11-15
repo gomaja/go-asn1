@@ -1,12 +1,13 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 b5d7ac47d59de6a79fea40ed813acdd7137084cdb871611d57e80edba08302c6.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 04609b9f702a8a2352cf3f0f07a5826a1990800836aa66749ce76030a238a151.
 package ber
 
 import (
 	"fmt"
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
 	"math"
+	"strings"
 )
 
 // Resolve the public root name once per scan. An unclassified non-empty
@@ -760,7 +761,7 @@ func tcapExplicitType(kind tcapKind) bool {
 	return false
 }
 
-func tcapPathSegment(root string, parent, kind tcapKind, t tag.Tag, index int, isRoot bool) string {
+func tcapPathSegment(root string, parent, kind tcapKind, t tag.Tag, index int, isRoot bool, field int) string {
 	if isRoot {
 		if root == "TCMessage" {
 			switch kind {
@@ -776,7 +777,42 @@ func tcapPathSegment(root string, parent, kind tcapKind, t tag.Tag, index int, i
 				return "unidirectional"
 			}
 		}
-		return ""
+		return tcapRootChoicePath(root, t, kind, "")
+	}
+	// Q.773 (06/1997) §3.2.1 names these APDU components.
+	// Every entry uses the same source components.
+	switch parent {
+	case tcapKindExplicitValue, tcapKindExplicitOpenValue:
+		if index == 0 {
+			return ""
+		}
+	case tcapKindABRTApdu:
+		if t.Class == tag.ClassContextSpecific {
+			if t.Number == 0 {
+				return "abort-source"
+			}
+			if t.Number == 30 {
+				return "user-information"
+			}
+		}
+	case tcapKindExplicitDiagnostic:
+		if t.Class == tag.ClassContextSpecific {
+			if t.Number == 1 {
+				return "dialogue-service-user"
+			}
+			if t.Number == 2 {
+				return "dialogue-service-provider"
+			}
+		}
+	case tcapKindRLRQApdu, tcapKindRLREApdu:
+		if t.Class == tag.ClassContextSpecific {
+			if t.Number == 0 {
+				return "reason"
+			}
+			if t.Number == 30 {
+				return "user-information"
+			}
+		}
 	}
 	switch parent {
 	case tcapKindBegin, tcapKindContinue, tcapKindEnd, tcapKindUnidirectional, tcapKindAbort:
@@ -788,41 +824,40 @@ func tcapPathSegment(root string, parent, kind tcapKind, t tag.Tag, index int, i
 				return "dtid"
 			case 11:
 				if parent == tcapKindAbort {
-					return "reason.uAbortCause"
+					return "reason.u-abortCause"
 				}
 				return "dialoguePortion"
 			case 12:
 				return "components"
 			case 10:
-				return "reason.pAbortCause"
+				return "reason.p-abortCause"
 			}
 		}
 	case tcapKindComponentPortion:
-		branch := ""
-		switch t.Number {
-		case 1:
-			branch = "basicROS.invoke"
-		case 2:
-			branch = "basicROS.returnResult"
-		case 3:
-			branch = "basicROS.returnError"
-		case 4:
-			branch = "basicROS.reject"
-		case 7:
-			branch = "returnResultNotLast"
-		}
+		// Q.773 (06/1997) Annex A and X.880 (07/1994) Annex A:
+		// reuse the classified Component CHOICE, including its tag class.
+		branch := tcapRootChoicePath("Component", t, kind, "")
 		if branch == "" {
 			return fmt.Sprintf("element[%d]", index)
 		}
 		return fmt.Sprintf("element[%d].%s", index, branch)
 	case tcapKindInvoke, tcapKindReturnError, tcapKindReturnResult, tcapKindReject:
 		if index == 0 {
-			if t.Number == 5 {
+			// X.880 (07/1994) Annex A: InvokeId selects INTEGER or NULL.
+			switch tcapRootChoicePath("InvokeId", t, kind, "") {
+			case "present":
+				return "invokeId.present"
+			case "absent":
 				return "invokeId.absent"
 			}
-			return "invokeId.present"
+			return "invokeId"
 		}
 		if parent == tcapKindInvoke {
+			// The scanner's admitted field distinguishes an open argument from
+			// opcode and linkedId when the TC-user value reuses either tag.
+			if field == 4 {
+				return "argument"
+			}
 			// X.880 (07/1994) Annex A: linkedId CHOICE has both
 			// present [0] and absent [1] alternatives.
 			if t.Class == tag.ClassContextSpecific {
@@ -846,22 +881,43 @@ func tcapPathSegment(root string, parent, kind tcapKind, t tag.Tag, index int, i
 		}
 		if parent == tcapKindReturnError {
 			if index == 1 {
+				if t.Class == tag.ClassUniversal && t.Number == tag.TagInteger {
+					return "errcode.local"
+				}
+				if t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID {
+					return "errcode.global"
+				}
 				return "errcode"
 			}
 			return "parameter"
 		}
+		if t.Class == tag.ClassContextSpecific {
+			switch t.Number {
+			case 0:
+				return "problem.general"
+			case 1:
+				return "problem.invoke"
+			case 2:
+				return "problem.returnResult"
+			case 3:
+				return "problem.returnError"
+			}
+		}
 		return "problem"
 	case tcapKindReturnResultResult:
 		if index == 0 {
+			if t.Class == tag.ClassUniversal && t.Number == tag.TagInteger {
+				return "opcode.local"
+			}
+			if t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID {
+				return "opcode.global"
+			}
 			return "opcode"
 		}
 		return "result"
 	case tcapKindDialoguePortion:
 		return ""
 	case tcapKindDialogueExternal, tcapKindExternal:
-		if kind == tcapKindDialogueContent || kind == tcapKindUniDialogueContent {
-			return ""
-		}
 		if t.Class == tag.ClassUniversal {
 			switch t.Number {
 			case 6:
@@ -885,14 +941,17 @@ func tcapPathSegment(root string, parent, kind tcapKind, t tag.Tag, index int, i
 	case tcapKindDialogueContent:
 		switch kind {
 		case tcapKindAARQApdu:
-			return "dialogue.dialogueRequest"
+			return "dialogueRequest"
 		case tcapKindAAREApdu:
-			return "dialogue.dialogueResponse"
+			return "dialogueResponse"
 		case tcapKindABRTApdu:
-			return "dialogue.dialogueAbort"
+			return "dialogueAbort"
 		}
 	case tcapKindUniDialogueContent:
-		return "unidialogue.unidialoguePDU"
+		// Q.773 (06/1997) Annex A: AUDT-apdu is [APPLICATION 0].
+		if branch := tcapRootChoicePath("UniDialoguePDU", t, kind, ""); branch != "" {
+			return branch
+		}
 	case tcapKindAARQApdu, tcapKindAAREApdu, tcapKindAUDTApdu:
 		if t.Class == tag.ClassContextSpecific {
 			switch t.Number {
@@ -935,7 +994,19 @@ func profileRuleSource(source, path string) string {
 	if source == "" {
 		return path
 	}
+	if _, assignment, qualified := strings.Cut(source, "."); qualified && path == assignment {
+		return source
+	}
 	return source + "." + path
+}
+
+// Resolve the diagnostic assignment only after a finding. The Go name keeps
+// selecting the profile grammar, including for callers without source metadata.
+func tcapProfileRootPath(name, source string) string {
+	if _, assignment, qualified := strings.Cut(source, "."); qualified {
+		return assignment
+	}
+	return name
 }
 
 func sourceAssignment(source []string) string {
@@ -1075,4 +1146,176 @@ func tcapImplicitUniversalTag(kind tcapKind) int {
 		return tag.TagSequence
 	}
 	return 0
+}
+
+// A CHOICE has no separate wrapper (X.690 (02/2021) §8.13). Its root
+// header and its contents name the selected ASN.1 component (Q.773 (06/1997)
+// §§3.2.1–3.2.2, Annex A; X.880 (07/1994) Annex A).
+func tcapRootChoicePath(root string, t tag.Tag, kind tcapKind, source string) string {
+	switch root {
+	case "Code":
+		if t.Class == tag.ClassUniversal {
+			if t.Number == tag.TagInteger {
+				return "local"
+			}
+			if t.Number == tag.TagObjectID {
+				return "global"
+			}
+		}
+	case "InvokeId", "TCInvokeIdSet":
+		if t.Class == tag.ClassUniversal {
+			if t.Number == tag.TagInteger {
+				return "present"
+			}
+			if t.Number == tag.TagNull {
+				return "absent"
+			}
+		}
+	case "InvokeLinkedId":
+		if t.Class == tag.ClassContextSpecific {
+			if t.Number == 0 {
+				return "present"
+			}
+			if t.Number == 1 {
+				return "absent"
+			}
+		}
+	case "RejectProblemChoice":
+		if t.Class == tag.ClassContextSpecific && t.Number <= 3 {
+			return []string{"general", "invoke", "returnResult", "returnError"}[t.Number]
+		}
+	case "Component":
+		if t.Class == tag.ClassContextSpecific && t.Number == 7 {
+			return "returnResultNotLast"
+		}
+		if branch := tcapRootChoicePath("ROS", t, kind, source); branch != "" {
+			return "basicROS." + branch
+		}
+	case "ROS", "ROSSingleAS", "ROSConsumerAS", "ROSSupplierAS":
+		switch kind {
+		case tcapKindInvoke:
+			return "invoke"
+		case tcapKindReturnResult:
+			return "returnResult"
+		case tcapKindReturnError:
+			return "returnError"
+		case tcapKindReject:
+			return "reject"
+		}
+	case "DialoguePDU":
+		switch kind {
+		case tcapKindAARQApdu:
+			return "dialogueRequest"
+		case tcapKindAAREApdu:
+			return "dialogueResponse"
+		case tcapKindABRTApdu:
+			return "dialogueAbort"
+		}
+	case "UniDialoguePDU":
+		if kind == tcapKindAUDTApdu {
+			return "unidialoguePDU"
+		}
+	case "AbortReason":
+		if t.Class == tag.ClassApplication {
+			if t.Number == 10 {
+				return "p-abortCause"
+			}
+			if t.Number == 11 {
+				return "u-abortCause"
+			}
+		}
+	case "Bind", "Unbind":
+		if t.Class == tag.ClassContextSpecific {
+			switch t.Number {
+			case 16:
+				if root == "Bind" {
+					return "bind-invoke"
+				}
+			case 17:
+				if root == "Bind" {
+					return "bind-result"
+				}
+			case 18:
+				if root == "Bind" {
+					return "bind-error"
+				}
+			case 19:
+				if root == "Unbind" {
+					return "unbind-invoke"
+				}
+			case 20:
+				if root == "Unbind" {
+					return "unbind-result"
+				}
+			case 21:
+				if root == "Unbind" {
+					return "unbind-error"
+				}
+			}
+		}
+	case "AssociateSourceDiagnostic":
+		if t.Class == tag.ClassContextSpecific {
+			if t.Number == 1 {
+				return "dialogue-service-user"
+			}
+			if t.Number == 2 {
+				return "dialogue-service-provider"
+			}
+		}
+	}
+	return ""
+}
+
+// The scanner has already classified these ancestors. Profile findings and
+// ordinary BER failures share their source path (Q.773 §§3.2.1–3.2.2;
+// X.690 (02/2021) §8.18). This runs only after a finding.
+func tcapElementPath(data []byte, stack []berScanFrame, kind tcapKind, t tag.Tag, childIndex int, config decodeConfig, options []DecodeOption) string {
+	if len(stack) == 0 {
+		return ""
+	}
+	path := qualifyConstraintPath(options, "")
+	var parts []string
+	if path != "" {
+		parts = append(parts, path)
+	}
+	parentType := tcapKindUnknown
+	parentField := 0
+	appendSegment := func(segment string) {
+		if segment != "" {
+			if path != "" {
+				path += "."
+			}
+			path += segment
+		}
+	}
+	collectSegment := func(segment string) {
+		if segment != "" {
+			parts = append(parts, segment)
+		}
+	}
+	// Reassembled EXTERNAL contents already include their selected root in
+	// the logical path (X.690 (02/2021) §8.18); append it only once.
+	segmentedRoot := config.location != nil && config.location.segments() != nil
+	for index, ancestor := range stack[1:] {
+		ancestorTag, _, _ := DecodeTag(data[ancestor.offset:])
+		if index != 0 || !segmentedRoot {
+			collectSegment(tcapPathSegment(config.profileType, parentType, ancestor.profileType, ancestorTag, ancestor.index, index == 0, parentField))
+		}
+		parentType = ancestor.profileType
+		parentField = ancestor.profileField
+	}
+	path = strings.Join(parts, ".")
+	if len(stack) != 1 || !segmentedRoot {
+		appendSegment(tcapPathSegment(config.profileType, parentType, kind, t, childIndex, len(stack) == 1, parentField))
+	}
+	if path == "" {
+		path = config.profileType
+		if config.location == nil || config.location.segments() == nil {
+			path = tcapProfileRootPath(config.profileType, config.profileSource)
+		}
+		if path == "" {
+			path = "TCAP"
+		}
+	}
+	return path
 }

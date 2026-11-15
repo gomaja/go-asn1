@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 94718a09a5c67850c79231afa3adf24bc2d783f895099645f1d4bba7cb23aeef.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 38a8a9540ddd6b9e2456876e58931f46e7745e41419970154eb1dba989d87b9d.
 package ber
 
 import (
@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
 	"reflect"
-	"strings"
 	"unsafe"
 )
 
@@ -61,7 +60,7 @@ func (option diagnosticChildOption) applyDecode(config *decodeConfig) error {
 		if option.element < 0 {
 			return fmt.Errorf("%w: invalid BER constraint path component", ErrInvalidValue)
 		}
-	} else if option.component == "" || strings.Contains(option.component, ".") {
+	} else if !validConstraintPathComponent(option.component) {
 		return fmt.Errorf("%w: invalid BER constraint path component", ErrInvalidValue)
 	}
 	resolved.hasPath = true
@@ -152,7 +151,7 @@ func (option *generatedDecodeOption) validate() error {
 	if option == nil || option.source == nil || option.source.owned == nil {
 		return fmt.Errorf("%w: invalid generated BER decode context", ErrInvalidValue)
 	}
-	if option.parent != nil && (!option.isElement && (option.component == "" || strings.Contains(option.component, ".")) || option.isElement && option.element < 0) {
+	if option.parent != nil && (!option.isElement && (!validConstraintPathComponent(option.component)) || option.isElement && option.element < 0) {
 		return fmt.Errorf("%w: invalid BER constraint path component", ErrInvalidValue)
 	}
 	return nil

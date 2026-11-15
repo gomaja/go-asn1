@@ -12,6 +12,27 @@ import (
 	"math/big"
 )
 
+// X.690 (02/2021) §8.18 names each EXTERNAL encoding alternative.
+// Literal option names retain the existing successful-call allocation count.
+func dialogueEncodeOptions(opts []ber.EncodeOption, encoding rt.ExternalEncoding) []ber.EncodeOption {
+	switch encoding {
+	case rt.ExternalOctetAligned:
+		return ber.ChildEncodeOptions(opts, "encoding.octet-aligned")
+	case rt.ExternalArbitrary:
+		return ber.ChildEncodeOptions(opts, "encoding.arbitrary")
+	}
+	return ber.ChildEncodeOptions(opts, "encoding.single-ASN1-type")
+}
+func dialogueDecodeOptions(opts []ber.DecodeOption, encoding rt.ExternalEncoding) []ber.DecodeOption {
+	switch encoding {
+	case rt.ExternalOctetAligned:
+		return ber.ChildDecodeOptions(opts, "encoding.octet-aligned")
+	case rt.ExternalArbitrary:
+		return ber.ChildDecodeOptions(opts, "encoding.arbitrary")
+	}
+	return ber.ChildDecodeOptions(opts, "encoding.single-ASN1-type")
+}
+
 // DialogueContentKind identifies the syntax resolved by the dialogue envelope.
 type DialogueContentKind uint8
 
@@ -226,7 +247,7 @@ func (value *DialoguePortion) dialogueInner(der bool, opts []ber.EncodeOption) (
 		if der {
 			return value.dialogue.MarshalDER()
 		}
-		return value.dialogue.MarshalBER(ber.ChildEncodeOptions(opts, "dialogue")...)
+		return value.dialogue.MarshalBER(dialogueEncodeOptions(opts, value.metadata.Encoding)...)
 	case Unstructured:
 		if value.unidialogue == nil || value.dialogue != nil {
 			return nil, fmt.Errorf("%w: missing unstructured dialogue", ber.ErrInvalidValue)
@@ -234,7 +255,7 @@ func (value *DialoguePortion) dialogueInner(der bool, opts []ber.EncodeOption) (
 		if der {
 			return value.unidialogue.MarshalDER()
 		}
-		return value.unidialogue.MarshalBER(ber.ChildEncodeOptions(opts, "unidialogue")...)
+		return value.unidialogue.MarshalBER(dialogueEncodeOptions(opts, value.metadata.Encoding)...)
 	default:
 		return nil, nil
 	}
@@ -299,7 +320,7 @@ func (value *DialoguePortion) MarshalBER(opts ...ber.EncodeOption) (encoded []by
 		return nil, fmt.Errorf("%w: nil dialogue portion", ber.ErrInvalidValue)
 	}
 	if value.kind == UnresolvedIdentification {
-		if err := ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.DialoguePortion"), "identification", "Q.773 (06/1997) 4.2.3 / X.690 (02/2021) 8.18.4: direct-only abstract syntax identification", "presentation-context-dependent EXTERNAL"); err != nil {
+		if err := ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.DialoguePortion"), "indirect-reference", "Q.773 (06/1997) 4.2.3 / X.690 (02/2021) 8.18.4: direct-only abstract syntax identification", "presentation-context-dependent EXTERNAL"); err != nil {
 			return nil, err
 		}
 	}
@@ -350,7 +371,7 @@ func (value *DialoguePortion) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: nil dialogue portion", ber.ErrInvalidValue)
 	}
 	if value.kind == UnresolvedIdentification {
-		return nil, ber.CheckEncodedValue(ber.EncodeSource(nil, "TCAPMessages.DialoguePortion"), "identification", "Q.773 (06/1997) 4.2.3 / X.690 (02/2021) 8.18.4: direct-only abstract syntax identification", "presentation-context-dependent EXTERNAL")
+		return nil, ber.CheckEncodedValue(ber.EncodeSource(nil, "TCAPMessages.DialoguePortion"), "indirect-reference", "Q.773 (06/1997) 4.2.3 / X.690 (02/2021) 8.18.4: direct-only abstract syntax identification", "presentation-context-dependent EXTERNAL")
 	}
 	inner, err := value.dialogueInner(true, nil)
 	if err != nil {
@@ -405,7 +426,7 @@ func (value *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	}
 	result := DialoguePortion{metadata: copyDialogueExternal(external), kind: UnknownSyntax}
 	if external.IndirectReference != nil {
-		if err = ber.CheckDecodedValue(opts, "identification", "Q.773 (06/1997) 4.2.3 / X.690 (02/2021) 8.18.4: direct-only abstract syntax identification", "presentation-context-dependent EXTERNAL"); err != nil {
+		if err = ber.CheckDecodedValue(opts, "indirect-reference", "Q.773 (06/1997) 4.2.3 / X.690 (02/2021) 8.18.4: direct-only abstract syntax identification", "presentation-context-dependent EXTERNAL"); err != nil {
 			return err
 		}
 		result.kind = UnresolvedIdentification
@@ -426,13 +447,13 @@ func (value *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		if external.DirectReference.Equal(DialogueAsId()) {
 			result.kind = Structured
 			result.dialogue = new(DialoguePDU)
-			if err = result.dialogue.UnmarshalBER(inner, ber.ChildDecodeOptions(innerOptions, "dialogue")...); err != nil {
+			if err = result.dialogue.UnmarshalBER(inner, dialogueDecodeOptions(innerOptions, external.Encoding)...); err != nil {
 				return err
 			}
 		} else {
 			result.kind = Unstructured
 			result.unidialogue = new(UniDialoguePDU)
-			if err = result.unidialogue.UnmarshalBER(inner, ber.ChildDecodeOptions(innerOptions, "unidialogue")...); err != nil {
+			if err = result.unidialogue.UnmarshalBER(inner, dialogueDecodeOptions(innerOptions, external.Encoding)...); err != nil {
 				return err
 			}
 		}

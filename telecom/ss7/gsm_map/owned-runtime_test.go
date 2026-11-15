@@ -1329,3 +1329,193 @@ func TestAliasedOpaqueEncodeRecords(t *testing.T) {
 		})
 	}
 }
+
+func TestCompositeAndCollectionRootPaths(t *testing.T) {
+	sequence := new(mapvalues.ExternalSignalInfo)
+	var list *mapvalues.HLRList
+	for _, tc := range []struct {
+		name, path, hex string
+		decode          func([]byte, ...ber.DecodeOption) error
+		encode          func(...ber.EncodeOption) ([]byte, error)
+	}{
+		{"sequence", "ExternalSignalInfo", "3081060a01040401aa", sequence.UnmarshalBER, sequence.MarshalBER},
+		{"collection", "HLR-List", "3081050403112233", func(w []byte, o ...ber.DecodeOption) error {
+			v, e := mapvalues.UnmarshalBERHLRList(w, o...)
+			list = v
+			return e
+		}, func(o ...ber.EncodeOption) ([]byte, error) { return mapvalues.MarshalBERHLRList(list, o...) }},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			wire := opaqueWire(t, tc.hex)
+			var strict *ber.ValidationError
+			err := tc.decode(wire)
+			want := tc.path + " value received BER form violates TS 29.002 §17.1.1: short-length"
+			if !errors.Is(err, ber.ErrInvalidValue) || !errors.As(err, &strict) || strict.Path != tc.path || err.Error() != want {
+				t.Fatalf("strict=%v want %s", err, want)
+			}
+			var incoming ber.ViolationLog
+			if err := tc.decode(wire, ber.WithTolerance(&incoming)); err != nil {
+				t.Fatal(err)
+			}
+			rows := incoming.Snapshot()
+			if len(rows) != 1 || rows[0].Path != tc.path || rows[0].Source != strict.Source || rows[0].Offset == nil || *rows[0].Offset != 0 || len(rows[0].ChildIndexes) != 0 {
+				t.Fatalf("decode reports=%+v", rows)
+			}
+			var replay *ber.ValidationError
+			if _, err := tc.encode(); !errors.As(err, &replay) || replay.Path != tc.path || err.Error() != want || replay.Source != strict.Source {
+				t.Fatalf("strict replay=%v", err)
+			}
+			var outgoing ber.ViolationLog
+			got, err := tc.encode(ber.WithTolerance(&outgoing))
+			if err != nil || !bytes.Equal(got, wire) {
+				t.Fatalf("tolerant replay=%v", err)
+			}
+			if rows := outgoing.Snapshot(); len(rows) != 1 || rows[0].Path != tc.path || rows[0].Source != strict.Source {
+				t.Fatalf("encode reports=%+v", rows)
+			}
+		})
+	}
+	// Root SIZE and primitive/CHOICE component paths retain their established names.
+	var failure *ber.ValidationError
+	if _, err := mapvalues.UnmarshalBERHLRList([]byte{48, 0}); !errors.As(err, &failure) || failure.Path != "HLR-List" || err.Error() != "HLR-List length 0 violates SIZE (1..50)" {
+		t.Fatalf("SIZE: %v", err)
+	}
+	for _, tc := range []struct {
+		hex, path string
+		decode    func([]byte, ...ber.DecodeOption) error
+	}{
+		{"048103112233", "IMSI", func(w []byte, o ...ber.DecodeOption) error { _, e := mapvalues.UnmarshalBERIMSI(w, o...); return e }},
+		{"248004031122330000", "IMSI", func(w []byte, o ...ber.DecodeOption) error { _, e := mapvalues.UnmarshalBERIMSI(w, o...); return e }},
+		{"808103112233", "imsi", new(mapvalues.SubscriberIdentity).UnmarshalBER},
+		{"30070a0104048101aa", "signalInfo", new(mapvalues.ExternalSignalInfo).UnmarshalBER},
+	} {
+		if err := tc.decode(opaqueWire(t, tc.hex)); !errors.As(err, &failure) || failure.Path != tc.path {
+			t.Fatalf("primitive/nested/choice path=%v want %s", err, tc.path)
+		}
+	}
+}
+
+func TestWrapperASN1PositionNames(t *testing.T) {
+	for _, tc := range []struct {
+		name, path string
+		wire       []byte
+		decode     func([]byte, ...ber.DecodeOption) error
+	}{
+		{"dialogue", "map-open", []byte{0x80, 0}, new(mapvalues.MAPDialoguePDU).UnmarshalBER},
+		{"state", "notProvidedFromSGSNorMME", []byte{0xa0, 0}, new(mapvalues.PSSubscriberState).UnmarshalBER},
+		{"nested", "ps-SubscriberState.notProvidedFromSGSNorMME", []byte{0x30, 4, 0xa4, 2, 0xa0, 0}, new(mapvalues.SubscriberInfo).UnmarshalBER},
+		{"binding dialogue", "map-open", []byte{0x80, 0}, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapbindings.MAPDialoguePDUCodec().DecodeBER(w, o...)
+			return e
+		}},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			for _, tolerant := range []bool{false, true} {
+				var log ber.ViolationLog
+				var opts []ber.DecodeOption
+				if tolerant {
+					opts = []ber.DecodeOption{ber.WithTolerance(&log)}
+				}
+				err := tc.decode(tc.wire, opts...)
+				var path interface{ ASN1BERPath() string }
+				var validation *ber.ValidationError
+				if err == nil || !strings.HasPrefix(err.Error(), "decoding "+tc.path+": ") || !errors.Is(err, ber.ErrInvalidTag) || errors.As(err, &validation) || !errors.As(err, &path) || path.ASN1BERPath() != tc.path {
+					t.Fatalf("got %v; want %s", err, tc.path)
+				}
+				if len(log.Snapshot()) != 0 {
+					t.Fatal("malformed structure published records")
+				}
+			}
+		})
+	}
+}
+
+func TestWrapperValidationNames(t *testing.T) {
+	var value mapvalues.InterrogateSSRes
+	var incoming ber.ViolationLog
+	if err := value.UnmarshalBER([]byte{0xa2, 0}, ber.WithTolerance(&incoming)); err != nil {
+		t.Fatal(err)
+	}
+	_, err := value.MarshalBER()
+	var want *ber.ValidationError
+	if !errors.As(err, &want) {
+		t.Fatalf("strict replay: %v", err)
+	}
+	for _, encode := range []func() ([]byte, error){value.MarshalDER, func() ([]byte, error) { return value.MarshalBER(ber.WithoutBERReplay()) }, func() ([]byte, error) { return mapbindings.InterrogateSSResCodec().EncodeDER(value) }} {
+		_, err := encode()
+		var got *ber.ValidationError
+		if !errors.As(err, &got) || got.Path != want.Path || got.Source != want.Source || got.Kind != want.Kind || got.Rule != want.Rule || got.Constraint != want.Constraint {
+			t.Fatalf("validation naming: %v; strict BER: %v", err, want)
+		}
+	}
+	for _, fresh := range []bool{false, true} {
+		var outgoing ber.ViolationLog
+		opts := []ber.EncodeOption{ber.WithTolerance(&outgoing)}
+		if fresh {
+			opts = append(opts, ber.WithoutBERReplay())
+		}
+		wire, err := value.MarshalBER(opts...)
+		if err != nil || !bytes.Equal(wire, []byte{0xa2, 0}) {
+			t.Fatalf("tolerant replay: %v", err)
+		}
+		for _, record := range outgoing.Snapshot() {
+			if record.Path != want.Path || record.Source != want.Source {
+				t.Fatalf("record location: %+v", record)
+			}
+		}
+	}
+}
+
+func TestChoiceDecodeAssignmentNames(t *testing.T) {
+	for _, tc := range []struct {
+		name, want string
+		wire       []byte
+		decode     func([]byte, ...ber.DecodeOption) error
+	}{
+		{"state", "ber: unexpected or missing element: unknown tag [CONTEXT 9 PRIMITIVE] for PS-SubscriberState CHOICE", []byte{0x89, 0}, new(mapvalues.PSSubscriberState).UnmarshalBER},
+		{"nested state", "decoding ps-SubscriberState: ber: unexpected or missing element: unknown tag [CONTEXT 9 PRIMITIVE] for PS-SubscriberState CHOICE", []byte{0x30, 4, 0xa4, 2, 0x89, 0}, new(mapvalues.SubscriberInfo).UnmarshalBER},
+		{"v21 state", "ber: unexpected or missing element: unknown tag [CONTEXT 9 PRIMITIVE] for PS-SubscriberState CHOICE", []byte{0x89, 0}, new(v21_map_ms_datatypes.MSPSSubscriberState).UnmarshalBER},
+		{"binding state", "ber: unexpected or missing element: unknown tag [CONTEXT 9 PRIMITIVE] for PS-SubscriberState CHOICE", []byte{0x89, 0}, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapbindings.PSSubscriberStateCodec().DecodeBER(w, o...)
+			return e
+		}},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			for _, tolerant := range []bool{false, true} {
+				var log ber.ViolationLog
+				var opts []ber.DecodeOption
+				if tolerant {
+					opts = []ber.DecodeOption{ber.WithTolerance(&log)}
+				}
+				err := tc.decode(tc.wire, opts...)
+				var validation *ber.ValidationError
+				if err == nil || err.Error() != tc.want || !errors.Is(err, ber.ErrUnexpectedElement) || errors.As(err, &validation) || len(log.Snapshot()) != 0 {
+					t.Fatalf("got %v; want %s", err, tc.want)
+				}
+			}
+		})
+	}
+}
+
+func TestDecodeErrorAssignmentNames(t *testing.T) {
+	for _, tc := range []struct {
+		name, assignment string
+		offset           int
+		wire             []byte
+		decode           func([]byte, ...ber.DecodeOption) error
+	}{
+		{"current", "SubscriberData", 0, []byte{0x30, 3, 2, 1, 0}, new(mapvalues.SubscriberData).UnmarshalBER},
+		{"prefixed", "SubscriberData", 0, []byte{0x30, 3, 2, 1, 0}, new(v21_map_ms_datatypes.MSSubscriberData).UnmarshalBER},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			var log ber.ViolationLog
+			err := tc.decode(tc.wire, ber.WithTolerance(&log))
+			var decoded *ber.DecodeError
+			var validation *ber.ValidationError
+			want := fmt.Sprintf("ber: decode %s at offset %d: ber: unexpected or missing element", tc.assignment, tc.offset)
+			if !errors.As(err, &decoded) || decoded.TypeName != tc.assignment || decoded.Field != "" || decoded.Offset != tc.offset || err.Error() != want || !errors.Is(err, ber.ErrUnexpectedElement) || errors.As(err, &validation) || len(log.Snapshot()) != 0 {
+				t.Fatalf("decode = %v; want %s; metadata=%#v, records=%+v", err, want, decoded, log.Snapshot())
+			}
+		})
+	}
+}

@@ -32,7 +32,7 @@ func TestImplicitNullProfileAndDecode(t *testing.T) {
 		want                     error
 	}{
 		{"64104901016c0ba10902010181010002012d", prefix + "linkedId.absent", prefix + "linkedId.absent", ber.ErrInvalidValue},
-		{"640f4901016c0aa108020101a10002012d", prefix + "linkedId.InvokeLinkedId.absent", prefix + "linkedId.InvokeLinkedId.absent", ber.ErrInvalidTag},
+		{"640f4901016c0aa108020101a10002012d", prefix + "linkedId.absent", prefix + "linkedId.absent", ber.ErrInvalidTag},
 		{"64104901016c0ba10902010180010002012d", "", "", nil},
 		{"640f4901016c0aa108020101800002012d", prefix + "linkedId.present", prefix + "linkedId.present", ber.ErrInvalidValue},
 		{"62134801016c0ca10a020200c881010002012d0500", "begin.components.element[0].basicROS.invoke.invokeId.present", "begin.components.element[0].basicROS.invoke.linkedId.absent", ber.ErrInvalidValue},

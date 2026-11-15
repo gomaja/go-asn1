@@ -256,7 +256,7 @@ func marshalBERSSCode(value *BERValue[SSCode], opts ...ber.EncodeOption) ([]byte
 	_ = v
 	var children []byte
 	if len(v.Value) < 1 || len(v.Value) > 1 {
-		if constraintErr := checkEncodedLength(opts, "MAP-SS-Code.marshalBERSSCode", "51.5", "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, "MAP-SS-Code.SS-Code", "51.5", "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}

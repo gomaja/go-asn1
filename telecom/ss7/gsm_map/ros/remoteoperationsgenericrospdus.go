@@ -1288,7 +1288,7 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 		case ROSChoiceReject:
 			return nil, qualifyBERError(err, "reject", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding ROS as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ROS", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1338,23 +1338,23 @@ func (destination *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding ROS CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ROS", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "ROS", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROS.invoke", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "invoke", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROS.returnResult", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnResult", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROS.returnError", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnError", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROS.reject", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "reject", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ROSChoiceInvoke
@@ -1534,7 +1534,7 @@ func (v *Invoke) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding Invoke as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Invoke", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1574,7 +1574,7 @@ func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding Invoke SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Invoke", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "Invoke", Cause: ber.ErrExtraData}
@@ -1761,7 +1761,7 @@ func (v *ReturnResult) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReturnResult as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ReturnResult", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1801,7 +1801,7 @@ func (destination *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ReturnResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ReturnResult", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ReturnResult", Cause: ber.ErrExtraData}
@@ -1947,7 +1947,7 @@ func (v *ReturnError) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReturnError as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ReturnError", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1987,7 +1987,7 @@ func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ReturnError SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ReturnError", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ReturnError", Cause: ber.ErrExtraData}
@@ -2131,7 +2131,7 @@ func (v *Reject) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding Reject as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Reject", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2171,7 +2171,7 @@ func (destination *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding Reject SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Reject", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "Reject", Cause: ber.ErrExtraData}
@@ -2774,7 +2774,7 @@ func (v *InvokeId) MarshalDER() ([]byte, error) {
 		case InvokeIdChoiceAbsent:
 			return nil, qualifyBERError(err, "absent", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding InvokeId as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding InvokeId", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2824,17 +2824,17 @@ func (destination *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding InvokeId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding InvokeId", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "InvokeId", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "InvokeId.present", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "present", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "InvokeId.absent", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "absent", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = InvokeIdChoicePresent
@@ -2960,7 +2960,7 @@ func (v *Bind) MarshalDER() ([]byte, error) {
 		case BindChoiceBindError:
 			return nil, qualifyBERError(err, "bind-error", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding Bind as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Bind", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3010,20 +3010,20 @@ func (destination *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding Bind CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Bind", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "Bind", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Bind.bind-invoke", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "bind-invoke", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Bind.bind-result", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "bind-result", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Bind.bind-error", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "bind-error", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = BindChoiceBindInvoke
@@ -3209,7 +3209,7 @@ func (v *Unbind) MarshalDER() ([]byte, error) {
 		case UnbindChoiceUnbindError:
 			return nil, qualifyBERError(err, "unbind-error", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding Unbind as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Unbind", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3259,20 +3259,20 @@ func (destination *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding Unbind CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Unbind", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "Unbind", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Unbind.unbind-invoke", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "unbind-invoke", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Unbind.unbind-result", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "unbind-result", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Unbind.unbind-error", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "unbind-error", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 && peekTag.Constructed == true {
 		v.Choice = UnbindChoiceUnbindInvoke
@@ -3421,7 +3421,7 @@ func (v *ROSInvokeLinkedId) MarshalDER() ([]byte, error) {
 		case ROSInvokeLinkedIdChoiceAbsent:
 			return nil, qualifyBERError(err, "absent", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding ROSInvokeLinkedId as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ROS-invoke-linkedId", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3461,27 +3461,27 @@ func (destination *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSInvokeLinkedId{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for ROSInvokeLinkedId CHOICE")
+		return fmt.Errorf("empty data for ROS-invoke-linkedId CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for ROSInvokeLinkedId: %w", peekErr)
+		return fmt.Errorf("peeking tag for ROS-invoke-linkedId: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSInvokeLinkedId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ROS-invoke-linkedId", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSInvokeLinkedId", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ROS-invoke-linkedId", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSInvokeLinkedId.present", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "present", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSInvokeLinkedId.absent", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "absent", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
 		v.Choice = ROSInvokeLinkedIdChoicePresent
@@ -3509,7 +3509,7 @@ func (destination *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 		}
 		v.Absent = &struct{}{}
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for ROSInvokeLinkedId CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROS-invoke-linkedId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3579,7 +3579,7 @@ func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ROSReturnResultResult as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ROS-returnResult-result", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3619,10 +3619,10 @@ func (destination *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSReturnResultResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ROS-returnResult-result", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSReturnResultResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ROS-returnResult-result", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode opcode
@@ -3674,7 +3674,7 @@ func (destination *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 		offset += n_result
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ROSReturnResultResult", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "ROS-returnResult-result", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -3745,7 +3745,7 @@ func (v *InvokeLinkedId) MarshalDER() ([]byte, error) {
 		case InvokeLinkedIdChoiceAbsent:
 			return nil, qualifyBERError(err, "absent", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding InvokeLinkedId as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Invoke-linkedId", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3785,27 +3785,27 @@ func (destination *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = InvokeLinkedId{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for InvokeLinkedId CHOICE")
+		return fmt.Errorf("empty data for Invoke-linkedId CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for InvokeLinkedId: %w", peekErr)
+		return fmt.Errorf("peeking tag for Invoke-linkedId: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding InvokeLinkedId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Invoke-linkedId", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "InvokeLinkedId", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "Invoke-linkedId", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "InvokeLinkedId.present", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "present", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "InvokeLinkedId.absent", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "absent", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
 		v.Choice = InvokeLinkedIdChoicePresent
@@ -3833,7 +3833,7 @@ func (destination *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		}
 		v.Absent = &struct{}{}
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for InvokeLinkedId CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for Invoke-linkedId CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -3903,7 +3903,7 @@ func (v *ReturnResultResult) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReturnResultResult as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ReturnResult-result", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3943,10 +3943,10 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ReturnResultResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ReturnResult-result", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ReturnResultResult", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ReturnResult-result", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode opcode
@@ -3998,7 +3998,7 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 		offset += n_result
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ReturnResultResult", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "ReturnResult-result", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -4107,7 +4107,7 @@ func (v *OperationsRejectProblem) MarshalDER() ([]byte, error) {
 		case OperationsRejectProblemChoiceReturnError:
 			return nil, qualifyBERError(err, "returnError", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding OperationsRejectProblem as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding Reject-problem", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4147,33 +4147,33 @@ func (destination *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...be
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OperationsRejectProblem{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for OperationsRejectProblem CHOICE")
+		return fmt.Errorf("empty data for Reject-problem CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for OperationsRejectProblem: %w", peekErr)
+		return fmt.Errorf("peeking tag for Reject-problem: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding OperationsRejectProblem CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding Reject-problem", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "OperationsRejectProblem", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "Reject-problem", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "OperationsRejectProblem.general", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "general", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "OperationsRejectProblem.invoke", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "invoke", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "OperationsRejectProblem.returnResult", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnResult", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "OperationsRejectProblem.returnError", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnError", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
 		v.Choice = OperationsRejectProblemChoiceGeneral
@@ -4244,7 +4244,7 @@ func (destination *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...be
 		}
 		v.ReturnError = &named_returnerror
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for OperationsRejectProblem CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for Reject-problem CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
