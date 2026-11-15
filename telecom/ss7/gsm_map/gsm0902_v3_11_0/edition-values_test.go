@@ -392,6 +392,9 @@ func TestEditionGeneralizedTimeRules(t *testing.T) {
 				if failure.Path != path || failure.Kind != ber.ASN1Constraint || failure.Rule != (ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "32.3"}) || failure.ObservedValue != row.text || !strings.Contains(failure.Constraint, row.clause) {
 					t.Errorf("%s: wrong time violation: %+v", path, failure.Violation)
 				}
+				if path == "CallDateTime" && failure.Source != "MAP-DataTypes.CallDateTime" {
+					t.Errorf("root time source: got %q want MAP-DataTypes.CallDateTime", failure.Source)
+				}
 				if want := path + " value " + row.text + " violates " + failure.Constraint; err.Error() != want {
 					t.Errorf("time error text: got %q want %q", err, want)
 				}
@@ -671,5 +674,134 @@ func TestEditionCallDateTimeSize(t *testing.T) {
 		if (err == nil) != valid {
 			t.Errorf("tolerant SIZE encode %d: %v", len(text), err)
 		}
+	}
+}
+
+func TestEditionCompositeRootPath(t *testing.T) {
+	wire := []byte{48, 129, 6, 10, 1, 4, 4, 1, 170}
+	var value ExternalSignalInfo
+	var strict *ber.ValidationError
+	err := value.UnmarshalBER(wire)
+	want := "ExternalSignalInfo value received BER form violates GSM 09.02 V3.11.0 §6.1: short-length"
+	if !errors.Is(err, ber.ErrInvalidValue) || !errors.As(err, &strict) || strict.Path != "ExternalSignalInfo" || err.Error() != want {
+		t.Fatalf("strict root: %v", err)
+	}
+	var incoming ber.ViolationLog
+	if err := value.UnmarshalBER(wire, ber.WithTolerance(&incoming)); err != nil {
+		t.Fatal(err)
+	}
+	decoded := incoming.Snapshot()
+	if rows := decoded; len(rows) != 1 || rows[0].Path != "ExternalSignalInfo" || rows[0].Source != strict.Source {
+		t.Fatalf("reports=%+v", rows)
+	}
+	var replay *ber.ValidationError
+	if _, err := value.MarshalBER(); !errors.As(err, &replay) || replay.Path != "ExternalSignalInfo" || err.Error() != want || replay.Source != strict.Source {
+		t.Fatalf("strict replay=%v", err)
+	}
+	var outgoing ber.ViolationLog
+	got, err := value.MarshalBER(ber.WithTolerance(&outgoing))
+	if err != nil || !bytes.Equal(got, wire) {
+		t.Fatalf("tolerant replay=%v", err)
+	}
+	rows := outgoing.Snapshot()
+	if len(rows) != 1 {
+		t.Fatalf("encode reports=%+v", rows)
+	}
+	d, e := decoded[0], rows[0]
+	if e.Kind != d.Kind || e.Rule != d.Rule || e.Constraint != d.Constraint || e.Path != d.Path || e.Source != d.Source || e.ObservedValue != d.ObservedValue || e.ObservedValueLength != d.ObservedValueLength || !reflect.DeepEqual(e.ObservedLength, d.ObservedLength) || e.Offset != nil || e.OctetOffset != nil || e.ChildIndexes != nil {
+		t.Fatalf("encode report=%+v decode report=%+v", e, d)
+	}
+	if !reflect.DeepEqual(incoming.Snapshot(), decoded) {
+		t.Fatal("encoding changed the decode reports")
+	}
+}
+
+func TestWrapperASN1PositionNames(t *testing.T) {
+	for _, decode := range []func([]byte, ...ber.DecodeOption) error{new(CUGInformationComponent1).UnmarshalBER, func(w []byte, o ...ber.DecodeOption) error {
+		_, e := CUGInformationComponent1Codec().DecodeBER(w, o...)
+		return e
+	}} {
+		for _, tolerant := range []bool{false, true} {
+			var log ber.ViolationLog
+			var opts []ber.DecodeOption
+			if tolerant {
+				opts = []ber.DecodeOption{ber.WithTolerance(&log)}
+			}
+			err := decode([]byte{0x80, 0}, opts...)
+			var path interface{ ASN1BERPath() string }
+			var validation *ber.ValidationError
+			if err == nil || !strings.HasPrefix(err.Error(), "decoding cug-Feature: ") || !errors.Is(err, ber.ErrInvalidTag) || errors.As(err, &validation) || !errors.As(err, &path) || path.ASN1BERPath() != "cug-Feature" {
+				t.Fatalf("got %v", err)
+			}
+			if len(log.Snapshot()) != 0 {
+				t.Fatal("malformed structure published records")
+			}
+		}
+	}
+}
+
+func TestWrapperValidationNames(t *testing.T) {
+	var value CUGInformationComponent1
+	var log ber.ViolationLog
+	if err := value.UnmarshalBER([]byte{0xa1, 0}, ber.WithTolerance(&log)); err != nil {
+		t.Fatal(err)
+	}
+	_, err := value.MarshalBER()
+	var want *ber.ValidationError
+	if !errors.As(err, &want) {
+		t.Fatal(err)
+	}
+	_, err = value.MarshalDER()
+	var got *ber.ValidationError
+	if !errors.As(err, &got) || got.Path != want.Path || got.Source != want.Source || got.Kind != want.Kind || got.Rule != want.Rule || got.Constraint != want.Constraint {
+		t.Fatalf("DER=%v BER=%v", err, want)
+	}
+}
+
+func TestChoiceDecodeAssignmentNames(t *testing.T) {
+	for _, decode := range []func([]byte, ...ber.DecodeOption) error{new(CUGInformationComponent1).UnmarshalBER, func(w []byte, o ...ber.DecodeOption) error {
+		_, e := CUGInformationComponent1Codec().DecodeBER(w, o...)
+		return e
+	}} {
+		for _, tolerant := range []bool{false, true} {
+			var log ber.ViolationLog
+			var opts []ber.DecodeOption
+			if tolerant {
+				opts = []ber.DecodeOption{ber.WithTolerance(&log)}
+			}
+			err := decode([]byte{0x89, 0}, opts...)
+			var validation *ber.ValidationError
+			want := "ber: unexpected or missing element: unknown tag [CONTEXT 9 PRIMITIVE] for CUG-Information-component1 CHOICE"
+			if err == nil || err.Error() != want || !errors.Is(err, ber.ErrUnexpectedElement) || errors.As(err, &validation) || len(log.Snapshot()) != 0 {
+				t.Fatalf("got %v; want %s", err, want)
+			}
+		}
+	}
+}
+
+func TestDecodeErrorAssignmentNames(t *testing.T) {
+	for _, tc := range []struct {
+		name, assignment string
+		offset           int
+		wire             []byte
+		decode           func([]byte, ...ber.DecodeOption) error
+	}{
+		{"SSIncompatibilityParameter", "SS-Incompatibility-parameter", 0, []byte{0x30, 3, 2, 1, 0}, new(SSIncompatibilityParameter).UnmarshalBER},
+		{"ForwardSsNotificationArgument", "ForwardSsNotification-argument", 0, []byte{0x30, 3, 2, 1, 0}, new(ForwardSsNotificationArgument).UnmarshalBER},
+		{"InsertSubscriberDataArgument", "InsertSubscriberData-argument", 0, []byte{0x30, 3, 2, 1, 0}, new(InsertSubscriberDataArgument).UnmarshalBER},
+		{"SendInfoForIncomingCallArgument", "SendInfoForIncomingCall-argument", 2, []byte{0x30, 4, 0x80, 0, 0x81, 0}, new(SendInfoForIncomingCallArgument).UnmarshalBER},
+		{"SendInfoForOutgoingCallArgument", "SendInfoForOutgoingCall-argument", 2, []byte{0x30, 4, 0x80, 0, 0x81, 0}, new(SendInfoForOutgoingCallArgument).UnmarshalBER},
+		{"SendRoutingInfoForSMResultComponent1Alternative0", "SendRoutingInfoForSM-result-component1-alternative0", 2, []byte{0x30, 4, 0x80, 0, 0x81, 0}, new(SendRoutingInfoForSMResultComponent1Alternative0).UnmarshalBER},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			var log ber.ViolationLog
+			err := tc.decode(tc.wire, ber.WithTolerance(&log))
+			var decoded *ber.DecodeError
+			var validation *ber.ValidationError
+			want := fmt.Sprintf("ber: decode %s at offset %d: ber: unexpected or missing element", tc.assignment, tc.offset)
+			if !errors.As(err, &decoded) || decoded.TypeName != tc.assignment || decoded.Field != "" || decoded.Offset != tc.offset || err.Error() != want || !errors.Is(err, ber.ErrUnexpectedElement) || errors.As(err, &validation) || len(log.Snapshot()) != 0 {
+				t.Fatalf("decode = %v; want %s; metadata=%#v, records=%+v", err, want, decoded, log.Snapshot())
+			}
+		})
 	}
 }

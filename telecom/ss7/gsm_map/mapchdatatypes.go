@@ -892,7 +892,7 @@ func (v *CUGCheckInfo) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding CUGCheckInfo as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding CUG-CheckInfo", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -932,10 +932,10 @@ func (destination *CUGCheckInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding CUGCheckInfo SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding CUG-CheckInfo", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CUGCheckInfo", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "CUG-CheckInfo", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode cug-Interlock
@@ -1018,12 +1018,12 @@ func (destination *CUGCheckInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "CUGCheckInfo", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "CUG-CheckInfo", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "CUGCheckInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "CUG-CheckInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -1912,7 +1912,7 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1953,7 +1953,7 @@ func (destination *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.Dec
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendRoutingInfoArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "SendRoutingInfoArg", Cause: ber.ErrExtraData}
@@ -4001,7 +4001,7 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 	}
 	encoded = retagged_encoded
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendRoutingInfoRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5166,7 +5166,7 @@ func (v *CCBSIndicators) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding CCBSIndicators as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding CCBS-Indicators", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5207,10 +5207,10 @@ func (destination *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding CCBSIndicators SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding CCBS-Indicators", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "CCBSIndicators", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "CCBS-Indicators", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode ccbs-Possible
@@ -5319,12 +5319,12 @@ func (destination *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "CCBSIndicators", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "CCBS-Indicators", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "CCBSIndicators", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "CCBS-Indicators", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -5435,7 +5435,7 @@ func (v *RoutingInfo) MarshalDER() ([]byte, error) {
 		case RoutingInfoChoiceForwardingData:
 			return nil, qualifyBERError(err, "forwardingData", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding RoutingInfo as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding RoutingInfo", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5485,14 +5485,14 @@ func (destination *RoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding RoutingInfo CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding RoutingInfo", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "RoutingInfo", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "RoutingInfo.forwardingData", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "forwardingData", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
 		v.Choice = RoutingInfoChoiceRoamingNumber
@@ -5782,7 +5782,7 @@ func (v *ForwardingData) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ForwardingData as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ForwardingData", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -5823,7 +5823,7 @@ func (destination *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ForwardingData SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ForwardingData", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ForwardingData", Cause: ber.ErrExtraData}
@@ -6916,7 +6916,7 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ProvideRoamingNumberArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ProvideRoamingNumberArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -6957,7 +6957,7 @@ func (destination *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...be
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ProvideRoamingNumberArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ProvideRoamingNumberArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ProvideRoamingNumberArg", Cause: ber.ErrExtraData}
@@ -8086,7 +8086,7 @@ func (v *ProvideRoamingNumberRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ProvideRoamingNumberRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ProvideRoamingNumberRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -8127,7 +8127,7 @@ func (destination *ProvideRoamingNumberRes) UnmarshalBER(data []byte, opts ...be
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ProvideRoamingNumberRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ProvideRoamingNumberRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ProvideRoamingNumberRes", Cause: ber.ErrExtraData}
@@ -8777,7 +8777,7 @@ func (v *ResumeCallHandlingArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ResumeCallHandlingArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ResumeCallHandlingArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -8818,7 +8818,7 @@ func (destination *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ResumeCallHandlingArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ResumeCallHandlingArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ResumeCallHandlingArg", Cause: ber.ErrExtraData}
@@ -9623,7 +9623,7 @@ func (v *UUData) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding UUData as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding UU-Data", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -9663,10 +9663,10 @@ func (destination *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding UUData SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding UU-Data", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "UUData", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "UU-Data", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode uuIndicator
@@ -9812,12 +9812,12 @@ func (destination *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "UUData", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "UU-Data", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "UUData", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "UU-Data", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_9, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -9931,7 +9931,7 @@ func (v *ResumeCallHandlingRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ResumeCallHandlingRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ResumeCallHandlingRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -9972,7 +9972,7 @@ func (destination *ResumeCallHandlingRes) UnmarshalBER(data []byte, opts ...ber.
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ResumeCallHandlingRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ResumeCallHandlingRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ResumeCallHandlingRes", Cause: ber.ErrExtraData}
@@ -10237,7 +10237,7 @@ func (v *CamelInfo) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding CamelInfo as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding CamelInfo", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -10277,7 +10277,7 @@ func (destination *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding CamelInfo SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding CamelInfo", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "CamelInfo", Cause: ber.ErrExtraData}
@@ -10535,7 +10535,7 @@ func (v *ExtendedRoutingInfo) MarshalDER() ([]byte, error) {
 		case ExtendedRoutingInfoChoiceCamelRoutingInfo:
 			return nil, qualifyBERError(err, "camelRoutingInfo", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding ExtendedRoutingInfo as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ExtendedRoutingInfo", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -10586,14 +10586,14 @@ func (destination *ExtendedRoutingInfo) UnmarshalBER(data []byte, opts ...ber.De
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding ExtendedRoutingInfo CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ExtendedRoutingInfo", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "ExtendedRoutingInfo", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ExtendedRoutingInfo.camelRoutingInfo", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "camelRoutingInfo", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 && peekTag.Constructed == true {
 		v.Choice = ExtendedRoutingInfoChoiceCamelRoutingInfo
@@ -10758,7 +10758,7 @@ func (v *CamelRoutingInfo) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding CamelRoutingInfo as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding CamelRoutingInfo", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -10799,7 +10799,7 @@ func (destination *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding CamelRoutingInfo SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding CamelRoutingInfo", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "CamelRoutingInfo", Cause: ber.ErrExtraData}
@@ -11228,7 +11228,7 @@ func (v *GmscCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding GmscCamelSubscriptionInfo as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding GmscCamelSubscriptionInfo", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -11269,7 +11269,7 @@ func (destination *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding GmscCamelSubscriptionInfo SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding GmscCamelSubscriptionInfo", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "GmscCamelSubscriptionInfo", Cause: ber.ErrExtraData}
@@ -11774,7 +11774,7 @@ func (v *SetReportingStateArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SetReportingStateArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SetReportingStateArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -11815,7 +11815,7 @@ func (destination *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SetReportingStateArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SetReportingStateArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "SetReportingStateArg", Cause: ber.ErrExtraData}
@@ -12112,7 +12112,7 @@ func (v *SetReportingStateRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SetReportingStateRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SetReportingStateRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -12153,7 +12153,7 @@ func (destination *SetReportingStateRes) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SetReportingStateRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SetReportingStateRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "SetReportingStateRes", Cause: ber.ErrExtraData}
@@ -12447,7 +12447,7 @@ func (v *StatusReportArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding StatusReportArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding StatusReportArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -12488,7 +12488,7 @@ func (destination *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding StatusReportArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding StatusReportArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "StatusReportArg", Cause: ber.ErrExtraData}
@@ -12807,7 +12807,7 @@ func (v *EventReportData) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding EventReportData as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding EventReportData", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -12848,7 +12848,7 @@ func (destination *EventReportData) UnmarshalBER(data []byte, opts ...ber.Decode
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding EventReportData SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding EventReportData", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "EventReportData", Cause: ber.ErrExtraData}
@@ -13098,7 +13098,7 @@ func (v *CallReportData) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding CallReportData as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding CallReportData", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -13139,7 +13139,7 @@ func (destination *CallReportData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding CallReportData SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding CallReportData", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "CallReportData", Cause: ber.ErrExtraData}
@@ -13383,7 +13383,7 @@ func (v *StatusReportRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding StatusReportRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding StatusReportRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -13424,7 +13424,7 @@ func (destination *StatusReportRes) UnmarshalBER(data []byte, opts ...ber.Decode
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding StatusReportRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding StatusReportRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "StatusReportRes", Cause: ber.ErrExtraData}
@@ -13767,7 +13767,7 @@ func (v *RemoteUserFreeArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding RemoteUserFreeArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding RemoteUserFreeArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -13808,7 +13808,7 @@ func (destination *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding RemoteUserFreeArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding RemoteUserFreeArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "RemoteUserFreeArg", Cause: ber.ErrExtraData}
@@ -14226,7 +14226,7 @@ func (v *RemoteUserFreeRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding RemoteUserFreeRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding RemoteUserFreeRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -14267,7 +14267,7 @@ func (destination *RemoteUserFreeRes) UnmarshalBER(data []byte, opts ...ber.Deco
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding RemoteUserFreeRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding RemoteUserFreeRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "RemoteUserFreeRes", Cause: ber.ErrExtraData}
@@ -14512,7 +14512,7 @@ func (v *ISTAlertArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ISTAlertArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding IST-AlertArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -14552,10 +14552,10 @@ func (destination *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ISTAlertArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding IST-AlertArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ISTAlertArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "IST-AlertArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -14640,12 +14640,12 @@ func (destination *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ISTAlertArg", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "IST-AlertArg", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ISTAlertArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "IST-AlertArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_22, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -14833,7 +14833,7 @@ func (v *ISTAlertRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ISTAlertRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding IST-AlertRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -14873,10 +14873,10 @@ func (destination *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ISTAlertRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding IST-AlertRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ISTAlertRes", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "IST-AlertRes", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode istAlertTimer
@@ -15024,12 +15024,12 @@ func (destination *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ISTAlertRes", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "IST-AlertRes", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ISTAlertRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "IST-AlertRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_23, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -15183,7 +15183,7 @@ func (v *ISTCommandArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ISTCommandArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding IST-CommandArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -15223,10 +15223,10 @@ func (destination *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ISTCommandArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding IST-CommandArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ISTCommandArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "IST-CommandArg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode imsi
@@ -15311,12 +15311,12 @@ func (destination *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ISTCommandArg", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "IST-CommandArg", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ISTCommandArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "IST-CommandArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_24, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -15430,7 +15430,7 @@ func (v *ISTCommandRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ISTCommandRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding IST-CommandRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -15470,10 +15470,10 @@ func (destination *ISTCommandRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ISTCommandRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding IST-CommandRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ISTCommandRes", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "IST-CommandRes", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode extensionContainer
@@ -15510,12 +15510,12 @@ func (destination *ISTCommandRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ISTCommandRes", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "IST-CommandRes", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ISTCommandRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "IST-CommandRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s47bb6e_25, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -15659,7 +15659,7 @@ func (v *ReleaseResourcesArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReleaseResourcesArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ReleaseResourcesArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -15700,7 +15700,7 @@ func (destination *ReleaseResourcesArg) UnmarshalBER(data []byte, opts ...ber.De
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ReleaseResourcesArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ReleaseResourcesArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ReleaseResourcesArg", Cause: ber.ErrExtraData}
@@ -15890,7 +15890,7 @@ func (v *ReleaseResourcesRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReleaseResourcesRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ReleaseResourcesRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -15931,7 +15931,7 @@ func (destination *ReleaseResourcesRes) UnmarshalBER(data []byte, opts ...ber.De
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ReleaseResourcesRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ReleaseResourcesRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ReleaseResourcesRes", Cause: ber.ErrExtraData}

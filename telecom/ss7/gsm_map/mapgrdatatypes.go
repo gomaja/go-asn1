@@ -613,7 +613,7 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding PrepareGroupCallArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding PrepareGroupCallArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -654,7 +654,7 @@ func (destination *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.De
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding PrepareGroupCallArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding PrepareGroupCallArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "PrepareGroupCallArg", Cause: ber.ErrExtraData}
@@ -1209,7 +1209,7 @@ func (v *PrepareGroupCallRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding PrepareGroupCallRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding PrepareGroupCallRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1250,7 +1250,7 @@ func (destination *PrepareGroupCallRes) UnmarshalBER(data []byte, opts ...ber.De
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding PrepareGroupCallRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding PrepareGroupCallRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "PrepareGroupCallRes", Cause: ber.ErrExtraData}
@@ -1540,7 +1540,7 @@ func (v *SendGroupCallEndSignalArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendGroupCallEndSignalArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendGroupCallEndSignalArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1581,7 +1581,7 @@ func (destination *SendGroupCallEndSignalArg) UnmarshalBER(data []byte, opts ...
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendGroupCallEndSignalArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendGroupCallEndSignalArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "SendGroupCallEndSignalArg", Cause: ber.ErrExtraData}
@@ -1842,7 +1842,7 @@ func (v *SendGroupCallEndSignalRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendGroupCallEndSignalRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendGroupCallEndSignalRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1883,7 +1883,7 @@ func (destination *SendGroupCallEndSignalRes) UnmarshalBER(data []byte, opts ...
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendGroupCallEndSignalRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendGroupCallEndSignalRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "SendGroupCallEndSignalRes", Cause: ber.ErrExtraData}
@@ -2334,7 +2334,7 @@ func (v *ForwardGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ForwardGroupCallSignallingArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ForwardGroupCallSignallingArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -2375,7 +2375,7 @@ func (destination *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ForwardGroupCallSignallingArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ForwardGroupCallSignallingArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ForwardGroupCallSignallingArg", Cause: ber.ErrExtraData}
@@ -3097,7 +3097,7 @@ func (v *ProcessGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ProcessGroupCallSignallingArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ProcessGroupCallSignallingArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3138,7 +3138,7 @@ func (destination *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte, opts
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ProcessGroupCallSignallingArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ProcessGroupCallSignallingArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ProcessGroupCallSignallingArg", Cause: ber.ErrExtraData}
@@ -3550,7 +3550,7 @@ func (v *StateAttributes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding StateAttributes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding StateAttributes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -3591,7 +3591,7 @@ func (destination *StateAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding StateAttributes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding StateAttributes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "StateAttributes", Cause: ber.ErrExtraData}
@@ -4076,7 +4076,7 @@ func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendGroupCallInfoArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendGroupCallInfoArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4117,7 +4117,7 @@ func (destination *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendGroupCallInfoArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendGroupCallInfoArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "SendGroupCallInfoArg", Cause: ber.ErrExtraData}
@@ -4818,7 +4818,7 @@ func (v *SendGroupCallInfoRes) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding SendGroupCallInfoRes as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SendGroupCallInfoRes", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -4859,7 +4859,7 @@ func (destination *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding SendGroupCallInfoRes SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SendGroupCallInfoRes", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "SendGroupCallInfoRes", Cause: ber.ErrExtraData}

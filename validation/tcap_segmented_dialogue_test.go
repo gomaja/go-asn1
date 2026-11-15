@@ -16,14 +16,19 @@ import (
 // either way. Each row's AARQ carries protocol-version as a constructed BIT
 // STRING.
 func TestTCAPSegmentedDialogueReportsCarriedAPDU(t *testing.T) {
-	const path = "begin.dialoguePortion.dialogue.dialogueRequest.protocol-version"
+	// X.690 (02/2021) §8.18.1 names the EXTERNAL encoding alternative that
+	// carries the APDU.
+	const (
+		octetAligned = "begin.dialoguePortion.encoding.octet-aligned.dialogueRequest.protocol-version"
+		arbitrary    = "begin.dialoguePortion.encoding.arbitrary.dialogueRequest.protocol-version"
+	)
 	element := []byte{0xa0, 0x04, 0x03, 0x02, 0x07, 0x80}
-	for _, c := range []struct{ name, hex string }{
-		{"octet-aligned, primitive", "62274801016b22282006070011860501010181156013a00403020780a10b06092b0601040183b20302"},
-		{"octet-aligned, two segments", "622b4801016b262824060700118605010101a119040160041413a00403020780a10b06092b0601040183b20302"},
-		{"octet-aligned, nested segments", "622d4801016b282826060700118605010101a11b0401602416041413a00403020780a10b06092b0601040183b20302"},
-		{"arbitrary, two segments", "622d4801016b282826060700118605010101a21b0302006003150013a00403020780a10b06092b0601040183b20302"},
-		{"arbitrary, nested segments", "622f4801016b2a2828060700118605010101a21d03020060231703150013a00403020780a10b06092b0601040183b20302"},
+	for _, c := range []struct{ name, path, hex string }{
+		{"octet-aligned, primitive", octetAligned, "62274801016b22282006070011860501010181156013a00403020780a10b06092b0601040183b20302"},
+		{"octet-aligned, two segments", octetAligned, "622b4801016b262824060700118605010101a119040160041413a00403020780a10b06092b0601040183b20302"},
+		{"octet-aligned, nested segments", octetAligned, "622d4801016b282826060700118605010101a11b0401602416041413a00403020780a10b06092b0601040183b20302"},
+		{"arbitrary, two segments", arbitrary, "622d4801016b282826060700118605010101a21b0302006003150013a00403020780a10b06092b0601040183b20302"},
+		{"arbitrary, nested segments", arbitrary, "622f4801016b2a2828060700118605010101a21d03020060231703150013a00403020780a10b06092b0601040183b20302"},
 	} {
 		wire := mustHex(t, c.hex)
 		var message tcap.TCMessage
@@ -34,7 +39,7 @@ func TestTCAPSegmentedDialogueReportsCarriedAPDU(t *testing.T) {
 		}
 		var reports []tcapber.Violation
 		for _, v := range log.Snapshot() {
-			if v.Path == path && v.Constraint == "Q.773 §4.1.1: primitive-bit-string" {
+			if v.Path == c.path && v.Constraint == "Q.773 §4.1.1: primitive-bit-string" {
 				reports = append(reports, v)
 			}
 		}

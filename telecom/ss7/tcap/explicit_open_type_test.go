@@ -146,9 +146,9 @@ func TestExternalExplicitFormInOpenValue(t *testing.T) {
 		name, wire, path string
 		want             error
 	}{
-		{"invoke-primitive", "62164801016c11a10f02010102012d280706032a03048000", "child[1].child[0].child[2].child[1]", ber.ErrInvalidTag},
+		{"invoke-primitive", "62164801016c11a10f02010102012d280706032a03048000", "begin.components.element[0].basicROS.invoke.argument.encoding.single-ASN1-type", ber.ErrInvalidTag},
 		{"invoke-constructed", "62184801016c13a11102010102012d280906032a0304a0020500", "", nil},
-		{"invoke-nested-primitive", "62184801016c13a11102010102012d3009280706032a03048000", "child[1].child[0].child[2].child[0].child[1]", ber.ErrInvalidTag},
+		{"invoke-nested-primitive", "62184801016c13a11102010102012d3009280706032a03048000", "begin.components.element[0].basicROS.invoke.argument.child[0].encoding.single-ASN1-type", ber.ErrInvalidTag},
 		{"dialogue-primitive", "62124801016b0d280b0607001186050101018000", "begin.dialoguePortion", ber.ErrInvalidTag},
 	} {
 		t.Run(row.name, func(t *testing.T) {

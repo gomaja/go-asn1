@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "5905224cfade52fa881db513ace8e65abd4d37ca",
-    "tree": "9319ce8180fbfc5b4af62ac63f096100f4e8e021",
+    "commit": "66c6808bf8773f45c47d23bc4fad128a87ff1a38",
+    "tree": "3cb3950a53460c67fdaa82b85af259e74ac20fcc",
     "dirty": false
   },
   "source_lock": {
@@ -682,8 +682,8 @@
     {
       "path": "ber/map_profile.go",
       "mode": "0644",
-      "size": 22997,
-      "sha256": "70124d1229f37fe8828ec213fb1f0997e1d81b17d60efb378b30e1cb58cbc6b6"
+      "size": 24249,
+      "sha256": "3877f62c83af2aea2f5987a6a94616293ca39e519f16bb228df6015804904d4d"
     },
     {
       "path": "ber/map_profile_resource_test.go",
@@ -694,8 +694,8 @@
     {
       "path": "ber/map_profile_test.go",
       "mode": "0644",
-      "size": 14805,
-      "sha256": "3b4f516ebe0d9d51365e35c9dfaeaa012093fda5465eb8e026f4806799339ea7"
+      "size": 14814,
+      "sha256": "31807f76d3a3c5af2b0d200791098a2305288b1b543beaf44de876318cb09a1d"
     },
     {
       "path": "ber/named_bit_encoding.go",
@@ -796,8 +796,8 @@
     {
       "path": "ber/phase1_profile_test.go",
       "mode": "0644",
-      "size": 5183,
-      "sha256": "e9c37feb83381115d9f7d294b2c418b985a198b4ed16768527a8769c8404c11c"
+      "size": 9951,
+      "sha256": "2c32479a7d25ec2777d211d6fe997a71c44ea7d4d2716097432bfdcf2e8c6025"
     },
     {
       "path": "ber/preflight_location_test.go",
@@ -1094,6 +1094,12 @@
       "sha256": "e8fe444087e28aff07e59e3c9f66cf1a98a0fc061d3bb76f41b3312b319cda64"
     },
     {
+      "path": "ber/source_field_test.go",
+      "mode": "0644",
+      "size": 838,
+      "sha256": "05ccfd5490c46697de4eb5de688c1c10493a24f4ea342caf9944f02c17f23bcf"
+    },
+    {
       "path": "ber/stage_fast_path_test.go",
       "mode": "0644",
       "size": 2800,
@@ -1300,8 +1306,8 @@
     {
       "path": "ber/validation.go",
       "mode": "0644",
-      "size": 18689,
-      "sha256": "ad9d1037d79fb51fdcd5815908606adaa89eff4666eeeee3a3078d89456bb266"
+      "size": 18614,
+      "sha256": "9ddef92b6c49891000a4ae0082c7c04d5403e5342841ab987481c4284f04f032"
     },
     {
       "path": "ber/work.go",
@@ -1501,8 +1507,8 @@
     {
       "path": "ber-error-paths.go",
       "mode": "0644",
-      "size": 2954,
-      "sha256": "524178681fc34e12bfeb47540f4dde7fe4957cff7ae4dfbd9762501b5f3938c2"
+      "size": 3912,
+      "sha256": "047b98197843db9d2dc3ce12d667601c25536e5b356ec91dff65b7076555b8e7"
     },
     {
       "path": "ber_value.go",
@@ -1555,8 +1561,8 @@
     {
       "path": "edition-values_test.go",
       "mode": "0644",
-      "size": 9403,
-      "sha256": "6a263c13f53dd8c3c0be5f0eb680374f48fb51ebc9c16a1de53904d6e07f5237"
+      "size": 14089,
+      "sha256": "66611ec769071df616ea5c71edd28d4abe63a7cb24b55d3d7cc0564233f2fe56"
     },
     {
       "path": "macro-catalogue.go",
@@ -1579,44 +1585,44 @@
     {
       "path": "mapchdatatypes.go",
       "mode": "0644",
-      "size": 92751,
-      "sha256": "90a88ad1924fc51326d00be8bbbd4f3585b6909a61ed5c33766a08b5e93e01b0"
+      "size": 92666,
+      "sha256": "bf2ffa8290126ca92e4ffc6f725c8c982414da98f574a4f10850b49ab1db7e7e"
     },
     {
       "path": "mapcommondatatypes.go",
       "mode": "0644",
-      "size": 94872,
-      "sha256": "b72bb86acc87b6acd91022eb13a875c8a603d4841139cd85f0350af119f32986"
+      "size": 94230,
+      "sha256": "9dc53649e0b40fbfa670d220a3de65de3d655fe004e8b53caa9cc6a8d36d113a"
     },
     {
       "path": "mapdialogueinformation.go",
       "mode": "0644",
-      "size": 87501,
-      "sha256": "19be42c2076a80dee1b37b48800c06af15961e7bf723e5a9a44b7c0a2afdb79b"
+      "size": 87248,
+      "sha256": "74bfc848adedfbfcfd2f588358d8d19b9d33e9d995f3f459c433ae8500f00487"
     },
     {
       "path": "maperdatatypes.go",
       "mode": "0644",
-      "size": 45977,
-      "sha256": "0dce334c70c8726c8af21efbd082759bfed5226c074aa033874f3424f162426e"
+      "size": 45901,
+      "sha256": "908406d5db986e9bdf1fdeb84affe45e508e2f02c9f1f0898b1598a92683fdf8"
     },
     {
       "path": "mapmsdatatypes.go",
       "mode": "0644",
-      "size": 472274,
-      "sha256": "818d5380dfa7809a7ec3b33eede0060558907dd6364b2a8b64bf58850cab60ee"
+      "size": 471470,
+      "sha256": "cf29a4dbd36cda4a189083dc684736061aed779acd7b9265ceda43bc98f1f901"
     },
     {
       "path": "mapomdatatypes.go",
       "mode": "0644",
-      "size": 68620,
-      "sha256": "f2cc6d4c888e8cff12b350177f5f1d6202b2d2872a6a204b399a1f9ec8229350"
+      "size": 68560,
+      "sha256": "3936a3be5c3aa4c926e2451c3750c900c70a28ed770f48865f4e6d03e4cebcd8"
     },
     {
       "path": "mapsmdatatypes.go",
       "mode": "0644",
-      "size": 143383,
-      "sha256": "216dfa7b209c26b9f5ac7cfbd17937c759f5fe8dbc1e3c46e59acb81870b767c"
+      "size": 143261,
+      "sha256": "b4b7c751527f09e525973e25f77157e55603e188ae4db36528f377013e3a596b"
     },
     {
       "path": "mapsscode.go",
@@ -1627,8 +1633,8 @@
     {
       "path": "mapssdatatypes.go",
       "mode": "0644",
-      "size": 333611,
-      "sha256": "7481393a4ebc8ea6271a9cb76cab72ea8b6dc87c7a93dcdf77c6f80c036a40a6"
+      "size": 332697,
+      "sha256": "6ff61c98ac6389ad38afaa8b735b3faa04efbdec7794cdf8284da616757d3099"
     },
     {
       "path": "maptscode.go",

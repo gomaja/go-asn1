@@ -451,7 +451,7 @@ func (value *InvokeLinkedId) checkTCAPEncodedRules(opts []ber.EncodeOption) erro
 		return fmt.Errorf("nil InvokeLinkedId")
 	}
 	if value.Choice != InvokeLinkedIdChoicePresent {
-		return ber.CheckEncodedValue(ber.EncodeSource(opts, "Remote-Operations-Generic-ROS-PDUs.Invoke.linkedId"), "", "Q.773 §4.2.2.2: component-id-linked-present", "NULL")
+		return ber.CheckEncodedRootValue(ber.EncodeSource(opts, "Remote-Operations-Generic-ROS-PDUs.Invoke.linkedId"), "Invoke-linkedId", "Remote-Operations-Generic-ROS-PDUs.Invoke-linkedId", "Q.773 §4.2.2.2: component-id-linked-present", "NULL")
 	}
 	return nil
 }
@@ -460,7 +460,7 @@ func (value *InvokeLinkedId) checkTCAPDecodedRules(opts []ber.DecodeOption) erro
 		return fmt.Errorf("nil InvokeLinkedId")
 	}
 	if value.Choice != InvokeLinkedIdChoicePresent {
-		return ber.CheckDecodedValue(opts, "", "Q.773 §4.2.2.2: component-id-linked-present", "NULL")
+		return ber.CheckDecodedRootValue(opts, "Invoke-linkedId", "Q.773 §4.2.2.2: component-id-linked-present", "NULL")
 	}
 	return nil
 }
@@ -551,7 +551,7 @@ func (value *Abort) checkTCAPEncodedRules(opts []ber.EncodeOption) error {
 		return fmt.Errorf("nil Abort")
 	}
 	if value.Reason != nil && value.Reason.Choice == AbortReasonChoiceUAbortCause && value.Reason.UAbortCause != nil && value.Reason.UAbortCause.ContentKind() == Unstructured {
-		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Abort"), "reason.uAbortCause", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
+		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Abort"), "reason.u-abortCause", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
 	}
 	return nil
 }
@@ -560,7 +560,7 @@ func (value *Abort) checkTCAPDecodedRules(opts []ber.DecodeOption) error {
 		return fmt.Errorf("nil Abort")
 	}
 	if value.Reason != nil && value.Reason.Choice == AbortReasonChoiceUAbortCause && value.Reason.UAbortCause != nil && value.Reason.UAbortCause.ContentKind() == Unstructured {
-		return ber.CheckDecodedValue(opts, "reason.uAbortCause", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
+		return ber.CheckDecodedValue(opts, "reason.u-abortCause", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
 	}
 	return nil
 }

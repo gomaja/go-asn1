@@ -239,7 +239,7 @@ func (v *ROSSingleAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.En
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
 		_, err := v.Invoke.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invoke")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.invoke")
 		}
 		return nil, nil
 	case ROSSingleASChoiceReturnResult:
@@ -249,7 +249,7 @@ func (v *ROSSingleAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.En
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
 		_, err := v.ReturnResult.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnResult")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnResult")
 		}
 		return nil, nil
 	case ROSSingleASChoiceReturnError:
@@ -259,7 +259,7 @@ func (v *ROSSingleAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.En
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
 		_, err := v.ReturnError.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnError")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnError")
 		}
 		return nil, nil
 	case ROSSingleASChoiceReject:
@@ -269,7 +269,7 @@ func (v *ROSSingleAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.En
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
 		_, err := v.Reject.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "reject")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.reject")
 		}
 		return nil, nil
 	default:
@@ -380,18 +380,18 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.invoke")
 		}
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_0, "invoke", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_0, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.invoke")
 		}
 		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDEREncodedElement(enc_der_0); derErr != nil {
-			return nil, qualifyBERError(derErr, "invoke", "encoding", true)
+			return nil, qualifyBERError(derErr, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.invoke")
 		}
 		return enc_der_0, nil
 	case ROSSingleASChoiceReturnResult:
@@ -400,15 +400,15 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1, err := v.ReturnResult.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnResult")
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
 		if tagErr_enc_der_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_1, "returnResult", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_1, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnResult")
 		}
 		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
-			return nil, qualifyBERError(derErr, "returnResult", "encoding", true)
+			return nil, qualifyBERError(derErr, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnResult")
 		}
 		return enc_der_1, nil
 	case ROSSingleASChoiceReturnError:
@@ -417,15 +417,15 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_2, err := v.ReturnError.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnError")
 		}
 		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
 		if tagErr_enc_der_2 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_2, "returnError", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_2, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnError")
 		}
 		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDEREncodedElement(enc_der_2); derErr != nil {
-			return nil, qualifyBERError(derErr, "returnError", "encoding", true)
+			return nil, qualifyBERError(derErr, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnError")
 		}
 		return enc_der_2, nil
 	case ROSSingleASChoiceReject:
@@ -434,15 +434,15 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_3, err := v.Reject.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.reject")
 		}
 		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_3)
 		if tagErr_enc_der_3 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_3, "reject", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_3, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.reject")
 		}
 		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDEREncodedElement(enc_der_3); derErr != nil {
-			return nil, qualifyBERError(derErr, "reject", "encoding", true)
+			return nil, qualifyBERError(derErr, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.reject")
 		}
 		return enc_der_3, nil
 	}
@@ -453,15 +453,15 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		switch v.Choice {
 		case ROSSingleASChoiceInvoke:
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.invoke")
 		case ROSSingleASChoiceReturnResult:
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnResult")
 		case ROSSingleASChoiceReturnError:
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnError")
 		case ROSSingleASChoiceReject:
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.reject")
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding ROSSingleAS as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, berDiagnosticError("ROS-SingleAS", "%s: %w", "encoding ROS-SingleAS", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -485,7 +485,7 @@ func (v *ROSSingleAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
 		_, err := v.Invoke.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.invoke")
 		}
 		return nil, nil
 	case ROSSingleASChoiceReturnResult:
@@ -495,7 +495,7 @@ func (v *ROSSingleAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
 		_, err := v.ReturnResult.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnResult")
 		}
 		return nil, nil
 	case ROSSingleASChoiceReturnError:
@@ -505,7 +505,7 @@ func (v *ROSSingleAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
 		_, err := v.ReturnError.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.returnError")
 		}
 		return nil, nil
 	case ROSSingleASChoiceReject:
@@ -515,7 +515,7 @@ func (v *ROSSingleAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
 		_, err := v.Reject.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SingleAS.reject")
 		}
 		return nil, nil
 	default:
@@ -572,33 +572,33 @@ func (destination *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSSingleAS{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for ROSSingleAS CHOICE")
+		return fmt.Errorf("empty data for ROS-SingleAS CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for ROSSingleAS: %w", peekErr)
+		return fmt.Errorf("peeking tag for ROS-SingleAS: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSSingleAS CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return berDiagnosticError("ROS-SingleAS", "%s: %w", "decoding ROS-SingleAS", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSSingleAS", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ROS-SingleAS", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSingleAS.invoke", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "invoke", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSingleAS.returnResult", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnResult", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSingleAS.returnError", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnError", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSingleAS.reject", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "reject", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ROSSingleASChoiceInvoke
@@ -672,7 +672,7 @@ func (destination *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		v.Reject = &dec
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for ROSSingleAS CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROS-SingleAS CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -749,7 +749,7 @@ func (v *ROSConsumerAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
 		_, err := v.Invoke.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invoke")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.invoke")
 		}
 		return nil, nil
 	case ROSConsumerASChoiceReturnResult:
@@ -759,7 +759,7 @@ func (v *ROSConsumerAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
 		_, err := v.ReturnResult.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnResult")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnResult")
 		}
 		return nil, nil
 	case ROSConsumerASChoiceReturnError:
@@ -769,7 +769,7 @@ func (v *ROSConsumerAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
 		_, err := v.ReturnError.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnError")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnError")
 		}
 		return nil, nil
 	case ROSConsumerASChoiceReject:
@@ -779,7 +779,7 @@ func (v *ROSConsumerAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
 		_, err := v.Reject.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "reject")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.reject")
 		}
 		return nil, nil
 	default:
@@ -890,18 +890,18 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.invoke")
 		}
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_0, "invoke", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_0, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.invoke")
 		}
 		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDEREncodedElement(enc_der_0); derErr != nil {
-			return nil, qualifyBERError(derErr, "invoke", "encoding", true)
+			return nil, qualifyBERError(derErr, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.invoke")
 		}
 		return enc_der_0, nil
 	case ROSConsumerASChoiceReturnResult:
@@ -910,15 +910,15 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1, err := v.ReturnResult.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnResult")
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
 		if tagErr_enc_der_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_1, "returnResult", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_1, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnResult")
 		}
 		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
-			return nil, qualifyBERError(derErr, "returnResult", "encoding", true)
+			return nil, qualifyBERError(derErr, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnResult")
 		}
 		return enc_der_1, nil
 	case ROSConsumerASChoiceReturnError:
@@ -927,15 +927,15 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_2, err := v.ReturnError.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnError")
 		}
 		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
 		if tagErr_enc_der_2 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_2, "returnError", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_2, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnError")
 		}
 		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDEREncodedElement(enc_der_2); derErr != nil {
-			return nil, qualifyBERError(derErr, "returnError", "encoding", true)
+			return nil, qualifyBERError(derErr, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnError")
 		}
 		return enc_der_2, nil
 	case ROSConsumerASChoiceReject:
@@ -944,15 +944,15 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_3, err := v.Reject.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.reject")
 		}
 		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_3)
 		if tagErr_enc_der_3 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_3, "reject", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_3, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.reject")
 		}
 		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDEREncodedElement(enc_der_3); derErr != nil {
-			return nil, qualifyBERError(derErr, "reject", "encoding", true)
+			return nil, qualifyBERError(derErr, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.reject")
 		}
 		return enc_der_3, nil
 	}
@@ -963,15 +963,15 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		switch v.Choice {
 		case ROSConsumerASChoiceInvoke:
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.invoke")
 		case ROSConsumerASChoiceReturnResult:
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnResult")
 		case ROSConsumerASChoiceReturnError:
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnError")
 		case ROSConsumerASChoiceReject:
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.reject")
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding ROSConsumerAS as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, berDiagnosticError("ROS-ConsumerAS", "%s: %w", "encoding ROS-ConsumerAS", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -995,7 +995,7 @@ func (v *ROSConsumerAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, err
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
 		_, err := v.Invoke.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.invoke")
 		}
 		return nil, nil
 	case ROSConsumerASChoiceReturnResult:
@@ -1005,7 +1005,7 @@ func (v *ROSConsumerAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, err
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
 		_, err := v.ReturnResult.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnResult")
 		}
 		return nil, nil
 	case ROSConsumerASChoiceReturnError:
@@ -1015,7 +1015,7 @@ func (v *ROSConsumerAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, err
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
 		_, err := v.ReturnError.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.returnError")
 		}
 		return nil, nil
 	case ROSConsumerASChoiceReject:
@@ -1025,7 +1025,7 @@ func (v *ROSConsumerAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, err
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
 		_, err := v.Reject.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS.reject")
 		}
 		return nil, nil
 	default:
@@ -1082,33 +1082,33 @@ func (destination *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSConsumerAS{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for ROSConsumerAS CHOICE")
+		return fmt.Errorf("empty data for ROS-ConsumerAS CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for ROSConsumerAS: %w", peekErr)
+		return fmt.Errorf("peeking tag for ROS-ConsumerAS: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSConsumerAS CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return berDiagnosticError("ROS-ConsumerAS", "%s: %w", "decoding ROS-ConsumerAS", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSConsumerAS", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ROS-ConsumerAS", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSConsumerAS.invoke", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "invoke", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSConsumerAS.returnResult", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnResult", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSConsumerAS.returnError", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnError", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSConsumerAS.reject", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "reject", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ROSConsumerASChoiceInvoke
@@ -1182,7 +1182,7 @@ func (destination *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.Reject = &dec
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for ROSConsumerAS CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROS-ConsumerAS CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }
@@ -1259,7 +1259,7 @@ func (v *ROSSupplierAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
 		_, err := v.Invoke.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invoke")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.invoke")
 		}
 		return nil, nil
 	case ROSSupplierASChoiceReturnResult:
@@ -1269,7 +1269,7 @@ func (v *ROSSupplierAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
 		_, err := v.ReturnResult.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnResult")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnResult")
 		}
 		return nil, nil
 	case ROSSupplierASChoiceReturnError:
@@ -1279,7 +1279,7 @@ func (v *ROSSupplierAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
 		_, err := v.ReturnError.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnError")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnError")
 		}
 		return nil, nil
 	case ROSSupplierASChoiceReject:
@@ -1289,7 +1289,7 @@ func (v *ROSSupplierAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
 		_, err := v.Reject.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "reject")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.reject")
 		}
 		return nil, nil
 	default:
@@ -1400,18 +1400,18 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.invoke")
 		}
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_0, "invoke", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_0, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.invoke")
 		}
 		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDEREncodedElement(enc_der_0); derErr != nil {
-			return nil, qualifyBERError(derErr, "invoke", "encoding", true)
+			return nil, qualifyBERError(derErr, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.invoke")
 		}
 		return enc_der_0, nil
 	case ROSSupplierASChoiceReturnResult:
@@ -1420,15 +1420,15 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1, err := v.ReturnResult.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnResult")
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
 		if tagErr_enc_der_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_1, "returnResult", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_1, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnResult")
 		}
 		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
-			return nil, qualifyBERError(derErr, "returnResult", "encoding", true)
+			return nil, qualifyBERError(derErr, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnResult")
 		}
 		return enc_der_1, nil
 	case ROSSupplierASChoiceReturnError:
@@ -1437,15 +1437,15 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_2, err := v.ReturnError.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnError")
 		}
 		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
 		if tagErr_enc_der_2 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_2, "returnError", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_2, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnError")
 		}
 		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDEREncodedElement(enc_der_2); derErr != nil {
-			return nil, qualifyBERError(derErr, "returnError", "encoding", true)
+			return nil, qualifyBERError(derErr, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnError")
 		}
 		return enc_der_2, nil
 	case ROSSupplierASChoiceReject:
@@ -1454,15 +1454,15 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_3, err := v.Reject.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.reject")
 		}
 		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_3)
 		if tagErr_enc_der_3 != nil {
-			return nil, qualifyBERError(tagErr_enc_der_3, "reject", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_der_3, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.reject")
 		}
 		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDEREncodedElement(enc_der_3); derErr != nil {
-			return nil, qualifyBERError(derErr, "reject", "encoding", true)
+			return nil, qualifyBERError(derErr, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.reject")
 		}
 		return enc_der_3, nil
 	}
@@ -1473,15 +1473,15 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		switch v.Choice {
 		case ROSSupplierASChoiceInvoke:
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.invoke")
 		case ROSSupplierASChoiceReturnResult:
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnResult")
 		case ROSSupplierASChoiceReturnError:
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnError")
 		case ROSSupplierASChoiceReject:
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.reject")
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding ROSSupplierAS as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, berDiagnosticError("ROS-SupplierAS", "%s: %w", "encoding ROS-SupplierAS", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1505,7 +1505,7 @@ func (v *ROSSupplierAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, err
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
 		_, err := v.Invoke.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "invoke", "encoding", true)
+			return nil, qualifyBERError(err, "invoke", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.invoke")
 		}
 		return nil, nil
 	case ROSSupplierASChoiceReturnResult:
@@ -1515,7 +1515,7 @@ func (v *ROSSupplierAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, err
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
 		_, err := v.ReturnResult.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnResult")
 		}
 		return nil, nil
 	case ROSSupplierASChoiceReturnError:
@@ -1525,7 +1525,7 @@ func (v *ROSSupplierAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, err
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
 		_, err := v.ReturnError.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "returnError", "encoding", true)
+			return nil, qualifyBERError(err, "returnError", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.returnError")
 		}
 		return nil, nil
 	case ROSSupplierASChoiceReject:
@@ -1535,7 +1535,7 @@ func (v *ROSSupplierAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, err
 		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
 		_, err := v.Reject.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "reject", "encoding", true)
+			return nil, qualifyBERError(err, "reject", "encoding", true, "Remote-Operations-Useful-Definitions.ROS-SupplierAS.reject")
 		}
 		return nil, nil
 	default:
@@ -1592,33 +1592,33 @@ func (destination *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSSupplierAS{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for ROSSupplierAS CHOICE")
+		return fmt.Errorf("empty data for ROS-SupplierAS CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for ROSSupplierAS: %w", peekErr)
+		return fmt.Errorf("peeking tag for ROS-SupplierAS: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSSupplierAS CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return berDiagnosticError("ROS-SupplierAS", "%s: %w", "decoding ROS-SupplierAS", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSSupplierAS", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ROS-SupplierAS", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSupplierAS.invoke", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "invoke", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSupplierAS.returnResult", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnResult", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSupplierAS.returnError", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "returnError", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSupplierAS.reject", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "reject", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ROSSupplierASChoiceInvoke
@@ -1692,7 +1692,7 @@ func (destination *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.Reject = &dec
 	} else {
-		return fmt.Errorf("%w: unknown tag %s for ROSSupplierAS CHOICE", ber.ErrUnexpectedElement, peekTag)
+		return fmt.Errorf("%w: unknown tag %s for ROS-SupplierAS CHOICE", ber.ErrUnexpectedElement, peekTag)
 	}
 	return nil
 }

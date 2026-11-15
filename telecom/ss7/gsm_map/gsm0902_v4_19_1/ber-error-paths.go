@@ -102,3 +102,27 @@ func qualifyBERError(err error, segment, phase string, qualifyConstraint bool) e
 	}
 	return &berPathError{segment: segment, phase: phase, cause: err}
 }
+
+// A referenced collection's root SIZE check is a component check at its
+// enclosing position. BER's parent checks own that constraint; DER reaches the
+// child's check first. Rebind only that root finding, without changing checks,
+// causes, or the sources of findings already below a named component.
+func qualifyDERError(err error, segment, source string) error {
+	if _, hasPath := err.(interface{ ASN1BERPath() string }); !hasPath && segment != "" {
+		var constraintErr *ber.ValidationError
+		if errors.As(err, &constraintErr) {
+			_, assignment, _ := strings.Cut(constraintErr.Source, ".")
+			if assignment != "" && constraintErr.Path == assignment {
+				qualified := *constraintErr
+				qualified.Path = segment
+				qualified.Source = source
+				_, parent, _ := strings.Cut(source, ".")
+				if parent != segment {
+					qualified.Source += "." + segment
+				}
+				return &qualified
+			}
+		}
+	}
+	return qualifyBERError(err, segment, "encoding", true)
+}

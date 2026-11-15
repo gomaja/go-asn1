@@ -286,7 +286,7 @@ func (v *ActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ActivateTraceModeArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ActivateTraceModeArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -336,7 +336,7 @@ func (destination *ActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.D
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ActivateTraceModeArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ActivateTraceModeArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ActivateTraceModeArg", Cause: ber.ErrExtraData}
@@ -638,7 +638,7 @@ func (v *DeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding DeactivateTraceModeArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding DeactivateTraceModeArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -688,7 +688,7 @@ func (destination *DeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding DeactivateTraceModeArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding DeactivateTraceModeArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "DeactivateTraceModeArg", Cause: ber.ErrExtraData}
@@ -983,7 +983,7 @@ func (v *TraceSubscriberActivityArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding TraceSubscriberActivityArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding TraceSubscriberActivityArg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1033,7 +1033,7 @@ func (destination *TraceSubscriberActivityArg) UnmarshalBER(data []byte, opts ..
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding TraceSubscriberActivityArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding TraceSubscriberActivityArg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "TraceSubscriberActivityArg", Cause: ber.ErrExtraData}
@@ -1327,7 +1327,7 @@ func (v *NoteInternalHOArg) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding NoteInternalHOArg as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding NoteInternalHO-Arg", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1377,10 +1377,10 @@ func (destination *NoteInternalHOArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding NoteInternalHOArg SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding NoteInternalHO-Arg", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "NoteInternalHOArg", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "NoteInternalHO-Arg", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode handoverType
@@ -1479,7 +1479,7 @@ func (destination *NoteInternalHOArg) UnmarshalBER(data []byte, opts ...ber.Deco
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "NoteInternalHOArg", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "NoteInternalHO-Arg", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }

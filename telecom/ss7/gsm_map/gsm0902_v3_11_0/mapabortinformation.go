@@ -96,7 +96,7 @@ func (v *MAPAbortInformation) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding MAPAbortInformation as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding MAPAbortInformation", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -146,7 +146,7 @@ func (destination *MAPAbortInformation) UnmarshalBER(data []byte, opts ...ber.De
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding MAPAbortInformation SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding MAPAbortInformation", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "MAPAbortInformation", Cause: ber.ErrExtraData}

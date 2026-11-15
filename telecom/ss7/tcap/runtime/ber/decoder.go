@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 b6abddd3726a2d670d6e9af8a08cd435644c9e78aef97d8b107426ae5bc61189.
+// Runtime source: runtime/ber/decoder.go; SHA-256 f38879f1455d3f46db368b78a2c7d6fda6c37d3093895ccdc3fbf4a62dcc885d.
 package ber
 
 import (
@@ -1043,8 +1043,14 @@ func DecodeIntegerValue(value []byte) (int64, error) {
 // contents after an implicit tag has been consumed. X.690 (02/2021) 8.6.1
 // permits both forms and 8.6.4.1 requires recursive, ordered segments.
 func DecodeImplicitBitStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, int, error) {
-	if err := checkTCAPStringForm(constructed, tag.TagBitString, options); err != nil {
-		return nil, 0, err
+	return decodeImplicitBitStringValue(constructed, value, options, false)
+}
+
+func decodeImplicitBitStringValue(constructed bool, value []byte, options []DecodeOption, preflight bool) ([]byte, int, error) {
+	if !preflight {
+		if err := checkTCAPStringForm(constructed, tag.TagBitString, options); err != nil {
+			return nil, 0, err
+		}
 	}
 	if constructed {
 		MarkBERNonCanonical(options)
@@ -1060,8 +1066,14 @@ func DecodeImplicitBitStringValue(constructed bool, value []byte, options ...Dec
 // OCTET STRING. Constructed segments retain their universal tag (ITU-T X.690
 // (02/2021) §§8.7.3.2, 8.14.4).
 func DecodeImplicitOctetStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, error) {
-	if err := checkTCAPStringForm(constructed, tag.TagOctetString, options); err != nil {
-		return nil, err
+	return decodeImplicitOctetStringValue(constructed, value, options, false)
+}
+
+func decodeImplicitOctetStringValue(constructed bool, value []byte, options []DecodeOption, preflight bool) ([]byte, error) {
+	if !preflight {
+		if err := checkTCAPStringForm(constructed, tag.TagOctetString, options); err != nil {
+			return nil, err
+		}
 	}
 	if !constructed {
 		if err := ValidateDecodeOptions(options...); err != nil {

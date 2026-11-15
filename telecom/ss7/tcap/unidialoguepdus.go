@@ -129,7 +129,7 @@ func (v *UniDialoguePDU) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber
 		}
 		_, err := v.UnidialoguePDU.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "unidialoguePDU")...)
 		if err != nil {
-			return nil, qualifyBERError(err, "unidialoguePDU", "encoding", true)
+			return nil, qualifyBERError(err, "unidialoguePDU", "encoding", true, "UnidialoguePDUs.UniDialoguePDU.unidialoguePDU")
 		}
 		return nil, nil
 	default:
@@ -194,10 +194,10 @@ func (v *UniDialoguePDU) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0, err := v.UnidialoguePDU.MarshalDER()
 		if err != nil {
-			return nil, qualifyBERError(err, "unidialoguePDU", "encoding", true)
+			return nil, qualifyBERError(err, "unidialoguePDU", "encoding", true, "UnidialoguePDUs.UniDialoguePDU.unidialoguePDU")
 		}
 		if derErr := ber.ValidateDEREncodedElement(enc_der_0); derErr != nil {
-			return nil, qualifyBERError(derErr, "unidialoguePDU", "encoding", true)
+			return nil, qualifyBERError(derErr, "unidialoguePDU", "encoding", true, "UnidialoguePDUs.UniDialoguePDU.unidialoguePDU")
 		}
 		return enc_der_0, nil
 	}
@@ -208,9 +208,9 @@ func (v *UniDialoguePDU) MarshalDER() ([]byte, error) {
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		switch v.Choice {
 		case UniDialoguePDUChoiceUnidialoguePDU:
-			return nil, qualifyBERError(err, "unidialoguePDU", "encoding", true)
+			return nil, qualifyBERError(err, "unidialoguePDU", "encoding", true, "UnidialoguePDUs.UniDialoguePDU.unidialoguePDU")
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding UniDialoguePDU as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, berDiagnosticError("UniDialoguePDU", "%s: %w", "encoding UniDialoguePDU", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -232,7 +232,7 @@ func (v *UniDialoguePDU) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, er
 		}
 		_, err := v.UnidialoguePDU.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "unidialoguePDU", "encoding", true)
+			return nil, qualifyBERError(err, "unidialoguePDU", "encoding", true, "UnidialoguePDUs.UniDialoguePDU.unidialoguePDU")
 		}
 		return nil, nil
 	default:
@@ -297,14 +297,14 @@ func (destination *UniDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding UniDialoguePDU CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return berDiagnosticError("UniDialoguePDU", "%s: %w", "decoding UniDialoguePDU", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "UniDialoguePDU", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassApplication && peekTag.Number == 0) && peekTag.Constructed != true {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "UniDialoguePDU.unidialoguePDU", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "unidialoguePDU", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassApplication && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = UniDialoguePDUChoiceUnidialoguePDU
@@ -441,7 +441,7 @@ func (v *AUDTApdu) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassApplication, Number: 0})
 	if v.ProtocolVersion != nil {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
-			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", true)
+			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", true, "UnidialoguePDUs.AUDT-apdu.protocol-version")
 		}
 		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction
 		if v.ProtocolVersion.BitLength < 0 {
@@ -449,24 +449,24 @@ func (v *AUDTApdu) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 		}
 		enc_protocolversion, encodeErr_enc_protocolversion := encodeTCAPBitString(v.ProtocolVersion.Bytes, ber.UnusedBitCount(v.ProtocolVersion.BitLength))
 		if encodeErr_enc_protocolversion != nil {
-			return nil, qualifyBERError(encodeErr_enc_protocolversion, "protocol-version", "encoding", true)
+			return nil, qualifyBERError(encodeErr_enc_protocolversion, "protocol-version", "encoding", true, "UnidialoguePDUs.AUDT-apdu.protocol-version")
 		}
 		retagged_enc_protocolversion, tagErr_enc_protocolversion := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_protocolversion)
 		if tagErr_enc_protocolversion != nil {
-			return nil, qualifyBERError(tagErr_enc_protocolversion, "protocol-version", "encoding", true)
+			return nil, qualifyBERError(tagErr_enc_protocolversion, "protocol-version", "encoding", true, "UnidialoguePDUs.AUDT-apdu.protocol-version")
 		}
 		enc_protocolversion = retagged_enc_protocolversion
 		encoder.Append(enc_protocolversion)
 	}
 	enc_applicationcontextname, oidErr := ber.EncodeObjectIdentifierChecked(v.ApplicationContextName)
 	if oidErr != nil {
-		return nil, qualifyBERError(oidErr, "application-context-name", "encoding", true)
+		return nil, qualifyBERError(oidErr, "application-context-name", "encoding", true, "UnidialoguePDUs.AUDT-apdu.application-context-name")
 	}
 	{
 		var encodeErr error
 		enc_applicationcontextname, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_applicationcontextname)
 		if encodeErr != nil {
-			return nil, qualifyBERError(encodeErr, "application-context-name", "encoding", true)
+			return nil, qualifyBERError(encodeErr, "application-context-name", "encoding", true, "UnidialoguePDUs.AUDT-apdu.application-context-name")
 		}
 	}
 	encoder.Append(enc_applicationcontextname)
@@ -474,7 +474,7 @@ func (v *AUDTApdu) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 		if v.berUserInformationIndef_ && ber.BERGeneratedReplayEnabled(opts) {
 			enc_userinformation, err := tcapMarshalBERUserInformation(v.UserInformation, ber.ChildGeneratedEncodeOptions(opts, "user-information")...)
 			if err != nil {
-				return nil, qualifyBERError(err, "user-information", "encoding", true)
+				return nil, qualifyBERError(err, "user-information", "encoding", true, "UnidialoguePDUs.AUDT-apdu.user-information")
 			}
 			if ber.BERGeneratedReplayEnabled(opts) && v.berUserInformationIndef_ {
 				// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
@@ -486,13 +486,13 @@ func (v *AUDTApdu) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 					var encodeErr error
 					enc_userinformation, encodeErr = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, seqContent_)
 					if encodeErr != nil {
-						return nil, qualifyBERError(encodeErr, "user-information", "encoding", true)
+						return nil, qualifyBERError(encodeErr, "user-information", "encoding", true, "UnidialoguePDUs.AUDT-apdu.user-information")
 					}
 				}
 			} else {
 				retagged_enc_userinformation, tagErr_enc_userinformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 30, enc_userinformation)
 				if tagErr_enc_userinformation != nil {
-					return nil, qualifyBERError(tagErr_enc_userinformation, "user-information", "encoding", true)
+					return nil, qualifyBERError(tagErr_enc_userinformation, "user-information", "encoding", true, "UnidialoguePDUs.AUDT-apdu.user-information")
 				}
 				enc_userinformation = retagged_enc_userinformation
 			}
@@ -502,7 +502,7 @@ func (v *AUDTApdu) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 				encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, ber.BERGeneratedReplayEnabled(opts) && v.berUserInformationIndef_)
 				_, err := appendBERLinearUserInformation(encoder, v.UserInformation, ber.ChildGeneratedEncodeOptions(opts, "user-information")...)
 				if err != nil {
-					return nil, qualifyBERError(err, "user-information", "encoding", true)
+					return nil, qualifyBERError(err, "user-information", "encoding", true, "UnidialoguePDUs.AUDT-apdu.user-information")
 				}
 			}
 		}
@@ -539,10 +539,10 @@ func (v *AUDTApdu) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	if v.ProtocolVersion != nil &&
 		!v.ProtocolVersion.EqualBits("\x80", 1, true) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
-			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", true)
+			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", true, "UnidialoguePDUs.AUDT-apdu.protocol-version")
 		}
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
-			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", true)
+			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", true, "UnidialoguePDUs.AUDT-apdu.protocol-version")
 		}
 		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction
 		if v.ProtocolVersion.BitLength < 0 {
@@ -550,12 +550,12 @@ func (v *AUDTApdu) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 		}
 		enc_protocolversion, encodeErr_enc_protocolversion := encodeTCAPNamedBitStringDER(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength)
 		if encodeErr_enc_protocolversion != nil {
-			return nil, qualifyBERError(encodeErr_enc_protocolversion, "protocol-version", "encoding", true)
+			return nil, qualifyBERError(encodeErr_enc_protocolversion, "protocol-version", "encoding", true, "UnidialoguePDUs.AUDT-apdu.protocol-version")
 		}
 		if string(enc_protocolversion) != "\x03\x02\a\x80" {
 			retagged_enc_protocolversion, tagErr_enc_protocolversion := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_protocolversion)
 			if tagErr_enc_protocolversion != nil {
-				return nil, qualifyBERError(tagErr_enc_protocolversion, "protocol-version", "encoding", true)
+				return nil, qualifyBERError(tagErr_enc_protocolversion, "protocol-version", "encoding", true, "UnidialoguePDUs.AUDT-apdu.protocol-version")
 			}
 			enc_protocolversion = retagged_enc_protocolversion
 			encoder.Append(enc_protocolversion)
@@ -563,13 +563,13 @@ func (v *AUDTApdu) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	}
 	enc_applicationcontextname, oidErr := ber.EncodeObjectIdentifierChecked(v.ApplicationContextName)
 	if oidErr != nil {
-		return nil, qualifyBERError(oidErr, "application-context-name", "encoding", true)
+		return nil, qualifyBERError(oidErr, "application-context-name", "encoding", true, "UnidialoguePDUs.AUDT-apdu.application-context-name")
 	}
 	{
 		var encodeErr error
 		enc_applicationcontextname, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_applicationcontextname)
 		if encodeErr != nil {
-			return nil, qualifyBERError(encodeErr, "application-context-name", "encoding", true)
+			return nil, qualifyBERError(encodeErr, "application-context-name", "encoding", true, "UnidialoguePDUs.AUDT-apdu.application-context-name")
 		}
 	}
 	encoder.Append(enc_applicationcontextname)
@@ -578,7 +578,7 @@ func (v *AUDTApdu) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 			encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 30}, false)
 			_, err := appendDERLinearUserInformation(encoder, v.UserInformation)
 			if err != nil {
-				return nil, qualifyBERError(err, "user-information", "encoding", true)
+				return nil, qualifyBERError(err, "user-information", "encoding", true, "UnidialoguePDUs.AUDT-apdu.user-information")
 			}
 		}
 	}
@@ -632,16 +632,16 @@ func (destination *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding AUDTApdu", qualifyBERError(err, "", "decoding", false))
+		return berDiagnosticError("AUDT-apdu", "%s: %w", "decoding AUDT-apdu", qualifyBERError(err, "", "decoding", false))
 	}
 	if decodedTag.Class != tag.ClassApplication || decodedTag.Number != 0 {
-		return fmt.Errorf("%s: %w", "decoding AUDTApdu", qualifyBERError(fmt.Errorf("%w: expected tag [APPLICATION 0], got %s", ber.ErrUnexpectedElement, decodedTag), "", "decoding", false))
+		return berDiagnosticError("AUDT-apdu", "%s: %w", "decoding AUDT-apdu", qualifyBERError(fmt.Errorf("%w: expected tag [APPLICATION 0], got %s", ber.ErrUnexpectedElement, decodedTag), "", "decoding", false))
 	}
 	if !decodedTag.Constructed {
-		return fmt.Errorf("%s: %w", "decoding AUDTApdu", qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form", ber.ErrInvalidTag), "", "decoding", false))
+		return berDiagnosticError("AUDT-apdu", "%s: %w", "decoding AUDT-apdu", qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form", ber.ErrInvalidTag), "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "AUDTApdu", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "AUDT-apdu", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode protocol-version
@@ -784,7 +784,7 @@ func (destination *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		}
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "AUDTApdu", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "AUDT-apdu", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }

@@ -1,12 +1,11 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/options.go; SHA-256 1d46d472b2c3f83090e3195ff1e284d6f5bfb56a70c0f57a84ad406c3820ca77.
+// Runtime source: runtime/ber/options.go; SHA-256 9598516709adf807cdbce7dc1cc74f89d96b05c73fe1be7adbe92861dd6c6075.
 package ber
 
 import (
 	"fmt"
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
-	"strings"
 )
 
 // DecodeLimits bound BER work on untrusted input. Zero fields retain the
@@ -195,7 +194,7 @@ func applyBuiltinDecodeOptions(config decodeConfig, options []DecodeOption) (dec
 	for _, option := range options {
 		switch value := option.(type) {
 		case constraintPathOption:
-			if value == "" || strings.Contains(string(value), ".") {
+			if !validConstraintPathComponent(string(value)) {
 				return config, fmt.Errorf("%w: invalid BER constraint path component", ErrInvalidValue), true
 			}
 			config.collectionSizeChecked = false

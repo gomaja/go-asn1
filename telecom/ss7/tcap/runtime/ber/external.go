@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/external.go; SHA-256 d17df33053f12c1626fabc42f9092c13fa7bce1c3535328070f3ac2e7972ac5d.
+// Runtime source: runtime/ber/external.go; SHA-256 0776182be5465c60d7597db73e4336091470f5fe75cb78f8be328a2e285c325c.
 package ber
 
 import (
@@ -126,6 +126,13 @@ func decodeExternalValue(value, element []byte, options []DecodeOption, prefligh
 	if t.Class != tag.ClassContextSpecific {
 		return result, fmt.Errorf("%w: EXTERNAL encoding choice has tag %s", unexpectedElementError(value[offset:], options), t)
 	}
+	// Q.773 §4.1.1 was already checked by generated preflight. A direct
+	// EXTERNAL call supplies the same TLV position before its typed form check.
+	if !preflight && t.Constructed && (t.Number == 1 || t.Number == 2) {
+		if err := checkExternalStringForm(value, element, offset, &result, t.Number, options); err != nil {
+			return result, err
+		}
+	}
 	switch t.Number {
 	case 0:
 		if !t.Constructed {
@@ -182,14 +189,14 @@ func decodeExternalValue(value, element []byte, options []DecodeOption, prefligh
 		// X.690 (02/2021) §§8.1.2.1, 8.1.2.5, 8.18.6: identify the inner value.
 		result.SingleASN1Type = runtime.RawValue{Class: int(innerTag.Class), Tag: innerTag.Number, Constructed: innerTag.Constructed, Bytes: append([]byte(nil), choice...)}
 	case 1:
-		octets, err := DecodeImplicitOctetStringValue(t.Constructed, choice, options...)
+		octets, err := decodeImplicitOctetStringValue(t.Constructed, choice, options, true)
 		if err != nil {
 			return result, err
 		}
 		result.Encoding = runtime.ExternalOctetAligned
 		result.OctetAligned = append([]byte(nil), octets...)
 	case 2:
-		bits, unused, err := DecodeImplicitBitStringValue(t.Constructed, choice, options...)
+		bits, unused, err := decodeImplicitBitStringValue(t.Constructed, choice, options, true)
 		if err != nil {
 			return result, err
 		}
@@ -505,4 +512,39 @@ func externalChoiceIndex(value *runtime.External) int {
 type stringReportOrigin struct {
 	input    []byte
 	external *runtime.External
+}
+
+// Only a constructed-string finding needs a path or wire coordinates.
+// X.690 (02/2021) §8.18 names the encoding alternatives; Q.773 §4.1.1
+// governs their representation in the containing TCAP syntax.
+func checkExternalStringForm(value, element []byte, offset int, external *runtime.External, choice int, options []DecodeOption) error {
+	config, err := decodeOptions(options)
+	if err != nil {
+		return err
+	}
+	if !config.profile || config.profileNested {
+		return nil
+	}
+	path, rule := "encoding.octet-aligned", "primitive-octet-string"
+	if choice == 2 {
+		path, rule = "encoding.arbitrary", "primitive-bit-string"
+	}
+	indexes := []int{externalChoiceIndex(external)}
+	position := offset
+	if element != nil {
+		if absolute, ok := berSubsliceOffset(element, value[offset:]); ok {
+			position = absolute
+		}
+	}
+	if config.location != nil {
+		if absolute, ok := config.location.wireOffset(value[offset:]); ok {
+			position = absolute
+			indexes, err = config.location.decodeOrigin().ancestry(absolute)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	source := profileRuleSource(config.profileSource, qualifyConstraintPath(options, path))
+	return checkDecodedConstraint(options, Violation{Path: path, Source: source, Offset: new(position), ChildIndexes: indexes, Constraint: "Q.773 §4.1.1: " + rule, ObservedValue: "constructed string"})
 }

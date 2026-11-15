@@ -153,11 +153,11 @@ func (v *Code) MarshalDER() ([]byte, error) {
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		switch v.Choice {
 		case CodeChoiceLocal:
-			return nil, qualifyBERError(err, "local", "encoding", true)
+			return nil, qualifyBERError(err, "local", "encoding", true, "Remote-Operations-Information-Objects.Code.local")
 		case CodeChoiceGlobal:
-			return nil, qualifyBERError(err, "global", "encoding", true)
+			return nil, qualifyBERError(err, "global", "encoding", true, "Remote-Operations-Information-Objects.Code.global")
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding Code as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, berDiagnosticError("Code", "%s: %w", "encoding Code", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -228,17 +228,17 @@ func (destination *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding Code CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return berDiagnosticError("Code", "%s: %w", "decoding Code", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "Code", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Code.local", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "local", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 6) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "Code.global", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "global", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = CodeChoiceLocal

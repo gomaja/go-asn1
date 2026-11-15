@@ -234,7 +234,7 @@ func (v *ExtensionDataTypesExtensionContainer) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ExtensionDataTypesExtensionContainer as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding ExtensionContainer", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -275,10 +275,10 @@ func (destination *ExtensionDataTypesExtensionContainer) UnmarshalBER(data []byt
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ExtensionDataTypesExtensionContainer SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding ExtensionContainer", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ExtensionDataTypesExtensionContainer", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "ExtensionContainer", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode privateExtensionList
@@ -381,12 +381,12 @@ func (destination *ExtensionDataTypesExtensionContainer) UnmarshalBER(data []byt
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesExtensionContainer", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "ExtensionContainer", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesExtensionContainer", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "ExtensionContainer", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s745c27_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -560,7 +560,7 @@ func (v *ExtensionDataTypesSLRArgExtensionContainer) MarshalDER() ([]byte, error
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ExtensionDataTypesSLRArgExtensionContainer as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SLR-ArgExtensionContainer", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -601,10 +601,10 @@ func (destination *ExtensionDataTypesSLRArgExtensionContainer) UnmarshalBER(data
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ExtensionDataTypesSLRArgExtensionContainer SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SLR-ArgExtensionContainer", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ExtensionDataTypesSLRArgExtensionContainer", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SLR-ArgExtensionContainer", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode privateExtensionList
@@ -707,12 +707,12 @@ func (destination *ExtensionDataTypesSLRArgExtensionContainer) UnmarshalBER(data
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesSLRArgExtensionContainer", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "SLR-ArgExtensionContainer", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesSLRArgExtensionContainer", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "SLR-ArgExtensionContainer", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
 			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s745c27_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
@@ -752,7 +752,7 @@ func MarshalBERExtensionDataTypesPrivateExtensionList(collection *ExtensionDataT
 func marshalBERExtensionDataTypesPrivateExtensionList(collection *ExtensionDataTypesPrivateExtensionList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := checkEncodedCollectionLength(opts, "MAP-ExtensionDataTypes.marshalBERExtensionDataTypesPrivateExtensionList", "51.5", "PrivateExtensionList", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, s745c27_2, "51.5", "PrivateExtensionList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -790,7 +790,7 @@ func MarshalDERExtensionDataTypesPrivateExtensionList(collection *ExtensionDataT
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := checkEncodedCollectionLength(nil, "MAP-ExtensionDataTypes.PrivateExtensionList", "51.5", "PrivateExtensionList", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(nil, s745c27_2, "51.5", "PrivateExtensionList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -812,7 +812,7 @@ func MarshalDERExtensionDataTypesPrivateExtensionList(collection *ExtensionDataT
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ExtensionDataTypesPrivateExtensionList as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding PrivateExtensionList", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -830,7 +830,7 @@ func appendDERLinearExtensionDataTypesPrivateExtensionList(encoder *ber.LinearEn
 func UnmarshalBERExtensionDataTypesPrivateExtensionList(data []byte, opts ...ber.DecodeOption) (returnValue *ExtensionDataTypesPrivateExtensionList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "MAP-ExtensionDataTypes.PrivateExtensionList", "element", func(data []byte,
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, s745c27_2, "element", func(data []byte,
 
 		probeOpts []ber.DecodeOption) error {
 		_, probeErr := UnmarshalBERExtensionDataTypesPrivateExtensionList(data, probeOpts...)
@@ -849,10 +849,10 @@ func UnmarshalBERExtensionDataTypesPrivateExtensionList(data []byte, opts ...ber
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %w", "decoding ExtensionDataTypesPrivateExtensionList", qualifyBERError(err, "", "decoding", false))
+		return nil, fmt.Errorf("%s: %w", "decoding PrivateExtensionList", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "ExtensionDataTypesPrivateExtensionList", Cause: ber.ErrExtraData}
+		return nil, &ber.DecodeError{Offset: total, TypeName: "PrivateExtensionList", Cause: ber.ErrExtraData}
 	}
 	var result []ExtensionDataTypesPrivateExtension
 	offset := 0
@@ -884,7 +884,7 @@ func UnmarshalBERExtensionDataTypesPrivateExtensionList(data []byte, opts ...ber
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := checkDecodedCollectionLength(opts, "MAP-ExtensionDataTypes.PrivateExtensionList", "51.5", "PrivateExtensionList", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := checkDecodedCollectionLength(opts, s745c27_2, "51.5", "PrivateExtensionList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -965,7 +965,7 @@ func (v *ExtensionDataTypesPrivateExtension) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ExtensionDataTypesPrivateExtension as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding PrivateExtension", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1006,10 +1006,10 @@ func (destination *ExtensionDataTypesPrivateExtension) UnmarshalBER(data []byte,
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ExtensionDataTypesPrivateExtension SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding PrivateExtension", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ExtensionDataTypesPrivateExtension", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "PrivateExtension", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode extId
@@ -1052,7 +1052,7 @@ func (destination *ExtensionDataTypesPrivateExtension) UnmarshalBER(data []byte,
 		offset += n_exttype
 	}
 	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesPrivateExtension", Cause: ber.ErrUnexpectedElement}
+		return &ber.DecodeError{Offset: offset, TypeName: "PrivateExtension", Cause: ber.ErrUnexpectedElement}
 	}
 	return nil
 }
@@ -1115,7 +1115,7 @@ func (v *ExtensionDataTypesPCSExtensions) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ExtensionDataTypesPCSExtensions as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding PCS-Extensions", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1156,10 +1156,10 @@ func (destination *ExtensionDataTypesPCSExtensions) UnmarshalBER(data []byte, op
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ExtensionDataTypesPCSExtensions SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding PCS-Extensions", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ExtensionDataTypesPCSExtensions", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "PCS-Extensions", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	v.ExtCount_ = 0
@@ -1168,7 +1168,7 @@ func (destination *ExtensionDataTypesPCSExtensions) UnmarshalBER(data []byte, op
 	for offset < len(content) {
 		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesPCSExtensions", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "PCS-Extensions", Cause: extErr_}
 		}
 		ber.CheckGeneratedUnknownContents(opts, content[offset:], nExt_)
 		if offset < 0 || offset >
@@ -1214,7 +1214,7 @@ func (v *ExtensionDataTypesSLRArgPCSExtensions) marshalBER(opts ...ber.EncodeOpt
 	}
 	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := checkOpaqueAddition(ext, opts, s745c27_2, children, i, &base_); err != nil {
+		if err := checkOpaqueAddition(ext, opts, s745c27_3, children, i, &base_); err != nil {
 			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -1226,7 +1226,7 @@ func (v *ExtensionDataTypesSLRArgPCSExtensions) marshalBER(opts ...ber.EncodeOpt
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s745c27_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s745c27_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1262,7 +1262,7 @@ func (v *ExtensionDataTypesSLRArgPCSExtensions) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, invalidDERAddition(ext, s745c27_2, children, i)
+			return nil, invalidDERAddition(ext, s745c27_3, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -1270,7 +1270,7 @@ func (v *ExtensionDataTypesSLRArgPCSExtensions) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s745c27_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s745c27_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1281,7 +1281,7 @@ func (v *ExtensionDataTypesSLRArgPCSExtensions) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ExtensionDataTypesSLRArgPCSExtensions as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding SLR-Arg-PCS-Extensions", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1305,7 +1305,7 @@ func (destination *ExtensionDataTypesSLRArgPCSExtensions) UnmarshalBER(data []by
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s745c27_2, "child", (*ExtensionDataTypesSLRArgPCSExtensions).UnmarshalBER)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s745c27_3, "child", (*ExtensionDataTypesSLRArgPCSExtensions).UnmarshalBER)
 	if prepareErr != nil {
 		return prepareErr
 	}
@@ -1322,10 +1322,10 @@ func (destination *ExtensionDataTypesSLRArgPCSExtensions) UnmarshalBER(data []by
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ExtensionDataTypesSLRArgPCSExtensions SEQUENCE", qualifyBERError(err, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding SLR-Arg-PCS-Extensions", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ExtensionDataTypesSLRArgPCSExtensions", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "SLR-Arg-PCS-Extensions", Cause: ber.ErrExtraData}
 	}
 	offset := 0
 	// Decode na-ESRK-Request
@@ -1362,14 +1362,14 @@ func (destination *ExtensionDataTypesSLRArgPCSExtensions) UnmarshalBER(data []by
 	for offset < len(content) {
 		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
-			return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesSLRArgPCSExtensions", Cause: extErr_}
+			return &ber.DecodeError{Offset: offset, TypeName: "SLR-Arg-PCS-Extensions", Cause: extErr_}
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
 			if !ber.ToleranceEnabled(opts) {
-				return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesSLRArgPCSExtensions", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
+				return &ber.DecodeError{Offset: offset, TypeName: "SLR-Arg-PCS-Extensions", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrUnexpectedElement, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s745c27_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s745c27_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1395,5 +1395,6 @@ func (destination *ExtensionDataTypesSLRArgPCSExtensions) UnmarshalBER(data []by
 const (
 	s745c27_0 = "MAP-ExtensionDataTypes.ExtensionContainer"
 	s745c27_1 = "MAP-ExtensionDataTypes.SLR-ArgExtensionContainer"
-	s745c27_2 = "MAP-ExtensionDataTypes.SLR-Arg-PCS-Extensions"
+	s745c27_2 = "MAP-ExtensionDataTypes.PrivateExtensionList"
+	s745c27_3 = "MAP-ExtensionDataTypes.SLR-Arg-PCS-Extensions"
 )

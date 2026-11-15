@@ -17,7 +17,7 @@ func TestElementMismatchAndImplicitIntegerContents(t *testing.T) {
 	}{
 		{"62074801016b020500", "begin.dialoguePortion", ber.ErrUnexpectedElement, nil},
 		{"650648027f010500", "continue", ber.ErrUnexpectedElement, nil},
-		{"67054901016a00", "abort.reason.AbortReason.p-abortCause", ber.ErrInvalidTag, ber.ErrInvalidTag},
+		{"67054901016a00", "abort.reason.p-abortCause", ber.ErrInvalidTag, ber.ErrInvalidTag},
 		{"62054801014c00", "begin.components", ber.ErrInvalidTag, ber.ErrInvalidTag},
 		{"62054801016b00", "begin.dialoguePortion", ber.ErrUnexpectedElement, nil},
 		{"620c4801016b07280506012a8300", "begin.dialoguePortion", ber.ErrUnexpectedElement, ber.ErrUnexpectedElement},
@@ -37,7 +37,7 @@ func TestElementMismatchAndImplicitIntegerContents(t *testing.T) {
 		{"62ff", "TCMessage", ber.ErrInvalidLength, ber.ErrInvalidLength},
 		{"1f8000", "TCMessage", ber.ErrInvalidTag, ber.ErrInvalidTag},
 		{"1000", "TCMessage", ber.ErrInvalidTag, ber.ErrInvalidTag},
-		{"4200", "TCMessage.begin", ber.ErrInvalidTag, ber.ErrInvalidTag},
+		{"4200", "begin", ber.ErrInvalidTag, ber.ErrInvalidTag},
 	} {
 		t.Run(tc.wire, func(t *testing.T) {
 			data, err := hex.DecodeString(tc.wire)
@@ -88,13 +88,13 @@ func TestExplicitWrappersAndIntegerForms(t *testing.T) {
 		wire, path   string
 		decode, scan error
 	}{
-		{"62204801016b1b2819060700118605010101a00e600ba10906070400000100130305", "child[1].child[0].child[1].child[1]", ber.ErrTruncated, ber.ErrTruncated},
+		{"62204801016b1b2819060700118605010101a00e600ba10906070400000100130305", "begin.dialoguePortion.encoding.single-ASN1-type.child[1]", ber.ErrTruncated, ber.ErrTruncated},
 		{"62124801016b0d280b060700118605010101a000", "begin.dialoguePortion", ber.ErrUnexpectedElement, ber.ErrUnexpectedElement},
 		{"620d4801016b08280606022a03a000", "begin.dialoguePortion", ber.ErrUnexpectedElement, ber.ErrUnexpectedElement},
 		{"670449006a00", "abort.dtid", ber.ErrInvalidValue, ber.ErrInvalidTag},
 		{"670749006a03020100", "abort.dtid", ber.ErrInvalidValue, ber.ErrInvalidTag},
-		{"62124801016c0da10b020101a00302010002012d", "begin.components.element[0].basicROS.invoke.linkedId.InvokeLinkedId.present", ber.ErrInvalidTag, ber.ErrInvalidTag},
-		{"640f4901016c0aa408020101a003020100", "end.components.element[0].basicROS.reject.problem.RejectProblemChoice.general", ber.ErrInvalidTag, ber.ErrInvalidTag},
+		{"62124801016c0da10b020101a00302010002012d", "begin.components.element[0].basicROS.invoke.linkedId.present", ber.ErrInvalidTag, ber.ErrInvalidTag},
+		{"640f4901016c0aa408020101a003020100", "end.components.element[0].basicROS.reject.problem.general", ber.ErrInvalidTag, ber.ErrInvalidTag},
 	} {
 		t.Run(tc.wire, func(t *testing.T) {
 			wire, e := hex.DecodeString(tc.wire)

@@ -312,3 +312,118 @@ func typedSemantic(t *testing.T, v reflect.Value) any {
 	t.Fatalf("no independent semantic projection for %s", v.Type())
 	return nil
 }
+
+func TestEditionCompositeRootPath(t *testing.T) {
+	wire := []byte{48, 129, 6, 10, 1, 4, 4, 1, 170}
+	var value ExternalSignalInfo
+	var strict *ber.ValidationError
+	err := value.UnmarshalBER(wire)
+	want := "ExternalSignalInfo value received BER form violates GSM 09.02 V4.19.1 §14.1.1: short-length"
+	if !errors.Is(err, ber.ErrInvalidValue) || !errors.As(err, &strict) || strict.Path != "ExternalSignalInfo" || err.Error() != want {
+		t.Fatalf("strict root: %v", err)
+	}
+	var incoming ber.ViolationLog
+	if err := value.UnmarshalBER(wire, ber.WithTolerance(&incoming)); err != nil {
+		t.Fatal(err)
+	}
+	if rows := incoming.Snapshot(); len(rows) != 1 || rows[0].Path != "ExternalSignalInfo" || rows[0].Source != strict.Source {
+		t.Fatalf("reports=%+v", rows)
+	}
+	var replay *ber.ValidationError
+	if _, err := value.MarshalBER(); !errors.As(err, &replay) || replay.Path != "ExternalSignalInfo" || err.Error() != want || replay.Source != strict.Source {
+		t.Fatalf("strict replay=%v", err)
+	}
+	var outgoing ber.ViolationLog
+	got, err := value.MarshalBER(ber.WithTolerance(&outgoing))
+	if err != nil || !bytes.Equal(got, wire) {
+		t.Fatalf("tolerant replay=%v", err)
+	}
+	if rows := outgoing.Snapshot(); len(rows) != 1 || rows[0].Path != "ExternalSignalInfo" || rows[0].Source != strict.Source {
+		t.Fatalf("encode reports=%+v", rows)
+	}
+}
+
+func TestWrapperASN1PositionNames(t *testing.T) {
+	for _, decode := range []func([]byte, ...ber.DecodeOption) error{new(MAPDialoguePDU).UnmarshalBER, func(w []byte, o ...ber.DecodeOption) error {
+		_, e := MAPDialoguePDUCodec().DecodeBER(w, o...)
+		return e
+	}} {
+		for _, tolerant := range []bool{false, true} {
+			var log ber.ViolationLog
+			var opts []ber.DecodeOption
+			if tolerant {
+				opts = []ber.DecodeOption{ber.WithTolerance(&log)}
+			}
+			err := decode([]byte{0x80, 0}, opts...)
+			var path interface{ ASN1BERPath() string }
+			var validation *ber.ValidationError
+			if err == nil || !strings.HasPrefix(err.Error(), "decoding map-open: ") || !errors.Is(err, ber.ErrInvalidTag) || errors.As(err, &validation) || !errors.As(err, &path) || path.ASN1BERPath() != "map-open" {
+				t.Fatalf("got %v", err)
+			}
+			if len(log.Snapshot()) != 0 {
+				t.Fatal("malformed structure published records")
+			}
+		}
+	}
+}
+
+func TestWrapperValidationNames(t *testing.T) {
+	var value InterrogateSSRes
+	var log ber.ViolationLog
+	if err := value.UnmarshalBER([]byte{0xa2, 0}, ber.WithTolerance(&log)); err != nil {
+		t.Fatal(err)
+	}
+	_, err := value.MarshalBER()
+	var want *ber.ValidationError
+	if !errors.As(err, &want) {
+		t.Fatal(err)
+	}
+	_, err = value.MarshalDER()
+	var got *ber.ValidationError
+	if !errors.As(err, &got) || got.Path != want.Path || got.Source != want.Source || got.Kind != want.Kind || got.Rule != want.Rule || got.Constraint != want.Constraint {
+		t.Fatalf("DER=%v BER=%v", err, want)
+	}
+}
+
+func TestChoiceDecodeAssignmentNames(t *testing.T) {
+	for _, decode := range []func([]byte, ...ber.DecodeOption) error{new(MAPDialoguePDU).UnmarshalBER, func(w []byte, o ...ber.DecodeOption) error {
+		_, e := MAPDialoguePDUCodec().DecodeBER(w, o...)
+		return e
+	}} {
+		for _, tolerant := range []bool{false, true} {
+			var log ber.ViolationLog
+			var opts []ber.DecodeOption
+			if tolerant {
+				opts = []ber.DecodeOption{ber.WithTolerance(&log)}
+			}
+			err := decode([]byte{0xa9, 0}, opts...)
+			var validation *ber.ValidationError
+			want := "ber: unexpected or missing element: unknown tag [CONTEXT 9 CONSTRUCTED] for MAP-DialoguePDU CHOICE"
+			if err == nil || err.Error() != want || !errors.Is(err, ber.ErrUnexpectedElement) || errors.As(err, &validation) || len(log.Snapshot()) != 0 {
+				t.Fatalf("got %v; want %s", err, want)
+			}
+		}
+	}
+}
+
+func TestDecodeErrorAssignmentNames(t *testing.T) {
+	for _, tc := range []struct {
+		name, assignment string
+		offset           int
+		wire             []byte
+		decode           func([]byte, ...ber.DecodeOption) error
+	}{
+		{"phase2", "SubscriberData", 0, []byte{0x30, 3, 2, 1, 0}, new(SubscriberData).UnmarshalBER},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			var log ber.ViolationLog
+			err := tc.decode(tc.wire, ber.WithTolerance(&log))
+			var decoded *ber.DecodeError
+			var validation *ber.ValidationError
+			want := fmt.Sprintf("ber: decode %s at offset %d: ber: unexpected or missing element", tc.assignment, tc.offset)
+			if !errors.As(err, &decoded) || decoded.TypeName != tc.assignment || decoded.Field != "" || decoded.Offset != tc.offset || err.Error() != want || !errors.Is(err, ber.ErrUnexpectedElement) || errors.As(err, &validation) || len(log.Snapshot()) != 0 {
+				t.Fatalf("decode = %v; want %s; metadata=%#v, records=%+v", err, want, decoded, log.Snapshot())
+			}
+		})
+	}
+}

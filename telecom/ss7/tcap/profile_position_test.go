@@ -59,8 +59,8 @@ func TestProfileUnknownPositions(t *testing.T) {
 // element's error and location when an earlier unknown tag is well-formed.
 func TestProfileUnknownPositionFallback(t *testing.T) {
 	for _, row := range []struct{ name, wire, path string }{
-		{"abort", "67074901014c000402", "child[2]"},
-		{"unidialogue", "611d6b0f280d060700118605010201a00241006c0aa10602010102012d0402", "child[1].child[1]"},
+		{"abort", "67074901014c000402", "abort.child[2]"},
+		{"unidialogue", "611d6b0f280d060700118605010201a00241006c0aa10602010102012d0402", "unidirectional.components.element[1]"},
 	} {
 		t.Run(row.name, func(t *testing.T) {
 			data, err := hex.DecodeString(row.wire)

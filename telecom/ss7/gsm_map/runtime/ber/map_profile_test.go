@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/map_profile_test.go; SHA-256 3b4f516ebe0d9d51365e35c9dfaeaa012093fda5465eb8e026f4806799339ea7.
+// Runtime source: runtime/ber/map_profile_test.go; SHA-256 31807f76d3a3c5af2b0d200791098a2305288b1b543beaf44de876318cb09a1d.
 package ber
 
 import (
@@ -51,7 +51,7 @@ func TestMAPProfileStringSegments(t *testing.T) {
 		}
 	}
 	rows, err := profileDecode(t, wire, true, visit)
-	if err != nil || len(rows) != 2 || rows[0].Constraint != "TS 29.002 §17.1.1: primitive-octet-string" || rows[1].Constraint != "TS 29.002 §17.1.1: short-length" || rows[1].Path != "child[0]" || rows[1].Offset == nil || *rows[1].Offset != 2 || !slices.Equal(rows[1].ChildIndexes, []int{0}) {
+	if err != nil || len(rows) != 2 || rows[0].Constraint != "TS 29.002 §17.1.1: primitive-octet-string" || rows[1].Constraint != "TS 29.002 §17.1.1: short-length" || rows[1].Path != "Root.child[0]" || rows[1].Offset == nil || *rows[1].Offset != 2 || !slices.Equal(rows[1].ChildIndexes, []int{0}) {
 		t.Fatalf("records=%+v error=%v", rows, err)
 	}
 	rows, err = profileDecode(t, wire, true, visit, WithDiagnosticLimits(DiagnosticLimits{MaxRecords: 1}))
@@ -124,7 +124,7 @@ func TestMAPProfileRules(t *testing.T) {
 			if !ok || !errors.Is(err, ErrInvalidValue) {
 				t.Fatalf("strict error=%T %v", err, err)
 			}
-			if v.Kind != ProtocolRule || v.Rule != (RuleRef{Document: "3GPP TS 29.002", Edition: "V19.1.0", Clause: "17.1.1"}) || v.Constraint != "TS 29.002 §17.1.1: "+tc.name || v.Source != "MAP-Test.Root" || v.Path != "" || v.Offset == nil || *v.Offset != 0 || len(v.ChildIndexes) != 0 {
+			if v.Kind != ProtocolRule || v.Rule != (RuleRef{Document: "3GPP TS 29.002", Edition: "V19.1.0", Clause: "17.1.1"}) || v.Constraint != "TS 29.002 §17.1.1: "+tc.name || v.Source != "MAP-Test.Root" || v.Path != "Root" || v.Offset == nil || *v.Offset != 0 || len(v.ChildIndexes) != 0 {
 				t.Fatalf("record=%+v", v)
 			}
 			records, err := profileDecode(t, wire, true, nil)

@@ -1,10 +1,11 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_segmented.go; SHA-256 be5a8f18a8c3e6a3142bab332e13ecdc19d4852e38dec22a5bb64e8fdf72fcbe.
+// Runtime source: runtime/ber/tcap_segmented.go; SHA-256 aef98818278c4371076ee53eb6323438c615c956ed6ff650735d2d2c227ed45f.
 package ber
 
 import (
 	"fmt"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
 	"math"
 	"slices"
 )
@@ -20,6 +21,7 @@ type dialogueSegments struct {
 	prefix   []int
 	path     string
 	syntax   int
+	encoding int
 	replay   *replayProfileIndex
 }
 
@@ -57,9 +59,10 @@ func (segments *dialogueSegments) audit(data []byte, config decodeConfig, option
 	segments.prefix = make([]int, 0, len(stack))
 	segments.path = qualifyConstraintPath(options, "")
 	parentType := tcapKindUnknown
+	parentField := 0
 	for index, ancestor := range stack[1:] {
 		identifier, _, _ := DecodeTag(data[ancestor.offset:])
-		segment := tcapPathSegment(config.profileType, parentType, ancestor.profileType, identifier, ancestor.index, index == 0)
+		segment := tcapPathSegment(config.profileType, parentType, ancestor.profileType, identifier, ancestor.index, index == 0, parentField)
 		if segment != "" {
 			if segments.path != "" {
 				segments.path += "."
@@ -67,10 +70,18 @@ func (segments *dialogueSegments) audit(data []byte, config decodeConfig, option
 			segments.path += segment
 		}
 		parentType = ancestor.profileType
+		parentField = ancestor.profileField
 		if index > 0 {
 			segments.prefix = append(segments.prefix, ancestor.index)
 		}
 	}
+	// The final stack frame is EXTERNAL. Its encoding alternative is the
+	// same source position on a reassembled and a contiguous APDU (§8.18).
+	encoding := tcapPathSegment("", tcapKindDialogueExternal, tcapKindUnknown, tag.Tag{Class: tag.ClassContextSpecific, Number: segments.encoding}, 0, false, 0)
+	if segments.path != "" {
+		segments.path += "."
+	}
+	segments.path += encoding
 	// The final stack frame is EXTERNAL, whose next child was this choice.
 	segments.prefix = append(segments.prefix, stack[len(stack)-1].nextChild-1, 0)
 	identifier, _, err := DecodeTag(segments.contents)
@@ -94,7 +105,7 @@ func (segments *dialogueSegments) audit(data []byte, config decodeConfig, option
 		contentType = tcapKindUniDialogueContent
 	}
 	kind := tcapElementType(tcapKindUnknown, contentType, identifier, 0, false, segments.syntax)
-	segment := tcapPathSegment("", contentType, kind, identifier, 0, false)
+	segment := tcapPathSegment("", contentType, kind, identifier, 0, false, 0)
 	if segments.path != "" {
 		segments.path += "."
 	}

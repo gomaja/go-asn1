@@ -179,6 +179,25 @@ without substituting raw bytes. Source value `EXCEPT` and collection-element
 unions that the frontend cannot resolve remain fail closed (ITU-T X.680
 (02/2021) §§49.7, 50–51).
 
+At the root of a value, `Path` is the name of its assignment, for example
+`ExternalSignalInfo` or `HLR-List`; at the root of a CHOICE it is the
+selected alternative, for example `map-open`. The BER segments of a
+constructed string add `child[i]` to the string's path, as in
+`AddressString.child[0]` for a root value and `imsi.child[0]` for a
+component. `Source` names the module and the assignment that declare the
+checked type or component, followed by the component path, for example
+`MAP-DialogueInformation.MAP-DialoguePDU.map-open`. Strict and tolerant
+decoding, replay, fresh BER encoding and DER encoding report the same `Path`
+and `Source`. The `decoding <path>:` and `encoding <path>:` prefixes of
+other errors use the same names, for example
+`decoding ps-SubscriberState.notProvidedFromSGSNorMME:`, and an error that
+names a received type names its assignment, as in
+`unknown tag [CONTEXT 9 PRIMITIVE] for PS-SubscriberState CHOICE` or
+`ber: decode SubscriberData at offset 0:`. An error about a Go value, such
+as a nil receiver, names the Go type. A rejected input larger than 64 KiB
+is not decoded a second time to name the failing component, so its prefix
+gives the BER child position instead, for example `decoding child[0]:`.
+
 A permitted alphabet (X.680 (02/2021) §51.7) is checked wherever its type is
 used: in a SEQUENCE or SET component, a CHOICE alternative, a SEQUENCE OF or
 SET OF element and a standalone value. In the release packages it applies to
