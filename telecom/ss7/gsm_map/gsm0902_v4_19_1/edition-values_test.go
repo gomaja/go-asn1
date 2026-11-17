@@ -427,3 +427,133 @@ func TestDecodeErrorAssignmentNames(t *testing.T) {
 		})
 	}
 }
+
+// GSM 09.02 V4.19.1 §14.1 references X.208 (11/1988), whose §§37.4
+// and 37.5 govern Password's SIZE and permitted alphabet independently.
+func TestEditionPasswordRuleCitations(t *testing.T) {
+	for _, row := range []struct{ value, clause string }{{"123", "37.4"}, {"12a4", "37.5"}} {
+		t.Run(row.clause, func(t *testing.T) {
+			wire := append([]byte{18, byte(len(row.value))}, []byte(row.value)...)
+			codec := PasswordCodec()
+			requireRule := func(err error) {
+				t.Helper()
+				var v *ber.ValidationError
+				if !errors.As(err, &v) || v.Rule != (ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: row.clause}) {
+					t.Fatalf("expected X.208 §%s, got %v (%+v)", row.clause, err, v)
+				}
+			}
+			_, err := codec.DecodeBER(wire)
+			requireRule(err)
+			_, err = codec.EncodeBER(BERValue[Password]{Value: Password(row.value)})
+			requireRule(err)
+			var incoming ber.ViolationLog
+			value, err := codec.DecodeBER(wire, ber.WithTolerance(&incoming))
+			if err != nil {
+				t.Fatal(err)
+			}
+			rows := incoming.Snapshot()
+			if len(rows) != 1 || rows[0].Rule != (ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: row.clause}) {
+				t.Fatalf("decode records: %+v", rows)
+			}
+			var outgoing ber.ViolationLog
+			encoded, err := codec.EncodeBER(value, ber.WithTolerance(&outgoing))
+			if err != nil || !bytes.Equal(encoded, wire) {
+				t.Fatalf("tolerant replay: %v", err)
+			}
+			rows = outgoing.Snapshot()
+			if len(rows) != 1 || rows[0].Rule != (ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: row.clause}) {
+				t.Fatalf("encode records: %+v", rows)
+			}
+		})
+	}
+}
+
+// GSM 09.02 V4.19.1 §14.1.4 adds extension markers through ISO
+// 8824-1/PDAM 3.2; these rules retain their modern diagnostic citation.
+func TestEditionExtensionRuleCitation(t *testing.T) {
+	value := CallBarringFeature{ExtData_: [][]byte{{0x84, 1, 0}}}
+	_, err := CallBarringFeatureCodec().EncodeBER(value)
+	var finding *ber.ValidationError
+	if !errors.As(err, &finding) || finding.Rule != (ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}) {
+		t.Fatalf("extension marker rule: %v (%+v)", err, finding)
+	}
+}
+
+func TestEditionIA5RuntimePolicy(t *testing.T) {
+	codec := SSUserDataCodec()
+	// X.208 (11/1988) §31, Tables 4–6 defines the IA5String repertoire.
+	t.Run("character repertoire citation", func(t *testing.T) {
+		wire := []byte{22, 1, 0x80}
+		rule := ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "31, Tables 4–6"}
+		constraint := "IA5String character repertoire (X.208 (11/1988) §31, Tables 4–6)"
+		requireFinding := func(err error) {
+			t.Helper()
+			var finding *ber.ValidationError
+			if !errors.As(err, &finding) || finding.Rule != rule || finding.Constraint != constraint {
+				t.Fatalf("IA5 repertoire: %v (%+v)", err, finding)
+			}
+		}
+		_, err := codec.DecodeBER(wire)
+		requireFinding(err)
+		_, err = codec.EncodeBER(BERValue[SSUserData]{Value: SSUserData("\x80")})
+		requireFinding(err)
+		var incoming ber.ViolationLog
+		value, err := codec.DecodeBER(wire, ber.WithTolerance(&incoming))
+		if err != nil {
+			t.Fatal(err)
+		}
+		rows := incoming.Snapshot()
+		if len(rows) != 1 || rows[0].Rule != rule || rows[0].Constraint != constraint {
+			t.Fatalf("IA5 repertoire decode records: %+v", rows)
+		}
+		var outgoing ber.ViolationLog
+		encoded, err := codec.EncodeBER(value, ber.WithTolerance(&outgoing))
+		if err != nil || !bytes.Equal(encoded, wire) {
+			t.Fatalf("IA5 repertoire tolerant replay: %v", err)
+		}
+		rows = outgoing.Snapshot()
+		if len(rows) != 1 || rows[0].Rule != rule || rows[0].Constraint != constraint {
+			t.Fatalf("IA5 repertoire encode records: %+v", rows)
+		}
+	})
+	for _, text := range []string{"\x1b", "\x1b("} {
+		wire, err := codec.EncodeBER(BERValue[SSUserData]{Value: SSUserData(text)})
+		if err != nil || !bytes.Equal(wire, append([]byte{22, byte(len(text))}, []byte(text)...)) {
+			t.Fatalf("incomplete IA5 escape changed: %v", err)
+		}
+	}
+	for _, count := range []int{1, 2} {
+		text := strings.Repeat("\x1b(B", count)
+		_, err := codec.EncodeBER(BERValue[SSUserData]{Value: SSUserData(text)})
+		var finding *ber.ValidationError
+		rule := ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.5.3"}
+		if !errors.As(err, &finding) || finding.Rule != rule || finding.ObservedValue != "42" {
+			t.Fatalf("IA5 strict policy: %v (%+v)", err, finding)
+		}
+		var reports ber.ViolationLog
+		wire, err := codec.EncodeBER(BERValue[SSUserData]{Value: SSUserData(text)}, ber.WithTolerance(&reports))
+		if err != nil || !bytes.Equal(wire, append([]byte{22, byte(len(text))}, []byte(text)...)) {
+			t.Fatalf("IA5 tolerant encoding changed: %v", err)
+		}
+		rows := reports.Snapshot()
+		if len(rows) != count {
+			t.Fatalf("IA5 records=%d, want %d", len(rows), count)
+		}
+		for _, row := range rows {
+			if row.Rule != rule || row.ObservedValue != "42" {
+				t.Fatalf("IA5 record: %+v", row)
+			}
+		}
+	}
+}
+
+func TestEditionImportedRuleCitation(t *testing.T) {
+	_, decoded := CommonComponentIdCodec().DecodeBER([]byte{2, 1, 10})
+	_, encoded := CommonComponentIdCodec().EncodeBER(BERValue[CommonComponentId]{Value: 10})
+	for _, err := range []error{decoded, encoded} {
+		var finding *ber.ValidationError
+		if !errors.As(err, &finding) || finding.Rule != (ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.3"}) {
+			t.Fatalf("imported range citation: %v (%+v)", err, finding)
+		}
+	}
+}

@@ -618,7 +618,7 @@ func (v *UpdateLocationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -634,12 +634,12 @@ func (v *UpdateLocationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_locationinfo)
 	children = append(children, enc_locationinfo...)
 	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -650,7 +650,7 @@ func (v *UpdateLocationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 	children = append(children, enc_vlrnumber...)
 	if v.Lmsi != nil {
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -705,7 +705,7 @@ func (v *UpdateLocationArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -720,12 +720,12 @@ func (v *UpdateLocationArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_locationinfo...)
 	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -736,7 +736,7 @@ func (v *UpdateLocationArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_vlrnumber...)
 	if v.Lmsi != nil {
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -845,7 +845,7 @@ func (destination *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.Deco
 
 		offset += n
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -894,12 +894,12 @@ func (destination *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.Deco
 
 		offset += n
 		if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -930,7 +930,7 @@ func (destination *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.Deco
 
 				offset += n_lmsi
 				if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1004,12 +1004,12 @@ func (v *UpdateLocationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 			return nil, qualifyBERError(encodeErr_enc_0, "hlr-Number", "encoding", false)
 		}
 		if len(*v.HlrNumber) < 1 || len(*v.HlrNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_1, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(*v.HlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_1, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(*v.HlrNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.HlrNumber) < 1 || len(*v.HlrNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_1, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(*v.HlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_1, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(*v.HlrNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1138,12 +1138,12 @@ func (destination *UpdateLocationRes) UnmarshalBER(data []byte, opts ...ber.Deco
 		tmp := ISDNAddressString(decVal)
 		v.HlrNumber = &tmp
 		if len(*v.HlrNumber) < 1 || len(*v.HlrNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_1, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(*v.HlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_1, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(*v.HlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(*v.HlrNumber) < 1 || len(*v.HlrNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_1, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(*v.HlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_1, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(*v.HlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1176,12 +1176,12 @@ func (v *ExtensibleUpdateLocationRes) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	var children []byte
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_2, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_2, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1224,12 +1224,12 @@ func (v *ExtensibleUpdateLocationRes) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_2, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_2, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1322,12 +1322,12 @@ func (destination *ExtensibleUpdateLocationRes) UnmarshalBER(data []byte, opts .
 
 		offset += n
 		if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_2, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_2, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_2, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1390,7 +1390,7 @@ func (v *CancelLocationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 			return nil, qualifyBERError(encodeErr_enc_0, "imsi", "encoding", false)
 		}
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-MS-DataTypes.CancelLocationArg", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-MS-DataTypes.CancelLocationArg", ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1519,7 +1519,7 @@ func (destination *CancelLocationArg) UnmarshalBER(data []byte, opts ...ber.Deco
 		tmp := IMSI(decVal)
 		v.Imsi = &tmp
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-MS-DataTypes.CancelLocationArg", ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-MS-DataTypes.CancelLocationArg", ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1552,7 +1552,7 @@ func (v *PurgeMSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1562,12 +1562,12 @@ func (v *PurgeMSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_imsi...)
 	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1610,7 +1610,7 @@ func (v *PurgeMSArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_3, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1620,12 +1620,12 @@ func (v *PurgeMSArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_imsi...)
 	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_3, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_3, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1717,7 +1717,7 @@ func (destination *PurgeMSArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 		offset += n
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1740,12 +1740,12 @@ func (destination *PurgeMSArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 		offset += n
 		if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..9)", len(v.VlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_3, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "vlr-Number", "SIZE (1..20)", len(v.VlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1792,7 +1792,7 @@ func (v *IMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_4, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1802,7 +1802,7 @@ func (v *IMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_imsi...)
 	if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_4, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1845,7 +1845,7 @@ func (v *IMSIWithLMSI) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_4, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1855,7 +1855,7 @@ func (v *IMSIWithLMSI) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_imsi...)
 	if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_4, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1947,7 +1947,7 @@ func (destination *IMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_4, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1970,7 +1970,7 @@ func (destination *IMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n
 		if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_4, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_4, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2017,7 +2017,7 @@ func (v *SendIdentificationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_5, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2028,7 +2028,7 @@ func (v *SendIdentificationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	children = append(children, enc_imsi...)
 	if v.AuthenticationSetList != nil {
 		if len((v.AuthenticationSetList).Values) < 1 || len((v.AuthenticationSetList).Values) > 5 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "authenticationSetList", "SIZE (1..5)", len((v.AuthenticationSetList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_5, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "authenticationSetList", "SIZE (1..5)", len((v.AuthenticationSetList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2079,7 +2079,7 @@ func (v *SendIdentificationRes) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_5, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2090,7 +2090,7 @@ func (v *SendIdentificationRes) MarshalDER() ([]byte, error) {
 	children = append(children, enc_imsi...)
 	if v.AuthenticationSetList != nil {
 		if len((v.AuthenticationSetList).Values) < 1 || len((v.AuthenticationSetList).Values) > 5 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "authenticationSetList", "SIZE (1..5)", len((v.AuthenticationSetList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_5, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "authenticationSetList", "SIZE (1..5)", len((v.AuthenticationSetList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2194,7 +2194,7 @@ func (destination *SendIdentificationRes) UnmarshalBER(data []byte, opts ...ber.
 
 		offset += n
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_5, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2237,7 +2237,7 @@ func (destination *SendIdentificationRes) UnmarshalBER(data []byte, opts ...ber.
 
 				offset += n_authenticationsetlist
 				if len((v.AuthenticationSetList).Values) < 1 || len((v.AuthenticationSetList).Values) > 5 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_5, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "authenticationSetList", "SIZE (1..5)", len((v.AuthenticationSetList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_5, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "authenticationSetList", "SIZE (1..5)", len((v.AuthenticationSetList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -2295,7 +2295,7 @@ func MarshalBERAuthenticationSetList(collection *AuthenticationSetList, opts ...
 func marshalBERAuthenticationSetList(collection *AuthenticationSetList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s990e88_6, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "AuthenticationSetList", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s990e88_6, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "AuthenticationSetList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2333,7 +2333,7 @@ func MarshalDERAuthenticationSetList(collection *AuthenticationSetList) ([]byte,
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s990e88_6, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "AuthenticationSetList", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s990e88_6, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "AuthenticationSetList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2431,7 +2431,7 @@ func UnmarshalBERAuthenticationSetList(data []byte, opts ...ber.DecodeOption) (r
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s990e88_6, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "AuthenticationSetList", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s990e88_6, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "AuthenticationSetList", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2459,7 +2459,7 @@ func (v *AuthenticationSet) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 	}
 	var children []byte
 	if len(v.Rand) < 16 || len(v.Rand) > 16 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "rand", "SIZE (16)", len(v.Rand)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "rand", "SIZE (16)", len(v.Rand)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2469,7 +2469,7 @@ func (v *AuthenticationSet) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 	}
 	children = append(children, enc_rand...)
 	if len(v.Sres) < 4 || len(v.Sres) > 4 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "sres", "SIZE (4)", len(v.Sres)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "sres", "SIZE (4)", len(v.Sres)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2479,7 +2479,7 @@ func (v *AuthenticationSet) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 	}
 	children = append(children, enc_sres...)
 	if len(v.Kc) < 8 || len(v.Kc) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "kc", "SIZE (8)", len(v.Kc)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "kc", "SIZE (8)", len(v.Kc)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2522,7 +2522,7 @@ func (v *AuthenticationSet) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Rand) < 16 || len(v.Rand) > 16 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "rand", "SIZE (16)", len(v.Rand)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_7, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "rand", "SIZE (16)", len(v.Rand)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2532,7 +2532,7 @@ func (v *AuthenticationSet) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_rand...)
 	if len(v.Sres) < 4 || len(v.Sres) > 4 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "sres", "SIZE (4)", len(v.Sres)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_7, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "sres", "SIZE (4)", len(v.Sres)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2542,7 +2542,7 @@ func (v *AuthenticationSet) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_sres...)
 	if len(v.Kc) < 8 || len(v.Kc) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "kc", "SIZE (8)", len(v.Kc)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_7, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "kc", "SIZE (8)", len(v.Kc)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2635,7 +2635,7 @@ func (destination *AuthenticationSet) UnmarshalBER(data []byte, opts ...ber.Deco
 
 		offset += n
 		if len(v.Rand) < 16 || len(v.Rand) > 16 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "rand", "SIZE (16)", len(v.Rand)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "rand", "SIZE (16)", len(v.Rand)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2658,7 +2658,7 @@ func (destination *AuthenticationSet) UnmarshalBER(data []byte, opts ...ber.Deco
 
 		offset += n
 		if len(v.Sres) < 4 || len(v.Sres) > 4 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "sres", "SIZE (4)", len(v.Sres)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "sres", "SIZE (4)", len(v.Sres)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2681,7 +2681,7 @@ func (destination *AuthenticationSet) UnmarshalBER(data []byte, opts ...ber.Deco
 
 		offset += n
 		if len(v.Kc) < 8 || len(v.Kc) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "kc", "SIZE (8)", len(v.Kc)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_7, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "kc", "SIZE (8)", len(v.Kc)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2729,7 +2729,7 @@ func (v *PrepareHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if v.TargetCellId != nil {
 		if len(*v.TargetCellId) < 5 || len(*v.TargetCellId) > 7 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_8, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(*v.TargetCellId)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_8, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(*v.TargetCellId)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2792,7 +2792,7 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.TargetCellId != nil {
 		if len(*v.TargetCellId) < 5 || len(*v.TargetCellId) > 7 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_8, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(*v.TargetCellId)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_8, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(*v.TargetCellId)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2907,7 +2907,7 @@ func (destination *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n
 				if len(*v.TargetCellId) < 5 || len(*v.TargetCellId) > 7 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_8, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(*v.TargetCellId)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_8, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(*v.TargetCellId)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3015,7 +3015,7 @@ func (v *PerformHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.TargetCellId) < 5 || len(v.TargetCellId) > 7 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3025,7 +3025,7 @@ func (v *PerformHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_targetcellid...)
 	if len(v.ServingCellId) < 5 || len(v.ServingCellId) > 7 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3035,7 +3035,7 @@ func (v *PerformHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_servingcellid...)
 	if len(v.ChannelType) < 1 || len(v.ChannelType) > 10 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "channelType", "SIZE (1..10)", len(v.ChannelType)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "channelType", "SIZE (1..10)", len(v.ChannelType)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3045,7 +3045,7 @@ func (v *PerformHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_channeltype...)
 	if len(v.ClassmarkInfo) < 1 || len(v.ClassmarkInfo) > 2 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "classmarkInfo", "SIZE (1..2)", len(v.ClassmarkInfo)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "classmarkInfo", "SIZE (1..2)", len(v.ClassmarkInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3056,7 +3056,7 @@ func (v *PerformHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	children = append(children, enc_classmarkinfo...)
 	if v.HandoverPriority != nil {
 		if len(*v.HandoverPriority) < 1 || len(*v.HandoverPriority) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverPriority", "SIZE (1)", len(*v.HandoverPriority)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverPriority", "SIZE (1)", len(*v.HandoverPriority)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3073,7 +3073,7 @@ func (v *PerformHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.Kc != nil {
 		if len(*v.Kc) < 8 || len(*v.Kc) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "kc", "SIZE (8)", len(*v.Kc)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "kc", "SIZE (8)", len(*v.Kc)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3108,7 +3108,7 @@ func (v *PerformHOArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.TargetCellId) < 5 || len(v.TargetCellId) > 7 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3118,7 +3118,7 @@ func (v *PerformHOArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_targetcellid...)
 	if len(v.ServingCellId) < 5 || len(v.ServingCellId) > 7 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3128,7 +3128,7 @@ func (v *PerformHOArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_servingcellid...)
 	if len(v.ChannelType) < 1 || len(v.ChannelType) > 10 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "channelType", "SIZE (1..10)", len(v.ChannelType)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "channelType", "SIZE (1..10)", len(v.ChannelType)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3138,7 +3138,7 @@ func (v *PerformHOArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_channeltype...)
 	if len(v.ClassmarkInfo) < 1 || len(v.ClassmarkInfo) > 2 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "classmarkInfo", "SIZE (1..2)", len(v.ClassmarkInfo)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "classmarkInfo", "SIZE (1..2)", len(v.ClassmarkInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3149,7 +3149,7 @@ func (v *PerformHOArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_classmarkinfo...)
 	if v.HandoverPriority != nil {
 		if len(*v.HandoverPriority) < 1 || len(*v.HandoverPriority) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverPriority", "SIZE (1)", len(*v.HandoverPriority)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverPriority", "SIZE (1)", len(*v.HandoverPriority)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3166,7 +3166,7 @@ func (v *PerformHOArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Kc != nil {
 		if len(*v.Kc) < 8 || len(*v.Kc) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "kc", "SIZE (8)", len(*v.Kc)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "kc", "SIZE (8)", len(*v.Kc)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3258,7 +3258,7 @@ func (destination *PerformHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n
 		if len(v.TargetCellId) < 5 || len(v.TargetCellId) > 7 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3281,7 +3281,7 @@ func (destination *PerformHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n
 		if len(v.ServingCellId) < 5 || len(v.ServingCellId) > 7 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3304,7 +3304,7 @@ func (destination *PerformHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n
 		if len(v.ChannelType) < 1 || len(v.ChannelType) > 10 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "channelType", "SIZE (1..10)", len(v.ChannelType)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "channelType", "SIZE (1..10)", len(v.ChannelType)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3327,7 +3327,7 @@ func (destination *PerformHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n
 		if len(v.ClassmarkInfo) < 1 || len(v.ClassmarkInfo) > 2 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "classmarkInfo", "SIZE (1..2)", len(v.ClassmarkInfo)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "classmarkInfo", "SIZE (1..2)", len(v.ClassmarkInfo)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3359,7 +3359,7 @@ func (destination *PerformHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n_handoverpriority
 				if len(*v.HandoverPriority) < 1 || len(*v.HandoverPriority) > 1 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverPriority", "SIZE (1)", len(*v.HandoverPriority)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverPriority", "SIZE (1)", len(*v.HandoverPriority)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3392,7 +3392,7 @@ func (destination *PerformHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n_kc
 				if len(*v.Kc) < 8 || len(*v.Kc) > 8 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "kc", "SIZE (8)", len(*v.Kc)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_9, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "kc", "SIZE (8)", len(*v.Kc)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3421,12 +3421,12 @@ func (v *PrepareHORes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if v.HandoverNumber != nil {
 		if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_10, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..9)", len(*v.HandoverNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_10, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..9)", len(*v.HandoverNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_10, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..20)", len(*v.HandoverNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_10, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..20)", len(*v.HandoverNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3485,12 +3485,12 @@ func (v *PrepareHORes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.HandoverNumber != nil {
 		if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_10, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..9)", len(*v.HandoverNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_10, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..9)", len(*v.HandoverNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_10, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..20)", len(*v.HandoverNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_10, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..20)", len(*v.HandoverNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3601,12 +3601,12 @@ func (destination *PrepareHORes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n
 				if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_10, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..9)", len(*v.HandoverNumber)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_10, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..9)", len(*v.HandoverNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_10, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..20)", len(*v.HandoverNumber)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_10, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..20)", len(*v.HandoverNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3694,12 +3694,12 @@ func (v *PerformHORes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_11, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..9)", len(v.HandoverNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_11, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..9)", len(v.HandoverNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_11, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..20)", len(v.HandoverNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_11, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..20)", len(v.HandoverNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3734,12 +3734,12 @@ func (v *PerformHORes) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_11, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..9)", len(v.HandoverNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_11, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..9)", len(v.HandoverNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_11, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..20)", len(v.HandoverNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_11, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..20)", len(v.HandoverNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3830,12 +3830,12 @@ func (destination *PerformHORes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n
 		if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_11, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..9)", len(v.HandoverNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_11, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..9)", len(v.HandoverNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_11, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "handoverNumber", "SIZE (1..20)", len(v.HandoverNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_11, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "handoverNumber", "SIZE (1..20)", len(v.HandoverNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3889,7 +3889,7 @@ func (v *PrepareSubsequentHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	var children []byte
 	if len(v.TargetCellId) < 5 || len(v.TargetCellId) > 7 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3899,12 +3899,12 @@ func (v *PrepareSubsequentHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	children = append(children, enc_targetcellid...)
 	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3953,7 +3953,7 @@ func (v *PrepareSubsequentHOArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.TargetCellId) < 5 || len(v.TargetCellId) > 7 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_12, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3963,12 +3963,12 @@ func (v *PrepareSubsequentHOArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_targetcellid...)
 	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_12, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_12, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4066,7 +4066,7 @@ func (destination *PrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber
 
 		offset += n
 		if len(v.TargetCellId) < 5 || len(v.TargetCellId) > 7 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4089,12 +4089,12 @@ func (destination *PrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber
 
 		offset += n
 		if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_12, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4167,7 +4167,7 @@ func (v *PerformSubsequentHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	var children []byte
 	if len(v.TargetCellId) < 5 || len(v.TargetCellId) > 7 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4177,7 +4177,7 @@ func (v *PerformSubsequentHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	children = append(children, enc_targetcellid...)
 	if len(v.ServingCellId) < 5 || len(v.ServingCellId) > 7 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4187,12 +4187,12 @@ func (v *PerformSubsequentHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	children = append(children, enc_servingcellid...)
 	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4203,7 +4203,7 @@ func (v *PerformSubsequentHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	children = append(children, enc_targetmscnumber...)
 	if v.ClassmarkInfo != nil {
 		if len(*v.ClassmarkInfo) < 1 || len(*v.ClassmarkInfo) > 2 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "classmarkInfo", "SIZE (1..2)", len(*v.ClassmarkInfo)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "classmarkInfo", "SIZE (1..2)", len(*v.ClassmarkInfo)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4238,7 +4238,7 @@ func (v *PerformSubsequentHOArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.TargetCellId) < 5 || len(v.TargetCellId) > 7 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4248,7 +4248,7 @@ func (v *PerformSubsequentHOArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_targetcellid...)
 	if len(v.ServingCellId) < 5 || len(v.ServingCellId) > 7 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4258,12 +4258,12 @@ func (v *PerformSubsequentHOArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_servingcellid...)
 	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4274,7 +4274,7 @@ func (v *PerformSubsequentHOArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_targetmscnumber...)
 	if v.ClassmarkInfo != nil {
 		if len(*v.ClassmarkInfo) < 1 || len(*v.ClassmarkInfo) > 2 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "classmarkInfo", "SIZE (1..2)", len(*v.ClassmarkInfo)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "classmarkInfo", "SIZE (1..2)", len(*v.ClassmarkInfo)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4367,7 +4367,7 @@ func (destination *PerformSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber
 
 		offset += n
 		if len(v.TargetCellId) < 5 || len(v.TargetCellId) > 7 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetCellId", "SIZE (5..7)", len(v.TargetCellId)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4390,7 +4390,7 @@ func (destination *PerformSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber
 
 		offset += n
 		if len(v.ServingCellId) < 5 || len(v.ServingCellId) > 7 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "servingCellId", "SIZE (5..7)", len(v.ServingCellId)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4413,12 +4413,12 @@ func (destination *PerformSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber
 
 		offset += n
 		if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..9)", len(v.TargetMSCNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "targetMSC-Number", "SIZE (1..20)", len(v.TargetMSCNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4449,7 +4449,7 @@ func (destination *PerformSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber
 
 				offset += n_classmarkinfo
 				if len(*v.ClassmarkInfo) < 1 || len(*v.ClassmarkInfo) > 2 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "classmarkInfo", "SIZE (1..2)", len(*v.ClassmarkInfo)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_13, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "classmarkInfo", "SIZE (1..2)", len(*v.ClassmarkInfo)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -4479,7 +4479,7 @@ func marshalBERSendAuthenticationInfoArg(value *BERValue[SendAuthenticationInfoA
 	_ = v
 	var children []byte
 	if len(v.Value) < 3 || len(v.Value) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_14, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "SendAuthenticationInfoArg", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_14, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "SendAuthenticationInfoArg", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4500,7 +4500,7 @@ func MarshalDERSendAuthenticationInfoArg(value *BERValue[SendAuthenticationInfoA
 	_ = v
 	var children []byte
 	if len(v.Value) < 3 || len(v.Value) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_14, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "SendAuthenticationInfoArg", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_14, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "SendAuthenticationInfoArg", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4553,7 +4553,7 @@ func UnmarshalBERSendAuthenticationInfoArg(data []byte, opts ...ber.DecodeOption
 
 		offset += n
 		if len(v.Value) < 3 || len(v.Value) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_14, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "SendAuthenticationInfoArg", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_14, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "SendAuthenticationInfoArg", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4613,7 +4613,7 @@ func (v *SendParametersArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		return nil, qualifyBERError(fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue), "requestParameterList", "encoding", false)
 	}
 	if len((v.RequestParameterList).Values) < 1 || len((v.RequestParameterList).Values) > 2 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_15, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "requestParameterList", "SIZE (1..2)", len((v.RequestParameterList).Values)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_15, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "requestParameterList", "SIZE (1..2)", len((v.RequestParameterList).Values)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4651,7 +4651,7 @@ func (v *SendParametersArg) MarshalDER() ([]byte, error) {
 		return nil, qualifyBERError(fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue), "requestParameterList", "encoding", true)
 	}
 	if len((v.RequestParameterList).Values) < 1 || len((v.RequestParameterList).Values) > 2 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_15, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "requestParameterList", "SIZE (1..2)", len((v.RequestParameterList).Values)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_15, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "requestParameterList", "SIZE (1..2)", len((v.RequestParameterList).Values)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4783,7 +4783,7 @@ func (destination *SendParametersArg) UnmarshalBER(data []byte, opts ...ber.Deco
 
 		offset += n_requestparameterlist
 		if len((v.RequestParameterList).Values) < 1 || len((v.RequestParameterList).Values) > 2 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_15, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "requestParameterList", "SIZE (1..2)", len((v.RequestParameterList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_15, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "requestParameterList", "SIZE (1..2)", len((v.RequestParameterList).Values)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4809,7 +4809,7 @@ func MarshalBERRequestParameterList(collection *RequestParameterList, opts ...be
 func marshalBERRequestParameterList(collection *RequestParameterList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 2 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s990e88_16, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "RequestParameterList", "SIZE (1..2)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s990e88_16, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "RequestParameterList", "SIZE (1..2)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4817,7 +4817,7 @@ func marshalBERRequestParameterList(collection *RequestParameterList, opts ...be
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if int64(elem) != 0 && int64(elem) != 1 && int64(elem) != 2 && int64(elem) != 4 {
-			if constraintErr := checkEncodedValue(opts, s990e88_16, "20", fmt.Sprintf("element[%d]", elemIndex), "ENUMERATED {0, 1, 2, 4}", fmt.Sprint(int64(elem))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s990e88_16, "15", fmt.Sprintf("element[%d]", elemIndex), "ENUMERATED {0, 1, 2, 4}", fmt.Sprint(int64(elem))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4843,7 +4843,7 @@ func MarshalDERRequestParameterList(collection *RequestParameterList) ([]byte, e
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 2 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s990e88_16, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "RequestParameterList", "SIZE (1..2)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s990e88_16, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "RequestParameterList", "SIZE (1..2)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4851,7 +4851,7 @@ func MarshalDERRequestParameterList(collection *RequestParameterList) ([]byte, e
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if int64(elem) != 0 && int64(elem) != 1 && int64(elem) != 2 && int64(elem) != 4 {
-			if constraintErr := checkEncodedValue(nil, s990e88_16, "20", fmt.Sprintf("element[%d]", elemIndex), "ENUMERATED {0, 1, 2, 4}", fmt.Sprint(int64(elem))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s990e88_16, "15", fmt.Sprintf("element[%d]", elemIndex), "ENUMERATED {0, 1, 2, 4}", fmt.Sprint(int64(elem))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4923,7 +4923,7 @@ func UnmarshalBERRequestParameterList(data []byte, opts ...ber.DecodeOption) (re
 				"decoding", false)
 		}
 		if val != 0 && val != 1 && val != 2 && val != 4 {
-			if constraintErr := checkDecodedValue(opts, s990e88_16, "20", fmt.Sprintf("element[%d]", len(result)), "ENUMERATED {0, 1, 2, 4}", fmt.Sprint(val)); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s990e88_16, "15", fmt.Sprintf("element[%d]", len(result)), "ENUMERATED {0, 1, 2, 4}", fmt.Sprint(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4936,7 +4936,7 @@ func UnmarshalBERRequestParameterList(data []byte, opts ...ber.DecodeOption) (re
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 2 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s990e88_16, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "RequestParameterList", "SIZE (1..2)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s990e88_16, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "RequestParameterList", "SIZE (1..2)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4964,7 +4964,7 @@ func MarshalBERSentParameterList(collection *SentParameterList, opts ...ber.Enco
 func marshalBERSentParameterList(collection *SentParameterList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 6 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s990e88_17, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "SentParameterList", "SIZE (1..6)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s990e88_17, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "SentParameterList", "SIZE (1..6)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5002,7 +5002,7 @@ func MarshalDERSentParameterList(collection *SentParameterList) ([]byte, error) 
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 6 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s990e88_17, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "SentParameterList", "SIZE (1..6)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s990e88_17, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "SentParameterList", "SIZE (1..6)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5100,7 +5100,7 @@ func UnmarshalBERSentParameterList(data []byte, opts ...ber.DecodeOption) (retur
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 6 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s990e88_17, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "SentParameterList", "SIZE (1..6)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s990e88_17, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "SentParameterList", "SIZE (1..6)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5144,7 +5144,7 @@ func (v *SentParameter) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "imsi", "encoding", false)
 		}
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_18, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_18, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5191,7 +5191,7 @@ func (v *SentParameter) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_3, "ki", "encoding", false)
 		}
 		if len(*v.Ki) < 16 || len(*v.Ki) > 16 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_18, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ki", "SIZE (16)", len(*v.Ki)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_18, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ki", "SIZE (16)", len(*v.Ki)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5349,7 +5349,7 @@ func (destination *SentParameter) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		tmp := IMSI(decVal)
 		v.Imsi = &tmp
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_18, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_18, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -5402,7 +5402,7 @@ func (destination *SentParameter) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		tmp := Ki(decVal)
 		v.Ki = &tmp
 		if len(*v.Ki) < 16 || len(*v.Ki) > 16 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_18, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ki", "SIZE (16)", len(*v.Ki)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_18, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ki", "SIZE (16)", len(*v.Ki)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -5428,7 +5428,7 @@ func (v *InsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5445,12 +5445,12 @@ func (v *InsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5467,7 +5467,7 @@ func (v *InsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.Category != nil {
 		if len(*v.Category) < 1 || len(*v.Category) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5484,7 +5484,7 @@ func (v *InsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.SubscriberStatus != nil {
 		if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
-			if constraintErr := checkEncodedValue(opts, s990e88_19, "20", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s990e88_19, "15", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5498,7 +5498,7 @@ func (v *InsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.BearerServiceList != nil {
 		if len((v.BearerServiceList).Values) < 1 || len((v.BearerServiceList).Values) > 50 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5531,7 +5531,7 @@ func (v *InsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.TeleserviceList != nil {
 		if len((v.TeleserviceList).Values) < 1 || len((v.TeleserviceList).Values) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5564,7 +5564,7 @@ func (v *InsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.ProvisionedSS != nil {
 		if len((v.ProvisionedSS).Values) < 1 || len((v.ProvisionedSS).Values) > 30 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5619,7 +5619,7 @@ func (v *InsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.RegionalSubscriptionData != nil {
 		if len((v.RegionalSubscriptionData).Values) < 1 || len((v.RegionalSubscriptionData).Values) > 10 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5691,7 +5691,7 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5708,12 +5708,12 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5730,7 +5730,7 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Category != nil {
 		if len(*v.Category) < 1 || len(*v.Category) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5747,7 +5747,7 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SubscriberStatus != nil {
 		if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
-			if constraintErr := checkEncodedValue(nil, s990e88_19, "20", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s990e88_19, "15", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5761,7 +5761,7 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	if v.BearerServiceList != nil {
 		if len((v.BearerServiceList).Values) < 1 || len((v.BearerServiceList).Values) > 50 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5778,7 +5778,7 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	if v.TeleserviceList != nil {
 		if len((v.TeleserviceList).Values) < 1 || len((v.TeleserviceList).Values) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5795,7 +5795,7 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	if v.ProvisionedSS != nil {
 		if len((v.ProvisionedSS).Values) < 1 || len((v.ProvisionedSS).Values) > 30 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5833,7 +5833,7 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	if v.RegionalSubscriptionData != nil {
 		if len((v.RegionalSubscriptionData).Values) < 1 || len((v.RegionalSubscriptionData).Values) > 10 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5950,7 +5950,7 @@ func (destination *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -5983,12 +5983,12 @@ func (destination *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_msisdn
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -6021,7 +6021,7 @@ func (destination *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_category
 				if len(*v.Category) < 1 || len(*v.Category) > 1 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -6057,7 +6057,7 @@ func (destination *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_subscriberstatus
 				if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
-					if constraintErr := checkDecodedValue(opts, s990e88_19, "20", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, s990e88_19, "15", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -6116,7 +6116,7 @@ func (destination *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_bearerservicelist
 				if len((v.BearerServiceList).Values) < 1 || len((v.BearerServiceList).Values) > 50 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -6173,7 +6173,7 @@ func (destination *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_teleservicelist
 				if len((v.TeleserviceList).Values) < 1 || len((v.TeleserviceList).Values) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -6230,7 +6230,7 @@ func (destination *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_provisionedss
 				if len((v.ProvisionedSS).Values) < 1 || len((v.ProvisionedSS).Values) > 30 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -6359,7 +6359,7 @@ func (destination *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_regionalsubscriptiondata
 				if len((v.RegionalSubscriptionData).Values) < 1 || len((v.RegionalSubscriptionData).Values) > 10 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_19, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -6418,12 +6418,12 @@ func (v *SubscriberData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6440,7 +6440,7 @@ func (v *SubscriberData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.Category != nil {
 		if len(*v.Category) < 1 || len(*v.Category) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6457,7 +6457,7 @@ func (v *SubscriberData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.SubscriberStatus != nil {
 		if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
-			if constraintErr := checkEncodedValue(opts, s990e88_20, "20", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s990e88_20, "15", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6471,7 +6471,7 @@ func (v *SubscriberData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.BearerServiceList != nil {
 		if len((v.BearerServiceList).Values) < 1 || len((v.BearerServiceList).Values) > 50 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6504,7 +6504,7 @@ func (v *SubscriberData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.TeleserviceList != nil {
 		if len((v.TeleserviceList).Values) < 1 || len((v.TeleserviceList).Values) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6537,7 +6537,7 @@ func (v *SubscriberData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.ProvisionedSS != nil {
 		if len((v.ProvisionedSS).Values) < 1 || len((v.ProvisionedSS).Values) > 30 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6592,7 +6592,7 @@ func (v *SubscriberData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.RegionalSubscriptionData != nil {
 		if len((v.RegionalSubscriptionData).Values) < 1 || len((v.RegionalSubscriptionData).Values) > 10 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6644,12 +6644,12 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6666,7 +6666,7 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 	}
 	if v.Category != nil {
 		if len(*v.Category) < 1 || len(*v.Category) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6683,7 +6683,7 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 	}
 	if v.SubscriberStatus != nil {
 		if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
-			if constraintErr := checkEncodedValue(nil, s990e88_20, "20", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s990e88_20, "15", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6697,7 +6697,7 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 	}
 	if v.BearerServiceList != nil {
 		if len((v.BearerServiceList).Values) < 1 || len((v.BearerServiceList).Values) > 50 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6714,7 +6714,7 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 	}
 	if v.TeleserviceList != nil {
 		if len((v.TeleserviceList).Values) < 1 || len((v.TeleserviceList).Values) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6731,7 +6731,7 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 	}
 	if v.ProvisionedSS != nil {
 		if len((v.ProvisionedSS).Values) < 1 || len((v.ProvisionedSS).Values) > 30 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6769,7 +6769,7 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 	}
 	if v.RegionalSubscriptionData != nil {
 		if len((v.RegionalSubscriptionData).Values) < 1 || len((v.RegionalSubscriptionData).Values) > 10 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6870,12 +6870,12 @@ func (destination *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_msisdn
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -6908,7 +6908,7 @@ func (destination *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_category
 				if len(*v.Category) < 1 || len(*v.Category) > 1 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "category", "SIZE (1)", len(*v.Category)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -6945,7 +6945,7 @@ func (destination *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_subscriberstatus
 				if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
-					if constraintErr := checkDecodedValue(opts, s990e88_20, "20", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, s990e88_20, "15", "subscriberStatus", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SubscriberStatus))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7004,7 +7004,7 @@ func (destination *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_bearerservicelist
 				if len((v.BearerServiceList).Values) < 1 || len((v.BearerServiceList).Values) > 50 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7063,7 +7063,7 @@ func (destination *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_teleservicelist
 				if len((v.TeleserviceList).Values) < 1 || len((v.TeleserviceList).Values) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7122,7 +7122,7 @@ func (destination *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_provisionedss
 				if len((v.ProvisionedSS).Values) < 1 || len((v.ProvisionedSS).Values) > 30 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "provisionedSS", "SIZE (1..30)", len((v.ProvisionedSS).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7251,7 +7251,7 @@ func (destination *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_regionalsubscriptiondata
 				if len((v.RegionalSubscriptionData).Values) < 1 || len((v.RegionalSubscriptionData).Values) > 10 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_20, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "regionalSubscriptionData", "SIZE (1..10)", len((v.RegionalSubscriptionData).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7590,7 +7590,7 @@ func MarshalBERZoneCodeList(collection *ZoneCodeList, opts ...ber.EncodeOption) 
 func marshalBERZoneCodeList(collection *ZoneCodeList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s990e88_22, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ZoneCodeList", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, s990e88_22, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ZoneCodeList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -7598,7 +7598,7 @@ func marshalBERZoneCodeList(collection *ZoneCodeList, opts ...ber.EncodeOption) 
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 2 || len(elem) > 2 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_22, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (2)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_22, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (2)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7631,7 +7631,7 @@ func MarshalDERZoneCodeList(collection *ZoneCodeList) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s990e88_22, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ZoneCodeList", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, s990e88_22, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ZoneCodeList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -7639,7 +7639,7 @@ func MarshalDERZoneCodeList(collection *ZoneCodeList) ([]byte, error) {
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 2 || len(elem) > 2 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_22, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (2)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_22, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (2)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7718,7 +7718,7 @@ func UnmarshalBERZoneCodeList(data []byte, opts ...ber.DecodeOption) (returnValu
 				"decoding", false)
 		}
 		if len(val) < 2 || len(val) > 2 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_22, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (2)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_22, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (2)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7731,7 +7731,7 @@ func UnmarshalBERZoneCodeList(data []byte, opts ...ber.DecodeOption) (returnValu
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s990e88_22, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ZoneCodeList", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, s990e88_22, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ZoneCodeList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -7760,7 +7760,7 @@ func (v *InsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	var children []byte
 	if v.TeleserviceList != nil {
 		if len((v.TeleserviceList).Values) < 1 || len((v.TeleserviceList).Values) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7793,7 +7793,7 @@ func (v *InsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.BearerServiceList != nil {
 		if len((v.BearerServiceList).Values) < 1 || len((v.BearerServiceList).Values) > 50 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7826,7 +7826,7 @@ func (v *InsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.SsList != nil {
 		if len((v.SsList).Values) < 1 || len((v.SsList).Values) > 30 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7887,7 +7887,7 @@ func (v *InsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.RegionalSubscriptionResponse != nil {
 		if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
-			if constraintErr := checkEncodedValue(opts, s990e88_23, "20", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s990e88_23, "15", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7940,7 +7940,7 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.TeleserviceList != nil {
 		if len((v.TeleserviceList).Values) < 1 || len((v.TeleserviceList).Values) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_23, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_23, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7957,7 +7957,7 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 	}
 	if v.BearerServiceList != nil {
 		if len((v.BearerServiceList).Values) < 1 || len((v.BearerServiceList).Values) > 50 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_23, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_23, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7974,7 +7974,7 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 	}
 	if v.SsList != nil {
 		if len((v.SsList).Values) < 1 || len((v.SsList).Values) > 30 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_23, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_23, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8019,7 +8019,7 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 	}
 	if v.RegionalSubscriptionResponse != nil {
 		if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
-			if constraintErr := checkEncodedValue(nil, s990e88_23, "20", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s990e88_23, "15", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8155,7 +8155,7 @@ func (destination *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_teleservicelist
 				if len((v.TeleserviceList).Values) < 1 || len((v.TeleserviceList).Values) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "teleserviceList", "SIZE (1..20)", len((v.TeleserviceList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8214,7 +8214,7 @@ func (destination *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_bearerservicelist
 				if len((v.BearerServiceList).Values) < 1 || len((v.BearerServiceList).Values) > 50 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "bearerServiceList", "SIZE (1..50)", len((v.BearerServiceList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8271,7 +8271,7 @@ func (destination *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_sslist
 				if len((v.SsList).Values) < 1 || len((v.SsList).Values) > 30 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_23, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8346,7 +8346,7 @@ func (destination *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_regionalsubscriptionresponse
 				if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
-					if constraintErr := checkDecodedValue(opts, s990e88_23, "20", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, s990e88_23, "15", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8404,7 +8404,7 @@ func (v *DeleteSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8420,7 +8420,7 @@ func (v *DeleteSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	children = append(children, enc_imsi...)
 	if v.BasicServiceList != nil {
 		if len((v.BasicServiceList).Values) < 1 || len((v.BasicServiceList).Values) > 70 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "basicServiceList", "SIZE (1..70)", len((v.BasicServiceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "basicServiceList", "SIZE (1..70)", len((v.BasicServiceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8453,7 +8453,7 @@ func (v *DeleteSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.SsList != nil {
 		if len((v.SsList).Values) < 1 || len((v.SsList).Values) > 30 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8495,7 +8495,7 @@ func (v *DeleteSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.RegionalSubscriptionIdentifier != nil {
 		if len(*v.RegionalSubscriptionIdentifier) < 2 || len(*v.RegionalSubscriptionIdentifier) > 2 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "regionalSubscriptionIdentifier", "SIZE (2)", len(*v.RegionalSubscriptionIdentifier)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "regionalSubscriptionIdentifier", "SIZE (2)", len(*v.RegionalSubscriptionIdentifier)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8550,7 +8550,7 @@ func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8566,7 +8566,7 @@ func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_imsi...)
 	if v.BasicServiceList != nil {
 		if len((v.BasicServiceList).Values) < 1 || len((v.BasicServiceList).Values) > 70 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "basicServiceList", "SIZE (1..70)", len((v.BasicServiceList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "basicServiceList", "SIZE (1..70)", len((v.BasicServiceList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8583,7 +8583,7 @@ func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SsList != nil {
 		if len((v.SsList).Values) < 1 || len((v.SsList).Values) > 30 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8609,7 +8609,7 @@ func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	if v.RegionalSubscriptionIdentifier != nil {
 		if len(*v.RegionalSubscriptionIdentifier) < 2 || len(*v.RegionalSubscriptionIdentifier) > 2 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "regionalSubscriptionIdentifier", "SIZE (2)", len(*v.RegionalSubscriptionIdentifier)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "regionalSubscriptionIdentifier", "SIZE (2)", len(*v.RegionalSubscriptionIdentifier)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8730,7 +8730,7 @@ func (destination *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 		offset += n_imsi
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -8785,7 +8785,7 @@ func (destination *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_basicservicelist
 				if len((v.BasicServiceList).Values) < 1 || len((v.BasicServiceList).Values) > 70 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "basicServiceList", "SIZE (1..70)", len((v.BasicServiceList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "basicServiceList", "SIZE (1..70)", len((v.BasicServiceList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8842,7 +8842,7 @@ func (destination *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_sslist
 				if len((v.SsList).Values) < 1 || len((v.SsList).Values) > 30 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8906,7 +8906,7 @@ func (destination *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_regionalsubscriptionidentifier
 				if len(*v.RegionalSubscriptionIdentifier) < 2 || len(*v.RegionalSubscriptionIdentifier) > 2 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "regionalSubscriptionIdentifier", "SIZE (2)", len(*v.RegionalSubscriptionIdentifier)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_24, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "regionalSubscriptionIdentifier", "SIZE (2)", len(*v.RegionalSubscriptionIdentifier)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8965,7 +8965,7 @@ func (v *DeleteSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	var children []byte
 	if v.RegionalSubscriptionResponse != nil {
 		if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
-			if constraintErr := checkEncodedValue(opts, s990e88_25, "20", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s990e88_25, "15", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9018,7 +9018,7 @@ func (v *DeleteSubscriberDataRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.RegionalSubscriptionResponse != nil {
 		if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
-			if constraintErr := checkEncodedValue(nil, s990e88_25, "20", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s990e88_25, "15", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9136,7 +9136,7 @@ func (destination *DeleteSubscriberDataRes) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_regionalsubscriptionresponse
 				if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
-					if constraintErr := checkDecodedValue(opts, s990e88_25, "20", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, s990e88_25, "15", "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9195,7 +9195,7 @@ func (v *ResetArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if v.NetworkResource != nil {
 		if int64(*v.NetworkResource) != 0 && int64(*v.NetworkResource) != 1 && int64(*v.NetworkResource) != 2 && int64(*v.NetworkResource) != 3 && int64(*v.NetworkResource) != 4 && int64(*v.NetworkResource) != 5 && int64(*v.NetworkResource) != 6 && int64(*v.NetworkResource) != 7 {
-			if constraintErr := checkEncodedValue(opts, s990e88_26, "20", "networkResource", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.NetworkResource))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s990e88_26, "15", "networkResource", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.NetworkResource))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9203,12 +9203,12 @@ func (v *ResetArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_networkresource...)
 	}
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9219,7 +9219,7 @@ func (v *ResetArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	children = append(children, enc_hlrnumber...)
 	if v.HlrList != nil {
 		if len((v.HlrList).Values) < 1 || len((v.HlrList).Values) > 50 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-List", "SIZE (1..50)", len((v.HlrList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-List", "SIZE (1..50)", len((v.HlrList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9271,7 +9271,7 @@ func (v *ResetArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.NetworkResource != nil {
 		if int64(*v.NetworkResource) != 0 && int64(*v.NetworkResource) != 1 && int64(*v.NetworkResource) != 2 && int64(*v.NetworkResource) != 3 && int64(*v.NetworkResource) != 4 && int64(*v.NetworkResource) != 5 && int64(*v.NetworkResource) != 6 && int64(*v.NetworkResource) != 7 {
-			if constraintErr := checkEncodedValue(nil, s990e88_26, "20", "networkResource", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.NetworkResource))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, s990e88_26, "15", "networkResource", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.NetworkResource))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9279,12 +9279,12 @@ func (v *ResetArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_networkresource...)
 	}
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_26, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_26, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_26, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_26, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9295,7 +9295,7 @@ func (v *ResetArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_hlrnumber...)
 	if v.HlrList != nil {
 		if len((v.HlrList).Values) < 1 || len((v.HlrList).Values) > 50 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_26, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-List", "SIZE (1..50)", len((v.HlrList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_26, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-List", "SIZE (1..50)", len((v.HlrList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9399,7 +9399,7 @@ func (destination *ResetArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n
 				if int64(*v.NetworkResource) != 0 && int64(*v.NetworkResource) != 1 && int64(*v.NetworkResource) != 2 && int64(*v.NetworkResource) != 3 && int64(*v.NetworkResource) != 4 && int64(*v.NetworkResource) != 5 && int64(*v.NetworkResource) != 6 && int64(*v.NetworkResource) != 7 {
-					if constraintErr := checkDecodedValue(opts, s990e88_26, "20", "networkResource", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.NetworkResource))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, s990e88_26, "15", "networkResource", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.NetworkResource))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9424,12 +9424,12 @@ func (destination *ResetArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 		offset += n
 		if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -9472,7 +9472,7 @@ func (destination *ResetArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_hlrlist
 				if len((v.HlrList).Values) < 1 || len((v.HlrList).Values) > 50 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-List", "SIZE (1..50)", len((v.HlrList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_26, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-List", "SIZE (1..50)", len((v.HlrList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9530,7 +9530,7 @@ func (v *RestoreDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_27, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_27, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9541,7 +9541,7 @@ func (v *RestoreDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	children = append(children, enc_imsi...)
 	if v.Lmsi != nil {
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_27, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_27, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9591,7 +9591,7 @@ func (v *RestoreDataArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_27, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_27, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9602,7 +9602,7 @@ func (v *RestoreDataArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_imsi...)
 	if v.Lmsi != nil {
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_27, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_27, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9706,7 +9706,7 @@ func (destination *RestoreDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 		offset += n
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_27, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_27, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -9730,7 +9730,7 @@ func (destination *RestoreDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n
 				if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_27, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_27, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9788,12 +9788,12 @@ func (v *RestoreDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_28, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_28, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_28, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s990e88_28, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9846,12 +9846,12 @@ func (v *RestoreDataRes) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_28, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_28, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_28, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s990e88_28, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9958,12 +9958,12 @@ func (destination *RestoreDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 		offset += n
 		if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_28, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_28, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..9)", len(v.HlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_28, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s990e88_28, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "hlr-Number", "SIZE (1..20)", len(v.HlrNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}

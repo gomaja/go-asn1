@@ -11,7 +11,7 @@ import (
 )
 
 // berPathError preserves codec causes and offsets while carrying an ASN.1 path
-// across nested packages. X.680 (02/2021) §§25, 27–29 define the components;
+// across nested packages. X.208 (11/1988) §§20, 22, 24 define the components;
 // path formatting and error chaining are diagnostic contracts of this codec.
 // A type's outer TLV has an empty path; only enclosing components or
 // collection elements contribute segments. A cause without a path also
