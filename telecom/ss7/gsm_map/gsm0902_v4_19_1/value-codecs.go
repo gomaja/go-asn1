@@ -7,11 +7,9 @@ import (
 	"math/big"
 	"reflect"
 	"strings"
-	"unicode/utf8"
 
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
-	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
 )
 
 // ValueCodec is an immutable binding to one source type's BER/DER implementation.
@@ -33,7 +31,7 @@ func (c ValueCodec[T]) valid() bool { return c.decode != nil && c.encode != nil 
 // byte-exact BER replay of unchanged values. Trailing bytes and invalid options
 // produce errors matching ber.ErrExtraData and ber.ErrInvalidValue, respectively;
 // exhausted limits match ber.ErrResourceLimit. MAP source roots apply GSM 09.02
-// V4.19.1 §14.1.1; other roots use X.690 (02/2021) §8.
+// V4.19.1 §14.1.1; other roots use X.209 (11/1988) §§6–24.
 // Decoder errors are returned unchanged. Every error returns the zero T,
 // without retaining a partial value or received form.
 // An invalid codec, including the zero value, returns the zero T and
@@ -58,7 +56,7 @@ func (c ValueCodec[T]) DecodeBER(data []byte, opts ...ber.DecodeOption) (T, erro
 // typed values recursively. Strict MAP replay rejects retained profile
 // violations; edited values repair affected typed parts while preserving clean
 // parts. Fresh MAP forms follow GSM 09.02 V4.19.1 §14.1.1; generic BER follows
-// X.690 (02/2021) §8. Invalid options and unrepresentable values remain errors.
+// X.209 (11/1988) §§6–24. Invalid options and unrepresentable values remain errors.
 // Encoder errors are returned unchanged. An invalid codec, including the zero
 // value, returns nil and ber.ErrInvalidCodec without calling an encoder.
 func (c ValueCodec[T]) EncodeBER(value T, opts ...ber.EncodeOption) ([]byte, error) {
@@ -70,7 +68,7 @@ func (c ValueCodec[T]) EncodeBER(value T, opts ...ber.EncodeOption) ([]byte, err
 
 // EncodeDER delegates value to the bound DER encoder without BER options.
 // Generated factories validate strictly and rebuild the canonical encoding
-// instead of replaying received BER forms (X.690 (02/2021) §§10–11).
+// instead of replaying received BER forms. Historical BER is defined by X.209 (11/1988).
 // Encoder errors are returned unchanged. An invalid codec, including the zero
 // value, returns nil and ber.ErrInvalidCodec without calling an encoder.
 func (c ValueCodec[T]) EncodeDER(value T) ([]byte, error) {
@@ -147,7 +145,7 @@ func checkPrimitiveRules[T any](value T, rules []primitiveRule[T], source, name 
 		if !rule.invalid(value) {
 			continue
 		}
-		ref := ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: rule.clause}
+		ref := ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: rule.clause}
 		if _, bits := any(value).(runtime.BitString); bits {
 			ref = ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}
 		}
@@ -324,7 +322,7 @@ func bigIntegerValueCodec(source, name string) ValueCodec[BERValue[*big.Int]] {
 	return primitiveValueCodec(source, name, nil, ber.DecodeBigInt, func(v *big.Int, _ bool) ([]byte, error) { return ber.EncodeBigInt(v) }, nil)
 }
 func bitValueCodec(source, name string, rules []primitiveRule[runtime.BitString], named bool, sets []ber.NamedBitSizeSet) ValueCodec[BERValue[runtime.BitString]] {
-	// X.690 (02/2021) §§8.6.2.2–8.6.2.3: reject malformed storage before SIZE.
+	// X.209 (11/1988) §§11.2–11.3: reject malformed storage before SIZE.
 	normalize := func(v runtime.BitString, encoding bool, _ []ber.DecodeOption, _ []ber.EncodeOption) (runtime.BitString, error) {
 		if encoding {
 			return v, ber.ValidateBitStringLength(v.Bytes, v.BitLength)
@@ -448,7 +446,7 @@ func prepareValueBER(data []byte, opts []ber.DecodeOption, source, pathLabel str
 	return prepared, ber.LocateDecodedElement(prepared, source, preparedOpts), nil
 }
 func sourceASN1Rule(clause string) ber.RuleRef {
-	return ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: clause}
+	return ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: clause}
 }
 func checkDecodedLength(opts []ber.DecodeOption, source, clause, path, constraint string, observed int) error {
 	return ber.CheckDecodedLength(ber.DecodeRule(opts, source, sourceASN1Rule(clause)), path, constraint, observed)
@@ -516,7 +514,7 @@ func checkInvalidOpaqueElement(data []byte, opts []ber.EncodeOption, component s
 	return ber.CheckBEROpaqueElement(data, ber.EncodeSource(opts, source)...)
 }
 
-// The extension loop owns one lazy base count. X.690 (02/2021) §8.9:
+// The extension loop owns one lazy base count. X.209 (11/1988) §14:
 // preceding children are scanned once per encode, only on the first failure;
 // each earlier addition is one complete TLV, so later ordinals are base + i.
 func checkOpaqueAddition(data []byte, opts []ber.EncodeOption, source string, children []byte, i int, base *int) error {
@@ -578,32 +576,6 @@ func invalidDERAddition(data []byte, source string, children []byte, i int) erro
 		return opaqueExtensionError(err, i)
 	}
 	return opaqueExtensionError(ber.ValidateDEREncodedElement(data), i)
-}
-
-// X.690 (02/2021) §8.23.10: the primitive contents encoder checks
-// scalar text and screens code-extension controls before any TLV exists. Only invalid
-// text needs diagnostic metadata; the encoded TLV is never parsed again.
-func encodeUTF8String(value string, opts []ber.EncodeOption, component string, index int, source string) ([]byte, error) {
-	if utf8.ValidString(value) && !strings.ContainsAny(value, "\x1b\x0e\x0f\u008e\u008f") {
-		// X.680 (02/2021) §§41.6,41.16; ISO/IEC 10646:2003 §§7 a),8 exclude noncharacters.
-		for _, r := range value {
-			if r >= 0xfdd0 && r <= 0xfdef || r&0xffff >= 0xfffe {
-				return encodeInvalidUTF8String(value, opts, component, index, source)
-			}
-		}
-		return ber.EncodeTLV(tag.Tag{Number: 12}, []byte(value))
-	}
-	return encodeInvalidUTF8String(value, opts, component, index, source)
-}
-func encodeInvalidUTF8String(value string, opts []ber.EncodeOption, component string, index int, source string) ([]byte, error) {
-	if index >= 0 {
-		component = fmt.Sprintf("%s[%d]", component, index)
-	}
-	rule := ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.10"}
-	if err := ber.CheckEncodedValue(ber.EncodeRule(opts, source, rule), component, "UTF8String shortest-form UTF-8 scalar text (X.690 (02/2021) §8.23.10)", value); err != nil {
-		return nil, err
-	}
-	return ber.EncodeTLV(tag.Tag{Number: 12}, []byte(value))
 }
 
 // Historical diagnostics use the exact supplied or received bit count.
@@ -721,7 +693,7 @@ func checkPublicMAPEncode[T any](value *T, node *ber.ReplayNode, opts []ber.Enco
 	}
 }
 
-// X.690 (02/2021) §8.23.5.3/Table 3: ordinary IA5 text needs no
+// X.209 (11/1988) §23.5.3/Table 2: ordinary IA5 text needs no
 // diagnostic options or source metadata. Only a possible escape uses the
 // runtime's complete-sequence recognizer and tolerant report policy.
 func checkIA5Controls(value string, opts []ber.EncodeOption, component, source string) error {
@@ -734,17 +706,17 @@ func checkIA5Controls(value string, opts []ber.EncodeOption, component, source s
 
 // CommonComponentIdCodec binds MobileDomainDefinitions.CommonComponentId.
 func CommonComponentIdCodec() ValueCodec[BERValue[CommonComponentId]] {
-	return integerValueCodec[CommonComponentId]("MobileDomainDefinitions.CommonComponentId", "CommonComponentId", []primitiveRule[CommonComponentId]{{invalid: func(value CommonComponentId) bool { return !(int64(value) >= 0 && int64(value) <= 9) }, description: "(0..9)", clause: "51.4", observed: func(value CommonComponentId) any { return int64(value) }}}, false)
+	return integerValueCodec[CommonComponentId]("MobileDomainDefinitions.CommonComponentId", "CommonComponentId", []primitiveRule[CommonComponentId]{{invalid: func(value CommonComponentId) bool { return !(int64(value) >= 0 && int64(value) <= 9) }, description: "(0..9)", clause: "37.3", observed: func(value CommonComponentId) any { return int64(value) }}}, false)
 }
 
 // BearerServiceCodeCodec binds MAP-BS-Code.BearerServiceCode.
 func BearerServiceCodeCodec() ValueCodec[BERValue[BearerServiceCode]] {
-	return octetValueCodec[BearerServiceCode]("MAP-BS-Code.BearerServiceCode", "BearerServiceCode", []primitiveRule[BearerServiceCode]{{invalid: func(value BearerServiceCode) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "51.5", length: func(value BearerServiceCode) int { return len(value) }}})
+	return octetValueCodec[BearerServiceCode]("MAP-BS-Code.BearerServiceCode", "BearerServiceCode", []primitiveRule[BearerServiceCode]{{invalid: func(value BearerServiceCode) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "37.4", length: func(value BearerServiceCode) int { return len(value) }}})
 }
 
 // TeleserviceCodeCodec binds MAP-TS-Code.TeleserviceCode.
 func TeleserviceCodeCodec() ValueCodec[BERValue[TeleserviceCode]] {
-	return octetValueCodec[TeleserviceCode]("MAP-TS-Code.TeleserviceCode", "TeleserviceCode", []primitiveRule[TeleserviceCode]{{invalid: func(value TeleserviceCode) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "51.5", length: func(value TeleserviceCode) int { return len(value) }}})
+	return octetValueCodec[TeleserviceCode]("MAP-TS-Code.TeleserviceCode", "TeleserviceCode", []primitiveRule[TeleserviceCode]{{invalid: func(value TeleserviceCode) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "37.4", length: func(value TeleserviceCode) int { return len(value) }}})
 }
 
 // TBCDSTRINGCodec binds MAP-CommonDataTypes.TBCD-STRING.
@@ -754,7 +726,7 @@ func TBCDSTRINGCodec() ValueCodec[BERValue[TBCDSTRING]] {
 
 // AddressStringCodec binds MAP-CommonDataTypes.AddressString.
 func AddressStringCodec() ValueCodec[BERValue[AddressString]] {
-	return octetValueCodec[AddressString]("MAP-CommonDataTypes.AddressString", "AddressString", []primitiveRule[AddressString]{{invalid: func(value AddressString) bool { return !(len(value) >= 1 && len(value) <= 20) }, description: "SIZE (1..20)", clause: "51.5", length: func(value AddressString) int { return len(value) }}})
+	return octetValueCodec[AddressString]("MAP-CommonDataTypes.AddressString", "AddressString", []primitiveRule[AddressString]{{invalid: func(value AddressString) bool { return !(len(value) >= 1 && len(value) <= 20) }, description: "SIZE (1..20)", clause: "37.4", length: func(value AddressString) int { return len(value) }}})
 }
 
 // ISDNAddressStringCodec binds MAP-CommonDataTypes.ISDN-AddressString.
@@ -764,7 +736,7 @@ func ISDNAddressStringCodec() ValueCodec[BERValue[ISDNAddressString]] {
 
 // ISDNSubaddressStringCodec binds MAP-CommonDataTypes.ISDN-SubaddressString.
 func ISDNSubaddressStringCodec() ValueCodec[BERValue[ISDNSubaddressString]] {
-	return octetValueCodec[ISDNSubaddressString]("MAP-CommonDataTypes.ISDN-SubaddressString", "ISDN-SubaddressString", []primitiveRule[ISDNSubaddressString]{{invalid: func(value ISDNSubaddressString) bool { return !(len(value) >= 1 && len(value) <= 21) }, description: "SIZE (1..21)", clause: "51.5", length: func(value ISDNSubaddressString) int { return len(value) }}})
+	return octetValueCodec[ISDNSubaddressString]("MAP-CommonDataTypes.ISDN-SubaddressString", "ISDN-SubaddressString", []primitiveRule[ISDNSubaddressString]{{invalid: func(value ISDNSubaddressString) bool { return !(len(value) >= 1 && len(value) <= 21) }, description: "SIZE (1..21)", clause: "37.4", length: func(value ISDNSubaddressString) int { return len(value) }}})
 }
 
 // ExternalSignalInfoCodec binds MAP-CommonDataTypes.ExternalSignalInfo.
@@ -774,14 +746,14 @@ func ExternalSignalInfoCodec() ValueCodec[ExternalSignalInfo] {
 
 // SignalInfoCodec binds MAP-CommonDataTypes.SignalInfo.
 func SignalInfoCodec() ValueCodec[BERValue[SignalInfo]] {
-	return octetValueCodec[SignalInfo]("MAP-CommonDataTypes.SignalInfo", "SignalInfo", []primitiveRule[SignalInfo]{{invalid: func(value SignalInfo) bool { return !(len(value) >= 1 && len(value) <= 200) }, description: "SIZE (1..200)", clause: "51.5", length: func(value SignalInfo) int { return len(value) }}})
+	return octetValueCodec[SignalInfo]("MAP-CommonDataTypes.SignalInfo", "SignalInfo", []primitiveRule[SignalInfo]{{invalid: func(value SignalInfo) bool { return !(len(value) >= 1 && len(value) <= 200) }, description: "SIZE (1..200)", clause: "37.4", length: func(value SignalInfo) int { return len(value) }}})
 }
 
 // ProtocolIdCodec binds MAP-CommonDataTypes.ProtocolId.
 func ProtocolIdCodec() ValueCodec[BERValue[ProtocolId]] {
 	return integerValueCodec[ProtocolId]("MAP-CommonDataTypes.ProtocolId", "ProtocolId", []primitiveRule[ProtocolId]{{invalid: func(value ProtocolId) bool {
 		return (int64(value) != 1 && int64(value) != 2 && int64(value) != 3 && int64(value) != 4)
-	}, description: "ENUMERATED {1, 2, 3, 4}", clause: "20", observed: func(value ProtocolId) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {1, 2, 3, 4}", clause: "15", observed: func(value ProtocolId) any { return int64(value) }}}, true)
 }
 
 // IMSICodec binds MAP-CommonDataTypes.IMSI.
@@ -791,7 +763,7 @@ func IMSICodec() ValueCodec[BERValue[IMSI]] {
 
 // TMSICodec binds MAP-CommonDataTypes.TMSI.
 func TMSICodec() ValueCodec[BERValue[TMSI]] {
-	return octetValueCodec[TMSI]("MAP-CommonDataTypes.TMSI", "TMSI", []primitiveRule[TMSI]{{invalid: func(value TMSI) bool { return !(len(value) >= 1 && len(value) <= 4) }, description: "SIZE (1..4)", clause: "51.5", length: func(value TMSI) int { return len(value) }}})
+	return octetValueCodec[TMSI]("MAP-CommonDataTypes.TMSI", "TMSI", []primitiveRule[TMSI]{{invalid: func(value TMSI) bool { return !(len(value) >= 1 && len(value) <= 4) }, description: "SIZE (1..4)", clause: "37.4", length: func(value TMSI) int { return len(value) }}})
 }
 
 // SubscriberIdCodec binds MAP-CommonDataTypes.SubscriberId.
@@ -821,24 +793,24 @@ func HLRListCodec() ValueCodec[HLRList] {
 
 // LMSICodec binds MAP-CommonDataTypes.LMSI.
 func LMSICodec() ValueCodec[BERValue[LMSI]] {
-	return octetValueCodec[LMSI]("MAP-CommonDataTypes.LMSI", "LMSI", []primitiveRule[LMSI]{{invalid: func(value LMSI) bool { return !(len(value) == 4) }, description: "SIZE (4)", clause: "51.5", length: func(value LMSI) int { return len(value) }}})
+	return octetValueCodec[LMSI]("MAP-CommonDataTypes.LMSI", "LMSI", []primitiveRule[LMSI]{{invalid: func(value LMSI) bool { return !(len(value) == 4) }, description: "SIZE (4)", clause: "37.4", length: func(value LMSI) int { return len(value) }}})
 }
 
 // GlobalCellIdCodec binds MAP-CommonDataTypes.GlobalCellId.
 func GlobalCellIdCodec() ValueCodec[BERValue[GlobalCellId]] {
-	return octetValueCodec[GlobalCellId]("MAP-CommonDataTypes.GlobalCellId", "GlobalCellId", []primitiveRule[GlobalCellId]{{invalid: func(value GlobalCellId) bool { return !(len(value) >= 5 && len(value) <= 7) }, description: "SIZE (5..7)", clause: "51.5", length: func(value GlobalCellId) int { return len(value) }}})
+	return octetValueCodec[GlobalCellId]("MAP-CommonDataTypes.GlobalCellId", "GlobalCellId", []primitiveRule[GlobalCellId]{{invalid: func(value GlobalCellId) bool { return !(len(value) >= 5 && len(value) <= 7) }, description: "SIZE (5..7)", clause: "37.4", length: func(value GlobalCellId) int { return len(value) }}})
 }
 
 // NetworkResourceCodec binds MAP-CommonDataTypes.NetworkResource.
 func NetworkResourceCodec() ValueCodec[BERValue[NetworkResource]] {
 	return integerValueCodec[NetworkResource]("MAP-CommonDataTypes.NetworkResource", "NetworkResource", []primitiveRule[NetworkResource]{{invalid: func(value NetworkResource) bool {
 		return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2 && int64(value) != 3 && int64(value) != 4 && int64(value) != 5 && int64(value) != 6 && int64(value) != 7)
-	}, description: "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", clause: "20", observed: func(value NetworkResource) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", clause: "15", observed: func(value NetworkResource) any { return int64(value) }}}, true)
 }
 
 // CategoryCodec binds MAP-CommonDataTypes.Category.
 func CategoryCodec() ValueCodec[BERValue[Category]] {
-	return octetValueCodec[Category]("MAP-CommonDataTypes.Category", "Category", []primitiveRule[Category]{{invalid: func(value Category) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "51.5", length: func(value Category) int { return len(value) }}})
+	return octetValueCodec[Category]("MAP-CommonDataTypes.Category", "Category", []primitiveRule[Category]{{invalid: func(value Category) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "37.4", length: func(value Category) int { return len(value) }}})
 }
 
 // BearerServiceListCodec binds MAP-CommonDataTypes.BearerServiceList.
@@ -868,7 +840,7 @@ func BasicServiceGroupListCodec() ValueCodec[BasicServiceGroupList] {
 
 // SSCodeCodec binds MAP-SS-Code.SS-Code.
 func SSCodeCodec() ValueCodec[BERValue[SSCode]] {
-	return octetValueCodec[SSCode]("MAP-SS-Code.SS-Code", "SS-Code", []primitiveRule[SSCode]{{invalid: func(value SSCode) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "51.5", length: func(value SSCode) int { return len(value) }}})
+	return octetValueCodec[SSCode]("MAP-SS-Code.SS-Code", "SS-Code", []primitiveRule[SSCode]{{invalid: func(value SSCode) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "37.4", length: func(value SSCode) int { return len(value) }}})
 }
 
 // RegisterSSArgCodec binds MAP-SS-DataTypes.RegisterSS-Arg.
@@ -878,7 +850,7 @@ func RegisterSSArgCodec() ValueCodec[RegisterSSArg] {
 
 // NoReplyConditionTimeCodec binds MAP-SS-DataTypes.NoReplyConditionTime.
 func NoReplyConditionTimeCodec() ValueCodec[BERValue[NoReplyConditionTime]] {
-	return integerValueCodec[NoReplyConditionTime]("MAP-SS-DataTypes.NoReplyConditionTime", "NoReplyConditionTime", []primitiveRule[NoReplyConditionTime]{{invalid: func(value NoReplyConditionTime) bool { return !(int64(value) >= 5 && int64(value) <= 30) }, description: "(5..30)", clause: "51.4", observed: func(value NoReplyConditionTime) any { return int64(value) }}}, false)
+	return integerValueCodec[NoReplyConditionTime]("MAP-SS-DataTypes.NoReplyConditionTime", "NoReplyConditionTime", []primitiveRule[NoReplyConditionTime]{{invalid: func(value NoReplyConditionTime) bool { return !(int64(value) >= 5 && int64(value) <= 30) }, description: "(5..30)", clause: "37.3", observed: func(value NoReplyConditionTime) any { return int64(value) }}}, false)
 }
 
 // SSInfoCodec binds MAP-SS-DataTypes.SS-Info.
@@ -903,12 +875,12 @@ func ForwardingFeatureCodec() ValueCodec[ForwardingFeature] {
 
 // SSStatusCodec binds MAP-SS-DataTypes.SS-Status.
 func SSStatusCodec() ValueCodec[BERValue[SSStatus]] {
-	return octetValueCodec[SSStatus]("MAP-SS-DataTypes.SS-Status", "SS-Status", []primitiveRule[SSStatus]{{invalid: func(value SSStatus) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "51.5", length: func(value SSStatus) int { return len(value) }}})
+	return octetValueCodec[SSStatus]("MAP-SS-DataTypes.SS-Status", "SS-Status", []primitiveRule[SSStatus]{{invalid: func(value SSStatus) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "37.4", length: func(value SSStatus) int { return len(value) }}})
 }
 
 // ForwardingOptionsCodec binds MAP-SS-DataTypes.ForwardingOptions.
 func ForwardingOptionsCodec() ValueCodec[BERValue[ForwardingOptions]] {
-	return octetValueCodec[ForwardingOptions]("MAP-SS-DataTypes.ForwardingOptions", "ForwardingOptions", []primitiveRule[ForwardingOptions]{{invalid: func(value ForwardingOptions) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "51.5", length: func(value ForwardingOptions) int { return len(value) }}})
+	return octetValueCodec[ForwardingOptions]("MAP-SS-DataTypes.ForwardingOptions", "ForwardingOptions", []primitiveRule[ForwardingOptions]{{invalid: func(value ForwardingOptions) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "37.4", length: func(value ForwardingOptions) int { return len(value) }}})
 }
 
 // CallBarringInfoCodec binds MAP-SS-DataTypes.CallBarringInfo.
@@ -943,17 +915,17 @@ func CUGSubscriptionCodec() ValueCodec[CUGSubscription] {
 
 // CUGIndexCodec binds MAP-SS-DataTypes.CUG-Index.
 func CUGIndexCodec() ValueCodec[BERValue[CUGIndex]] {
-	return integerValueCodec[CUGIndex]("MAP-SS-DataTypes.CUG-Index", "CUG-Index", []primitiveRule[CUGIndex]{{invalid: func(value CUGIndex) bool { return !(int64(value) >= 0 && int64(value) <= 32767) }, description: "(0..32767)", clause: "51.4", observed: func(value CUGIndex) any { return int64(value) }}}, false)
+	return integerValueCodec[CUGIndex]("MAP-SS-DataTypes.CUG-Index", "CUG-Index", []primitiveRule[CUGIndex]{{invalid: func(value CUGIndex) bool { return !(int64(value) >= 0 && int64(value) <= 32767) }, description: "(0..32767)", clause: "37.3", observed: func(value CUGIndex) any { return int64(value) }}}, false)
 }
 
 // CUGInterlockCodec binds MAP-SS-DataTypes.CUG-Interlock.
 func CUGInterlockCodec() ValueCodec[BERValue[CUGInterlock]] {
-	return octetValueCodec[CUGInterlock]("MAP-SS-DataTypes.CUG-Interlock", "CUG-Interlock", []primitiveRule[CUGInterlock]{{invalid: func(value CUGInterlock) bool { return !(len(value) == 4) }, description: "SIZE (4)", clause: "51.5", length: func(value CUGInterlock) int { return len(value) }}})
+	return octetValueCodec[CUGInterlock]("MAP-SS-DataTypes.CUG-Interlock", "CUG-Interlock", []primitiveRule[CUGInterlock]{{invalid: func(value CUGInterlock) bool { return !(len(value) == 4) }, description: "SIZE (4)", clause: "37.4", length: func(value CUGInterlock) int { return len(value) }}})
 }
 
 // IntraCUGOptionsCodec binds MAP-SS-DataTypes.IntraCUG-Options.
 func IntraCUGOptionsCodec() ValueCodec[BERValue[IntraCUGOptions]] {
-	return integerValueCodec[IntraCUGOptions]("MAP-SS-DataTypes.IntraCUG-Options", "IntraCUG-Options", []primitiveRule[IntraCUGOptions]{{invalid: func(value IntraCUGOptions) bool { return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2) }, description: "ENUMERATED {0, 1, 2}", clause: "20", observed: func(value IntraCUGOptions) any { return int64(value) }}}, true)
+	return integerValueCodec[IntraCUGOptions]("MAP-SS-DataTypes.IntraCUG-Options", "IntraCUG-Options", []primitiveRule[IntraCUGOptions]{{invalid: func(value IntraCUGOptions) bool { return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2) }, description: "ENUMERATED {0, 1, 2}", clause: "15", observed: func(value IntraCUGOptions) any { return int64(value) }}}, true)
 }
 
 // CUGFeatureListCodec binds MAP-SS-DataTypes.CUG-FeatureList.
@@ -968,7 +940,7 @@ func CUGFeatureCodec() ValueCodec[CUGFeature] {
 
 // InterCUGRestrictionsCodec binds MAP-SS-DataTypes.InterCUG-Restrictions.
 func InterCUGRestrictionsCodec() ValueCodec[BERValue[InterCUGRestrictions]] {
-	return octetValueCodec[InterCUGRestrictions]("MAP-SS-DataTypes.InterCUG-Restrictions", "InterCUG-Restrictions", []primitiveRule[InterCUGRestrictions]{{invalid: func(value InterCUGRestrictions) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "51.5", length: func(value InterCUGRestrictions) int { return len(value) }}})
+	return octetValueCodec[InterCUGRestrictions]("MAP-SS-DataTypes.InterCUG-Restrictions", "InterCUG-Restrictions", []primitiveRule[InterCUGRestrictions]{{invalid: func(value InterCUGRestrictions) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "37.4", length: func(value InterCUGRestrictions) int { return len(value) }}})
 }
 
 // SSDataCodec binds MAP-SS-DataTypes.SS-Data.
@@ -985,12 +957,12 @@ func SSSubscriptionOptionCodec() ValueCodec[SSSubscriptionOption] {
 func CliRestrictionOptionCodec() ValueCodec[BERValue[CliRestrictionOption]] {
 	return integerValueCodec[CliRestrictionOption]("MAP-SS-DataTypes.CliRestrictionOption", "CliRestrictionOption", []primitiveRule[CliRestrictionOption]{{invalid: func(value CliRestrictionOption) bool {
 		return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2)
-	}, description: "ENUMERATED {0, 1, 2}", clause: "20", observed: func(value CliRestrictionOption) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {0, 1, 2}", clause: "15", observed: func(value CliRestrictionOption) any { return int64(value) }}}, true)
 }
 
 // OverrideCategoryCodec binds MAP-SS-DataTypes.OverrideCategory.
 func OverrideCategoryCodec() ValueCodec[BERValue[OverrideCategory]] {
-	return integerValueCodec[OverrideCategory]("MAP-SS-DataTypes.OverrideCategory", "OverrideCategory", []primitiveRule[OverrideCategory]{{invalid: func(value OverrideCategory) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "20", observed: func(value OverrideCategory) any { return int64(value) }}}, true)
+	return integerValueCodec[OverrideCategory]("MAP-SS-DataTypes.OverrideCategory", "OverrideCategory", []primitiveRule[OverrideCategory]{{invalid: func(value OverrideCategory) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "15", observed: func(value OverrideCategory) any { return int64(value) }}}, true)
 }
 
 // SSForBSCodeCodec binds MAP-SS-DataTypes.SS-ForBS-Code.
@@ -1025,12 +997,12 @@ func USSDResCodec() ValueCodec[USSDRes] {
 
 // USSDDataCodingSchemeCodec binds MAP-SS-DataTypes.USSD-DataCodingScheme.
 func USSDDataCodingSchemeCodec() ValueCodec[BERValue[USSDDataCodingScheme]] {
-	return octetValueCodec[USSDDataCodingScheme]("MAP-SS-DataTypes.USSD-DataCodingScheme", "USSD-DataCodingScheme", []primitiveRule[USSDDataCodingScheme]{{invalid: func(value USSDDataCodingScheme) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "51.5", length: func(value USSDDataCodingScheme) int { return len(value) }}})
+	return octetValueCodec[USSDDataCodingScheme]("MAP-SS-DataTypes.USSD-DataCodingScheme", "USSD-DataCodingScheme", []primitiveRule[USSDDataCodingScheme]{{invalid: func(value USSDDataCodingScheme) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "37.4", length: func(value USSDDataCodingScheme) int { return len(value) }}})
 }
 
 // USSDStringCodec binds MAP-SS-DataTypes.USSD-String.
 func USSDStringCodec() ValueCodec[BERValue[USSDString]] {
-	return octetValueCodec[USSDString]("MAP-SS-DataTypes.USSD-String", "USSD-String", []primitiveRule[USSDString]{{invalid: func(value USSDString) bool { return !(len(value) >= 1 && len(value) <= 160) }, description: "SIZE (1..160)", clause: "51.5", length: func(value USSDString) int { return len(value) }}})
+	return octetValueCodec[USSDString]("MAP-SS-DataTypes.USSD-String", "USSD-String", []primitiveRule[USSDString]{{invalid: func(value USSDString) bool { return !(len(value) >= 1 && len(value) <= 160) }, description: "SIZE (1..160)", clause: "37.4", length: func(value USSDString) int { return len(value) }}})
 }
 
 // PasswordCodec binds MAP-SS-DataTypes.Password.
@@ -1042,7 +1014,7 @@ func PasswordCodec() ValueCodec[BERValue[Password]] {
 func GuidanceInfoCodec() ValueCodec[BERValue[GuidanceInfo]] {
 	return integerValueCodec[GuidanceInfo]("MAP-SS-DataTypes.GuidanceInfo", "GuidanceInfo", []primitiveRule[GuidanceInfo]{{invalid: func(value GuidanceInfo) bool {
 		return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2 && int64(value) != 3 && int64(value) != 4)
-	}, description: "ENUMERATED {0, 1, 2, 3, 4}", clause: "20", observed: func(value GuidanceInfo) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {0, 1, 2, 3, 4}", clause: "15", observed: func(value GuidanceInfo) any { return int64(value) }}}, true)
 }
 
 // BeginSubscriberActivityArgCodec binds MAP-SS-DataTypes.BeginSubscriberActivityArg.
@@ -1072,7 +1044,7 @@ func CUGCheckInfoCodec() ValueCodec[CUGCheckInfo] {
 
 // NumberOfForwardingCodec binds MAP-CH-DataTypes.NumberOfForwarding.
 func NumberOfForwardingCodec() ValueCodec[BERValue[NumberOfForwarding]] {
-	return integerValueCodec[NumberOfForwarding]("MAP-CH-DataTypes.NumberOfForwarding", "NumberOfForwarding", []primitiveRule[NumberOfForwarding]{{invalid: func(value NumberOfForwarding) bool { return !(int64(value) >= 1 && int64(value) <= 5) }, description: "(1..5)", clause: "51.4", observed: func(value NumberOfForwarding) any { return int64(value) }}}, false)
+	return integerValueCodec[NumberOfForwarding]("MAP-CH-DataTypes.NumberOfForwarding", "NumberOfForwarding", []primitiveRule[NumberOfForwarding]{{invalid: func(value NumberOfForwarding) bool { return !(int64(value) >= 1 && int64(value) <= 5) }, description: "(1..5)", clause: "37.3", observed: func(value NumberOfForwarding) any { return int64(value) }}}, false)
 }
 
 // SendRoutingInfoArgCodec binds MAP-CH-DataTypes.SendRoutingInfoArg.
@@ -1122,7 +1094,7 @@ func MAPRefuseInfoCodec() ValueCodec[MAPRefuseInfo] {
 
 // ReasonCodec binds MAP-DialogueInformation.Reason.
 func ReasonCodec() ValueCodec[BERValue[Reason]] {
-	return integerValueCodec[Reason]("MAP-DialogueInformation.Reason", "Reason", []primitiveRule[Reason]{{invalid: func(value Reason) bool { return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2) }, description: "ENUMERATED {0, 1, 2}", clause: "20", observed: func(value Reason) any { return int64(value) }}}, true)
+	return integerValueCodec[Reason]("MAP-DialogueInformation.Reason", "Reason", []primitiveRule[Reason]{{invalid: func(value Reason) bool { return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2) }, description: "ENUMERATED {0, 1, 2}", clause: "15", observed: func(value Reason) any { return int64(value) }}}, true)
 }
 
 // MAPUserAbortInfoCodec binds MAP-DialogueInformation.MAP-UserAbortInfo.
@@ -1137,14 +1109,14 @@ func MAPUserAbortChoiceCodec() ValueCodec[MAPUserAbortChoice] {
 
 // ResourceUnavailableReasonCodec binds MAP-DialogueInformation.ResourceUnavailableReason.
 func ResourceUnavailableReasonCodec() ValueCodec[BERValue[ResourceUnavailableReason]] {
-	return integerValueCodec[ResourceUnavailableReason]("MAP-DialogueInformation.ResourceUnavailableReason", "ResourceUnavailableReason", []primitiveRule[ResourceUnavailableReason]{{invalid: func(value ResourceUnavailableReason) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "20", observed: func(value ResourceUnavailableReason) any { return int64(value) }}}, true)
+	return integerValueCodec[ResourceUnavailableReason]("MAP-DialogueInformation.ResourceUnavailableReason", "ResourceUnavailableReason", []primitiveRule[ResourceUnavailableReason]{{invalid: func(value ResourceUnavailableReason) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "15", observed: func(value ResourceUnavailableReason) any { return int64(value) }}}, true)
 }
 
 // ProcedureCancellationReasonCodec binds MAP-DialogueInformation.ProcedureCancellationReason.
 func ProcedureCancellationReasonCodec() ValueCodec[BERValue[ProcedureCancellationReason]] {
 	return integerValueCodec[ProcedureCancellationReason]("MAP-DialogueInformation.ProcedureCancellationReason", "ProcedureCancellationReason", []primitiveRule[ProcedureCancellationReason]{{invalid: func(value ProcedureCancellationReason) bool {
 		return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2 && int64(value) != 3 && int64(value) != 4 && int64(value) != 5 && int64(value) != 6)
-	}, description: "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", clause: "20", observed: func(value ProcedureCancellationReason) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", clause: "15", observed: func(value ProcedureCancellationReason) any { return int64(value) }}}, true)
 }
 
 // MAPProviderAbortInfoCodec binds MAP-DialogueInformation.MAP-ProviderAbortInfo.
@@ -1154,24 +1126,24 @@ func MAPProviderAbortInfoCodec() ValueCodec[MAPProviderAbortInfo] {
 
 // MAPProviderAbortReasonCodec binds MAP-DialogueInformation.MAP-ProviderAbortReason.
 func MAPProviderAbortReasonCodec() ValueCodec[BERValue[MAPProviderAbortReason]] {
-	return integerValueCodec[MAPProviderAbortReason]("MAP-DialogueInformation.MAP-ProviderAbortReason", "MAP-ProviderAbortReason", []primitiveRule[MAPProviderAbortReason]{{invalid: func(value MAPProviderAbortReason) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "20", observed: func(value MAPProviderAbortReason) any { return int64(value) }}}, true)
+	return integerValueCodec[MAPProviderAbortReason]("MAP-DialogueInformation.MAP-ProviderAbortReason", "MAP-ProviderAbortReason", []primitiveRule[MAPProviderAbortReason]{{invalid: func(value MAPProviderAbortReason) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "15", observed: func(value MAPProviderAbortReason) any { return int64(value) }}}, true)
 }
 
 // RoamingNotAllowedCauseCodec binds MAP-ER-DataTypes.RoamingNotAllowedCause.
 func RoamingNotAllowedCauseCodec() ValueCodec[BERValue[RoamingNotAllowedCause]] {
-	return integerValueCodec[RoamingNotAllowedCause]("MAP-ER-DataTypes.RoamingNotAllowedCause", "RoamingNotAllowedCause", []primitiveRule[RoamingNotAllowedCause]{{invalid: func(value RoamingNotAllowedCause) bool { return (int64(value) != 0 && int64(value) != 3) }, description: "ENUMERATED {0, 3}", clause: "20", observed: func(value RoamingNotAllowedCause) any { return int64(value) }}}, true)
+	return integerValueCodec[RoamingNotAllowedCause]("MAP-ER-DataTypes.RoamingNotAllowedCause", "RoamingNotAllowedCause", []primitiveRule[RoamingNotAllowedCause]{{invalid: func(value RoamingNotAllowedCause) bool { return (int64(value) != 0 && int64(value) != 3) }, description: "ENUMERATED {0, 3}", clause: "15", observed: func(value RoamingNotAllowedCause) any { return int64(value) }}}, true)
 }
 
 // CallBarringCauseCodec binds MAP-ER-DataTypes.CallBarringCause.
 func CallBarringCauseCodec() ValueCodec[BERValue[CallBarringCause]] {
-	return integerValueCodec[CallBarringCause]("MAP-ER-DataTypes.CallBarringCause", "CallBarringCause", []primitiveRule[CallBarringCause]{{invalid: func(value CallBarringCause) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "20", observed: func(value CallBarringCause) any { return int64(value) }}}, true)
+	return integerValueCodec[CallBarringCause]("MAP-ER-DataTypes.CallBarringCause", "CallBarringCause", []primitiveRule[CallBarringCause]{{invalid: func(value CallBarringCause) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "15", observed: func(value CallBarringCause) any { return int64(value) }}}, true)
 }
 
 // CUGRejectCauseCodec binds MAP-ER-DataTypes.CUG-RejectCause.
 func CUGRejectCauseCodec() ValueCodec[BERValue[CUGRejectCause]] {
 	return integerValueCodec[CUGRejectCause]("MAP-ER-DataTypes.CUG-RejectCause", "CUG-RejectCause", []primitiveRule[CUGRejectCause]{{invalid: func(value CUGRejectCause) bool {
 		return (int64(value) != 0 && int64(value) != 1 && int64(value) != 5 && int64(value) != 7)
-	}, description: "ENUMERATED {0, 1, 5, 7}", clause: "20", observed: func(value CUGRejectCause) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {0, 1, 5, 7}", clause: "15", observed: func(value CUGRejectCause) any { return int64(value) }}}, true)
 }
 
 // SSIncompatibilityCauseCodec binds MAP-ER-DataTypes.SS-IncompatibilityCause.
@@ -1183,7 +1155,7 @@ func SSIncompatibilityCauseCodec() ValueCodec[SSIncompatibilityCause] {
 func PWRegistrationFailureCauseCodec() ValueCodec[BERValue[PWRegistrationFailureCause]] {
 	return integerValueCodec[PWRegistrationFailureCause]("MAP-ER-DataTypes.PW-RegistrationFailureCause", "PW-RegistrationFailureCause", []primitiveRule[PWRegistrationFailureCause]{{invalid: func(value PWRegistrationFailureCause) bool {
 		return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2)
-	}, description: "ENUMERATED {0, 1, 2}", clause: "20", observed: func(value PWRegistrationFailureCause) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {0, 1, 2}", clause: "15", observed: func(value PWRegistrationFailureCause) any { return int64(value) }}}, true)
 }
 
 // SMDeliveryFailureCauseCodec binds MAP-ER-DataTypes.SM-DeliveryFailureCause.
@@ -1195,7 +1167,7 @@ func SMDeliveryFailureCauseCodec() ValueCodec[SMDeliveryFailureCause] {
 func SMEnumeratedDeliveryFailureCauseCodec() ValueCodec[BERValue[SMEnumeratedDeliveryFailureCause]] {
 	return integerValueCodec[SMEnumeratedDeliveryFailureCause]("MAP-ER-DataTypes.SM-EnumeratedDeliveryFailureCause", "SM-EnumeratedDeliveryFailureCause", []primitiveRule[SMEnumeratedDeliveryFailureCause]{{invalid: func(value SMEnumeratedDeliveryFailureCause) bool {
 		return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2 && int64(value) != 3 && int64(value) != 4 && int64(value) != 5 && int64(value) != 6)
-	}, description: "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", clause: "20", observed: func(value SMEnumeratedDeliveryFailureCause) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", clause: "15", observed: func(value SMEnumeratedDeliveryFailureCause) any { return int64(value) }}}, true)
 }
 
 // SMDeliveryFailureCauseWithDiagnosticCodec binds MAP-ER-DataTypes.SM-DeliveryFailureCauseWithDiagnostic.
@@ -1250,17 +1222,17 @@ func AuthenticationSetCodec() ValueCodec[AuthenticationSet] {
 
 // RANDCodec binds MAP-MS-DataTypes.RAND.
 func RANDCodec() ValueCodec[BERValue[RAND]] {
-	return octetValueCodec[RAND]("MAP-MS-DataTypes.RAND", "RAND", []primitiveRule[RAND]{{invalid: func(value RAND) bool { return !(len(value) == 16) }, description: "SIZE (16)", clause: "51.5", length: func(value RAND) int { return len(value) }}})
+	return octetValueCodec[RAND]("MAP-MS-DataTypes.RAND", "RAND", []primitiveRule[RAND]{{invalid: func(value RAND) bool { return !(len(value) == 16) }, description: "SIZE (16)", clause: "37.4", length: func(value RAND) int { return len(value) }}})
 }
 
 // SRESCodec binds MAP-MS-DataTypes.SRES.
 func SRESCodec() ValueCodec[BERValue[SRES]] {
-	return octetValueCodec[SRES]("MAP-MS-DataTypes.SRES", "SRES", []primitiveRule[SRES]{{invalid: func(value SRES) bool { return !(len(value) == 4) }, description: "SIZE (4)", clause: "51.5", length: func(value SRES) int { return len(value) }}})
+	return octetValueCodec[SRES]("MAP-MS-DataTypes.SRES", "SRES", []primitiveRule[SRES]{{invalid: func(value SRES) bool { return !(len(value) == 4) }, description: "SIZE (4)", clause: "37.4", length: func(value SRES) int { return len(value) }}})
 }
 
 // KcCodec binds MAP-MS-DataTypes.Kc.
 func KcCodec() ValueCodec[BERValue[Kc]] {
-	return octetValueCodec[Kc]("MAP-MS-DataTypes.Kc", "Kc", []primitiveRule[Kc]{{invalid: func(value Kc) bool { return !(len(value) == 8) }, description: "SIZE (8)", clause: "51.5", length: func(value Kc) int { return len(value) }}})
+	return octetValueCodec[Kc]("MAP-MS-DataTypes.Kc", "Kc", []primitiveRule[Kc]{{invalid: func(value Kc) bool { return !(len(value) == 8) }, description: "SIZE (8)", clause: "37.4", length: func(value Kc) int { return len(value) }}})
 }
 
 // PrepareHOArgCodec binds MAP-MS-DataTypes.PrepareHO-Arg.
@@ -1275,17 +1247,17 @@ func PerformHOArgCodec() ValueCodec[PerformHOArg] {
 
 // ChannelTypeCodec binds MAP-MS-DataTypes.ChannelType.
 func ChannelTypeCodec() ValueCodec[BERValue[ChannelType]] {
-	return octetValueCodec[ChannelType]("MAP-MS-DataTypes.ChannelType", "ChannelType", []primitiveRule[ChannelType]{{invalid: func(value ChannelType) bool { return !(len(value) >= 1 && len(value) <= 10) }, description: "SIZE (1..10)", clause: "51.5", length: func(value ChannelType) int { return len(value) }}})
+	return octetValueCodec[ChannelType]("MAP-MS-DataTypes.ChannelType", "ChannelType", []primitiveRule[ChannelType]{{invalid: func(value ChannelType) bool { return !(len(value) >= 1 && len(value) <= 10) }, description: "SIZE (1..10)", clause: "37.4", length: func(value ChannelType) int { return len(value) }}})
 }
 
 // ClassmarkInfoCodec binds MAP-MS-DataTypes.ClassmarkInfo.
 func ClassmarkInfoCodec() ValueCodec[BERValue[ClassmarkInfo]] {
-	return octetValueCodec[ClassmarkInfo]("MAP-MS-DataTypes.ClassmarkInfo", "ClassmarkInfo", []primitiveRule[ClassmarkInfo]{{invalid: func(value ClassmarkInfo) bool { return !(len(value) >= 1 && len(value) <= 2) }, description: "SIZE (1..2)", clause: "51.5", length: func(value ClassmarkInfo) int { return len(value) }}})
+	return octetValueCodec[ClassmarkInfo]("MAP-MS-DataTypes.ClassmarkInfo", "ClassmarkInfo", []primitiveRule[ClassmarkInfo]{{invalid: func(value ClassmarkInfo) bool { return !(len(value) >= 1 && len(value) <= 2) }, description: "SIZE (1..2)", clause: "37.4", length: func(value ClassmarkInfo) int { return len(value) }}})
 }
 
 // HandoverPriorityCodec binds MAP-MS-DataTypes.HandoverPriority.
 func HandoverPriorityCodec() ValueCodec[BERValue[HandoverPriority]] {
-	return octetValueCodec[HandoverPriority]("MAP-MS-DataTypes.HandoverPriority", "HandoverPriority", []primitiveRule[HandoverPriority]{{invalid: func(value HandoverPriority) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "51.5", length: func(value HandoverPriority) int { return len(value) }}})
+	return octetValueCodec[HandoverPriority]("MAP-MS-DataTypes.HandoverPriority", "HandoverPriority", []primitiveRule[HandoverPriority]{{invalid: func(value HandoverPriority) bool { return !(len(value) == 1) }, description: "SIZE (1)", clause: "37.4", length: func(value HandoverPriority) int { return len(value) }}})
 }
 
 // PrepareHOResCodec binds MAP-MS-DataTypes.PrepareHO-Res.
@@ -1320,12 +1292,12 @@ func SendAuthenticationInfoResCodec() ValueCodec[SendAuthenticationInfoRes] {
 
 // KiCodec binds MAP-MS-DataTypes.Ki.
 func KiCodec() ValueCodec[BERValue[Ki]] {
-	return octetValueCodec[Ki]("MAP-MS-DataTypes.Ki", "Ki", []primitiveRule[Ki]{{invalid: func(value Ki) bool { return !(len(value) == 16) }, description: "SIZE (16)", clause: "51.5", length: func(value Ki) int { return len(value) }}})
+	return octetValueCodec[Ki]("MAP-MS-DataTypes.Ki", "Ki", []primitiveRule[Ki]{{invalid: func(value Ki) bool { return !(len(value) == 16) }, description: "SIZE (16)", clause: "37.4", length: func(value Ki) int { return len(value) }}})
 }
 
 // EquipmentStatusCodec binds MAP-MS-DataTypes.EquipmentStatus.
 func EquipmentStatusCodec() ValueCodec[BERValue[EquipmentStatus]] {
-	return integerValueCodec[EquipmentStatus]("MAP-MS-DataTypes.EquipmentStatus", "EquipmentStatus", []primitiveRule[EquipmentStatus]{{invalid: func(value EquipmentStatus) bool { return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2) }, description: "ENUMERATED {0, 1, 2}", clause: "20", observed: func(value EquipmentStatus) any { return int64(value) }}}, true)
+	return integerValueCodec[EquipmentStatus]("MAP-MS-DataTypes.EquipmentStatus", "EquipmentStatus", []primitiveRule[EquipmentStatus]{{invalid: func(value EquipmentStatus) bool { return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2) }, description: "ENUMERATED {0, 1, 2}", clause: "15", observed: func(value EquipmentStatus) any { return int64(value) }}}, true)
 }
 
 // SendParametersArgCodec binds MAP-MS-DataTypes.SendParametersArg.
@@ -1342,7 +1314,7 @@ func RequestParameterListCodec() ValueCodec[RequestParameterList] {
 func RequestParameterCodec() ValueCodec[BERValue[RequestParameter]] {
 	return integerValueCodec[RequestParameter]("MAP-MS-DataTypes.RequestParameter", "RequestParameter", []primitiveRule[RequestParameter]{{invalid: func(value RequestParameter) bool {
 		return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2 && int64(value) != 4)
-	}, description: "ENUMERATED {0, 1, 2, 4}", clause: "20", observed: func(value RequestParameter) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {0, 1, 2, 4}", clause: "15", observed: func(value RequestParameter) any { return int64(value) }}}, true)
 }
 
 // SentParameterListCodec binds MAP-MS-DataTypes.SentParameterList.
@@ -1367,7 +1339,7 @@ func SubscriberDataCodec() ValueCodec[SubscriberData] {
 
 // SubscriberStatusCodec binds MAP-MS-DataTypes.SubscriberStatus.
 func SubscriberStatusCodec() ValueCodec[BERValue[SubscriberStatus]] {
-	return integerValueCodec[SubscriberStatus]("MAP-MS-DataTypes.SubscriberStatus", "SubscriberStatus", []primitiveRule[SubscriberStatus]{{invalid: func(value SubscriberStatus) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "20", observed: func(value SubscriberStatus) any { return int64(value) }}}, true)
+	return integerValueCodec[SubscriberStatus]("MAP-MS-DataTypes.SubscriberStatus", "SubscriberStatus", []primitiveRule[SubscriberStatus]{{invalid: func(value SubscriberStatus) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "15", observed: func(value SubscriberStatus) any { return int64(value) }}}, true)
 }
 
 // ODBDataCodec binds MAP-MS-DataTypes.ODB-Data.
@@ -1377,12 +1349,12 @@ func ODBDataCodec() ValueCodec[ODBData] {
 
 // ODBGeneralDataCodec binds MAP-MS-DataTypes.ODB-GeneralData.
 func ODBGeneralDataCodec() ValueCodec[BERValue[ODBGeneralData]] {
-	return bitValueCodec("MAP-MS-DataTypes.ODB-GeneralData", "ODB-GeneralData", []primitiveRule[ODBGeneralData]{{invalid: func(value ODBGeneralData) bool { return !(value.BitLength == 6) }, description: "SIZE (6)", clause: "51.5", length: func(value ODBGeneralData) int { return value.BitLength }, encodedLength: func(value ODBGeneralData) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 6, Max: 6}}})
+	return bitValueCodec("MAP-MS-DataTypes.ODB-GeneralData", "ODB-GeneralData", []primitiveRule[ODBGeneralData]{{invalid: func(value ODBGeneralData) bool { return !(value.BitLength == 6) }, description: "SIZE (6)", clause: "37.4", length: func(value ODBGeneralData) int { return value.BitLength }, encodedLength: func(value ODBGeneralData) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 6, Max: 6}}})
 }
 
 // ODBHPLMNDataCodec binds MAP-MS-DataTypes.ODB-HPLMN-Data.
 func ODBHPLMNDataCodec() ValueCodec[BERValue[ODBHPLMNData]] {
-	return bitValueCodec("MAP-MS-DataTypes.ODB-HPLMN-Data", "ODB-HPLMN-Data", []primitiveRule[ODBHPLMNData]{{invalid: func(value ODBHPLMNData) bool { return !(value.BitLength == 4) }, description: "SIZE (4)", clause: "51.5", length: func(value ODBHPLMNData) int { return value.BitLength }, encodedLength: func(value ODBHPLMNData) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 4, Max: 4}}})
+	return bitValueCodec("MAP-MS-DataTypes.ODB-HPLMN-Data", "ODB-HPLMN-Data", []primitiveRule[ODBHPLMNData]{{invalid: func(value ODBHPLMNData) bool { return !(value.BitLength == 4) }, description: "SIZE (4)", clause: "37.4", length: func(value ODBHPLMNData) int { return value.BitLength }, encodedLength: func(value ODBHPLMNData) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 4, Max: 4}}})
 }
 
 // ZoneCodeListCodec binds MAP-MS-DataTypes.ZoneCodeList.
@@ -1392,7 +1364,7 @@ func ZoneCodeListCodec() ValueCodec[ZoneCodeList] {
 
 // ZoneCodeCodec binds MAP-MS-DataTypes.ZoneCode.
 func ZoneCodeCodec() ValueCodec[BERValue[ZoneCode]] {
-	return octetValueCodec[ZoneCode]("MAP-MS-DataTypes.ZoneCode", "ZoneCode", []primitiveRule[ZoneCode]{{invalid: func(value ZoneCode) bool { return !(len(value) == 2) }, description: "SIZE (2)", clause: "51.5", length: func(value ZoneCode) int { return len(value) }}})
+	return octetValueCodec[ZoneCode]("MAP-MS-DataTypes.ZoneCode", "ZoneCode", []primitiveRule[ZoneCode]{{invalid: func(value ZoneCode) bool { return !(len(value) == 2) }, description: "SIZE (2)", clause: "37.4", length: func(value ZoneCode) int { return len(value) }}})
 }
 
 // InsertSubscriberDataResCodec binds MAP-MS-DataTypes.InsertSubscriberDataRes.
@@ -1404,7 +1376,7 @@ func InsertSubscriberDataResCodec() ValueCodec[InsertSubscriberDataRes] {
 func RegionalSubscriptionResponseCodec() ValueCodec[BERValue[RegionalSubscriptionResponse]] {
 	return integerValueCodec[RegionalSubscriptionResponse]("MAP-MS-DataTypes.RegionalSubscriptionResponse", "RegionalSubscriptionResponse", []primitiveRule[RegionalSubscriptionResponse]{{invalid: func(value RegionalSubscriptionResponse) bool {
 		return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2 && int64(value) != 3)
-	}, description: "ENUMERATED {0, 1, 2, 3}", clause: "20", observed: func(value RegionalSubscriptionResponse) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {0, 1, 2, 3}", clause: "15", observed: func(value RegionalSubscriptionResponse) any { return int64(value) }}}, true)
 }
 
 // DeleteSubscriberDataArgCodec binds MAP-MS-DataTypes.DeleteSubscriberDataArg.
@@ -1439,12 +1411,12 @@ func ActivateTraceModeArgCodec() ValueCodec[ActivateTraceModeArg] {
 
 // TraceReferenceCodec binds MAP-OM-DataTypes.TraceReference.
 func TraceReferenceCodec() ValueCodec[BERValue[TraceReference]] {
-	return octetValueCodec[TraceReference]("MAP-OM-DataTypes.TraceReference", "TraceReference", []primitiveRule[TraceReference]{{invalid: func(value TraceReference) bool { return !(len(value) >= 1 && len(value) <= 2) }, description: "SIZE (1..2)", clause: "51.5", length: func(value TraceReference) int { return len(value) }}})
+	return octetValueCodec[TraceReference]("MAP-OM-DataTypes.TraceReference", "TraceReference", []primitiveRule[TraceReference]{{invalid: func(value TraceReference) bool { return !(len(value) >= 1 && len(value) <= 2) }, description: "SIZE (1..2)", clause: "37.4", length: func(value TraceReference) int { return len(value) }}})
 }
 
 // TraceTypeCodec binds MAP-OM-DataTypes.TraceType.
 func TraceTypeCodec() ValueCodec[BERValue[TraceType]] {
-	return integerValueCodec[TraceType]("MAP-OM-DataTypes.TraceType", "TraceType", []primitiveRule[TraceType]{{invalid: func(value TraceType) bool { return !(int64(value) >= 0 && int64(value) <= 255) }, description: "(0..255)", clause: "51.4", observed: func(value TraceType) any { return int64(value) }}}, false)
+	return integerValueCodec[TraceType]("MAP-OM-DataTypes.TraceType", "TraceType", []primitiveRule[TraceType]{{invalid: func(value TraceType) bool { return !(int64(value) >= 0 && int64(value) <= 255) }, description: "(0..255)", clause: "37.3", observed: func(value TraceType) any { return int64(value) }}}, false)
 }
 
 // DeactivateTraceModeArgCodec binds MAP-OM-DataTypes.DeactivateTraceModeArg.
@@ -1459,7 +1431,7 @@ func TraceSubscriberActivityArgCodec() ValueCodec[TraceSubscriberActivityArg] {
 
 // CallReferenceCodec binds MAP-OM-DataTypes.CallReference.
 func CallReferenceCodec() ValueCodec[BERValue[CallReference]] {
-	return octetValueCodec[CallReference]("MAP-OM-DataTypes.CallReference", "CallReference", []primitiveRule[CallReference]{{invalid: func(value CallReference) bool { return !(len(value) >= 1 && len(value) <= 3) }, description: "SIZE (1..3)", clause: "51.5", length: func(value CallReference) int { return len(value) }}})
+	return octetValueCodec[CallReference]("MAP-OM-DataTypes.CallReference", "CallReference", []primitiveRule[CallReference]{{invalid: func(value CallReference) bool { return !(len(value) >= 1 && len(value) <= 3) }, description: "SIZE (1..3)", clause: "37.4", length: func(value CallReference) int { return len(value) }}})
 }
 
 // NoteInternalHOArgCodec binds MAP-OM-DataTypes.NoteInternalHO-Arg.
@@ -1469,7 +1441,7 @@ func NoteInternalHOArgCodec() ValueCodec[NoteInternalHOArg] {
 
 // HandoverTypeCodec binds MAP-OM-DataTypes.HandoverType.
 func HandoverTypeCodec() ValueCodec[BERValue[HandoverType]] {
-	return integerValueCodec[HandoverType]("MAP-OM-DataTypes.HandoverType", "HandoverType", []primitiveRule[HandoverType]{{invalid: func(value HandoverType) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "20", observed: func(value HandoverType) any { return int64(value) }}}, true)
+	return integerValueCodec[HandoverType]("MAP-OM-DataTypes.HandoverType", "HandoverType", []primitiveRule[HandoverType]{{invalid: func(value HandoverType) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "15", observed: func(value HandoverType) any { return int64(value) }}}, true)
 }
 
 // RoutingInfoForSMArgCodec binds MAP-SM-DataTypes.RoutingInfoForSM-Arg.
@@ -1511,7 +1483,7 @@ func ReportSMDeliveryStatusArgCodec() ValueCodec[ReportSMDeliveryStatusArg] {
 func SMDeliveryOutcomeCodec() ValueCodec[BERValue[SMDeliveryOutcome]] {
 	return integerValueCodec[SMDeliveryOutcome]("MAP-SM-DataTypes.SM-DeliveryOutcome", "SM-DeliveryOutcome", []primitiveRule[SMDeliveryOutcome]{{invalid: func(value SMDeliveryOutcome) bool {
 		return (int64(value) != 0 && int64(value) != 1 && int64(value) != 2)
-	}, description: "ENUMERATED {0, 1, 2}", clause: "20", observed: func(value SMDeliveryOutcome) any { return int64(value) }}}, true)
+	}, description: "ENUMERATED {0, 1, 2}", clause: "15", observed: func(value SMDeliveryOutcome) any { return int64(value) }}}, true)
 }
 
 // AlertServiceCentreArgCodec binds MAP-SM-DataTypes.AlertServiceCentreArg.
@@ -1526,7 +1498,7 @@ func InformServiceCentreArgCodec() ValueCodec[InformServiceCentreArg] {
 
 // MWStatusCodec binds MAP-SM-DataTypes.MW-Status.
 func MWStatusCodec() ValueCodec[BERValue[MWStatus]] {
-	return bitValueCodec("MAP-SM-DataTypes.MW-Status", "MW-Status", []primitiveRule[MWStatus]{{invalid: func(value MWStatus) bool { return !(value.BitLength == 6) }, description: "SIZE (6)", clause: "51.5", length: func(value MWStatus) int { return value.BitLength }, encodedLength: func(value MWStatus) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 6, Max: 6}}})
+	return bitValueCodec("MAP-SM-DataTypes.MW-Status", "MW-Status", []primitiveRule[MWStatus]{{invalid: func(value MWStatus) bool { return !(value.BitLength == 6) }, description: "SIZE (6)", clause: "37.4", length: func(value MWStatus) int { return value.BitLength }, encodedLength: func(value MWStatus) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 6, Max: 6}}})
 }
 
 // ReadyForSMArgCodec binds MAP-SM-DataTypes.ReadyForSM-Arg.
@@ -1536,7 +1508,7 @@ func ReadyForSMArgCodec() ValueCodec[ReadyForSMArg] {
 
 // AlertReasonCodec binds MAP-SM-DataTypes.AlertReason.
 func AlertReasonCodec() ValueCodec[BERValue[AlertReason]] {
-	return integerValueCodec[AlertReason]("MAP-SM-DataTypes.AlertReason", "AlertReason", []primitiveRule[AlertReason]{{invalid: func(value AlertReason) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "20", observed: func(value AlertReason) any { return int64(value) }}}, true)
+	return integerValueCodec[AlertReason]("MAP-SM-DataTypes.AlertReason", "AlertReason", []primitiveRule[AlertReason]{{invalid: func(value AlertReason) bool { return (int64(value) != 0 && int64(value) != 1) }, description: "ENUMERATED {0, 1}", clause: "15", observed: func(value AlertReason) any { return int64(value) }}}, true)
 }
 
 // X.208 (11/1988) §§17.10, 37.4.3–37.4.4; X.209 (11/1988) §11.2.

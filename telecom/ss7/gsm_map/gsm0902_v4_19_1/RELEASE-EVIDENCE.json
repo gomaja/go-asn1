@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "66c6808bf8773f45c47d23bc4fad128a87ff1a38",
-    "tree": "3cb3950a53460c67fdaa82b85af259e74ac20fcc",
+    "commit": "2f6544025228f651087ea92171e94fdd0e4fe5e4",
+    "tree": "14bfbd81c23dd8b99dff27645de58fd21ea8e750",
     "dirty": false
   },
   "source_lock": {
@@ -1507,14 +1507,14 @@
     {
       "path": "ber-error-paths.go",
       "mode": "0644",
-      "size": 3912,
-      "sha256": "047b98197843db9d2dc3ce12d667601c25536e5b356ec91dff65b7076555b8e7"
+      "size": 3911,
+      "sha256": "53c679efde655999987cc667f0d288ac8aba863eb5296151eba8412054a6d1ea"
     },
     {
       "path": "ber_value.go",
       "mode": "0644",
-      "size": 583,
-      "sha256": "c913581c44bc04eb6bdebc65c6bf2e41ac75fcaa05736a59d98f776113832d83"
+      "size": 578,
+      "sha256": "70d22fb22a1b7ed57a4e8b1ee4ecfebddb8b6a9e73f14bfb51751b24d5fa0849"
     },
     {
       "path": "descriptors.go",
@@ -1525,8 +1525,8 @@
     {
       "path": "doc.go",
       "mode": "0644",
-      "size": 692,
-      "sha256": "f021e6b46edf418af94735220ebaedc52b926603108f74c3b1c03f735bdd9cf2"
+      "size": 9186,
+      "sha256": "5027def91162b394a0d06b118eab02ec555ab267a8e6afa1887eb4a1c9f24b8e"
     },
     {
       "path": "edition-bits_test.go",
@@ -1561,8 +1561,8 @@
     {
       "path": "edition-values_test.go",
       "mode": "0644",
-      "size": 14089,
-      "sha256": "66611ec769071df616ea5c71edd28d4abe63a7cb24b55d3d7cc0564233f2fe56"
+      "size": 19517,
+      "sha256": "054b0283dd4cecd4b0c22f3700159dab499ae45991704d0de8ca8fd31bb4fddb"
     },
     {
       "path": "macro-catalogue.go",
@@ -1585,44 +1585,44 @@
     {
       "path": "mapchdatatypes.go",
       "mode": "0644",
-      "size": 92666,
-      "sha256": "bf2ffa8290126ca92e4ffc6f725c8c982414da98f574a4f10850b49ab1db7e7e"
+      "size": 90666,
+      "sha256": "4a7cfbb7e48a99dcbbef65aff91d58c94ca7fac838208b9730859aea78003116"
     },
     {
       "path": "mapcommondatatypes.go",
       "mode": "0644",
-      "size": 94230,
-      "sha256": "9dc53649e0b40fbfa670d220a3de65de3d655fe004e8b53caa9cc6a8d36d113a"
+      "size": 91330,
+      "sha256": "9ce67e6c6838eebfbaa641f1c0916c95d7ee1e079f549328d82e1e8b80e5c0c5"
     },
     {
       "path": "mapdialogueinformation.go",
       "mode": "0644",
-      "size": 87248,
-      "sha256": "74bfc848adedfbfcfd2f588358d8d19b9d33e9d995f3f459c433ae8500f00487"
+      "size": 86948,
+      "sha256": "d30c74bdac2d6e12fedcaaf9e00c971a82d449a836d2bacfecbc3f993a34471a"
     },
     {
       "path": "maperdatatypes.go",
       "mode": "0644",
-      "size": 45901,
-      "sha256": "908406d5db986e9bdf1fdeb84affe45e508e2f02c9f1f0898b1598a92683fdf8"
+      "size": 45451,
+      "sha256": "c2ab8ed9310ee51fc9dd3507240999b224320303cc48ec72e1f92b81d8042e90"
     },
     {
       "path": "mapmsdatatypes.go",
       "mode": "0644",
-      "size": 471470,
-      "sha256": "cf29a4dbd36cda4a189083dc684736061aed779acd7b9265ceda43bc98f1f901"
+      "size": 460320,
+      "sha256": "21eb9df638f4bd397272dcc921920e40cba960c5b1dae55fc3c42370e76c823d"
     },
     {
       "path": "mapomdatatypes.go",
       "mode": "0644",
-      "size": 68560,
-      "sha256": "3936a3be5c3aa4c926e2451c3750c900c70a28ed770f48865f4e6d03e4cebcd8"
+      "size": 67060,
+      "sha256": "c2adaf1bb496b892511d939acef1e4b36589c904ef4edc1b61a8b163c4e0b385"
     },
     {
       "path": "mapsmdatatypes.go",
       "mode": "0644",
-      "size": 143261,
-      "sha256": "b4b7c751527f09e525973e25f77157e55603e188ae4db36528f377013e3a596b"
+      "size": 140061,
+      "sha256": "55f8eaf62d2a38662622215083dc7a0a71f91766c9028c2175761f4d891ad387"
     },
     {
       "path": "mapsscode.go",
@@ -1633,8 +1633,8 @@
     {
       "path": "mapssdatatypes.go",
       "mode": "0644",
-      "size": 332697,
-      "sha256": "6ff61c98ac6389ad38afaa8b735b3faa04efbdec7794cdf8284da616757d3099"
+      "size": 325731,
+      "sha256": "2f1cc1b374a6c9196f1fdc69463f9e87bf0ad2df125e18002fedeb23d0955f42"
     },
     {
       "path": "maptscode.go",
@@ -1663,8 +1663,8 @@
     {
       "path": "value-codecs.go",
       "mode": "0644",
-      "size": 76650,
-      "sha256": "148b6e7426205509816b7262e29143c244ecd32602d713cdd6bd7e750de9fee1"
+      "size": 75214,
+      "sha256": "ec38efa7b03bebfea95cea2c4eba55c15bbca0dfe631d944e2523a1e3b709e98"
     }
   ],
   "go_toolchain": "go1.26.10"

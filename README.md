@@ -699,6 +699,18 @@ Fifty-four extensible types keep unknown additions as complete TLVs
 fields carry their source bytes, and protocols carried inside them need their
 own codecs.
 
+The package's generated diagnostics cite X.208 and X.209 (11/1988), which
+GSM 09.02 V4.19.1 §14.1 and its references [93] and [94] name. A SIZE check
+cites X.208 §37.4, and the exact bit counts above cite the BIT STRING
+clauses. Two kinds of rule keep their 2021 citations, as the package
+documentation explains. The rules that follow from the extension marker,
+which §14.1.4 takes from ISO 8824-1/PDAM 3.2 and X.208 does not have, cite
+X.680 and X.690 (02/2021). The IA5String escape-sequence rule cites X.690
+(02/2021) §8.23.5.3, which states the rule of X.209 (11/1988) §23.5.3,
+because the shared runtime selects its handling by that citation. The
+shared runtime keeps its 2021 citations, DER included; the package
+documentation gives the 1988 clause of each, or the reason there is none.
+
 This is a historical edition by design. ITU-T withdrew X.208 and X.209 on
 30 October 2002 in favour of X.680–X.683 and X.690, and the edition keeps
 the 1988 references it was written against.
@@ -754,8 +766,10 @@ primitive BIT STRING and no definite-only constructors, so the profile does
 not either. `ber.WithTolerance` records a representable violation instead of
 refusing it, and strict replay of such a value refuses it. Fresh encoding
 checks the source constraints.
-The package's generated diagnostics cite X.208 and X.209 (11/1988); the
-shared runtime's structural diagnostics keep their own citations.
+The package's generated diagnostics cite X.208 and X.209 (11/1988). The
+shared runtime's structural diagnostics keep their 2021 citations; the
+package documentation gives the 1988 clause of each, or the reason there is
+none.
 
 The locked modules keep their original bytes. Eighteen approved readings
 apply when parsing, each an exact source replacement with its location and

@@ -752,7 +752,7 @@ func (v *MAPOpenInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if v.DestinationReference != nil {
 		if len(*v.DestinationReference) < 1 || len(*v.DestinationReference) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s875650_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s875650_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -769,7 +769,7 @@ func (v *MAPOpenInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.OriginationReference != nil {
 		if len(*v.OriginationReference) < 1 || len(*v.OriginationReference) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s875650_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, s875650_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -825,7 +825,7 @@ func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.DestinationReference != nil {
 		if len(*v.DestinationReference) < 1 || len(*v.DestinationReference) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s875650_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s875650_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -842,7 +842,7 @@ func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 	}
 	if v.OriginationReference != nil {
 		if len(*v.OriginationReference) < 1 || len(*v.OriginationReference) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s875650_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, s875650_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -959,7 +959,7 @@ func (destination *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_destinationreference
 				if len(*v.DestinationReference) < 1 || len(*v.DestinationReference) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s875650_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s875650_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -993,7 +993,7 @@ func (destination *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_originationreference
 				if len(*v.OriginationReference) < 1 || len(*v.OriginationReference) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s875650_0, ber.RuleRef{Document: "CCITT X.208 / X.209", Edition: "11/1988", Clause: "X.208 §§17.10, 37.4.3–37.4.4; X.209 §11.2"}), "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, s875650_0, ber.RuleRef{Document: "CCITT X.208", Edition: "11/1988", Clause: "37.4"}), "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1331,7 +1331,7 @@ func (v *MAPRefuseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
-		if constraintErr := checkEncodedValue(opts, s875650_1, "20", "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, s875650_1, "15", "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1371,7 +1371,7 @@ func (v *MAPRefuseInfo) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
-		if constraintErr := checkEncodedValue(nil, s875650_1, "20", "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, s875650_1, "15", "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1460,7 +1460,7 @@ func (destination *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 		offset += n
 		if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
-			if constraintErr := checkDecodedValue(opts, s875650_1, "20", "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s875650_1, "15", "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1713,7 +1713,7 @@ func (v *MAPUserAbortChoice) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		}
 		enc_2 := ber.EncodeEnumerated(int64(*v.ResourceUnavailable))
 		if int64(*v.ResourceUnavailable) != 0 && int64(*v.ResourceUnavailable) != 1 {
-			if constraintErr := checkEncodedValue(opts, s875650_2, "20", "resourceUnavailable", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.ResourceUnavailable))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s875650_2, "15", "resourceUnavailable", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.ResourceUnavailable))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1729,7 +1729,7 @@ func (v *MAPUserAbortChoice) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		}
 		enc_3 := ber.EncodeEnumerated(int64(*v.ApplicationProcedureCancellation))
 		if int64(*v.ApplicationProcedureCancellation) != 0 && int64(*v.ApplicationProcedureCancellation) != 1 && int64(*v.ApplicationProcedureCancellation) != 2 && int64(*v.ApplicationProcedureCancellation) != 3 && int64(*v.ApplicationProcedureCancellation) != 4 && int64(*v.ApplicationProcedureCancellation) != 5 && int64(*v.ApplicationProcedureCancellation) != 6 {
-			if constraintErr := checkEncodedValue(opts, s875650_2, "20", "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, s875650_2, "15", "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1881,7 +1881,7 @@ func (destination *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.Dec
 		tmp := ResourceUnavailableReason(decVal)
 		v.ResourceUnavailable = &tmp
 		if int64(*v.ResourceUnavailable) != 0 && int64(*v.ResourceUnavailable) != 1 {
-			if constraintErr := checkDecodedValue(opts, s875650_2, "20", "resourceUnavailable", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.ResourceUnavailable))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s875650_2, "15", "resourceUnavailable", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.ResourceUnavailable))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1900,7 +1900,7 @@ func (destination *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.Dec
 		tmp := ProcedureCancellationReason(decVal)
 		v.ApplicationProcedureCancellation = &tmp
 		if int64(*v.ApplicationProcedureCancellation) != 0 && int64(*v.ApplicationProcedureCancellation) != 1 && int64(*v.ApplicationProcedureCancellation) != 2 && int64(*v.ApplicationProcedureCancellation) != 3 && int64(*v.ApplicationProcedureCancellation) != 4 && int64(*v.ApplicationProcedureCancellation) != 5 && int64(*v.ApplicationProcedureCancellation) != 6 {
-			if constraintErr := checkDecodedValue(opts, s875650_2, "20", "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s875650_2, "15", "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1925,7 +1925,7 @@ func (v *MAPProviderAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	var children []byte
 	if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
-		if constraintErr := checkEncodedValue(opts, s875650_3, "20", "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, s875650_3, "15", "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1965,7 +1965,7 @@ func (v *MAPProviderAbortInfo) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
-		if constraintErr := checkEncodedValue(nil, s875650_3, "20", "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, s875650_3, "15", "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2054,7 +2054,7 @@ func (destination *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.D
 
 		offset += n
 		if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
-			if constraintErr := checkDecodedValue(opts, s875650_3, "20", "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s875650_3, "15", "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
 				return constraintErr
 			}
 		}
