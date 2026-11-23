@@ -209,7 +209,11 @@ func primitiveValueCodec[T any](source, name string, rules []primitiveRule[T], d
 		data = owned
 		prepared, preparedOpts, err := ber.PrepareGeneratedBERInput(data, opts)
 		if err != nil {
-			return result, ber.DiagnosePreflight(err, data, opts, "child", func(probe []ber.DecodeOption) error { _, err := c.DecodeBER(data, probe...); return err })
+			return result, ber.DiagnosePreflight(err, data, opts, "child", func(probe []ber.DecodeOption) error {
+				ber.MarkPreflightTarget(probe, name, data)
+				_, err := c.DecodeBER(data, probe...)
+				return err
+			})
 		}
 		data, opts = prepared, preparedOpts
 		opts = ber.LocateDecodedElement(data, source, opts)

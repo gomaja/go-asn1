@@ -1,8 +1,8 @@
 {
   "format": 1,
   "compiler": {
-    "commit": "2f6544025228f651087ea92171e94fdd0e4fe5e4",
-    "tree": "14bfbd81c23dd8b99dff27645de58fd21ea8e750",
+    "commit": "571f2506c5b5e9d96c64fcd1b80bea7c4cb1f747",
+    "tree": "b1d269ed6ac387ef5f06b1af6ad38daf92a8fae6",
     "dirty": false
   },
   "source_lock": {
@@ -1668,14 +1668,14 @@
     {
       "path": "ber/preflight_path.go",
       "mode": "0644",
-      "size": 7414,
-      "sha256": "3b0c12f0b449e914e1c63925b1fa0fa1d635ff0fc99079330fd068df17dae7ec"
+      "size": 9779,
+      "sha256": "c95572f59c21cd47233ab0142a6a0d04d38067582436447851536d9b15abe32c"
     },
     {
       "path": "ber/preflight_path_test.go",
       "mode": "0644",
-      "size": 9455,
-      "sha256": "a8f504c36cccacb369c103f6a6054a42b7b3ac1ad43cc8ab6c1eb3d3aa4d0eb2"
+      "size": 21999,
+      "sha256": "2a68ee13a188ab9770215a3df52a490bd1cfc1436303cd3cbde2fbcd05c4d144"
     },
     {
       "path": "ber/preflight_reports_test.go",
@@ -2433,8 +2433,8 @@
     {
       "path": "value-codecs.go",
       "mode": "0644",
-      "size": 77658,
-      "sha256": "1cbd04fcc33cb52970683d7133217133c07510a76e6bb6a3ce44128d3eca8f38"
+      "size": 77715,
+      "sha256": "372601b838cbd4f587bdf7687b4613e2055c9001fca54e56362702cfb404d9a7"
     }
   ],
   "go_toolchain": "go1.26.10"
