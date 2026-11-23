@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_path_test.go; SHA-256 a8f504c36cccacb369c103f6a6054a42b7b3ac1ad43cc8ab6c1eb3d3aa4d0eb2.
+// Runtime source: runtime/ber/preflight_path_test.go; SHA-256 2a68ee13a188ab9770215a3df52a490bd1cfc1436303cd3cbde2fbcd05c4d144.
 package ber
 
 import (
@@ -239,5 +239,311 @@ func TestLargePreflightFailureDoesNotDecodeAgain(t *testing.T) {
 	var path interface{ ASN1BERPath() string }
 	if !errors.As(err, &path) || path.ASN1BERPath() != "child[1].child[2]" {
 		t.Fatal(err)
+	}
+}
+
+func TestDiagnosePreflightNamesDescendantSegments(t *testing.T) {
+	for _, tc := range []struct {
+		name               string
+		wire               []byte
+		offset             int
+		indexes            []int
+		markOffset         int
+		parent, leaf, want string
+	}{
+		{"assignment", []byte{0x24, 2, 5, 0}, 2, []int{0}, 0, "", "AddressString", "AddressString.child[0]"},
+		{"choice", []byte{0xa0, 2, 5, 0}, 2, []int{0}, 0, "", "imsi", "imsi.child[0]"},
+		{"nested segment", []byte{0x24, 4, 0x24, 2, 5, 0}, 4, []int{0, 0}, 0, "", "IMSI", "IMSI.child[0].child[0]"},
+		{"component", []byte{0x30, 4, 0xa0, 2, 5, 0}, 4, []int{0, 0}, 2, "", "msisdn", "msisdn.child[0]"},
+		{"collection", []byte{0x30, 4, 0x24, 2, 5, 0}, 4, []int{0, 0}, 2, "element[0]", "", "element[0].child[0]"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			original := &ElementError{offset: tc.offset, childIndexes: tc.indexes, cause: ErrInvalidTag}
+			err := DiagnosePreflight(original, tc.wire, nil, "child", func(options []DecodeOption) error {
+				if tc.name == "collection" {
+					MarkPreflightElement(options, 0, tc.wire[tc.markOffset:])
+				} else {
+					if tc.parent != "" {
+						options = ChildDecodeOptions(options, tc.parent)
+					}
+					MarkPreflightTarget(options, tc.leaf, tc.wire[tc.markOffset:])
+				}
+				return nil
+			})
+			var path interface{ ASN1BERPath() string }
+			var located *ElementError
+			if !errors.As(err, &path) || path.ASN1BERPath() != tc.want || !errors.As(err, &located) || located != original || !errors.Is(err, ErrInvalidTag) {
+				t.Fatalf("diagnostic=%v want path %s and unchanged cause", err, tc.want)
+			}
+		})
+	}
+}
+
+func TestDiagnosePreflightDescendantMarkerBoundaries(t *testing.T) {
+	wire := []byte{0x30, 6, 0x24, 0, 0x24, 2, 5, 0}
+	original := &ElementError{offset: 6, childIndexes: []int{1, 0}, cause: ErrInvalidTag}
+	for _, raw := range [][]byte{wire[2:], wire[3:], append([]byte(nil), wire[4:]...)} {
+		err := DiagnosePreflight(original, wire, nil, "child", func(options []DecodeOption) error {
+			MarkPreflightTarget(options, "unrelated", raw)
+			return nil
+		})
+		var path interface{ ASN1BERPath() string }
+		if !errors.As(err, &path) || path.ASN1BERPath() != "child[1].child[0]" {
+			t.Fatal(err)
+		}
+	}
+	for _, size := range []int{64 << 10, 64<<10 + 1} {
+		data := make([]byte, size)
+		copy(data, []byte{0x24, 2, 5, 0})
+		called := false
+		err := DiagnosePreflight(&ElementError{offset: 2, childIndexes: []int{0}, cause: ErrInvalidTag}, data, nil, "child", func(options []DecodeOption) error {
+			called = true
+			MarkPreflightTarget(options, "AddressString", data)
+			return nil
+		})
+		want := "child[0]"
+		if size == 64<<10 {
+			want = "AddressString.child[0]"
+		}
+		var path interface{ ASN1BERPath() string }
+		if called != (size == 64<<10) || !errors.As(err, &path) || path.ASN1BERPath() != want {
+			t.Fatalf("size=%d called=%v error=%v", size, called, err)
+		}
+	}
+}
+
+func TestDiagnosePreflightAncestorSearchIsLinear(t *testing.T) {
+	for _, count := range []int{32, 256, 1024} {
+		var contents []byte
+		for range count {
+			contents = append(contents, 4, 1, '1')
+		}
+		contents = append(contents, 0x24, 2, 5, 0)
+		wire := append([]byte{0x30}, EncodeLength(len(contents))...)
+		header := len(wire)
+		wire = append(wire, contents...)
+		original := ValidateBERElement(wire)
+		visits := 0
+		err := DiagnosePreflight(original, wire, nil, "child", func(options []DecodeOption) error {
+			for index := range count + 1 {
+				MarkPreflightElement(options, index, wire[header+3*index:])
+			}
+			visits = options[0].(preflightProbeOption).state.origin.ancestryVisits
+			return nil
+		})
+		var path interface{ ASN1BERPath() string }
+		t.Logf("elements=%d ancestry identifier visits=%d", count+1, visits)
+		want := fmt.Sprintf("element[%d].child[0]", count)
+		if !errors.As(err, &path) || path.ASN1BERPath() != want || visits > 2*count+4 {
+			t.Fatalf("elements=%d visits=%d error=%v", count, visits, err)
+		}
+	}
+}
+
+func FuzzDiagnosePreflightAncestors(f *testing.F) {
+	for _, wire := range [][]byte{{0x24, 2, 5, 0}, {0x30, 6, 0x24, 0, 0x24, 2, 5, 0}, {0x24, 3, 4, 2, '1'}, {0x24, 4, 4, 0x80, 0, 0}} {
+		f.Add(wire)
+	}
+	f.Fuzz(func(t *testing.T, data []byte) {
+		if len(data) > 4096 {
+			t.Skip()
+		}
+		options := []DecodeOption{WithDecodeLimits(DecodeLimits{MaxDepth: 16, MaxElements: 1024, MaxWork: 65536})}
+		original := ValidateBERElement(data, options...)
+		err := DiagnosePreflight(original, data, options, "child", func(options []DecodeOption) error {
+			MarkPreflightTarget(options, "Value", data)
+			for offset := 1; offset < len(data); offset++ {
+				MarkPreflightTarget(options, "candidate", data[offset:])
+			}
+			return nil
+		})
+		if (err == nil) != (original == nil) {
+			t.Fatal("diagnostic changed verdict")
+		}
+		var before, after *ElementError
+		if errors.As(original, &before) != errors.As(err, &after) || before != after {
+			t.Fatal("diagnostic changed located cause")
+		}
+		for _, sentinel := range []error{ErrTruncated, ErrInvalidTag, ErrInvalidLength, ErrUnexpectedElement, ErrExtraData, ErrInvalidValue, ErrResourceLimit} {
+			if errors.Is(err, sentinel) != errors.Is(original, sentinel) {
+				t.Fatal("diagnostic changed error class")
+			}
+		}
+	})
+}
+
+func TestDiagnosePreflightContinuesPastTolerableFindings(t *testing.T) {
+	wire := []byte{0x30, 7, 4, 0, 1, 1, 1, 0x22, 0}
+	original := &ElementError{offset: 7, childIndexes: []int{2}, cause: ErrInvalidTag}
+	for _, tolerant := range []bool{false, true} {
+		t.Run(fmt.Sprint(tolerant), func(t *testing.T) {
+			var log ViolationLog
+			seed := []DecodeOption{WithTolerance(&log)}
+			if err := CheckDecodedLength(seed, "seed", "SIZE (1..9)", 0); err != nil {
+				t.Fatal(err)
+			}
+			options := []DecodeOption{WithDecodeLimits(DecodeLimits{MaxDepth: 7}), WithDiagnosticLimits(DiagnosticLimits{MaxRecords: 3})}
+			if tolerant {
+				options = append(options, WithTolerance(&log))
+			}
+			options = TrackMAPForm(ParentCollectionSizeDecodeOptions(ChildDecodeOptions(options, "outer")))
+			before := log.Snapshot()
+			configBefore, err := decodeOptions(options)
+			if err != nil {
+				t.Fatal(err)
+			}
+			formBefore := *configBefore.form
+			err = DiagnosePreflight(original, wire, options, "child", func(probe []DecodeOption) error {
+				config, err := decodeOptions(probe)
+				if err != nil {
+					return err
+				}
+				if config.limits != configBefore.limits || config.diagnostics != configBefore.diagnostics || config.collectionSizeChecked != configBefore.collectionSizeChecked {
+					t.Fatal("probe changed limits")
+				}
+				if err := CheckDecodedLength(probe, "earlier", "SIZE (1..9)", 0); err != nil {
+					return err
+				}
+				if _, _, _, err := DecodeBoolean(wire[4:], probe...); err != nil {
+					return err
+				}
+				MarkPreflightTarget(probe, "later", wire[7:])
+				return ErrInvalidTag
+			})
+			var path interface{ ASN1BERPath() string }
+			var located *ElementError
+			if !errors.As(err, &path) || path.ASN1BERPath() != "outer.later" || !errors.As(err, &located) || located != original {
+				t.Fatalf("diagnostic=%v", err)
+			}
+			configAfter, err := decodeOptions(options)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if !reflect.DeepEqual(before, log.Snapshot()) || configBefore.form != configAfter.form || configBefore.tolerant != configAfter.tolerant || configBefore.violations != configAfter.violations || configBefore.limits != configAfter.limits || configBefore.diagnostics != configAfter.diagnostics || formBefore.preserve != configAfter.form.preserve || formBefore.mapSyntax != configAfter.form.mapSyntax {
+				t.Fatal("probe changed caller state")
+			}
+			err = CheckDecodedLength(options, "after", "SIZE (1..9)", 0)
+			if tolerant {
+				if err != nil || len(log.Snapshot()) != len(before)+1 {
+					t.Fatalf("tolerant caller changed: %v", err)
+				}
+			} else if err == nil || !reflect.DeepEqual(before, log.Snapshot()) {
+				t.Fatalf("strict caller changed: %v", err)
+			}
+		})
+	}
+}
+
+func TestDiagnosePreflightManyTolerableFindingsStayBounded(t *testing.T) {
+	for _, count := range []int{64, 256, 768} {
+		contents := make([]byte, 0, count*64+4)
+		for range count {
+			contents = append(contents, 4, 62)
+			contents = append(contents, make([]byte, 62)...)
+		}
+		contents = append(contents, 0x24, 2, 5, 0)
+		wire := append([]byte{0x30}, EncodeLength(len(contents))...)
+		header := len(wire)
+		wire = append(wire, contents...)
+		original := ValidateBERElement(wire)
+		visits, findings := 0, 0
+		err := DiagnosePreflight(original, wire, nil, "child", func(options []DecodeOption) error {
+			for index := range count + 1 {
+				MarkPreflightElement(options, index, wire[header+64*index:])
+				if index < count {
+					if err := CheckDecodedLength(options, fmt.Sprintf("element[%d]", index), "SIZE (1)", 62); err != nil {
+						return err
+					}
+					findings++
+				}
+			}
+			visits = options[0].(preflightProbeOption).state.origin.ancestryVisits
+			return nil
+		})
+		var path interface{ ASN1BERPath() string }
+		if len(wire) >= 64<<10 || findings != count || visits > 2*count+4 || !errors.As(err, &path) || path.ASN1BERPath() != fmt.Sprintf("element[%d].child[0]", count) {
+			t.Fatalf("bytes=%d findings=%d visits=%d error=%v", len(wire), findings, visits, err)
+		}
+		t.Logf("bytes=%d findings=%d ancestry visits=%d", len(wire), findings, visits)
+	}
+}
+
+func TestDiagnosePreflightKeepsDiagnosticRecordLimit(t *testing.T) {
+	wire := []byte{0x30, 6, 4, 0, 4, 0, 0x22, 0}
+	original := &ElementError{offset: 6, childIndexes: []int{2}, cause: ErrInvalidTag}
+	var stopped error
+	err := DiagnosePreflight(original, wire, []DecodeOption{WithDiagnosticLimits(DiagnosticLimits{MaxRecords: 1})}, "child", func(options []DecodeOption) error {
+		for _, name := range []string{"first", "second"} {
+			if stopped = CheckDecodedLength(options, name, "SIZE (1)", 0); stopped != nil {
+				return stopped
+			}
+		}
+		MarkPreflightTarget(options, "unreached", wire[6:])
+		return nil
+	})
+	var path interface{ ASN1BERPath() string }
+	if !errors.Is(stopped, ErrResourceLimit) || !errors.Is(err, ErrInvalidTag) || !errors.As(err, &path) || path.ASN1BERPath() != "child[2]" {
+		t.Fatalf("stop=%v diagnostic=%v", stopped, err)
+	}
+}
+
+func TestDiagnosePreflightChildLocationKeepsOuterCoordinates(t *testing.T) {
+	// The invalid segment is at offset 10, child [0,1,0] of the outer
+	// message, but at offset 8, child [1,0] of the inner value.
+	outer := []byte{0x30, 11, 0x30, 9, 4, 2, 'a', 'b', 0x24, 3, 0x12, 1, 'x'}
+	child := outer[2:]
+	for _, tc := range []struct {
+		name    string
+		options []DecodeOption
+		want    string
+		offset  int
+		indexes []int
+	}{
+		{"unbound", nil, "Inner.child[1].child[0]", 8, []int{1, 0}},
+		{"child root", LocateDecodedElement(child, "Inner", nil), "Inner.child[1].child[0]", 8, []int{1, 0}},
+		{"outer root", ChildDecodeOptions(LocateDecodedElement(outer, "Outer", nil), "inner"), "child[0].child[1].child[0]", 10, []int{0, 1, 0}},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			original := ValidateBERElement(child, tc.options...)
+			var before *ElementError
+			if !errors.Is(original, ErrInvalidTag) || !errors.As(original, &before) || before.Offset() != tc.offset || !reflect.DeepEqual(before.ChildIndexes(), tc.indexes) {
+				t.Fatalf("preflight location: %v", original)
+			}
+			calls := 0
+			err := DiagnosePreflight(original, child, tc.options, "child", func(options []DecodeOption) error {
+				calls++
+				MarkPreflightTarget(options, "Inner", child)
+				return nil
+			})
+			if calls != 1 {
+				t.Fatalf("diagnostic callback ran %d times, want 1", calls)
+			}
+			var path interface{ ASN1BERPath() string }
+			var after *ElementError
+			if !errors.As(err, &path) || path.ASN1BERPath() != tc.want || !errors.As(err, &after) || after != before || !errors.Is(err, ErrInvalidTag) {
+				t.Fatalf("diagnostic=%v want path %s and unchanged cause", err, tc.want)
+			}
+		})
+	}
+}
+
+func TestDiagnosePreflightEmptyNameKeepsRootElementLabel(t *testing.T) {
+	wire := []byte{0x30, 4, 0x24, 2, 5, 0}
+	original := ValidateBERElement(wire)
+	for _, name := range []string{"", "Values"} {
+		t.Run(fmt.Sprintf("name=%q", name), func(t *testing.T) {
+			err := DiagnosePreflight(original, wire, nil, "element", func(options []DecodeOption) error {
+				MarkPreflightTarget(options, name, wire)
+				return nil
+			})
+			want := "element[0].child[0]"
+			if name != "" {
+				want = "Values.child[0].child[0]"
+			}
+			var path interface{ ASN1BERPath() string }
+			if !errors.As(err, &path) || path.ASN1BERPath() != want || !errors.Is(err, ErrInvalidTag) || !errors.Is(err, original) {
+				t.Fatalf("diagnostic=%v want path %s and unchanged cause", err, want)
+			}
+		})
 	}
 }

@@ -194,9 +194,17 @@ other errors use the same names, for example
 names a received type names its assignment, as in
 `unknown tag [CONTEXT 9 PRIMITIVE] for PS-SubscriberState CHOICE` or
 `ber: decode SubscriberData at offset 0:`. An error about a Go value, such
-as a nil receiver, names the Go type. A rejected input larger than 64 KiB
-is not decoded a second time to name the failing component, so its prefix
-gives the BER child position instead, for example `decoding child[0]:`.
+as a nil receiver, names the Go type. Where the schema gives no name, a
+prefix gives BER positions, as `Path` does: `element[i]` for an element of a
+root collection, and `child[i]` for an unknown extension addition, for the
+contents of an open value, and for the segments of a string, as in
+`decoding AddressString.child[0]:`. A prefix is also positional when the
+input is not of the decoded type or selects no alternative of a root CHOICE,
+and when a component before the failing element is refused even by tolerant
+decoding, so that the second decoding that names the failure stops there; a
+finding that tolerant decoding accepts does not stop it. A rejected input
+larger than 64 KiB is not decoded a second time, so its prefix gives the BER
+child position, for example `decoding child[0]:`.
 
 A permitted alphabet (X.680 (02/2021) §51.7) is checked wherever its type is
 used: in a SEQUENCE or SET component, a CHOICE alternative, a SEQUENCE OF or
